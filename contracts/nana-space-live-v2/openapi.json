@@ -197,6 +197,43 @@
         }
       }
     },
+    "/api/nana-space/v2/messages/sequence": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageSequenceRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/nana-space/v2/memories/notes": {
       "post": {
         "responses": {
@@ -2304,6 +2341,87 @@
         "title": "MessageRequest",
         "type": "object"
       },
+      "MessageSequenceRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/SequenceMessage"
+            },
+            "maxItems": 4,
+            "minItems": 2,
+            "title": "Messages",
+            "type": "array"
+          },
+          "topic": {
+            "default": "daily",
+            "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+            "title": "Topic",
+            "type": "string"
+          },
+          "thread_id": {
+            "default": "daily",
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "privacy_class": {
+            "default": "PROJECT",
+            "enum": [
+              "PUBLIC",
+              "PROJECT",
+              "PERSONAL"
+            ],
+            "title": "Privacy Class",
+            "type": "string"
+          },
+          "require_model": {
+            "default": false,
+            "title": "Require Model",
+            "type": "boolean"
+          },
+          "retain_shared_life": {
+            "default": false,
+            "title": "Retain Shared Life",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "messages"
+        ],
+        "title": "MessageSequenceRequest",
+        "type": "object"
+      },
       "ModelProfile": {
         "additionalProperties": false,
         "properties": {
@@ -3123,6 +3241,28 @@
         ],
         "title": "Role",
         "type": "string"
+      },
+      "SequenceMessage": {
+        "additionalProperties": false,
+        "properties": {
+          "client_message_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Message Id",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_message_id",
+          "text"
+        ],
+        "title": "SequenceMessage",
+        "type": "object"
       }
     },
     "securitySchemes": {

@@ -3504,3 +3504,8 @@ Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资�
 ### 2026-11-11 · 原Core有界多输入交流目的
 
 原私有IPC surface-sequence复用SurfaceSession/LifeApplication/SubjectLoop：2–4同接收者/域输入各有原event、INTERPRET及C，只对原SOCIAL非保留输入暂缓未发措辞，后续原C源绑定多条未回应原话；Cognition独立核验原event sources/目的/判断/会话/隐私，不将USER合成一条事实或伪造assistant已说。相同3条同预算serial6→sequence4fixture调用，原3C保持；不是实价或自然度收益。原retention/ASK-WAIT/边界逐条；完整重放noop，部分seen及受控停止重启不重派尾部，UNKNOWN只停本组/原预留不退/新独立输入可继续，失败清瞬时原话/撤回先于下一调用。原IPC16KiB/UID/lease不变，2N阶段独立原超时。首次5缺操作失败，初5通过，首宽57/1新fixture误读turns保留并改实际items，随后60相关30.18s、27HTTP/surface22.88s、最终13/13分次通过8.19s/7.93s。新增无运行模块/表/第二权威；新typed入口暂未被Web/BFF调用，后续接产品/精确reply-group/字节及超时/UNKNOWN；不称总任务或安装完成。证据core-conversation-sequence。2bda精确CI72unit/84browser/client通过，Core按UIonly跳过；本新Core待后继CI。原A–H及CURRENT266+409/生产/APK保持。
+
+
+### 2026-11-11 · 多输入正式BFF/原账本接线
+
+typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageIDs走原principal+ID来源哈希，逐条Core实际结果/回应来源保留。Core显式能力与Gateway实核身份/owner epoch/source绑定，旧Core缺声明不启用；原16KiB界限派发前检查、原privacy/retention/readiness不授费，UNKNOWN父回执只读不重派且可在body-free history恢复标记；任一来源撤回整份缓存回复扣留。首缺cap失败；误把原stream return放到新JSON分支导致2timeout/4pass65.93s，已恢复原分支不扩超时，6通过7.74s→21HTTP/stream27.75s；8scope/pending9.84s及1withdraw2.07s分别通过。canonical generator3产物逐字复核；CI按DTO改动运行原生成器。a652精确CI75Core/72unit/84browser通过，非新API后继。环境短暂不可用时connector仅准备内存重建未写远端；恢复后实际原dirty源码/日志完整，以原文件入库。证据sequence-api-20261111。下一接SDK/Web队列/父回执映射/多阶段超时，当前Web未使用该API；无全仓新安装/native/模型/实机/生产资格，不升级CURRENT266+409。原A–H继续。

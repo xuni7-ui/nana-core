@@ -469,6 +469,9 @@ class Handler(BaseHTTPRequestHandler):
             value=service.receipt(current,request.idempotency_key)
             self._stream_frame({'event':'receipt','message_id':request.client_request_id,'data':value})
             return
+        elif route=='messages/sequence':
+            from .contracts import MessageSequenceRequest
+            value=service.send_sequence(principal,self._model(MessageSequenceRequest,body))
         elif route == "messages":
             value = service.send(principal, self._model(MessageRequest, body))
         elif route in {"commands", "privacy/withdrawal"}:

@@ -50,6 +50,8 @@ on:
       - src/nana_core/continuity/person_self.py
       - tests/first_life_android_v2/test_continuous_inputs.py
       - tests/first_life_android_v2/test_conversation_sequence.py
+      - tests/first_life_android_v2/test_message_sequence_http.py
+      - tools/nana_first_life_android_v2/schema.py
       - tools/nana_first_life_android_v2/b1_backup.py
       - tests/first_life_android_v2/test_rev3_operator.py
       - apps/nana-space/**
@@ -82,7 +84,7 @@ jobs:
           workflow='.github/workflows/nana-next-qualification.yml'
           explicit=os.environ['NANA_EVENT_NAME']=='workflow_dispatch' or workflow in paths
           core=explicit or any(p.startswith(('src/nana_core/','tools/nana_','packaging/portable/','tests/','contracts/','requirements-core-dev.lock')) for p in paths)
-          client=explicit or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/bridge.py','src/nana_core/life/live_api/contracts.py')) for p in paths)
+          client=explicit or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/bridge.py','src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py')) for p in paths)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\n')
           print('Affected components:',{'core':core,'client':client})
@@ -209,6 +211,9 @@ jobs:
           base=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'
           if set(base)=={'0'}: base='HEAD^'
           changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          if any(path in {'src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py','src/nana_core/life/live_api/provider_settings.py','src/nana_core/life/live_api/platform_settings.py','src/nana_core/life/live_api/platform_credentials.py','src/nana_core/life/live_api/memory_notes.py'} for path in changed):
+              subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
+              subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
             (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),
              ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),
@@ -216,7 +221,7 @@ jobs:
             (('live_api/provider_settings.py','live_api/server.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),
             (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),
             (('subject/policy.py','open_life/opportunities.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
-            (('life/control.py','life/application.py','life/dialogue_contracts.py','world_loop/cognition.py','life/surfaces.py','life/__main__.py','test_continuous_inputs.py','test_conversation_sequence.py'), ['tests/first_life_android_v2/test_conversation_sequence.py','tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/person_self/test_history_bound.py','tests/person_self/test_rest_and_attribution.py']),
+            (('life/control.py','life/application.py','life/dialogue_contracts.py','world_loop/cognition.py','life/surfaces.py','life/__main__.py','live_api/bridge.py','live_api/contracts.py','live_api/server.py','test_continuous_inputs.py','test_conversation_sequence.py','test_message_sequence_http.py'), ['tests/first_life_android_v2/test_message_sequence_http.py','tests/first_life_android_v2/test_conversation_sequence.py','tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py','tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/person_self/test_history_bound.py','tests/person_self/test_rest_and_attribution.py']),
             (('continuity/privacy.py','test_privacy_copy_increment.py'), ['tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/person_self/test_memory_use_feedback.py']),
             (('bridge_wire.py','test_r044_filesystem.py'), ['tests/nana_shadow/test_r044_filesystem.py','tests/nana_shadow/test_r044_races.py','tests/nana_shadow/test_r044_privacy.py']),
             (('b1_backup.py','test_rev3_operator.py'), ['tests/first_life_android_v2/test_rev3_operator.py']),

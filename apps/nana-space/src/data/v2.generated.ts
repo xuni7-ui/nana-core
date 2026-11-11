@@ -161,6 +161,20 @@ export type MessageRequest = {
   "retain_shared_life"?: boolean;
 };
 
+export type MessageSequenceRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "messages": Array<SequenceMessage>;
+  "topic"?: string;
+  "thread_id"?: string;
+  "privacy_class"?: "PUBLIC" | "PROJECT" | "PERSONAL";
+  "require_model"?: boolean;
+  "retain_shared_life"?: boolean;
+};
+
 export type ModelProfile = {
   "model_profile_id": string;
   "provider_profile_id": string;
@@ -284,3 +298,8 @@ export type Receipt = {
 };
 
 export type Role = "READER" | "CONVERSATION" | "MANAGER" | "HOST_ADMIN" | "PRIVATE_CONTEXT";
+
+export type SequenceMessage = {
+  "client_message_id": string;
+  "text": string;
+};

@@ -58,6 +58,7 @@ class GatewayService:
         self.events = []
         self.receipt_privacy = {}
         self.receipt_scopes = {}
+        self.sequence_owner = None  # Observed original Core capability, never inferred from Gateway version.
         from .platform_events import PlatformEvents
 
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
@@ -126,6 +127,7 @@ class GatewayService:
                 "provider_runtime_configuration": self.allow_provider_runtime_budget is True and self.allow_provider_configuration is True and self.supervisor.provider_live_authorized is True,
                 "provider_readiness": True,
                 "chat_streaming": True,
+                "conversation_sequence": status.get('process_ready') is True and self.sequence_owner==(status['owner_epoch'],status.get('source_commit')),
                 "provider_model_discovery": self.allow_provider_configuration and self.credential_resolver is not None,
                 "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
                 "durable_provider_binding": bool(getattr(self.credential_resolver, "persistent", False)),
@@ -190,7 +192,7 @@ class GatewayService:
                 {"receipt_id": key, "state": row["receipt"]["state"]}
                 for key, row in self.ledger.document.read()["receipts"].items()
                 if row["principal"] == principal.principal_id
-                and row["receipt"]["operation"] == "MESSAGE"
+                and row["receipt"]["operation"] in {"MESSAGE","MESSAGE_SEQUENCE"}
                 and row["receipt"]["state"] in {"REQUESTED", "UNKNOWN"}
             ][-32:]
             return self.envelope(data, principal=principal)
@@ -295,12 +297,18 @@ class GatewayService:
 
     def provider_status(self):
         status = self.supervisor.status()
+        self.sequence_owner = None
         if not status["process_ready"]:
             return {"state": "UNAVAILABLE_CORE_STOPPED", "real_model_qualification": "NOT_RUN_THIS_MISSION"}
         try:
             result = core_request(self.supervisor.home, {"operation": "view", "view": "status"}, timeout=2)
             if result.get("ok") is not True:
                 raise ApiError("CORE_UNAVAILABLE", 503)
+            capability=result['result'].get('conversation_sequence')
+            if (result['result'].get('identity_id')==self.binding.subject_id
+                    and type(capability) is dict and capability.get('schema_version')==1
+                    and capability.get('max_inputs')==4 and capability.get('ipc_bytes')==LIMIT):
+                self.sequence_owner=(status['owner_epoch'],status.get('source_commit'))
             return {
                 "state": result["result"].get("provider", "UNKNOWN"),
                 "readiness": result["result"].get("provider_readiness", {"state": "UNAVAILABLE_OLD_RUNTIME"}),
@@ -625,6 +633,59 @@ class GatewayService:
 
         return self._call(principal,body,'LANGUAGE_FEEDBACK',Role.MANAGER,call,
             lambda result:result.get('state')=='EXPLICIT_FEEDBACK_SAVED',before)
+
+    def send_sequence(self,principal,body):
+        if body.privacy_class not in self.privacy_for(principal):raise ApiError('SCOPE_DENIED',403)
+        observations=[]
+        for message in body.messages:
+            event_id='v2.'+hashlib.sha256((principal.principal_id+'\0'+message.client_message_id).encode()).hexdigest()[:56]
+            observations.append({'binding_id':self.binding.surface_binding_id,'event_id':event_id,
+                'thread_id':body.thread_id,'topic':body.topic,'text':message.text,
+                'privacy_class':body.privacy_class,'retain_shared_life':body.retain_shared_life})
+        command={'operation':'surface-sequence','observations':observations}
+        if len(json.dumps(command).encode())>=LIMIT:raise ApiError('CORE_INPUT_BOUND',413)
+
+        def before():
+            self.supervisor.verify_binding()
+            self.provider_status()  # Original read-only status; old/stopped Core never gets a batch.
+            status=self.supervisor.status()
+            if not status['process_ready'] or self.sequence_owner!=(status['owner_epoch'],status.get('source_commit')):
+                raise ApiError('CONVERSATION_SEQUENCE_UNAVAILABLE',409)
+            if body.privacy_class=='PERSONAL':
+                from ..config import load_config
+                surface=next((b for b in load_config(self.supervisor.home).surface_bindings
+                    if b.binding_id==self.binding.surface_binding_id),None)
+                if surface is None or 'PERSONAL' not in surface.permitted_privacy:raise ApiError('SURFACE_PRIVACY_NOT_BOUND',403)
+                if body.retain_shared_life and (not surface.allow_personal_retention or not surface.personal_retention_consent_ref):
+                    raise ApiError('SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED',403)
+            if body.require_model:
+                from ...continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
+                if any(LiteralSpanInterpreter().interpret(m.text).kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'} for m in body.messages):
+                    return  # Literal boundary still reaches original C without a model bill.
+                try:ready=core_request(self.supervisor.home,{'operation':'provider-readiness','privacy':body.privacy_class},timeout=2)
+                except (CoreError,OSError):raise ApiError('PROVIDER_READINESS_UNAVAILABLE',503) from None
+                state=ready.get('result',{}).get('state') if ready.get('ok') is True else 'PROVIDER_READINESS_UNAVAILABLE'
+                if state!='READY_LOCAL_GATES':raise ApiError(state if isinstance(state,str) else 'PROVIDER_READINESS_UNAVAILABLE',409)
+
+        def call():
+            response=core_request(self.supervisor.home,command)
+            if response.get('ok') is not True:raise ApiError('CORE_SEQUENCE_UNVERIFIED',409)
+            value=response['result'];rows=value.get('results',[])
+            if value.get('state')!='SHADOW_SEQUENCE_REVIEWED' or len(rows)!=len(body.messages):
+                raise ApiError('CORE_SEQUENCE_UNVERIFIED',503)
+            safe=[]
+            allowed={'state','text','provider_state','render_state','mode','judgment','intention','message_memory_id',
+                'exchange_record_id','raw_body_persisted','route','respond_to_memory_ids'}
+            for message,row in zip(body.messages,rows):
+                if row.get('state') not in {'SHADOW_REPLY_CANDIDATE','SHADOW_INPUT_REVIEWED_NO_REPLY','ALREADY_REVIEWED_NO_REPLAY','ALREADY_REVIEWED_SOURCE_RETIRED'}:
+                    raise ApiError('CORE_SEQUENCE_UNVERIFIED',503)
+                safe.append({**{k:v for k,v in row.items() if k in allowed},
+                    'client_message_id':message.client_message_id,'external_delivery':False})
+            return {'state':'SUBJECT_SEQUENCE_REVIEWED','results':safe,'coalesced':value.get('coalesced') is True,
+                'external_delivery':False,'completion_kind':'SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY'}
+
+        return self._call(principal,body,'MESSAGE_SEQUENCE',Role.CONVERSATION,call,
+            lambda result:result.get('state')=='SUBJECT_SEQUENCE_REVIEWED',before)
 
     def send(self, principal, body, *, surface_binding_id=None, progress=None):
         if body.privacy_class not in self.privacy_for(principal):

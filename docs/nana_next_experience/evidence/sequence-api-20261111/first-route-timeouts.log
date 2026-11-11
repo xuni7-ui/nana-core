@@ -1,0 +1,112 @@
+FF....                                                                   [100%]
+=================================== FAILURES ===================================
+____ test_actual_http_sequence_has_original_receipt_sources_and_idempotency ____
+
+tmp_path = PosixPath('/tmp/nana-sequence-http-after/test_actual_http_sequence_has_0')
+
+    def test_actual_http_sequence_has_original_receipt_sources_and_idempotency(tmp_path):
+        with sequence_api(tmp_path) as (server,service,calls):
+            headers=login(server,service)
+            bootstrap=http(server,'bootstrap',headers=headers)[1]
+            assert bootstrap['capabilities']['conversation_sequence'] is True
+            request=body(service)
+>           code,value,_=http(server,'messages/sequence','POST',request,headers)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_message_sequence_http.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/first_life_android_v2/test_http_integration.py:60: in http
+    response = connection.getresponse()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:1478: in getresponse
+    response.begin()
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:343: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:304: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.SocketIO object at 0x7f4a14c6cd90>
+b = <memory at 0x7f4a148181c0>
+
+    def readinto(self, b):
+        """Read up to len(b) bytes into the writable buffer *b* and return
+        the number of bytes read.  If the socket is non-blocking and no bytes
+        are available, None is returned.
+    
+        If *b* is non-empty, a 0 return value indicates that the connection
+        was shutdown at the other end.
+        """
+        self._checkClosed()
+        self._checkReadable()
+        if self._timeout_occurred:
+            raise OSError("cannot read from timed out object")
+        while True:
+            try:
+>               return self._sock.recv_into(b)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+E               TimeoutError: timed out
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:720: TimeoutError
+______ test_lost_sequence_completion_stays_unknown_and_never_redispatches ______
+
+tmp_path = PosixPath('/tmp/nana-sequence-http-after/test_lost_sequence_completion_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4a14c6d0d0>
+
+    def test_lost_sequence_completion_stays_unknown_and_never_redispatches(tmp_path,monkeypatch):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request;dispatches=[]
+        def lost(home,value,**kwargs):
+            result=original(home,value,**kwargs)
+            if value.get('operation')=='surface-sequence':dispatches.append(value);raise OSError('SYNTHETIC lost ACK')
+            return result
+        with sequence_api(tmp_path) as (server,service,calls):
+            headers=login(server,service);http(server,'bootstrap',headers=headers)
+            monkeypatch.setattr(bridge,'core_request',lost)
+            request=body(service)
+>           assert http(server,'messages/sequence','POST',request,headers)[1]['data']['state']=='UNKNOWN'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_message_sequence_http.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/first_life_android_v2/test_http_integration.py:60: in http
+    response = connection.getresponse()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:1478: in getresponse
+    response.begin()
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:343: in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py:304: in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.SocketIO object at 0x7f4a15dc8b80>
+b = <memory at 0x7f4a15c4ad40>
+
+    def readinto(self, b):
+        """Read up to len(b) bytes into the writable buffer *b* and return
+        the number of bytes read.  If the socket is non-blocking and no bytes
+        are available, None is returned.
+    
+        If *b* is non-empty, a 0 return value indicates that the connection
+        was shutdown at the other end.
+        """
+        self._checkClosed()
+        self._checkReadable()
+        if self._timeout_occurred:
+            raise OSError("cannot read from timed out object")
+        while True:
+            try:
+>               return self._sock.recv_into(b)
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+E               TimeoutError: timed out
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:720: TimeoutError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_message_sequence_http.py::test_actual_http_sequence_has_original_receipt_sources_and_idempotency
+FAILED tests/first_life_android_v2/test_message_sequence_http.py::test_lost_sequence_completion_stays_unknown_and_never_redispatches
+2 failed, 4 passed in 65.93s (0:01:05)

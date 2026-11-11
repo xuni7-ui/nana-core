@@ -1,0 +1,18 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_actual_http_sequence_has_original_receipt_sources_and_idempotency ____
+
+tmp_path = PosixPath('/tmp/nana-sequence-http-before/test_actual_http_sequence_has_0')
+
+    def test_actual_http_sequence_has_original_receipt_sources_and_idempotency(tmp_path):
+        with sequence_api(tmp_path) as (server,service,calls):
+            headers=login(server,service)
+            bootstrap=http(server,'bootstrap',headers=headers)[1]
+>           assert bootstrap['capabilities']['conversation_sequence'] is True
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'conversation_sequence'
+
+tests/first_life_android_v2/test_message_sequence_http.py:40: KeyError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_message_sequence_http.py::test_actual_http_sequence_has_original_receipt_sources_and_idempotency
+1 failed, 5 deselected in 1.72s

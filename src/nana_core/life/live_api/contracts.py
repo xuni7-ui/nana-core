@@ -123,6 +123,26 @@ class MessageRequest(WriteRequest):
     retain_shared_life: bool = False  # Explicit per-message consent, original Person-Self path.
 
 
+class SequenceMessage(DTO):
+    client_message_id: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,96}$")
+    text: str = Field(min_length=1, max_length=2048, repr=False)
+
+
+class MessageSequenceRequest(WriteRequest):
+    messages: tuple[SequenceMessage,...] = Field(min_length=2,max_length=4)
+    topic: str = Field(default="daily",pattern=r"^[a-z][a-z0-9._-]{0,63}$")
+    thread_id: str = Field(default="daily",pattern=r"^[A-Za-z0-9._:-]{1,96}$")
+    privacy_class: Literal["PUBLIC","PROJECT","PERSONAL"] = "PROJECT"
+    require_model: bool = False
+    retain_shared_life: bool = False
+
+    @model_validator(mode='after')
+    def distinct_messages(self):
+        if len({m.client_message_id for m in self.messages})!=len(self.messages):
+            raise ValueError('distinct message IDs required')
+        return self
+
+
 
 class LanguageFeedbackRequest(WriteRequest):
     sample: LanguageSample = Field(repr=False)
