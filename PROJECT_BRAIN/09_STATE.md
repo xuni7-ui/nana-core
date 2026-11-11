@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 146,
-  "as_of_us": 1794375870626011,
+  "revision": 147,
+  "as_of_us": 1794376187469634,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_AFFECTED_CI_NATIVE_PREREQUISITES_REPAIRED",
+  "status": "IN_PROGRESS_TEXT_QUERY_PROFILE_RESEARCH_NOT_PROMOTED",
   "progress": [
-    "认知超时本地128通过；8ae远端Core首次7fail/207pass（6缺ffmpeg、1技能未活跃）已原样留证。现按受影响组复用原codecs/bwrap准备并要求原沙箱全部资格；新4s预派发正例5通过，远端复核待，不冒充通过。",
+    "同32note/100ms冻结24查询研究：现有G资格支持8/24且8正确，16形态不支持；放宽JOIN18/24/3误召，保留源空白的NFKC原型24/24/0。撤回源有效/原G历史保持，模型动作0；原型未获G资格/未接产品。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -28,17 +28,18 @@
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
     "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
-    "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
+    "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。",
+    "8ae相关CI7fail/207pass已留证；c30按实际受影响组复用codecs与原bwrap资格，run42967726558仍执行。不得把本地128或client成功当远端Core通过。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
+    "docs/nana_next_experience/evidence/text-query-research-20261111/README.md",
     "docs/nana_next_experience/evidence/cognition-timeout-inheritance-20261111/README.md",
     "docs/nana_next_experience/evidence/load-and-light-choice-20261111/README.md",
     "docs/nana_next_experience/evidence/activity-demand-and-interest-20261111/README.md",
-    "docs/nana_next_experience/evidence/input-queue-timeout-20261111/README.md",
-    "docs/nana_next_experience/evidence/admitted-response-20261111/README.md"
+    "docs/nana_next_experience/evidence/input-queue-timeout-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

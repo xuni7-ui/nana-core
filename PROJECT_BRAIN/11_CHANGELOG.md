@@ -3544,3 +3544,8 @@ CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继
 ### 2026-11-11 · 原生依赖按受影响世界循环组复用，保存远端首错
 
 8ae实际CI42966106116 Core7失败/207通过101.59s，6明确缺ffmpeg/1技能活跃集空；client成功不抵Core。原pytest1267行留证cognition-timeout-inheritance/ci-first.log。新增group只装Python依赖而world/provider测试需codecs及原bwrap，现复用原full-native准备条件到实际受影响组，fullDocker旧SQLite仍fullonly；targeted先原IsolatedSkillRunner AVAILABLE全checks，不降级执行、不改原断言。原默认deadline测试加强为每次派发前虚拟过4s，5通过0.85s，两个workflowPython块compile；该test改动会重选含原7失败的128组，successorCI待实读。09source-table锚已记。已完成32note研究原型仍knownowneduntracked待下一批入库，24固定查询V2支持8/24/16unsupported、JOIN18/24/3误召、NFKC24/24/0；不宣称G资格或已接产品。原A–H/CURRENT266+409/生产边界保持，定时不停车。
+
+
+### 2026-11-11 · 同预算多样文本查询冻结对照与隔离原型
+
+复用原Store/G/32note，冻结24人工预定义期望（C++/版本/路径/精确空白/Greek/ß/组合字符），old8ae真实组件V2支持8/24且8正确、16unsupported不伪作错误empty；实验CASEFOLD13/24、WORDS21/24，简单放宽JOIN18/24/3误召，源空白保留NFKC原型24/24/0。共享100ms完整lookup/4结果、同Store轮换，全部原源/隐私核验，later源withdraw仅移该hit，原train源withdraw移旧G策略，0模型动作Grant。首/最终rawlogs结果样本保留；最终为防baseline临时路径碰撞/冻结预算参数校验后重测，非声称算法提速。Prototype p50/p951.499/2.219ms对旧partialcoverage.279/2.161无速度结论。新tool/spec/evidence入库，原型未晋升/newGqualification NOT_RUN，下一独立TEXTprofile/原语/heldout/context接线，保持旧16/32/pendingrestore，不只调常量。09hash锚已记。c30nativeCI42967726558当时仍inprogress，8ae7fail/207pass留证，原A–H/CURRENT266+409/生产边界保持，17:50启用继续工作。

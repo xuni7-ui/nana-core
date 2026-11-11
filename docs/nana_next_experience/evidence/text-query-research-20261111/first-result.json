@@ -1,0 +1,1474 @@
+{
+  "scope": "SYNTHETIC_ORIGINAL_STORE_G_RESEARCH_NOT_RUNTIME_QUALIFICATION",
+  "baseline_source": "8ae12dae8cd328465e6fc7808ac96e8f4494a9d1",
+  "frozen_spec": {
+    "schema_version": 1,
+    "qualification": "SYNTHETIC_TEXT_QUERY_PROFILE_RESEARCH_V1",
+    "source_bound": 32,
+    "timeout_ms": 100,
+    "result_limit": 4,
+    "provider_calls": 0,
+    "notes": [
+      {
+        "label": "cpp",
+        "text": "SYNTHETIC Ｃ＋＋ course note"
+      },
+      {
+        "label": "version",
+        "text": "SYNTHETIC release ｖ１．３ ready"
+      },
+      {
+        "label": "path",
+        "text": "SYNTHETIC path ｆｏｏ／ｂａｒ"
+      },
+      {
+        "label": "spaced_path",
+        "text": "SYNTHETIC label Ａ  ／ Ｂ"
+      },
+      {
+        "label": "phrase",
+        "text": "SYNTHETIC ＧＲＡＰＨ  ＤＲＥＡＭ"
+      },
+      {
+        "label": "accent",
+        "text": "SYNTHETIC Ｃａｆｅ́ 方法笔记"
+      },
+      {
+        "label": "case_expansion",
+        "text": "SYNTHETIC Straße 作品"
+      },
+      {
+        "label": "greek_phrase",
+        "text": "SYNTHETIC ΟΣ  λογική"
+      }
+    ],
+    "cases": [
+      {
+        "query": "C++",
+        "expected": [
+          "cpp"
+        ]
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "cpp"
+        ]
+      },
+      {
+        "query": "C + +",
+        "expected": []
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "version"
+        ]
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "version"
+        ]
+      },
+      {
+        "query": "v1.30",
+        "expected": []
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "path"
+        ]
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "path"
+        ]
+      },
+      {
+        "query": "foo bar",
+        "expected": []
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "spaced_path"
+        ]
+      },
+      {
+        "query": "a / b",
+        "expected": []
+      },
+      {
+        "query": "A／B",
+        "expected": []
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "phrase"
+        ]
+      },
+      {
+        "query": "graph dream",
+        "expected": []
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "phrase"
+        ]
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "accent"
+        ]
+      },
+      {
+        "query": "café",
+        "expected": [
+          "accent"
+        ]
+      },
+      {
+        "query": "cafe",
+        "expected": []
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "case_expansion"
+        ]
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "case_expansion"
+        ]
+      },
+      {
+        "query": "strase",
+        "expected": []
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "greek_phrase"
+        ]
+      },
+      {
+        "query": "οσ λογική",
+        "expected": []
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "greek_phrase"
+        ]
+      }
+    ]
+  },
+  "frozen_spec_digest": "b94502c46b0f4afecc3100f1e3f9ceb2481106a24c9ca5dd496ddffb02d0ded4",
+  "summaries": {
+    "qualified_v2": {
+      "queries": 24,
+      "correct": 8,
+      "eligible_queries": 8,
+      "false_positive_queries": 0,
+      "unsupported": 16,
+      "p50_ms": 0.33909999999999996,
+      "p95_ms": 1.8394217,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_casefold": {
+      "queries": 24,
+      "correct": 13,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.6117785,
+      "p95_ms": 1.87011135,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_words": {
+      "queries": 24,
+      "correct": 21,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.6338409999999999,
+      "p95_ms": 2.16545635,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_join": {
+      "queries": 24,
+      "correct": 18,
+      "eligible_queries": 24,
+      "false_positive_queries": 3,
+      "unsupported": 0,
+      "p50_ms": 1.752433,
+      "p95_ms": 2.3322355000000003,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_nfkc": {
+      "queries": 24,
+      "correct": 24,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.720455,
+      "p95_ms": 2.45395725,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    }
+  },
+  "results": {
+    "qualified_v2": [
+      {
+        "query": "C++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "C + +",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "v1.30",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "foo bar",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "a / b",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "A／B",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "graph dream",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "café",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "cafe",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "strase",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "οσ λογική",
+        "expected": [],
+        "actual": [],
+        "gap": "UNSUPPORTED_QUERY_SHAPE",
+        "correct": false
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      }
+    ],
+    "research_casefold": [
+      {
+        "query": "C++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "C + +",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "v1.30",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "foo bar",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "a / b",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "A／B",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "graph dream",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "café",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "cafe",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "strase",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "οσ λογική",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      }
+    ],
+    "research_words": [
+      {
+        "query": "C++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "C + +",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.30",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo bar",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "a / b",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "A／B",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "graph dream",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "café",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "cafe",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "strase",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "οσ λογική",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      }
+    ],
+    "research_join": [
+      {
+        "query": "C++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "C + +",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.30",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo bar",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "a / b",
+        "expected": [],
+        "actual": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "A／B",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "graph dream",
+        "expected": [],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "café",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "cafe",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "strase",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "οσ λογική",
+        "expected": [],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": false
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      }
+    ],
+    "research_nfkc": [
+      {
+        "query": "C++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "c++",
+        "expected": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "actual": [
+          "2a634397-bd3b-4653-92f3-209aa0cdf482"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "C + +",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "V1.3",
+        "expected": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "actual": [
+          "bf70bbe8-87a2-4242-8eda-a64c27fe8220"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "v1.30",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo/bar",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "FOO/BAR",
+        "expected": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "actual": [
+          "3fe6a488-43b0-4b54-9cae-a3ea47621188"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "foo bar",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "a  / b",
+        "expected": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "actual": [
+          "43db4798-14aa-4b41-b884-ed43d76fca28"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "a / b",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "A／B",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph  dream",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph dream",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "graph",
+        "expected": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "actual": [
+          "bc117a9c-f340-4035-aaf8-d9ab5f7e7ffe"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CAFÉ",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "café",
+        "expected": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "actual": [
+          "431a10d4-f7da-4405-91cd-1afbe0794096"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "cafe",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "STRASSE",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Straße",
+        "expected": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "actual": [
+          "fac23e73-9aa6-4b98-9033-f1c968ff68ed"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "strase",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ος  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "οσ λογική",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ΟΣ  λογική",
+        "expected": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "actual": [
+          "c91bc558-dad0-4349-9a16-f409e8ea766b"
+        ],
+        "gap": null,
+        "correct": true
+      }
+    ]
+  },
+  "latency_samples_ms": {
+    "qualified_v2": [
+      0.492663,
+      0.273837,
+      0.385874,
+      0.259916,
+      0.254399,
+      0.401117,
+      0.359015,
+      0.254539,
+      0.258965,
+      0.311083,
+      0.267939,
+      0.319185,
+      0.24903,
+      0.384802,
+      1.752397,
+      1.588463,
+      4.41549,
+      1.564578,
+      1.854779,
+      0.270562,
+      1.720109,
+      0.276201,
+      0.411362,
+      0.258435
+    ],
+    "research_casefold": [
+      1.846938,
+      1.53868,
+      1.797004,
+      1.706048,
+      1.757225,
+      1.764816,
+      1.483267,
+      1.381115,
+      1.543497,
+      1.478239,
+      1.457578,
+      1.749473,
+      1.851946,
+      1.464669,
+      1.68006,
+      1.414695,
+      1.526431,
+      1.710425,
+      1.695663,
+      0.292736,
+      2.557215,
+      1.531429,
+      1.873317,
+      0.246176
+    ],
+    "research_words": [
+      1.571027,
+      1.647892,
+      1.477849,
+      1.979245,
+      1.794741,
+      1.689664,
+      1.488945,
+      1.993806,
+      1.553672,
+      1.617437,
+      1.611908,
+      1.550217,
+      1.855081,
+      1.540963,
+      1.668293,
+      1.656806,
+      2.233323,
+      1.867859,
+      2.185792,
+      0.254168,
+      2.050221,
+      1.614853,
+      1.61979,
+      0.343481
+    ],
+    "research_join": [
+      1.750385,
+      1.890573,
+      1.663855,
+      1.864605,
+      2.363467,
+      1.669343,
+      1.682374,
+      1.972665,
+      1.806788,
+      2.13034,
+      1.621493,
+      1.610166,
+      1.641463,
+      1.905666,
+      1.692158,
+      1.935349,
+      1.754481,
+      1.710905,
+      2.155257,
+      0.515918,
+      1.628883,
+      1.835431,
+      2.396576,
+      0.372895
+    ],
+    "research_nfkc": [
+      1.647741,
+      2.148276,
+      1.862061,
+      1.96938,
+      1.854219,
+      1.378662,
+      1.920066,
+      1.542275,
+      1.366493,
+      2.575422,
+      1.9353,
+      1.692007,
+      1.651747,
+      1.551098,
+      1.382587,
+      1.789173,
+      1.535635,
+      1.398891,
+      1.748903,
+      0.31585,
+      1.774711,
+      1.937743,
+      2.507901,
+      0.276742
+    ]
+  },
+  "subject_id": "ddc7ccf7-34e9-4622-bfb4-2103dc5bf32e",
+  "source_count": 32,
+  "candidate_promoted": false,
+  "candidate_g_qualification": "NOT_RUN",
+  "candidate_token_cost": "NOT_RUN",
+  "real_model_calls": 0,
+  "later_withdrawal_checked": true,
+  "legacy_g_source_withdrawal_checked": true,
+  "facts_unchanged": true
+}

@@ -1,0 +1,55 @@
+{
+  "frozen_spec_digest": "b94502c46b0f4afecc3100f1e3f9ceb2481106a24c9ca5dd496ddffb02d0ded4",
+  "summaries": {
+    "qualified_v2": {
+      "queries": 24,
+      "correct": 8,
+      "eligible_queries": 8,
+      "false_positive_queries": 0,
+      "unsupported": 16,
+      "p50_ms": 0.2788035,
+      "p95_ms": 2.1610111499999998,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_casefold": {
+      "queries": 24,
+      "correct": 13,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.495635,
+      "p95_ms": 2.88624695,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_words": {
+      "queries": 24,
+      "correct": 21,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.5427050000000002,
+      "p95_ms": 2.3463721,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_join": {
+      "queries": 24,
+      "correct": 18,
+      "eligible_queries": 24,
+      "false_positive_queries": 3,
+      "unsupported": 0,
+      "p50_ms": 1.7993755,
+      "p95_ms": 2.5040805,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    },
+    "research_nfkc": {
+      "queries": 24,
+      "correct": 24,
+      "eligible_queries": 24,
+      "false_positive_queries": 0,
+      "unsupported": 0,
+      "p50_ms": 1.499216,
+      "p95_ms": 2.21922515,
+      "percentile_method": "LINEAR_INCLUSIVE"
+    }
+  }
+}

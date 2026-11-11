@@ -71,3 +71,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 ownCI更正：8ae远端7fail/207pass，不是远端Core通过；6缺ffmpeg/1技能活跃集空。已按实际受影响组复用原native依赖及严格bwrap资格，successor需实读；本地128与client成功单列。首错原日志完整保存。研究原型24固定query对照已有但未G资格/产品接线，原A–H继续。
+
+
+2026-11-11 text-query研究：同32note/100ms24固定查询，现有WORDLIKE资格8/8支持项正确+16不支持；放宽JOIN有3误召，源空白保留NFKC原型24/24零误召。原G旧资格/撤回/事实保持，0模型动作；不是新技能或产品资格。下一原G独立TEXTprofile/原语/heldout/后续场景与context接线，不扩大常量替代评价。证据text-query-research-20261111。c30原生CI42967726558当时仍执行，8ae失败仍保留独立资格差额。
