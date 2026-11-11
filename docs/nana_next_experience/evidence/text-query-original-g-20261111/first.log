@@ -1,0 +1,104 @@
+FF..................                                                     [100%]
+=================================== FAILURES ===================================
+_ test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model[16] _
+
+tmp_path = PosixPath('/tmp/nana-text-profile-first/test_original_g_text_qualifica0')
+capacity = 16
+
+    @pytest.mark.parametrize('capacity',[16,32])
+    def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model(tmp_path,capacity):
+        home=tmp_path/'home';clock=VirtualClock()
+        if capacity==32:initialize_expanded(home)
+        else:initialize(home,active=0)
+        with LifeApplication(home,clock=clock) as app:
+            train=[save(app,text=text,privacy='PROJECT',request_id='text-training-'+str(i))['memory_id'] for i,text in enumerate(TRAIN)]
+            fillers(app,capacity-11)  # training+fillers+8 genuinely later sources == original capacity
+            growth=app.runtime.work.note_retrieval_growth
+            assert growth.slice(SCOPE)['note_retrieval']=='OFFERED_TO_C'
+            advance(app);assert selected(app)[1]=='UNICODE_WORDS'  # old qualification still first
+            old_rule=RecordService(app.runtime.store).read(selected(app)[0])['payload']['rule']
+            old_trial=RecordService(app.runtime.store).read(old_rule['trial_record_id'])['payload']
+            assert old_trial['results']['EVALUATE']['evaluator']==('CORE_NOTE_RETRIEVAL_V2' if capacity==32 else 'CORE_NOTE_RETRIEVAL_V1')
+            offered=growth.slice(SCOPE)
+            assert offered and offered['note_retrieval']=='OFFERED_TO_C', 'Text-shaped capability gap needs its own C-reviewed study'
+            identity=app.runtime.identity_id
+            assert not app.runtime.store.all('cognitive_requests')
+        # Restore pending text-profile spec before original C has adopted it.
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity;advance(app)
+            lesson=selected(app)
+            assert lesson and lesson[1]=='NFKC_CASEFOLD'
+            records=RecordService(app.runtime.store);rule=records.read(lesson[0])['payload']['rule']
+            trial=records.read(rule['trial_record_id'])['payload']
+            for stage in ('EVALUATE','TRANSFER'):
+                result=trial['results'][stage]
+                assert result['evaluator']=='CORE_NOTE_RETRIEVAL_TEXT_V1_'+str(capacity)
+                assert result['qualification_scope']['query_shape']=='TEXT_2_64'
+                assert result['qualification_scope']['max_notes']==capacity and result['all_passed']
+            specs=[spec for spec in app.runtime.work.note_retrieval_growth.service().specs.values()
+>               if any(c.data['kind'].startswith('CORE_NOTE_RETRIEVAL_TEXT_') for c in spec.practice)]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_retrieval_text_profile.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7fc18e93dcc0>
+
+>   if any(c.data['kind'].startswith('CORE_NOTE_RETRIEVAL_TEXT_') for c in spec.practice)]
+           ^^^^^^^^^^^^^^
+E   KeyError: 'kind'
+
+tests/independent_life/test_retrieval_text_profile.py:55: KeyError
+_ test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model[32] _
+
+tmp_path = PosixPath('/tmp/nana-text-profile-first/test_original_g_text_qualifica1')
+capacity = 32
+
+    @pytest.mark.parametrize('capacity',[16,32])
+    def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model(tmp_path,capacity):
+        home=tmp_path/'home';clock=VirtualClock()
+        if capacity==32:initialize_expanded(home)
+        else:initialize(home,active=0)
+        with LifeApplication(home,clock=clock) as app:
+            train=[save(app,text=text,privacy='PROJECT',request_id='text-training-'+str(i))['memory_id'] for i,text in enumerate(TRAIN)]
+            fillers(app,capacity-11)  # training+fillers+8 genuinely later sources == original capacity
+            growth=app.runtime.work.note_retrieval_growth
+            assert growth.slice(SCOPE)['note_retrieval']=='OFFERED_TO_C'
+            advance(app);assert selected(app)[1]=='UNICODE_WORDS'  # old qualification still first
+            old_rule=RecordService(app.runtime.store).read(selected(app)[0])['payload']['rule']
+            old_trial=RecordService(app.runtime.store).read(old_rule['trial_record_id'])['payload']
+            assert old_trial['results']['EVALUATE']['evaluator']==('CORE_NOTE_RETRIEVAL_V2' if capacity==32 else 'CORE_NOTE_RETRIEVAL_V1')
+            offered=growth.slice(SCOPE)
+            assert offered and offered['note_retrieval']=='OFFERED_TO_C', 'Text-shaped capability gap needs its own C-reviewed study'
+            identity=app.runtime.identity_id
+            assert not app.runtime.store.all('cognitive_requests')
+        # Restore pending text-profile spec before original C has adopted it.
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity;advance(app)
+            lesson=selected(app)
+            assert lesson and lesson[1]=='NFKC_CASEFOLD'
+            records=RecordService(app.runtime.store);rule=records.read(lesson[0])['payload']['rule']
+            trial=records.read(rule['trial_record_id'])['payload']
+            for stage in ('EVALUATE','TRANSFER'):
+                result=trial['results'][stage]
+                assert result['evaluator']=='CORE_NOTE_RETRIEVAL_TEXT_V1_'+str(capacity)
+                assert result['qualification_scope']['query_shape']=='TEXT_2_64'
+                assert result['qualification_scope']['max_notes']==capacity and result['all_passed']
+            specs=[spec for spec in app.runtime.work.note_retrieval_growth.service().specs.values()
+>               if any(c.data['kind'].startswith('CORE_NOTE_RETRIEVAL_TEXT_') for c in spec.practice)]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_retrieval_text_profile.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7fc18e9861a0>
+
+>   if any(c.data['kind'].startswith('CORE_NOTE_RETRIEVAL_TEXT_') for c in spec.practice)]
+           ^^^^^^^^^^^^^^
+E   KeyError: 'kind'
+
+tests/independent_life/test_retrieval_text_profile.py:55: KeyError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_text_profile.py::test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model[16]
+FAILED tests/independent_life/test_retrieval_text_profile.py::test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model[32]
+2 failed, 18 passed in 6.74s

@@ -3549,3 +3549,8 @@ CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继
 ### 2026-11-11 · 同预算多样文本查询冻结对照与隔离原型
 
 复用原Store/G/32note，冻结24人工预定义期望（C++/版本/路径/精确空白/Greek/ß/组合字符），old8ae真实组件V2支持8/24且8正确、16unsupported不伪作错误empty；实验CASEFOLD13/24、WORDS21/24，简单放宽JOIN18/24/3误召，源空白保留NFKC原型24/24/0。共享100ms完整lookup/4结果、同Store轮换，全部原源/隐私核验，later源withdraw仅移该hit，原train源withdraw移旧G策略，0模型动作Grant。首/最终rawlogs结果样本保留；最终为防baseline临时路径碰撞/冻结预算参数校验后重测，非声称算法提速。Prototype p50/p951.499/2.219ms对旧partialcoverage.279/2.161无速度结论。新tool/spec/evidence入库，原型未晋升/newGqualification NOT_RUN，下一独立TEXTprofile/原语/heldout/context接线，保持旧16/32/pendingrestore，不只调常量。09hash锚已记。c30nativeCI42967726558当时仍inprogress，8ae7fail/207pass留证，原A–H/CURRENT266+409/生产边界保持，17:50启用继续工作。
+
+
+### 2026-11-11 · 原C/G独立文本查询资格与后续context复用
+
+冻结对照后新增纯NFCK_CASEFOLD原语/独立TEXT16与32，旧METHODS顺序/WORDLIKE scope/default16及旧pendingrestore保持；新spec/profile/casekind强绑定，不给旧证书扩形态。原maintenance复用同一snapshot，从明确保留notes形成真实shapegap→原C可选→原Gpracticeonly/heldout，context按真实证书接符号/短语；不保存普通chatquery、不添Store/loop/学习权威。只有literalmiss且真实normalizedhit的独立新源才记复用，阻止普通字面命中伪作成长。2首错/1旧guardPASS，初18PASS/2新test把原G其他域当note导致KeyError保留，修test域过滤；后3/3分别2.63s/2.58s，45相关21s与最终3项2.59s通过。两scope各24未见查询/同主体restart/换fixture模型实际C++render，8loopback/真实0；字面only NeedOPEN保持→真正复用单assessment NeedSETTLED→学源withdraw资格及settled取消，0actions/grants。证据text-query-original-g-20261111/09hash锚。c30实际CI原bwrap11/128checks47.12s成功/clientSUCCESS，8ae7fail/207pass首错保留；本新源CI、旧binary新profile回退/安装/native/实机/长期未资格。继续原A–H，CURRENT266+409不动，17:50启用不停车。

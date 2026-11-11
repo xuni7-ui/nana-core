@@ -248,19 +248,21 @@ class ContextAssembler:
                 notes=memory_service.literal_notes(entity_ids=(request.entity_id,),scopes=request.scopes,
                     privacy_classes=privacy,terms=note_terms)
                 if not notes and 'PROJECT' in privacy:
-                    from .retrieval_growth import NoteRetrievalEvaluator, qualified_method, qualified_note_limit, word_queries
-                    if word_queries(note_terms):
-                        for scope in request.scopes:
-                            selected=qualified_method(self.store,self.authority,request.entity_id,scope,privacy)
-                            if selected:
-                                evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
-                                snapshot=evaluator.snapshot(scope,max_notes=qualified_note_limit(self.store,selected))
-                                # The same owner/safe point just found no literal
-                                # result across these scopes. Do not run it again.
-                                notes=evaluator._normalized_lookup(selected[1],note_terms,snapshot)
-                                if notes:
-                                    note_strategy_refs=(selected[0],)
-                                    break
+                    from .retrieval_growth import (NoteRetrievalEvaluator, qualified_method, qualified_query_profile,
+                        QUALIFICATION_SCOPES, query_allowed)
+                    for scope in request.scopes:
+                        selected=qualified_method(self.store,self.authority,request.entity_id,scope,privacy)
+                        if selected:
+                            profile=qualified_query_profile(self.store,selected)
+                            if not query_allowed(profile,note_terms):continue
+                            evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
+                            snapshot=evaluator.snapshot(scope,max_notes=QUALIFICATION_SCOPES[profile]['max_notes'],profile=profile)
+                            # Same owner/safe point already found the literal miss;
+                            # query shape comes from the actual independent trial.
+                            notes=evaluator._normalized_lookup(selected[1],note_terms,snapshot)
+                            if notes:
+                                note_strategy_refs=(selected[0],)
+                                break
                 note_ids={m['memory_id'] for m in notes}
                 memories.extend(m for m in notes if not any(old['memory_id']==m['memory_id'] for old in memories))
             except CoreError as exc:

@@ -2,7 +2,7 @@
 
 No new memory, planner, grant or runtime. The corpus is retained PROJECT/PUBLIC
 user statements; a successful lookup does not verify their content as truth.
-Candidate methods are existing local primitives, checked against an independent
+Candidate methods are finite Core primitives, checked against an independent
 normalized-substring oracle. Model-visible LearningProblem keeps heldouts out.
 """
 
@@ -16,7 +16,7 @@ from ..storage import canonical, digest
 from .memory import MemoryService, is_user_note, USER_NOTE_QUALIFICATION
 from .records import RecordService
 from .open_agency.learning import IndependentEvaluator, LearningService
-from .open_agency.world import transform
+from .open_agency.world import transform, nfkc_casefold
 
 DOMAIN = "retrieval.notes"
 EVALUATOR = "CORE_NOTE_RETRIEVAL_V1"
@@ -26,12 +26,20 @@ SCOPE = {"max_notes": MAX_NOTES, "query_shape": "WORDLIKE", "read_only": True}
 EXPANDED_MAX_NOTES = 32
 EXPANDED_EVALUATOR = "CORE_NOTE_RETRIEVAL_V2"
 EXPANDED_SCOPE = {**SCOPE, "max_notes": EXPANDED_MAX_NOTES}
-QUALIFICATION_SCOPES = {EVALUATOR: SCOPE, EXPANDED_EVALUATOR: EXPANDED_SCOPE}
+TEXT_EVALUATORS = {16: "CORE_NOTE_RETRIEVAL_TEXT_V1_16", 32: "CORE_NOTE_RETRIEVAL_TEXT_V1_32"}
+# Preserve the exact old candidate sets/order for pending and published V1/V2.
+# The frozen diverse comparison supplies a preferred candidate, never a lesson.
+TEXT_METHODS = ("IDENTITY", "NFKC_CASEFOLD", *METHODS[1:])
+QUALIFICATION_SCOPES = {EVALUATOR: SCOPE, EXPANDED_EVALUATOR: EXPANDED_SCOPE,
+    **{profile: {"max_notes": limit, "query_shape": "TEXT_2_64", "read_only": True}
+       for limit, profile in TEXT_EVALUATORS.items()}}
+QUALIFICATION_METHODS = {EVALUATOR: METHODS, EXPANDED_EVALUATOR: METHODS,
+    **{profile: TEXT_METHODS for profile in TEXT_EVALUATORS.values()}}
 ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
 
 
 def snapshot_evaluator(snapshot):
-    return EXPANDED_EVALUATOR if snapshot.get('max_notes', MAX_NOTES) == EXPANDED_MAX_NOTES else EVALUATOR
+    return snapshot.get('profile') or (EXPANDED_EVALUATOR if snapshot.get('max_notes', MAX_NOTES) == EXPANDED_MAX_NOTES else EVALUATOR)
 
 
 def word_queries(terms):
@@ -40,6 +48,15 @@ def word_queries(terms):
         and 1 <= len(terms) <= 8
         and all(type(t) is str and re.fullmatch(r"\w{2,64}", t) for t in terms)
     )
+
+
+def query_allowed(profile, terms):
+    if type(profile) is not str or profile not in QUALIFICATION_SCOPES:
+        return False
+    if QUALIFICATION_SCOPES[profile]['query_shape'] == 'WORDLIKE':
+        return word_queries(terms)
+    return (type(terms) in (list, tuple) and 1 <= len(terms) <= 8
+            and all(type(term) is str and 2 <= len(term) <= 64 for term in terms))
 
 
 class NoteRetrievalEvaluator:
@@ -51,8 +68,11 @@ class NoteRetrievalEvaluator:
         self.privacy = tuple(p for p in privacy_classes if p in {"PUBLIC", "PROJECT"})
         self.fallback = fallback or IndependentEvaluator()
 
-    def snapshot(self, scope, *, timeout_ms=100, max_notes=MAX_NOTES):
+    def snapshot(self, scope, *, timeout_ms=100, max_notes=MAX_NOTES, profile=None):
         if scope not in self.scopes or not self.privacy or type(max_notes) is not int or max_notes not in {MAX_NOTES, EXPANDED_MAX_NOTES}:
+            raise CoreError("NOTE_STRATEGY_SCOPE_BOUND")
+        if profile is not None and (profile not in QUALIFICATION_SCOPES
+                or QUALIFICATION_SCOPES[profile]['max_notes'] != max_notes):
             raise CoreError("NOTE_STRATEGY_SCOPE_BOUND")
         memory = MemoryService(self.store)
         memory._fresh()
@@ -92,7 +112,8 @@ class NoteRetrievalEvaluator:
                     for r in notes
                 ]
             )
-            return {"scope": scope, "stamp": stamp, "notes": notes, "max_notes": max_notes}
+            return {"scope": scope, "stamp": stamp, "notes": notes, "max_notes": max_notes,
+                    **({'profile': profile} if profile in TEXT_EVALUATORS.values() else {})}
         except sqlite3.OperationalError as exc:
             if "interrupt" in str(exc).lower():
                 raise CoreError("NOTE_RECALL_TIME_BOUND") from None
@@ -119,7 +140,7 @@ class NoteRetrievalEvaluator:
         return sorted(r["memory_id"] for r in matches[:4])
 
     def lookup(self, method, terms, snapshot):
-        if method not in METHODS or not word_queries(terms):
+        if method not in QUALIFICATION_METHODS.get(snapshot_evaluator(snapshot), ()) or not query_allowed(snapshot_evaluator(snapshot), terms):
             raise CoreError("NOTE_STRATEGY_INPUT_BOUND")
         rows = MemoryService(self.store).literal_notes(
             entity_ids=(self.entity_id,), scopes=(snapshot["scope"],), privacy_classes=self.privacy, terms=tuple(terms)
@@ -134,7 +155,7 @@ class NoteRetrievalEvaluator:
         No cached miss, user flag or persisted result; ordinary evaluator entry
         still runs the original literal query before invoking this primitive.
         """
-        if method not in METHODS or not word_queries(terms):
+        if method not in QUALIFICATION_METHODS.get(snapshot_evaluator(snapshot), ()) or not query_allowed(snapshot_evaluator(snapshot), terms):
             raise CoreError("NOTE_STRATEGY_INPUT_BOUND")
         if method == "IDENTITY":return []
         folded = [t.casefold() if method == "CASEFOLD" else unicodedata.normalize("NFKC", t).casefold() for t in terms]
@@ -142,6 +163,10 @@ class NoteRetrievalEvaluator:
         for row in reversed(snapshot["notes"]):
             if method == "CASEFOLD":
                 matched = any(t in transform("CASEFOLD", row["text"]) for t in folded)
+            elif method == 'NFKC_CASEFOLD':
+                # Notes already have their own exact text bound; do not apply
+                # world.compute's JSON-envelope byte bound to a source read.
+                matched = any(t in nfkc_casefold(row['text']) for t in folded)
             else:
                 words = [t.casefold() for t in transform("UNICODE_WORDS", row["text"])]
                 matched = (
@@ -170,9 +195,9 @@ class NoteRetrievalEvaluator:
         results = []
         for case in cases:
             data = case.data
-            if set(data) != {"kind", "scope", "source_stamp", "terms"} or not word_queries(data["terms"]):
+            if set(data) != {"kind", "scope", "source_stamp", "terms"} or not query_allowed(evaluator, data["terms"]):
                 raise CoreError("NOTE_STRATEGY_INPUT_BOUND")
-            snapshot = self.snapshot(data["scope"], max_notes=qualification['max_notes'])
+            snapshot = self.snapshot(data["scope"], max_notes=qualification['max_notes'], profile=evaluator)
             if snapshot["stamp"] != data["source_stamp"]:
                 raise CoreError("NOTE_STRATEGY_SOURCE_CHANGED")
             if case.expected != self.oracle(snapshot, data["terms"]):
@@ -208,7 +233,7 @@ def qualified_method(store, authority, entity_id, scope, privacy_classes):
     if not selected:
         return None
     lesson_record, method = selected
-    if method not in METHODS:
+    if not any(method in methods for methods in QUALIFICATION_METHODS.values()):
         return None
     records = RecordService(store)
     rule = records.read(lesson_record)["payload"]["rule"]
@@ -224,6 +249,7 @@ def qualified_method(store, authority, entity_id, scope, privacy_classes):
             or result.get("entity_id") != entity_id
             or result.get("qualification_scope") != QUALIFICATION_SCOPES.get(profile)
             or result.get("all_passed") is not True
+            or method not in QUALIFICATION_METHODS.get(profile, ())
         ):
             return None
         profiles.append(profile)
@@ -232,12 +258,20 @@ def qualified_method(store, authority, entity_id, scope, privacy_classes):
     return lesson_record, method
 
 
-def qualified_note_limit(store, selected):
-    """Read the independently checked scope; old lessons never inherit32."""
+def qualified_query_profile(store, selected):
+    """Read the independently checked query shape, not a host/model preference."""
     records = RecordService(store)
     rule = records.read(selected[0])['payload']['rule']
     trial = records.read(rule['trial_record_id'])['payload']
-    return trial['results']['EVALUATE']['qualification_scope']['max_notes']
+    profile = trial['results']['EVALUATE']['evaluator']
+    if profile not in QUALIFICATION_SCOPES:
+        raise CoreError('NOTE_STRATEGY_SCOPE_BOUND')
+    return profile
+
+
+def qualified_note_limit(store, selected):
+    """Old lessons inherit neither a wider corpus nor broader query shapes."""
+    return QUALIFICATION_SCOPES[qualified_query_profile(store, selected)]['max_notes']
 
 
 def case_for(snapshot, terms, label):
@@ -265,6 +299,37 @@ def probes(snapshot, *, partial=False):
                 return
             if word_queries(terms):
                 yield row["memory_id"], terms
+
+
+def text_probes(snapshot):
+    """Retained-source shape gaps only, never transient ordinary chat content."""
+    for row in snapshot['notes']:
+        normalized = unicodedata.normalize('NFKC', row['text']).casefold()
+        spans = list(re.finditer(r'\S+', normalized))
+        candidates = []
+        for left, right in zip(spans, spans[1:]):
+            separator = normalized[left.end():right.start()]
+            if len(separator) > 1:
+                candidates.append(normalized[left.start():right.end()])
+        for span in spans:
+            term = span.group().rstrip('.,;:!?')
+            if re.search(r'\w[+/:.-]|[+/]\w', term) and not word_queries((term,)):
+                candidates.append(term)
+        seen = set()
+        for term in candidates:
+            if query_allowed(TEXT_EVALUATORS[snapshot['max_notes']], (term,)) and term not in seen:
+                seen.add(term)
+                yield row['memory_id'], (term,)
+
+
+def study_cases(snapshot, terms, label):
+    positive = case_for(snapshot, terms, label)
+    result = [positive]
+    if snapshot_evaluator(snapshot) in TEXT_EVALUATORS.values():
+        collapsed = tuple(re.sub(r'\s+', ' ', term) for term in terms)
+        if collapsed != terms and not NoteRetrievalEvaluator.oracle(snapshot, collapsed):
+            result.append(case_for(snapshot, collapsed, label+'-spacing-near-miss'))
+    return tuple(result)
 
 
 class NoteRetrievalGrowth:
@@ -314,7 +379,8 @@ class NoteRetrievalGrowth:
             if (
                 spec.domain != DOMAIN
                 or spec.hypothesis_policy != "PRACTICE_COMPARE"
-                or spec.hypotheses != METHODS[1:]
+                or spec.hypotheses != QUALIFICATION_METHODS[body['kind']][1:]
+                or any(type(case.data) is not dict or case.data.get('kind') != body['kind'] for case in (*spec.practice, *spec.evaluation, *spec.transfer))
                 or spec.baseline_method != "IDENTITY"
                 or spec.estimated_cost_micro != 0
             ):
@@ -439,7 +505,28 @@ class NoteRetrievalGrowth:
             raise
         if len(snapshot["notes"]) < 3:
             return None  # no independent practice/evaluation/transfer yet
-        key = digest([r.config.entity_id, scope, snapshot["stamp"], *([self.max_notes] if self.max_notes != MAX_NOTES else [])])
+        selected = qualified_method(r.store, r.authority, r.config.entity_id, scope, r.config.privacy_classes)
+        profile = qualified_query_profile(r.store, selected) if selected else None
+        candidates = tuple(text_probes(snapshot))
+        if profile in TEXT_EVALUATORS.values():
+            return self._review({**snapshot, 'profile': TEXT_EVALUATORS[self.max_notes]}, candidates=candidates)
+        result = self._review(snapshot)
+        if result and result['note_retrieval'] == 'OFFERED_TO_C':
+            return result
+        if candidates:
+            # A new query shape needs a new trial, never a counterexample to a
+            # method that was only qualified for WORDLIKE inputs.
+            text_result = self._review({**snapshot, 'profile': TEXT_EVALUATORS[self.max_notes]}, candidates=candidates)
+            if text_result is not None:
+                return text_result
+        return result
+
+    def _review(self, snapshot, *, candidates=None):
+        r = self.runtime
+        scope = snapshot['scope']
+        profile = snapshot_evaluator(snapshot)
+        key = digest([r.config.entity_id, scope, snapshot["stamp"], *([self.max_notes] if self.max_notes != MAX_NOTES else []),
+                      *([profile] if profile in TEXT_EVALUATORS.values() else [])])
         if r.store.db.execute(
             "SELECT 1 FROM events WHERE source_namespace='living.note-retrieval' AND source_key=?", (key,)
         ).fetchone():
@@ -447,11 +534,17 @@ class NoteRetrievalGrowth:
         selected = qualified_method(r.store, r.authority, r.config.entity_id, scope, r.config.privacy_classes)
         if selected and qualified_note_limit(r.store, selected) < self.max_notes:
             selected = None  # Independent scope qualification, not a counterexample to16.
+        if selected and qualified_query_profile(r.store, selected) != profile:
+            selected = None
         gaps = []
-        for mid, terms in probes(snapshot, partial=selected is not None):
+        checked = []
+        for mid, terms in (candidates if candidates is not None else probes(snapshot, partial=selected is not None)):
             method = selected[1] if selected else "IDENTITY"
             expected = self.evaluator.oracle(snapshot, terms)
-            actual = sorted(n["memory_id"] for n in self.evaluator.lookup(method, terms, snapshot))
+            literal = self.evaluator.lookup('IDENTITY', terms, snapshot)
+            actual_rows = literal or self.evaluator._normalized_lookup(method, terms, snapshot)
+            actual = sorted(n["memory_id"] for n in actual_rows)
+            checked.append((mid, terms, expected, actual, literal))
             if actual != expected and expected and mid not in {m for m, _ in gaps}:
                 gaps.append((mid, terms))
                 if len(gaps) == 3:
@@ -462,7 +555,10 @@ class NoteRetrievalGrowth:
             self.assess(selected, snapshot, gaps[0][1], "counter." + key[:24])
         elif selected:
             support = set(RecordService(r.store).support(selected[0]))
-            later = next(((mid, terms) for mid, terms in probes(snapshot) if mid not in support), None)
+            # A literal hit does not demonstrate that the learned method was
+            # used. Credit only an actual source-distinct normalized success.
+            later = next(((mid, terms) for mid, terms, expected, actual, literal in checked
+                          if mid not in support and expected and not literal and actual == expected), None)
             if later:
                 self.assess(selected, snapshot, later[1], "reuse." + key[:24])
         study = None
@@ -492,11 +588,11 @@ class NoteRetrievalGrowth:
                 learning_key=learning_key,
                 domain=DOMAIN,
                 baseline_method="IDENTITY",
-                hypotheses=METHODS[1:],
+                hypotheses=QUALIFICATION_METHODS[profile][1:],
                 hypothesis_policy="PRACTICE_COMPARE",
-                practice=(case_for(snapshot, gaps[0][1], "practice"),),
-                evaluation=(case_for(snapshot, gaps[1][1], "evaluation"),),
-                transfer=(case_for(snapshot, gaps[2][1], "transfer"),),
+                practice=study_cases(snapshot, gaps[0][1], "practice"),
+                evaluation=study_cases(snapshot, gaps[1][1], "evaluation"),
+                transfer=study_cases(snapshot, gaps[2][1], "transfer"),
             )
             service.specs[learning_key] = spec
             _, result, verification = self.experience(

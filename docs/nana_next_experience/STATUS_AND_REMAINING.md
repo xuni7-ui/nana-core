@@ -74,3 +74,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 text-query研究：同32note/100ms24固定查询，现有WORDLIKE资格8/8支持项正确+16不支持；放宽JOIN有3误召，源空白保留NFKC原型24/24零误召。原G旧资格/撤回/事实保持，0模型动作；不是新技能或产品资格。下一原G独立TEXTprofile/原语/heldout/后续场景与context接线，不扩大常量替代评价。证据text-query-research-20261111。c30原生CI42967726558当时仍执行，8ae失败仍保留独立资格差额。
+
+
+2026-11-11 TEXT原G接线：旧WORDLIKE16/32不升级，新增TEXT16/32各经原C和G独立资格，未见8来源/24查询、同主体重启与换fixture模型后的实际C++context/RENDER通过；原学源撤回后资格和settled投影失效。普通literal命中不再冒领方法成长，实际normalized复用才记独立assessment。45相关21s/最终3项2.59s，8fixture真实0，无新Store/loop/authority。数据/旧binary回退/新安装/native/实机/真实自然度长期待；不是原A–H总完成。c30远端sandbox11+128checks47.12s已PASS，8ae首7失败原样保留。证据text-query-original-g-20261111。

@@ -13,7 +13,7 @@ from ...storage import canonical,digest
 URI=r'^(?:synthetic|project|hands)://[A-Za-z0-9/._:-]{1,160}$'
 class ObserveArgs(DTO): pass
 class ComputeArgs(DTO):
-    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD','PYTHON_TOP_DEFS','PYTHON_AST_API','MD_OUTLINE_1','MD_OUTLINE_2','MD_OUTLINE_3','MD_OUTLINE_4','MD_OUTLINE_5','MD_OUTLINE_6','HANDS_APPEND','HANDS_REPLACE','HANDS_POSITIONAL','HANDS_NAMED','HANDS_UNIQUE_LINES','HANDS_MOVE_DECLARED']
+    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD','NFKC_CASEFOLD','PYTHON_TOP_DEFS','PYTHON_AST_API','MD_OUTLINE_1','MD_OUTLINE_2','MD_OUTLINE_3','MD_OUTLINE_4','MD_OUTLINE_5','MD_OUTLINE_6','HANDS_APPEND','HANDS_REPLACE','HANDS_POSITIONAL','HANDS_NAMED','HANDS_UNIQUE_LINES','HANDS_MOVE_DECLARED']
     data_privacy: Literal['PUBLIC','PROJECT','PERSONAL','SECRET'] = 'PUBLIC'
     data: Any = None
     input_from: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -62,6 +62,11 @@ class LocalWorldRegistry:
         bounded_data(result)
         return result
 
+def nfkc_casefold(data):
+    if type(data) is not str:raise CoreError('WORLD_TEXT_INPUT_REQUIRED')
+    return unicodedata.normalize('NFKC',data).casefold()
+
+
 def transform(method,data):
     bounded_data(data)
     if method.startswith('HANDS_'):
@@ -87,6 +92,7 @@ def transform(method,data):
         return ' '.join(data)
     if type(data) is not str:raise CoreError('WORLD_TEXT_INPUT_REQUIRED')
     if method=='CASEFOLD':return data.casefold()
+    if method=='NFKC_CASEFOLD':return nfkc_casefold(data)
     if method=='SPLIT_SPACE':return data.split(' ')
     if method=='UNICODE_WORDS':return unicodedata.normalize('NFKC',data).split()
     raise CoreError('WORLD_METHOD_UNKNOWN')
