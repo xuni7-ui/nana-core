@@ -3559,3 +3559,8 @@ CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继
 ### 2026-11-11 · 新缺口不能被异因旧成功误结案，真实复用也不必重学
 
 实际同一maintenance内旧JOIN复用和新TEXT缺口被project_need按domain/time误SETTLED，C只剩WATCH；1首错保留。改为同失败experience或独立核验证据可读祖先明确关联最新failure.result，成功/反例都按因果限定，不改原C已解缺口guard/权限预算。11通过9.24s→28通过14.87s（同clock/更晚异因成功、异因counter均控制），directRecordSupport首修过严导致真实旧方法解决新缺口仍OPEN的transfer1失败0.51s保留；复用原scope/privacy/128metadata祖先逻辑后29通过15.16s，旧方法不新增lesson即可真实解决新失败。原Foundation实际SIGKILL/连续性/反例重开/withdraw、旧G与16/32保留。证据competence-gap-causality-20261111/09hash锚；上条原语拼写NFCK更正NFKC不改事实。6a实际CI45Core31.10s/81unit/104browser/live2.98s/Node成功，2原reportingwarning，当前后继CI待。下一原G资格同Store冻结24对照/旧binary新profile恢复，原A–H/CURRENT266+409/native/APK/生产边界保持，17:50启用不停车。
+
+
+### 2026-11-11 · 实际原G资格后的同库32条文本查询对照
+
+复用现有probe加显式--qualified，原C/G用独立先前3TEXT源完成EVAL/TRANSFER后才加入冻结8later源，同Store32note/100ms/4results；旧8ae真实WORDLIKE组件支持8/24均正确+16unsupported，新实际G资格24/24/0误召，纯JOIN放宽18/24/3误召另列。含证书验证实际P50/P952.699/3.279ms，不与旧部分eligible或prototype误作提速；0模型动作、事实/学源与later撤回真实检查，原始独立trial/样本入库。源码仅tool模式扩展，默认research不改，candidate_promoted false指未动CURRENT/production。证据text-query-g-compare-20261111/09锚。0b实际CI43Core34.47s/clientSUCCESS，3原reportingwarning，非全仓。下一旧已安装binary对新完成/待恢复TEXT数据兼容与返回、减少已证多余CIclient重复，然后其余原A–H，CURRENT266+409不变，17:50启用不停车。

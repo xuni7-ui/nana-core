@@ -80,3 +80,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 competence因果补充：同域旧成功（同clock或更晚）不能误关新TEXT缺口，异因反例不能误重开已解决问题；真实旧方法应用新缺口时，独立核验及对应结果祖先证据可结案且不必再学。29相关15.16s，含原S3实际SIGKILL/恢复/撤回及原G；首错和过严direct-support修复的首错均保留。6a精确CI45Core/81unit/104browser成功，新源码后继CI待。原A–H/长期自然度/新安装及旧binary兼容未完成，CURRENT266+409保持。证据competence-gap-causality-20261111。
+
+
+2026-11-11 actualG同库对照：--qualified先原C/G独立评估TEXT32，再8未见源，同32/100ms24固定queries旧8支持正确+16unsupported→新24/24/0误召；实际资格核验在内P95为3.279ms，未作速度比较。无模型动作/生产。下一旧binary完成和pending新profile回退/返回实际探针、原A–H继续。证据text-query-g-compare-20261111。
