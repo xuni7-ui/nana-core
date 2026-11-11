@@ -1,0 +1,208 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[EXPLORE-cost] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f2c18560>
+behavior = 'EXPLORE', demand = 'cost'
+
+    @pytest.mark.parametrize('behavior,demand',[
+        ('EXPLORE','cost'),('CREATE','compute'),('CREATE','time'),('EXPLORE','interruption'),
+        ('LEARN','learning-cost'),
+    ])
+    def test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue(runtime,behavior,demand):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'demanding-personal-option',{'source':'SYNTHETIC demanding interest, not an executed activity'})
+        item=candidate(r,mid,value='LOW',novelty='REPEATED')
+        cue=item.cue.model_copy(update={'possible_behaviors':(behavior,'WATCH'),
+            'learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',time_compute_cost='HEAVY') if behavior=='LEARN' else None})
+        estimate=ActivityCost(**({'compute':'HEAVY'} if demand=='compute' else {'time':'LONG'} if demand=='time'
+            else {'interruption':'HEAVY'} if demand=='interruption' else {}))
+        item=item.model_copy(update={'cue':cue,'cost':'HEAVY' if demand=='cost' else 'LIGHT','resource_estimate':estimate})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==behavior and result['normative']=='ENDORSED'
+E       AssertionError: assert ('REST' == 'EXPLORE'
+E         
+E         - EXPLORE
+E         + REST)
+
+tests/open_life/test_attention_demand.py:26: AssertionError
+_ test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[CREATE-compute] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f2a0e330>
+behavior = 'CREATE', demand = 'compute'
+
+    @pytest.mark.parametrize('behavior,demand',[
+        ('EXPLORE','cost'),('CREATE','compute'),('CREATE','time'),('EXPLORE','interruption'),
+        ('LEARN','learning-cost'),
+    ])
+    def test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue(runtime,behavior,demand):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'demanding-personal-option',{'source':'SYNTHETIC demanding interest, not an executed activity'})
+        item=candidate(r,mid,value='LOW',novelty='REPEATED')
+        cue=item.cue.model_copy(update={'possible_behaviors':(behavior,'WATCH'),
+            'learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',time_compute_cost='HEAVY') if behavior=='LEARN' else None})
+        estimate=ActivityCost(**({'compute':'HEAVY'} if demand=='compute' else {'time':'LONG'} if demand=='time'
+            else {'interruption':'HEAVY'} if demand=='interruption' else {}))
+        item=item.model_copy(update={'cue':cue,'cost':'HEAVY' if demand=='cost' else 'LIGHT','resource_estimate':estimate})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==behavior and result['normative']=='ENDORSED'
+E       AssertionError: assert ('REST' == 'CREATE'
+E         
+E         - CREATE
+E         + REST)
+
+tests/open_life/test_attention_demand.py:26: AssertionError
+_ test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[CREATE-time] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f28dc680>
+behavior = 'CREATE', demand = 'time'
+
+    @pytest.mark.parametrize('behavior,demand',[
+        ('EXPLORE','cost'),('CREATE','compute'),('CREATE','time'),('EXPLORE','interruption'),
+        ('LEARN','learning-cost'),
+    ])
+    def test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue(runtime,behavior,demand):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'demanding-personal-option',{'source':'SYNTHETIC demanding interest, not an executed activity'})
+        item=candidate(r,mid,value='LOW',novelty='REPEATED')
+        cue=item.cue.model_copy(update={'possible_behaviors':(behavior,'WATCH'),
+            'learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',time_compute_cost='HEAVY') if behavior=='LEARN' else None})
+        estimate=ActivityCost(**({'compute':'HEAVY'} if demand=='compute' else {'time':'LONG'} if demand=='time'
+            else {'interruption':'HEAVY'} if demand=='interruption' else {}))
+        item=item.model_copy(update={'cue':cue,'cost':'HEAVY' if demand=='cost' else 'LIGHT','resource_estimate':estimate})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==behavior and result['normative']=='ENDORSED'
+E       AssertionError: assert ('REST' == 'CREATE'
+E         
+E         - CREATE
+E         + REST)
+
+tests/open_life/test_attention_demand.py:26: AssertionError
+_ test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[EXPLORE-interruption] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f2a17050>
+behavior = 'EXPLORE', demand = 'interruption'
+
+    @pytest.mark.parametrize('behavior,demand',[
+        ('EXPLORE','cost'),('CREATE','compute'),('CREATE','time'),('EXPLORE','interruption'),
+        ('LEARN','learning-cost'),
+    ])
+    def test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue(runtime,behavior,demand):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'demanding-personal-option',{'source':'SYNTHETIC demanding interest, not an executed activity'})
+        item=candidate(r,mid,value='LOW',novelty='REPEATED')
+        cue=item.cue.model_copy(update={'possible_behaviors':(behavior,'WATCH'),
+            'learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',time_compute_cost='HEAVY') if behavior=='LEARN' else None})
+        estimate=ActivityCost(**({'compute':'HEAVY'} if demand=='compute' else {'time':'LONG'} if demand=='time'
+            else {'interruption':'HEAVY'} if demand=='interruption' else {}))
+        item=item.model_copy(update={'cue':cue,'cost':'HEAVY' if demand=='cost' else 'LIGHT','resource_estimate':estimate})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==behavior and result['normative']=='ENDORSED'
+E       AssertionError: assert ('REST' == 'EXPLORE'
+E         
+E         - EXPLORE
+E         + REST)
+
+tests/open_life/test_attention_demand.py:26: AssertionError
+_ test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[LEARN-learning-cost] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f2a14170>
+behavior = 'LEARN', demand = 'learning-cost'
+
+    @pytest.mark.parametrize('behavior,demand',[
+        ('EXPLORE','cost'),('CREATE','compute'),('CREATE','time'),('EXPLORE','interruption'),
+        ('LEARN','learning-cost'),
+    ])
+    def test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue(runtime,behavior,demand):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'demanding-personal-option',{'source':'SYNTHETIC demanding interest, not an executed activity'})
+        item=candidate(r,mid,value='LOW',novelty='REPEATED')
+        cue=item.cue.model_copy(update={'possible_behaviors':(behavior,'WATCH'),
+            'learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',time_compute_cost='HEAVY') if behavior=='LEARN' else None})
+        estimate=ActivityCost(**({'compute':'HEAVY'} if demand=='compute' else {'time':'LONG'} if demand=='time'
+            else {'interruption':'HEAVY'} if demand=='interruption' else {}))
+        item=item.model_copy(update={'cue':cue,'cost':'HEAVY' if demand=='cost' else 'LIGHT','resource_estimate':estimate})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==behavior and result['normative']=='ENDORSED'
+E       AssertionError: assert ('REST' == 'LEARN'
+E         
+E         - LEARN
+E         + REST)
+
+tests/open_life/test_attention_demand.py:26: AssertionError
+______ test_demanding_interest_survives_restart_but_not_withdrawn_support ______
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f02f2a17bf0>
+
+    def test_demanding_interest_survives_restart_but_not_withdrawn_support(runtime):
+        r=runtime;support=adopt_interest(r)
+        path,clock,identity=r.store.path,r.clock.source,r.identity_id
+        event_id=r.store.one('subject_cycles',support[0].cycle_id)['subject_event_id']
+        support_mid=r.store.one('subject_events',event_id)['memory_id']
+        r.stop()
+        with open_runtime(path,clock) as current:
+            assert current.identity_id==identity
+            q=OpportunityQueue(current)
+            mid=capture(current,'restart-heavy-option',{'source':'SYNTHETIC independent candidate'})
+            item=candidate(current,mid,cost='HEAVY')
+>           assert judge(current,q,q.offer(item))['behavior']=='EXPLORE'
+E           AssertionError: assert 'REST' == 'EXPLORE'
+E             
+E             - EXPLORE
+E             + REST
+
+tests/open_life/test_attention_demand.py:46: AssertionError
+________________ test_old_cue_wire_has_no_default_demand_field _________________
+
+    def test_old_cue_wire_has_no_default_demand_field():
+        old={'schema_version':1,'cue_kind':'OPPORTUNITY','motivation_source':'CURIOSITY','topic_key':'world.question'}
+        cue=ConcernCue.model_validate_json(json.dumps(old))
+>       assert cue.attention_demand=='LIGHT' and 'attention_demand' not in json.loads(cue.model_dump_json())
+               ^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_attention_demand.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ConcernCue(schema_version=1, cue_kind='OPPORTUNITY', motivation_source='CURIOSITY', program_id=None, topic_key='world....y='LOW', not_before_us=0, valid_until_us=None, learning_value=None, share_assessment=None, opportunity_assessment=None)
+item = 'attention_demand'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'ConcernCue' object has no attribute 'attention_demand'
+
+../nana-test-env/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_attention_demand.py::test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[EXPLORE-cost]
+FAILED tests/open_life/test_attention_demand.py::test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[CREATE-compute]
+FAILED tests/open_life/test_attention_demand.py::test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[CREATE-time]
+FAILED tests/open_life/test_attention_demand.py::test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[EXPLORE-interruption]
+FAILED tests/open_life/test_attention_demand.py::test_sourced_interest_can_consider_demanding_activity_without_claiming_fatigue[LEARN-learning-cost]
+FAILED tests/open_life/test_attention_demand.py::test_demanding_interest_survives_restart_but_not_withdrawn_support
+FAILED tests/open_life/test_attention_demand.py::test_old_cue_wire_has_no_default_demand_field
+7 failed in 1.06s

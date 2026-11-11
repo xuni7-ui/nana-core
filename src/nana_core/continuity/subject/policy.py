@@ -195,6 +195,9 @@ def decide(event, situation, appraisal, motives):
         if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity or interested_social):
             return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
+        if cue.attention_demand=='HEAVY' and cue.urgency!='HIGH' and not (interested_learning or interested_activity or interested_social):
+            return ('DEFER',Judgment(stance='DEFER',reason='A demanding optional activity has no current supported interest outweighing its demand; this is not evidence of fatigue',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Leave this costly optional activity for a later choice',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         value=cue.learning_value
         if value and set(options)&{'LEARN','SEEK_CAPABILITY'}:
             low_value=value.goal_value=='LOW' and value.future_reuse=='LOW' and value.interest=='LOW' and value.relationship_relevance=='LOW'
@@ -202,7 +205,7 @@ def decide(event, situation, appraisal, motives):
             if low_value or (value.alternative=='AVAILABLE' and value.interest=='LOW'):
                 return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='NOT_WORTH_LEARNING: limited reuse/value or an available existing capability makes new learning unnecessary',source_ids=sources),
                     Intention(kind='NO_ACTION',purpose='Keep the gap visible without compulsory learning or creating a redundant plugin',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='WATCH'))
-            if value.risk=='HIGH' or (value.time_compute_cost=='HEAVY' and cue.urgency!='HIGH'):
+            if value.risk=='HIGH' or (value.time_compute_cost=='HEAVY' and cue.urgency!='HIGH' and not interested_learning):
                 return ('DEFER',Judgment(stance='DEFER',reason='Learning value does not currently justify its cost or risk',source_ids=sources),
                     Intention(kind='NO_ACTION',purpose='Defer learning while retaining the original interest',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         share=cue.share_assessment

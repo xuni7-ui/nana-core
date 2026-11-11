@@ -49,6 +49,8 @@ class ConcernCue(DTO):
     availability: Literal['AVAILABLE','BUSY','UNKNOWN'] = 'UNKNOWN'
     behavior_domain: Literal['SOCIAL_NEW_CONTACTS','COMPANIONSHIP','PROJECT','CREATIVE','REST'] | None = None
     cognitive_load: Literal['LOW','OCCUPIED','HIGH'] = 'LOW'
+    # Demand of a possible activity, not evidence of current fatigue/load.
+    attention_demand: Literal['LIGHT','HEAVY'] = 'LIGHT'
     urgency: Literal['NONE','LOW','RELEVANT','HIGH'] = 'LOW'
     not_before_us: int = Field(default=0,ge=0)
     valid_until_us: int | None = Field(default=None,ge=0)
@@ -61,6 +63,7 @@ class ConcernCue(DTO):
         if self.learning_value is None:value.pop('learning_value',None)
         if self.share_assessment is None:value.pop('share_assessment',None)
         if self.opportunity_assessment is None:value.pop('opportunity_assessment',None)
+        if self.attention_demand=='LIGHT':value.pop('attention_demand',None)
         return value
 
 

@@ -1,0 +1,103 @@
+..............FF.F..............................................         [100%]
+=================================== FAILURES ===================================
+_ test_external_admission_estimate_does_not_claim_cognitive_load[NONE-HEAVY-SHORT-SMALL-LIGHT-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f5e54ab8dd0>
+external = 'NONE', compute = 'HEAVY', time_cost = 'SHORT', storage = 'SMALL'
+interruption = 'LIGHT', expected = 'REST'
+
+    @pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
+        ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+    ])
+    def test_external_admission_estimate_does_not_claim_cognitive_load(
+            runtime, external, compute, time_cost, storage, interruption, expected):
+        from nana_core.continuity.open_life.opportunities import ActivityCost
+        r = runtime
+        adopt_interest(r)
+        mid = capture(r, 'cost-kind', {'source': 'SYNTHETIC independent enjoyable option'})
+        item = candidate(r, mid, value='LOW', novelty='REPEATED').model_copy(update={
+            'resource_estimate': ActivityCost(external=external, compute=compute,
+                time=time_cost, storage=storage, interruption=interruption)})
+        queue = OpportunityQueue(r)
+        result = judge(r, queue, queue.offer(item))
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'EXPLORE' == 'REST'
+E         
+E         - REST
+E         + EXPLORE
+
+tests/open_life/test_adopted_interest.py:97: AssertionError
+_ test_external_admission_estimate_does_not_claim_cognitive_load[NONE-LIGHT-LONG-SMALL-LIGHT-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f5e54aba750>
+external = 'NONE', compute = 'LIGHT', time_cost = 'LONG', storage = 'SMALL'
+interruption = 'LIGHT', expected = 'REST'
+
+    @pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
+        ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+    ])
+    def test_external_admission_estimate_does_not_claim_cognitive_load(
+            runtime, external, compute, time_cost, storage, interruption, expected):
+        from nana_core.continuity.open_life.opportunities import ActivityCost
+        r = runtime
+        adopt_interest(r)
+        mid = capture(r, 'cost-kind', {'source': 'SYNTHETIC independent enjoyable option'})
+        item = candidate(r, mid, value='LOW', novelty='REPEATED').model_copy(update={
+            'resource_estimate': ActivityCost(external=external, compute=compute,
+                time=time_cost, storage=storage, interruption=interruption)})
+        queue = OpportunityQueue(r)
+        result = judge(r, queue, queue.offer(item))
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'EXPLORE' == 'REST'
+E         
+E         - REST
+E         + EXPLORE
+
+tests/open_life/test_adopted_interest.py:97: AssertionError
+_ test_external_admission_estimate_does_not_claim_cognitive_load[UNKNOWN-LIGHT-SHORT-SMALL-HEAVY-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f5e54c87020>
+external = 'UNKNOWN', compute = 'LIGHT', time_cost = 'SHORT', storage = 'SMALL'
+interruption = 'HEAVY', expected = 'REST'
+
+    @pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
+        ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+    ])
+    def test_external_admission_estimate_does_not_claim_cognitive_load(
+            runtime, external, compute, time_cost, storage, interruption, expected):
+        from nana_core.continuity.open_life.opportunities import ActivityCost
+        r = runtime
+        adopt_interest(r)
+        mid = capture(r, 'cost-kind', {'source': 'SYNTHETIC independent enjoyable option'})
+        item = candidate(r, mid, value='LOW', novelty='REPEATED').model_copy(update={
+            'resource_estimate': ActivityCost(external=external, compute=compute,
+                time=time_cost, storage=storage, interruption=interruption)})
+        queue = OpportunityQueue(r)
+        result = judge(r, queue, queue.offer(item))
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'EXPLORE' == 'REST'
+E         
+E         - REST
+E         + EXPLORE
+
+tests/open_life/test_adopted_interest.py:97: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_adopted_interest.py::test_external_admission_estimate_does_not_claim_cognitive_load[NONE-HEAVY-SHORT-SMALL-LIGHT-REST]
+FAILED tests/open_life/test_adopted_interest.py::test_external_admission_estimate_does_not_claim_cognitive_load[NONE-LIGHT-LONG-SMALL-LIGHT-REST]
+FAILED tests/open_life/test_adopted_interest.py::test_external_admission_estimate_does_not_claim_cognitive_load[UNKNOWN-LIGHT-SHORT-SMALL-HEAVY-REST]
+3 failed, 61 passed in 5.10s

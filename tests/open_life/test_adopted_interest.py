@@ -78,10 +78,10 @@ def test_interest_restart_and_source_withdrawal_remove_the_exception(runtime):
 @pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
     ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
     ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
-    ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
-    ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+    ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+    ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'EXPLORE'),
     ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
-    ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+    ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'EXPLORE'),
 ])
 def test_external_admission_estimate_does_not_claim_cognitive_load(
         runtime, external, compute, time_cost, storage, interruption, expected):
@@ -97,6 +97,15 @@ def test_external_admission_estimate_does_not_claim_cognitive_load(
     assert result['behavior'] == expected
     estimate=queue.view()[0]['resource_estimate']
     assert estimate['external']==external and estimate['storage']==storage
+    # Revised contract: candidate demand is not current fatigue. The adopted
+    # interest can remain wanted; no execution/reservation is performed here.
+    import json
+    from nana_core.continuity.memory import MemoryService
+    snapshots=r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key='concern.world.question'").fetchall()
+    assert len(snapshots)==1
+    actual=json.loads(MemoryService(r.store).read(snapshots[0][0])['text'])
+    assert actual['cognitive_load']=='LOW'
+    assert actual.get('attention_demand','LIGHT')==('HEAVY' if compute=='HEAVY' or time_cost=='LONG' or interruption=='HEAVY' else 'LIGHT')
     from nana_core.continuity.records import RecordService
     result_cue=RecordService(r.store).read(r.store.one('subject_cycles',result['cycle_id'])['record_id'])['payload']
     if storage=='LARGE' and compute=='LIGHT' and time_cost=='SHORT' and interruption=='LIGHT':

@@ -1,0 +1,8 @@
+{
+  "src/nana_core/continuity/open_life/opportunities.py": "f486f0fd7cc3121289a29edf7486d08a8ff61f0d5ea92bba9df20a634916ebae",
+  "src/nana_core/continuity/subject/opportunities.py": "be4551da8da3b9e6ac8ac0b388b1b05ab901d5472f4385e674cae51c815acb42",
+  "src/nana_core/continuity/subject/policy.py": "e6d9703c1fe63c169442e01128f2b9caea110b54953d4ad1669c1dc4cc80fffa",
+  "tests/open_life/test_attention_demand.py": "d0aaab737f0121dfcada756bdda20bc2af7123da3813f51d47fb2bc1b3923ea8",
+  "tests/open_life/test_adopted_interest.py": "237636cbcc62b2d6300921eeb4ca6665bcc607c05cea5882e1ed621d73784647",
+  ".github/workflows/nana-next-qualification.yml": "6b6594be6e32ebb3f72dead4eb848fbe5d3019f60dc902c417822aa6275ae044"
+}
