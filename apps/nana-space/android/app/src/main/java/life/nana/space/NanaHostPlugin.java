@@ -48,6 +48,8 @@ public class NanaHostPlugin extends Plugin {
     private static final String ALIAS = "nana.space.session.aes.v1";
     private static final String CONTRACT = "nana-space-live/v2";
     private static final String PREFIX = "/api/nana-space/v2/";
+    private static final int MESSAGE_TIMEOUT_MS = 4 * 600000 + 30000;
+    private static final int SEQUENCE_TIMEOUT_MS = 2 * 4 * 600000 + 30000;
     private static final Set<String> PAGES = new HashSet<>(Arrays.asList(
         "home", "chat", "memories", "goals", "journal", "world", "growth", "devices", "runtime", "settings"));
     private final java.util.concurrent.atomic.AtomicBoolean streamingActive = new java.util.concurrent.atomic.AtomicBoolean(false);
@@ -118,8 +120,8 @@ public class NanaHostPlugin extends Plugin {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(base) + PREFIX + path).openConnection();
         connection.setInstanceFollowRedirects(false);
         connection.setConnectTimeout(10000);
-        // Independent max600s phases: one input2, finite sequence at most2*4.
-        connection.setReadTimeout("messages/sequence".equals(path) ? 2*4*600000+30000 : "messages".equals(path) ? 1230000 : 15000);
+        // Independent max600s phases: single queue2 + own2, finite sequence2*4.
+        connection.setReadTimeout("messages/sequence".equals(path) ? SEQUENCE_TIMEOUT_MS : "messages".equals(path) ? MESSAGE_TIMEOUT_MS : 15000);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Cache-Control", "no-store");
         if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -272,8 +274,9 @@ public class NanaHostPlugin extends Plugin {
     }
     private JSONObject httpMessageStream(JSONObject bound, JSONObject body, String token) throws Exception {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(bound.getString("base")) + PREFIX + "messages/stream").openConnection();
+        long started=SystemClock.elapsedRealtime();
         liveMessageConnection=connection;
-        connection.setInstanceFollowRedirects(false);connection.setConnectTimeout(10000);connection.setReadTimeout(1230000);
+        connection.setInstanceFollowRedirects(false);connection.setConnectTimeout(10000);connection.setReadTimeout(MESSAGE_TIMEOUT_MS);
         connection.setRequestMethod("POST");connection.setRequestProperty("Accept", "application/x-ndjson");
         connection.setRequestProperty("Cache-Control", "no-store");connection.setRequestProperty("Authorization", "Bearer " + token);
         connection.setRequestProperty("Content-Type", "application/json");
@@ -288,13 +291,13 @@ public class NanaHostPlugin extends Plugin {
             if(status>=400)throw new Exception("STREAM_INTERRUPTED_VERIFY_ONLY");
             String contentType=connection.getContentType();
             if(contentType==null || !contentType.startsWith("application/x-ndjson"))throw new Exception("INVALID_STREAM");
-            long started=SystemClock.elapsedRealtime();int total=0,frames=0;
+            int total=0,frames=0;
             ByteArrayOutputStream line=new ByteArrayOutputStream();
             try(InputStream input=connection.getInputStream()){
                 byte[] buffer=new byte[4096];int count;
                 while((count=input.read(buffer))!=-1){
                     total+=count;
-                    if(total>8388608 || SystemClock.elapsedRealtime()-started>1230000)throw new Exception("STREAM_RESPONSE_BOUND");
+                    if(total>8388608 || SystemClock.elapsedRealtime()-started>MESSAGE_TIMEOUT_MS)throw new Exception("STREAM_RESPONSE_BOUND");
                     for(int i=0;i<count;i++){
                         if(buffer[i]=='\n'){
                             if(++frames>1024)throw new Exception("STREAM_FRAME_BOUND");

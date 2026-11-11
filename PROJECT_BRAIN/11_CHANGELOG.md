@@ -3519,3 +3519,8 @@ typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageID
 ### 2026-11-11 · 长回复不因接纳后的会话自然过期丢失
 
 原AuthService/HTTP对messages/stream/sequence建立仅进程内/单handler/有限阶段预算许可，普通新请求仍600s到期。每帧及final原token/kind/generation/roles/device/CSRF继续，logout立即失效；active scope保留过期session行供原响应核验，finally释放，无新wire凭据/Store/主体。首次缺方法/2实际旧JSON401及新fixture导入collision保留；16新通过12.98s，47相关/1短完整prefix误用失败44.83s，换长原renderer后2SSE通过3.43s；加错UNKNOWN期望24/1失败保留，按原Core真实VERIFIED/新认证只读精确回执独立核验更正，未弱化执行/送达断言。最终25auth/新HTTP/SSE通过16.43s，真实模型0，无长sleep。ea精确CI29Core23.94s/79unit/104browser1.4m/build2.29s/Node成功，新源码CI待。证据admitted-response-20261111及09source-table锚。下一修客户端单请求整体期限遗漏原排队两阶段，继续原A–H；CURRENT266+409/native/APK/生产不变，17:50续办启用不停车。
+
+
+### 2026-11-11 · 单输入客户端整体期限包含原排队阶段
+
+原Core ordinary surface/stream包含队列2+自身2独立阶段，Web/Java原1230000ms仅自身，修为4*600000+30000；sequence8阶段不变，各provider默认120s/独立可配置不改。Java整体elapsed移至preheaders，原帧/字节/身份/撤销不改。虚拟1300s旧buffered/stream2失败保留，新18相关通过106ms/总688ms，TS无错误/livebuild2.77s；两次cwd命令错误无有效检查结果均不计通过。证据input-queue-timeout-20261111及09锚。Java仅源码未编译/APK/实机；未重跑无关浏览器/full/安装。474会话修复CI42963289849当时仍执行，不推断。下一原C任务demand误写HIGHload修复/其余原A–H，CURRENT266+409/生产保持，定时不暂停。

@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /tmp/nana-queue-budget-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-queue-budget-dist/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-queue-budget-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-queue-budget-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-queue-budget-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-queue-budget-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-queue-budget-dist/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+../../../../tmp/nana-queue-budget-dist/assets/clock-3-B-URctfM.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-queue-budget-dist/assets/eye-BERWgBFU.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-queue-budget-dist/assets/lock-keyhole-C1JNz9C0.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-queue-budget-dist/assets/shield-check-DbV68kL0.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-queue-budget-dist/assets/radio-3ZUyAKZO.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-queue-budget-dist/assets/refresh-cw-CrDr-5ai.js       0.84 kB │ gzip:  0.41 kB
+../../../../tmp/nana-queue-budget-dist/assets/sparkles-CNq5MJAE.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-queue-budget-dist/assets/smartphone-DELyp7tV.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-queue-budget-dist/assets/plus-D_sp5QgA.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-queue-budget-dist/assets/Avatar-C91izRT_.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-queue-budget-dist/assets/upload-DvDVAW8k.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-queue-budget-dist/assets/ui-Ct9VHtcH.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-queue-budget-dist/assets/sun-B8mAGIOF.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-queue-budget-dist/assets/monitor-DoRsZlP5.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-queue-budget-dist/assets/x-C--OregA.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-queue-budget-dist/assets/preferences-DqN8Ab4r.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-queue-budget-dist/assets/ChatPage-BQcVIPLg.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-queue-budget-dist/assets/SettingsPage-Sm-2nxnp.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-queue-budget-dist/assets/RuntimePage-BQ47D98q.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-queue-budget-dist/assets/CoreApp-Cz67wgof.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-queue-budget-dist/assets/ExplorePages-BJrGvkmS.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-queue-budget-dist/assets/index-MZbDzqvR.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-queue-budget-dist/assets/LiveSpace-CQ9m5Hy5.js      180.95 kB │ gzip: 60.61 kB
+../../../../tmp/nana-queue-budget-dist/assets/index-FcDVOqwQ.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.77s

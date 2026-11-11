@@ -1,0 +1,5 @@
+{
+  "apps/nana-space/src/data/v2.ts": "7bb62bd5e8e45851d6a5e3dc8ce6b92d2457bcadda6a7c779e6e21fceaf3993b",
+  "apps/nana-space/android/app/src/main/java/life/nana/space/NanaHostPlugin.java": "39909ea01dec02e313253181220a6b5fa39e4b3d37eb84c3fb63248e202b84d5",
+  "apps/nana-space/tests/chat-stream.test.ts": "4bde104a0bb3a70a7ddad3fbf49021c1dbe2a1c3553d691c9b80ee7dbeb8b630"
+}

@@ -1,0 +1,11 @@
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ✓ tests/chat-stream.test.ts (9 tests) 86ms
+ ✓ tests/v2-client.test.ts (9 tests) 20ms
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  05:05:47
+   Duration  688ms (transform 122ms, setup 0ms, collect 143ms, tests 106ms, environment 0ms, prepare 131ms)
+

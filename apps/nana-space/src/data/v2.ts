@@ -158,6 +158,10 @@ export function envelope(
   return row as Envelope;
 }
 
+// Original IPC includes up to two queue-wait phases plus this input's two phases.
+const MESSAGE_TIMEOUT_MS = 4 * 600000 + 30000;
+const SEQUENCE_TIMEOUT_MS = 2 * 4 * 600000 + 30000;
+
 export class V2Client {
   private incarnation = 0;
   private csrf = "";
@@ -184,7 +188,7 @@ export class V2Client {
             : {}),
         },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(path === "messages/sequence" ? 2*4*600000+30000 : path === "messages" ? 1230000 : method === "GET" ? 10000 : 22000),
+        signal: AbortSignal.timeout(path === "messages/sequence" ? SEQUENCE_TIMEOUT_MS : path === "messages" ? MESSAGE_TIMEOUT_MS : method === "GET" ? 10000 : 22000),
       });
     } catch {
       throw new V2Error(
@@ -377,7 +381,7 @@ export class V2Client {
       try {
         response = await fetch("/api/nana-space/v2/messages/stream", {method:"POST",credentials:"same-origin",
           cache:"no-store",headers:{"Content-Type":"application/json","X-Nana-CSRF":this.csrf},
-          body:JSON.stringify(body),signal:AbortSignal.timeout(1230000)});
+          body:JSON.stringify(body),signal:AbortSignal.timeout(MESSAGE_TIMEOUT_MS)});
       } catch { throw new V2Error("UNKNOWN_VERIFY_ONLY"); }
       if (!response.ok || !response.body) throw new V2Error("STREAM_INTERRUPTED_VERIFY_ONLY");
       if (!response.headers.get("Content-Type")?.startsWith("application/x-ndjson"))

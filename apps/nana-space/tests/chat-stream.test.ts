@@ -47,3 +47,23 @@ test("logout suppresses late chunks instead of re-binding a prior identity",asyn
  const show=vi.fn();const request=c.streamMessage(body,show);c.clear();controller.enqueue(encode(progress("MUST_NOT_SHOW")));
  await expect(request).rejects.toMatchObject({code:"SESSION_REVOKED"});expect(show).not.toHaveBeenCalled();
 });
+
+test.each(['buffered','stream'] as const)('an input queued behind two provider phases can finish its own %s response',async(kind)=>{
+ const c=await client();vi.useFakeTimers();
+ try{
+  vi.stubGlobal('AbortSignal',{timeout:(ms:number)=>{const controller=new AbortController();
+   setTimeout(()=>controller.abort(new DOMException('bounded request expired','TimeoutError')),ms);return controller.signal;}});
+  const fetch=vi.fn((_url:unknown,options?:RequestInit)=>new Promise<Response>((resolve,reject)=>{
+   const timer=setTimeout(()=>resolve(kind==='stream'
+    ?new Response(new ReadableStream({start(x){x.enqueue(encode(progress('SYNTHETIC after queue')));x.enqueue(encode(final()));x.close();}}),{headers:{'Content-Type':'application/x-ndjson'}})
+    :new Response(JSON.stringify(final().data))),1300000);
+   options?.signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(options.signal?.reason);},{once:true});
+  }));vi.stubGlobal('fetch',fetch);
+  const show=vi.fn();const pending=(kind==='stream'?c.streamMessage(body,show):c.write('message',body))
+   .then(value=>({ok:true,value}),error=>({ok:false,error}));
+  await vi.advanceTimersByTimeAsync(1300000);
+  const result=await pending;
+  expect(result).toMatchObject({ok:true,value:{data:{state:'VERIFIED',result:{text:'SYNTHETIC complete'}}}});
+  expect(fetch).toHaveBeenCalledTimes(1);if(kind==='stream')expect(show).toHaveBeenCalledTimes(1);
+ }finally{vi.clearAllTimers();vi.useRealTimers();}
+});

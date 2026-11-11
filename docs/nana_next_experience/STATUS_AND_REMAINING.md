@@ -56,3 +56,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 admitted-response补充：原600s会话自然过期不再中断同一已接纳回复；新请求仍过期，退出/设备撤销/降权即时阻断，原Core完成回执与客户端实际送达分开。25auth/新HTTP/SSE16.43s；更早47相关检查另记。证据admitted-response-20261111。下一修Web/native单输入整体1230s遗漏原Core排队两阶段，不称全链/手机/发行已完成。ea精确CI29Core/79unit/104browser已PASS，非全仓。
+
+
+2026-11-11 queue deadline补充：Web/Android源码单输入与流4阶段最大期限包含原Core有限排队两阶段；虚拟1300s buffered/stream旧2fail→18相关通过、TS/live2.77s。非实际22分钟性能/native编译/实机/发行资格。下一继续原C任务需求被写成疲倦的A–E缺口及全部原A–H。证据input-queue-timeout-20261111。
