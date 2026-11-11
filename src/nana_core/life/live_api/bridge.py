@@ -6,6 +6,7 @@ request; Core still decides WHAT/WHY and retains its original execution checks.
 
 import hashlib
 import json
+import re
 import secrets
 import threading
 import time
@@ -726,6 +727,8 @@ class GatewayService:
                     "exchange_record_id",
                     "raw_body_persisted",
                     "route",
+                    "respond_to_memory_ids",
+                    "reply_response_id",
                 )
                 if k in row
             }
@@ -766,14 +769,23 @@ class GatewayService:
             if state != "READY_LOCAL_GATES":
                 raise ApiError(state if isinstance(state, str) else "PROVIDER_READINESS_UNAVAILABLE", 409)
 
+        def verified_review(row):
+            if row.get('state') in {'SHADOW_REPLY_CANDIDATE','ALREADY_REVIEWED_NO_REPLAY','ALREADY_REVIEWED_SOURCE_RETIRED'}:
+                return True
+            return (row.get('state')=='SHADOW_INPUT_REVIEWED_NO_REPLY'
+                and row.get('render_state')=='DEFERRED_TO_CONTINUATION' and 'text' in row and row['text'] is None
+                and row.get('exchange_record_id') is None and row.get('raw_body_persisted') is False
+                and row.get('respond_to_memory_ids')==[] and row.get('reply_response_id') is None
+                and type(row.get('message_memory_id')) is str
+                and re.fullmatch(r'[A-Za-z0-9._:-]{1,128}',row['message_memory_id']) is not None)
+
         return self._call(
             principal,
             body,
             "MESSAGE",
             Role.CONVERSATION,
             call,
-            lambda row: row.get("state")
-            in {"SHADOW_REPLY_CANDIDATE", "ALREADY_REVIEWED_NO_REPLAY", "ALREADY_REVIEWED_SOURCE_RETIRED"},
+            verified_review,
             before,
         )
 

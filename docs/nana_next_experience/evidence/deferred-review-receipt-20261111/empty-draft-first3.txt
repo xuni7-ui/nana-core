@@ -1,0 +1,76 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[None] _
+
+tmp_path = PosixPath('/tmp/nana-empty-draft-first/test_empty_model_draft_is_an_e0')
+empty = None
+
+    @pytest.mark.parametrize('empty',[None,'','   '])
+    def test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech(tmp_path,empty):
+        from nana_core.life.application import LifeApplication
+        from tests.first_life_android_v2.test_supervisor import owned
+        from tests.first_life_android_v2.test_continuous_inputs import setup
+        from tests.independent_life.test_dialogue import relay
+        home,_,_=owned(tmp_path);setup(home)
+        with relay(home,'CHAT',renderer=lambda request:empty) as (router,calls),LifeApplication(home,router=router) as app:
+            app.pause();reply=app.chat('SYNTHETIC input with empty renderer',privacy='PROJECT',message_id='empty-draft')
+>           assert len(calls)==2 and reply['render_state']=='PROVIDER_EMPTY_DRAFT',reply
+E           AssertionError: {'message_id': 'empty-draft', 'message_memory_id': 'e56fafff-531c-4de1-a044-4f65f630e49e', 'provider_state': 'MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED', 'render_state': 'UNVERIFIED_MODEL_WORDING', ...}
+E           assert (2 == 2 and 'UNVERIFIED_MODEL_WORDING' == 'PROVIDER_EMPTY_DRAFT'
+E            +  where 2 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 8192, 'output_tokens': 1024, 'time...[],"source_event_ids":[]}],"content_digest":"33c3b4a97d146b8751d536051a2424ca395b7b610ca52b0bfd00a0d022a4c89d"}', ...}])
+E             
+E             - PROVIDER_EMPTY_DRAFT
+E             + UNVERIFIED_MODEL_WORDING)
+
+tests/first_life_android_v2/test_deferred_reply_receipt.py:76: AssertionError
+_ test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[] _
+
+tmp_path = PosixPath('/tmp/nana-empty-draft-first/test_empty_model_draft_is_an_e1')
+empty = ''
+
+    @pytest.mark.parametrize('empty',[None,'','   '])
+    def test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech(tmp_path,empty):
+        from nana_core.life.application import LifeApplication
+        from tests.first_life_android_v2.test_supervisor import owned
+        from tests.first_life_android_v2.test_continuous_inputs import setup
+        from tests.independent_life.test_dialogue import relay
+        home,_,_=owned(tmp_path);setup(home)
+        with relay(home,'CHAT',renderer=lambda request:empty) as (router,calls),LifeApplication(home,router=router) as app:
+            app.pause();reply=app.chat('SYNTHETIC input with empty renderer',privacy='PROJECT',message_id='empty-draft')
+>           assert len(calls)==2 and reply['render_state']=='PROVIDER_EMPTY_DRAFT',reply
+E           AssertionError: {'message_id': 'empty-draft', 'message_memory_id': 'b2a8b818-b59e-47a3-9002-a3d6c5945d2e', 'provider_state': 'MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED', 'render_state': 'UNVERIFIED_MODEL_WORDING', ...}
+E           assert (2 == 2 and 'UNVERIFIED_MODEL_WORDING' == 'PROVIDER_EMPTY_DRAFT'
+E            +  where 2 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 8192, 'output_tokens': 1024, 'time...[],"source_event_ids":[]}],"content_digest":"39f22bdf40c5e39f31dc47fe7858866f591c0d933a7a43bb2d0fdfb56f4417d2"}', ...}])
+E             
+E             - PROVIDER_EMPTY_DRAFT
+E             + UNVERIFIED_MODEL_WORDING)
+
+tests/first_life_android_v2/test_deferred_reply_receipt.py:76: AssertionError
+_ test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[   ] _
+
+tmp_path = PosixPath('/tmp/nana-empty-draft-first/test_empty_model_draft_is_an_e2')
+empty = '   '
+
+    @pytest.mark.parametrize('empty',[None,'','   '])
+    def test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech(tmp_path,empty):
+        from nana_core.life.application import LifeApplication
+        from tests.first_life_android_v2.test_supervisor import owned
+        from tests.first_life_android_v2.test_continuous_inputs import setup
+        from tests.independent_life.test_dialogue import relay
+        home,_,_=owned(tmp_path);setup(home)
+        with relay(home,'CHAT',renderer=lambda request:empty) as (router,calls),LifeApplication(home,router=router) as app:
+            app.pause();reply=app.chat('SYNTHETIC input with empty renderer',privacy='PROJECT',message_id='empty-draft')
+>           assert len(calls)==2 and reply['render_state']=='PROVIDER_EMPTY_DRAFT',reply
+E           AssertionError: {'message_id': 'empty-draft', 'message_memory_id': '39909a09-a997-401e-b43b-f17de204feb7', 'provider_state': 'MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED', 'render_state': 'UNVERIFIED_MODEL_WORDING', ...}
+E           assert (2 == 2 and 'UNVERIFIED_MODEL_WORDING' == 'PROVIDER_EMPTY_DRAFT'
+E            +  where 2 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 8192, 'output_tokens': 1024, 'time...[],"source_event_ids":[]}],"content_digest":"9a939e8901934060d07a9797e8d1a42e510d65cedcec30db6f994153e5b9e188"}', ...}])
+E             
+E             - PROVIDER_EMPTY_DRAFT
+E             + UNVERIFIED_MODEL_WORDING)
+
+tests/first_life_android_v2/test_deferred_reply_receipt.py:76: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_deferred_reply_receipt.py::test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[None]
+FAILED tests/first_life_android_v2/test_deferred_reply_receipt.py::test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[]
+FAILED tests/first_life_android_v2/test_deferred_reply_receipt.py::test_empty_model_draft_is_an_explicit_resource_result_not_invented_offline_speech[   ]
+3 failed, 5 deselected in 2.78s

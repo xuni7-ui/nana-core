@@ -3586,3 +3586,8 @@ Anthropic native endpoint/system/body/x-api-key/version/stop/usage复用原HTTP�
 显式隔离ControlServer opt-in复用原pending_inputs/C/Store/主体，两输入理解阶段4→3请求，表达阶段4次已发生调用不退款/不假投递，下一原C双源重组，旧USER保留/不造ASSISTANT。默认关闭，原BFF长锁/单条deferred和Web drain具体待开发；不宣称产品启用。首个2fail/2pass、54related、15边界、rest1fail修复→60related38.95s，duplicate导致误丢草稿1fail修复→16controls13.19s，所有原始证据保留。原source-key索引只读，限定目标queued event/隐私/thread/retained/断开/期限/stop；无第二权威/许可。workflow仅原conversation组增加现有native测试；pytest collection已去重60/89，不加无收益筛选框架。7b CI239Core143.95s/bwrap11/82unit/112browser/live3.03成功。证据inflight-draft-prototype-20261111/09锚，pip309项完整保留迁/tmp源链接根盘25MiB，未动数据源码Git旧发行。原A–H/CURRENT266+409不减，下一BFF/SDK认证接纳与显示再真实TLS联调。
 
 同批补齐长输入来源：原未回答USER仅1k使联合回复丢尾，保留原全≤2048临时body并在联合候选后转回原1k历史/截断标志，assistant不扩；正常既有sequence也获此修复。尾部2fail/2pass与2048Han回声夹具4fail/响应越界诊断入证，不提高生产输出bound；最终2048ASCII+>1024Han8对照、66相关44.53s及10尾部非持久化9.14s通过（artifact无canary，不冒充物理隐私闭包）。09最终6文件指纹锚更新，默认实验关/产品接线下一步不变。
+
+
+### 2026-11-11 · 独立deferred审阅回执与真实措辞归因
+
+Core投影原C输入源和仅非空已生成的responseID，BFF单条严格承认审阅无reply而不宣称送达；Web既有living投影处理独立/逆序双源、清provisional、UNKNOWN不作已说，状态不持久化。首HTTPUNKNOWN1fail修复；null/empty/blank renderer旧伪offline/model措辞3fail修复为PROVIDER_EMPTY_DRAFT通知，权限/费用/原C不替代。74相关57.27s，最终50后端50.84s含5负例及auth/HTTP/SSE/native，88前端5.18s/TS/Vite3.69s/16四视口28.1s。真实parentHTTP→Core但followup为ownedIPC，browser拦截；未宣称并发HTTP/实际手机/模型/生产。713确切CI111Core95.58s/clientskip复用。证据deferred-review-receipt-20261111/09指纹锚。下一认证绑定并发接纳/原锁优先控制/等候期隐私与Web调度/native能力核验后真实TLS，flag默认False，原A–H/266+409保留。

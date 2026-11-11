@@ -296,7 +296,7 @@ class LifeApplication:
         qid=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us(),priority=3))
         outcome=r.step();queue=r.store.one('runtime_queue',qid)
         if not outcome or not outcome.get('cycle') or queue['state']!='DONE':raise CoreError('LOCAL_INTERACTION_PENDING')
-        cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None
+        cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None;wording_generated=False
         def deferred_result():
             # This input has its own original C judgment, but no assistant speech
             # is reported. A completed private model draft can be discarded;
@@ -314,6 +314,7 @@ class LifeApplication:
                 'render_state':'DEFERRED_TO_CONTINUATION','mode':cycle.context_fit.mode,
                 'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':None,
                 'raw_body_persisted':retain_shared_life,'exchange_record_id':None,
+                'respond_to_memory_ids':[],
                 'external_social_send':False,'cycle_id':cycle.cycle_id,'cycle_record_id':cycle.record_id,
                 'intention_id':cycle.intention_id}
         can_defer=(cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.context_fit.mode!='RESPECT_BOUNDARY'
@@ -326,7 +327,9 @@ class LifeApplication:
         if cycle.context_fit.mode!='RESPECT_BOUNDARY' and self.router is not None and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED':
             try:
                 session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms,recipient_context=recipient_context)
-                draft=session.take_dialogue_draft(render_rid);render_state='UNVERIFIED_MODEL_WORDING'
+                draft=session.take_dialogue_draft(render_rid)
+                wording_generated=isinstance(draft,str) and bool(draft.strip())
+                render_state='UNVERIFIED_MODEL_WORDING' if wording_generated else 'PROVIDER_EMPTY_DRAFT'
             except CoreError as exc:render_state=exc.code
         if can_defer and render_state=='UNVERIFIED_MODEL_WORDING' and continuation_waiting():
             return deferred_result()
@@ -370,6 +373,8 @@ class LifeApplication:
             route=self.session.route_snapshot.model_dump(mode='json')
             route['returned_model_id']=self.session.proposal(render_rid).model_id
         return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'route':route,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False,
+            'reply_response_id':cycle.cycle_id if wording_generated else None,
+            'respond_to_memory_ids':list((*_respond_to,mid)) if wording_generated else [mid],
             'cycle_id':cycle.cycle_id,'cycle_record_id':cycle.record_id,'intention_id':cycle.intention_id}
 
     def _reviewed_chat(self,key):

@@ -105,3 +105,8 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 原C双判断和真实UDS同预算对照支持未发draft重组，理解中输入4→3请求；已完成旧draft不作已说/不退用量，stop/重复/新休息等边界16控制通过，60相关证据保留。显式opt-in默认关，BFF per-input deferred回执/并发接纳与Web/SDK仍需开发，不能称普通App体验已获得。inflight-draft-prototype-20261111原始首错/对照/源码锚。7b已资格239Core/82unit/112browser而非本后继全仓；原余A–H与266+409不变。
 
 同批长输入修复实际适用于现有正常排队序列：未回答USER保留全≤2048临时原文，联合候选后回1k普通历史，assistant不扩；最终66相关44.53s/10尾部非持久化9.14s通过，2048ASCII和>1024Han独立对照，非真实模型/物理闭包。生成中的自动插话仍隔离默认关，BFF/SDK/Web接线未完成。
+
+
+### 2026-11-11 · 单条审阅/未回复回执与前端来源显示
+
+BFF不再把Core已审阅未回复误作UNKNOWN，严格nullable/no-speech/source检查；Web双源/逆序仅显示实际后续回复、未知不升格旧draft。空modeldraft明确资源无词而非伪模型/离线措辞。最终50后端50.84s/88单测/TS/Vite/16视口通过；parent HTTP真实进Core而child为ownedIPC，浏览器mock，不能称并发HTTP已接。真正认证并发接纳/Web调度/native transport/真实TLS仍需开发与资格，Core实验默认关。证据deferred-review-receipt-20261111；原余A–H/CURRENT266+409不减。

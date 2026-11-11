@@ -1,0 +1,14 @@
+{
+  ".github/workflows/nana-next-qualification.yml": "1c08d89d199aac81764c646628651fc60ba5fe0a7d5e9896e16c8da0b609940e",
+  "apps/nana-space/src/data/living.ts": "a678161dd5597862959c2b9ea09f80542608fdaa88d9b9e0a6c71f1e28f7a264",
+  "apps/nana-space/src/data/readiness.ts": "367660773ce2935ffa3c54441d21e6a945052d18d2a0c7957a90048dc8e081ae",
+  "apps/nana-space/src/features/LiveSpace.tsx": "9c63dfe5942adb7760332da806df754390bf6ad86fb631271533e2abe8db29fe",
+  "apps/nana-space/src/features/v3/ChatPane.tsx": "cc19d3fd7a77f06b3bef81ddaa49bd8104237ff12593ba748d8fa47f5864fafd",
+  "apps/nana-space/tests/living.test.ts": "0aea0568c808f3ffd7651a26ae3a21025443195abb61b0479f42b8898174ffb3",
+  "apps/nana-space/tests/v3.spec.ts": "117159cf8a717f6ce19dc25c2015dea07c1795a56e79f1f332256bebc9454678",
+  "src/nana_core/life/application.py": "9754f14366359c87974439b3ffeb8b7dfe2a5bf516fcbdc1cf618f92b019e85b",
+  "src/nana_core/life/live_api/bridge.py": "ff7a3e94385cf8cfcfa74770e5b74364d35f064cca583695fd1b217723f98b80",
+  "src/nana_core/life/presentation.py": "7581b0f7ce2dbc37a7d00aecca66e9fa5617ebe6c737d0f36f4b6aeea827b2c1",
+  "tests/first_life_android_v2/test_deferred_reply_receipt.py": "4dc2aadce9dbf4ab4c78c959e08365827435181c54e4f113dd166b7ea685a189",
+  "tests/first_life_android_v2/test_message_sequence_http.py": "4ce6c515c6e3fc1040381f642f63de57b9e2e27f1bf4f3f7c4903c80b9efa90b"
+}

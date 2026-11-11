@@ -14,14 +14,15 @@ from tests.independent_life.test_dialogue import relay
 
 
 @contextmanager
-def sequence_api(tmp_path,roles=tuple(Role),*,stream_fixture=None,renderer=None):
+def sequence_api(tmp_path,roles=tuple(Role),*,stream_fixture=None,renderer=None,coalesce_continuations=False):
     home,binding,_=owned(tmp_path);setup(home)
-    with relay(home,'CHAT',stream_fixture=stream_fixture,renderer=renderer) as (router,calls),running_owner(home,router) as owner:
+    with relay(home,'CHAT',stream_fixture=stream_fixture,renderer=renderer) as (router,calls),running_owner(home,router,coalesce_continuations=coalesce_continuations) as owner:
         shutil.copyfile(home/'test-providers.json',home/'providers.json')
         supervisor=SimpleNamespace(home=home,binding=binding,provider_live_authorized=False,
             status=lambda:{'owner_epoch':owner['control'].app.runtime.lease.epoch,'process_ready':True,'source_commit':'a'*40},
             verify_binding=lambda:None)
         service=GatewayService(supervisor,AuthService(tmp_path/'auth.json',password=PW,roles=roles),tmp_path/'gateway')
+        service.fixture_owner=owner
         server=ApiServer(('127.0.0.1',0),service,public_origin=ORIGIN)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         try:yield server,service,calls

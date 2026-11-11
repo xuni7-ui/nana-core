@@ -19,6 +19,8 @@ export function readinessLabel(code: unknown): string {
     LIVE_PROVIDER_NOT_AUTHORIZED_OR_BUDGETED: "真实模型调用尚未授权或缺少额度",
     PROVIDER_READINESS_UNAVAILABLE: "暂时无法核实模型状态，请检查连接",
     SECRET_INPUT_CANCELLED: "已取消，没有提交凭据",
+    CONTINUATION_REPLY_BINDING_INVALID: "接续回执的来源尚未核实，未把草稿当成已发回复",
+    PROVIDER_EMPTY_DRAFT: "这次模型没有返回可用的回复",
   };
   return typeof code === "string" && labels[code] ? labels[code] : "状态尚未核实";
 }

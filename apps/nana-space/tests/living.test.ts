@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { platformChannels } from "../src/data/living";
-import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns } from "../src/data/living";
+import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../src/data/living";
 
 const groupMembers=()=>['one','two','parent'].map(id=>({id,input:'SYNTHETIC '+id,state:'REQUESTED',receiptId:'parent'}));
 const groupReceipt=()=>({receipt_id:'parent',operation:'MESSAGE_SEQUENCE',state:'VERIFIED',result:{
@@ -118,4 +118,52 @@ test("shared life shows only original approved non-delivered metadata, never a f
   expect(sharedCandidates({...projection, external_delivery: true})).toEqual([]);
   expect(sharedCandidates({...projection, items: [{...item, delivery: "DELIVERED"}]})).toEqual([]);
   expect(sharedCandidates({...projection, items: [{...item, source_record_ids: []}]})).toEqual([]);
+});
+
+const deferredReceipt=()=>({receipt_id:'root',operation:'MESSAGE',state:'VERIFIED',result:{
+  state:'SHADOW_INPUT_REVIEWED_NO_REPLY',render_state:'DEFERRED_TO_CONTINUATION',text:null,
+  message_memory_id:'memory.root',respond_to_memory_ids:[] as string[],raw_body_persisted:false,
+  exchange_record_id:null,external_delivery:false,completion_kind:'SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY'}});
+const combinedReceipt=()=>({receipt_id:'child',operation:'MESSAGE',state:'VERIFIED',result:{
+  state:'SHADOW_REPLY_CANDIDATE',render_state:'UNVERIFIED_MODEL_WORDING',text:'SYNTHETIC combined reply',
+  message_memory_id:'memory.child',respond_to_memory_ids:['memory.root','memory.child'],reply_response_id:'cycle.child'}});
+const independentTurns=()=>[{id:'root',input:'SYNTHETIC original',state:'REQUESTED',provisional:'SYNTHETIC unsent draft'},
+  {id:'child',input:'SYNTHETIC continuation',state:'REQUESTED'}];
+test('a verified deferred review clears provisional speech and does not pretend a reply or delivery',()=>{
+  const rows=messageReceiptTurns('root',deferredReceipt(),independentTurns());
+  expect(rows[0]).toMatchObject({state:'DEFERRED_REPLY',messageMemoryId:'memory.root'});
+  expect(rows[0].reply).toBeUndefined();expect(rows[0].provisional).toBeUndefined();
+  expect(rows[1]).toEqual(independentTurns()[1]);
+});
+test('independent original receipts display one reply tied to both source inputs',()=>{
+  const a=messageReceiptTurns('root',deferredReceipt(),independentTurns());
+  const rows=messageReceiptTurns('child',combinedReceipt(),a);
+  expect(rows.map(r=>r.state)).toEqual(['GROUPED','VERIFIED']);
+  expect(rows.filter(r=>r.reply).map(r=>r.reply)).toEqual(['SYNTHETIC combined reply']);
+  expect(rows[0].receiptId).toBeUndefined(); // keep individual verification, not a sequence parent
+});
+test('reversed completion order still removes the old unsent draft only after its own reviewed receipt',()=>{
+  const a=messageReceiptTurns('child',combinedReceipt(),independentTurns());
+  expect(a[0].state).toBe('REQUESTED');
+  const rows=messageReceiptTurns('root',deferredReceipt(),a);
+  expect(rows.map(r=>r.state)).toEqual(['GROUPED','VERIFIED']);expect(rows[0].provisional).toBeUndefined();
+});
+test('UNKNOWN cannot promote leftover wording or claim it answered a deferred parent',()=>{
+  const a=messageReceiptTurns('root',deferredReceipt(),independentTurns());
+  const rows=messageReceiptTurns('child',{...combinedReceipt(),state:'UNKNOWN'},a);
+  expect(rows.map(r=>r.state)).toEqual(['DEFERRED_REPLY','UNKNOWN']);expect(rows.some(r=>r.reply)).toBe(false);
+});
+test('malformed reviewed or reply source bindings stay UNKNOWN without invented speech',()=>{
+  const wrong=deferredReceipt();wrong.result.respond_to_memory_ids.push('foreign');
+  expect(messageReceiptTurns('root',wrong,independentTurns())[0]).toMatchObject({state:'UNKNOWN',error:'CONTINUATION_REPLY_BINDING_INVALID'});
+  const a=messageReceiptTurns('root',deferredReceipt(),independentTurns());
+  const bad=combinedReceipt();bad.result.respond_to_memory_ids=['memory.root'];
+  const rows=messageReceiptTurns('child',bad,a);expect(rows[0].state).toBe('DEFERRED_REPLY');
+  expect(rows[1].state).toBe('UNKNOWN');expect(rows[1].reply).toBeUndefined();
+});
+test('legacy single replies still display and withdrawn bodies clear the input',()=>{
+  const turns=independentTurns();
+  expect(messageReceiptTurns('root',{state:'VERIFIED',result:{text:'legacy reply'}},turns)[0].reply).toBe('legacy reply');
+  const rows=messageReceiptTurns('root',{state:'VERIFIED',result:{state:'BODY_WITHHELD_SOURCE_CHANGED'}},turns);
+  expect(rows[0]).toEqual({id:'root',input:'',state:'SOURCE_WITHHELD'});expect(rows[1]).toEqual(turns[1]);
 });

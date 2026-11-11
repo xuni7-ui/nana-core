@@ -1,0 +1,33 @@
+[WebServer] (node:51865) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:51878) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:51900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order (2.1s)
+  ✓   2 [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply (1.7s)
+  ✓   3 [desktop] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: VERIFIED child keeps speech and review distinct (1.4s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: UNKNOWN child keeps speech and review distinct (1.5s)
+(node:52178) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [phone-360] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order (1.8s)
+  ✓   6 [phone-360] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply (1.5s)
+  ✓   7 [phone-360] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: VERIFIED child keeps speech and review distinct (1.2s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: UNKNOWN child keeps speech and review distinct (1.1s)
+(node:52468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone-390] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order (1.7s)
+  ✓  10 [phone-390] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply (1.3s)
+  ✓  11 [phone-390] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: VERIFIED child keeps speech and review distinct (1.1s)
+  ✓  12 [phone-390] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: UNKNOWN child keeps speech and review distinct (1.2s)
+(node:52764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-412] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order (1.8s)
+  ✓  14 [phone-412] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply (1.4s)
+  ✓  15 [phone-412] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: VERIFIED child keeps speech and review distinct (984ms)
+  ✓  16 [phone-412] › tests/v3.spec.ts:1542:54 › SYNTHETIC deferred individual review: UNKNOWN child keeps speech and review distinct (1.0s)
+
+  16 passed (28.1s)

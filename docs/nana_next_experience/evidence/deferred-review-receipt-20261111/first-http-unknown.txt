@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_deferred_parent_is_verified_review_without_speech_and_replays_only_its_receipt _
+
+tmp_path = PosixPath('/tmp/nana-deferred-http-first/test_deferred_parent_is_verifi0')
+
+    def test_deferred_parent_is_verified_review_without_speech_and_replays_only_its_receipt(tmp_path):
+        release=threading.Event();blocked=threading.Event();threads=[];parent={}
+        with sequence_api(tmp_path,coalesce_continuations=True) as (server,service,calls):
+            control=service.fixture_owner['control'];factory=control.app.router.factory;original=factory.create
+            def create(*args):
+                port=original(*args);exchange=port.exchange
+                def once(request):
+                    if request.cognitive_role=='INTERPRET' and not blocked.is_set():
+                        blocked.set();assert release.wait(4)
+                    return exchange(request)
+                port.exchange=once;return port
+            factory.create=create;headers=login(server,service)
+            body={**base(service,'deferred-parent'),'text':'SYNTHETIC original thought',
+                  'thread_id':'same-recipient','privacy_class':'PROJECT','require_model':True}
+            def send():parent['response']=http(server,'messages','POST',body,headers)
+            thread=threading.Thread(target=send,daemon=True);thread.start();threads.append(thread)
+            try:
+                assert blocked.wait(3)
+                child,done,t2=launch(service.supervisor.home,message('deferred-child','SYNTHETIC added thought',thread_id='same-recipient'))
+                threads.append(t2);wait_pending(control,1);release.set()
+                thread.join(5);assert not thread.is_alive() and done.wait(5)
+                code,envelope,_=parent['response'];receipt=envelope['data']
+>               assert code==200 and receipt['state']=='VERIFIED',envelope
+E               AssertionError: {'contract': 'nana-space-live/v2', 'realm': 'OWNED_DEVELOPMENT_ONLY', 'subject_id': 'd3c55331-f92b-47b2-81e5-e2c4ebc3f693', 'lineage_binding': '9c05f1f4d948da5879f9c52b9c79a4777cbf048bb2d8ae2194de2f8b09c9384b', ...}
+E               assert (200 == 200 and 'UNKNOWN' == 'VERIFIED'
+E                 
+E                 - VERIFIED
+E                 + UNKNOWN)
+
+tests/first_life_android_v2/test_deferred_reply_receipt.py:34: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_deferred_reply_receipt.py::test_deferred_parent_is_verified_review_without_speech_and_replays_only_its_receipt
+1 failed in 1.85s

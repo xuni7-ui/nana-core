@@ -69,6 +69,8 @@ export interface Turn {
   phase?: string;
   memoryUseSources?: MemoryUseSource[];
   receiptId?: string;
+  messageMemoryId?: string;
+  replyToMemoryIds?: string[];
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -288,8 +290,8 @@ export function ChatPane({
                 <span className="v3-user-initial">你</span>
               </div>
             )}
-            {t.state==="GROUPED" || t.state==="GROUP_PENDING" ?
-              (t.input && <p className="v3-muted">{t.state==="GROUPED"?"回应见下方":"这几句话的结果待核验"}</p>) : <div className="v3-reply-row">
+            {t.state==="GROUPED" || t.state==="GROUP_PENDING" || t.state==="DEFERRED_REPLY" ?
+              (t.input && <p className="v3-muted">{t.state==="GROUPED"?"回应见下方":t.state==="DEFERRED_REPLY"?"已接续，未单独回复":"这几句话的结果待核验"}</p>) : <div className="v3-reply-row">
               <Avatar size={34} />
               <div className="live-reply">
                 {t.reply ? (

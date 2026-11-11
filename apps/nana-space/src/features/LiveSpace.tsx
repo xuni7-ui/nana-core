@@ -74,7 +74,7 @@ import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
 import { PlatformPanel } from "./v3/PlatformPanel";
-import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns } from "../data/living";
+import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../data/living";
 import { languageFeedbackSample, languageFeedbackResponseBinding, reviewableResponse, type FeedbackChoice } from "../data/feedback";
 const v3Icons = {
   home: Home,
@@ -649,29 +649,9 @@ export function LiveSpace() {
     return b;
   };
   const updateTurn = (id: string, r: Envelope) => {
-    const d = object(r.data),
-      result = object(d.result || {});
+    const d = object(r.data);
     setTurns((xs) =>
-      sequenceReceiptTurns(id,d,xs) ?? xs.map((x) =>
-        x.id === id
-          ? {
-              ...x,
-              state: text(d.state),
-              provisional: undefined,
-              phase: undefined,
-              error: typeof d.error === "string" ? d.error : undefined,
-              remembered: result.raw_body_persisted === true,
-              exchangeId: typeof result.exchange_record_id === "string" ? result.exchange_record_id : undefined,
-              restored: x.pendingReceipt ? false : x.restored,
-              model: result.route && typeof result.route === "object" ? text(object(result.route).returned_model_id) || text(object(result.route).remote_model_id) : undefined,
-              reply: typeof result.text === "string" ? result.text : undefined,
-              provider:
-                typeof result.provider_state === "string"
-                  ? result.provider_state
-                  : undefined,
-            }
-          : x,
-      ),
+      sequenceReceiptTurns(id,d,xs) ?? messageReceiptTurns(id,d,xs),
     );
     setReceipt(d);
   };

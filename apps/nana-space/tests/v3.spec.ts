@@ -1538,3 +1538,38 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
   expect(state.requests.some(r=>['messages','host/operations','host/confirmations','providers/models','providers/credential'].includes(r.path))).toBe(false);
   await noHorizontalOverflow(page);
 });
+
+for(const outcome of ['VERIFIED','UNKNOWN'] as const)test(`SYNTHETIC deferred individual review: ${outcome} child keeps speech and review distinct`,async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:false,chat_streaming:false};
+  await open(page,'chat');
+  const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC original input');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(()=>state.messageRoutes?.length).toBe(1);
+  await input.fill('SYNTHETIC continued input');await page.getByRole('button',{name:'发送',exact:true}).click();
+  const first=state.messageRoutes![0].request().postDataJSON();
+  await state.messageRoutes![0].fulfill({status:200,json:envelope(state,{receipt_id:first.client_request_id,
+    operation:'MESSAGE',state:'VERIFIED',dispatch_happened:true,result:{state:'SHADOW_INPUT_REVIEWED_NO_REPLY',
+      render_state:'DEFERRED_TO_CONTINUATION',message_memory_id:'memory.original',respond_to_memory_ids:[],
+      text:null,raw_body_persisted:false,exchange_record_id:null,external_delivery:false,
+      completion_kind:'SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY'}})});
+  await expect(page.getByText('已接续，未单独回复',{exact:true})).toBeVisible();
+  await expect.poll(()=>state.messageRoutes?.length).toBe(2);
+  const child=state.messageRoutes![1].request().postDataJSON();
+  expect(child.client_request_id).not.toBe(first.client_request_id);
+  await state.messageRoutes![1].fulfill({status:200,json:envelope(state,{receipt_id:child.client_request_id,
+    operation:'MESSAGE',state:outcome,dispatch_happened:true,result:outcome==='VERIFIED'?{
+      state:'SHADOW_REPLY_CANDIDATE',render_state:'UNVERIFIED_MODEL_WORDING',text:'SYNTHETIC one combined response',
+      message_memory_id:'memory.child',respond_to_memory_ids:['memory.original','memory.child'],
+      reply_response_id:'cycle.child',external_delivery:false}: {}})});
+  if(outcome==='VERIFIED'){
+    await expect(page.getByText('SYNTHETIC one combined response',{exact:true})).toHaveCount(1);
+    await expect(page.getByText('回应见下方',{exact:true})).toHaveCount(1);
+    await expect(page.getByText('已接续，未单独回复',{exact:true})).toHaveCount(0);
+  }else{
+    await expect(page.getByText('已接续，未单独回复',{exact:true})).toBeVisible();
+    await expect(page.getByText('SYNTHETIC one combined response',{exact:true})).toHaveCount(0);
+  }
+  expect(state.messageBodies).toHaveLength(2);await noHorizontalOverflow(page);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC original input');
+});

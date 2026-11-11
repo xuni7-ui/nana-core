@@ -5,6 +5,54 @@ const record = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown> : null;
 
+/** A reviewed input is not assistant speech. Link replies only to the original
+ * Core's bounded source IDs, even when independent receipts arrive reversed.
+ */
+export function messageReceiptTurns(id:string,value:unknown,turns:Turn[]):Turn[] {
+  const data=record(value)||{},result=record(data.result)||{};
+  const safeId=(v:unknown):v is string=>typeof v==='string' && /^[A-Za-z0-9._:-]{1,128}$/.test(v);
+  const mid=safeId(result.message_memory_id)?result.message_memory_id:undefined;
+  const refs=Array.isArray(result.respond_to_memory_ids)?result.respond_to_memory_ids:undefined;
+  const bound=data.receipt_id===id;
+  const validRefs=!!(mid && refs && refs.length<=4 && new Set(refs).size===refs.length
+    && refs.every(safeId) && refs.includes(mid));
+  const deferred=result.state==='SHADOW_INPUT_REVIEWED_NO_REPLY';
+  const validDeferred=bound && data.state==='VERIFIED' && mid
+    && result.render_state==='DEFERRED_TO_CONTINUATION' && result.text===null
+    && result.raw_body_persisted===false && result.exchange_record_id==null
+    && Array.isArray(refs) && refs.length===0 && result.external_delivery===false
+    && result.completion_kind==='SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY';
+  const malformed=(deferred && !validDeferred) || (!deferred
+    && 'respond_to_memory_ids' in result && (!bound || !validRefs));
+  const wording=data.state==='VERIFIED' && !malformed && result.render_state==='UNVERIFIED_MODEL_WORDING'
+    && typeof result.text==='string' && !!result.text.trim() && validRefs && safeId(result.reply_response_id);
+  let next=turns.map((turn):Turn=>{
+    if(turn.id!==id)return turn;
+    if(result.state==='BODY_WITHHELD_SOURCE_CHANGED')return {id,input:'',state:'SOURCE_WITHHELD'};
+    const route=record(result.route);
+    const model=typeof route?.returned_model_id==='string' && route.returned_model_id
+      ? route.returned_model_id:typeof route?.remote_model_id==='string'?route.remote_model_id:undefined;
+    const common={...turn,state:typeof data.state==='string'?data.state:'',provisional:undefined,phase:undefined,
+      error:typeof data.error==='string'?data.error:undefined,remembered:data.state==='VERIFIED' && result.raw_body_persisted===true,
+      exchangeId:typeof result.exchange_record_id==='string'?result.exchange_record_id:undefined,
+      restored:turn.pendingReceipt?false:turn.restored,model,
+      reply:data.state==='VERIFIED' && typeof result.text==='string'?result.text:undefined,
+      provider:typeof result.provider_state==='string'?result.provider_state:undefined,
+      messageMemoryId:mid,replyToMemoryIds:wording?refs as string[]:undefined};
+    if(malformed)return {...common,state:'UNKNOWN',reply:undefined,error:'CONTINUATION_REPLY_BINDING_INVALID'};
+    if(validDeferred){
+      const covered=turns.some(t=>t.id!==id && t.state==='VERIFIED' && t.reply?.trim()
+        && t.replyToMemoryIds?.includes(mid!));
+      return {...common,state:covered?'GROUPED':'DEFERRED_REPLY',reply:undefined};
+    }
+    return common;
+  });
+  if(wording)next=next.map(t=>t.id!==id && t.state==='DEFERRED_REPLY'
+    && t.messageMemoryId && refs!.includes(t.messageMemoryId)
+    ? {...t,state:'GROUPED',reply:undefined,provisional:undefined,phase:undefined}:t);
+  return next;
+}
+
 /** Python's existing IPC uses ASCII-escaped JSON; reserve4096bytes for its
  * typed metadata. This estimate only chooses unsent grouping, never admission.
  */

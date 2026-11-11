@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 154,
-  "as_of_us": 1794394860005662,
+  "revision": 155,
+  "as_of_us": 1794398639993601,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_CORE_INFLIGHT_DRAFT_PROTOTYPE",
+  "status": "IN_PROGRESS_DEFERRED_REVIEW_RECEIPT_WIRED",
   "progress": [
-    "原Core插话opt-in双C不删/请求4→3、旧draft不伪已说；现有排队序列未回答USER全2048临时保留，生成候选后回1k历史。66相关44.53s及10隐私尾部9.14s通过；原型默认关/BFF-Web待接，7b CI239/82/112。",
+    "原Core→BFF单条deferred审阅回执→Web已区分未回复/双源后续/UNKNOWN与逆序；空模型draft不再伪离线模型措辞。50最终后端50.84s/88前端/编译/16四视口通过，HTTP后续仍ownedIPC夹具，真实并发HTTP待接。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,7 +23,7 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "已排队多输入共同回应已接；生成中插话/未发草稿已获原Core隔离opt-in同预算对照，默认关闭。BFF并发认证接纳/每条deferred回执、SDK-Web显示及真实TLS联调仍需开发，retained/真实送达/C-S3-S8长期因果/匹配APK待。",
+    "排队多输入/未回答全文已接；Core生成中插话实验默认关，单条deferred回执与Web显示已接。BFF按principal/context/owner并发接纳及Web并发drain尚未开发；需核native transport并发、等待期隐私闭包、真实TLS，再受控启用；APK/手机/投递长期待。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
@@ -31,14 +31,14 @@
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/deferred-review-receipt-20261111/README.md",
     "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
     "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
     "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
-    "docs/nana_next_experience/STATUS_AND_REMAINING.md",
-    "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md"
+    "docs/nana_next_experience/STATUS_AND_REMAINING.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2679,3 +2679,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [实测] ControlServer显式coalesce_continuations=True仅受控DEV，默认False、不在产品宣告；原C各判断不删，真实UDS/loopback对照：INTERPRET中插话请求4→3，RENDER中旧完成draft不作为已说，4次用量仍保留，新C双源回应。60相关38.95s，后补已处理duplicate错误抑制草稿的首错与indexed source-key修复，最终16控制13.19s；stop/隐私/断开/期限/retained/不同thread/新休息均有边界。新休息不能强迫先发旧草稿，原C承接。原BFF单条deferred verifier/长锁及Web串行drain尚未接，此为具体开发项，不外推体验/生产。证据inflight-draft-prototype-20261111，源码表SHA256 8a37ae4f8b20981d7363d90f4008e75362e21f9d17681662c646d40326d6fbe3不自指。7b实际CI239Core143.95s/bwrap11/82unit/112browser/build3.03成功，非本原型或最新全仓。仅309项pip缓存完整指纹迁/tmp/原链接，根盘3.6→25MiB；未动Git/源码/DB/旧release。原A–H与266+409保留。
 
 本批后续收口：已有正常surface-sequence与隔离插话的未回答USER原1024字符节选会丢尾，新增仅未回答输入完整≤2048字符临时上下文，生成联合候选后回原1k节选；assistant历史不扩。尾部首错2fail/2pass、2048Han回声夹具越原output bound4fail/诊断均保留，不放宽生产上限；最终2048ASCII及>1024Han同预算8对照通过，66相关44.53s、10尾部非持久化9.14s通过。source-table最终8a37ae4f8b20981d7363d90f4008e75362e21f9d17681662c646d40326d6fbe3（6文件），原型仍默认关闭且BFF/Web未接，正常排队序列本修复已有。
+
+
+### 2026-11-11 · 审阅但未回复的独立回执与显示
+
+[实测] Core原C源MIDs/非空生成才有cycle responseID，BFF严格确认deferred原审阅而非送达；前端清未发草稿/逆序双源链接/UNKNOWN不升格，状态仅React内存。空renderer null/空/空白不再伪离线或模型措辞，明确PROVIDER_EMPTY_DRAFT，不重派发/退账/编造主体沉默。首HTTPUNKNOWN及3空draft首错保留，74相关/最终50后端50.84s/88前端5.18s/TS/live3.69s/16四视口28.1s通过。HTTP parent真实进原Core，但followup仍ownedIPC，browser为拦截合成，不冒充并发HTTP；该接纳与Web drain仍待实现，flag仍默认关。713实际CI111Core95.58s/client正确skip。证据deferred-review-receipt-20261111，源码表SHA256 2d278d484a25e636cca3e82e17a5b4ccc9a0ec67f43d85e1a4afb5de847e1822不自指。原A–H/CURRENT266+409/native设备/真实模型/生产未动。
