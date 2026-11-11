@@ -203,3 +203,51 @@ test("V4 real Core runtime budget saves through TLS Web without a model call or 
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   expect(errors).toEqual([]);
 });
+
+test("V4 real Core model setup resumes its original receipt after lost ACK",async({page})=>{
+  const target=JSON.parse(await readFile(process.env.NANA_V2_TARGET!,"utf8"));
+  const errors:string[]=[],commands:Record<string,any>[]=[],writes:string[]=[];
+  let receiptId='',receiptReads=0;
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('request',request=>{
+    const path=new URL(request.url()).pathname;
+    if(request.method()==='GET' && path.endsWith('/receipts/'+receiptId))receiptReads++;
+    if(request.method()!=='GET')writes.push(path);
+  });
+  // Fault injection only: each POST reaches the actual TLS BFF/Core and its
+  // real ledger. Drop exactly the first successful ACK; fabricate no result.
+  await page.route('**/api/nana-space/v2/providers/commands',async route=>{
+    commands.push(route.request().postDataJSON());
+    const response=await route.fetch(),value=await response.json();
+    expect(value.data.state).toBe('VERIFIED');
+    if(commands.length===1){receiptId=value.data.receipt_id;return route.abort('failed');}
+    return route.fulfill({response});
+  });
+  await page.goto('/index.html?source=live#models');
+  await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
+  await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
+  await page.getByRole('button',{name:'安全连接',exact:true}).click();
+  const setup=page.locator('.next-setup');await expect(setup).toBeVisible();
+  const before=await(await page.request.get('/api/nana-space/v2/views/settings')).json();
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+  await expect(setup.getByRole('button',{name:'核验并继续配置',exact:true})).toBeEnabled();
+  expect(commands).toHaveLength(1);
+  await setup.getByRole('button',{name:'核验并继续配置',exact:true}).click();
+  await expect(setup).toContainText('供应商与模型已保存');
+  expect(receiptReads).toBe(1);expect(commands).toHaveLength(2);
+  expect(commands.map(body=>body.command.operation)).toEqual(['UPSERT_PROVIDER','UPSERT_MODEL']);
+  const pid=commands[0].command.provider.provider_profile_id,mid=commands[1].command.model.model_profile_id;
+  expect(commands[1].command.model.provider_profile_id).toBe(pid);
+  const after=await(await page.request.get('/api/nana-space/v2/views/settings')).json();
+  expect(after.subject_id).toBe(target.subject_id);expect(after.lineage_binding).toBe(target.lineage_binding);
+  expect(after.owner_epoch).toBe(before.owner_epoch);
+  const settings=after.data.provider_settings,prior=before.data.provider_settings;
+  expect(settings.providers.length).toBe(prior.providers.length+1);
+  expect(settings.models.length).toBe(prior.models.length+1);
+  expect(settings.providers.filter((p:any)=>p.provider_profile_id===pid)).toHaveLength(1);
+  expect(settings.models.filter((m:any)=>m.model_profile_id===mid)).toHaveLength(1);
+  expect(settings.routes).toEqual(prior.routes);
+  expect(writes.some(path=>['/messages','/providers/credential','/providers/models','/host/operations','/host/confirmations'].some(end=>path.endsWith(end)))).toBe(false);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(errors).toEqual([]);
+});

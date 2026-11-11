@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /tmp/nana-setup-resume-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-setup-resume-dist/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-setup-resume-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-setup-resume-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-setup-resume-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-setup-resume-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-setup-resume-dist/assets/LiveSpace-BK9hKw5E.css      51.18 kB │ gzip: 10.21 kB
+../../../../tmp/nana-setup-resume-dist/assets/clock-3-C8sxQdtJ.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-setup-resume-dist/assets/eye-B5uUXblx.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-setup-resume-dist/assets/lock-keyhole-k_BxTmX-.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-setup-resume-dist/assets/shield-check-B6m9gXYd.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-setup-resume-dist/assets/radio-Dqxan1gG.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-setup-resume-dist/assets/refresh-cw-mzU78QQy.js       0.84 kB │ gzip:  0.42 kB
+../../../../tmp/nana-setup-resume-dist/assets/sparkles-BpgeQzx-.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-setup-resume-dist/assets/smartphone-BDt0O5u9.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-setup-resume-dist/assets/plus-1E3eIXOp.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-setup-resume-dist/assets/Avatar-maKLcdbo.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-setup-resume-dist/assets/upload-CYPxzxKv.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-setup-resume-dist/assets/ui-C_q9u6HD.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-setup-resume-dist/assets/sun-CWrDvyum.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-setup-resume-dist/assets/monitor-CNh1cNRs.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-setup-resume-dist/assets/x-DAMfYmCC.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-setup-resume-dist/assets/preferences-CpqhszlZ.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-setup-resume-dist/assets/ChatPage-CKhoQlJq.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-setup-resume-dist/assets/SettingsPage-dqoGKe4p.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-setup-resume-dist/assets/RuntimePage-DqL3-v7U.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-setup-resume-dist/assets/CoreApp-B5ec85y4.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-setup-resume-dist/assets/ExplorePages-DzqvRKl4.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-setup-resume-dist/assets/index-BZWP--vh.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-setup-resume-dist/assets/LiveSpace-BS31cnLt.js      175.82 kB │ gzip: 58.92 kB
+../../../../tmp/nana-setup-resume-dist/assets/index-C000dvBY.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.61s

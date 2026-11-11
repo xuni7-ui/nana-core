@@ -1,0 +1,24 @@
+{
+  "base_head": "1514a2d335ef8cfbdf0e2fac299236c55d04c80b",
+  "subject_id": "337ad7ff-4a57-4011-9f08-351b4f91959d",
+  "runtime_active": false,
+  "store_counts": {
+    "identities": 1,
+    "cognitive_requests": 0,
+    "runtime_cognition_calls": 0,
+    "actions": 0,
+    "grants": 0
+  },
+  "provider_profiles": 4,
+  "model_profiles": 4,
+  "routes": [],
+  "sqlite_version": "3.53.1",
+  "python": "3.12.14",
+  "real_provider_calls": 0,
+  "source_sha256": {
+    "apps/nana-space/src/features/LiveSpace.tsx": "0f70c1188f5f64cb61e722bb747fa21236cfde5e46a4805640730f43d9e1dfb9",
+    "apps/nana-space/src/features/next/ModelSetup.tsx": "e10f66051285db0ca90e101fe2e399faf24abd34e0411aa99b81eebb1c005c94",
+    "apps/nana-space/tests/unified.spec.ts": "5b63d51583f06001bc45b7a8cbeea889297167696d4256a26e884f93e23ca85e",
+    "apps/nana-space/tests/v3.spec.ts": "7fecd4b8068cb2518d72921f89ff11895c11e31569dcffc6e238f475f3985306"
+  }
+}

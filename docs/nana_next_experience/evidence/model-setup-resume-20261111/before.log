@@ -1,0 +1,106 @@
+[WebServer] (node:25997) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:26010) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 3 tests using 1 worker
+
+(node:26027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED
+  1) [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.next-setup').getByRole('button', { name: '继续配置', exact: true })
+    Expected: visible
+    Timeout: 1500ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.next-setup').getByRole('button', { name: '继续配置', exact: true }) with timeout 1500ms
+      - waiting for locator('.next-setup').getByRole('button', { name: '继续配置', exact: true })
+
+
+      1363 |   await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+      1364 |   if(outcome==='MODEL_REJECTED'){
+    > 1365 |     await expect(setup.getByRole('button',{name:'继续配置',exact:true})).toBeVisible({timeout:1500});
+           |                                                                      ^
+      1366 |     await setup.getByRole('button',{name:'继续配置',exact:true}).click();
+      1367 |     expect(reads).toBe(0);
+      1368 |   }else{
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1365:70
+
+    Error Context: ../../../../tmp/nana-setup-resume-before-output/v3-SYNTHETIC-model-setup-r-42c53-iginal-steps-MODEL-REJECTED-desktop/error-context.md
+
+
+(node:26165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/3] [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN
+  2) [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true })
+    Expected: visible
+    Timeout: 1500ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true }) with timeout 1500ms
+      - waiting for locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true })
+
+
+      1368 |   }else{
+      1369 |     const resume=setup.getByRole('button',{name:'核验并继续配置',exact:true});
+    > 1370 |     await expect(resume).toBeVisible({timeout:1500});
+           |                          ^
+      1371 |     const count=commands.length;await resume.click();
+      1372 |     await expect.poll(()=>reads).toBe(1);expect(commands).toHaveLength(count);
+      1373 |     await expect(resume).toBeEnabled();settled=true;await resume.click();
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1370:26
+
+    Error Context: ../../../../tmp/nana-setup-resume-before-output/v3-SYNTHETIC-model-setup-r-31cc5-inal-steps-PROVIDER-UNKNOWN-desktop/error-context.md
+
+
+(node:26304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/3] [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN
+  3) [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true })
+    Expected: visible
+    Timeout: 1500ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true }) with timeout 1500ms
+      - waiting for locator('.next-setup').getByRole('button', { name: '核验并继续配置', exact: true })
+
+
+      1368 |   }else{
+      1369 |     const resume=setup.getByRole('button',{name:'核验并继续配置',exact:true});
+    > 1370 |     await expect(resume).toBeVisible({timeout:1500});
+           |                          ^
+      1371 |     const count=commands.length;await resume.click();
+      1372 |     await expect.poll(()=>reads).toBe(1);expect(commands).toHaveLength(count);
+      1373 |     await expect(resume).toBeEnabled();settled=true;await resume.click();
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1370:26
+
+    Error Context: ../../../../tmp/nana-setup-resume-before-output/v3-SYNTHETIC-model-setup-r-58d6f-riginal-steps-MODEL-UNKNOWN-desktop/error-context.md
+
+
+  3 failed
+    [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED 
+    [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN 
+    [desktop] › tests/v3.spec.ts:1335:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN 

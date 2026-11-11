@@ -1280,17 +1280,20 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
     let next=0;
     crypto.randomUUID=()=>`01234567-89ab-4cde-8fab-${String(++next).padStart(12,'0')}` as `${string}-${string}-${string}-${string}-${string}`;
   });
+  const saved=structuredClone(providerSettings);
   let configRevision=providerSettings.revision;
   const commands:Record<string,unknown>[]=[];
   let requestId='';let receiptReads=0;
   await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
-    {...viewData(state,'settings'),provider_settings:{...providerSettings,revision:configRevision}})}));
+    {...viewData(state,'settings'),provider_settings:{...saved,revision:configRevision}})}));
   await page.route(`**${API}providers/commands`,async route=>{
     const body=route.request().postDataJSON();
     commands.push(body.command);requestId=body.client_request_id;
     expect(body.command.expected_revision).toBe(configRevision);
     if(rejected)return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,
       state:'REJECTED',dispatch_happened:false,error:'PROVIDER_CONFIG_REVISION_CONFLICT'})});
+    if(body.command.provider)saved.providers.push({...body.command.provider,revision:1,secret_state:'MISSING'});
+    if(body.command.model)saved.models.push(body.command.model);
     configRevision++;state.revision++;
     if(lostAck)return route.abort('failed');
     return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
@@ -1303,7 +1306,7 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
   });
   await open(page,'models');
   const setup=page.locator('.next-setup');
-  await setup.locator('button').click();
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
   if(rejected){
     await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();
     expect(commands).toHaveLength(1);expect(configRevision).toBe(providerSettings.revision);expect(receiptReads).toBe(0);
@@ -1329,6 +1332,68 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
   }
   expect(commands.some(c=>c.operation==='SET_CAPABILITY_ROUTE')).toBe(false);
   expect(state.requests.some(r=>r.path==='providers/credentials/bind'||r.path==='providers/models')).toBe(false);
+  await noHorizontalOverflow(page);
+});
+
+for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as const) test(`SYNTHETIC model setup resumes original steps: ${outcome}`, async({page})=>{
+  const state=await installMock(page);state.capabilities={provider_configuration_write:true};
+  const saved=structuredClone(providerSettings);
+  const commands:Record<string,unknown>[]=[];
+  let pendingId='',reads=0,settled=false,loseRead=false;
+  await page.route(`**${API}views/settings`,route=>{
+    if(loseRead){loseRead=false;return route.abort('failed');}
+    return route.fulfill({status:200,json:envelope(state,{...viewData(state,'settings'),provider_settings:saved})});
+  });
+  await page.route(`**${API}providers/commands`,async route=>{
+    const body=route.request().postDataJSON(),command=body.command;commands.push(command);
+    expect(command.expected_revision).toBe(saved.revision);
+    if(outcome==='MODEL_REJECTED' && command.operation==='UPSERT_MODEL' && commands.length===2)
+      return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'REJECTED',
+        dispatch_happened:false,error:'PROVIDER_CONFIG_REVISION_CONFLICT'})});
+    if(command.provider)saved.providers.push({...command.provider,revision:1,secret_state:'MISSING'});
+    if(command.model)saved.models.push(command.model);
+    saved.revision++;state.revision++;
+    const lost=outcome==='PROVIDER_UNKNOWN' && command.operation==='UPSERT_PROVIDER'
+      || outcome==='MODEL_UNKNOWN' && command.operation==='UPSERT_MODEL';
+    if(lost){pendingId=body.client_request_id;loseRead=outcome==='PROVIDER_UNKNOWN';return route.abort('failed');}
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{configuration_revision:saved.revision}})});
+  });
+  await page.route(`**${API}receipts/*`,route=>{
+    expect(route.request().url().split('/').at(-1)).toBe(pendingId);reads++;
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:pendingId,state:settled?'VERIFIED':'UNKNOWN',
+      dispatch_happened:settled?true:'UNKNOWN',...(settled?{result:{configuration_revision:saved.revision}}:{})})});
+  });
+  await open(page,'models');const setup=page.locator('.next-setup');
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+  if(outcome==='MODEL_REJECTED'){
+    await expect(setup.getByRole('button',{name:'继续配置',exact:true})).toBeVisible({timeout:1500});
+    await setup.getByRole('button',{name:'继续配置',exact:true}).click();
+    expect(reads).toBe(0);
+  }else{
+    if(outcome==='PROVIDER_UNKNOWN'){
+      await expect(setup).toContainText('已核验步骤保留');
+      await page.getByRole('button',{name:'刷新真实状态',exact:true}).click();
+      await go(page,'home');await go(page,'models','settings');
+    }
+    const resume=setup.getByRole('button',{name:'核验并继续配置',exact:true});
+    await expect(resume).toBeVisible({timeout:1500});
+    const count=commands.length;await resume.click();
+    await expect.poll(()=>reads).toBe(1);expect(commands).toHaveLength(count);
+    await expect(resume).toBeEnabled();settled=true;await resume.click();
+    await expect.poll(()=>reads).toBe(2);
+  }
+  await expect(setup).toContainText('供应商与模型已保存');
+  expect(commands.filter(c=>c.operation==='UPSERT_PROVIDER')).toHaveLength(1);
+  const modelCommands=commands.filter(c=>c.operation==='UPSERT_MODEL');
+  expect(modelCommands).toHaveLength(outcome==='MODEL_REJECTED'?2:1);
+  const provider=commands[0].provider as Record<string,unknown>;
+  expect(modelCommands.every(c=>(c.model as Record<string,unknown>).provider_profile_id===provider.provider_profile_id)).toBe(true);
+  if(modelCommands.length===2)expect((modelCommands[0].model as Record<string,unknown>).model_profile_id)
+    .toBe((modelCommands[1].model as Record<string,unknown>).model_profile_id);
+  expect(commands.some(c=>c.operation==='SET_CAPABILITY_ROUTE')).toBe(false);
+  expect(state.requests.some(r=>['messages','host/operations','providers/credential','providers/models'].includes(r.path))).toBe(false);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain(String(provider.provider_profile_id));
   await noHorizontalOverflow(page);
 });
 

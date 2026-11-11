@@ -64,7 +64,7 @@ import {
   ConnectionView,
 } from "./v3/LifeViews";
 import { ChatPane, type Turn } from "./v3/ChatPane";
-import { ModelSetup } from "./next/ModelSetup";
+import { ModelSetup, type ModelSetupPhase } from "./next/ModelSetup";
 import { ProviderRuntimeSettings, type RuntimeBudgetInput } from "./next/ProviderRuntimeSettings";
 import { DataConsole } from "./next/DataConsole";
 import { readProviderSettings, type ProviderDraft } from "../data/provider-center";
@@ -134,6 +134,7 @@ const reasons: Record<string, string> = {
   MEMORY_NOTE_PRIVACY_DOWNGRADE_DENIED:"更新不能降低原备注的隐私范围。",
   SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED:"当前入口尚未授权保存私人内容，请联系运行负责人确认，或选择已允许的保存范围。",
   SOURCE_CHANGED_REFRESH_REQUIRED: "记忆来源已更新，请刷新后重新查找。",
+  PROVIDER_SETUP_CHANGED: "已保存的服务商或模型已被修改，请在下方核对后显式新建配置。",
   NATIVE_SECRET_INPUT_REQUIRED: "请在已配对的手机上管理安全凭据。",
   CORE_ALREADY_OWNED: "Core 已有运行 owner。",
   CORE_OWNER_PENDING_NO_RETRY: "已有启动进程尚待核验，不会重复启动。",
@@ -175,6 +176,10 @@ function text(v: unknown) {
       ? String(v)
       : "UNKNOWN";
 }
+type ModelSetupProgress = {
+  draft: ProviderDraft; suffix: string; pid: string; mid: string; step: number;
+  pendingId?: string; providerRevision?: number; credentialBound: boolean; bindingUncertain: boolean;
+};
 export function LiveSpace() {
   const client = useRef(new V2Client());
   const sessionVersion = useRef(0);
@@ -218,6 +223,14 @@ export function LiveSpace() {
   const [credentialStatus, setCredentialStatus] = useState<unknown>(null);
   const [providerRuntime, setProviderRuntime] = useState<unknown>(null);
   const runtimeBudgetPending = useRef<number | null>(null);
+  const modelSetupProgress = useRef<ModelSetupProgress | null>(null);
+  const modelSetupPending = useRef<number | null>(null);
+  const [modelSetupPhase,setModelSetupPhase] = useState<ModelSetupPhase>("NEW");
+  const [modelSetupGeneration,setModelSetupGeneration] = useState(0);
+  const clearModelSetup = useCallback(() => {
+    modelSetupProgress.current=null;setModelSetupPhase("NEW");
+    setModelSetupGeneration(value=>value+1);
+  }, []);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [notifications, setNotifications] =
     useState("未请求系统通知权限；后台推送未资格");
@@ -281,7 +294,8 @@ export function LiveSpace() {
     setSharedSnapshot(null);
     setCredentialStatus(null);
     setProviderRuntime(null);
-  }, [clearQueuedInputs]);
+    if(e instanceof V2Error && /SESSION|IDENTITY|CONTRACT|SCOPE/.test(e.code))clearModelSetup();
+  }, [clearQueuedInputs,clearModelSetup]);
   const accept = useCallback((b: Envelope) => {
     if (current.current?.capabilities.shared_life_retention === true && b.capabilities.shared_life_retention !== true) {
       setRememberDraft(false);
@@ -296,6 +310,7 @@ export function LiveSpace() {
       setSharedSnapshot(null);
       setCredentialStatus(null);
       setProviderRuntime(null);
+      clearModelSetup();
       setDraft("");
       setPersonalDraft(false);
       setRememberDraft(false);
@@ -306,7 +321,7 @@ export function LiveSpace() {
     previousRun.current = b.run_generation;
     current.current = b;
     setBootstrap(b);
-  }, [clearQueuedInputs]);
+  }, [clearQueuedInputs,clearModelSetup]);
   const acceptPrivacy = useCallback((data: Record<string, unknown>) => {
     const watermark = data.privacy_watermark;
     if (typeof watermark !== "string") return;
@@ -319,11 +334,12 @@ export function LiveSpace() {
       setReceipt(null);
       setBiliSnapshot(null);
       setSharedSnapshot(null);
+      clearModelSetup();
       bodyGeneration.current++;
     clearQueuedInputs();
     }
     privacy.current = watermark;
-  }, [clearQueuedInputs]);
+  }, [clearQueuedInputs,clearModelSetup]);
   const refresh = useCallback(async () => {
     const seq = ++readVersion.current;
     const version = sessionVersion.current;
@@ -605,6 +621,7 @@ export function LiveSpace() {
       setError("请输入宿主提供的完整会话口令（至少 12 个字符）。");
       return;
     }
+    clearModelSetup();
     setBusy(true);
     const version = sessionVersion.current;
     try {
@@ -984,55 +1001,108 @@ export function LiveSpace() {
     }
   };
   const setupModel = async (draft: ProviderDraft, setStatus: (s: string) => void) => {
-    if (writePending.current) return;
-    writePending.current = true; setBusy(true);
-    const version = sessionVersion.current;
-    const suffix = crypto.randomUUID().replaceAll("-", "").slice(0, 16);
-    const pid = "provider.next-" + suffix, mid = "model.next-" + suffix;
-    let pendingId: string | undefined;
+    const version=sessionVersion.current;
+    if(busy || writePending.current || modelSetupPending.current===version)return;
+    modelSetupPending.current=version;writePending.current=true;setBusy(true);
+    if(!modelSetupProgress.current){
+      const suffix=crypto.randomUUID().replaceAll("-", "").slice(0,16);
+      modelSetupProgress.current={draft:{...draft},suffix,pid:"provider.next-"+suffix,
+        mid:"model.next-"+suffix,step:0,credentialBound:false,bindingUncertain:false};
+    }
+    const progress=modelSetupProgress.current;
+    const currentStep=()=>{
+      if(version!==sessionVersion.current || modelSetupProgress.current!==progress)
+        throw new V2Error("SESSION_REVOKED");
+    };
+    setModelSetupPhase(progress.pendingId?"VERIFY":"RESUME");
     try {
-      for (const step of [0, 1, 2]) {
-        if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
-        const b = await fresh();
-        const settings = readProviderSettings((await client.current.view("settings")).data.provider_settings);
-        if (settings.state !== "CURRENT" || settings.revision === undefined) throw new V2Error("CONFIGURATION_UNAVAILABLE");
-        if (step === 2) {
-          const profile = settings.providers.find(p => p.id === pid);
-          if (!isNative() || b.capabilities.native_secret_binding !== true || profile?.revision === undefined) {
-            setStatus("供应商与模型已保存。请使用已授权手机绑定凭据，再手动选择默认模型；当前路由未变。");
-            await refresh(); return;
+      if(progress.bindingUncertain)throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+      while(progress.step<3){
+        currentStep();
+        if(progress.pendingId){
+          setStatus("核验原请求；不会重复提交已派发步骤…");
+          const pending=progress.pendingId;
+          const response=await client.current.receipt(pending);currentStep();
+          if(response.data.receipt_id!==pending)throw new V2Error("RESULT_UNVERIFIED");
+          setReceipt(object(response.data));
+          if(response.data.state==="REJECTED"){
+            progress.pendingId=undefined;
+            throw new V2Error(typeof response.data.error==="string"?response.data.error:"REQUEST_REJECTED");
           }
-          const credentials = b.capabilities.durable_provider_binding === true ? await client.current.providerCredentials() : null;
-          const vault = vaultMetadata(credentials?.data);
-          if (b.capabilities.durable_provider_binding === true && !vault) throw new V2Error("PROVIDER_VAULT_REVISION_REQUIRED");
-          setStatus("请在手机安全输入框中输入 API Key…");
-          const result = object((await client.current.bindProviderCredential({
-            ...writeBase(b), provider_profile_id: pid, profile_revision: profile.revision,
-            ...(vault ? {expected_vault_revision: vault.revision} : {}),
-          }, b.capabilities.durable_provider_binding === true)).data);
-          if (!["BOUND_IN_HOST_MEMORY", "BOUND_IN_HOST_VAULT"].includes(String(result.state))) throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+          if(response.data.state!=="VERIFIED")throw new V2Error("UNKNOWN_VERIFY_ONLY");
+          progress.pendingId=undefined;progress.step++;continue;
         }
-        setStatus(["保存供应商…", "保存模型…", "凭据已绑定，设置默认对话模型…"][step]);
-        const command = step === 0 ? providerCommand(draft, pid, settings.revision) : step === 1 ? modelCommand(draft, pid, mid, settings.revision) : routeCommand("COGNITION", mid, [], settings.revision);
-        if (command.provider) command.provider.secret_ref = "next." + suffix;
-        const id = crypto.randomUUID();
-        pendingId=id;
-        const r = await client.current.write("providers.command", {...writeBase(b, id), command});
-        if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
-        setReceipt(object(r.data));
-        pendingId=undefined;
-        if (r.data.state !== "VERIFIED") throw new V2Error(
-          typeof r.data.error === "string" ? r.data.error : r.data.state === "UNKNOWN" ? "UNKNOWN_VERIFY_ONLY" : "REQUEST_REJECTED");
+        const b=await fresh();currentStep();
+        const settings=readProviderSettings((await client.current.view("settings")).data.provider_settings);currentStep();
+        if(settings.state!=="CURRENT" || settings.revision===undefined)throw new V2Error("CONFIGURATION_UNAVAILABLE");
+        const {pid,mid,suffix}=progress;
+        const profile=settings.providers.find(p=>p.id===pid);
+        if(progress.step>0){
+          const expected=providerCommand(progress.draft,pid,settings.revision).provider!;
+          if(!profile || !profile.enabled || profile.baseUrl!==expected.base_url || profile.protocol!==expected.protocol
+            || profile.name!==expected.display_name || profile.timeoutMs!==expected.default_timeout_ms
+            || (progress.providerRevision!==undefined && profile.revision!==progress.providerRevision))
+            throw new V2Error("PROVIDER_SETUP_CHANGED");
+          progress.providerRevision=profile.revision;
+        }
+        if(progress.step===2){
+          const model=settings.models.find(m=>m.id===mid);
+          if(!model || !model.enabled || model.providerId!==pid || model.remoteModel!==progress.draft.modelId
+            || model.operations.length!==1 || model.operations[0]!==progress.draft.operation
+            || model.contextLimit!==progress.draft.contextLimit || model.outputLimit!==progress.draft.outputLimit)throw new V2Error("PROVIDER_SETUP_CHANGED");
+          if(!isNative() || b.capabilities.native_secret_binding!==true || profile?.revision===undefined){
+            progress.step=3;setModelSetupPhase("SAVED");
+            setStatus("供应商与模型已保存。请使用已授权手机绑定凭据，再手动选择默认模型；当前路由未变。");
+            await refresh();return;
+          }
+          if(!progress.credentialBound){
+            const credentials=b.capabilities.durable_provider_binding===true?await client.current.providerCredentials():null;currentStep();
+            const vault=vaultMetadata(credentials?.data);
+            if(b.capabilities.durable_provider_binding===true && !vault)throw new V2Error("PROVIDER_VAULT_REVISION_REQUIRED");
+            setStatus("请在手机安全输入框中输入 API Key…");
+            progress.bindingUncertain=true;
+            try {
+              const result=object((await client.current.bindProviderCredential({
+                ...writeBase(b),provider_profile_id:pid,profile_revision:profile.revision,
+                ...(vault?{expected_vault_revision:vault.revision}:{}),
+              },b.capabilities.durable_provider_binding===true)).data);currentStep();
+              if(!["BOUND_IN_HOST_MEMORY","BOUND_IN_HOST_VAULT"].includes(String(result.state)))throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+              progress.credentialBound=true;progress.bindingUncertain=false;
+            } catch(e){
+              if(e instanceof Error && e.message==="SECRET_INPUT_CANCELLED")progress.bindingUncertain=false;
+              throw e;
+            }
+          }
+        }
+        const step=progress.step;
+        setStatus(["保存供应商…","保存模型…","凭据已绑定，设置默认对话模型…"][step]);
+        const command=step===0?providerCommand(progress.draft,pid,settings.revision)
+          :step===1?modelCommand(progress.draft,pid,mid,settings.revision)
+          :routeCommand("COGNITION",mid,[],settings.revision);
+        if(command.provider)command.provider.secret_ref="next."+suffix;
+        const id=crypto.randomUUID();progress.pendingId=id;
+        const response=await client.current.write("providers.command",{...writeBase(b,id),command});currentStep();
+        setReceipt(object(response.data));
+        if(response.data.receipt_id!==id)throw new V2Error("RESULT_UNVERIFIED");
+        if(response.data.state==="REJECTED")progress.pendingId=undefined;
+        if(response.data.state!=="VERIFIED")throw new V2Error(
+          typeof response.data.error==="string"?response.data.error:response.data.state==="UNKNOWN"?"UNKNOWN_VERIFY_ONLY":"REQUEST_REJECTED");
+        progress.pendingId=undefined;progress.step++;
       }
+      setModelSetupPhase("SAVED");
       setStatus("凭据已绑定，模型和路由已保存。实际可用性以服务器状态为准；配置可能需要重启才能生效。");
       await refresh();
-    } catch (e) {
-      if (version !== sessionVersion.current) return;
-      if (pendingId && e instanceof V2Error && e.code === "UNKNOWN_VERIFY_ONLY")
-        setReceipt({receipt_id:pendingId,state:"UNKNOWN",dispatch_happened:"UNKNOWN"});
-      setStatus(explain(e) + " 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。");
-      await refresh().catch(() => {});
-    } finally { if (version === sessionVersion.current) { setBusy(false); writePending.current = false; } }
+    }catch(e){
+      if(version!==sessionVersion.current || modelSetupProgress.current!==progress)return;
+      setModelSetupPhase(progress.bindingUncertain?"BINDING_UNKNOWN":progress.pendingId?"VERIFY":"RESUME");
+      if(progress.pendingId)setReceipt({receipt_id:progress.pendingId,state:"UNKNOWN",dispatch_happened:"UNKNOWN"});
+      setStatus(progress.bindingUncertain?"凭据绑定结果尚待核验。请在下方凭据管理查看；不要重新提交密钥。"
+        :explain(e)+" 已核验步骤保留在当前连接；继续时使用原配置 ID，待确认步骤只核验原回执。");
+      await refresh().catch(()=>{});
+    }finally{
+      if(modelSetupPending.current===version)modelSetupPending.current=null;
+      if(version===sessionVersion.current){setBusy(false);writePending.current=false;}
+    }
   };
   const saveProviderRuntime = async (input: RuntimeBudgetInput) => {
     const version=sessionVersion.current;
@@ -1096,6 +1166,7 @@ export function LiveSpace() {
     setSharedSnapshot(null);
     setCredentialStatus(null);
     setProviderRuntime(null);
+    clearModelSetup();
     setBrowsing(false);
     setStyleDraft([]);
     setNotice("");
@@ -1659,7 +1730,7 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} onSetup={setupModel}/>
+              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel}/>
                 {admin && bootstrap?.capabilities.provider_runtime_configuration===true && Boolean(providerRuntime) &&
                   <ProviderRuntimeSettings key={JSON.stringify([object(providerRuntime).configuration_revision,object(providerRuntime).profiles])} data={providerRuntime}
                     disabled={busy || !healthy} onSave={saveProviderRuntime}/>}

@@ -1,0 +1,58 @@
+[WebServer] (node:27993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:28006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 32 tests using 1 worker
+
+(node:28090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/32] [desktop] › tests/v3.spec.ts:527:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state
+[2/32] [desktop] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED
+[3/32] [desktop] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN
+[4/32] [desktop] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN
+[5/32] [desktop] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[6/32] [desktop] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[7/32] [desktop] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[8/32] [desktop] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:28659) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/32] [phone-360] › tests/v3.spec.ts:527:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state
+[10/32] [phone-360] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED
+[11/32] [phone-360] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN
+[12/32] [phone-360] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN
+[13/32] [phone-360] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[14/32] [phone-360] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[15/32] [phone-360] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[16/32] [phone-360] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:29044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/32] [phone-390] › tests/v3.spec.ts:527:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state
+[18/32] [phone-390] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED
+[19/32] [phone-390] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN
+[20/32] [phone-390] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN
+[21/32] [phone-390] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[22/32] [phone-390] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[23/32] [phone-390] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[24/32] [phone-390] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:29421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/32] [phone-412] › tests/v3.spec.ts:527:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state
+[26/32] [phone-412] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED
+[27/32] [phone-412] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN
+[28/32] [phone-412] › tests/v3.spec.ts:1338:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN
+[29/32] [phone-412] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[30/32] [phone-412] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[31/32] [phone-412] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[32/32] [phone-412] › tests/v3.spec.ts:1400:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+  32 passed (46.5s)

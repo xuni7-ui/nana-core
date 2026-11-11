@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 136,
-  "as_of_us": 1794356009468123,
+  "revision": 137,
+  "as_of_us": 1794356739707710,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RECIPIENT_TRANSIENT_CONTINUITY_QUALIFIED",
+  "status": "IN_PROGRESS_MODEL_SETUP_RESUMPTION_TLS_QUALIFIED",
   "progress": [
-    "同一原A–H主任务持续推进，最新源码/Brain优先。原瞬时历史现按平台/绑定/会话连续，同会话接续与返回保留，跨会话/绑定/local不串话；49+1+5相关通过，无第二Store/Loop。",
+    "同一原A–H持续推进。原临时history接收者边界1514远端62Core/72unit/72browser通过；当前向导按原receipt和配置ID断点续配，真实TLS丢ACK四视口通过，无重复profile/改路由/模型调用。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,7 +27,7 @@
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "预算配置已真实DEV联调，需原显式重启应用，模型可用/账单/当前匹配包安装/native手机未资格。原modelsetup断点续配、自然多输入目的/草稿中断、其他A–E/真实自然度长期仍待；817旧withdrawUNKNOWN首错保留。",
+    "预算与向导已真实DEV TLS联调，向导游标仅当前连接；重载后仍用既有配置列表。原生绑定/匹配包/native手机/真实provider仍未资格。多输入目的/未发草稿/其他A–E及真实自然度长期继续。",
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
@@ -37,7 +37,7 @@
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
     "docs/nana_next_experience/evidence/catalog-registration-20261111/README.md",
-    "docs/nana_next_experience/evidence/recipient-history-20261111/README.md",
+    "docs/nana_next_experience/evidence/model-setup-resume-20261111/README.md",
     "docs/nana_next_experience/evidence/provider-runtime-settings-20261111/README.md"
   ]
 }
