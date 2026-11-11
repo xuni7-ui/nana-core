@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 153,
-  "as_of_us": 1794392572757105,
+  "revision": 154,
+  "as_of_us": 1794394860005662,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ANTHROPIC_NATIVE_TEXT_WIRED",
+  "status": "IN_PROGRESS_ORIGINAL_CORE_INFLIGHT_DRAFT_PROTOTYPE",
   "progress": [
-    "原路由/HTTP/认知链接通Anthropic原生Messages文字、目录/预算/Web向导；153相关53.86s、82前端、编译及16四视口通过，原C→RENDER/同身份重启真实localhost合成验证，0真实模型；native流式/媒体及实机仍待。",
+    "原Core插话opt-in双C不删/请求4→3、旧draft不伪已说；现有排队序列未回答USER全2048临时保留，生成候选后回1k历史。66相关44.53s及10隐私尾部9.14s通过；原型默认关/BFF-Web待接，7b CI239/82/112。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,7 +23,7 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "已排队输入Core/BFF/SDK/Web共同回应已接；生成中的新插话仍等待，未发生成草稿重组/中断、保留合并及真实送达/C-S3-S8长期因果待。新Native有限映射仅源码，匹配APK/安装/手机仍待。",
+    "已排队多输入共同回应已接；生成中插话/未发草稿已获原Core隔离opt-in同预算对照，默认关闭。BFF并发认证接纳/每条deferred回执、SDK-Web显示及真实TLS联调仍需开发，retained/真实送达/C-S3-S8长期因果/匹配APK待。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
@@ -31,14 +31,14 @@
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
     "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
     "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
-    "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md",
-    "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md"
+    "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2672,3 +2672,10 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-11 · 原Anthropic Messages文字与产品接线
 
 [实测] 原Core HTTP/Router/Cognition基础上native top-level system/messages/x-api-key/version2026-10-21，非OpenAI线缆。原G/C/权限/Store不改；拒绝截断/tools，缓存读写及未缓存input合计但费用UNKNOWN，thinking不入主体记忆。原目录GET/has_more、显式预算和Web向导保存native协议已接。153相关53.86s、82前端、TS/Vite2.93s、16四视口23.1s；原C/RENDER两话轮4localhost fixture/同主体重启/0真实模型动作。首个unsupported、默认JSON字段夹具、缺远端隐私许可夹具、浏览器定位首错/中断均保留，不改原许可。证据anthropic-native-20261111；源码表SHA256 c2166b7e73a24434783f3a47b7cdb694f3fa77e15d86846117417459120f5354，不自指。52a实际CI12Core28.23s/81unit/104browser/live3.02成功，本源码CI待读；非全仓/最终安装/nativeAndroid/真实provider/人类长期/生产资格，266+409保持，原A–H继续。
+
+
+### 2026-11-11 · 原Core生成期间插话与未发草稿隔离原型
+
+[实测] ControlServer显式coalesce_continuations=True仅受控DEV，默认False、不在产品宣告；原C各判断不删，真实UDS/loopback对照：INTERPRET中插话请求4→3，RENDER中旧完成draft不作为已说，4次用量仍保留，新C双源回应。60相关38.95s，后补已处理duplicate错误抑制草稿的首错与indexed source-key修复，最终16控制13.19s；stop/隐私/断开/期限/retained/不同thread/新休息均有边界。新休息不能强迫先发旧草稿，原C承接。原BFF单条deferred verifier/长锁及Web串行drain尚未接，此为具体开发项，不外推体验/生产。证据inflight-draft-prototype-20261111，源码表SHA256 8a37ae4f8b20981d7363d90f4008e75362e21f9d17681662c646d40326d6fbe3不自指。7b实际CI239Core143.95s/bwrap11/82unit/112browser/build3.03成功，非本原型或最新全仓。仅309项pip缓存完整指纹迁/tmp/原链接，根盘3.6→25MiB；未动Git/源码/DB/旧release。原A–H与266+409保留。
+
+本批后续收口：已有正常surface-sequence与隔离插话的未回答USER原1024字符节选会丢尾，新增仅未回答输入完整≤2048字符临时上下文，生成联合候选后回原1k节选；assistant历史不扩。尾部首错2fail/2pass、2048Han回声夹具越原output bound4fail/诊断均保留，不放宽生产上限；最终2048ASCII及>1024Han同预算8对照通过，66相关44.53s、10尾部非持久化9.14s通过。source-table最终8a37ae4f8b20981d7363d90f4008e75362e21f9d17681662c646d40326d6fbe3（6文件），原型仍默认关闭且BFF/Web未接，正常排队序列本修复已有。

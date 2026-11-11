@@ -24,7 +24,7 @@ LIMIT = 16384
 MAX_PENDING_INPUTS = 4
 
 
-def dispatch(app, request, *, observed_at_us=None):
+def dispatch(app, request, *, observed_at_us=None, respond_to=()):
     if type(request) is not dict:
         raise CoreError("CLOUD_TYPED_REQUEST_REQUIRED")
     op = request.get("operation")
@@ -97,7 +97,7 @@ def dispatch(app, request, *, observed_at_us=None):
         from .bilibili import BilibiliSourceAdapter
         return BilibiliSourceAdapter(app).interpret(request["source_memory_id"])
     if op == "surface" and set(request) == {"operation", "observation"}:
-        return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])), observed_at_us=observed_at_us)
+        return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])), observed_at_us=observed_at_us, _respond_to=respond_to)
     if op=='surface-sequence' and set(request)=={'operation','observations'}:
         if type(request['observations']) is not list or not 2<=len(request['observations'])<=4:raise CoreError('SURFACE_SEQUENCE_BOUND')
         return app.surfaces.receive_sequence(tuple(SurfaceObservation.model_validate_json(json.dumps(o)) for o in request['observations']))
@@ -235,7 +235,11 @@ def dispatch(app, request, *, observed_at_us=None):
 
 
 class ControlServer:
-    def __init__(self, app):
+    def __init__(self, app, *, coalesce_continuations=False):
+        # Explicit isolated prototype until BFF/client individual deferred-receipt
+        # handling is integrated. Ordinary runtime behavior remains unchanged.
+        if type(coalesce_continuations) is not bool:raise CoreError('CLOUD_CONTINUATION_OPTION_INVALID')
+        self.coalesce_continuations=coalesce_continuations
         try:
             path = unix_socket_path(app.home / "control.sock")
         except ValueError as exc:
@@ -259,6 +263,52 @@ class ControlServer:
         self.previous_progress = getattr(app.runtime, "control_progress", None)
         self.progress_callback = lambda: self.poll(urgent_only=True)
         app.runtime.control_progress = self.progress_callback
+        self.active_observation=None
+        self.unanswered=()
+        self.unanswered_context=None
+        self.unanswered_target=None
+        self.continuation_target=None
+        self.previous_continuation=getattr(app,'dialogue_continuation_pending',None)
+        self.continuation_callback=self._continuation_pending
+        if coalesce_continuations:app.dialogue_continuation_pending=self.continuation_callback
+
+    @staticmethod
+    def _conversation_context(observation):
+        return (observation.binding_id,observation.thread_id,observation.topic,
+                observation.privacy_class,observation.origin)
+
+    def _continuation_pending(self,surface,topic,privacy,retained):
+        """Inspect admitted bytes and indexed event metadata at C's safe point.
+
+        No C reentry, Store writes, new inference or irreversible effect.
+        """
+        if retained or surface is None or self.active_observation is None or not self.pending_inputs:
+            return False
+        active=self.active_observation
+        if (surface.session_id!=active.binding_id or surface.conversation_id!=active.thread_id
+                or topic!=active.topic or privacy!=active.privacy_class):return False
+        conn,request,deadline,_=self.pending_inputs[0]
+        if time.monotonic()>=deadline or self.app.runtime.stop_requested:return False
+        import select
+        if select.select([conn],[],[],0)[0]:return False  # disconnected/extra bytes: do not defer for it
+        try:
+            following,binding=self.app.surfaces.validate_observation(
+                SurfaceObservation.model_validate_json(json.dumps(request['observation'])))
+        except (CoreError,ValueError):return False
+        # The new input still enters original C. A literal rest/stop can then
+        # withhold the previous unsent draft; it must not force that draft out.
+        compatible=(binding.mode=='DEVELOPMENT_SHADOW_NO_SEND'
+            and self._conversation_context(active)==self._conversation_context(following)
+            and not active.retain_shared_life and not following.retain_shared_life
+            and active.approved_summary is None and following.approved_summary is None)
+        if compatible:
+            from ..storage import digest
+            from ..continuity.surfaces import source_key
+            candidate=surface.model_copy(update={'source_event_key':digest([following.binding_id,following.event_id])})
+            if self.app.runtime.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',
+                    (source_key(candidate),)).fetchone():return False
+            self.continuation_target=(following.binding_id,following.event_id)
+        return compatible
 
     def poll(self, *, urgent_only=False):
         queued = False
@@ -325,6 +375,7 @@ class ControlServer:
                     if not allowed:
                         raise CoreError("CLOUD_BUSY_PRE_DISPATCH")
                 old_sink=getattr(self.app,'response_sink',None)
+                old_active=self.active_observation
                 try:
                     if type(req) is dict and req.get('operation')=='surface-stream':
                         if set(req)!={'operation','observation'}:raise CoreError('CLOUD_TYPED_REQUEST_REQUIRED')
@@ -336,12 +387,29 @@ class ControlServer:
                             except OSError:live[0]=False
                         self.app.response_sink=progress
                         req={**req,'operation':'surface'}
-                    result = dispatch(self.app, req, observed_at_us=observed_at_us)
+                    respond_to=()
+                    if self.coalesce_continuations and type(req) is dict and req.get('operation')=='surface':
+                        self.active_observation=SurfaceObservation.model_validate_json(json.dumps(req['observation']))
+                        context=self._conversation_context(self.active_observation)
+                        target=(self.active_observation.binding_id,self.active_observation.event_id)
+                        if context==self.unanswered_context and target==self.unanswered_target:respond_to=self.unanswered
+                        else:self.unanswered=();self.unanswered_context=None;self.unanswered_target=None
+                        self.continuation_target=None
+                    result = dispatch(self.app, req, observed_at_us=observed_at_us,respond_to=respond_to)
+                    if self.coalesce_continuations and type(req) is dict and req.get('operation')=='surface':
+                        if result.get('render_state')=='DEFERRED_TO_CONTINUATION':
+                            self.unanswered=(*respond_to,result['message_memory_id'])
+                            self.unanswered_context=self._conversation_context(self.active_observation)
+                            self.unanswered_target=self.continuation_target
+                        else:self.unanswered=();self.unanswered_context=None;self.unanswered_target=None
                     response = {"ok": True, "result": result}
                 finally:
+                    self.active_observation=old_active
                     self.app.response_sink=old_sink
                     if getattr(self.app,'session',None):self.app.session.draft_sink=old_sink
             except (CoreError, ValueError, OSError, TypeError, KeyError, RecursionError) as exc:
+                if self.coalesce_continuations and type(req) is dict and req.get('operation') in {'surface','surface-stream'}:
+                    self.unanswered=();self.unanswered_context=None;self.unanswered_target=None
                 response = {"ok": False, "code": exc.code if isinstance(exc, CoreError) else "CLOUD_REQUEST_REJECTED"}
             try:
                 conn.sendall((json.dumps(response, ensure_ascii=False) + "\n").encode())
@@ -353,6 +421,9 @@ class ControlServer:
         return True
 
     def close(self):
+        if getattr(self.app,'dialogue_continuation_pending',None) is self.continuation_callback:
+            self.app.dialogue_continuation_pending=self.previous_continuation
+        self.unanswered=();self.unanswered_context=None;self.unanswered_target=None
         if getattr(self.app.runtime, "control_progress", None) is self.progress_callback:
             self.app.runtime.control_progress = self.previous_progress
         while self.pending_inputs:

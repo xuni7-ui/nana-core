@@ -1,0 +1,8 @@
+{
+  "src/nana_core/life/application.py": "cb846e77f263cea2d9b0b0751c5d36638e70474de38df63163c82cf90b935f82",
+  "src/nana_core/life/control.py": "37c35ab407f34f873a3dd75b9bc382ed839e4b86c853fc97b7d359dee3747093",
+  "src/nana_core/life/dialogue_contracts.py": "ce034cc766b86858db5aa7227cd034ed2cf4fcd75d3dd2d7453cb9bf825896c6",
+  "tests/first_life_android_v2/test_continuous_inputs.py": "20f233f2533dc933bae56ec10c174f7431ba9ae0b3c0d2123a6058db7c9f05fa",
+  "tests/first_life_android_v2/test_conversation_sequence.py": "905c8e9ea5bae3f23ba994005b435ab506b6d72c92a8ce2874f7a8be19bd9d30",
+  ".github/workflows/nana-next-qualification.yml": "cb2d568d287b471eb0dcb5090205f555d5a0397dbc01e43d7f16f851e2856ac0"
+}

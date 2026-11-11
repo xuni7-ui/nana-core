@@ -1,0 +1,31 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_isolated_draft_does_not_join_a_different_or_explicit_boundary[literal-rest] _
+
+tmp_path = PosixPath('/tmp/nana-draft-rest-first/test_isolated_draft_does_not_j0')
+boundary = 'literal-rest'
+
+    @pytest.mark.parametrize('boundary',['retained','different-thread','literal-rest'])
+    def test_isolated_draft_does_not_join_a_different_or_explicit_boundary(tmp_path,boundary):
+        home,_,_=owned(tmp_path);setup(home)
+        release=threading.Event();prefix=threading.Event();threads=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router,coalesce_continuations=True) as state:
+            first,done,t1=launch(home,message('separate-parent'),lambda value:prefix.set() if value.get('text') else None)
+            try:
+                assert prefix.wait(3)
+                changes={'retain_shared_life':True} if boundary=='retained' else {'thread_id':'other-thread'} if boundary=='different-thread' else {}
+                second,done2,t2=launch(home,message('separate-next','我先休息了' if boundary=='literal-rest' else 'SYNTHETIC separate input',**changes))
+                threads.append(t2);wait_pending(state['control'],1);release.set()
+                assert done.wait(5) and done2.wait(5)
+                a=first['response']['result'];b=second['response']['result']
+                if boundary=='literal-rest':
+>                   assert a['render_state']=='DEFERRED_TO_CONTINUATION' and a['text'] is None
+E                   AssertionError: assert ('UNVERIFIED_MODEL_WORDING' == 'DEFERRED_TO_CONTINUATION'
+E                     
+E                     - DEFERRED_TO_CONTINUATION
+E                     + UNVERIFIED_MODEL_WORDING)
+
+tests/first_life_android_v2/test_continuous_inputs.py:244: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_isolated_draft_does_not_join_a_different_or_explicit_boundary[literal-rest]
+1 failed, 14 deselected in 1.24s

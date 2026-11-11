@@ -297,14 +297,14 @@ class LifeApplication:
         outcome=r.step();queue=r.store.one('runtime_queue',qid)
         if not outcome or not outcome.get('cycle') or queue['state']!='DONE':raise CoreError('LOCAL_INTERACTION_PENDING')
         cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None
-        if (_defer_render and cycle.intention.kind=='SOCIAL_INTERACTION'
-                and cycle.context_fit.mode!='RESPECT_BOUNDARY' and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'):
+        def deferred_result():
             # This input has its own original C judgment, but no assistant speech
-            # is generated or reported. Only this bounded owner's next input may
+            # is reported. A completed private model draft can be discarded;
+            # its original usage/result remain auditable. This owner's next input may
             # carry it forward as an unanswered source; no detached model work.
             from .dialogue_contracts import DialogueTurn
             self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,
-                topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
+                topic=topic,privacy_class=privacy,speaker='USER',text=text))
             self._recent=self._recent[-6:]
             if cycle.intention_id:
                 current=r.store.one('subject_intentions',cycle.intention_id)
@@ -316,11 +316,20 @@ class LifeApplication:
                 'raw_body_persisted':retain_shared_life,'exchange_record_id':None,
                 'external_social_send':False,'cycle_id':cycle.cycle_id,'cycle_record_id':cycle.record_id,
                 'intention_id':cycle.intention_id}
+        can_defer=(cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.context_fit.mode!='RESPECT_BOUNDARY'
+                   and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED')
+        def continuation_waiting():
+            hook=getattr(self,'dialogue_continuation_pending',None)
+            return bool(hook and len(_respond_to)<3 and not r.stop_requested
+                        and hook(surface,topic,privacy,retain_shared_life))
+        if can_defer and (_defer_render or continuation_waiting()):return deferred_result()
         if cycle.context_fit.mode!='RESPECT_BOUNDARY' and self.router is not None and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED':
             try:
                 session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms,recipient_context=recipient_context)
                 draft=session.take_dialogue_draft(render_rid);render_state='UNVERIFIED_MODEL_WORDING'
             except CoreError as exc:render_state=exc.code
+        if can_defer and render_state=='UNVERIFIED_MODEL_WORDING' and continuation_waiting():
+            return deferred_result()
         if not draft:
             draft={'VENT':'离线模式：我在听；这次不把倾诉变成研究。','HELP':'离线语义受限：可用 /work 选择已批准的源码材料。','SHARE':'离线模式：收到你的分享；没有另开任务。','CHAT':'离线模式：可以闲聊，真实语言模型尚未配置。',
                    'PROJECT_STATUS':'已识别为项目状态询问；当前未生成模型措辞。','RESPECT_BOUNDARY':'这个话题先停在这里。','CORRECTION':'我会先澄清更正的内容，不直接改写历史。'}.get(cycle.context_fit.mode,'离线语义受限：你希望我听你说，还是一起处理具体问题？')
@@ -341,6 +350,11 @@ class LifeApplication:
         supports=RecordService(r.store).support(render_rid) if render_rid else ()
         exchange_id=None
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
+            # Keep full unanswered details through this render, then restore the
+            # existing bounded history excerpts after committing its candidate.
+            self._recent=[turn.model_copy(update={'text':turn.text[:1024],
+                'text_truncated':turn.text_truncated or len(turn.text)>1024})
+                if turn.speaker=='USER' and turn.message_memory_id in _respond_to else turn for turn in self._recent]
             self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
             self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
             self._recent=self._recent[-6:]

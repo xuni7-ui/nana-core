@@ -36,7 +36,9 @@ class DialogueTurn(DTO):
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
     speaker:Literal['USER','ASSISTANT']
     support_memory_ids:tuple[str,...]=Field(default=(),max_length=64)
-    text:str=Field(min_length=1,max_length=1024)
+    # An unanswered user input may keep its complete admitted body. Ordinary
+    # answered history/assistant excerpts are still assembled at1024 characters.
+    text:str=Field(min_length=1,max_length=2048)
 
     @model_serializer(mode='wrap')
     def legacy_turn_wire(self, handler):

@@ -1,0 +1,110 @@
+.F.F                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_isolated_same_owner_continuation_reorganizes_only_unsent_draft[INTERPRET-True] _
+
+tmp_path = PosixPath('/tmp/nana-draft-long-first/test_isolated_same_owner_conti1')
+enabled = True, arrival_phase = 'INTERPRET'
+
+    @pytest.mark.parametrize('enabled',[False,True])
+    @pytest.mark.parametrize('arrival_phase',['INTERPRET','RENDER'])
+    def test_isolated_same_owner_continuation_reorganizes_only_unsent_draft(tmp_path,enabled,arrival_phase):
+        home,binding,_=owned(tmp_path);setup(home)
+        release=threading.Event();blocked=threading.Event();waiting=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls):
+            original_create=router.factory.create
+            def create(*args):
+                port=original_create(*args);exchange=port.exchange
+                def exchange_once(request):
+                    if arrival_phase=='INTERPRET' and request.cognitive_role=='INTERPRET' and not blocked.is_set():
+                        blocked.set();assert release.wait(4)
+                    return exchange(request)
+                port.exchange=exchange_once
+                return port
+            router.factory.create=create
+            with running_owner(home,router,coalesce_continuations=enabled) as state:
+                def see(value):
+                    if arrival_phase=='RENDER' and value.get('text'):blocked.set()
+                original_text='SYNTHETIC first unfinished thought '+('细节 '*390)+'SYNTHETIC_UNANSWERED_TAIL'
+                assert 1024<len(original_text)<=2048
+                first,done,t1=launch(home,message('draft-parent',original_text),see)
+                try:
+                    assert blocked.wait(3)
+                    second,done2,t2=launch(home,message('draft-next','SYNTHETIC another thought before reply'))
+                    waiting.append(t2);wait_pending(state['control'],1)
+                    assert not done.is_set() and not done2.is_set()
+                    release.set();assert done.wait(5) and done2.wait(5)
+                    a=first['response']['result'];b=second['response']['result']
+                    assert first['response']['ok'] and second['response']['ok']
+                    assert state['identity']==binding.subject_id
+                    if enabled:
+                        assert a['text'] is None and a['render_state']=='DEFERRED_TO_CONTINUATION'
+                        assert b['text']=='A deliberately synthetic language response'
+                        render=calls[-1]['role_input']['dialogue']
+                        assert render['communication_purpose']['respond_to_memory_ids']==[a['message_memory_id'],b['message_memory_id']]
+                        assert not any(t['speaker']=='ASSISTANT' and t['message_memory_id']==a['message_memory_id'] for t in render['recent_turns'])
+                        assert any(t['speaker']=='USER' and t['message_memory_id']==a['message_memory_id'] for t in render['recent_turns'])
+                        original_turn=next(t for t in render['recent_turns'] if t['speaker']=='USER' and t['message_memory_id']==a['message_memory_id'])
+>                       assert original_turn['text']==original_text and not original_turn.get('text_truncated',False)
+E                       AssertionError: assert ('SYNTHETIC fi...节 细节 细节 细节 细节' == 'SYNTHETIC fi...ANSWERED_TAIL'
+E                         
+E                         Skipping 1013 identical leading characters in diff, use -v to show
+E                         - 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 SYNTHETIC_UNANSWERED_TAIL
+E                         + 细节 细节 细节 细节)
+
+tests/first_life_android_v2/test_continuous_inputs.py:222: AssertionError
+_ test_isolated_same_owner_continuation_reorganizes_only_unsent_draft[RENDER-True] _
+
+tmp_path = PosixPath('/tmp/nana-draft-long-first/test_isolated_same_owner_conti3')
+enabled = True, arrival_phase = 'RENDER'
+
+    @pytest.mark.parametrize('enabled',[False,True])
+    @pytest.mark.parametrize('arrival_phase',['INTERPRET','RENDER'])
+    def test_isolated_same_owner_continuation_reorganizes_only_unsent_draft(tmp_path,enabled,arrival_phase):
+        home,binding,_=owned(tmp_path);setup(home)
+        release=threading.Event();blocked=threading.Event();waiting=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls):
+            original_create=router.factory.create
+            def create(*args):
+                port=original_create(*args);exchange=port.exchange
+                def exchange_once(request):
+                    if arrival_phase=='INTERPRET' and request.cognitive_role=='INTERPRET' and not blocked.is_set():
+                        blocked.set();assert release.wait(4)
+                    return exchange(request)
+                port.exchange=exchange_once
+                return port
+            router.factory.create=create
+            with running_owner(home,router,coalesce_continuations=enabled) as state:
+                def see(value):
+                    if arrival_phase=='RENDER' and value.get('text'):blocked.set()
+                original_text='SYNTHETIC first unfinished thought '+('细节 '*390)+'SYNTHETIC_UNANSWERED_TAIL'
+                assert 1024<len(original_text)<=2048
+                first,done,t1=launch(home,message('draft-parent',original_text),see)
+                try:
+                    assert blocked.wait(3)
+                    second,done2,t2=launch(home,message('draft-next','SYNTHETIC another thought before reply'))
+                    waiting.append(t2);wait_pending(state['control'],1)
+                    assert not done.is_set() and not done2.is_set()
+                    release.set();assert done.wait(5) and done2.wait(5)
+                    a=first['response']['result'];b=second['response']['result']
+                    assert first['response']['ok'] and second['response']['ok']
+                    assert state['identity']==binding.subject_id
+                    if enabled:
+                        assert a['text'] is None and a['render_state']=='DEFERRED_TO_CONTINUATION'
+                        assert b['text']=='A deliberately synthetic language response'
+                        render=calls[-1]['role_input']['dialogue']
+                        assert render['communication_purpose']['respond_to_memory_ids']==[a['message_memory_id'],b['message_memory_id']]
+                        assert not any(t['speaker']=='ASSISTANT' and t['message_memory_id']==a['message_memory_id'] for t in render['recent_turns'])
+                        assert any(t['speaker']=='USER' and t['message_memory_id']==a['message_memory_id'] for t in render['recent_turns'])
+                        original_turn=next(t for t in render['recent_turns'] if t['speaker']=='USER' and t['message_memory_id']==a['message_memory_id'])
+>                       assert original_turn['text']==original_text and not original_turn.get('text_truncated',False)
+E                       AssertionError: assert ('SYNTHETIC fi...节 细节 细节 细节 细节' == 'SYNTHETIC fi...ANSWERED_TAIL'
+E                         
+E                         Skipping 1013 identical leading characters in diff, use -v to show
+E                         - 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 细节 SYNTHETIC_UNANSWERED_TAIL
+E                         + 细节 细节 细节 细节)
+
+tests/first_life_android_v2/test_continuous_inputs.py:222: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_isolated_same_owner_continuation_reorganizes_only_unsent_draft[INTERPRET-True]
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_isolated_same_owner_continuation_reorganizes_only_unsent_draft[RENDER-True]
+2 failed, 2 passed, 12 deselected in 3.90s

@@ -1,0 +1,12 @@
+{
+  "operation": "PRESERVE_MOVE_REGENERABLE_PIP_CACHE",
+  "source": "/home/agent/.cache/pip",
+  "destination": "/tmp/nana-preserved-pip-cache",
+  "entries_verified": 309,
+  "manifest": "/tmp/nana-preserved-pip-cache-manifest.json",
+  "manifest_sha256": "648bf0b8ac4be4f2821e8ffb9257c949df6b5bd0258399eb3fc444c274a24508",
+  "original_path": "SYMLINK_TO_VERIFIED_COPY",
+  "root_free_before_approx_mib": 3.6,
+  "root_free_after_approx_mib": 25,
+  "db_git_source_oldrelease_changed": false
+}

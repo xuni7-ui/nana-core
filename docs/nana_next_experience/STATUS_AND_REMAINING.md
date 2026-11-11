@@ -98,3 +98,10 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 ### 2026-11-11 · Anthropic原生文字和原产品入口
 
 原Router/Cognition/HTTP接Messages原生认证/格式/usage/stop，Web向导/目录读取/显式预算同源接通；153相关/82单测/编译/16四视口通过，原C→RENDER及重启同身份4localhost fixture、真实0。native流式和媒体、真实API、手机/最终匹配安装未资格，其他协议/Token/长期与原余A–H继续。首错证据anthropic-native-20261111，不以OpenAI-compatible冒充原生，不变266+409。
+
+
+### 2026-11-11 · 生成中插话：原Core隔离原型，产品接线未完成
+
+原C双判断和真实UDS同预算对照支持未发draft重组，理解中输入4→3请求；已完成旧draft不作已说/不退用量，stop/重复/新休息等边界16控制通过，60相关证据保留。显式opt-in默认关，BFF per-input deferred回执/并发接纳与Web/SDK仍需开发，不能称普通App体验已获得。inflight-draft-prototype-20261111原始首错/对照/源码锚。7b已资格239Core/82unit/112browser而非本后继全仓；原余A–H与266+409不变。
+
+同批长输入修复实际适用于现有正常排队序列：未回答USER保留全≤2048临时原文，联合候选后回1k普通历史，assistant不扩；最终66相关44.53s/10尾部非持久化9.14s通过，2048ASCII和>1024Han独立对照，非真实模型/物理闭包。生成中的自动插话仍隔离默认关，BFF/SDK/Web接线未完成。

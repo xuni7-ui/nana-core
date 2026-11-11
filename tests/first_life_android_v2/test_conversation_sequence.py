@@ -16,10 +16,15 @@ def sequence(*,retained=False):
          'text':'SYNTHETIC part '+str(i)} for i in range(3)]}
 
 
-def test_unanswered_sequence_has_individual_c_and_one_source_bound_reply(tmp_path):
+@pytest.mark.parametrize('long_input',[False,True])
+def test_unanswered_sequence_has_individual_c_and_one_source_bound_reply(tmp_path,long_input):
     home,binding,_=owned(tmp_path);setup(home)
     with relay(home,'CHAT') as (router,calls),LifeApplication(home,router=router) as app:
-        app.pause();result=dispatch(app,sequence())
+        request=sequence()
+        if long_input:
+            tail='SYNTHETIC_QUEUE_TAIL'
+            request['observations'][0]['text']='SYNTHETIC '+('x'*(2048-len('SYNTHETIC ')-len(tail)))+tail
+        app.pause();result=dispatch(app,request)
         assert result['state']=='SHADOW_SEQUENCE_REVIEWED' and result['coalesced'] is True
         inputs=result['results'];assert len(inputs)==3
         mids=[r['message_memory_id'] for r in inputs]
@@ -31,13 +36,16 @@ def test_unanswered_sequence_has_individual_c_and_one_source_bound_reply(tmp_pat
         dialogue=calls[-1]['role_input']['dialogue']
         assert dialogue['communication_purpose']['respond_to_memory_ids']==mids
         assert dialogue['communication_purpose']['cycle_id']==inputs[-1]['cycle_id']
-        assert [t['text'] for t in dialogue['recent_turns']]==['SYNTHETIC part 0','SYNTHETIC part 1']
+        assert [t['text'] for t in dialogue['recent_turns']]==[o['text'] for o in request['observations'][:2]]
+        assert not any(t.get('text_truncated',False) for t in dialogue['recent_turns'])
         assert all(t['speaker']=='USER' for t in dialogue['recent_turns'])
         assert all(set(mids[:i+1])<=set(calls[i]['source_context_refs']) for i in range(3))
         assert app.runtime.store.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'local.surface.%'").fetchone()[0]==3
         assert len(set(r['cycle_id'] for r in inputs))==3
         assert app.runtime.identity_id==binding.subject_id
-        again=dispatch(app,sequence());assert not again['coalesced']
+        if long_input:
+            assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_QUEUE_TAIL')>0").fetchone()
+        again=dispatch(app,request);assert not again['coalesced']
         assert all(r['state']=='ALREADY_REVIEWED_NO_REPLAY' for r in again['results'])
         assert len(calls)==4
         later=dispatch(app,{'operation':'surface','observation':{

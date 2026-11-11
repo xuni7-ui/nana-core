@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_isolated_draft_is_not_discarded_for_an_already_reviewed_input ______
+
+tmp_path = PosixPath('/tmp/nana-draft-duplicate-first/test_isolated_draft_is_not_dis0')
+
+    def test_isolated_draft_is_not_discarded_for_an_already_reviewed_input(tmp_path):
+        home,_,_=owned(tmp_path);setup(home)
+        release=threading.Event();release.set();prefix=threading.Event();threads=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router,coalesce_continuations=True) as state:
+            prior,done,t0=launch(home,message('old-source'));threads.append(t0)
+            assert done.wait(5) and prior['response']['ok'];release.clear()
+            first,done1,t1=launch(home,message('new-source'),lambda value:prefix.set() if value.get('text') else None);threads.append(t1)
+            try:
+                assert prefix.wait(3)
+                duplicate,done2,t2=launch(home,message('old-source'));threads.append(t2)
+                wait_pending(state['control'],1);release.set()
+                assert done1.wait(5) and done2.wait(5)
+>               assert first['response']['result']['render_state']=='UNVERIFIED_MODEL_WORDING'
+E               AssertionError: assert 'DEFERRED_TO_CONTINUATION' == 'UNVERIFIED_MODEL_WORDING'
+E                 
+E                 - UNVERIFIED_MODEL_WORDING
+E                 + DEFERRED_TO_CONTINUATION
+
+tests/first_life_android_v2/test_continuous_inputs.py:268: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_isolated_draft_is_not_discarded_for_an_already_reviewed_input
+1 failed, 15 deselected in 1.34s

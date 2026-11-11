@@ -1,0 +1,31 @@
+{
+  "embedded_compile": "PASS",
+  "actual_pytest_collection": [
+    {
+      "before_paths": [
+        "tests/provider_routing",
+        "tests/provider_routing/test_anthropic_native.py"
+      ],
+      "after_paths": [
+        "tests/provider_routing"
+      ],
+      "before_nodes": 60,
+      "before_unique": 60,
+      "after_nodes": 60,
+      "same_node_set": true
+    },
+    {
+      "before_paths": [
+        "tests/person_self",
+        "tests/person_self/test_learning.py"
+      ],
+      "after_paths": [
+        "tests/person_self"
+      ],
+      "before_nodes": 89,
+      "before_unique": 89,
+      "after_nodes": 89,
+      "same_node_set": true
+    }
+  ]
+}
