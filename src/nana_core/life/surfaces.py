@@ -86,7 +86,7 @@ class SurfaceSession:
         if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' and o.origin!='DEVELOPMENT_SHADOW':raise CoreError('SURFACE_ORIGIN_BINDING_MISMATCH')
         if o.approved_summary is not None and o.summary_authorization!=('EXPLICIT_PERSONAL_SUMMARY' if o.privacy_class=='PERSONAL' else 'EXPLICIT_PROJECT_SUMMARY'):raise CoreError('SURFACE_SUMMARY_NOT_AUTHORIZED')
         return o,b
-    def receive(self,observation,*,reply_target=None,observed_at_us=None):
+    def receive(self,observation,*,reply_target=None,observed_at_us=None,_defer_render=False,_respond_to=()):
         o,b=self.validate_observation(observation,reply_target=reply_target)
         app=self._app;r=app.runtime;key=digest([b.binding_id,o.event_id]);current=r.clock.utc_now_us()
         if observed_at_us is not None and (type(observed_at_us) is not int or not 0<=observed_at_us<=current):
@@ -123,7 +123,71 @@ class SurfaceSession:
                 epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,confidence=.8)),)
         result=app.chat(o.text,topic=o.topic,privacy=o.privacy_class,message_id=key,
             surface=envelope,support_memory_ids=summary,source_key=canonical_key,retain_shared_life=o.retain_shared_life,
-            reply_target=reply_target)
+            reply_target=reply_target,_defer_render=_defer_render,_respond_to=_respond_to)
         return {**result,'binding_id':b.binding_id,'source_key':canonical_key,'summary_memory_ids':summary,
-            'state':'SHADOW_REPLY_CANDIDATE' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'CORE_REPLY_CANDIDATE',
+            'state':'SHADOW_INPUT_REVIEWED_NO_REPLY' if result.get('render_state')=='DEFERRED_TO_CONTINUATION' else 'SHADOW_REPLY_CANDIDATE' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'CORE_REPLY_CANDIDATE',
             'platform_origin':o.origin,'delivered':False,'execution_authority':False}
+
+    def receive_sequence(self,observations):
+        """Already received finite inputs; each enters original C exactly once.
+
+        Retained conversations and explicit boundaries keep individual replies.
+        No batch transport acknowledges delivery, persists transient bodies or
+        authorizes replay of a partially judged sequence after interruption.
+        """
+        if type(observations) is not tuple or not 2<=len(observations)<=4:
+            raise CoreError('SURFACE_SEQUENCE_BOUND')
+        checked=[self.validate_observation(o) for o in observations]
+        first,binding=checked[0]
+        if binding.mode!='DEVELOPMENT_SHADOW_NO_SEND':raise CoreError('SURFACE_SEQUENCE_SHADOW_REQUIRED')
+        coordinates=lambda o:(o.binding_id,o.thread_id,o.topic,o.privacy_class,o.origin,o.retain_shared_life)
+        if (any(coordinates(o)!=coordinates(first) for o,_ in checked)
+                or len({o.event_id for o,_ in checked})!=len(checked)):
+            raise CoreError('SURFACE_SEQUENCE_SCOPE_REQUIRED')
+        r=self._app.runtime
+        seen=[]
+        for o,b in checked:
+            # Existing canonical event key: no parallel idempotency journal.
+            key=digest([b.binding_id,o.event_id])
+            reference=('local:shadow:' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'local:platform:')+key[:40]
+            envelope=SurfaceEnvelope(domain='LOCAL_INTERACTION',subject_id=r.identity_id,platform=b.platform,
+                surface=b.surface,adapter=b.adapter,entity_id=b.entity_id,conversation_id=o.thread_id,
+                session_id=b.binding_id,event_kind='conversation.message',observed_at_us=r.clock.utc_now_us(),
+                correlation_id=o.event_id,privacy_class=o.privacy_class,source_reference=reference,source_event_key=key)
+            seen.append(bool(r.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(source_key(envelope),)).fetchone()))
+        if any(seen) and not all(seen):raise CoreError('SURFACE_SEQUENCE_PARTIAL_NO_REPLAY')
+        from ..continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
+        boundaries={'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}
+        # Preserve retained history/feedback semantics instead of dropping a
+        # saved exchange or claiming one draft was sent for several contacts.
+        coalesce=not any(seen) and not first.retain_shared_life and all(o.approved_summary is None
+            and LiteralSpanInterpreter().interpret(o.text).kind not in boundaries for o,_ in checked)
+        results=[];unanswered=();deferred_ids=set();completed=False;observed_at_us=r.clock.utc_now_us()
+        try:
+            for i,(o,_) in enumerate(checked):
+                if r.stop_requested:raise CoreError('SURFACE_SEQUENCE_INTERRUPTED_NO_REPLAY')
+                for mid in unanswered:
+                    MemoryService(r.store).read(mid)  # Withdrawal wins before a later model call.
+                result=self.receive(o,observed_at_us=observed_at_us,_defer_render=coalesce and i<len(checked)-1,
+                    _respond_to=unanswered if coalesce else ())
+                result={**result,'respond_to_memory_ids':list((*unanswered,result['message_memory_id']))
+                    if result.get('text') and result.get('message_memory_id') else []}
+                results.append(result)
+                key=result.get('message_id','')
+                if r.store.db.execute("SELECT 1 FROM cognitive_requests WHERE request_key IN (?,?) AND state='UNKNOWN'",
+                        ('life.interpret.'+key,'life.render.'+key)).fetchone():
+                    raise CoreError('SURFACE_SEQUENCE_INCOMPLETE_NO_REPLAY')
+                if result.get('render_state')=='DEFERRED_TO_CONTINUATION':
+                    unanswered=(*unanswered,result['message_memory_id']);deferred_ids.add(result['message_memory_id'])
+                else:
+                    if unanswered and result.get('render_state')!='UNVERIFIED_MODEL_WORDING' and result.get('mode')!='RESPECT_BOUNDARY':
+                        raise CoreError('SURFACE_SEQUENCE_INCOMPLETE_NO_REPLAY')
+                    unanswered=()
+            completed=True
+            return {'state':'SHADOW_SEQUENCE_REVIEWED','results':results,
+                'coalesced':any(x.get('render_state')=='UNVERIFIED_MODEL_WORDING'
+                    and len(x['respond_to_memory_ids'])>1 for x in results),
+                'delivered':False,'execution_authority':False}
+        finally:
+            if not completed:
+                self._app._recent=[turn for turn in self._app._recent if turn.message_memory_id not in deferred_ids]

@@ -1,0 +1,8 @@
+{
+  "src/nana_core/life/application.py": "8c4677bb01f8e082c3d197e64af0f15062da76bbb83ed0ee9d72f8e6b6b3a43f",
+  "src/nana_core/life/surfaces.py": "4bae7b6944fde94894b5163d4f5448407e118601631e1836db98d82ba2f4b660",
+  "src/nana_core/life/control.py": "00a9c6a16897ce4434dfb1d7db3b4a234fee3a5b994795672a3aedc41921ee9a",
+  "src/nana_core/continuity/world_loop/cognition.py": "a2e9ec087e4fa0ccf1e63c90a35ea923d967ba13234e66f7bbe9e47f1623ddd7",
+  "tests/first_life_android_v2/test_conversation_sequence.py": "c484d822252b39fa680b60f53dbcdb4033ca164552acc1abc96e8d8dd32f0295",
+  ".github/workflows/nana-next-qualification.yml": "93ec3c880fd74c94dc63b699dd075f9c57345ed703043427f7090b9c2c0831eb"
+}

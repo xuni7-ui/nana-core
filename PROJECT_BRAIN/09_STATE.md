@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 137,
-  "as_of_us": 1794356739707710,
+  "revision": 138,
+  "as_of_us": 1794357571892191,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_MODEL_SETUP_RESUMPTION_TLS_QUALIFIED",
+  "status": "IN_PROGRESS_CORE_MULTI_INPUT_PURPOSE_QUALIFIED",
   "progress": [
-    "同一原A–H持续推进。原临时history接收者边界1514远端62Core/72unit/72browser通过；当前向导按原receipt和配置ID断点续配，真实TLS丢ACK四视口通过，无重复profile/改路由/模型调用。",
+    "原Core私有IPC新增有界同接收者序列：每条独立C/来源，原SOCIAL未回应输入共同进入后续C目的，三条同预算6→4fixture调用且3C保留；最终13及原60相关通过，Web/BFF尚未接。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,7 +23,7 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "原A–H继承；临时history接收者边界已资格，Web/Core仍逐条C/BFF串行，多消息目的/未发草稿重组及完整中断仍待；其余自主性/送达/长期因果继续。",
+    "Core2–4同域非保留SOCIAL序列受控资格；保留/明确边界仍逐条。下一接BFF/SDK/Web队列、reply groups/UNKNOWN/字节及多阶段超时；完整中断/未发草稿与其余自主性/送达/长期因果仍待。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
@@ -36,7 +36,7 @@
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
-    "docs/nana_next_experience/evidence/catalog-registration-20261111/README.md",
+    "docs/nana_next_experience/evidence/core-conversation-sequence-20261111/README.md",
     "docs/nana_next_experience/evidence/model-setup-resume-20261111/README.md",
     "docs/nana_next_experience/evidence/provider-runtime-settings-20261111/README.md"
   ]

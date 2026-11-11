@@ -64,7 +64,7 @@ def dispatch(app, request, *, observed_at_us=None):
         if request["privacy"] not in {"PUBLIC", "PROJECT", "PERSONAL"}:
             raise CoreError("PRIVACY_DENIED")
         return app.provider_readiness(privacy=request["privacy"])
-    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw", "memory-note"} or (
+    mutating = op in {"surface", "surface-sequence", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw", "memory-note"} or (
         op == "control" and request.get("command") == "resume"
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
@@ -98,6 +98,9 @@ def dispatch(app, request, *, observed_at_us=None):
         return BilibiliSourceAdapter(app).interpret(request["source_memory_id"])
     if op == "surface" and set(request) == {"operation", "observation"}:
         return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])), observed_at_us=observed_at_us)
+    if op=='surface-sequence' and set(request)=={'operation','observations'}:
+        if type(request['observations']) is not list or not 2<=len(request['observations'])<=4:raise CoreError('SURFACE_SEQUENCE_BOUND')
+        return app.surfaces.receive_sequence(tuple(SurfaceObservation.model_validate_json(json.dumps(o)) for o in request['observations']))
     if op == "view" and set(request) == {"operation", "view"}:
         if request["view"] == "bilibili-history":
             from .bilibili import BilibiliSourceAdapter
@@ -391,6 +394,10 @@ def request(home, data, timeout=None, *, progress=None):
 
         # Separate queue wait (up to two calls) from this input's own two calls.
         calls = 4 if data.get('operation') in {'surface','surface-stream'} else 2
+        if data.get('operation')=='surface-sequence':
+            observations=data.get('observations')
+            if type(observations) is not list or not 2<=len(observations)<=4:raise CoreError('SURFACE_SEQUENCE_BOUND')
+            calls=2*len(observations)  # retained/boundary fallback retains independent phase budgets
         timeout = max(5, calls * load_config(root).provider_timeout_ms / 1000 + 30)
     from ..presence.cli import status
 

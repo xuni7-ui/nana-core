@@ -1,0 +1,24 @@
+.....F....................................................               [100%]
+=================================== FAILURES ===================================
+_______ test_retention_keeps_individual_exchange_and_feedback_semantics ________
+
+tmp_path = PosixPath('/tmp/nana-sequence-integration/test_retention_keeps_individua0')
+
+    def test_retention_keeps_individual_exchange_and_feedback_semantics(tmp_path):
+        from nana_core.life.conversation import history
+        home,_,_=owned(tmp_path);setup(home)
+        with relay(home,'CHAT') as (router,calls),LifeApplication(home,router=router) as app:
+            app.pause();result=dispatch(app,sequence(retained=True))
+            assert result['coalesced'] is False and len(calls)==6
+            rows=result['results'];assert len({r['exchange_record_id'] for r in rows})==3
+            assert all(r['raw_body_persisted'] and r['render_state']=='UNVERIFIED_MODEL_WORDING' for r in rows)
+            for response,call in zip(rows,calls[1::2]):
+                assert call['role_input']['dialogue']['communication_purpose']['respond_to_memory_ids']==[response['message_memory_id']]
+>           assert len(history(app,privacy=('PROJECT',))['turns'])==3
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'turns'
+
+tests/first_life_android_v2/test_conversation_sequence.py:77: KeyError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_conversation_sequence.py::test_retention_keeps_individual_exchange_and_feedback_semantics
+1 failed, 57 passed in 29.89s

@@ -3499,3 +3499,8 @@ Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资�
 ### 2026-11-11 · 模型向导原回执断点续配与真实TLS验证
 
 原向导每次重按生成新profile IDs；现仅当前连接保留非秘密draft/原IDs/步骤/原receipt。已核验步骤不重写，UNKNOWN只查原receipt，明确REJECTED才由用户续当前一步/freshCAS；配置可见不冒充回执。校验已保存profile/model，Web不改路由；原生确认前不记绑定，未知绑定不自动重发Key（native仅source/type）。临时读断网与页面返回保持游标，登录/注销/run/privacy变更清除；重载后用既有列表不假称持久化向导。原版3失败，初24浏览器30.9s，最终TS/live2.61s/72单测6.14s/32恢复及预算回归46.5s。真实TLS向原BFF/Core转发后丢首ACK，桌面1通过4.4s+三宽3通过10.3s，1原receiptGET后仅1provider/1model，原路由/owner/身份谱系不变。停止后Store1identity/0两类认知/0actions/grants，4组profile，实际provider0。详见model-setup-resume-20261111原错/源码与Webhash/日志。此前1514精确CI62Core/72unit/72browser成功，非本新后继全仓。原A–H继续，CURRENT266+409/生产/APK/手机/私史未动。
+
+
+### 2026-11-11 · 原Core有界多输入交流目的
+
+原私有IPC surface-sequence复用SurfaceSession/LifeApplication/SubjectLoop：2–4同接收者/域输入各有原event、INTERPRET及C，只对原SOCIAL非保留输入暂缓未发措辞，后续原C源绑定多条未回应原话；Cognition独立核验原event sources/目的/判断/会话/隐私，不将USER合成一条事实或伪造assistant已说。相同3条同预算serial6→sequence4fixture调用，原3C保持；不是实价或自然度收益。原retention/ASK-WAIT/边界逐条；完整重放noop，部分seen及受控停止重启不重派尾部，UNKNOWN只停本组/原预留不退/新独立输入可继续，失败清瞬时原话/撤回先于下一调用。原IPC16KiB/UID/lease不变，2N阶段独立原超时。首次5缺操作失败，初5通过，首宽57/1新fixture误读turns保留并改实际items，随后60相关30.18s、27HTTP/surface22.88s、最终13/13分次通过8.19s/7.93s。新增无运行模块/表/第二权威；新typed入口暂未被Web/BFF调用，后续接产品/精确reply-group/字节及超时/UNKNOWN；不称总任务或安装完成。证据core-conversation-sequence。2bda精确CI72unit/84browser/client通过，Core按UIonly跳过；本新Core待后继CI。原A–H及CURRENT266+409/生产/APK保持。
