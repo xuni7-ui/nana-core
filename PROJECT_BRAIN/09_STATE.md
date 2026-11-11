@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 140,
-  "as_of_us": 1794372743898736,
+  "revision": 141,
+  "as_of_us": 1794373433403803,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_QUEUED_SEQUENCE_CLIENT_TLS_QUALIFIED",
+  "status": "IN_PROGRESS_ADMITTED_RESPONSE_EXPIRY_FIXED",
   "progress": [
-    "Web待发同域非保留输入接原Core/BFF序列与父回执：原C逐条保留，同预算3条6→4fixture调用。真实TLS四视口1主体/16输入/24PROPOSED/0动作及真实模型；23unit、20+4+12浏览器分次通过。",
+    "已接纳回复可跨600s会话自然到期完成；新请求不续期，退出/设备撤销/降权仍阻断。25原auth/新HTTP与真实SSE检查16.43s，原单输入/序列C不变；前批ea精确CI29Core/79unit/104browser通过。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -34,11 +34,11 @@
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
+    "docs/nana_next_experience/evidence/admitted-response-20261111/README.md",
     "docs/nana_next_experience/evidence/queued-sequence-client-20261111/README.md",
     "docs/nana_next_experience/evidence/sequence-api-20261111/README.md",
     "docs/nana_next_experience/evidence/core-conversation-sequence-20261111/README.md",
-    "docs/nana_next_experience/evidence/model-setup-resume-20261111/README.md",
-    "docs/nana_next_experience/evidence/provider-runtime-settings-20261111/README.md"
+    "docs/nana_next_experience/evidence/model-setup-resume-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

@@ -203,10 +203,12 @@ class Handler(BaseHTTPRequestHandler):
     def _auth(self):
         token, kind = self._token()
         return self.server.service.auth.authorize(
-            token, kind, csrf=self.headers.get("X-Nana-CSRF"), mutating=self.command not in {"GET", "HEAD"}
+            token, kind, csrf=self.headers.get("X-Nana-CSRF"), mutating=self.command not in {"GET", "HEAD"},
+            response=getattr(self, '_response_permit', None),
         )
 
     def _run(self):
+        self._response_permit = None
         try:
             self._route()
         except ApiError as exc:
@@ -220,6 +222,10 @@ class Handler(BaseHTTPRequestHandler):
             # No exception repr/local variables: inputs may contain credentials.
             if getattr(self,'_stream_started',False):self.close_connection=True
             else:self._json(503, {"contract": "nana-space-live/v2", "code": "SERVICE_UNAVAILABLE"})
+        finally:
+            if self._response_permit is not None:
+                self.server.service.auth.end_response(self._response_permit)
+                self._response_permit = None
 
     do_GET = _run
     do_POST = _run
@@ -423,6 +429,14 @@ class Handler(BaseHTTPRequestHandler):
         if self.command != "POST":
             raise ApiError("METHOD_DENIED", 405)
         body = self._body()
+        if route in {'messages', 'messages/stream', 'messages/sequence'}:
+            # Match the original IPC's maximum independent phase budgets. Queue
+            # wait is included for a single input; no access-session renewal.
+            phases = 8 if route == 'messages/sequence' else 4
+            token, kind = self._token()
+            self._response_permit = service.auth.admit_response(
+                token, kind, csrf=self.headers.get('X-Nana-CSRF'), timeout=phases * 600 + 30,
+            )
         if route=='platform/credential':
             from .platform_credentials import PlatformCredentialRequest,bind
             value=bind(service,principal,self._model(PlatformCredentialRequest,body))

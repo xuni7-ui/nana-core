@@ -3514,3 +3514,8 @@ typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageID
 ### 2026-11-11 · Web待发多输入共同回应、父回执与真实TLS闭环
 
 已排队同域非保留输入接原sequence，保持每条expiry/consent/FIFO/ASCII逃逸字节限额；原C3条不减，模型fixture6→4。SDK/native增有限message.sequence和2*4独立600s+30s整体上限，非普通22/15秒；reply/source映射只显示实际回复，整组UNKNOWN查父回执不重发，重载不恢复未保留问题/正文缺失不伪作执行UNKNOWN。23相关单测/TS/live2.81s，20浏览器29.4s；新边界测试首漏开options，打开后发现panel真实挡Send，保留4+2timeout并停止已知重复，CSS移至composer上方，desktop4通过8.2s+phone12通过23.3s不forceclick。复用dev_serve显式synthetic模式（默认不变/私有模型不可混用），真实Supervisor观察唯一原inprocess owner而非伪装受管子进程，TLS桌面1通过6.5s+三宽3通过12.6s；16原输入/24PROPOSED/0动作及真实模型，同身份谱系，关停statusfalse，canary0。原SSE默认2s不变，仅测试可reset15s，6兼容通过6.47s。报告首错memory.text实库无列，按PRAGMA改payload_artifact_id join，不改断言；证据含rawlogs/source/Webhash，TLS/DB/auth不入库。4f8精确CI134Core/72unit/84browser成功，不冒充当前全仓。新Native只源码，APK/安装/实机/真实模型/自然度长期/生产待；生成中插话/未发草稿重组及原A–H继续。用户追加当日北京时间17:50续办已创建启用，未停工，CURRENT266+409保持。
+
+
+### 2026-11-11 · 长回复不因接纳后的会话自然过期丢失
+
+原AuthService/HTTP对messages/stream/sequence建立仅进程内/单handler/有限阶段预算许可，普通新请求仍600s到期。每帧及final原token/kind/generation/roles/device/CSRF继续，logout立即失效；active scope保留过期session行供原响应核验，finally释放，无新wire凭据/Store/主体。首次缺方法/2实际旧JSON401及新fixture导入collision保留；16新通过12.98s，47相关/1短完整prefix误用失败44.83s，换长原renderer后2SSE通过3.43s；加错UNKNOWN期望24/1失败保留，按原Core真实VERIFIED/新认证只读精确回执独立核验更正，未弱化执行/送达断言。最终25auth/新HTTP/SSE通过16.43s，真实模型0，无长sleep。ea精确CI29Core23.94s/79unit/104browser1.4m/build2.29s/Node成功，新源码CI待。证据admitted-response-20261111及09source-table锚。下一修客户端单请求整体期限遗漏原排队两阶段，继续原A–H；CURRENT266+409/native/APK/生产不变，17:50续办启用不停车。

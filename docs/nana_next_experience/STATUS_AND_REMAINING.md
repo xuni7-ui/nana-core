@@ -53,3 +53,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 2026-11-09 6fd收口：2131全仓通过/12原跳过；匹配Core/Web及实际隔离安装、原QQ收件反馈后续、12625长文重启恢复撤回、同当前DB二进制DEV升级/回退通过。原A–H仍IN_PROGRESS，当前CI真实下载、物理实验及后续实际开发详见ACTIVE_CHECKPOINT。不是正式发布或自然/长期生活验收。
 
 真实CI C33下载/独立安装已资格；跨机器归档权限差异正在修复/验证固定候选，不冒充所有环境可重现。主文件显式空闲页物理回收实验已测，自动归档/恢复/隐私性能闭包仍未完成。全A–H剩余代码开发见最新ACTIVE_CHECKPOINT。
+
+
+2026-11-11 admitted-response补充：原600s会话自然过期不再中断同一已接纳回复；新请求仍过期，退出/设备撤销/降权即时阻断，原Core完成回执与客户端实际送达分开。25auth/新HTTP/SSE16.43s；更早47相关检查另记。证据admitted-response-20261111。下一修Web/native单输入整体1230s遗漏原Core排队两阶段，不称全链/手机/发行已完成。ea精确CI29Core/79unit/104browser已PASS，非全仓。

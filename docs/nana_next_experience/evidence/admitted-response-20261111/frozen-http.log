@@ -1,0 +1,418 @@
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_ test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9f259a0>
+route = 'messages', change = 'expiry'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+>               if change=='expiry':assert code==200,value;result=value['data']
+                                    ^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: {'contract': 'nana-space-live/v2', 'code': 'SESSION_REVOKED'}
+E               assert 401 == 200
+
+tests/first_life_android_v2/test_response_authorization.py:102: AssertionError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages/sequence] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9dcfe30>
+route = 'messages/sequence', change = 'expiry'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+>               if change=='expiry':assert code==200,value;result=value['data']
+                                    ^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: {'contract': 'nana-space-live/v2', 'code': 'SESSION_REVOKED'}
+E               assert 401 == 200
+
+tests/first_life_android_v2/test_response_authorization.py:102: AssertionError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages/stream] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9f25b20>
+route = 'messages/stream', change = 'expiry'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+>               connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                           ^^^^^^^^^^^
+E               AttributeError: 'function' object has no attribute 'client'
+
+tests/first_life_android_v2/test_response_authorization.py:89: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9cdce60>
+route = 'messages', change = 'logout'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+                if change=='expiry':assert code==200,value;result=value['data']
+                else:assert code==401 and value['code']=='SESSION_REVOKED',value
+            if change=='expiry':
+                assert result['state']=='VERIFIED',result
+                assert 'A deliberately synthetic language response' in str(result)
+            assert len(calls)==(4 if route.endswith('sequence') else 2)
+            assert http(server,'bootstrap',headers=headers)[0]==401
+>           assert not service.auth.responses
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'AuthService' object has no attribute 'responses'
+
+tests/first_life_android_v2/test_response_authorization.py:109: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages/sequence] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9dcdb20>
+route = 'messages/sequence', change = 'logout'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+                if change=='expiry':assert code==200,value;result=value['data']
+                else:assert code==401 and value['code']=='SESSION_REVOKED',value
+            if change=='expiry':
+                assert result['state']=='VERIFIED',result
+                assert 'A deliberately synthetic language response' in str(result)
+            assert len(calls)==(4 if route.endswith('sequence') else 2)
+            assert http(server,'bootstrap',headers=headers)[0]==401
+>           assert not service.auth.responses
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'AuthService' object has no attribute 'responses'
+
+tests/first_life_android_v2/test_response_authorization.py:109: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages/stream] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e98ef950>
+route = 'messages/stream', change = 'logout'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+>               connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                           ^^^^^^^^^^^
+E               AttributeError: 'function' object has no attribute 'client'
+
+tests/first_life_android_v2/test_response_authorization.py:89: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9e7ac30>
+route = 'messages', change = 'roles'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+                if change=='expiry':assert code==200,value;result=value['data']
+                else:assert code==401 and value['code']=='SESSION_REVOKED',value
+            if change=='expiry':
+                assert result['state']=='VERIFIED',result
+                assert 'A deliberately synthetic language response' in str(result)
+            assert len(calls)==(4 if route.endswith('sequence') else 2)
+            assert http(server,'bootstrap',headers=headers)[0]==401
+>           assert not service.auth.responses
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'AuthService' object has no attribute 'responses'
+
+tests/first_life_android_v2/test_response_authorization.py:109: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages/sequence] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e9dccfe0>
+route = 'messages/sequence', change = 'roles'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+                connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                connection.request('POST',PREFIX+'/'+route,json.dumps(request),
+                    {'Host':'space.test','Content-Type':'application/json',**headers})
+                response=connection.getresponse();frames=[json.loads(line) for line in response.read().splitlines()]
+                connection.close()
+                if change=='expiry':
+                    assert response.status==200 and frames[-1]['event']=='receipt',frames
+                    result=frames[-1]['data']['data']
+                else:
+                    assert response.status==401 or frames[-1].get('code')=='SESSION_REVOKED',frames
+                    assert 'A deliberately synthetic language response' not in str(frames)
+            else:
+                code,value,_=http(server,route,'POST',request,headers)
+                if change=='expiry':assert code==200,value;result=value['data']
+                else:assert code==401 and value['code']=='SESSION_REVOKED',value
+            if change=='expiry':
+                assert result['state']=='VERIFIED',result
+                assert 'A deliberately synthetic language response' in str(result)
+            assert len(calls)==(4 if route.endswith('sequence') else 2)
+            assert http(server,'bootstrap',headers=headers)[0]==401
+>           assert not service.auth.responses
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'AuthService' object has no attribute 'responses'
+
+tests/first_life_android_v2/test_response_authorization.py:109: AttributeError
+_ test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages/stream] _
+
+tmp_path = PosixPath('/tmp/nana-response-frozen-http/test_real_http_core_completion8')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e99db1a0>
+route = 'messages/stream', change = 'roles'
+
+    @pytest.mark.parametrize('route',['messages','messages/sequence','messages/stream'])
+    @pytest.mark.parametrize('change',['expiry','logout','roles'])
+    def test_real_http_core_completion_after_access_expiry_or_revocation(tmp_path,monkeypatch,route,change):
+        from nana_core.life.live_api import bridge
+        original=bridge.core_request
+        now=[0.0]
+        with sequence_api(tmp_path) as (server,service,calls):
+            service.auth.clock=lambda:now[0]
+            headers=login(server,service)
+            http(server,'bootstrap',headers=headers)
+            token=headers['Cookie'].split('=',1)[1].split(';',1)[0]
+            def advance(home,command,**kwargs):
+                if command.get('operation') in {'surface','surface-sequence','surface-stream'}:
+                    now[0]=601
+                    if change=='logout':service.auth.logout(token)
+                    if change=='roles':service.auth.roles=(Role.READER,)
+                return original(home,command,**kwargs)
+            monkeypatch.setattr(bridge,'core_request',advance)
+            request=body(service) if route.endswith('sequence') else {
+                **base(service,'single'),'text':'SYNTHETIC bounded response',
+                'privacy_class':'PROJECT','require_model':True}
+            if route.endswith('stream'):
+>               connection=http.client.HTTPConnection(*server.server_address,timeout=10)
+                           ^^^^^^^^^^^
+E               AttributeError: 'function' object has no attribute 'client'
+
+tests/first_life_android_v2/test_response_authorization.py:89: AttributeError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages/sequence]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[expiry-messages/stream]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages/sequence]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[logout-messages/stream]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages/sequence]
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_real_http_core_completion_after_access_expiry_or_revocation[roles-messages/stream]
+9 failed, 7 deselected in 10.71s

@@ -14,9 +14,9 @@ from tests.independent_life.test_dialogue import relay
 
 
 @contextmanager
-def sequence_api(tmp_path,roles=tuple(Role)):
+def sequence_api(tmp_path,roles=tuple(Role),*,stream_fixture=None,renderer=None):
     home,binding,_=owned(tmp_path);setup(home)
-    with relay(home,'CHAT') as (router,calls),running_owner(home,router) as owner:
+    with relay(home,'CHAT',stream_fixture=stream_fixture,renderer=renderer) as (router,calls),running_owner(home,router) as owner:
         shutil.copyfile(home/'test-providers.json',home/'providers.json')
         supervisor=SimpleNamespace(home=home,binding=binding,provider_live_authorized=False,
             status=lambda:{'owner_epoch':owner['control'].app.runtime.lease.epoch,'process_ready':True,'source_commit':'a'*40},

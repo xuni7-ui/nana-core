@@ -32,6 +32,8 @@ on:
       - src/nana_core/continuity/lived_language.py
       - src/nana_core/life/live_api/provider_settings.py
       - src/nana_core/life/live_api/server.py
+      - src/nana_core/life/live_api/auth.py
+      - tests/first_life_android_v2/test_response_authorization.py
       - tests/first_life_android_v2/test_provider_runtime_settings.py
       - src/nana_core/life/live_api/bridge.py
       - src/nana_core/life/live_api/contracts.py
@@ -217,6 +219,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('live_api/auth.py','live_api/server.py','test_response_authorization.py'), ['tests/first_life_android_v2/test_response_authorization.py','tests/first_life_android_v2/test_auth_contract.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py']),
             (('tests/independent_life/test_dialogue.py','tools/nana_first_life_android_v2/dev_serve.py'), ['tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/first_life_android_v2/test_chat_stream_http.py']),
             (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),
              ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),

@@ -74,6 +74,9 @@ class AuthService:
         self.generation = self.document.update(self._next_generation)
         self.lock = threading.RLock()
         self.sessions = {}
+        # Opaque, process-local permission to finish one already admitted reply.
+        # This never changes the access token's deadline for new requests.
+        self.responses = {}
         self.pairings = {}
         self.attempts = collections.deque(maxlen=10)
         self.confirmations = {}
@@ -94,7 +97,8 @@ class AuthService:
     def _session(self, principal):
         if len(self.sessions) >= 64:
             now = self.clock()
-            self.sessions = {k: v for k, v in self.sessions.items() if v[0] > now}
+            active = {row[0] for row in self.responses.values() if row[2] > now}
+            self.sessions = {k: v for k, v in self.sessions.items() if v[0] > now or k in active}
         if len(self.sessions) >= 64:
             raise ApiError("SESSION_CAPACITY", 429)
         token, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(24)
@@ -113,10 +117,33 @@ class AuthService:
             self.attempts.clear()
             return self._session(Principal("host.web", self.roles, "WEB", None, self.generation))
 
-    def authorize(self, token, kind, *, csrf=None, mutating=False):
+    def admit_response(self, token, kind, *, csrf=None, timeout):
+        """Admit one finite response, while access and CSRF are still valid.
+
+        Permits are Python object identities, never a wire credential. The HTTP
+        handler releases its permit on every exit, including disconnects.
+        """
+        if type(timeout) not in (int, float) or not 0 < timeout <= 4830:
+            raise ApiError("RESPONSE_DEADLINE_INVALID", 400)
         with self.lock:
-            row = self.sessions.get(token_hash(token))
-            if not row or row[0] <= self.clock() or row[1].kind != kind or row[1].generation != self.generation:
+            self.authorize(token, kind, csrf=csrf, mutating=True)
+            permit = object()
+            self.responses[permit] = (token_hash(token), kind, self.clock() + timeout)
+            return permit
+
+    def end_response(self, permit):
+        with self.lock:
+            self.responses.pop(permit, None)
+
+    def authorize(self, token, kind, *, csrf=None, mutating=False, response=None):
+        with self.lock:
+            key = token_hash(token)
+            scope = self.responses.get(response) if response is not None else None
+            now = self.clock()
+            if response is not None and (not scope or scope[:2] != (key, kind) or scope[2] <= now):
+                raise ApiError("SESSION_REVOKED", 401)
+            row = self.sessions.get(key)
+            if not row or (row[0] <= now and scope is None) or row[1].kind != kind or row[1].generation != self.generation:
                 raise ApiError("SESSION_REVOKED", 401)
             p = row[1]
             if not set(p.roles) <= set(self.roles):

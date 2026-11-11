@@ -1,0 +1,7 @@
+{
+  "src/nana_core/life/live_api/auth.py": "d463a0ad127acb78739d6748b622a6bb44deac4ae9760ddf56edca4e0156096e",
+  "src/nana_core/life/live_api/server.py": "7770d2d34d9c763d44a28c79b789be5959e05a1bc76e065bae2f02ce60cb3df9",
+  "tests/first_life_android_v2/test_response_authorization.py": "1183889b35db83f6498785fc2848bde352e0fe7dbe57fdba473564b03e275e9e",
+  "tests/first_life_android_v2/test_message_sequence_http.py": "bca4ee724f4e630d80e4ae4e4c4ef27383598a13b2f72f0adf6064a2550fc973",
+  ".github/workflows/nana-next-qualification.yml": "7de28f4e656978f27afe9578f53397b666565e4f53b2968cf834f67f46d847b3"
+}

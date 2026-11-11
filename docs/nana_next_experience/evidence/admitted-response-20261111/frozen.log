@@ -1,0 +1,18 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_response_permit_is_finite_scoped_and_does_not_renew_access ________
+
+tmp_path = PosixPath('/tmp/nana-response-frozen/test_response_permit_is_finite0')
+
+    def test_response_permit_is_finite_scoped_and_does_not_renew_access(tmp_path):
+        now=[0.0]
+        auth=AuthService(tmp_path/'auth.json',password=PW,roles=tuple(Role),clock=lambda:now[0])
+        token,csrf=auth.login(PW)
+>       permit=auth.admit_response(token,'WEB',csrf=csrf,timeout=1230)
+               ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'AuthService' object has no attribute 'admit_response'
+
+tests/first_life_android_v2/test_response_authorization.py:16: AttributeError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_response_authorization.py::test_response_permit_is_finite_scoped_and_does_not_renew_access
+1 failed, 15 deselected in 0.81s
