@@ -17,6 +17,19 @@ class ExperienceNeed(DTO):
     reason: str
 
 
+def readable_ancestry(store, memory_ids, scope, privacy_classes):
+    """Bounded metadata ancestry; scope/privacy precede following an edge."""
+    seen=set();pending=list(memory_ids)
+    while pending and len(seen)<128:
+        mid=pending.pop()
+        if mid in seen:continue
+        head=store.one('memories',mid)
+        if not head or head['scope']!=scope or head['privacy_class'] not in privacy_classes:continue
+        seen.add(mid)
+        pending.extend(r[0] for r in store.db.execute('SELECT parent_id FROM memory_dependencies WHERE memory_id=?',(mid,)))
+    return seen,bool(pending)
+
+
 def project_need(store, domain, *, scope, privacy_classes, source_memory_ids=None):
     records=RecordService(store)
     def visible(rid):
@@ -39,20 +52,13 @@ def project_need(store, domain, *, scope, privacy_classes, source_memory_ids=Non
     if not failures:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='No current verified gap experience')
     if source_memory_ids is not None:
         # Bind modulation to the gap's actual ancestry, not merely a domain name.
-        seen=set();pending=list(source_memory_ids)
-        while pending and len(seen)<128:
-            mid=pending.pop()
-            if mid in seen:continue
-            head=store.one('memories',mid)
-            if not head or head['scope']!=scope or head['privacy_class'] not in privacy_classes:continue
-            seen.add(mid)
-            pending.extend(r[0] for r in store.db.execute('SELECT parent_id FROM memory_dependencies WHERE memory_id=?',(mid,)))
-        if pending:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Gap ancestry requires bounded review')
+        seen,truncated=readable_ancestry(store,source_memory_ids,scope,privacy_classes)
+        if truncated:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Gap ancestry requires bounded review')
         failures=[r for r in failures if r['result_memory_id'] in seen]
         if not failures:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='This concern does not descend from a checked gap')
     latest=failures[0]
     checks=store.db.execute(
-        "SELECT a.* FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
+        "SELECT a.*,l.experience_id AS lesson_experience_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
         "JOIN continuity_records r ON r.record_id=a.record_id "
         f"WHERE l.task_class=? AND r.scope=? AND r.privacy_class IN ({slots}) AND r.lifecycle='ACTIVE' "
         "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 33", (domain,scope,*allowed)).fetchall()
@@ -60,6 +66,14 @@ def project_need(store, domain, *, scope, privacy_classes, source_memory_ids=Non
     refs=(latest['record_id'],)
     for check in checks:
         if not visible(check['record_id']):continue
+        # A domain and a later/equal timestamp do not bind a successful episode
+        # (or counterexample) to this gap. It must concern the lesson learned
+        # from this failure, or independently check evidence descended from it.
+        if check['lesson_experience_id'] != latest['experience_id']:
+            ancestors,truncated=readable_ancestry(store,records.support(check['record_id']),scope,privacy_classes)
+            if latest['result_memory_id'] not in ancestors:
+                if truncated:return ExperienceNeed(domain=domain,state='UNKNOWN',source_record_ids=refs,reason='Episode causal ancestry requires bounded review')
+                continue
         if check['verdict']!='SUCCESS':
             refs=(*refs,check['record_id']);break  # counterexample is not erased by older success
         view=project(store,check['assessment_id'],scope=scope,privacy_classes=privacy_classes)

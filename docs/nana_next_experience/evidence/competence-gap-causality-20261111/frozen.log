@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_new_text_gap_is_not_settled_by_earlier_wordlike_reuse_at_the_same_clock _
+
+tmp_path = PosixPath('/tmp/nana-text-cause-frozen/test_new_text_gap_is_not_settl0')
+
+    def test_new_text_gap_is_not_settled_by_earlier_wordlike_reuse_at_the_same_clock(tmp_path):
+        from .test_retrieval_growth import notes as legacy_notes
+        home=tmp_path/'home';initialize_expanded(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            legacy_notes(app);fillers(app,15)
+            growth=app.runtime.work.note_retrieval_growth
+            growth.slice(SCOPE);advance(app);assert selected(app)[1]=='UNICODE_WORDS'
+            legacy_notes(app,('ＡＬＰＨＡＢＥＴ','ＢＥＴＡＭＡＸ','ＧＡＭＭＡＲＡＹ'),prefix='same-clock-prefix')
+            growth.slice(SCOPE);advance(app);assert selected(app)[1]=='JOIN'
+            for i,text in enumerate(TRAIN):save(app,text=text,privacy='PROJECT',request_id='same-clock-text-'+str(i))
+            # One maintenance slice can verify the old word method and then observe
+            # a distinct text-shape failure. Equal timestamps do not connect causes.
+            offered=growth.slice(SCOPE)
+            assert offered and offered['note_retrieval']=='OFFERED_TO_C'
+            need=project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',))
+>           assert need.state=='OPEN',need.model_dump()
+E           AssertionError: {'derived': True, 'domain': 'retrieval.notes', 'state': 'SETTLED', 'source_record_ids': ('d3fa43b8-301e-4af4-961f-37cbd3937366', '645ffa19-a47f-47df-9299-c94fd8fb4abf', 'aa50d608-9fd6-4c93-8363-f877c734edb6'), ...}
+E           assert 'SETTLED' == 'OPEN'
+E             
+E             - OPEN
+E             + SETTLED
+
+tests/independent_life/test_retrieval_text_profile.py:131: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_text_profile.py::test_new_text_gap_is_not_settled_by_earlier_wordlike_reuse_at_the_same_clock
+1 failed, 3 deselected in 0.71s

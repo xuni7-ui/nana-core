@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 148,
-  "as_of_us": 1794379294760210,
+  "revision": 149,
+  "as_of_us": 1794382008975811,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_TEXT_QUERY_ORIGINAL_G_CONTEXT_QUALIFIED",
+  "status": "IN_PROGRESS_COMPETENCE_GAP_CAUSAL_BINDING_FIXED",
   "progress": [
-    "原C/G独立TEXT16/32资格→未见来源24查询各全通过→换fixture模型实际C++召回/同主体重启；字面命中不冒领成长，实际规范化复用才OPEN→SETTLED，撤回失效。45相关21s/最终3项2.59s，8loopback/真实0。",
+    "原S3能力缺口按实际失败/核验来源因果绑定，旧同域成功不再误关新问题，异因反例不误重开；已有方法可通过真实独立应用解决新缺口而不重学。29相关15.16s含原实际SIGKILL恢复；6a远端45Core/81unit/104browser成功。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -34,11 +34,11 @@
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
+    "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md",
     "docs/nana_next_experience/evidence/text-query-original-g-20261111/README.md",
     "docs/nana_next_experience/evidence/text-query-research-20261111/README.md",
     "docs/nana_next_experience/evidence/cognition-timeout-inheritance-20261111/README.md",
-    "docs/nana_next_experience/evidence/load-and-light-choice-20261111/README.md",
-    "docs/nana_next_experience/evidence/activity-demand-and-interest-20261111/README.md"
+    "docs/nana_next_experience/evidence/load-and-light-choice-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

@@ -33,6 +33,7 @@ def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and
         growth=app.runtime.work.note_retrieval_growth
         assert growth.slice(SCOPE)['note_retrieval']=='OFFERED_TO_C'
         advance(app);assert selected(app)[1]=='UNICODE_WORDS'  # old qualification still first
+        old_word_lesson=selected(app)
         old_rule=RecordService(app.runtime.store).read(selected(app)[0])['payload']['rule']
         old_trial=RecordService(app.runtime.store).read(old_rule['trial_record_id'])['payload']
         assert old_trial['results']['EVALUATE']['evaluator']==('CORE_NOTE_RETRIEVAL_V2' if capacity==32 else 'CORE_NOTE_RETRIEVAL_V1')
@@ -84,6 +85,12 @@ def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and
         assert len(app.runtime.store.all('jobs'))==before_jobs
         assert len(app.runtime.store.all('strategy_assessments'))==assessments+1
         assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='SETTLED'
+        # An actual failure of a different earlier lesson must not reopen the
+        # now independently settled text gap merely because the domain matches.
+        legacy_snapshot=evaluator.snapshot(SCOPE,max_notes=capacity)
+        aid=app.runtime.work.note_retrieval_growth.assess(old_word_lesson,legacy_snapshot,('MI',),'other-word-counterexample')
+        assert app.runtime.store.one('strategy_assessments',aid)['verdict']=='COUNTEREXAMPLE'
+        assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='SETTLED'
     with relay(home,'CHAT',renderer=render_from_supplied_sources,remote_model_id='text-profile-unseen-resource',
                recall_query_terms=('C++',)) as (router,calls):
         with LifeApplication(home,clock=clock,router=router) as app:
@@ -111,3 +118,59 @@ def test_old_wordlike_trial_cannot_certify_new_method_or_query_shape(tmp_path):
         with pytest.raises(CoreError,match='NOTE_STRATEGY_INPUT_BOUND'):
             evaluator.evaluate('JOIN',(case_for(snapshot,('mist  garden',),'legacy-shape'),))
         assert not app.runtime.store.all('lessons') and not app.runtime.store.all('cognitive_requests')
+
+
+def test_new_text_gap_is_not_settled_by_earlier_wordlike_reuse_at_the_same_clock(tmp_path):
+    from .test_retrieval_growth import notes as legacy_notes
+    home=tmp_path/'home';initialize_expanded(home)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        legacy_notes(app);fillers(app,15)
+        growth=app.runtime.work.note_retrieval_growth
+        growth.slice(SCOPE);advance(app);assert selected(app)[1]=='UNICODE_WORDS'
+        legacy_notes(app,('ＡＬＰＨＡＢＥＴ','ＢＥＴＡＭＡＸ','ＧＡＭＭＡＲＡＹ'),prefix='same-clock-prefix')
+        growth.slice(SCOPE);advance(app);assert selected(app)[1]=='JOIN'
+        old_word_method=selected(app)
+        for i,text in enumerate(TRAIN):save(app,text=text,privacy='PROJECT',request_id='same-clock-text-'+str(i))
+        # One maintenance slice can verify the old word method and then observe
+        # a distinct text-shape failure. Equal timestamps do not connect causes.
+        offered=growth.slice(SCOPE)
+        assert offered and offered['note_retrieval']=='OFFERED_TO_C'
+        need=project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',))
+        assert need.state=='OPEN',need.model_dump()
+        # Merely changing >= to > would still falsely settle the new gap when
+        # a successful old-method episode happens later. Check that case too.
+        app.runtime.clock.source.advance(1_000_000)
+        snapshot=growth.evaluator.snapshot(SCOPE,max_notes=32)
+        growth.assess(old_word_method,snapshot,('MIST',),'old-word-reuse-after-new-text-gap')
+        assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='OPEN'
+        advance(app)
+        assert selected(app)[1]=='NFKC_CASEFOLD'
+        assert not app.runtime.store.all('cognitive_requests') and not app.runtime.store.all('actions')
+
+
+def test_existing_method_can_settle_a_new_gap_when_independent_proof_descends_from_that_gap(tmp_path):
+    from nana_core.storage import canonical
+    from nana_core.continuity.world_loop.learning import EpisodeLearning
+    from nana_core.continuity.retrieval_growth import qualified_query_profile
+    home=tmp_path/'home';initialize(home,active=0)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        for i,text in enumerate(TRAIN):save(app,text=text,privacy='PROJECT',request_id='transfer-training-'+str(i))
+        growth=app.runtime.work.note_retrieval_growth
+        growth.slice(SCOPE);advance(app);growth.slice(SCOPE);advance(app)
+        learned=selected(app);assert learned[1]=='NFKC_CASEFOLD'
+        lesson=app.runtime.store.db.execute('SELECT lesson_id FROM lessons WHERE record_id=?',(learned[0],)).fetchone()[0]
+        save(app,text='SYNTHETIC Ｃ＋＋ later application',privacy='PROJECT',request_id='transfer-current-gap')
+        snapshot=growth.evaluator.snapshot(SCOPE,profile=qualified_query_profile(app.runtime.store,learned))
+        _,result,_=growth.experience(snapshot,('C++',),'IDENTITY','new-gap-with-known-method')
+        assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='OPEN'
+        lesson_count=len(app.runtime.store.all('lessons'))
+        case=case_for(snapshot,('C++',),'actual-application-to-new-gap')
+        proof=growth.capture('explicit-known-method-reuse',canonical({'strategy_episode':{
+            'episode_key':'known-method-fixes-this-new-gap','lesson_id':lesson,'case':case.model_dump(mode='json')}}),
+            SCOPE,(result,))
+        aid=EpisodeLearning(app.runtime.store,app.runtime.authority,scopes=(SCOPE,),privacy_classes=('PROJECT',),
+            evaluator=growth.evaluator).assess(lesson,proof,authority=app.runtime.authority)
+        assert app.runtime.store.one('strategy_assessments',aid)['verdict']=='SUCCESS'
+        assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='SETTLED'
+        assert len(app.runtime.store.all('lessons'))==lesson_count  # transfer, without another study
+        assert not app.runtime.store.all('cognitive_requests') and not app.runtime.store.all('actions')

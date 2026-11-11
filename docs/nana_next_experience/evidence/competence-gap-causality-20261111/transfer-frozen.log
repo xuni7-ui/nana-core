@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_existing_method_can_settle_a_new_gap_when_independent_proof_descends_from_that_gap _
+
+tmp_path = PosixPath('/tmp/nana-text-cause-transfer-frozen/test_existing_method_can_settl0')
+
+    def test_existing_method_can_settle_a_new_gap_when_independent_proof_descends_from_that_gap(tmp_path):
+        from nana_core.storage import canonical
+        from nana_core.continuity.world_loop.learning import EpisodeLearning
+        from nana_core.continuity.retrieval_growth import qualified_query_profile
+        home=tmp_path/'home';initialize(home,active=0)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            for i,text in enumerate(TRAIN):save(app,text=text,privacy='PROJECT',request_id='transfer-training-'+str(i))
+            growth=app.runtime.work.note_retrieval_growth
+            growth.slice(SCOPE);advance(app);growth.slice(SCOPE);advance(app)
+            learned=selected(app);assert learned[1]=='NFKC_CASEFOLD'
+            lesson=app.runtime.store.db.execute('SELECT lesson_id FROM lessons WHERE record_id=?',(learned[0],)).fetchone()[0]
+            save(app,text='SYNTHETIC Ｃ＋＋ later application',privacy='PROJECT',request_id='transfer-current-gap')
+            snapshot=growth.evaluator.snapshot(SCOPE,profile=qualified_query_profile(app.runtime.store,learned))
+            _,result,_=growth.experience(snapshot,('C++',),'IDENTITY','new-gap-with-known-method')
+            assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='OPEN'
+            lesson_count=len(app.runtime.store.all('lessons'))
+            case=case_for(snapshot,('C++',),'actual-application-to-new-gap')
+            proof=growth.capture('explicit-known-method-reuse',canonical({'strategy_episode':{
+                'episode_key':'known-method-fixes-this-new-gap','lesson_id':lesson,'case':case.model_dump(mode='json')}}),
+                SCOPE,(result,))
+            aid=EpisodeLearning(app.runtime.store,app.runtime.authority,scopes=(SCOPE,),privacy_classes=('PROJECT',),
+                evaluator=growth.evaluator).assess(lesson,proof,authority=app.runtime.authority)
+            assert app.runtime.store.one('strategy_assessments',aid)['verdict']=='SUCCESS'
+>           assert project_need(app.runtime.store,'retrieval.notes',scope=SCOPE,privacy_classes=('PROJECT',)).state=='SETTLED'
+E           AssertionError: assert 'OPEN' == 'SETTLED'
+E             
+E             - SETTLED
+E             + OPEN
+
+tests/independent_life/test_retrieval_text_profile.py:174: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_text_profile.py::test_existing_method_can_settle_a_new_gap_when_independent_proof_descends_from_that_gap
+1 failed, 4 deselected in 0.51s

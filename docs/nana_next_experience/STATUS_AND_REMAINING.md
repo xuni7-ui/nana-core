@@ -77,3 +77,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 TEXT原G接线：旧WORDLIKE16/32不升级，新增TEXT16/32各经原C和G独立资格，未见8来源/24查询、同主体重启与换fixture模型后的实际C++context/RENDER通过；原学源撤回后资格和settled投影失效。普通literal命中不再冒领方法成长，实际normalized复用才记独立assessment。45相关21s/最终3项2.59s，8fixture真实0，无新Store/loop/authority。数据/旧binary回退/新安装/native/实机/真实自然度长期待；不是原A–H总完成。c30远端sandbox11+128checks47.12s已PASS，8ae首7失败原样保留。证据text-query-original-g-20261111。
+
+
+2026-11-11 competence因果补充：同域旧成功（同clock或更晚）不能误关新TEXT缺口，异因反例不能误重开已解决问题；真实旧方法应用新缺口时，独立核验及对应结果祖先证据可结案且不必再学。29相关15.16s，含原S3实际SIGKILL/恢复/撤回及原G；首错和过严direct-support修复的首错均保留。6a精确CI45Core/81unit/104browser成功，新源码后继CI待。原A–H/长期自然度/新安装及旧binary兼容未完成，CURRENT266+409保持。证据competence-gap-causality-20261111。
