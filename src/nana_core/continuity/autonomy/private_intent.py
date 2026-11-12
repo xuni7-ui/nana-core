@@ -5,7 +5,7 @@ has no scheduler, model, execution kernel or authority to grant/revoke anything.
 """
 import json
 from typing import Literal
-from pydantic import Field
+from pydantic import Field,model_serializer
 from ...contracts import DTO,CoreError
 from ..records import RecordService
 from .disclosure import expectation
@@ -53,6 +53,13 @@ class PrivateQuestionProposal(DTO):
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     question:str=Field(min_length=1,max_length=512)
     related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
+    revises_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.revises_record_id is None:value.pop('revises_record_id',None)
+        return value
 
 
 class PrivateQuestion(PrivateActivity):
@@ -157,7 +164,8 @@ def consider_question(event,situation,judgment,intention,proposal):
     """
     if (proposal is None or event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
             or judgment.stance not in {'WATCH','THINK_MORE','REMEMBER','REFLECT'}
-            or judgment.lesson_ids or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
+            or (judgment.lesson_ids and intention.kind not in {'NO_ACTION','REFLECTION'})
+            or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
             or intention.behavior in {'REST','WITHDRAW','STAY_SILENT','IGNORE','DO_NOTHING','DEFER'}
             or any((event.realization_target,event.goal_step,event.goal_review,event.memory_review_id,
                 event.governance_review_id,event.disposition_reflection_id,event.growth_assessment_id))
@@ -217,6 +225,19 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                 supersedes=rid,target_id='private-intent.v1')
     if (private_question is not None and result.intention_id and result.record_id
             and result.intention.behavior=='REFLECT' and result.evaluation and result.evaluation.normative=='ENDORSED'):
+        if private_question.revises_record_id is not None:
+            old=next(((rid,item) for rid,item in current if rid==private_question.revises_record_id),None)
+            if (old is None or not isinstance(old[1],PrivateQuestion) or old[1].owner_identity_id!=store.identity['identity_id']
+                    or old[1].topic!=private_question.topic):raise CoreError('PRIVATE_QUESTION_REVISION_UNAVAILABLE')
+            rid,item=old
+            if item.content_summary!=private_question.question or item.activity_state!='ACTIVE':
+                revised=item.model_copy(update={'content_summary':private_question.question,'activity_state':'ACTIVE',
+                    'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
+                    'source_memory_ids':result.intention.source_ids})
+                records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),
+                    records=tuple(dict.fromkeys((rid,result.record_id,*private_question.related_private_record_ids))),
+                    supersedes=rid,target_id='private-intent.v1')
+            return
         if not any(item.owner_identity_id==store.identity['identity_id'] and item.topic==private_question.topic
                 and item.category=='PRIVATE_QUESTION' and item.content_summary==private_question.question
                 and getattr(item,'activity_state','ACTIVE')!='ABANDONED' for _,item in current):

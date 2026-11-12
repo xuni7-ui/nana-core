@@ -626,6 +626,50 @@ def test_private_learning_interest_keeps_original_risk_norm_and_source_constrain
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 
+def test_private_question_revision_keeps_own_lineage_and_rejects_wrong_or_stale_target(tmp_path):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    old_text='SYNTHETIC private question before new evidence'
+    new_text='SYNTHETIC revised private question after reconsideration'
+    with LifeApplication(home) as app:
+        original,_,seed=choose(app);r=app.runtime
+        r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        seed_rid=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0][0];calls=[]
+        policy=ContextPolicy(policy_id='private-question-revision',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        def think(key,text,revision_of=None):
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us())
+            class QuestionFixture:
+                descriptor='offline-private-question-revision-fixture'
+                def propose(self,request):
+                    calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':'creative-project','question':text,'revises_record_id':revision_of}
+                    base['interpretation']=text
+                    return json.dumps(base)
+            return r.subject.cognize(event,model=QuestionFixture(),authority=r.authority,policy=policy)
+        created=think('question-created',old_text)
+        r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        old_rid,old=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')
+        with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REVISION'):think('cannot-revise-creative-idea',new_text,seed_rid)
+        changed=think('question-revised',new_text,old_rid)
+        assert changed.intention.behavior=='REFLECT' and new_text not in changed.model_dump_json()
+        current_rid,current=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')
+        assert current.intent_id==old.intent_id and current.revision==2 and current.content_summary==new_text
+        assert current.created_at_us==old.created_at_us and current.updated_at_us>=old.updated_at_us
+        assert r.store.one('continuity_records',old_rid)['lifecycle']=='SUPERSEDED'
+        assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? AND relation_kind='SUPPORT'",(current_rid,old_rid)).fetchone()
+        r.subject.transition_intention(changed.intention_id,expected_revision=1,state='COMPLETED')
+        with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REVISION'):think('stale-question-version',old_text,old_rid)
+        same=think('unchanged-question',new_text,current_rid)
+        assert next(rid for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')==current_rid
+        assert next(v.revision for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')==2
+        assert new_text not in same.model_dump_json()
+        app.forget(original)
+        assert not candidates(r.store,'project-work',('PUBLIC','PROJECT'))
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
 def test_sourced_surprise_trigger_reconsiders_in_c_not_timer_delivery(tmp_path):
     home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
     with LifeApplication(home,clock=clock) as app:

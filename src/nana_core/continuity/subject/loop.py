@@ -396,7 +396,9 @@ class SubjectLoop:
                 private_question=consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
                 if private_question is not None:
                     from .contracts import Intention,Judgment
-                    judgment=Judgment(stance='REFLECT',reason='Consider an own private question, without treating it as an observation or a permission',source_ids=situation.memory_ids)
+                    judgment=judgment.model_copy(update={'stance':'REFLECT',
+                        'reason':'Consider an own private question, without treating it as an observation or a permission',
+                        'source_ids':situation.memory_ids})
                     intention=Intention(kind='REFLECTION',purpose='Consider an own private question; contents remain private',
                         slot_key='private-question-'+digest(private_question.model_dump(mode='json'))[:32],
                         source_ids=situation.memory_ids,self_generated=True,behavior='REFLECT')

@@ -74,6 +74,11 @@ class DeliberationSession:
             private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
             if not set(proposal.private_question.related_private_record_ids)<=private_refs:
                 raise CoreError('UNSUPPORTED_PRIVATE_QUESTION_REFERENCE')
+            if proposal.private_question.revises_record_id is not None:
+                target=next((json.loads(b.data_json) for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE'
+                    and proposal.private_question.revises_record_id in b.source_record_ids),None)
+                if target is None or target['category']!='PRIVATE_QUESTION' or target['topic']!=proposal.private_question.topic:
+                    raise CoreError('UNSUPPORTED_PRIVATE_QUESTION_REVISION')
         self.assembler.validate(context, request, policy)  # state may change during inference
         return DeliberationResult(model_descriptor=model.descriptor, context_digest=context.content_digest,
                                   raw_proposal_json=raw, proposal=proposal)

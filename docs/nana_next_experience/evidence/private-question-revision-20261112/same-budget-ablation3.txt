@@ -1,0 +1,4 @@
+.PRIVATE_QUESTION_S8_FIXTURE baseline_passed 0 evaluation True transfer True later_method NUMERIC_SUM same_subject_restart True fixture_cognition_calls 2 revision_enabled False private_question_revision 1 input_limits [61440, 61440] synthetic_actions 0
+.PRIVATE_QUESTION_S8_FIXTURE baseline_passed 0 evaluation True transfer True later_method NUMERIC_SUM same_subject_restart True fixture_cognition_calls 2 revision_enabled True private_question_revision 2 input_limits [61440, 61440] synthetic_actions 0
+.
+3 passed, 48 deselected in 0.60s

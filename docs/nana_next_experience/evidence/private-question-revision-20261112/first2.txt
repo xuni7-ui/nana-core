@@ -1,0 +1,3 @@
+.PRIVATE_QUESTION_S8_FIXTURE baseline_passed 0 evaluation True transfer True later_method NUMERIC_SUM same_subject_restart True fixture_cognition_calls 2 private_question_revision 2 synthetic_actions 0
+.
+2 passed, 48 deselected in 0.47s

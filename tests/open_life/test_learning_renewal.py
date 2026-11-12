@@ -36,7 +36,8 @@ def jobs(r):
     return r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid").fetchall()
 
 
-def test_private_question_can_start_independent_learning_and_change_unseen_later_plan(tmp_path,monkeypatch):
+@pytest.mark.parametrize('revise_question',[False,True])
+def test_private_question_can_start_independent_learning_and_change_unseen_later_plan(tmp_path,monkeypatch,revise_question):
     from nana_core.continuity.autonomy import private_intent
     from nana_core.continuity.cognition import AnalyticalFixturePort
     from nana_core.continuity.context import ContextPolicy
@@ -95,10 +96,36 @@ def test_private_question_can_start_independent_learning_and_change_unseen_later
         port.seed_observation(obj.operators[0].resource,[1.2,2.3]);later=cue(r,obj)
         send(r,'private-question-later-plan',(later,),task_class='numbers');result=r.step()
         assert result['cycle'].judgment.selected_method=='NUMERIC_SUM' and len(model_calls)==1
+        question_rid,old_question=next((rid,item) for rid,item in private_intent.candidates(r.store,'lab',('PERSONAL',)) if item.category=='PRIVATE_QUESTION')
+        lesson_id=learned['lesson_id'];revised_text='SYNTHETIC: Which other numerical games could use the independently checked summation method?'
+        class LearnedQuestionFixture:
+            descriptor='offline-verified-learning-private-question-revision'
+            def propose(self,request):
+                model_calls.append(request);data=json.loads(request.context_json)
+                assert any(b['kind']=='LESSON' and json.loads(b['data_json'])['lesson_id']==lesson_id for b in data['blocks'])
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base.update(private_question={'topic':'numbers-play','question':revised_text,'revises_record_id':question_rid},lesson_refs=[lesson_id])
+                return json.dumps(base)
+        with monkeypatch.context() as patch:
+            if not revise_question:patch.setattr(private_intent,'consider_question',lambda *args:None)
+            reflection=r.subject.cognize(SubjectInput(source_key='synthetic.private.learned-reconsideration',kind='WAKE',origin='SELF_WAKE',
+                entity_id='synthetic-person',scope='lab',topic='numbers-play',task_class='numbers',observed_at_us=clock.utc_now_us()),
+                model=LearnedQuestionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='learned-private-revision',allowed_scopes=('lab',),readable_privacy=('PERSONAL',)))
+        assert reflection.intention.behavior==('REFLECT' if revise_question else None) and reflection.judgment.selected_method=='NUMERIC_SUM'
+        assert lesson_id in reflection.judgment.lesson_ids
+        new_rid,new_question=next((rid,item) for rid,item in private_intent.candidates(r.store,'lab',('PERSONAL',)) if item.category=='PRIVATE_QUESTION')
+        assert new_question.intent_id==old_question.intent_id and new_question.revision==old_question.revision+int(revise_question)
+        assert new_question.content_summary==(revised_text if revise_question else old_question.content_summary)
+        assert revised_text not in reflection.model_dump_json()
+        lesson_record=r.store.one('lessons',lesson_id)['record_id']
+        assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? AND relation_kind='SUPPORT'",(reflection.record_id,lesson_record)).fetchone()
+        assert learning.strategy('numbers','lab')[1]=='NUMERIC_SUM' and len(model_calls)==2
         print('PRIVATE_QUESTION_S8_FIXTURE','baseline_passed',learned['results']['BASELINE']['passed'],
             'evaluation',learned['results']['EVALUATE']['all_passed'],'transfer',learned['results']['TRANSFER']['all_passed'],
             'later_method',result['cycle'].judgment.selected_method,'same_subject_restart',r.identity_id==identity,
-            'fixture_cognition_calls',len(model_calls),'synthetic_actions',len(r.store.all('actions')))
+            'fixture_cognition_calls',len(model_calls),'revision_enabled',revise_question,'private_question_revision',new_question.revision,
+            'input_limits',[json.loads(x.context_json)['manifest']['input_limit'] for x in model_calls],
+            'synthetic_actions',len(r.store.all('actions')))
 
 
 def body(r, job):
