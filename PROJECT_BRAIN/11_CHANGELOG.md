@@ -3646,3 +3646,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE A/G产品：Anthropic模型目录从一页推进到同host/native headers有界分页，异常cursor/8页/总256KiB/256显示/时间窗口诚实partial，后续auth失败不重试；前端不丢partial且保留手填。冻结3fail/2pass→32相关17.53s，TS/Vite/四视口8浏览器通过12.7s；原夹具未打开编辑器及路径误操作/中断记录保留，首错文本仍在。先前独立558114Core/53f93unit148browser非本批。证据model-catalog-pagination-20261112/09锚；无新APK/真实API/模型/手机/生产，下一回原C关联/策略，原A–H不缩减。
 
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6增量：保留原问题可明确解除当前联系，不删除相关思想/原追源，暂停不复活；新proposal默认false省略保持旧wire，必须原C绑定当前修订且不混替代refs。1首错→目标通过，最终私念/Context/C/portable66通过6.66s，无新模型阶段/权限/Store。证据private-association-clear-20261112/09锚；下一原PRIVATE_PLAN只有DTO的实际接线、商业策略及原A–H，无新安装/真实模型/手机/生产/长期资格。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S6/S8接口：原PRIVATE_PLAN由只声明接入已有认知/原C/原V2，私密/无旧支持发生根/重启/精准暂停恢复修订与问题共存；同机会关IGNORE/开LEARN，未假装学会或执行。180相关后补异常私文回显3首错→4目标、最终79相关通过6.69s；保留ValidationError/strict/forbid/frozen不吞错误。原错误WITHDRAWN夹具拒绝保留后用合法DROPPED。无新模块/Store/Planner/表/模型阶段，真实0。下一正常D私人活动条件机会/商业持续策略与原A–H，非新安装/手机/生产/自然度/长期资格。证据private-plan-20261112/09锚。

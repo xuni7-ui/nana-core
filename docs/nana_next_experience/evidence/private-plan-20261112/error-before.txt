@@ -1,0 +1,85 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_private_cognitive_validation_errors_do_not_echo_private_contents[private_question] _
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f53831f8ef0>, <nana_core.continuity.memory.MemoryService object at 0x7f53831ef7d0>, <nana_core.actions.OperatorAuthority object at 0x7f538337c1a0>)
+kind = 'private_question'
+
+    @pytest.mark.parametrize('kind',['private_question','private_plan','two-edits'])
+    def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognitive,kind):
+        from nana_core.continuity.cognition import CognitiveProposal
+        store,_,_=cognitive
+        private='PRIVATE_CANARY_INNER_CONTENT_'+('x'*520)
+        value={'identity_id':store.identity['identity_id'],'identity_revision':1,'interpretation':'Untrusted private candidate',
+            'proposed_operations':['DRAFT']}
+        if kind=='two-edits':
+            value.update(private_question={'topic':'private-test','question':private[:100]},private_plan={'topic':'private-test','plan':private[:100]})
+        else:value[kind]={'topic':'private-test',('question' if kind=='private_question' else 'plan'):private}
+        with pytest.raises(ValidationError) as error:CognitiveProposal.model_validate_json(json.dumps(value))
+        assert 'PRIVATE_CANARY_INNER_CONTENT_' not in str(error.value)
+>       assert 'input_value=' not in str(error.value)
+E       AssertionError: assert 'input_value=' not in '1 validatio...ing_too_long'
+E         
+E         'input_value=' is contained here:
+E           too_long, input_value='PRIVATE_CANARY_INNER_CON...xxxxxxxxxxxxxxxxxxxxxxx', input_type=str]
+E         ?           ++++++++++++
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_too_long
+
+tests/continuous_self/test_cognition.py:77: AssertionError
+_ test_private_cognitive_validation_errors_do_not_echo_private_contents[private_plan] _
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f53831fa390>, <nana_core.continuity.memory.MemoryService object at 0x7f53831fbdd0>, <nana_core.actions.OperatorAuthority object at 0x7f53831fbb90>)
+kind = 'private_plan'
+
+    @pytest.mark.parametrize('kind',['private_question','private_plan','two-edits'])
+    def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognitive,kind):
+        from nana_core.continuity.cognition import CognitiveProposal
+        store,_,_=cognitive
+        private='PRIVATE_CANARY_INNER_CONTENT_'+('x'*520)
+        value={'identity_id':store.identity['identity_id'],'identity_revision':1,'interpretation':'Untrusted private candidate',
+            'proposed_operations':['DRAFT']}
+        if kind=='two-edits':
+            value.update(private_question={'topic':'private-test','question':private[:100]},private_plan={'topic':'private-test','plan':private[:100]})
+        else:value[kind]={'topic':'private-test',('question' if kind=='private_question' else 'plan'):private}
+        with pytest.raises(ValidationError) as error:CognitiveProposal.model_validate_json(json.dumps(value))
+        assert 'PRIVATE_CANARY_INNER_CONTENT_' not in str(error.value)
+>       assert 'input_value=' not in str(error.value)
+E       AssertionError: assert 'input_value=' not in '1 validatio...ing_too_long'
+E         
+E         'input_value=' is contained here:
+E           too_long, input_value='PRIVATE_CANARY_INNER_CON...xxxxxxxxxxxxxxxxxxxxxxx', input_type=str]
+E         ?           ++++++++++++
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_too_long
+
+tests/continuous_self/test_cognition.py:77: AssertionError
+_ test_private_cognitive_validation_errors_do_not_echo_private_contents[two-edits] _
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f53831fa420>, <nana_core.continuity.memory.MemoryService object at 0x7f538323c410>, <nana_core.actions.OperatorAuthority object at 0x7f53831fa630>)
+kind = 'two-edits'
+
+    @pytest.mark.parametrize('kind',['private_question','private_plan','two-edits'])
+    def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognitive,kind):
+        from nana_core.continuity.cognition import CognitiveProposal
+        store,_,_=cognitive
+        private='PRIVATE_CANARY_INNER_CONTENT_'+('x'*520)
+        value={'identity_id':store.identity['identity_id'],'identity_revision':1,'interpretation':'Untrusted private candidate',
+            'proposed_operations':['DRAFT']}
+        if kind=='two-edits':
+            value.update(private_question={'topic':'private-test','question':private[:100]},private_plan={'topic':'private-test','plan':private[:100]})
+        else:value[kind]={'topic':'private-test',('question' if kind=='private_question' else 'plan'):private}
+        with pytest.raises(ValidationError) as error:CognitiveProposal.model_validate_json(json.dumps(value))
+        assert 'PRIVATE_CANARY_INNER_CONTENT_' not in str(error.value)
+>       assert 'input_value=' not in str(error.value)
+E       AssertionError: assert 'input_value=' not in '1 validatio.../value_error'
+E         
+E         'input_value=' is contained here:
+E           ue_error, input_value={'identity_id': '302bb91a...xxxxxxxxxxxxxxxxxxxxx'}}, input_type=dict]
+E         ?           ++++++++++++
+E               For further information visit https://errors.pydantic.dev/2.13/v/value_error
+
+tests/continuous_self/test_cognition.py:77: AssertionError
+=========================== short test summary info ============================
+FAILED tests/continuous_self/test_cognition.py::test_private_cognitive_validation_errors_do_not_echo_private_contents[private_question]
+FAILED tests/continuous_self/test_cognition.py::test_private_cognitive_validation_errors_do_not_echo_private_contents[private_plan]
+FAILED tests/continuous_self/test_cognition.py::test_private_cognitive_validation_errors_do_not_echo_private_contents[two-edits]
+3 failed, 2 deselected in 0.17s

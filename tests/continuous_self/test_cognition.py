@@ -60,3 +60,19 @@ def test_model_cannot_forge_authority_receipt_identity_or_memory_reference(cogni
     for constructor in (IdentityService, CommitmentService, ProjectService, ExperienceService, ContextAssembler):
         with pytest.raises(CoreError, match="OPERATOR_AUTHORITY_REQUIRED"):
             constructor(store, None)
+
+
+@pytest.mark.parametrize('kind',['private_question','private_plan','two-edits'])
+def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognitive,kind):
+    from nana_core.continuity.cognition import CognitiveProposal
+    store,_,_=cognitive
+    private='PRIVATE_CANARY_INNER_CONTENT_'+('x'*520)
+    value={'identity_id':store.identity['identity_id'],'identity_revision':1,'interpretation':'Untrusted private candidate',
+        'proposed_operations':['DRAFT']}
+    if kind=='two-edits':
+        value.update(private_question={'topic':'private-test','question':private[:100]},private_plan={'topic':'private-test','plan':private[:100]})
+    else:value[kind]={'topic':'private-test',('question' if kind=='private_question' else 'plan'):private}
+    with pytest.raises(ValidationError) as error:CognitiveProposal.model_validate_json(json.dumps(value))
+    assert 'PRIVATE_CANARY_INNER_CONTENT_' not in str(error.value)
+    assert 'input_value=' not in str(error.value)
+    assert error.value.errors(include_input=False)  # Keep typed diagnostics.

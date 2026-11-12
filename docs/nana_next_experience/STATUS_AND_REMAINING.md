@@ -167,3 +167,7 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 模型配置实际目录补齐
 
 Anthropic有界分页/部分目录提示与手填已接现役产品，32后端相关+TS/Vite/四视口8浏览器受控通过，见evidence/model-catalog-pagination-20261112。独立CI先前558114Core/53f93unit148browser另存。不当任意全目录/其他供应商协议/真实模型/API/手机/生产或完整发行完成；内心主优先与原A–H继续。
+
+### 2026-11-12 原C未公开计划与错误隐私
+
+PRIVATE_PLAN从DTO声明接入原cognize→C→原V2，不造第二Planner。原Store重启后计划影响LEARN取舍，精准暂停/恢复/修订与问题共存、源撤回通过；普通trace/Context不出私文，异常ValidationError输入回显已定向隐藏且类型规则不降。180相关后补最终79通过分项。下一正常D按私人活动状态/条件触发尚未接，商业策略/反馈/自主生活及原A–H保持真实未完成，不当长期/安装/生产验收。见evidence/private-plan-20261112。

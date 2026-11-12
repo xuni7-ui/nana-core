@@ -48,10 +48,10 @@ class PrivateActivity(PrivateIntent):
     execution_state:Literal['NOT_INFERRED_FROM_ACTIVITY_STATE']='NOT_INFERRED_FROM_ACTIVITY_STATE'
 
 
-class PrivateQuestionProposal(DTO):
-    """An own question proposed in existing cognition, never an observation."""
+class PrivateThoughtEdit(DTO):
+    """One bounded own edit in existing cognition, never an observation."""
+    model_config={**DTO.model_config, "hide_input_in_errors":True}
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
-    question:str=Field(min_length=1,max_length=512)
     related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
     clear_related_private_records:bool=False
     revises_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
@@ -68,6 +68,14 @@ class PrivateQuestionProposal(DTO):
         if self.revises_record_id is None:value.pop('revises_record_id',None)
         if not self.clear_related_private_records:value.pop('clear_related_private_records',None)
         return value
+
+
+class PrivateQuestionProposal(PrivateThoughtEdit):
+    question:str=Field(min_length=1,max_length=512)
+
+
+class PrivatePlanProposal(PrivateThoughtEdit):
+    plan:str=Field(min_length=1,max_length=512)
 
 
 class PrivateQuestion(PrivateActivity):
@@ -207,7 +215,15 @@ def review_target(store,reference,*,scope,privacy_classes,topic):
 
 
 def consider_question(event,situation,judgment,intention,proposal):
-    """Original C may consider an own new question without an external event.
+    return _consider_formation(event,situation,judgment,intention,proposal)
+
+
+def consider_plan(event,situation,judgment,intention,proposal):
+    return _consider_formation(event,situation,judgment,intention,proposal)
+
+
+def _consider_formation(event,situation,judgment,intention,proposal):
+    """Original C may consider an own question or plan without an external event.
 
     The model does not adopt a goal, replace a specific review or obtain an
     execution binding. Rest, disagreement, sourced norms and current boundaries
@@ -254,7 +270,7 @@ def anchor_own_occurrence(store,event,*,authority):
 
 
 def _complete_question_formation(store,tx,intention_id):
-    """The C consideration was recorded; its ongoing question is still active.
+    """The C consideration was recorded; its ongoing question/plan is still active.
 
     This never completes a goal, learning job, delivery or external action.
     """
@@ -264,15 +280,16 @@ def _complete_question_formation(store,tx,intention_id):
         tx.update('subject_intentions',intention_id,state='COMPLETED',revision=row['revision']+1)
 
 
-def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None):
+def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None,private_plan=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
     A wall clock only permits reconsideration in another ordinary C cycle. Even a
     DISCLOSED state is eligibility, never an assertion of delivery or of an effect.
     """
     records=RecordService(store)
+    formation=private_question or private_plan
     current=candidates(store,event.scope,privacy_classes)
-    for topic in dict.fromkeys(t for t in (selected_topic,private_question.topic if private_question else None) if t is not None):
+    for topic in dict.fromkeys(t for t in (selected_topic,formation.topic if formation else None) if t is not None):
         relevant=candidates(store,event.scope,privacy_classes,topic=topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
         current=tuple({rid:(rid,item) for rid,item in (*current,*relevant)}.values())
     from ..subject.context_fit import depth_boundary
@@ -299,7 +316,7 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
         if review and rid==owned[0][0]:
             if getattr(item,'activity_state','ACTIVE')!=desired:
                 changes['activity_state']=desired
-            if desired=='ACTIVE' and not isinstance(item,PrivateQuestion) and item.content_summary!=result.intention.purpose[:512]:
+            if desired=='ACTIVE' and not isinstance(item,PrivateQuestion) and item.category!='PRIVATE_PLAN' and item.content_summary!=result.intention.purpose[:512]:
                 changes['content_summary']=result.intention.purpose[:512]
         if changes:
             data={**item.model_dump(mode='json'),**changes,'revision':item.revision+1}
@@ -314,23 +331,26 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
             parents=(rid,result.record_id,*associations) if 'activity_state' in changes or 'content_summary' in changes else (rid,*associations)
             records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),records=parents,
                 supersedes=rid,target_id='private-intent.v1')
-    if (private_question is not None and result.intention_id and result.record_id
+    if (formation is not None and result.intention_id and result.record_id
             and result.intention.behavior=='REFLECT' and result.evaluation and result.evaluation.normative=='ENDORSED'):
-        if private_question.revises_record_id is not None:
-            old=next(((rid,item) for rid,item in current if rid==private_question.revises_record_id),None)
-            if (old is None or not isinstance(old[1],PrivateQuestion) or old[1].owner_identity_id!=store.identity['identity_id']
-                    or old[1].status=='WITHDRAWN' or old[1].disclosure_policy=='WITHDRAWN'):raise CoreError('PRIVATE_QUESTION_REVISION_UNAVAILABLE')
+        category='PRIVATE_QUESTION' if private_question is not None else 'PRIVATE_PLAN'
+        model=PrivateQuestion if private_question is not None else PrivateActivity
+        contents=formation.question if private_question is not None else formation.plan
+        if formation.revises_record_id is not None:
+            old=next(((rid,item) for rid,item in current if rid==formation.revises_record_id),None)
+            if (old is None or not isinstance(old[1],model) or old[1].category!=category or old[1].owner_identity_id!=store.identity['identity_id']
+                    or old[1].status=='WITHDRAWN' or old[1].disclosure_policy=='WITHDRAWN'):raise CoreError(category+'_REVISION_UNAVAILABLE')
             rid,item=old
-            reframed=item.content_summary!=private_question.question or item.topic!=private_question.topic
+            reframed=item.content_summary!=contents or item.topic!=formation.topic
             previous_associations=_association_record_ids(store,rid,owner_intent_id=item.intent_id,scope=event.scope,privacy_classes=privacy_classes)
             # Clear the current association projection, not the related ideas
             # or their original source/erasure lineage. Omission keeps old wire
             # semantics; it is never silently interpreted as abandonment.
-            associations=() if private_question.clear_related_private_records else (
-                tuple(dict.fromkeys(x for x in private_question.related_private_record_ids if x!=rid)) or previous_associations)
+            associations=() if formation.clear_related_private_records else (
+                tuple(dict.fromkeys(x for x in formation.related_private_record_ids if x!=rid)) or previous_associations)
             association_changed=set(associations)!=set(previous_associations)
             if reframed or association_changed or item.activity_state!='ACTIVE':
-                changes={'content_summary':private_question.question,'topic':private_question.topic,'activity_state':'ACTIVE',
+                changes={'content_summary':contents,'topic':formation.topic,'activity_state':'ACTIVE',
                     'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
                     'source_memory_ids':result.intention.source_ids}
                 if reframed or association_changed:
@@ -343,15 +363,15 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                     supersedes=rid,target_id='private-intent.v1')
             _complete_question_formation(store,tx,result.intention_id)
             return
-        if not any(item.owner_identity_id==store.identity['identity_id'] and item.topic==private_question.topic
-                and item.category=='PRIVATE_QUESTION' and item.content_summary==private_question.question
+        if not any(item.owner_identity_id==store.identity['identity_id'] and item.topic==formation.topic
+                and item.category==category and item.content_summary==contents
                 and getattr(item,'activity_state','ACTIVE')!='ABANDONED' for _,item in current):
             now=store.clock.utc_now_us()
-            value=PrivateQuestion(intent_id=result.intention_id,owner_identity_id=store.identity['identity_id'],cycle_id=result.cycle_id,
-                topic=private_question.topic,content_summary=private_question.question,disclosure_policy='PRIVATE_FOR_NOW',
+            value=model(category=category,intent_id=result.intention_id,owner_identity_id=store.identity['identity_id'],cycle_id=result.cycle_id,
+                topic=formation.topic,content_summary=contents,disclosure_policy='PRIVATE_FOR_NOW',
                 source_memory_ids=result.intention.source_ids,risk_class=event.risk,created_at_us=now,updated_at_us=now,last_choice_cycle_id=result.cycle_id)
             records.create(tx,kind='INTENTION',scope=event.scope,payload=value.model_dump(mode='json'),
-                records=tuple(dict.fromkeys((result.record_id,*private_question.related_private_record_ids))),target_id='private-intent.v1')
+                records=tuple(dict.fromkeys((result.record_id,*formation.related_private_record_ids))),target_id='private-intent.v1')
         _complete_question_formation(store,tx,result.intention_id)
         return
     if review and desired=='ACTIVE':return  # Revise the existing idea, never duplicate it on resumption.

@@ -387,21 +387,25 @@ class SubjectLoop:
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)
-            private_question=None
+            private_question=None;private_plan=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
-                from ..autonomy.private_intent import consider_question
+                from ..autonomy.private_intent import consider_question,consider_plan
                 private_question=(consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
                     if self.store.schema_target>=13 else None)
-                if private_question is not None:
+                private_plan=(consider_plan(event,situation,judgment,intention,_deliberation.proposal.private_plan)
+                    if self.store.schema_target>=13 else None)
+                formation=private_question or private_plan
+                if formation is not None:
+                    label='question' if private_question is not None else 'plan'
                     from .contracts import Intention,Judgment
                     judgment=judgment.model_copy(update={'stance':'REFLECT',
-                        'reason':'Consider an own private question, without treating it as an observation or a permission',
+                        'reason':f'Consider an own private {label}, without treating it as an observation or a permission',
                         'source_ids':situation.memory_ids})
-                    intention=Intention(kind='REFLECTION',purpose='Consider an own private question; contents remain private',
-                        slot_key='private-question-'+digest(private_question.model_dump(mode='json'))[:32],
+                    intention=Intention(kind='REFLECTION',purpose=f'Consider an own private {label}; contents remain private',
+                        slot_key='private-'+label+'-'+digest(formation.model_dump(mode='json'))[:32],
                         source_ids=situation.memory_ids,self_generated=True,behavior='REFLECT')
                 elif judgment.stance in {'WATCH','REMEMBER','THINK_MORE'} and not judgment.lesson_ids and any(x in operations for x in ('ASK','WAIT')):
                     from .contracts import Intention, Judgment
@@ -416,10 +420,10 @@ class SubjectLoop:
                 "SELECT count(*) FROM subject_intentions i JOIN continuity_records r ON r.record_id=i.record_id "
                 "WHERE i.state='PENDING' AND i.expires_at_us>? AND r.lifecycle='ACTIVE'",
                 (self.store.clock.utc_now_us(),)).fetchone()[0]
-            # An accepted own question has no pending execution binding. Its
+            # An accepted own question/plan has no pending execution binding. Its
             # formation is completed in this same transaction after recording;
             # it does not consume the asynchronous intention queue's capacity.
-            if private_question is None and intention.kind!='NO_ACTION' and (global_pending >= MAX_PENDING or duplicate_slot):
+            if private_question is None and private_plan is None and intention.kind!='NO_ACTION' and (global_pending >= MAX_PENDING or duplicate_slot):
                 from .contracts import Intention, Judgment
                 attention = 'DEFER'
                 judgment = Judgment(stance='DEFER', reason='A matching concern is already pending or attention is full', source_ids=situation.memory_ids)
@@ -494,9 +498,9 @@ class SubjectLoop:
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json':
-                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,
+                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,
                             'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
-                        if _deliberation.proposal.private_question or situation.private_interest_records else _deliberation.raw_proposal_json})
+                        if _deliberation.proposal.private_question or _deliberation.proposal.private_plan or situation.private_interest_records else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
@@ -517,7 +521,7 @@ class SubjectLoop:
                 from ..autonomy.private_intent import after_choice
                 after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes,
                     selected_topic=situation.cue.topic_key if situation.cue else event.topic,
-                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question)
+                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question,private_plan=private_plan)
         return result.model_copy(update={'record_id': record})
 
     def result(self, row, *, replayed=False):
@@ -603,9 +607,10 @@ class SubjectLoop:
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
         if self.store.schema_target>=13 and not situation.memory_ids and not situation.support_record_ids:
-            from ..autonomy.private_intent import consider_question,anchor_own_occurrence
+            from ..autonomy.private_intent import consider_question,consider_plan,anchor_own_occurrence
             _,judgment,intention=decide(event,situation,appraisal,motives)
-            if consider_question(event,situation,judgment,intention,result.proposal.private_question) is not None:
+            if (consider_question(event,situation,judgment,intention,result.proposal.private_question) is not None
+                    or consider_plan(event,situation,judgment,intention,result.proposal.private_plan) is not None):
                 # The recorded fact is this validated candidate occurrence. It
                 # is not a new external observation or an adopted world belief.
                 event=anchor_own_occurrence(self.store,event,authority=authority)

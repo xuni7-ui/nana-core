@@ -62,3 +62,9 @@
 原C可明确clear当前联系，保留问题文本/intent，版本增量；旧空list仍为保持，默认false从wire省略。原其他思想/源依赖不删，暂停不会恢复被放下的联系；含糊clear+替代/无target在原认知解析拒绝。冻结1fail→1pass，最终私念/Context/C/portable66通过6.66s，见evidence/private-association-clear-20261112，源码表锚 3664756a7f4d41065ab01cd114f020819b7821bee77630a495d042876d6ffd75。没有新增模型阶段或实际权限。
 
 下一源码已定位：原PrivateIntent.category PRIVATE_PLAN仅DTO存在，无原C创建该类内容的消费者；直接复用原V2/PrivateActivity及原cognize/源发生/精准生命周期补接，不另建计划权威。商业持续策略/保留/真实反馈/自发机会和原A–H仍在。最终匹配安装/真实模型/手机/生产/自然度/跨日成长未资格。
+
+## 最新内心主线：未公开计划真正接入原C
+
+private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无旧记忆也可根于真实程序发生，默认private/no execution，形成完成不假装执行。重启后同学习机会关私念IGNORE/开LEARN，精准暂停/恢复不覆盖计划内容，能同intent修订且与问题并存，源撤回保留原身份。180相关47.30s后补无效候选异常私文隐藏3首错→4目标0.53s及最终79相关6.69s，未拼全仓。见evidence/private-plan-20261112，源码表锚 af79f81271e28af0baac5a5fefd21d44138fbd86bad04fddec45d42403297b21。新增0模型阶段，3有效fixture+1拒绝跨类型fixture，真实0。旧Schema/Question/Precision不改，未新建Store/Planner/模块/表。
+
+下一确定源码入口：presence/runtime.py _refresh_attention→SubjectLoop.background_opportunities→subject/watch.py collect_opportunities目前没有按PRIVATE_ACTIVITY记录/版本/条件的机会。补正常D无用户消息续办，验证前台优先、静默窗口/忙闲、暂停重启、同条件不重复模型，不靠周期问模型或额外pending意向冒充持续生活。当前cognize受控成功不当此项已接。商业INTERPRET/C/RENDER私人策略和瞬时保留/真实反馈仍待，原A–H/CURRENT266+409/最终匹配安装与真实模型/手机/生产/自然度/长期完整继承。

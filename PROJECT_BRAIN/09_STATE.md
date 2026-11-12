@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 175,
-  "as_of_us": 1794480710875814,
+  "revision": 176,
+  "as_of_us": 1794481774184148,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRIVATE_ASSOCIATION_CHOICE_AND_PLAN_WIRING",
+  "status": "IN_PROGRESS_PRIVATE_PLANS_AND_AUTONOMOUS_CONTINUATION",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原私念一层联系已影响C的NO_ACTION/WAIT；本次可保留问题独立清空当前联系，同intent增量rev，原其他思想/完整追源不删，暂停不复活。冻结1fail→目标1pass，最终私念/Context/C/portable66通过；非商业或长期资格。",
+    "原PRIVATE_PLAN由声明接为原C真实候选→原V2/源发生，重启/私密/精准暂停恢复修订及与问题共存；同学习机会关IGNORE/开LEARN，未假装学会。180相关后补异常私文隐藏/共存4目标与最终79通过；无额外模型阶段或第二权威。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "原生Anthropic模型目录同host/native headers有界翻页，不完整列表前端提示且保留手填；冻结3fail/2pass→32相关通过，TS/Vite+四视口8浏览器通过。558独立CI114Core、53f独立93unit/148browser，非本批全仓/真实API/手机。"
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "原G/无旧支持新问/关联取舍受控闭环保留；PRIVATE_PLAN仅声明未接原C生成，下一复用原V2接未公开计划。商业持续策略/明确反馈和真实回执、自主机会条件、复杂冲突/单topic64/长期仍待，原A–H不缩减。",
+    "持续内心已有新问/计划/原G/关联取舍受控闭环；下一正常D collector按私人活动版本/条件续办仍未接。商业持续策略/保留/明确反馈/真实回执、自主机会、更多思想和冲突/单topic64/实际长期待，原A–H不缩减。",
     "根盘ENOSPC，实际同分支工作副本/tmp/nana-inner-refinement-work；原Root f583+4ownedWIP完整保护。/tmp会随环境重建消失，先查远端最新源码/09/ACTIVE；不再旧源码archive补取/403重试，真实模型/手机/生产未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-plan-20261112/README.md",
     "docs/nana_next_experience/evidence/private-association-clear-20261112/README.md",
     "docs/nana_next_experience/evidence/model-catalog-pagination-20261112/README.md",
     "docs/nana_next_experience/evidence/generic-client-entry-20261112/README.md",
     "docs/nana_next_experience/evidence/private-association-20261112/README.md",
     "docs/nana_next_experience/evidence/private-self-occurrence-20261112/README.md",
     "docs/nana_next_experience/evidence/private-formation-queue-20261112/README.md",
-    "docs/nana_next_experience/evidence/private-new-direction-20261112/README.md",
-    "docs/nana_next_experience/evidence/plan-step-choice-20261112/README.md"
+    "docs/nana_next_experience/evidence/private-new-direction-20261112/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2741,3 +2741,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-12 模型产品增量] 原生Anthropic目录有界翻页/部分结果提示和手填，32相关/TS/Vite/四视口8浏览器通过；首错/夹具与路径误操作真实保留。model-catalog-pagination-20261112/source-sha256锚 fad1dcaf6b14dd01def3dc3239a7a5b9bc3df35bc868b02a5e737fd7747cf13b。非任意全目录/真实API/安装资格，原A–H与内心主优先继续。
 
 [2026-11-12 原C关联取舍] 默认旧wire不变，精确当前私问可以保留文本而清空当前联系，其他思想和原追源不删除；最终66相关通过。private-association-clear-20261112/source-sha256锚 3664756a7f4d41065ab01cd114f020819b7821bee77630a495d042876d6ffd75。下一原PRIVATE_PLAN生成接线与商业策略/原A–H。
+
+[2026-11-12 原C计划接线] 原PRIVATE_PLAN从孤立声明接入已有认知/原V2，私密内容先参与后续LEARN选择，重启/暂停恢复/同intent修订/问题共存/来源撤回；180相关后补最终79通过，异常校验不回显私文且类型规则不降。private-plan-20261112/source-sha256锚 af79f81271e28af0baac5a5fefd21d44138fbd86bad04fddec45d42403297b21。正常D自动条件续办/商业策略与原A–H继续。
