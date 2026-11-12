@@ -105,6 +105,7 @@ interface MockState {
   shares?: Record<string, unknown>;
   biliHistory?: Record<string, unknown>;
   catalogEnabled?: boolean;
+  catalogTruncated?: boolean;
   memorySearchRows?: Record<string,unknown>[];
   lifeItems?: Record<string,unknown>[];
   noteRows?: Record<string,unknown>[];
@@ -222,7 +223,7 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
     if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
-    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], qualification:"NOT_ESTABLISHED", inference_calls:0});
+    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], truncated:state.catalogTruncated===true, qualification:"NOT_ESTABLISHED", inference_calls:0});
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
       if(state.noteReject)return route.fulfill({status:409,json:{code:"REVISION_CONFLICT"}});
@@ -893,6 +894,21 @@ test("SYNTHETIC model catalog: explicit list read fills draft and registers only
   expect(commands[0].provider).toBeUndefined();expect(commands[0].route).toBeUndefined();
   await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
   await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft", async ({page}) => {
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogTruncated=true;
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  await open(page,"models");
+  const catalog=page.getByLabel("读取服务商模型");
+  await catalog.getByRole("button",{name:/读取 .* 模型/}).click();
+  await expect(page.getByText("当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。",{exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"添加供应商草稿",exact:true}).click();
+  await page.getByLabel("远端 Model ID",{exact:true}).fill("native.unlisted-model");
+  await expect(page.getByLabel("远端 Model ID",{exact:true})).toHaveValue("native.unlisted-model");
+  expect(state.requests.filter(r=>r.path==="providers/models")).toHaveLength(1);
+  expect(state.requests.filter(r=>r.method!=="GET")).toHaveLength(0);
 });
 
 test("SYNTHETIC older-memory search: explicit scoped read, no memory write", async ({page}) => {

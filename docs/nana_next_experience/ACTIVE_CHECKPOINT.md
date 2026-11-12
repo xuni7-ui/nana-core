@@ -50,3 +50,9 @@
 现役LiveSpace/V3/模型向导/Avatar/HTML及Android登录通知不写死实例私人称呼，Nana Space品牌/原身份关系/真实返回名字/明确虚构demo保留。TS/Vite/93单测及既有聊天布局/UNKNOWN/供应商记忆草稿四视口12通过18.8s；没有新造copy测试/重打APK/native/手机/生产。见evidence/generic-client-entry-20261112，源码表锚 4f91157414cb39cdc4845a168c14c86ba7d43af80754cf5f0d7aacbbbcd1ab3c。
 
 继续可执行项：实际模型目录/配置协议及商业内心持续策略。后者仍须在原保留语义、Provider预算和独立C中融合，不能把瞬时聊天借自发生根保存。原A–H/内心13节/最终匹配发行与真实体验差额完整继承。
+
+## 最新模型产品：原生目录翻页
+
+原Anthropic跟随校验last_id，保持同HTTPShost/native headers，单次8页/256KiB/256模型与十秒后续机会窗口；循环/缺失/非法cursor诚实partial，不重试auth失败，不新增推理。前端提示partial并可手填未列出名字。32相关17.53s、TS/Vite及四视口8合成浏览器通过12.7s；首次编辑器未打开、修夹具相对路径错误及无效重跑中止日志如实保留。见evidence/model-catalog-pagination-20261112，源码表锚 fad1dcaf6b14dd01def3dc3239a7a5b9bc3df35bc868b02a5e737fd7747cf13b。
+
+独立先前CI实读：55805d5 Core114pass32.64s/clientSKIP；53f0db9 client93unit/148browser、CoreSKIP。非本批/全仓。下一回原C关联独立清除（现空list沿旧语义保留关系），再商业持续策略/保留/反馈和原A–H。无真实模型/手机/生产/新匹配安装；APK最后统一必要构建。

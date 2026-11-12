@@ -105,3 +105,70 @@ def test_native_catalog_uses_native_headers_and_reports_remaining_pages(monkeypa
     monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
     result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
     assert result=={'models':['native.synthetic'],'truncated':True} and len(calls)==1
+
+
+def test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference(monkeypatch):
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    pages=[{'data':[{'id':'native.alpha'},{'id':'native.beta'}],'has_more':True,'last_id':'native.beta'},
+           {'data':[{'id':'native.beta'},{'id':'native.gamma'}],'has_more':False,'last_id':'native.gamma'}]
+    class Opener:
+        def open(self,request,timeout):
+            assert request.full_url==('https://catalog.example/v1/models' if not calls else 'https://catalog.example/v1/models?after_id=native.beta')
+            assert request.get_method()=='GET' and request.data is None and 0<timeout<=10
+            assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+            assert request.get_header('Authorization') is None
+            calls.append(request.full_url)
+            return Response(json.dumps(pages[len(calls)-1]).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert result=={'models':['native.alpha','native.beta','native.gamma'],'truncated':False}
+    assert len(calls)==2
+
+
+@pytest.mark.parametrize('stop',['cycle','deadline','pages','hostile-cursor'])
+def test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor(monkeypatch,stop):
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    class Opener:
+        def open(self,request,timeout):
+            assert request.full_url.startswith('https://catalog.example/v1/models')
+            assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in request.full_url
+            calls.append(request.full_url)
+            model='native.page-'+str(len(calls)) if stop=='pages' else 'native.same'
+            cursor='https://untrusted.invalid/TEST_ONLY_NOT_SECRET_CATALOG' if stop=='hostile-cursor' else model
+            return Response(json.dumps({'data':[{'id':model}],'has_more':True,'last_id':cursor}).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    if stop=='deadline':
+        clock=iter((0.,11.,12.,13.));monkeypatch.setattr(provider_models.time,'monotonic',lambda:next(clock))
+    result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert result['truncated'] is True and result['models']
+    assert len(calls)==({'cycle':2,'deadline':1,'pages':8,'hostile-cursor':1}[stop])
+
+
+@pytest.mark.parametrize('failure,code',[('auth','PROVIDER_CATALOG_AUTH'),('bytes','PROVIDER_CATALOG_BOUND')])
+def test_native_later_page_failures_do_not_hide_partial_read_or_expand_byte_budget(monkeypatch,failure,code):
+    import urllib.error
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    class Opener:
+        def open(self,request,timeout):
+            calls.append(request.full_url)
+            if len(calls)==2 and failure=='auth':
+                raise urllib.error.HTTPError(request.full_url,403,'Untrusted reason',{},io.BytesIO(b'TEST_ONLY_NOT_SECRET_CATALOG'))
+            page={'data':[{'id':'native.page-'+str(len(calls))}],'has_more':True,'last_id':'native.page-'+str(len(calls))}
+            if failure=='bytes':page['untrusted_padding']='x'*180000
+            return Response(json.dumps(page).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    with pytest.raises(ApiError,match=code) as error:
+        provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert len(calls)==2 and 'TEST_ONLY_NOT_SECRET_CATALOG' not in str(error.value)

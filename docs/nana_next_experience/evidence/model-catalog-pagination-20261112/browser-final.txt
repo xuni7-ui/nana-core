@@ -1,0 +1,35 @@
+[WebServer] (node:16561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:16579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/v3.spec.ts:870:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.7s)
+  ✘  2 [desktop] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (20.4s)
+
+
+  1) [desktop] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft 
+
+    Test was interrupted.
+
+    Error: locator.fill: Test ended.
+    Call log:
+      - waiting for getByLabel('远端 Model ID', { exact: true })
+
+
+      905 |   await catalog.getByRole("button",{name:/读取 .* 模型/}).click();
+      906 |   await expect(page.getByText("当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。",{exact:true})).toBeVisible();
+    > 907 |   await page.getByLabel("远端 Model ID",{exact:true}).fill("native.unlisted-model");
+          |                                                     ^
+      908 |   await expect(page.getByLabel("远端 Model ID",{exact:true})).toHaveValue("native.unlisted-model");
+      909 |   expect(state.requests.filter(r=>r.path==="providers/models")).toHaveLength(1);
+      910 |   expect(state.requests.filter(r=>r.method!=="GET")).toHaveLength(0);
+        at /tmp/nana-inner-refinement-work/apps/nana-space/tests/v3.spec.ts:907:53
+
+    Error Context: ../../../../dev/shm/nana-model-pagination-browser/v3-SYNTHETIC-model-catalog-df59f-mit-an-unlisted-model-draft-desktop/error-context.md
+
+  1 interrupted
+    [desktop] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft 
+  6 did not run
+  1 passed (23.7s)

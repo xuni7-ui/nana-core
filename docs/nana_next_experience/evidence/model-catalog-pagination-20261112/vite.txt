@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /dev/shm/nana-model-pagination-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../dev/shm/nana-model-pagination-dist/index.html                          0.73 kB │ gzip:  0.47 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/clock-3-BJFW53L4.js          0.35 kB │ gzip:  0.27 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/eye-BhoKoqwV.js              0.42 kB │ gzip:  0.30 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/lock-keyhole-B6xRR6-8.js     0.42 kB │ gzip:  0.32 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/shield-check-CDAfNPuv.js     0.48 kB │ gzip:  0.35 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/radio-DzWi45E5.js            0.83 kB │ gzip:  0.41 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/refresh-cw-9TGjwRCz.js       0.84 kB │ gzip:  0.42 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/sparkles-BdTHN8PJ.js         0.92 kB │ gzip:  0.44 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/smartphone-B9C5-kF6.js       1.08 kB │ gzip:  0.46 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/plus-CQzcDRz3.js             1.16 kB │ gzip:  0.46 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/Avatar-BKaaxXMd.js           1.57 kB │ gzip:  0.92 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/upload-SWkz5Eq6.js           1.69 kB │ gzip:  0.67 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/ui-B8vXaJMo.js               1.69 kB │ gzip:  0.64 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/sun-BcQ0UW_d.js              1.85 kB │ gzip:  0.59 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/monitor-DueboqYO.js          1.94 kB │ gzip:  0.71 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/x-BaIYKXXP.js                2.42 kB │ gzip:  0.83 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/preferences-CBjNsBnP.js      3.31 kB │ gzip:  1.24 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/ChatPage-qaEwlOVA.js         7.31 kB │ gzip:  3.42 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/SettingsPage-RPzVAXcT.js    10.20 kB │ gzip:  4.67 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/RuntimePage-CEh3ytm0.js     16.46 kB │ gzip:  6.42 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/CoreApp-CgkKwwWr.js         19.67 kB │ gzip:  8.37 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/ExplorePages-Dkipqteg.js    27.19 kB │ gzip:  8.99 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/index-BgmZ7s_p.js          120.23 kB │ gzip: 37.21 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/LiveSpace-Z86cq_Ow.js      185.53 kB │ gzip: 62.01 kB
+../../../../dev/shm/nana-model-pagination-dist/assets/index-D78m3PUA.js          228.04 kB │ gzip: 71.42 kB
+✓ built in 2.55s

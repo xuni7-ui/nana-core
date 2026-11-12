@@ -163,3 +163,7 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 原私念联系的后续决策因果
 
 一层当前自有联系由原Record进入既有C Context；可单独修订关系/随原问题暂停延续，停止当前关联投影不抹原始追源。原Store重启同预算消融NO_ACTION→WAIT，114相关及后补2/最终58通过，+1105估算非Token。不是通用思想网络/商业持续策略/长期自主生活完成，后者及原A–H继续。见evidence/private-association-20261112。
+
+### 2026-11-12 模型配置实际目录补齐
+
+Anthropic有界分页/部分目录提示与手填已接现役产品，32后端相关+TS/Vite/四视口8浏览器受控通过，见evidence/model-catalog-pagination-20261112。独立CI先前558114Core/53f93unit148browser另存。不当任意全目录/其他供应商协议/真实模型/API/手机/生产或完整发行完成；内心主优先与原A–H继续。

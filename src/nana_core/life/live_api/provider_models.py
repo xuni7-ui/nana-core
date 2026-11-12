@@ -10,7 +10,7 @@ import re
 import time
 import urllib.error
 import urllib.request
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlencode
 
 from ...continuity.provider_config import ProviderConfigService, ProviderConfigurationAuthority
 from ...continuity.privacy import _json_object
@@ -23,7 +23,12 @@ MODEL_ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}')
 
 
 def read_catalog(profile, credential):
-    """One bounded HTTPS GET, TLS verified, redirects forbidden, no retries."""
+    """Bounded explicit catalog GETs, never inference or automatic retries.
+
+    Native Anthropic pagination stays on the configured URL and shares a ten
+    second opportunity window, eight-page/256KiB envelope and 256 visible IDs.
+    Missing/invalid/repeated cursors or exhausted bounds return partial truth.
+    """
     native=profile.protocol=='ANTHROPIC'
     if profile.protocol not in {'OPENAI_COMPATIBLE_CHAT','ANTHROPIC'}:
         raise ApiError('PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED',409)
@@ -32,34 +37,48 @@ def read_catalog(profile, credential):
         from ...continuity.world_loop.anthropic import API_VERSION
         headers.update({'x-api-key':credential,'anthropic-version':API_VERSION})
     else:headers['Authorization']='Bearer '+credential
-    request = urllib.request.Request(profile.base_url.rstrip('/')+'/models', headers=headers)
+    base=profile.base_url.rstrip('/')+'/models'
+    opener=urllib.request.build_opener(_NoRedirect())
+    deadline=time.monotonic()+10
+    ids,seen_cursors=set(),set()
+    total_bytes=0;cursor=None
     try:
-        with urllib.request.build_opener(_NoRedirect()).open(request, timeout=10) as response:
-            if response.status != 200 or response.headers.get_content_type() != 'application/json':
-                raise ApiError('PROVIDER_CATALOG_FORMAT', 502)
-            raw = response.read(262145)
-            if len(raw)>262144:
-                raise ApiError('PROVIDER_CATALOG_BOUND', 502)
-        value = json.loads(raw, object_pairs_hook=_json_object)
-        rows = value.get('data') if type(value) is dict else None
-        if type(rows) is not list or len(rows)>2048:
-            raise ApiError('PROVIDER_CATALOG_FORMAT', 502)
-        ids = set()
-        for row in rows:
-            model_id = row.get('id') if type(row) is dict else None
-            if type(model_id) is not str or not MODEL_ID.fullmatch(model_id) or credential in model_id:
-                raise ApiError('PROVIDER_CATALOG_MODEL_INVALID', 502)
-            ids.add(model_id)
-        has_more=value.get('has_more',False)
-        if native and type(has_more) is not bool:
-            raise ApiError('PROVIDER_CATALOG_FORMAT',502)
-        return {'models': sorted(ids)[:256], 'truncated': len(ids)>256 or (native and has_more)}
+        for page in range(8):
+            remaining=10 if page==0 else deadline-time.monotonic()
+            if remaining<=0:return {'models':sorted(ids)[:256],'truncated':True}
+            url=base if cursor is None else base+'?'+urlencode({'after_id':cursor})
+            request=urllib.request.Request(url,headers=headers)
+            with opener.open(request,timeout=remaining) as response:
+                if response.status!=200 or response.headers.get_content_type()!='application/json':
+                    raise ApiError('PROVIDER_CATALOG_FORMAT',502)
+                raw=response.read(262145-total_bytes)
+                total_bytes+=len(raw)
+                if total_bytes>262144:raise ApiError('PROVIDER_CATALOG_BOUND',502)
+            value=json.loads(raw,object_pairs_hook=_json_object)
+            rows=value.get('data') if type(value) is dict else None
+            if type(rows) is not list or len(rows)>2048:raise ApiError('PROVIDER_CATALOG_FORMAT',502)
+            for row in rows:
+                model_id=row.get('id') if type(row) is dict else None
+                if type(model_id) is not str or not MODEL_ID.fullmatch(model_id) or credential in model_id:
+                    raise ApiError('PROVIDER_CATALOG_MODEL_INVALID',502)
+                ids.add(model_id)
+            has_more=value.get('has_more',False) if native else False
+            if type(has_more) is not bool:raise ApiError('PROVIDER_CATALOG_FORMAT',502)
+            if not has_more:return {'models':sorted(ids)[:256],'truncated':len(ids)>256}
+            if len(ids)>=256 or total_bytes>=262144:break
+            next_cursor=value.get('last_id')
+            if (type(next_cursor) is not str or not MODEL_ID.fullmatch(next_cursor) or credential in next_cursor
+                    or not rows or next_cursor!=rows[-1]['id'] or next_cursor in seen_cursors):break
+            # A server-provided cursor is data, never a URL or a new credential
+            # destination. It may advance one page, never retry an old page.
+            seen_cursors.add(next_cursor);cursor=next_cursor
+        return {'models':sorted(ids)[:256],'truncated':True}
     except urllib.error.HTTPError as exc:
-        status = exc.code
-        exc.close()  # Never include untrusted upstream bodies or request headers.
-        raise ApiError('PROVIDER_CATALOG_AUTH' if status in {401,403} else 'PROVIDER_CATALOG_HTTP', 502) from None
-    except (OSError, ValueError, TypeError, RecursionError):
-        raise ApiError('PROVIDER_CATALOG_UNAVAILABLE', 502) from None
+        status=exc.code
+        exc.close()
+        raise ApiError('PROVIDER_CATALOG_AUTH' if status in {401,403} else 'PROVIDER_CATALOG_HTTP',502) from None
+    except (OSError,ValueError,TypeError,RecursionError):
+        raise ApiError('PROVIDER_CATALOG_UNAVAILABLE',502) from None
 
 
 def discover(service, principal, provider_id, revision):

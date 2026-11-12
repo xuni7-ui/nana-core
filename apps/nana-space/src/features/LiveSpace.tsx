@@ -1827,6 +1827,7 @@ export function LiveSpace() {
                     if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
                     const models = object(result.data).models;
                     if (!Array.isArray(models) || !models.every(x => typeof x === "string")) throw new V2Error("PROVIDER_CATALOG_FORMAT");
+                    if (object(result.data).truncated === true) setNotice("当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。");
                     return models as string[];
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}

@@ -1,0 +1,12 @@
+import { defineConfig } from '@playwright/test';
+import base from './playwright.v3.config';
+export default defineConfig({
+  ...base,
+  outputDir: '/dev/shm/nana-model-pagination-browser-fixed',
+  reporter: [['list'], ['json', {outputFile:'/dev/shm/nana-model-pagination-browser-fixed-report.json'}]],
+  webServer: {
+    command:'node node_modules/vite/bin/vite.js preview --mode live --host 127.0.0.1 --port 14173 --outDir /dev/shm/nana-model-pagination-dist',
+    url:'http://127.0.0.1:14173',
+    reuseExistingServer:false,
+  },
+});

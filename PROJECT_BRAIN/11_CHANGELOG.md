@@ -3642,3 +3642,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6增量：复用私念原Record直接联系做原C一层当前内部投影，不造图Store/权重/第二脑；新topic跨重启同61440预算关NO_ACTION/开WAIT，每次1fixture，+1105 UTF8估算非真实Token。关系单变更可同intent新rev，暂停/改写延续、放弃/源撤回/公共遮蔽保留；2首错分别保留，114相关后补2目标/最终58通过。bd48独立CI162非本批。下一商业持续策略/反馈/自发机会/复杂关联及原A–H，无新安装/真实模型/手机/生产验收。证据private-association-20261112/09锚。
 
 - 2026-11-12｜NEXT_EXPERIENCE A产品/增补13.5：公开live客户端及Android登录通知copy去写死实例私人称呼；产品品牌/原身份关系/实际投影及明确虚构demo不改。TS/Vite/93单测、既有聊天/UNKNOWN/模型草稿四视口12通过18.8s，Android仅copy未native/设备资格，不重打APK。证据generic-client-entry-20261112/09锚；商业内心/模型目录及原A–H继续，CURRENT266+409不动。
+
+- 2026-11-12｜NEXT_EXPERIENCE A/G产品：Anthropic模型目录从一页推进到同host/native headers有界分页，异常cursor/8页/总256KiB/256显示/时间窗口诚实partial，后续auth失败不重试；前端不丢partial且保留手填。冻结3fail/2pass→32相关17.53s，TS/Vite/四视口8浏览器通过12.7s；原夹具未打开编辑器及路径误操作/中断记录保留，首错文本仍在。先前独立558114Core/53f93unit148browser非本批。证据model-catalog-pagination-20261112/09锚；无新APK/真实API/模型/手机/生产，下一回原C关联/策略，原A–H不缩减。
