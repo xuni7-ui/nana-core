@@ -3606,3 +3606,8 @@ Web真实进度接纳同scope child、原回执独立归因、等待双结果再
 ### 2026-11-12 · C目标生命周期选择与内心生活13节继承
 
 原C有源紧急继续/HIGH负荷竞争、REST-only不造继续，norm/旧plan/goal/Grant和WITHDRAW保留；原2fail3pass→61相关6.01s→最终73相关8.64s含Precision，不跑全仓/发布。两次夹具错误原样保留。证据goal-choice-20261112/09锚。归档用户正式13节最高优先级、AGENTS/mission/08接线及B职责更新，沿原private_intent/SubjectLoop/Context确认C前置消费实际缺口，下一立即实现，不宣称已完整内心生活；原A–H/CURRENT266+409/权限不变。
+
+
+### 2026-11-12 · 原私念在C决策前产生可验证差异
+
+PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Appraisal/PRIVATE_INTEREST→原decide创造兴趣可竞争泛化LOW/重复；不改工具价值、不抬事实、不给权限，原公开Context仍遮蔽，重复同purpose不增私念。实际跨重启消融开关IGNORE→CREATE、撤回/无关/owner范围/非保留与Context等93相关14.40s通过，0新增模型请求。首source-family fixture两错保留，独立旧archive/ENOSPC失败其后4pass不算旧基线。证据private-interest-c-20261112/09锚。根盘无空间，受控源码/Git仅复制TMP同分支，原Root/数据/旧交付未动；下一原模型策略/新问/生命周期/内部投影→C-D-G，不宣称完整内心或原A–H完成。

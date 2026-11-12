@@ -1,0 +1,126 @@
+.FF.....                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content[False-False-True-IGNORE] _
+
+tmp_path = PosixPath('/tmp/nana-private-c-after/test_existing_private_idea_cha0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2fb95f7170>
+enabled = False, withdrawn = False, matching = True, expected = 'IGNORE'
+
+    @pytest.mark.parametrize('enabled,withdrawn,matching,expected',[
+        (False,False,True,'IGNORE'),(True,False,True,'CREATE'),
+        (True,True,True,'IGNORE'),(True,False,False,'IGNORE'),
+    ])
+    def test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content(tmp_path,monkeypatch,enabled,withdrawn,matching,expected):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            mid,_,first=choose(app)
+            original=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0]
+            identity=app.runtime.identity_id
+            # The first consideration is over; the original private idea survives it.
+            app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+        with LifeApplication(home) as app:
+            assert app.runtime.identity_id==identity
+            if withdrawn:app.forget(mid)
+            if not enabled:
+                monkeypatch.setattr(private_intent,'decision_support',lambda *args,**kwargs:(),raising=False)
+            topic='creative-project' if matching else 'unrelated-project'
+            cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=topic,motivation_source='CREATIVE_INTEREST',
+                possible_behaviors=('CREATE','REST'),resource_class='ORDINARY',
+                opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+            cause=capture(app.runtime,'later-internal-opportunity',cue.model_dump(mode='json'),predicate='concern.'+topic)
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.later-private-choice',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(cause,))
+>           cycle=app.runtime.subject.run(event)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:237: in run
+    source = self.ingress.ingest(event)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/subject/ingress.py:64: in ingest
+    item = self.memory.read(memory_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7f2fb96a7020>
+memory_id = 'ab18154f-7170-4e08-b79e-39c962938ebc', include_inactive = False
+
+    def read(self, memory_id, *, include_inactive=False):
+        self._fresh()
+        row = self.store.one("memories", memory_id)
+        if not row or row["lifecycle"] == "DELETED":
+            raise CoreError("MEMORY_UNAVAILABLE")
+        if not include_inactive and (row["lifecycle"] != "ACTIVE" or
+                row["assessment"] not in {"CURRENT", "UNASSESSED"}):
+>           raise CoreError("MEMORY_NOT_CURRENT")
+E           nana_core.contracts.CoreError: MEMORY_NOT_CURRENT
+
+src/nana_core/continuity/memory.py:141: CoreError
+_ test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content[True-False-True-CREATE] _
+
+tmp_path = PosixPath('/tmp/nana-private-c-after/test_existing_private_idea_cha1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f2fb976ee70>
+enabled = True, withdrawn = False, matching = True, expected = 'CREATE'
+
+    @pytest.mark.parametrize('enabled,withdrawn,matching,expected',[
+        (False,False,True,'IGNORE'),(True,False,True,'CREATE'),
+        (True,True,True,'IGNORE'),(True,False,False,'IGNORE'),
+    ])
+    def test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content(tmp_path,monkeypatch,enabled,withdrawn,matching,expected):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            mid,_,first=choose(app)
+            original=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0]
+            identity=app.runtime.identity_id
+            # The first consideration is over; the original private idea survives it.
+            app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+        with LifeApplication(home) as app:
+            assert app.runtime.identity_id==identity
+            if withdrawn:app.forget(mid)
+            if not enabled:
+                monkeypatch.setattr(private_intent,'decision_support',lambda *args,**kwargs:(),raising=False)
+            topic='creative-project' if matching else 'unrelated-project'
+            cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=topic,motivation_source='CREATIVE_INTEREST',
+                possible_behaviors=('CREATE','REST'),resource_class='ORDINARY',
+                opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+            cause=capture(app.runtime,'later-internal-opportunity',cue.model_dump(mode='json'),predicate='concern.'+topic)
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.later-private-choice',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(cause,))
+>           cycle=app.runtime.subject.run(event)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:237: in run
+    source = self.ingress.ingest(event)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/subject/ingress.py:64: in ingest
+    item = self.memory.read(memory_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7f2fb96a66f0>
+memory_id = 'e0aafbf4-90a5-427a-b2ac-9208a315e2ba', include_inactive = False
+
+    def read(self, memory_id, *, include_inactive=False):
+        self._fresh()
+        row = self.store.one("memories", memory_id)
+        if not row or row["lifecycle"] == "DELETED":
+            raise CoreError("MEMORY_UNAVAILABLE")
+        if not include_inactive and (row["lifecycle"] != "ACTIVE" or
+                row["assessment"] not in {"CURRENT", "UNASSESSED"}):
+>           raise CoreError("MEMORY_NOT_CURRENT")
+E           nana_core.contracts.CoreError: MEMORY_NOT_CURRENT
+
+src/nana_core/continuity/memory.py:141: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content[False-False-True-IGNORE]
+FAILED tests/first_life_integration/test_private_intent.py::test_existing_private_idea_changes_later_choice_after_restart_without_disclosing_content[True-False-True-CREATE]
+2 failed, 6 passed in 0.67s
