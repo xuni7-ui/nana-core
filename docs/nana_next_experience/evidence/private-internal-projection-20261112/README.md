@@ -1,0 +1,13 @@
+# 原C所选私念的内容级内部投影
+
+基线22811f8。原C的situation已有相关own private record引用，但已有深入认知只看见兴趣标记/公开安全元数据，无法按私念具体内容改变提议。本增量在原PrivateIntent模块提供internal_projection：仅C已选record集合中的当前有效、自有、同scope/可读privacy的PRIVATE_INTENT_V1/PRIVATE_ACTIVITY_V2，排除WITHDRAWN/ABANDONED，提供紧凑内容、revision、时间、activity state、OWN_TENDENCY_NOT_WORLD_FACT、recipient_disclosure=False和execution_authority=False。
+
+仅原ContextAssembler带有原subject_frame的深入认知装配这类PRIVATE_INTERNAL_STATE。普通聊天/RENDER的无frame投影仍只有既有安全元数据，不提供私念内容；没有新增公共API/日志/模型定时器或Store。每条状态使用原完整序列化请求预算竞争，不按新的固定条数全量注入；原C仍可重新判断/等待。原reference/privacy/current-support校验与inference前后state token失效继续有效。
+
+真实原Store/SubjectLoop的离线fixture对照：同一主体重启后active/paused私念具体内容可使既有一次认知提出ASK，原C据此从CREATE候选改WAIT；关闭投影、abandoned、unrelated或withdrawn时仍GOAL_CANDIDATE。固定fixture算法只根据实际提供的内容选择，**不是实际LLM能力/自然交流/人类情绪策略资格**。每场景1既有fixture调用，新增provider请求0，实际动作/Grant0。
+
+同一Store/同一源frame/同一请求预算61440对照：开启28173，关闭27306，增量867，计数器明确UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER；这是保守上下文计量单位，**不是商业Token或账单**。原完整包预算缩到最小有效4200时，私念可被省略且原必要块不削弱。来源在推理中撤回导致原STALE_CONTEXT，不提交该C cycle，也不重发。
+
+6初始场景通过；带同状态预算/竞态7通过0.94s；私念/原Context/认知/SubjectProjection/affective_autonomy/context_fit/dialogue/memory feedback88相关通过16.69s。未运行全仓/新安装/真实模型/手机/生产/跨日自然度。
+
+目前提供的是既有创意内容的内部选择条件，不等于已能自主生成新问题、关联倾向、多轮陪伴策略或S8后续迁移。下一步在同一原模型/认知契约补自主思想候选→原C采纳→跨时间后续选择，禁止第二脑和额外轮询。原A–H全部继承，CURRENT266+409不动。

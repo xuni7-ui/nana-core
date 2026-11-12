@@ -336,6 +336,116 @@ def test_unbound_creative_choice_still_respects_separate_sourced_norm(tmp_path):
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
 
 
+@pytest.mark.parametrize('condition,expected',[
+    ('active','WAIT'),('paused','WAIT'),('abandoned','GOAL_CANDIDATE'),
+    ('unrelated','GOAL_CANDIDATE'),('withdrawn','GOAL_CANDIDATE'),('disabled','GOAL_CANDIDATE'),
+])
+def test_internal_thought_projection_changes_existing_c_deliberation_after_restart(tmp_path,monkeypatch,condition,expected):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextAssembler,ContextPolicy,ContextRequest
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        original,_,created=choose(app)
+        app.runtime.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        summary=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].content_summary
+        if condition in {'paused','abandoned'}:private_choice(app,'before-deliberation','REST' if condition=='paused' else 'WITHDRAW')
+        if condition=='withdrawn':app.forget(original)
+        identity=app.runtime.identity_id
+    with LifeApplication(home) as app:
+        r=app.runtime;assert r.identity_id==identity
+        if condition=='disabled':monkeypatch.setattr(private_intent,'internal_projection',lambda *args,**kwargs:())
+        topic='other-project' if condition=='unrelated' else 'creative-project'
+        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=topic,motivation_source='CREATIVE_INTEREST',possible_behaviors=('CREATE',),resource_class='ORDINARY')
+        mid=capture(r,'internal-reconsideration',cue.model_dump(mode='json'),predicate='concern.internal-reconsideration')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.internal-reconsideration',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        policy=ContextPolicy(policy_id='private-internal-fixture',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        calls=[]
+        class ExistingDeliberationFixture:
+            descriptor='offline-private-thought-deliberation-fixture'
+            def propose(self,request):
+                data=json.loads(request.context_json);calls.append(data)
+                own=[json.loads(b['data_json']) for b in data['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+                assert all(v['epistemic_status']=='OWN_TENDENCY_NOT_WORLD_FACT' and not v['recipient_disclosure'] and not v['execution_authority'] for v in own)
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                # Frozen fixture rule, not a claim of LLM quality: only actually
+                # supplied own content can request further clarification.
+                base['proposed_operations']=['ASK'] if any(v['content_summary']==summary for v in own) else ['DRAFT']
+                return json.dumps(base)
+        result=r.subject.cognize(event,model=ExistingDeliberationFixture(),authority=r.authority,policy=policy)
+        assert result.intention.kind==expected and len(calls)==1
+        print('PRIVATE_INTERNAL_MEASURE',condition,'fixture_calls',len(calls),'context_counter',calls[0]['manifest']['counter'],
+            'context_units',calls[0]['manifest']['input_tokens'],'input_limit',calls[0]['manifest']['input_limit'])
+        assert calls[0]['manifest']['input_limit']==61440
+        assert calls[0]['manifest']['input_tokens']<=61440
+        ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='project-user',scopes=('project-work',),
+            task_class='dialogue',task='SYNTHETIC ordinary response',task_privacy_class='PROJECT',max_input_tokens=65536),policy)
+        assert not any(b.kind=='PRIVATE_INTERNAL_STATE' for b in ordinary.blocks)
+        assert summary not in ordinary.model_dump_json()
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+def test_internal_projection_uses_original_complete_budget_and_invalidates_on_withdrawal(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextAssembler,ContextPolicy,ContextRequest
+    from nana_core.continuity.subject.contracts import DeliberationFrame
+    from nana_core.continuity.subject.policy import appraise,motivate,decide
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        original,_,created=choose(app)
+        r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',possible_behaviors=('CREATE',))
+        mid=capture(r,'private-budget',cue.model_dump(mode='json'),predicate='concern.private-budget')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-budget',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        source=r.subject.ingress.ingest(event);situation=r.subject.situation(event,source);appraisal=appraise(event,situation);motives=motivate(event,situation,appraisal)
+        frame=DeliberationFrame(subject_event_id=source['subject_event_id'],scope=event.scope,appraisal=appraisal,motivations=motives,
+            attention=decide(event,situation,appraisal,motives)[0],source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids)
+        policy=ContextPolicy(policy_id='internal-budget-fixture',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        request=ContextRequest(entity_id='project-user',scopes=('project-work',),task_class='subject_deliberation',task='SYNTHETIC private reconsideration',
+            task_privacy_class='PROJECT',max_input_tokens=65536,output_reserve_tokens=4096)
+        assembler=ContextAssembler(r.store,r.authority)
+        enabled=assembler.assemble(request,policy,subject_frame=frame)
+        with monkeypatch.context() as patch:
+            patch.setattr(private_intent,'internal_projection',lambda *args,**kwargs:())
+            disabled=assembler.assemble(request,policy,subject_frame=frame)
+        assert any(b.kind=='PRIVATE_INTERNAL_STATE' for b in enabled.blocks)
+        assert not any(b.kind=='PRIVATE_INTERNAL_STATE' for b in disabled.blocks)
+        assert enabled.manifest.input_limit==disabled.manifest.input_limit==61440
+        assert enabled.manifest.input_tokens>disabled.manifest.input_tokens
+        # Find the minimum valid original package budget, without changing its
+        # mandatory rules or counting bytes as actual model tokens.
+        low,high=4096+256,65536
+        while low<high:
+            bound=(low+high)//2
+            try:assembler.assemble(request.model_copy(update={'max_input_tokens':bound}),policy,subject_frame=frame)
+            except CoreError as exc:
+                assert exc.code=='INSUFFICIENT_CONTEXT_BUDGET';low=bound+1
+            else:high=bound
+        compact_request=request.model_copy(update={'max_input_tokens':low})
+        compact=assembler.assemble(compact_request,policy,subject_frame=frame)
+        assert compact.manifest.input_tokens<=compact.manifest.input_limit
+        assert not any(b.kind=='PRIVATE_INTERNAL_STATE' for b in compact.blocks)
+        assert any(x.startswith('private-internal:') for x in compact.manifest.omitted_ids)
+        calls=[]
+        class WithdrawalDuringInference:
+            descriptor='offline-withdrawal-during-existing-inference'
+            def propose(self,request):
+                calls.append(request);reply=AnalyticalFixturePort().propose(request)
+                app.forget(original)
+                return reply
+        with pytest.raises(CoreError,match='STALE_CONTEXT'):
+            r.subject.cognize(event,model=WithdrawalDuringInference(),authority=r.authority,policy=policy)
+        assert len(calls)==1
+        assert not r.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?',(source['subject_event_id'],)).fetchone()
+        assert not private_intent.internal_projection(r.store,frame.source_record_ids,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+        print('PRIVATE_INTERNAL_SAME_STATE_BUDGET',enabled.manifest.counter,'enabled',enabled.manifest.input_tokens,
+            'disabled',disabled.manifest.input_tokens,'limit',enabled.manifest.input_limit,'minimum_package_limit',compact.manifest.input_limit)
+
+
 def test_sourced_surprise_trigger_reconsiders_in_c_not_timer_delivery(tmp_path):
     home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
     with LifeApplication(home,clock=clock) as app:

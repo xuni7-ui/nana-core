@@ -3618,3 +3618,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 原家族PrivateActivityV2承载自身倾向非事实/非任务结果，C前精确PrivateIntentRef绑定→原C选择→同Tx更新；generic idle误改首错修为必须目标引用，48h虚拟停机复开不削lease/不乱改思想。暂停保兴趣/放弃不自动重启/新理由再采纳，原source replay不增版本。70header挤占首错与planner选错index已修，原再生索引登记使portable schema校验继续严格，source撤回触达隔离副本当前artifact NULL。176相关49.86s/2长socket路径→短路2pass2.96s，70focused10.77s，旧源仅读取兼容非新功能/最终回退；准确f583三blob对照1fail3pass补齐。证据private-activity-lifecycle-20261112/09锚；463CI162/1warn客户端skip，不跑无关发行。下一C社会边界作用域/内部投影/自主新问/多轮策略/C-D-G，原A–H/CURRENT/权限不变。
 
 - 2026-11-12｜NEXT_EXPERIENCE S3/S6/S7 Advanced增量：修原C把接收者表达边界套给无执行绑定私人CREATE/REST的实际缺口；共用纯分类，原资源/norm/Manager/Privacy不变。冻结3fail/3pass→6pass，补充46私念情感+151集成通过，新增模型/动作/Grant0；bead518独立CI228/2warnings非本批。证据private-reception-scope-20261112与09锚；内容级私念/自主新问/多轮策略/C-D-G继续，不代表完整任务或生产完成。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S5/S6 Advanced增量：原C已选私念内容进入已有深入认知Context，原公开表达继续withheld；同主体重启/开关消融/撤回及完整包预算7通过，88相关通过16.69s。固定fixture由内容使C候选→WAIT，1既有调用；同状态+867 UTF8估算单位不称实际Token/费用。来源推理中撤回原STALE_CONTEXT/no commit，未绕权限。证据private-internal-projection-20261112/09锚；未有真实模型/普通对话多轮策略/完整发行，继续自主新问及原A–H。

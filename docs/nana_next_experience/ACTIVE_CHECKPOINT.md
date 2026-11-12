@@ -1,3 +1,13 @@
+# Active continuation — original C internal projection
+
+ACTIVE=/tmp/nana-inner-refinement-work same devbranch; original Root f583+4ownedWIP protected, root ENOSPC, /tmp ephemeral. Remote legal latest/09 priority; today16:00Beijing timer enabled, ongoing work never paused.
+
+Original PrivateIntent internal_projection now selects only C-provided record IDs with own/current/scope/privacy/support validation, compact summary/revision/time/state/epistemic own-tendency/no-disclosure/no-execution. ContextAssembler adds individual PRIVATE_INTERNAL_STATE only when existing subject_frame is supplied; ordinary reply projections still withhold content. Existing full-request budget may omit thoughts without weakening required frame; no extra caller/timer/Store. Actual ownStore C after restart: active/paused supplied summary→existing cognition ASK→C WAIT, disabled/unrelated/abandoned/withdrawn→CREATE candidate, one fixture inference each. Same-state same61440 budget28173on/27306off,+867 UTF8_BYTE_ESTIMATE units NOT providerToken/bill. Minimumvalid4200 package omits private item; during-inference withdrawal stale/no Ccommit/no retry. 7focused0.94s and88related16.69s. No actualmodel/install/phone/production/longterm qualification. Source table anchor 41e7278b54fec1882e51bfcdb23e9e8fab1d2251e41bf91272bc29585a01bf53.
+
+NEXT ACTUAL DEVELOPMENT: original model/cognition contract own thought candidates (new questions/hypotheses/associations/strategy)→original C selection→same private family lifecycle→future choices; no extra model polling, no external fact requirement for own thoughts, no fact promotion. Current projection is existing cognize deep path, not yet ordinary dialogue strategy integration. Then explicit outcomes/S8 held-out transfer and all original A–H. Existing private32 creation/64 activewindow/long chains remain debt. CURRENT266+409 unchanged. Preserve first failures and scoped evidence; no redundant all-repo/release/403 retry.
+
+---
+
 # Active continuation — private choice and reception scope
 
 ACTIVE=/tmp/nana-inner-refinement-work, same devbranch; original Root f583+4ownedWIP protected, root still ENOSPC. Latest legal remote/09 priority; /tmp ephemeral. Today16:00Beijing continuation enabled, never pause work.

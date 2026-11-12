@@ -83,6 +83,34 @@ def decision_support(store,scope,privacy_classes,*,topic):
         and getattr(item,'activity_state','ACTIVE')!='ABANDONED')
 
 
+def internal_projection(store,record_ids,*,scope,privacy_classes):
+    """Only C-selected own current thoughts, for its existing deliberation.
+
+    This is not recipient disclosure. The caller's original context assembler
+    budgets each item and checks the sources again around inference.
+    """
+    records=RecordService(store);out=[]
+    for rid in dict.fromkeys(record_ids):
+        head=store.one('continuity_records',rid)
+        if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+                or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE'
+                or not records.current_support(rid)):continue
+        data=records.read(rid)['payload']
+        model={'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity}.get(data.get('contract'))
+        if model is None:continue
+        item=model.model_validate_json(json.dumps(data))
+        if (item.owner_identity_id!=store.identity['identity_id'] or item.status=='WITHDRAWN'
+                or item.disclosure_policy=='WITHDRAWN' or getattr(item,'activity_state','ACTIVE')=='ABANDONED'):continue
+        out.append({'record_id':rid,'intent_id':item.intent_id,'revision':item.revision,'topic':item.topic,
+            'category':item.category,'content_summary':item.content_summary,
+            'activity_state':getattr(item,'activity_state','ACTIVE'),
+            'created_at_us':getattr(item,'created_at_us',head['created_at_us']),
+            'updated_at_us':getattr(item,'updated_at_us',head['created_at_us']),
+            'epistemic_status':'OWN_TENDENCY_NOT_WORLD_FACT','disclosure_policy':item.disclosure_policy,
+            'recipient_disclosure':False,'execution_authority':False})
+    return tuple(out)
+
+
 def review_target(store,reference,*,scope,privacy_classes,topic):
     """Validate the exact current version before the original C considers it."""
     head=store.one('continuity_records',reference.record_id)

@@ -314,6 +314,18 @@ class ContextAssembler:
             mandatory.append(ContextBlock(block_id="subject-deliberation",kind="SUBJECT_APPRAISAL",
                 data_json=subject_frame.model_dump_json(), source_memory_ids=subject_frame.source_memory_ids,
                 source_record_ids=subject_frame.source_record_ids))
+            if self.store.schema_target>=13:
+                from .autonomy.private_intent import internal_projection
+                # Only original C's selected references, never all private history.
+                # Ordinary reply/context calls have no subject_frame and cannot
+                # receive these contents. Each thought competes in the existing
+                # complete-package budget rather than a fixed thought-count cap.
+                for thought in internal_projection(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,privacy_classes=privacy):
+                    rid=thought['record_id']
+                    candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
+                        data_json=canonical(thought),source_record_ids=(rid,),
+                        source_memory_ids=RecordService(self.store).support(rid))))
         # No duplicate relationship prose; it is supplied as individual memory blocks.
         candidates.append((900.0, ContextBlock(block_id="relationship", kind="RELATIONSHIP_LINKS", data_json=canonical({
             "entity_id": frame.relationship.entity_id,
