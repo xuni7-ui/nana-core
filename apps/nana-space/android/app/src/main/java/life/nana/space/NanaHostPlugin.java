@@ -367,6 +367,12 @@ public class NanaHostPlugin extends Plugin {
                     if (!pid.matches("[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}") || revision < 1 || revision > 999999999)
                         throw new Exception("PROVIDER_CATALOG_QUERY_REQUIRED");
                     route = "providers/models?provider_profile_id=" + pid + "&profile_revision=" + revision;
+                    if (data.has("after_id")) {
+                        Object after = data.opt("after_id");
+                        if (!(after instanceof String) || !((String)after).matches("[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}"))
+                            throw new Exception("PROVIDER_CATALOG_QUERY_REQUIRED");
+                        route += "&after_id=" + java.net.URLEncoder.encode((String)after, "UTF-8");
+                    }
                 }
                 else if ("providers.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "providers/credential";method = "POST"; }
                 else if ("providers.command".equals(op)) { route = "providers/commands";method = "POST"; }

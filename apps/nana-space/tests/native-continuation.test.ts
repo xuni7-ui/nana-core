@@ -11,6 +11,17 @@ const root={client_request_id:'native-root',idempotency_key:'native-root',expect
   run_generation:'b'.repeat(32),owner_epoch:1,text:'SYNTHETIC root',topic:'daily',thread_id:'space',privacy_class:'PROJECT' as const};
 afterEach(()=>vi.resetAllMocks());
 
+test('native catalog sends the same bounded page cursor without a write or replay',async()=>{
+  bridge.call.mockResolvedValue(identity);
+  const client=new V2Client();await client.bootstrap();
+  await client.providerModels('provider.native',3,'native/previous:1');
+  expect(bridge.call.mock.calls.at(-1)?.[0]).toEqual({operation:'providers.models',
+    data:{provider_profile_id:'provider.native',profile_revision:3,after_id:'native/previous:1'}});
+  const count=bridge.call.mock.calls.length;
+  await expect(client.providerModels('provider.native',3,'bad&query=1')).rejects.toMatchObject({code:'PROVIDER_CATALOG_QUERY_REQUIRED'});
+  expect(bridge.call).toHaveBeenCalledTimes(count);
+});
+
 test.each([false,true])('one native stream permits a bound buffered child; logout=%s suppresses late root',async(logout)=>{
   let finish!:(value:unknown)=>void,progress!:(value:unknown)=>void;
   const remove=vi.fn(async()=>{});

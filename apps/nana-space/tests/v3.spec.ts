@@ -105,6 +105,7 @@ interface MockState {
   shares?: Record<string, unknown>;
   biliHistory?: Record<string, unknown>;
   catalogEnabled?: boolean;
+  catalogProtocol?: string;
   memorySearchRows?: Record<string,unknown>[];
   lifeItems?: Record<string,unknown>[];
   noteRows?: Record<string,unknown>[];
@@ -179,7 +180,8 @@ function viewData(state: MockState, source: string) {
         : [],
     ...(source === "settings" ? { provider_settings: state.catalogEnabled ? {
       ...providerSettings,
-      providers: [{...providerSettings.providers[0], provider_profile_id:"provider.catalog", revision:1}],
+      providers: [{...providerSettings.providers[0], provider_profile_id:"provider.catalog", revision:1,
+        protocol:state.catalogProtocol || providerSettings.providers[0].protocol}],
       models: [], routes: [],
     } : providerSettings } : {}),
     ...(source === "devices"
@@ -222,7 +224,8 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
     if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
-    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], qualification:"NOT_ESTABLISHED", inference_calls:0});
+    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"],truncated:false,
+      provider_profile_id:"provider.catalog",profile_revision:1,qualification:"NOT_ESTABLISHED",inference_calls:0});
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
       if(state.noteReject)return route.fulfill({status:409,json:{code:"REVISION_CONFLICT"}});
@@ -892,6 +895,72 @@ test("SYNTHETIC model catalog: explicit list read fills draft and registers only
   expect(commands[0].model).toMatchObject({model_profile_id:modelId,provider_profile_id:'provider.catalog',remote_model_id:'catalog.new'});
   expect(commands[0].provider).toBeUndefined();expect(commands[0].route).toBeUndefined();
   await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
+  await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol", async ({page}) => {
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogProtocol='ANTHROPIC';
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  const reads:(string|null)[]=[],commands:Record<string,any>[]=[];
+  await page.route(`**${API}providers/models?*`,async route=>{
+    const cursor=new URL(route.request().url()).searchParams.get('after_id');reads.push(cursor);
+    if(reads.length===2)return route.fulfill({status:429,json:{code:'PROVIDER_CATALOG_WAIT'}});
+    return route.fulfill({status:200,json:envelope(state,{provider_profile_id:'provider.catalog',profile_revision:1,
+      models:cursor?['native/new']:['native/z','native/a'],truncated:!cursor,next_after_id:cursor?null:'native/a',
+      qualification:'NOT_ESTABLISHED',inference_calls:0})});
+  });
+  await page.route(`**${API}providers/commands`,async route=>{
+    const body=route.request().postDataJSON();commands.push(body.command);state.revision++;
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{configuration_revision:5}})});
+  });
+  await open(page,'models');const catalog=page.getByLabel('读取服务商模型');
+  await catalog.getByRole('button',{name:/读取 .* 模型/}).click();
+  await expect(catalog).toContainText('服务商还有后续页面');
+  expect(reads).toEqual([null]);
+  await catalog.getByRole('combobox').selectOption('native/z');
+  await page.getByRole('combobox',{name:'用途',exact:true}).selectOption('VISION');
+  await catalog.getByRole('button',{name:'读取下一页',exact:true}).click();
+  await expect(catalog.getByRole('button',{name:'读取下一页',exact:true})).toBeEnabled();
+  await expect(catalog.getByRole('combobox')).toHaveValue('native/z');
+  expect(reads).toEqual([null,'native/a']);
+  await catalog.getByRole('button',{name:'读取下一页',exact:true}).click();
+  await expect(catalog).toContainText('已读取 3 个模型');
+  await expect(catalog).toContainText('服务商当前列表已读完');
+  await expect(catalog.getByRole('button',{name:'读取下一页',exact:true})).toHaveCount(0);
+  await catalog.getByRole('combobox').selectOption('native/new');
+  await expect(page.getByRole('combobox',{name:'供应商预设',exact:true})).toHaveValue('anthropic');
+  await expect(page.getByRole('combobox',{name:'用途',exact:true})).toHaveValue('COGNITION');
+  await expect(page.getByLabel('已确认的 Base URL',{exact:true})).toHaveValue('https://provider-a.example/v1');
+  expect(commands).toEqual([]);
+  await page.getByRole('button',{name:'注册模型配置',exact:true}).click();
+  await expect.poll(()=>commands.length).toBe(1);
+  expect(commands[0].model).toMatchObject({provider_profile_id:'provider.catalog',remote_model_id:'native/new',
+    operations:['COGNITION'],input_modalities:['TEXT'],output_modalities:['TEXT']});
+  expect(reads).toEqual([null,'native/a','native/a']);
+  expect(state.requests.filter(r=>r.method!=='GET')).toHaveLength(0); // Model write is captured by its own route above.
+  expect(commands[0].provider).toBeUndefined();expect(commands[0].route).toBeUndefined();
+  expect(await page.evaluate(()=>Object.keys(localStorage).some(k=>/catalog/i.test(k)))).toBe(false);
+  await noHorizontalOverflow(page);
+});
+
+for(const scenario of ['TRUNCATED','FOREIGN_PROFILE'] as const) test(`SYNTHETIC catalog completion: ${scenario}`,async({page})=>{
+  const state=await installMock(page);state.catalogEnabled=true;
+  state.capabilities={provider_model_discovery:true};
+  let reads=0;
+  await page.route(`**${API}providers/models?*`,async route=>{
+    reads++;
+    return route.fulfill({status:200,json:envelope(state,{provider_profile_id:scenario==='FOREIGN_PROFILE'?'provider.foreign':'provider.catalog',
+      profile_revision:1,models:['partial.model'],truncated:true,next_after_id:null})});
+  });
+  await open(page,'models');const catalog=page.getByLabel('读取服务商模型');
+  await catalog.getByRole('button',{name:/读取 .* 模型/}).click();
+  if(scenario==='TRUNCATED')await expect(catalog).toContainText('列表尚未完整，可手动填写未显示的模型名称');
+  else await expect(catalog.getByRole('button',{name:/读取 .* 模型/})).toBeEnabled();
+  await expect(catalog.getByRole('combobox')).toHaveCount(scenario==='TRUNCATED'?1:0);
+  await expect(catalog.getByRole('button',{name:'读取下一页',exact:true})).toHaveCount(0);
+  expect(reads).toBe(1);expect(state.requests.filter(r=>r.method!=='GET')).toHaveLength(0);
   await noHorizontalOverflow(page);
 });
 

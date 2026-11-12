@@ -139,3 +139,10 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 
 Only PROJECT_BRAIN/01_CAPABILITY_MATRIX.md,07_ROADMAP.md,08_TASKS.md,09_STATE.md,10_DECISIONS.md,11_CHANGELOG.md; docs/nana_cloud_first_life_launch_v1_status.md; docs/nana_master_framework_foundation_audit_v1_report.md; named JSON/txt/md evidence in docs/nana_master_framework_foundation_audit_v1_evidence/; tools/nana_foundation_audit/check.py and probe_topic_scope.py; this whitelist.
 Master Framework, application source/tests, runtime configs/DBs, credentials, outside-repo preserved draft and old bundle are excluded. Exact staged names/hashes checked before commit.
+
+## 2026-11-12 · Codex B 显式目录分页（用户持续开发/提交授权）
+
+- 本批恰为 `docs/nana_next_experience/evidence/provider-catalog-pages-20261112/source-sha256.json` 中逐项登记的 12 份源码/测试文件；复用原 Core API、Web SDK 和 Android 有限映射，不复制第三方源码。
+- `docs/nana_next_experience/evidence/provider-catalog-pages-20261112/{README.md,source-sha256.json,before-2fail.txt,browser-first.txt,related51.txt,catalog16.txt,client37.txt,browser16.txt,after-fast-forward.txt,prerequisite-failures.txt}`：仅源码指纹/合成测试与已知环境失败记录。
+- `docs/nana_next_experience/CODEX_B_QUEUE.md`、`PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}`（保留 A 原文，仅追加）及本白名单。
+- 不含依赖目录、构建产物、数据库、运行配置、凭据、私人历史或 APK；保持原许可现状，逐文件扫描后本地提交/开发分支 push 与小范围 PR。

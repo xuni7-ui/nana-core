@@ -2701,3 +2701,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [实测] docs/nana_next_experience/evidence/goal-choice-20261112/README.md，source-sha256.json锚`60fa591ea85e8d423e4db3832906ff69e93d5555d0d46810dc1ded3ff65b3d8a`。73相关8.64s，原版2fail/3pass及两次fixture错误保留。用户13节增补继承同任务，原private_intent→C.situation/Context→跨轮策略/原G成最高优先级；当前只确认缺口，不称内心机制已实现。
 
 [实测补记] f7c3078独立CI43157054621：135Core130.48s/93unit/148browser2.0m/Vite2.72s SUCCESS，basef7-ci.txt保存原日志摘录；非全仓/本批新取舍/安装或生产。
+
+
+### 2026-11-12 · Codex B 通用模型目录的显式分页
+
+[源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。
