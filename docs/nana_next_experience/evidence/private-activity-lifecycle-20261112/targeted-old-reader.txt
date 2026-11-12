@@ -1,0 +1,2 @@
+{"reader": "f583f18", "same_identity": true, "unsupported_v2": "IGNORED_NOT_CLAIMED_SUPPORTED", "new_subject_private_writes": 0, "actions": 0, "cognitive_requests": 0}
+{"current_reader_return": "PAUSED_PRESERVED", "same_identity": true, "private_record_count_unchanged": true, "old_reader_no_C_step": true, "new_real_provider_calls": 0, "production_changed": false}

@@ -1,0 +1,175 @@
+F.F.FF.                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[HIGH-HIGH-options0-prohibited0-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/tmp/plchoiceb2/test_adopted_plan_step_compete0')
+load = 'HIGH', urgency = 'HIGH', options = ('CONTINUE_PROJECT', 'REST')
+prohibited = (), expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+        ('LOW','HIGH',('REST',),(),'REST'),
+        ('HIGH','HIGH',('REST',),(),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+        ('LOW','LOW',('CREATE',),(),'CONTINUE_PROJECT'),
+    ])
+    def test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority(tmp_path,load,urgency,options,prohibited,expected):
+        from nana_core.continuity.agency import step_view
+        obj=objective()
+        with fresh(tmp_path/'s.db') as r:
+            port=configure(r,tmp_path/'world.fixture.json',(obj,),grant=False)
+            port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'adopt-step-choice',(cue(r,obj),));r.step()
+            ref=r.work.agency.next_reference();assert ref is not None
+            view=step_view(r.store,ref,scope='lab',privacy_classes=('PERSONAL',))
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',ref.work_id))
+            current=ConcernCue(cue_kind='OPEN_LOOP',topic_key='step.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            source=capture(r,'step-current-choice',current.model_dump_json(),predicate='concern.step.choice')
+            sources=[source]
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='step.choice',motivation_source='NORM',prohibited_behaviors=prohibited)
+                sources.append(capture(r,'step-current-norm',norm.model_dump_json(),predicate='concern.constraint.step-choice'))
+            event=SubjectInput(source_key='synthetic.plan.step-choice',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='lab',
+                observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),realization_target=view.target,goal_step=ref)
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'REST' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + REST
+
+tests/open_life/test_long_goals.py:38: AssertionError
+_ test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[LOW-HIGH-options2-prohibited2-REST] _
+
+tmp_path = PosixPath('/tmp/plchoiceb2/test_adopted_plan_step_compete2')
+load = 'LOW', urgency = 'HIGH', options = ('REST',), prohibited = ()
+expected = 'REST'
+
+    @pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+        ('LOW','HIGH',('REST',),(),'REST'),
+        ('HIGH','HIGH',('REST',),(),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+        ('LOW','LOW',('CREATE',),(),'CONTINUE_PROJECT'),
+    ])
+    def test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority(tmp_path,load,urgency,options,prohibited,expected):
+        from nana_core.continuity.agency import step_view
+        obj=objective()
+        with fresh(tmp_path/'s.db') as r:
+            port=configure(r,tmp_path/'world.fixture.json',(obj,),grant=False)
+            port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'adopt-step-choice',(cue(r,obj),));r.step()
+            ref=r.work.agency.next_reference();assert ref is not None
+            view=step_view(r.store,ref,scope='lab',privacy_classes=('PERSONAL',))
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',ref.work_id))
+            current=ConcernCue(cue_kind='OPEN_LOOP',topic_key='step.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            source=capture(r,'step-current-choice',current.model_dump_json(),predicate='concern.step.choice')
+            sources=[source]
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='step.choice',motivation_source='NORM',prohibited_behaviors=prohibited)
+                sources.append(capture(r,'step-current-norm',norm.model_dump_json(),predicate='concern.constraint.step-choice'))
+            event=SubjectInput(source_key='synthetic.plan.step-choice',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='lab',
+                observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),realization_target=view.target,goal_step=ref)
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'REST'
+E             
+E             - REST
+E             + CONTINUE_PROJECT
+
+tests/open_life/test_long_goals.py:38: AssertionError
+_ test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[LOW-LOW-options4-prohibited4-REST] _
+
+tmp_path = PosixPath('/tmp/plchoiceb2/test_adopted_plan_step_compete4')
+load = 'LOW', urgency = 'LOW', options = ('CONTINUE_PROJECT', 'REST')
+prohibited = ('CONTINUE_PROJECT',), expected = 'REST'
+
+    @pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+        ('LOW','HIGH',('REST',),(),'REST'),
+        ('HIGH','HIGH',('REST',),(),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+        ('LOW','LOW',('CREATE',),(),'CONTINUE_PROJECT'),
+    ])
+    def test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority(tmp_path,load,urgency,options,prohibited,expected):
+        from nana_core.continuity.agency import step_view
+        obj=objective()
+        with fresh(tmp_path/'s.db') as r:
+            port=configure(r,tmp_path/'world.fixture.json',(obj,),grant=False)
+            port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'adopt-step-choice',(cue(r,obj),));r.step()
+            ref=r.work.agency.next_reference();assert ref is not None
+            view=step_view(r.store,ref,scope='lab',privacy_classes=('PERSONAL',))
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',ref.work_id))
+            current=ConcernCue(cue_kind='OPEN_LOOP',topic_key='step.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            source=capture(r,'step-current-choice',current.model_dump_json(),predicate='concern.step.choice')
+            sources=[source]
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='step.choice',motivation_source='NORM',prohibited_behaviors=prohibited)
+                sources.append(capture(r,'step-current-norm',norm.model_dump_json(),predicate='concern.constraint.step-choice'))
+            event=SubjectInput(source_key='synthetic.plan.step-choice',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='lab',
+                observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),realization_target=view.target,goal_step=ref)
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'REST'
+E             
+E             - REST
+E             + CONTINUE_PROJECT
+
+tests/open_life/test_long_goals.py:38: AssertionError
+_ test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[HIGH-HIGH-options5-prohibited5-None] _
+
+tmp_path = PosixPath('/tmp/plchoiceb2/test_adopted_plan_step_compete5')
+load = 'HIGH', urgency = 'HIGH', options = ('CONTINUE_PROJECT', 'REST')
+prohibited = ('CONTINUE_PROJECT', 'REST'), expected = None
+
+    @pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+        ('LOW','HIGH',('REST',),(),'REST'),
+        ('HIGH','HIGH',('REST',),(),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+        ('LOW','LOW',('CREATE',),(),'CONTINUE_PROJECT'),
+    ])
+    def test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority(tmp_path,load,urgency,options,prohibited,expected):
+        from nana_core.continuity.agency import step_view
+        obj=objective()
+        with fresh(tmp_path/'s.db') as r:
+            port=configure(r,tmp_path/'world.fixture.json',(obj,),grant=False)
+            port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'adopt-step-choice',(cue(r,obj),));r.step()
+            ref=r.work.agency.next_reference();assert ref is not None
+            view=step_view(r.store,ref,scope='lab',privacy_classes=('PERSONAL',))
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',ref.work_id))
+            current=ConcernCue(cue_kind='OPEN_LOOP',topic_key='step.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            source=capture(r,'step-current-choice',current.model_dump_json(),predicate='concern.step.choice')
+            sources=[source]
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='step.choice',motivation_source='NORM',prohibited_behaviors=prohibited)
+                sources.append(capture(r,'step-current-norm',norm.model_dump_json(),predicate='concern.constraint.step-choice'))
+            event=SubjectInput(source_key='synthetic.plan.step-choice',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='lab',
+                observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),realization_target=view.target,goal_step=ref)
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'REST' == None
+E            +  where 'REST' = Intention(kind='NO_ACTION', purpose='Wait before continuing the plan', slot_key='quiet', source_ids=('56abd19a-4150-49... '9bf39098-d5ab-4c2f-b1b7-e38697ef5713', '682f4d74-b1c5-45e2-81a7-83fe155d49ed'), self_generated=True, behavior='REST').behavior
+E            +    where Intention(kind='NO_ACTION', purpose='Wait before continuing the plan', slot_key='quiet', source_ids=('56abd19a-4150-49... '9bf39098-d5ab-4c2f-b1b7-e38697ef5713', '682f4d74-b1c5-45e2-81a7-83fe155d49ed'), self_generated=True, behavior='REST') = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/open_life/test_long_goals.py:38: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_long_goals.py::test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[HIGH-HIGH-options0-prohibited0-CONTINUE_PROJECT]
+FAILED tests/open_life/test_long_goals.py::test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[LOW-HIGH-options2-prohibited2-REST]
+FAILED tests/open_life/test_long_goals.py::test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[LOW-LOW-options4-prohibited4-REST]
+FAILED tests/open_life/test_long_goals.py::test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority[HIGH-HIGH-options5-prohibited5-None]
+4 failed, 3 passed, 11 deselected in 0.65s

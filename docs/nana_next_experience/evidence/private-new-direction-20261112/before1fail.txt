@@ -1,0 +1,38 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or_disclosing_it _
+
+tmp_path = PosixPath('/tmp/pinewtb/test_own_question_can_open_and0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3b718970b0>
+
+    def test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or_disclosing_it(tmp_path,monkeypatch):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.records import RecordService
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            _,_,seed=choose(app);r=app.runtime
+            r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+            calls=[];policy=ContextPolicy(policy_id='own-new-topic',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+            def think(key,context_topic,new_topic,text,revision=None):
+                class QuestionFixture:
+                    descriptor='offline-own-topic-transition-fixture'
+                    def propose(self,request):
+                        calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                        base['private_question']={'topic':new_topic,'question':text,'revises_record_id':revision}
+                        return json.dumps(base)
+                return r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                    kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic=context_topic,observed_at_us=r.clock.utc_now_us()),
+                    model=QuestionFixture(),authority=r.authority,policy=policy)
+            created=think('new-direction','creative-project','story-research','SYNTHETIC private question about a newly imagined story direction')
+>           assert created.intention.behavior=='REFLECT'
+E           AssertionError: assert None == 'REFLECT'
+E            +  where None = Intention(kind='NO_ACTION', purpose='Remain present without demanding interaction', slot_key='quiet', source_ids=('4ee71597-4be4-4caa-bd5f-4d64e26e5e06',), self_generated=True, behavior=None).behavior
+E            +    where Intention(kind='NO_ACTION', purpose='Remain present without demanding interaction', slot_key='quiet', source_ids=('4ee71597-4be4-4caa-bd5f-4d64e26e5e06',), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/first_life_integration/test_private_intent.py:713: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or_disclosing_it
+1 failed, 47 deselected in 0.28s

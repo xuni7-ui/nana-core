@@ -1,0 +1,3 @@
+{"size": 1000, "generation_seconds": 0.23649374100023124, "baseline_p95_ms": 8.792991, "topic_p95_ms": 0.148551, "baseline_hits": 0, "topic_hits": 21}
+{"size": 10000, "generation_seconds": 1.9302314489996206, "baseline_p95_ms": 5.801407, "topic_p95_ms": 0.294858, "baseline_hits": 0, "topic_hits": 21}
+{"size": 100000, "generation_seconds": 21.65666955300003, "baseline_p95_ms": 5.735281, "topic_p95_ms": 0.261898, "baseline_hits": 0, "topic_hits": 21}

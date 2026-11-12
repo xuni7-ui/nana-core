@@ -1,0 +1,15 @@
+# 私人问题形成不等于挂起一项外部执行
+
+基线cc6c6f2。原Question记录已持久化，形成该问题的REFLECTION intention却一直PENDING；8条后占满异步注意队列，后续思想/普通会话被误当“attention full”。冻结无其他pending和已有8个未处理探索意向两场景均失败。
+
+原C同一事务在问题新建/修订/已存在去重成功后，仅完成这一“考虑并记录问题”的REFLECTION intention；问题本身仍ACTIVE、execution_state仍NOT_INFERRED_FROM_ACTIVITY_STATE。不是回答问题、完成学习/Goal/Action/投递，experiences/lessons/relationship_events不因此增长。记录写入失败则连同C cycle/intention/subject revision一起回滚。无新执行队列/Store/Agent。
+
+只有已被C接受、无执行绑定的私问形成不消耗异步pending容量；普通实际意向仍受MAX_PENDING。追加测试发现NO_ACTION的REST也被同一容量检查错误抹成None，保留首次失败；NO_ACTION本就不产生PENDING行，现保留原安静取舍，不把队列满变为禁止休息。实际待处理8行逐字段不变。
+
+10个不同私问无需外部手动complete即可保存；每个形成意向COMPLETED，问题都ACTIVE；无其他pending时重启后普通离线VENT仍SOCIAL_INTERACTION。已有8个pending时10个问题也不占异步位，能用精确ref将一个问题PAUSED，实际8行不变。仅10次明示离线fixture调用，不是周期模型轮询/自然思想质量/付费调用；不声称后台实任务满载时所有前台路径已资格。
+
+新私问持久化是schema13能力，旧schema8/12遇到该候选不宣称保存、不绕过其原容量或留下不可处理的private question任务；原普通模型建议仍兼容。中断注入在private record已写、formation完成前触发，原事务回滚可见记录/subject revision，模型只调1次；不冒称付费UNKNOWN自动恢复或物理擦除所有WAL字节。
+
+2目标通过1.22s；原private/continuous_self/continuous_runtime/open_life/open_autonomy/precision/affective/dialogue292通过67.67s；随后补旧schema capability gate与原子中断5通过1.38s。**不把分项拼为一次297全仓**。普通旧schema/C/G/S7语义保留，未放宽实际Grant/Privacy/Verify。
+
+下一：身份/人格存在但没有旧Memory/Project/private source时，原run的parents/supports为空会使有效新私问无record持久化。需用真实自身程序发生记录追源，不能伪造外部观察/使用开发项目或公开资料冒充内心来源；必须复用原隐私撤回与备份。再继续商业INTERPRET/C/RENDER、自然持续策略/真实反馈、多倾向关联和原A–H。当前只是原cognize/D fixture profile，无真实模型/手机/生产/跨日成长资格。

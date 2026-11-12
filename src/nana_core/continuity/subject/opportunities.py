@@ -8,6 +8,13 @@ from ..records import RecordService
 Behavior = Literal['ACT','DEFER','WATCH','REFLECT','LEARN','EXPLORE','CREATE','MAINTAIN','CONTINUE_PROJECT','HONOR_COMMITMENT','SEEK_CAPABILITY','EXPRESS_OPINION','DISAGREE','SOCIALIZE','REST','WITHDRAW','IGNORE','STAY_SILENT','DO_NOTHING']
 
 
+class PrivateIntentRef(DTO):
+    """A current own thought to reconsider, never a command or permission."""
+    record_id:str=Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+    intent_id:str=Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+    revision:int=Field(ge=1)
+
+
 class LearningValue(DTO):
     """Sourced assessment factors, not a command or numeric reward."""
     goal_value: Literal['LOW','RELEVANT','HIGH']
@@ -36,6 +43,7 @@ class ShareAssessment(DTO):
 
 
 class ConcernCue(DTO):
+    private_intent_ref:PrivateIntentRef|None=None
     schema_version: Literal[1] = 1
     cue_kind: Literal['OPEN_LOOP','OPPORTUNITY','DISCOVERY','CONSTRAINT','LOAD_STATE']
     motivation_source: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
@@ -60,6 +68,7 @@ class ConcernCue(DTO):
     @model_serializer(mode='wrap')
     def compatible_wire(self,handler):
         value=handler(self)
+        if self.private_intent_ref is None:value.pop('private_intent_ref',None)
         if self.learning_value is None:value.pop('learning_value',None)
         if self.share_assessment is None:value.pop('share_assessment',None)
         if self.opportunity_assessment is None:value.pop('opportunity_assessment',None)

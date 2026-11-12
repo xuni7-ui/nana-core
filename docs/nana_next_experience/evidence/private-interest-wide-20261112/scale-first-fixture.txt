@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/tmp/nana-inner-refinement-work/tools/nana_next_experience/qualification/private_interest_scale_v1.py", line 89, in <module>
+    run(args.home,args.samples)
+  File "/tmp/nana-inner-refinement-work/tools/nana_next_experience/qualification/private_interest_scale_v1.py", line 66, in run
+    else:value=type(own).model_validate(data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-test-env/lib/python3.12/site-packages/pydantic/main.py", line 732, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for PrivateIntent
+source_memory_ids
+  Input should be a valid tuple [type=tuple_type, input_value=['59c5c55b-ce46-43d7-bb38-23c470fa2aaa'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type

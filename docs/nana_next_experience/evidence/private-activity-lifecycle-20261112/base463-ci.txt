@@ -1,0 +1,4 @@
+Connector-observed GitHub job log excerpt, preserved from the actual tool result.
+Source4635690e522f1fd317172368abb8bed8a5c53e4e, run43160521276, Core job130990596395 SUCCESS.
+2026-11-12T05:20:32.9925909Z 162 passed, 1 warning in 33.32s
+Client job130990598739 SKIPPED (actual jobs response); reuse of unaffected client qualification, not a new client pass or full repository result.

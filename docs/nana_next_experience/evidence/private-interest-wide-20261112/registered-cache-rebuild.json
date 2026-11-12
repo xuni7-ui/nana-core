@@ -1,0 +1,13 @@
+{
+  "rebuild_seconds": 1.2420992810002645,
+  "same_identity": true,
+  "quarantined": true,
+  "private_headers": 100001,
+  "indexes": {
+    "private_intent_payload_lookup": 6725632,
+    "private_intent_topic_lookup_v1": 9977856
+  },
+  "actions": 0,
+  "provider_requests": 0,
+  "kind": "SYNTHETIC_REGISTERED_QUARANTINE_COPY_CACHE_REBUILD_NOT_INSTALL"
+}

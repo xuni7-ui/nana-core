@@ -1,0 +1,90 @@
+......F........................................                          [100%]
+=================================== FAILURES ===================================
+_ test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts _
+
+tmp_path = PosixPath('/tmp/nana-private-portable-fixed/test_private_idea_can_pause_re0')
+
+    def test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import PrivateActivity,decision_support
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            original_source,_,first=choose(app);identity=app.runtime.identity_id
+            app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+            original=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            clock.advance(1_000_000)
+            cycle,event=private_choice(app,'pause-private-idea','REST')
+            assert cycle.intention.behavior=='REST'
+            rid,paused=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0]
+            assert isinstance(paused,PrivateActivity) and paused.activity_state=='PAUSED'
+            assert paused.intent_id==original.intent_id and paused.revision==2
+            assert paused.last_choice_cycle_id==cycle.cycle_id and paused.updated_at_us>paused.created_at_us
+            before=app.runtime.store.db.total_changes
+            app.runtime.subject.run(event)
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].revision==2
+            assert app.runtime.store.db.total_changes==before  # Original source replay, no repeated revision.
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].activity_state=='PAUSED'
+            # Rest did not erase an interest. Original C can choose it again even
+            # when instrumental value remains LOW and the opportunity is repeated.
+            clock.advance(1_000_000);resumed,_=private_choice(app,'resume-private-idea','CREATE')
+            assert resumed.intention.behavior=='CREATE'
+            value=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            assert value.intent_id==original.intent_id and value.activity_state=='ACTIVE' and value.revision==3
+            clock.advance(1_000_000);withdrawn,_=private_choice(app,'abandon-private-idea','WITHDRAW')
+            assert withdrawn.intention.behavior=='WITHDRAW'
+            value=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            assert value.activity_state=='ABANDONED' and value.revision==4
+            assert decision_support(app.runtime.store,'project-work',('PUBLIC','PROJECT'),topic='creative-project')==()
+            from nana_core.continuity.context import ContextAssembler,ContextRequest
+            package=ContextAssembler(app.runtime.store,app.runtime.authority).assemble(
+                ContextRequest(entity_id='project-user',scopes=('project-work',),task_class='first-life',
+                    task='ordinary outward context',task_privacy_class='PROJECT'),app.policy)
+            assert not any(block.kind=='PRIVATE_INTENT_STATE' for block in package.blocks)
+            ignored,_=private_choice(app,'old-idea-not-automatic','CREATE');assert ignored.intention.behavior=='IGNORE'
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].revision==4
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity
+            clock.advance(1_000_000)
+            renewed,_=private_choice(app,'new-ground-for-reconsidering','CREATE',value='HIGH',novelty='NEW')
+            assert renewed.intention.behavior=='CREATE'
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+            assert len(values)==1 and values[0][1].intent_id==original.intent_id
+            assert values[0][1].activity_state=='ACTIVE' and values[0][1].revision==5
+            assert values[0][1].epistemic_status=='OWN_TENDENCY_NOT_WORLD_FACT'
+            assert values[0][1].execution_state=='NOT_INFERRED_FROM_ACTIVITY_STATE'
+            # Passage of time alone is not a new thought, a success or a reason to
+            # recreate the private state. Existing idle runtime remains available.
+            clock.advance(48*60*60*1_000_000)
+>           for _ in range(3):app.runtime.step()
+                              ^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:185: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/presence/runtime.py:268: in step
+    self.lease.heartbeat()
+src/nana_core/presence/authority.py:114: in heartbeat
+    row = self.assert_current()
+          ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7f72b712be90>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts
+1 failed, 46 passed in 4.29s

@@ -1,0 +1,32 @@
+.......F................                                                 [100%]
+=================================== FAILURES ===================================
+____ test_revising_one_private_idea_does_not_hide_another_current_interest _____
+
+tmp_path = PosixPath('/tmp/nana-private-index-after/test_revising_one_private_idea0')
+
+    def test_revising_one_private_idea_does_not_hide_another_current_interest(tmp_path):
+        """Historical header fixture, not 70 fabricated experiences/model thoughts."""
+        from nana_core.continuity.records import RecordService
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            for key,topic in [('stable-private','stable-project'),('revised-private','creative-project')]:
+                _,_,cycle=choose(app,key,topic=topic)
+                app.runtime.subject.transition_intention(cycle.intention_id,expected_revision=1,state='COMPLETED')
+            records=RecordService(app.runtime.store)
+            rid,value=next((rid,item) for rid,item in candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT')) if item.topic=='creative-project')
+            for _ in range(70):
+                value=value.model_copy(update={'revision':value.revision+1})
+                with app.runtime.store.transaction('fixture.private_header_history') as tx:
+                    rid=records.create(tx,kind='INTENTION',scope='project-work',target_id='private-intent.v1',
+                        payload=value.model_dump(mode='json'),records=(rid,),supersedes=rid)
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+            assert {v.topic for _,v in values}=={'stable-project','creative-project'}
+            plan=app.runtime.store.db.execute("EXPLAIN QUERY PLAN SELECT record_id FROM continuity_records WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN (?,?) ORDER BY created_at_us DESC LIMIT 64",('project-work','PUBLIC','PROJECT')).fetchall()
+>           assert any('private_intent_live_lookup' in str(tuple(row)) for row in plan)
+E           assert False
+E            +  where False = any(<generator object test_revising_one_private_idea_does_not_hide_another_current_interest.<locals>.<genexpr> at 0x7f753a1a89a0>)
+
+tests/first_life_integration/test_private_intent.py:200: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_revising_one_private_idea_does_not_hide_another_current_interest
+1 failed, 23 passed in 6.81s

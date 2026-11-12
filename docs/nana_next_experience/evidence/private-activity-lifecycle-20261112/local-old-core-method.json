@@ -1,0 +1,9 @@
+{
+  "baseline": "f583f187152c452b9638ff2d6c96b91bd4fe68da",
+  "method": "existing local Core filesystem with exactly the3changed Core modules restored from verified Git blobs; no archive/tree fetch",
+  "replaced": [
+    "src/nana_core/continuity/autonomy/private_intent.py",
+    "src/nana_core/continuity/subject/loop.py",
+    "src/nana_core/continuity/subject/policy.py"
+  ]
+}
