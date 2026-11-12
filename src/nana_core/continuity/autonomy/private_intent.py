@@ -200,6 +200,30 @@ def consider_question(event,situation,judgment,intention,proposal):
     return proposal
 
 
+def anchor_own_occurrence(store,event,*,authority):
+    """Retain actual validated cognition occurrence, not the thought as fact.
+
+    Only the original C controller calls this after proposal validation and its
+    tentative choice. The private contents stay solely in the deletable private
+    record. A stable source cannot resurrect a forgotten occurrence.
+    """
+    from ...storage import digest
+    from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType,SELF_COGNITION_OCCURRENCE_TEXT
+    from ..memory import MemoryService
+    reference='self.'+digest([store.identity['identity_id'],event.scope,event.source_key])
+    previous=store.db.execute("SELECT * FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",('recorded.subject.cognition-occurrence',reference)).fetchone()
+    if previous and previous['state']=='DELETED':raise CoreError('SOURCE_DELETED')
+    when=previous['observed_time_us'] if previous else store.clock.utc_now_us()
+    memory=MemoryService(store,authority)
+    eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SELF_COGNITION',
+        source_namespace='recorded.subject.cognition-occurrence',source_reference=reference,source_kind='SYSTEM_VERIFICATION'),
+        text=SELF_COGNITION_OCCURRENCE_TEXT,privacy_class=event.privacy_class,event_time_us=when,observed_time_us=when))
+    mid=memory.add(MemoryCandidate(entity_id=store.identity['identity_id'],scope=event.scope,
+        memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,
+        text=SELF_COGNITION_OCCURRENCE_TEXT,importance=0,significance=0))
+    return event.model_copy(update={'source_memory_ids':(mid,)})
+
+
 def _complete_question_formation(store,tx,intention_id):
     """The C consideration was recorded; its ongoing question is still active.
 

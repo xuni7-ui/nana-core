@@ -203,5 +203,12 @@ class ConcernService:
         for row in self.store.db.execute('SELECT * FROM open_concerns ORDER BY updated_at_us DESC LIMIT 32'):
             head=self.store.one('continuity_records',row['record_id'])
             if head['scope'] not in scopes or head['privacy_class'] not in privacy or head['lifecycle']!='ACTIVE' or not self.records.current_support(row['record_id']):continue
-            b=self.records.read(row['record_id'])['payload'];out.append({'concern_id':row['concern_id'],'topic':b['topic'],'motivation':b['motivation_source'],'state':row['state'],'encounters':row['encounters'],'goal_id':row['goal_id'],'source_record_id':row['record_id']})
+            b=self.records.read(row['record_id'])['payload']
+            from .concern_source import source_domains
+            private='SELF_COGNITION' in source_domains(self.store,row['record_id'])
+            item={'concern_id':row['concern_id'],'topic':'private-content-withheld' if private else b['topic'],
+                'motivation':'PRIVATE_CONTENT_WITHHELD' if private else b['motivation_source'],
+                'state':row['state'],'encounters':row['encounters'],'goal_id':row['goal_id'],'source_record_id':row['record_id']}
+            if private:item['private_content_withheld']=True
+            out.append(item)
         return tuple(out)

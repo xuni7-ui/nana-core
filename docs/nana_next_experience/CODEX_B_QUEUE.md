@@ -1,6 +1,6 @@
 # Codex B 当前队列
 
-同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690 / 071669b；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
+同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690 / 071669b / bd48d40；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
 
 ## 产品队列（真实阻塞优先）
 

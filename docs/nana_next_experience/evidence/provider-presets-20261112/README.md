@@ -20,3 +20,5 @@ npx playwright test --config playwright.v3.config.ts --grep 'provider presets:|m
 每次页面仅从既有11项元数据筛选协议预设；没有新增网络、模型调用、持久化、依赖或审批层。原Web/native凭据路径、预算、CAS/UNKNOWN和实际运行状态保持；完整连接测试、普通Web密钥输入、模型能力发现及通用显示配置仍有独立差额。本批不声明整体模型向导完成、真实服务商资格、native编译、最终安装或生产部署。
 
 回退只需撤销本批UI/factory/测试，无配置或主体数据迁移；旧接口、现有Provider ID和签名/package ID不改。源码表SHA256 `4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6`，不自指。原代码修改，零第三方源码复制，许可现状不变。
+
+集成候选更新：正常合入A bd48d40，保留其自身认知来源代码和完整账本；本批客户端源码指纹保持，未重复前端/发行验证。共享开发分支未修改。
