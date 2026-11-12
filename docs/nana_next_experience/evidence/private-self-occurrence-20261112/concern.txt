@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_own_occurrence_retains_private_attention_provenance_and_registered_erasure _
+
+tmp_path = PosixPath('/tmp/piselfc/test_own_occurrence_retains_pr0')
+
+    def test_own_occurrence_retains_private_attention_provenance_and_registered_erasure(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import anchor_own_occurrence
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity import ContinuityStore
+        with fresh(tmp_path/'self.db') as runtime:
+            event=SubjectInput(kind='WAKE',origin='SELF_WAKE',source_key='synthetic.own-occurrence',
+                entity_id=runtime.config.entity_id,scope='world',privacy_class='PERSONAL',observed_at_us=runtime.clock.utc_now_us())
+            rooted=anchor_own_occurrence(runtime.store,event,authority=runtime.authority)
+            own=rooted.source_memory_ids[0];memory=MemoryService(runtime.store)
+            source_row=runtime.store.one('memories',own)
+            # Metadata is real; it is not meaningful dream material to be repeatedly
+            # summarized instead of the subject's actual experiences.
+            assert runtime.work.maintenance._select((source_row,),'world')==()
+>           concerns=ConcernService(runtime,resources=())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_concern_source.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.attention.ConcernService object at 0x7fee81b16fc0>
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fee81e9d850>
+resources = (), max_hot = 16, revisit_us = 3600000000, cognition = None
+
+    def __init__(self,runtime,*,resources,max_hot=16,revisit_us=3600_000_000,cognition=None):
+        self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
+        self.cognition=cognition  # Existing coordinator session, never another thinker.
+        self.resources=frozenset(resources);self.max_hot=max_hot;self.revisit=revisit_us
+>       if not 1<=max_hot<=32 or not 1<=len(self.resources)<=128:raise CoreError('CONCERN_POLICY_BOUND')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: CONCERN_POLICY_BOUND
+
+src/nana_core/continuity/world_loop/attention.py:19: CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_concern_source.py::test_own_occurrence_retains_private_attention_provenance_and_registered_erasure
+1 failed, 8 deselected in 0.45s

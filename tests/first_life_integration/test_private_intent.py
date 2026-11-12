@@ -854,6 +854,53 @@ def test_question_record_and_formation_completion_roll_back_in_one_original_tran
         assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants')
 
 
+@pytest.mark.parametrize('privacy',['PUBLIC','PROJECT','PERSONAL'])
+def test_identity_only_cognition_can_form_a_persistent_question_with_own_occurrence_provenance(tmp_path,privacy):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    clock=VirtualClock();authority=OperatorAuthority();path=tmp_path/'own'/'self.db';calls=[]
+    text='SYNTHETIC entirely new question without prior world observations or memories'
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        IdentityService(store,authority);MemoryService(store).entity('counterparty','PERSON')
+        assert not store.all('memories') and not store.all('projects')
+        class InitialQuestionFixture:
+            descriptor='offline-identity-only-question-fixture'
+            def propose(self,request):
+                calls.append(request);data=json.loads(request.context_json)
+                assert not any(b['source_memory_ids'] for b in data['blocks'])
+                base=json.loads(AnalyticalFixturePort().propose(request));assert not base['memory_refs']
+                base.update(private_question={'topic':'own-new-question','question':text},interpretation=text)
+                return json.dumps(base)
+        loop=SubjectLoop(store,scopes=('own-scope',),privacy_classes=(privacy,))
+        event=SubjectInput(source_key='synthetic.identity-only-question',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',
+            privacy_class=privacy,observed_at_us=clock.utc_now_us())
+        policy=ContextPolicy(policy_id='identity-only-cognition',allowed_scopes=('own-scope',),readable_privacy=(privacy,))
+        result=loop.cognize(event,model=InitialQuestionFixture(),authority=authority,policy=policy)
+        private=candidates(store,'own-scope',(privacy,));assert len(private)==1
+        rid,question=private[0]
+        assert question.content_summary==text and question.epistemic_status=='OWN_QUESTION_NOT_WORLD_FACT'
+        assert store.one('continuity_records',rid)['privacy_class']==privacy and text not in result.model_dump_json()
+        assert store.one('subject_intentions',result.intention_id)['state']=='COMPLETED'
+        assert len(question.source_memory_ids)==1
+        source=MemoryService(store).read(question.source_memory_ids[0])
+        assert source['entity_id']==store.identity['identity_id'] and source['epistemic_kind']=='OBSERVATION'
+        assert source['source_provenance']['domain']=='SELF_COGNITION' and source['source_provenance']['source_kind']=='SYSTEM_VERIFICATION'
+        assert text not in source['text'] and 'candidate' in source['text'].lower()
+        assert not store.all('world_beliefs') and not store.all('experiences') and not store.all('lessons') and not store.all('actions')
+        identity=store.identity['identity_id'];memory_id=source['memory_id']
+        before=store.db.total_changes;assert loop.cognize(event,model=InitialQuestionFixture(),authority=authority,policy=policy).replayed
+        assert len(calls)==1 and store.db.total_changes==before
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        assert store.identity['identity_id']==identity and candidates(store,'own-scope',(privacy,))[0][1].content_summary==text
+        MemoryService(store,authority).forget(memory_id,authority)
+        assert not candidates(store,'own-scope',(privacy,)) and store.identity['identity_id']==identity
+        assert len(calls)==1
+
+
 @pytest.mark.parametrize('crowding',['unrelated','withdrawn'])
 def test_old_relevant_private_interest_survives_many_unrelated_current_ideas(tmp_path,crowding):
     from nana_core.continuity.autonomy.private_intent import decision_support

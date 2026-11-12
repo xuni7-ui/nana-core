@@ -1,11 +1,11 @@
 # Codex B 当前队列
 
-同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690 / 071669b；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
+同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690 / 071669b / bd48d40；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
 
 ## 产品队列（真实阻塞优先）
 
 1. 本批候选：显式模型目录分页、完整性提示、按供应商实际协议建模；[代码与定向证据](evidence/provider-catalog-pages-20261112/README.md)。已实现/已测试，集成与真实 provider/Android 资格分别核对。
-2. 模型配置：接续既有断点向导、Vault、原预算和 UNKNOWN，完成已授权连接测试与更少步骤的模型选择；检查普通 Web 必须借助 native Key 输入的真实使用缺口，不直接删除已有身份/凭据边界。上下文/视觉/流式未知则明确自定义，不按型号猜能力。
+2. 模型配置：[PR #16](https://github.com/xuni7-ui/nana-core/pull/16)已统一简易/高级预设并减少地址手填，20单测/36四视口/TS通过，待评估。继续既有断点向导、Vault、原预算和 UNKNOWN，完成已授权连接测试与更少步骤的模型选择；检查普通 Web 必须借助 native Key 输入的真实使用缺口，不直接删除已有身份/凭据边界。上下文/视觉/流式未知则明确自定义，不按型号猜能力。
 3. 通用实例显示配置：沿现有 subject identity 与客户端配置区分产品名/主体名/关系称呼；默认中性中文，旧奈奈实例保留。先核对现有配置入口再改，不重命名包/API/applicationId。
 4. 连续输入、多端取消/恢复与实际回执：继承 f7 Web/TLS 原 C 接续成果，补原生 transport 与设备资格；普通聊天不堆诊断。设备未绑定只限制设备验收，独立源码开发继续。
 

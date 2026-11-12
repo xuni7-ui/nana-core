@@ -32,9 +32,17 @@ on:
       - tests/open_life/test_learning_renewal.py
       - src/nana_core/continuity/subject/policy.py
       - src/nana_core/continuity/subject/loop.py
+      - src/nana_core/continuity/subject/watch.py
       - src/nana_core/continuity/autonomy/private_intent.py
       - src/nana_core/continuity/autonomy/evaluation.py
       - src/nana_core/continuity/cognition.py
+      - src/nana_core/continuity/contracts.py
+      - src/nana_core/continuity/memory.py
+      - src/nana_core/continuity/maintenance.py
+      - src/nana_core/continuity/world_loop/concern_source.py
+      - src/nana_core/continuity/world_loop/attention.py
+      - tests/continuous_self/test_memory.py
+      - tests/living_release_v4/test_concern_source.py
       - src/nana_core/continuity/store.py
       - src/nana_core/life/inspector.py
       - tests/first_life_integration/test_private_intent.py
@@ -266,6 +274,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('continuity/contracts.py','continuity/memory.py','continuity/maintenance.py','world_loop/concern_source.py','world_loop/attention.py','subject/watch.py','test_concern_source.py','continuous_self/test_memory.py'), ['tests/continuous_self/test_memory.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/living_release_v4/test_concern_source.py','tests/living_autonomy/test_maintenance.py','tests/world_loop/test_independent_concern_sources.py','tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py']),
             (('subject/policy.py','test_learning_renewal.py'), ['tests/open_life/test_learning_renewal.py','tests/open_autonomy/test_learning.py']),
             (('continuity/store.py',), ['tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py','tests/portable_subject/test_relational_reuse.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py']),
             (('subject/policy.py','subject/loop.py','subject/opportunities.py','autonomy/private_intent.py','autonomy/evaluation.py','continuity/cognition.py','test_private_intent.py','continuity/store.py','life/inspector.py'), ['tests/first_life_integration/test_private_intent.py','tests/affective_autonomy','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/portable_subject/test_providers_frontend.py','tests/vision_first/test_context_fit.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_memory_use_feedback.py']),

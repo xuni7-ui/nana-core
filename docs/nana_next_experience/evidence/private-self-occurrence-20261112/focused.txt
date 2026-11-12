@@ -1,0 +1,18 @@
+...................F.................................................... [ 94%]
+....                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_own_occurrence_retains_private_attention_provenance_and_registered_erasure _
+
+tmp_path = PosixPath('/tmp/piselfr/test_own_occurrence_retains_pr0')
+
+    def test_own_occurrence_retains_private_attention_provenance_and_registered_erasure(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import anchor_own_occurrence
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity import ContinuityStore
+>       from nana_core.continuity.maintenance import MemoryMaintenance
+E       ImportError: cannot import name 'MemoryMaintenance' from 'nana_core.continuity.maintenance' (/tmp/nana-inner-refinement-work/src/nana_core/continuity/maintenance.py)
+
+tests/living_release_v4/test_concern_source.py:138: ImportError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_concern_source.py::test_own_occurrence_retains_private_attention_provenance_and_registered_erasure
+1 failed, 75 passed in 7.56s

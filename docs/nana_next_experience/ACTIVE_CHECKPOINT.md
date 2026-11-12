@@ -32,3 +32,9 @@
 续办定位：实际读取context_fit.choose(CORRECTION)已是WATCH/只澄清缺失信息，早期ASK判断不准，已纠正，不重复开发。真正商业内心接线在LifeApplication._model/chat→world_loop.CognitionSession（普通INTERPRET/C/RENDER）与原SubjectLoop.cognize（Runtime FULL_COGNITION目前local fixture profile）之间；应复用已有volatile_input/typed source验证/原预算，不把私念内文塞进持久普通role_input或公共RENDER，也不暗设额外模型轮询/第二C。
 
 无支持追源实现注意：RecordService.create要求至少Memory/Record；canonical identity在identity_revisions/events中，不直接是continuity_records。现有Provenance domains没有SELF_COGNITION，不能用RECORDED_PUBLIC/DEVELOPMENT_PROJECT假装自身发生。先检查原Memory.capture/namespace/authority、world_loop.concern_source及公开投影用途，再最小扩展；不直接绕过RecordSupport或创建不可擦除私念，不改正式genesis。
+
+## 最新：无旧经历的内生问题（本次源码）
+
+原C在原模型一次调用验证候选后，缺旧支持才记真实SELF_COGNITION发生根；三隐私组新问题可保存/重启，重放0调用，原来源撤回及注册inactive备份擦除。新根为固定程序元数据，不把想法变世界事实；私问仍默认private/no authority。173相关40.45s+最终watch9通过0.64s，3原版首错和夹具错误保留，见evidence/private-self-occurrence-20261112，源码表锚 1ad81a5564fa87228342dd847b4521c36485d3167c94a685d7551a868bb646e0。旧071独立CI43195508611已实读245pass/1warning61.87s，clientSKIP；不是本源码CI或全仓。
+
+下一具体工作：多个内部倾向的关联/冲突目前仅record依赖，Context投影未显式保留有意义的关系；检查并扩展既有PrivateQuestion原投影而不造图Store。随后商业INTERPRET/C/RENDER私念/持续交流策略与明确反馈，原A–H照旧。匹配安装/真实模型/手机/生产/自然度/长期仍未资格。

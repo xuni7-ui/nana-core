@@ -33,3 +33,6 @@ npx playwright test --config playwright.v3.config.ts --grep 'model catalog:|nati
 集成前续核：已正常合入 A `4635690e522f1fd317172368abb8bed8a5c53e4e` 的原内心兴趣成果，完整保留其两份账本，仅合并本批追加。精确分页 HTTP 后续检查 1 passed / 15 deselected，见 `after-a463.txt`；未重复未受影响完整发行。PR #14 已推送但合并被自动审批以缺少 B 合并授权拒绝，仍由 A 评估或等待用户明确授权，不绕过。
 
 2026-11-12 18:00续办：正常合入A 071669b，最新两份A账本全文保留后接B后缀。原分页HTTP补验1通过/15deselected/3.12s（after-a071.txt）；12份业务/测试指纹不变，不重复51回归/发行。PR14仍待A评估，本轮未重试合并。R1研究PR15已按查询感知控制的否定结论关闭，B队列已更新。
+
+集成候选更新：正常合入A bd48d40，保留其自身认知来源代码和完整账本；本批客户端源码指纹保持，未重复前端/发行验证。共享开发分支未修改。
+原分页HTTP补验见after-bd48.txt；无真实provider调用。

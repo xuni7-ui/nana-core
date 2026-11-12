@@ -18,7 +18,7 @@ class MemoryType(StrEnum):
 
 
 class Provenance(DTO):
-    domain: Literal["SYNTHETIC_ONLY", "RECORDED_PUBLIC", "REAL_PROVIDER", "DEVELOPMENT_PROJECT", "LOCAL_INTERACTION_METADATA", "CONSENTED_INTERACTION", "LEGACY_ARCHIVE"] = "SYNTHETIC_ONLY"
+    domain: Literal["SYNTHETIC_ONLY", "RECORDED_PUBLIC", "REAL_PROVIDER", "DEVELOPMENT_PROJECT", "LOCAL_INTERACTION_METADATA", "CONSENTED_INTERACTION", "LEGACY_ARCHIVE", "SELF_COGNITION"] = "SYNTHETIC_ONLY"
     source_namespace: str = Field(pattern=r"^(?:synthetic|recorded|provider)[.:_-][A-Za-z0-9._:-]{1,96}$")
     source_reference: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,128}$")
     source_revision: str = Field(default="1", pattern=r"^[A-Za-z0-9._:-]{1,32}$")
@@ -27,8 +27,9 @@ class Provenance(DTO):
 
     @model_validator(mode="after")
     def namespace_matches_domain(self):
-        prefix={"SYNTHETIC_ONLY":"synthetic", "RECORDED_PUBLIC":"recorded", "REAL_PROVIDER":"provider", "DEVELOPMENT_PROJECT":"recorded.project", "LOCAL_INTERACTION_METADATA":"recorded.local", "CONSENTED_INTERACTION":"recorded.conversation", "LEGACY_ARCHIVE":"recorded.legacy.archive"}[self.domain]
+        prefix={"SYNTHETIC_ONLY":"synthetic", "RECORDED_PUBLIC":"recorded", "REAL_PROVIDER":"provider", "DEVELOPMENT_PROJECT":"recorded.project", "LOCAL_INTERACTION_METADATA":"recorded.local", "CONSENTED_INTERACTION":"recorded.conversation", "LEGACY_ARCHIVE":"recorded.legacy.archive", "SELF_COGNITION":"recorded.subject."}[self.domain]
         if not self.source_namespace.startswith(prefix):raise ValueError("provenance domain mismatch")
+        if self.source_namespace.startswith("recorded.subject.") and self.domain!="SELF_COGNITION":raise ValueError("self cognition is not an external source")
         if self.domain=="REAL_PROVIDER" and self.source_kind!="MODEL_DERIVATION":raise ValueError("provider proposal is not direct evidence")
         return self
 
@@ -92,3 +93,6 @@ class RealMemoryIngress:
 
 
 PENDING_LOCAL_RECEIPT = "Local conversation receipt metadata; semantic interpretation pending, not a user claim or known intent."
+
+
+SELF_COGNITION_OCCURRENCE_TEXT = "Original Subject validated a private cognition candidate; no world fact or external action is asserted."
