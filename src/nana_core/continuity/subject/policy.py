@@ -176,8 +176,19 @@ def decide(event, situation, appraisal, motives):
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.plan_step:
-        if situation.cue and (situation.cue.cognitive_load=='HIGH' or set(directions(situation.cue))<=set(situation.prohibited_behaviors)):
-            return ('DEFER',Judgment(stance='DEFER',reason='Pause an adopted plan while a sourced load or norm deserves attention',source_ids=sources),Intention(kind='NO_ACTION',purpose='Wait before continuing the plan',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+        # An adopted step remains a candidate, not compulsory work. A fresh
+        # quiet choice or specific continuation norm can withhold it; sourced
+        # urgency can compete with load without overriding actual execution
+        # gates. Preserve original adoption cues (including CREATE/LEARN): they
+        # describe how the goal arose, not an exhaustive new step whitelist.
+        cue=situation.cue
+        loaded=bool(cue and cue.cognitive_load=='HIGH' and cue.urgency!='HIGH')
+        blocked='CONTINUE_PROJECT' in situation.prohibited_behaviors or bool(cue and set(directions(cue))<=set(situation.prohibited_behaviors))
+        if quiet_choice or loaded or blocked:
+            behavior=options[0] if quiet_choice else 'REST' if 'REST' not in situation.prohibited_behaviors else None
+            return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',
+                Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='Consider the current sourced quiet choice, load and norms before continuing an adopted step',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Withhold this plan step without changing its goal or execution authority',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
         ref=situation.plan_step.reference
         return ('FOCUS_NOW',Judgment(stance='AGREE',reason='Continue one supported adopted-plan step; execution authority is checked separately',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='ACTION_PROPOSAL',purpose='Propose the next reviewed plan step',slot_key='step-'+ref.work_id+'-'+str(ref.cursor),source_ids=sources,self_generated=self_generated,behavior='CONTINUE_PROJECT'))
     if situation.cue:

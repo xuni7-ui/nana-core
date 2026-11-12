@@ -3630,3 +3630,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：移除32私念静默保存门，原C40创意保存；相关当前own/topic/source/可用性先筛后限额，解决旧兴趣被无关/撤回挤出及重复保存。原Store注册两再生索引、无缓存只读分页，portable/隐私/二进制artifact213相关通过。手动1k/10k/100k私念synthetic精确话题21查询各旧0→新21，100k P95 .262ms，真实分配index17.4MiB；非语义Memory/实际模型/物理回收或长期资格。保留2首错、withdrawn首错、脚本strict tuple首错，不改断言。下一持续策略/多倾向/商业融合与原A–H，CURRENT不变。证据private-interest-wide-20261112/09锚。
 
 - 2026-11-12｜12fa源码后继资格实核：独立CI127pass42.33s/clientSKIP，100001私念头原注册quarantine备份重建两cache并开库1.2421s/身份隔离保持/0动作provider。首次SQLite-only副本PRIVACY_ANCHOR_MISSING拒绝保留，不绕锚，用原backup新副本完成；不当安装/迁移或DR。定时续办指令已在本对话接收继续、记录工具last_run状态边界。纠正CORRECTION已WATCH的源码判断，不重复开发；下一商业volatile内心/原C策略融合，原A–H保持。只改资格记录，无源码/发行改变。
+
+- 2026-11-12｜NEXT_EXPERIENCE S4/S6 Advanced A–E增量：原plan_step不再机械HIGH→REST/LOW→continue，尊重quiet choice及CONTINUE单项norm，无合法REST不虚构；保留原CREATE/LEARN采纳起源不当新步骤白名单。原Goal/Plan/StepRef真实7场景4fail/3pass→7pass，182相关含Precision V2通过33.93s；新场景0Grant/动作/模型，goal/job不变，不当整goal已停或新授权。首次schema12可选表错误保留并查真实runtime表。证据plan-step-choice-20261112/09锚；原A–H与商业内心/自然策略继续。

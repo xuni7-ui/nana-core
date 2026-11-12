@@ -16,6 +16,8 @@
 
 - 12fa独立CI43184552494实际127pass42.33s/clientSKIP；100001头注册quarantine副本删除两cache→原Store开库重建1.2421s，identity/隔离状态保持，0动作/provider。首次SQLite-only copy正确拒绝缺anchor，未绕过恢复门。原始回执/成功JSON在同一private-interest-wide证据；不是安装/迁移激活/DR。
 
+- 原C plan_step也已补上f583 lifecycle之外的实际缺口：高负荷不再无条件REST，当前quiet-only与CONTINUE单项norm有效，旧CREATE起源保持；冻结4fail/3pass→7pass，182相关含Precision V2通过33.93s，新7例Grant/actions/model0且goal/job不变。见evidence/plan-step-choice-20261112，源码表锚 960ec18435e737795dc9a04651814e72824ced498d5dff7b240fcaac3aa91846。不是全自主性审计或真实执行资格。
+
 ## 下一项实际开发
 
 1. 私问的有源精确修订已完成此受控增量：原G结果在已有C认知中促成同intent新问题/revision2；同2次认知/61440预算，关机制旧问题不变，开机制REFLECT，保留原lesson/method。3消融+86相关11.00s；见evidence/private-question-revision-20261112，源码表锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16。下一是多倾向关联/冲突、反例后的持续策略与生活选择，不自动认定心愿满足。
