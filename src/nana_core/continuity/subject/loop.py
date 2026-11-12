@@ -315,7 +315,8 @@ class SubjectLoop:
                 judgment=Judgment(stance='AGREE' if choice=='ACCEPT' else 'ALTERNATIVE' if choice=='NEGOTIATE' else 'DISAGREE',reason=request_decision.reason,source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
                     purpose='Propose, discuss or decline a commitment; this is not adoption',slot_key='request-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
-            if self.store.schema_target>=9 and situation.cue and situation.social_privacy:
+            from ..autonomy.evaluation import unbound_private_choice
+            if self.store.schema_target>=9 and situation.cue and situation.social_privacy and not unbound_private_choice(event,situation,intention):
                 from .contracts import Intention,Judgment
                 if situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'}:
                     attention='DEFER'

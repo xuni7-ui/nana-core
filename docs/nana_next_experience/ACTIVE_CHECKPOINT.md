@@ -1,3 +1,13 @@
+# Active continuation — private choice and reception scope
+
+ACTIVE=/tmp/nana-inner-refinement-work, same devbranch; original Root f583+4ownedWIP protected, root still ENOSPC. Latest legal remote/09 priority; /tmp ephemeral. Today16:00Beijing continuation enabled, never pause work.
+
+Original C now distinguishes reception boundaries from unbound self-generated mental choices. CREATE/REST from original cue with no resources/program/goal/realization binding may stay private and affect own lifecycle. SOCIALIZE/expression, resource/goal operations, explicit norms, Manager/Grant/Privacy retain original restraints. Same pure predicate used before C social override and normative evaluation. First frozen6 scenarios3fail3pass preserved; fix6pass, with lifecycle/norm46pass6.94s; original open_life/open_autonomy/Context/cognition/dialogue151pass21.10s. Extra provider/actions/grants0. Not full repo/install/phone/production. Evidence private-reception-scope-20261112; source table anchor f92de7538b3601fb5495bd775d37a53f7500f851f9da47a2119f7c3579ab2a82. Previous bead518 independent CI43168519105 actual228pass/2warnings78.15s/clientSKIP, not this new source.
+
+NEXT: contents of own current inclinations/questions/strategies must influence original C before dialogue, with bounded relevant internal projection and strict separation from recipient disclosure. Extend existing PrivateIntent/C/D/G, no second brain or periodic model. Self-generated questions/associations, multi-round strategy/explicit feedback and held-out S8 transfer still actual development, not external blockers. Original A–H/matching release/real-model/phone/naturalness/longterm all remain; CURRENT266+409. 32 creation/64 active-window is unqualified debt, not permanent limit.
+
+---
+
 # Active continuation — original private activity lifecycle and precise C reviews
 
 ACTIVE=/tmp/nana-inner-refinement-work SAME devbranch; rootENOSPC, /workspace/nana-unified-release remainsprotectedf583+4oldownedWIP. TMPephemeral; useREMOTE latest09/ACTIVE afterreprovision, noreset/overwrite.16:00Beijing taskenabled/promptupdated, neverpauseongoingwork.

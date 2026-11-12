@@ -276,6 +276,66 @@ def test_private_activity_in_registered_inactive_backup_follows_original_withdra
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('cognitive_requests')
 
 
+@pytest.mark.parametrize('expectation',['EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','CONTEXT_SENSITIVE'])
+@pytest.mark.parametrize('behavior',['CREATE','SOCIALIZE'])
+def test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity(tmp_path,expectation,behavior):
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        spec=SocialExpectationSpec(topic='creative-project',expectation=expectation)
+        capture(app.runtime,'private-reception',spec.model_dump(mode='json'),kind='USER_STATEMENT',
+            predicate='social.expectation.creative-project')
+        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',
+            possible_behaviors=(behavior,),resource_class='ORDINARY',availability='AVAILABLE')
+        mid=capture(app.runtime,'private-creative-choice',cue.model_dump(mode='json'),predicate='concern.creative-project')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-creative-choice',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(mid,))
+        cycle=app.runtime.subject.run(event)
+        if behavior=='CREATE':
+            assert cycle.intention.behavior=='CREATE' and cycle.evaluation.normative=='ENDORSED'
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+            assert len(values)==1
+            assert values[0][1].disclosure_policy==('MANAGER_AUDIT_ONLY' if expectation=='EXPLICITLY_FORBIDDEN' else 'PRIVATE_FOR_NOW')
+            if expectation!='CONTEXT_SENSITIVE':
+                with pytest.raises(CoreError,match='PRIVATE_INTENT_WITHHELD'):
+                    eligible_content(app.runtime.store,values[0][1].intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
+        else:
+            assert cycle.intention.behavior!='SOCIALIZE' and not candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+            assert cycle.evaluation.normative==('UNDECIDED' if expectation=='CONTEXT_SENSITIVE' else 'RESTRAINED')
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('expectation',['EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','CONTEXT_SENSITIVE'])
+def test_private_rest_review_respects_reception_boundary_without_erasing_own_choice(tmp_path,expectation):
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        _,_,first=choose(app)
+        app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+        before=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+        spec=SocialExpectationSpec(topic='creative-project',expectation=expectation)
+        capture(app.runtime,'later-private-boundary',spec.model_dump(mode='json'),kind='USER_STATEMENT',
+            predicate='social.expectation.creative-project')
+        cycle,_=private_choice(app,'private-rest-with-boundary','REST')
+        assert cycle.intention.behavior=='REST' and cycle.evaluation.normative=='UNDECIDED'
+        after=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+        assert after.intent_id==before.intent_id and after.activity_state=='PAUSED' and after.revision==2
+        with pytest.raises(CoreError,match='PRIVATE_INTENT_WITHHELD'):
+            eligible_content(app.runtime.store,after.intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
+
+
+def test_unbound_creative_choice_still_respects_separate_sourced_norm(tmp_path):
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='creative-project',motivation_source='NORM',prohibited_behaviors=('CREATE',))
+        capture(app.runtime,'creative-norm',norm.model_dump(mode='json'),kind='USER_STATEMENT',predicate='concern.constraint.creative-project')
+        spec=SocialExpectationSpec(topic='creative-project',expectation='EXPLICITLY_PRIVATE')
+        capture(app.runtime,'creative-boundary',spec.model_dump(mode='json'),kind='USER_STATEMENT',predicate='social.expectation.creative-project')
+        _,_,cycle=choose(app)
+        assert cycle.intention.behavior!='CREATE' and not candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
+
+
 def test_sourced_surprise_trigger_reconsiders_in_c_not_timer_delivery(tmp_path):
     home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
     with LifeApplication(home,clock=clock) as app:
