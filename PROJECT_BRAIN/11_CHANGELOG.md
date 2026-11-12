@@ -3611,3 +3611,8 @@ Web真实进度接纳同scope child、原回执独立归因、等待双结果再
 ### 2026-11-12 · 原私念在C决策前产生可验证差异
 
 PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Appraisal/PRIVATE_INTEREST→原decide创造兴趣可竞争泛化LOW/重复；不改工具价值、不抬事实、不给权限，原公开Context仍遮蔽，重复同purpose不增私念。实际跨重启消融开关IGNORE→CREATE、撤回/无关/owner范围/非保留与Context等93相关14.40s通过，0新增模型请求。首source-family fixture两错保留，独立旧archive/ENOSPC失败其后4pass不算旧基线。证据private-interest-c-20261112/09锚。根盘无空间，受控源码/Git仅复制TMP同分支，原Root/数据/旧交付未动；下一原模型策略/新问/生命周期/内部投影→C-D-G，不宣称完整内心或原A–H完成。
+
+
+### 2026-11-12 · 原私念生命周期、版本目标与索引/备份闭包
+
+原家族PrivateActivityV2承载自身倾向非事实/非任务结果，C前精确PrivateIntentRef绑定→原C选择→同Tx更新；generic idle误改首错修为必须目标引用，48h虚拟停机复开不削lease/不乱改思想。暂停保兴趣/放弃不自动重启/新理由再采纳，原source replay不增版本。70header挤占首错与planner选错index已修，原再生索引登记使portable schema校验继续严格，source撤回触达隔离副本当前artifact NULL。176相关49.86s/2长socket路径→短路2pass2.96s，70focused10.77s，旧源仅读取兼容非新功能/最终回退；准确f583三blob对照1fail3pass补齐。证据private-activity-lifecycle-20261112/09锚；463CI162/1warn客户端skip，不跑无关发行。下一C社会边界作用域/内部投影/自主新问/多轮策略/C-D-G，原A–H/CURRENT/权限不变。

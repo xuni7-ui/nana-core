@@ -125,6 +125,12 @@ class SubjectLoop:
             private_interests=decision_support(self.store,event.scope,private_privacy,topic=cue.topic_key if cue else event.topic)
             records.extend(private_interests)
             for rid in private_interests:memories.extend(self.records.support(rid))
+            if cue and cue.private_intent_ref:
+                if event.origin!='SELF_WAKE':raise CoreError('PRIVATE_INTENT_REVIEW_SELF_ONLY')
+                from ..autonomy.private_intent import review_target
+                rid,_=review_target(self.store,cue.private_intent_ref,scope=event.scope,
+                    privacy_classes=private_privacy,topic=cue.topic_key)
+                records.append(rid);memories.extend(self.records.support(rid))
         prohibited=tuple(dict.fromkeys(b for _,c in candidates if c.cue_kind=='CONSTRAINT' and (cue is None or c.topic_key==cue.topic_key) for b in c.prohibited_behaviors))
         memories.extend(mid for mid,_ in candidates)
         last_act=None
@@ -490,7 +496,9 @@ class SubjectLoop:
             tx.put('core_meta', {'key': 'self.subject_revision', 'value_json': canonical(expected_revision + 1)})
             if self.store.schema_target>=13:
                 from ..autonomy.private_intent import after_choice
-                after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes)
+                after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes,
+                    selected_topic=situation.cue.topic_key if situation.cue else event.topic,
+                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None)
         return result.model_copy(update={'record_id': record})
 
     def result(self, row, *, replayed=False):

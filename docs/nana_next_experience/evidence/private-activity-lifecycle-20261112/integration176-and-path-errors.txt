@@ -1,0 +1,62 @@
+........................................................................ [ 40%]
+.....FF................................................................. [ 80%]
+..................................                                       [100%]
+=================================== FAILURES ===================================
+______________ test_owned_browser_form_kernel_verify_and_no_grant ______________
+
+tmp_path = PosixPath('/tmp/nana-private-lifecycle-integration-final/test_owned_browser_form_kernel0')
+
+    def test_owned_browser_form_kernel_verify_and_no_grant(tmp_path):
+        tasks=(ApplicationTask(task_id='form',kind='FORM',wanted={'label':'blue'},fields=('label',)),)
+>       with OwnedApplication(tmp_path/'owned',tasks=tasks) as host,browser(host) as endpoint:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_browser.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.hands.host.OwnedApplication object at 0x7fa4d4a12d80>
+root = PosixPath('/tmp/nana-private-lifecycle-integration-final/test_owned_browser_form_kernel0/owned')
+tasks = (ApplicationTask(task_id='form', kind='FORM', initial='', wanted={'label': 'blue'}, fields=('label',), context='notes'),)
+startup_timeout_seconds = 15.0
+
+    def __init__(self, root, *, tasks=None, startup_timeout_seconds=15.0):
+        try:
+            unix_socket_path(Path(root) / "application/control.sock")
+            unix_socket_path(Path(root) / "application/query.sock")
+        except ValueError as exc:
+>           raise CoreError(str(exc)) from None
+E           nana_core.contracts.CoreError: UNIX_SOCKET_PATH_TOO_LONG
+
+src/nana_core/continuity/hands/host.py:66: CoreError
+_________ test_http_effect_ack_loss_unknown_reconciles_without_resend __________
+
+tmp_path = PosixPath('/tmp/nana-private-lifecycle-integration-final/test_http_effect_ack_loss_unkn0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa4d4a117f0>
+
+    def test_http_effect_ack_loss_unknown_reconciles_without_resend(tmp_path,monkeypatch):
+        from nana_core.contracts import Verification
+        tasks=(ApplicationTask(task_id='form',kind='FORM',wanted={'label':'blue'},fields=('label',)),)
+>       with OwnedApplication(tmp_path/'owned',tasks=tasks) as host,browser(host) as endpoint:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_browser.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.hands.host.OwnedApplication object at 0x7fa4d4a10bc0>
+root = PosixPath('/tmp/nana-private-lifecycle-integration-final/test_http_effect_ack_loss_unkn0/owned')
+tasks = (ApplicationTask(task_id='form', kind='FORM', initial='', wanted={'label': 'blue'}, fields=('label',), context='notes'),)
+startup_timeout_seconds = 15.0
+
+    def __init__(self, root, *, tasks=None, startup_timeout_seconds=15.0):
+        try:
+            unix_socket_path(Path(root) / "application/control.sock")
+            unix_socket_path(Path(root) / "application/query.sock")
+        except ValueError as exc:
+>           raise CoreError(str(exc)) from None
+E           nana_core.contracts.CoreError: UNIX_SOCKET_PATH_TOO_LONG
+
+src/nana_core/continuity/hands/host.py:66: CoreError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_browser.py::test_owned_browser_form_kernel_verify_and_no_grant
+FAILED tests/open_life/test_browser.py::test_http_effect_ack_loss_unknown_reconciles_without_resend
+2 failed, 176 passed in 49.86s

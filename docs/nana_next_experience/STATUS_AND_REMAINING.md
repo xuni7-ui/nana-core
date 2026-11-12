@@ -130,3 +130,8 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 Phase A首个私念→C选择连接
 
 原PrivateIntent引用在C前进入评价/动机/相关兴趣取舍，消融同输入/同0模型预算IGNORE→CREATE，重启与源撤回/公开遮蔽保留。93定向14.40s，不是完整多轮策略/自主新问/S8融合完成；下一直接延伸原模型。根盘已满，实际同分支开发/tmp/nana-inner-refinement-work，原Root f583+4WIP/Git/DB/旧交付保护，未来tmp丢失须读远端最新。证据private-interest-c-20261112；CURRENT266+409与生产不变。
+
+
+### 2026-11-12 私念生命周期与精确复审增量
+
+同一原INTENTION家族V2可暂停/复启/放弃/再采纳，PrivateIntentRef在C前绑定当前版本，原C后增量更新；普通D事件不擅改私念，暂停不抹兴趣。源撤回/隔离备份payload、旧读者忽略后返回新源保留、portable已知cache剥离、70header不挤另一兴趣有受控证据。最终176相关+2短路径宿主通过，不冒一次全仓。旧32/64容量与内部内容投影/新问/多轮策略/S8等仍待，当前下一修SocialPrivacy误伤非社交思考。证据private-activity-lifecycle-20261112；CURRENT266+409/生产未动。

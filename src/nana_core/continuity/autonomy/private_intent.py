@@ -33,19 +33,39 @@ class PrivateIntent(DTO):
     execution_authority:Literal[False]=False
 
 
+class PrivateActivity(PrivateIntent):
+    """Versioned life of the same private idea, never a task execution receipt.
+
+    Old readers ignore this contract in the existing record family. No schema,
+    second history or event/SubjectInput format is introduced.
+    """
+    contract:Literal['PRIVATE_ACTIVITY_V2']='PRIVATE_ACTIVITY_V2'
+    activity_state:Literal['ACTIVE','PAUSED','ABANDONED']='ACTIVE'
+    created_at_us:int=Field(ge=0)
+    updated_at_us:int=Field(ge=0)
+    last_choice_cycle_id:str
+    epistemic_status:Literal['OWN_TENDENCY_NOT_WORLD_FACT']='OWN_TENDENCY_NOT_WORLD_FACT'
+    execution_state:Literal['NOT_INFERRED_FROM_ACTIVITY_STATE']='NOT_INFERRED_FROM_ACTIVITY_STATE'
+
+
 def candidates(store,scope,privacy_classes):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
-    # Reserved target key uses existing (record_kind,target_id,time) index.
-    # Bound headers BEFORE filtering lifecycle/privacy or reading any artifact;
-    # old retired history cannot turn a normal C cycle into an unbounded scan.
-    rows=store.db.execute("SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records INDEXED BY autonomy_record_target WHERE record_kind='INTENTION' AND target_id='private-intent.v1' ORDER BY created_at_us DESC LIMIT 64").fetchall()
+    # Scope/privacy/current headers precede the bounded payload window. The
+    # original Store installs a rebuildable partial lookup; revisions of one
+    # idea must not displace another current idea behind retired headers.
+    # A read-only Inspector may inspect a legacy DB before the new owner has
+    # installed the lookup. It never creates an index or acquires writer power.
+    installed=store.db.execute("SELECT 1 FROM sqlite_master WHERE type='index' AND name='private_intent_live_lookup'").fetchone()
+    lookup=' INDEXED BY private_intent_live_lookup' if installed else ''
+    rows=store.db.execute("SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records"+lookup+" WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC LIMIT 64",(scope,*privacy_classes)).fetchall()
     records=RecordService(store);out=[]
     for row in rows:
         if row['scope']!=scope or row['privacy_class'] not in privacy_classes or row['lifecycle']!='ACTIVE':continue
         if not records.current_support(row[0]):continue
         data=records.read(row[0])['payload']
         if data.get('contract')=='PRIVATE_INTENT_V1':out.append((row[0],PrivateIntent.model_validate_json(json.dumps(data))))
+        elif data.get('contract')=='PRIVATE_ACTIVITY_V2':out.append((row[0],PrivateActivity.model_validate_json(json.dumps(data))))
     return tuple(out)
 
 
@@ -59,10 +79,30 @@ def decision_support(store,scope,privacy_classes,*,topic):
     if topic is None:return ()
     return tuple(rid for rid,item in candidates(store,scope,privacy_classes)
         if item.owner_identity_id==store.identity['identity_id'] and item.topic==topic
-        and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN')
+        and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN'
+        and getattr(item,'activity_state','ACTIVE')!='ABANDONED')
 
 
-def after_choice(store,tx,event,result,*,privacy_classes):
+def review_target(store,reference,*,scope,privacy_classes,topic):
+    """Validate the exact current version before the original C considers it."""
+    head=store.one('continuity_records',reference.record_id)
+    if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+            or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE'):
+        raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
+    records=RecordService(store)
+    if not records.current_support(reference.record_id):raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
+    data=records.read(reference.record_id)['payload']
+    model={'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity}.get(data.get('contract'))
+    if model is None:raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
+    item=model.model_validate_json(json.dumps(data))
+    if (item.owner_identity_id!=store.identity['identity_id'] or item.intent_id!=reference.intent_id
+            or item.revision!=reference.revision or item.topic!=topic or item.status=='WITHDRAWN'
+            or item.disclosure_policy=='WITHDRAWN'):
+        raise CoreError('PRIVATE_INTENT_REVIEW_STALE_OR_UNBOUND')
+    return reference.record_id,item
+
+
+def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
     A wall clock only permits reconsideration in another ordinary C cycle. Even a
@@ -71,13 +111,44 @@ def after_choice(store,tx,event,result,*,privacy_classes):
     records=RecordService(store)
     current=candidates(store,event.scope,privacy_classes)
     from ..subject.context_fit import depth_boundary
+    owned=[]
+    if private_intent_ref is not None and event.origin=='SELF_WAKE' and event.retention!='DO_NOT_REMEMBER':
+        owned=[review_target(store,private_intent_ref,scope=event.scope,privacy_classes=privacy_classes,topic=selected_topic)]
+        if not any(rid==owned[0][0] for rid,_ in current):current=(*current,owned[0])
+    desired={'CREATE':'ACTIVE','REST':'PAUSED','WITHDRAW':'ABANDONED'}.get(result.intention.behavior)
+    review=bool(len(owned)==1 and event.retention!='DO_NOT_REMEMBER'
+        and result.record_id and result.intention.self_generated and desired
+        and result.evaluation and (result.evaluation.normative=='ENDORSED'
+            or (desired in {'PAUSED','ABANDONED'} and result.evaluation.normative=='UNDECIDED'
+                and result.evaluation.considered)))
     for rid,item in current:
-        if event.observed_availability=='BUSY' or depth_boundary(store,event.entity_id,event.scope,item.topic,privacy_classes)[0]:continue
-        live_facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=item.topic,privacy_classes=privacy_classes)
-        if any(spec.expectation in {'EXPLICITLY_FORBIDDEN','EXPLICITLY_PRIVATE'} for _,spec in live_facts):continue
-        if item.disclosure_policy in {'SURPRISE','PRIVATE_UNTIL_TRIGGER'} and item.trigger_at_us is not None and store.clock.utc_now_us()>=item.trigger_at_us:
-            revised=item.model_copy(update={'disclosure_policy':'DISCLOSED','status':'DISCLOSURE_ELIGIBLE','revision':item.revision+1})
-            records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),records=(rid,),supersedes=rid,target_id='private-intent.v1')
+        if item.owner_identity_id!=store.identity['identity_id']:continue
+        changes={}
+        if (item.disclosure_policy in {'SURPRISE','PRIVATE_UNTIL_TRIGGER'} and item.trigger_at_us is not None
+                and store.clock.utc_now_us()>=item.trigger_at_us and event.observed_availability!='BUSY'
+                and getattr(item,'activity_state','ACTIVE')!='ABANDONED'
+                and not depth_boundary(store,event.entity_id,event.scope,item.topic,privacy_classes)[0]):
+            live_facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=item.topic,privacy_classes=privacy_classes)
+            if not any(spec.expectation in {'EXPLICITLY_FORBIDDEN','EXPLICITLY_PRIVATE'} for _,spec in live_facts):
+                changes.update(disclosure_policy='DISCLOSED',status='DISCLOSURE_ELIGIBLE')
+        if review and rid==owned[0][0]:
+            if getattr(item,'activity_state','ACTIVE')!=desired:
+                changes['activity_state']=desired
+            if desired=='ACTIVE' and item.content_summary!=result.intention.purpose[:512]:
+                changes['content_summary']=result.intention.purpose[:512]
+        if changes:
+            data={**item.model_dump(mode='json'),**changes,'revision':item.revision+1}
+            if 'activity_state' in changes or isinstance(item,PrivateActivity):
+                data.update(contract='PRIVATE_ACTIVITY_V2',
+                    activity_state=changes.get('activity_state',getattr(item,'activity_state','ACTIVE')),
+                    created_at_us=getattr(item,'created_at_us',store.one('continuity_records',rid)['created_at_us']),
+                    updated_at_us=store.clock.utc_now_us(),last_choice_cycle_id=result.cycle_id)
+                revised=PrivateActivity.model_validate_json(json.dumps(data))
+            else:revised=PrivateIntent.model_validate_json(json.dumps(data))
+            parents=(rid,result.record_id) if 'activity_state' in changes or 'content_summary' in changes else (rid,)
+            records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),records=parents,
+                supersedes=rid,target_id='private-intent.v1')
+    if review and desired=='ACTIVE':return  # Revise the existing idea, never duplicate it on resumption.
     if (not result.intention_id or not result.record_id or not result.intention.self_generated
         or result.intention.behavior!='CREATE' or not result.evaluation or result.evaluation.normative!='ENDORSED'
         or not any(m.source=='CREATIVE_INTEREST' for m in result.motivations) or len(current)>=32):return
@@ -86,6 +157,7 @@ def after_choice(store,tx,event,result,*,privacy_classes):
     topic=result.intention.slot_key.removeprefix('concern-')
     if any(item.owner_identity_id==store.identity['identity_id'] and item.topic==topic
             and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN'
+            and getattr(item,'activity_state','ACTIVE')!='ABANDONED'
             and item.content_summary==result.intention.purpose[:512] for _,item in current):return
     facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=topic,privacy_classes=privacy_classes)
     mode='PRIVATE_FOR_NOW';trigger=None
@@ -104,6 +176,7 @@ def after_choice(store,tx,event,result,*,privacy_classes):
 def metadata(store,scope,privacy_classes):
     # Allowlisted metadata, intentionally no content, raw reasoning or credentials.
     return tuple({'record_id':rid,'intent_id':v.intent_id,'category':v.category,'status':v.status,
+        'activity_state':getattr(v,'activity_state','ACTIVE'),
         'disclosure_policy':v.disclosure_policy,'revision':v.revision,'risk_class':v.risk_class,
         'authority_need':v.authority_need,'execution_authority':False,'external_effect':False,
         'budget_required':True,'third_party':False,'cycle_id':v.cycle_id,'source_memory_ids':v.source_memory_ids}
@@ -114,6 +187,6 @@ def eligible_content(store,intent_id,*,scope,privacy_classes):
     """Explicit recipient eligibility; caller still needs legal delivery admission."""
     for rid,value in candidates(store,scope,privacy_classes):
         if value.intent_id==intent_id:
-            if value.disclosure_policy not in {'PUBLIC','DISCLOSED'}:raise CoreError('PRIVATE_INTENT_WITHHELD')
+            if value.disclosure_policy not in {'PUBLIC','DISCLOSED'} or getattr(value,'activity_state','ACTIVE')=='ABANDONED':raise CoreError('PRIVATE_INTENT_WITHHELD')
             return {'content_summary':value.content_summary,'source_record_ids':(rid,),'delivery_authority':False,'effect_phase':'PLANNED'}
     raise CoreError('PRIVATE_INTENT_UNAVAILABLE')

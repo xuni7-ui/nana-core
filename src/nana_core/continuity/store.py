@@ -8,6 +8,10 @@ import os
 
 
 REBUILDABLE_LOOKUP_INDEXES = {
+    "private_intent_live_lookup": (
+        "CREATE INDEX private_intent_live_lookup ON continuity_records(scope,privacy_class,created_at_us DESC) "
+        "WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE'"
+    ),
     "events_artifact_lookup": "CREATE INDEX events_artifact_lookup ON events(artifact_id)",
     "memories_payload_lookup": "CREATE INDEX memories_payload_lookup ON memories(payload_artifact_id)",
     "evidence_payload_lookup": "CREATE INDEX evidence_payload_lookup ON continuity_evidence(payload_artifact_id)",
@@ -69,7 +73,8 @@ class ContinuityStore(Store):
             # Opening the original Store already holds the exclusive writer lock.
             # Source-bound idempotency and deferred foreign-key checks must not
             # scan the entire history on each write.
-            for sql in REBUILDABLE_LOOKUP_INDEXES.values():
+            for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
+                if name=='private_intent_live_lookup' and schema_target<13:continue
                 self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
             for suffix in ("", "-wal", "-shm", ".lock"):
                 owned = Path(str(self.path) + suffix)

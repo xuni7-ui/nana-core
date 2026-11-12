@@ -187,6 +187,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         private=metadata(view,scope,privacy)
         for value in private:
             item('private_intents',value['category'],value['intent_id'],value['status'],value['record_id'])
+            item('private_intents','ACTIVITY_STATE',value['intent_id'],value['activity_state'],value['record_id'])
             item('private_intents','DISCLOSURE_POLICY',value['intent_id'],value['disclosure_policy'],value['record_id'])
             item('private_intents','RISK',value['intent_id'],value['risk_class'],value['record_id'])
             item('private_intents','AUTHORITY_REQUIRED',value['intent_id'],value['authority_need'],value['record_id'])
