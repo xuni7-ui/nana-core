@@ -84,17 +84,27 @@ export const capabilityCatalog: {
     detail: "未来扩展位 · 不假定统一协议已经支持",
   },
 ];
-export const providerPresets = [
+export interface ProviderPreset {
+  id: string;
+  name: string;
+  protocol: string;
+  note: string;
+  baseUrl?: string;
+  suggestedModelId?: string;
+}
+export const providerPresets: readonly ProviderPreset[] = [
   {
     id: "openai",
     name: "OpenAI",
     protocol: "OPENAI_COMPATIBLE_CHAT",
+    baseUrl: "https://api.openai.com/v1",
     note: "Chat Completions 适配；Responses 需另行资格",
   },
   {
     id: "anthropic",
     name: "Anthropic",
     protocol: "ANTHROPIC",
+    baseUrl: "https://api.anthropic.com/v1",
     note: "原生 Messages 文字认知与对话；流式和多模态尚未接通",
   },
   {
@@ -107,6 +117,8 @@ export const providerPresets = [
     id: "deepseek",
     name: "DeepSeek",
     protocol: "OPENAI_COMPATIBLE_CHAT",
+    baseUrl: "https://api.deepseek.com",
+    suggestedModelId: "deepseek-chat",
     note: "历史文本资格不代表当前宿主已配置",
   },
   {
@@ -152,6 +164,10 @@ export const providerPresets = [
     note: "仅声明协议意向，不自动发现或启用模型",
   },
 ] as const;
+/** Both editors use this registry. Unadapted protocols remain advanced drafts. */
+export const modelSetupPresets = providerPresets.filter(preset =>
+  preset.protocol === "OPENAI_COMPATIBLE_CHAT" || preset.protocol === "ANTHROPIC",
+);
 export interface ProviderView {
   id: string;
   name: string;
@@ -385,8 +401,8 @@ export function newProviderDraft(presetId = "compatible"): ProviderDraft {
     preset: preset.id,
     displayName: preset.name,
     protocol: preset.protocol,
-    baseUrl: "",
-    modelId: "",
+    baseUrl: preset.baseUrl ?? "",
+    modelId: preset.suggestedModelId ?? "",
     alias: "",
     operation: "COGNITION",
     timeoutMs: 120000,

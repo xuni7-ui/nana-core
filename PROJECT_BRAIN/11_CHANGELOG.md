@@ -3636,3 +3636,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：取消私问必须沿当前topic的开发者硬门，原C可开新方向/同问题改topic，实权scope/owner/privacy/来源/refs仍原链；改写重置旧公开资格为private，audit-only保持。原Store/C双认知→新兴趣改变后续EXPLORE/关支持IGNORE，1首错→通过、105相关16.04s。无schema新字段/Store/Agent/调用器/真实模型，lookup旧规模测量不重跑不冒称新测。下一核对内部形成与pending任务混淆、商业自然策略和原A–H。证据private-new-direction-20261112/09锚。
 
 - 2026-11-12｜NEXT_EXPERIENCE S1/S3/S4/S6增量：私问记录后原同事务完成内部形成意向，持续问题仍ACTIVE，非外部目标/学习/投递成功；NO_ACTION不消耗pending故保留满载REST。2首错及quiet首错保留；10私问/8未变pending/暂停/重启前台通过，无刷经验/技能/关系；292相关67.67s后补schema13能力门和原子中断5通过，不拼全仓。原实际权限和8/12普通语义不改。下一无旧支持的真实内生发生追源及商业/自然策略，原A–H继承。证据private-formation-queue-20261112/09锚。
+
+
+### 2026-11-12 · Codex B 模型预设共用与简易配置续办
+
+[源码/实测] 独立分支基线A 071669b，B-P/P1/DOMAIN S5-C03 Advanced；简易向导与高级编辑器共用既有providerPresets/factory，OpenAI/Anthropic/DeepSeek沿用原已知地址预填，其他地域仍显式手填；9项既有兼容协议可在简易入口选，未接通native/LOCAL不冒充可用。原CAS/UNKNOWN/凭据/预算/路由权限不变，无新API/依赖/持久化。20单测、36四视口fixture及TS/Vite通过；证据provider-presets-20261112，源码锚4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6。R1查询感知控制否定此窄图展开并关闭PR15，实验分支/反例保留；PR14待A评估，B不重试被拒合并。核心、CURRENT/APK、真实provider/手机/生产未改；两条最小队列继续。

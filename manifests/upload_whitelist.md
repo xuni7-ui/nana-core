@@ -139,3 +139,8 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 
 Only PROJECT_BRAIN/01_CAPABILITY_MATRIX.md,07_ROADMAP.md,08_TASKS.md,09_STATE.md,10_DECISIONS.md,11_CHANGELOG.md; docs/nana_cloud_first_life_launch_v1_status.md; docs/nana_master_framework_foundation_audit_v1_report.md; named JSON/txt/md evidence in docs/nana_master_framework_foundation_audit_v1_evidence/; tools/nana_foundation_audit/check.py and probe_topic_scope.py; this whitelist.
 Master Framework, application source/tests, runtime configs/DBs, credentials, outside-repo preserved draft and old bundle are excluded. Exact staged names/hashes checked before commit.
+
+
+## 2026-11-12 · Codex B 供应商预设共用
+
+持续开发/提交授权：apps/nana-space/src/{data/provider-center.ts,features/next/ModelSetup.tsx}，对应tests/{provider-center.test.ts,v3.spec.ts}；docs/nana_next_experience/evidence/provider-presets-20261112/{README.md,source-sha256.json,unit20.txt,browser36.txt,build.txt}；CODEX_B_QUEUE.md、PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}追加及本清单。仅原创代码、已知公开端点元数据与合成证据，无Key/DB/私史/依赖或二进制。

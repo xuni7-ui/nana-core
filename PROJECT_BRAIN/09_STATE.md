@@ -2731,3 +2731,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-12 当前源码增量] 原C私问可开新topic/同intent重新聚焦，scope/owner等实权不变；改写回private而不继承旧公开资格。1首错→通过、105相关16.04s。private-new-direction-20261112/source-sha256锚 d7052f419e8fb757622734cde04fd70c0ea50ba7a68448c5cd336f80014cd7e3。非真实模型/自然长期或全自主性验收。
 
 [2026-11-12 当前源码增量] 私问形成在原事务记录后完成这一内部意向，持续问题不当外部挂起任务；NO_ACTION不受pending容量抹除。292相关+旧schema/原子5通过，非拼接全仓。private-formation-queue-20261112/source-sha256锚 31ccbf7334c7334ec423b45d64245579a263eed7ee890932f7d04bc1e30314bb。下一真正无旧支持的内生发生追源与商业/自然策略。
+
+
+### 2026-11-12 · Codex B 模型预设共用与简易配置续办
+
+[源码/实测] 独立分支基线A 071669b，B-P/P1/DOMAIN S5-C03 Advanced；简易向导与高级编辑器共用既有providerPresets/factory，OpenAI/Anthropic/DeepSeek沿用原已知地址预填，其他地域仍显式手填；9项既有兼容协议可在简易入口选，未接通native/LOCAL不冒充可用。原CAS/UNKNOWN/凭据/预算/路由权限不变，无新API/依赖/持久化。20单测、36四视口fixture及TS/Vite通过；证据provider-presets-20261112，源码锚4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6。R1查询感知控制否定此窄图展开并关闭PR15，实验分支/反例保留；PR14待A评估，B不重试被拒合并。核心、CURRENT/APK、真实provider/手机/生产未改；两条最小队列继续。
