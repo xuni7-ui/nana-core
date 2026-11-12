@@ -18,11 +18,14 @@
 
 - 原C plan_step也已补上f583 lifecycle之外的实际缺口：高负荷不再无条件REST，当前quiet-only与CONTINUE单项norm有效，旧CREATE起源保持；冻结4fail/3pass→7pass，182相关含Precision V2通过33.93s，新7例Grant/actions/model0且goal/job不变。见evidence/plan-step-choice-20261112，源码表锚 960ec18435e737795dc9a04651814e72824ced498d5dff7b240fcaac3aa91846。不是全自主性审计或真实执行资格。
 
+- 原C私问可由既有兴趣打开新topic、同intent重新解释方向；焦点标签不再当权限，scope/owner/privacy/ref照旧。新内容/话题不继承旧公开/定时资格，默认private；1首错→通过及105相关16.04s。见evidence/private-new-direction-20261112，源码锚 d7052f419e8fb757622734cde04fd70c0ea50ba7a68448c5cd336f80014cd7e3。
+
 ## 下一项实际开发
 
-1. 私问的有源精确修订已完成此受控增量：原G结果在已有C认知中促成同intent新问题/revision2；同2次认知/61440预算，关机制旧问题不变，开机制REFLECT，保留原lesson/method。3消融+86相关11.00s；见evidence/private-question-revision-20261112，源码表锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16。下一是多倾向关联/冲突、反例后的持续策略与生活选择，不自动认定心愿满足。
-2. 私念/交流目的/草稿与多轮策略、明确反馈和真实送达因果融合；尊重明确拒绝/恢复/未知，不把沉默当效果。当前自发私问是原cognize和D fixture profile路径，LifeApp商业INTERPRET/C/RENDER与自然自主机会生成仍待接线/资格。
-3. 所有原A–H、创新优先和13节增补继续：更大独立学习/检索、主链物理存储/隐私、全链Token/成本/超时、原生协议/模型向导、多端产品、仓库闭包与最终匹配发行。已有成果复用，不从零重开。旧32静默保存门已移除；owner/topic/可用性先筛再64候选，单topic64/全局元数据与时间触发窗口/长链性能仍待，不宣称无限容量。
+1. 下一先核对：已形成的私人问题是否仍占原PENDING执行意向直到外部完成，避免持续内心阻塞正常聊天/生活；只完成形成/记录这一内部步骤，不把question ACTIVE当实际任务已完成。
+2. 私问的有源精确修订已完成此受控增量：原G结果在已有C认知中促成同intent新问题/revision2；同2次认知/61440预算，关机制旧问题不变，开机制REFLECT，保留原lesson/method。3消融+86相关11.00s；见evidence/private-question-revision-20261112，源码表锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16。下一是多倾向关联/冲突、反例后的持续策略与生活选择，不自动认定心愿满足。
+3. 私念/交流目的/草稿与多轮策略、明确反馈和真实送达因果融合；尊重明确拒绝/恢复/未知，不把沉默当效果。当前自发私问是原cognize和D fixture profile路径，LifeApp商业INTERPRET/C/RENDER与自然自主机会生成仍待接线/资格。
+4. 所有原A–H、创新优先和13节增补继续：更大独立学习/检索、主链物理存储/隐私、全链Token/成本/超时、原生协议/模型向导、多端产品、仓库闭包与最终匹配发行。已有成果复用，不从零重开。旧32静默保存门已移除；owner/topic/可用性先筛再64候选，单topic64/全局元数据与时间触发窗口/长链性能仍待，不宣称无限容量。
 
 保持原C/D/G/Planner/PrecisionV2与One Subject/Store/Loop/Authority；S1–S10/三轴/63标准不改。CURRENT仍266+409。新增真实模型0，手机/生产/自然度/跨日长期/本批匹配安装未资格，不能以受控局部通过称总完成。普通开发/隔离测试/提交/开发push已授权；生产/genesis/私史/旧writer/真实账号/用户设备/新持续费用仍须单独授权。重复artifact403无新路线不再重试；测试/构建写/tmp，保护DB/Git/旧交付/未知文件。
 

@@ -1,3 +1,5 @@
+[2026-11-12 内部新方向] 原C自发问题可跨当前focus开新topic/同intent重新聚焦，不把焦点当授权；旧公开/定时资格不公开新内容。105相关通过，scope/owner/privacy/reference不放松；下一核对私问形成后的pending占用，并继续多倾向/跨轮策略/商业融合和原A–H。见private-new-direction-20261112。
+
 [2026-11-12 原C plan_step取舍] HIGH负荷/紧迫性可竞争，quiet-only和CONTINUE单项约束有效，REST被禁不虚构，旧CREATE起源仍可继续；冻结4fail→7pass，182相关含原Precision V2通过。原G/私念/普通交流成果保留；广动机竞争、商业内心/持续自然策略及原A–H继续。见plan-step-choice-20261112。
 
 [2026-11-12 12fa后继实核] 独立CI127通过42.33s/clientSKIP；100001头注册隔离备份原Store开库重建两cache1.2421s，身份/隔离保持，0动作/provider。首个无anchor SQLite-only副本被拒且保留，未放宽恢复门。普通商业INTERPRET/C/RENDER与local-cognize私念链融合/持续策略仍待开发，CORRECTION现役已WATCH不重复修。

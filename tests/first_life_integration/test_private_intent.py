@@ -688,6 +688,62 @@ def test_original_c_can_retain_more_than_32_distinct_private_creative_interests(
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
 
 
+def test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or_disclosing_it(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.continuity.records import RecordService
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        _,_,seed=choose(app);r=app.runtime
+        r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        calls=[];policy=ContextPolicy(policy_id='own-new-topic',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        def think(key,context_topic,new_topic,text,revision=None):
+            class QuestionFixture:
+                descriptor='offline-own-topic-transition-fixture'
+                def propose(self,request):
+                    calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':new_topic,'question':text,'revises_record_id':revision}
+                    return json.dumps(base)
+            return r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic=context_topic,observed_at_us=r.clock.utc_now_us()),
+                model=QuestionFixture(),authority=r.authority,policy=policy)
+        created=think('new-direction','creative-project','story-research','SYNTHETIC private question about a newly imagined story direction')
+        assert created.intention.behavior=='REFLECT'
+        r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        rid,old=next((rid,q) for rid,q in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if q.category=='PRIVATE_QUESTION')
+        assert old.topic=='story-research'
+        # A historical eligibility fixture does NOT claim an actual send.
+        with r.store.transaction('fixture.old_question_public_eligibility') as tx:
+            eligible=old.model_copy(update={'disclosure_policy':'PUBLIC','status':'DISCLOSURE_ELIGIBLE','revision':old.revision+1})
+            rid=RecordService(r.store).create(tx,kind='INTENTION',scope='project-work',payload=eligible.model_dump(mode='json'),
+                records=(rid,),supersedes=rid,target_id='private-intent.v1')
+        assert not eligible_content(r.store,eligible.intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))['delivery_authority']
+        changed=think('reframe-direction','story-research','interactive-story-research','SYNTHETIC private question reframed toward interactive stories',rid)
+        assert changed.intention.behavior=='REFLECT' and len(calls)==2
+        new_rid,new=next((rid,q) for rid,q in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if q.category=='PRIVATE_QUESTION')
+        assert new.intent_id==old.intent_id and new.topic=='interactive-story-research' and new.revision==eligible.revision+1
+        assert new.disclosure_policy=='PRIVATE_FOR_NOW' and new.status=='CONSIDERED' and new.trigger_at_us is None
+        assert r.store.one('continuity_records',new_rid)['scope']=='project-work'
+        assert not private_intent.decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic='story-research')
+        assert private_intent.decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic=new.topic)==(new_rid,)
+        assert not private_intent.decision_support(r.store,'other-scope',('PUBLIC','PROJECT'),topic=new.topic)
+        with pytest.raises(CoreError,match='WITHHELD'):eligible_content(r.store,new.intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
+        r.subject.transition_intention(changed.intention_id,expected_revision=1,state='COMPLETED')
+        cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=new.topic,motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),resource_class='ORDINARY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'new-focus-opportunity',cue.model_dump(mode='json'),predicate='concern.new-focus-opportunity')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.follow-new-focus',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        with monkeypatch.context() as patch:
+            patch.setattr(private_intent,'decision_support',lambda *args,**kwargs:())
+            before=r.subject.run(event.model_copy(update={'source_key':'development.without-new-focus'}))
+        after=r.subject.run(event)
+        assert before.intention.behavior=='IGNORE' and after.intention.behavior=='EXPLORE'
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
 @pytest.mark.parametrize('crowding',['unrelated','withdrawn'])
 def test_old_relevant_private_interest_survives_many_unrelated_current_ideas(tmp_path,crowding):
     from nana_core.continuity.autonomy.private_intent import decision_support

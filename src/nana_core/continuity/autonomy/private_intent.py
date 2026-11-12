@@ -193,9 +193,10 @@ def consider_question(event,situation,judgment,intention,proposal):
                 event.governance_review_id,event.disposition_reflection_id,event.growth_assessment_id))
             or 'REFLECT' in situation.prohibited_behaviors
             or (situation.context_fit and not situation.context_fit.allow_deepening)
-            or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id or proposal.topic!=situation.cue.topic_key))
-            or (event.topic and proposal.topic!=event.topic)):
+            or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id))):
         return None
+    # A focus label is not an authorization boundary: an own question may open
+    # a new direction. Owner/scope/privacy/current-source checks remain separate.
     return proposal
 
 
@@ -207,8 +208,8 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
     """
     records=RecordService(store)
     current=candidates(store,event.scope,privacy_classes)
-    if selected_topic is not None:
-        relevant=candidates(store,event.scope,privacy_classes,topic=selected_topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
+    for topic in dict.fromkeys(t for t in (selected_topic,private_question.topic if private_question else None) if t is not None):
+        relevant=candidates(store,event.scope,privacy_classes,topic=topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
         current=tuple({rid:(rid,item) for rid,item in (*current,*relevant)}.values())
     from ..subject.context_fit import depth_boundary
     owned=[]
@@ -253,12 +254,18 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
         if private_question.revises_record_id is not None:
             old=next(((rid,item) for rid,item in current if rid==private_question.revises_record_id),None)
             if (old is None or not isinstance(old[1],PrivateQuestion) or old[1].owner_identity_id!=store.identity['identity_id']
-                    or old[1].topic!=private_question.topic):raise CoreError('PRIVATE_QUESTION_REVISION_UNAVAILABLE')
+                    or old[1].status=='WITHDRAWN' or old[1].disclosure_policy=='WITHDRAWN'):raise CoreError('PRIVATE_QUESTION_REVISION_UNAVAILABLE')
             rid,item=old
-            if item.content_summary!=private_question.question or item.activity_state!='ACTIVE':
-                revised=item.model_copy(update={'content_summary':private_question.question,'activity_state':'ACTIVE',
+            reframed=item.content_summary!=private_question.question or item.topic!=private_question.topic
+            if reframed or item.activity_state!='ACTIVE':
+                changes={'content_summary':private_question.question,'topic':private_question.topic,'activity_state':'ACTIVE',
                     'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
-                    'source_memory_ids':result.intention.source_ids})
+                    'source_memory_ids':result.intention.source_ids}
+                if reframed:
+                    # Old eligibility/timing never discloses new private contents.
+                    changes.update(disclosure_policy='MANAGER_AUDIT_ONLY' if item.disclosure_policy=='MANAGER_AUDIT_ONLY' else 'PRIVATE_FOR_NOW',
+                        status='CONSIDERED',trigger_at_us=None)
+                revised=item.model_copy(update=changes)
                 records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),
                     records=tuple(dict.fromkeys((rid,result.record_id,*private_question.related_private_record_ids))),
                     supersedes=rid,target_id='private-intent.v1')
