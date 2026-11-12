@@ -101,7 +101,7 @@ def test_private_decision_references_respect_owner_scope_privacy_and_nonretentio
         assert private_intent.decision_support(store,'other-scope',('PUBLIC','PROJECT'),topic='creative-project')==()
         assert private_intent.decision_support(store,'project-work',('PUBLIC','PROJECT'),topic=None)==()
         with monkeypatch.context() as patch:
-            patch.setattr(private_intent,'candidates',lambda *args:((row[0],row[1].model_copy(update={'owner_identity_id':'other-subject'})),))
+            patch.setattr(private_intent,'candidates',lambda *args,**kwargs:((row[0],row[1].model_copy(update={'owner_identity_id':'other-subject'})),))
             assert private_intent.decision_support(store,'project-work',('PUBLIC','PROJECT'),topic='creative-project')==()
         before=len(candidates(store,'project-work',('PUBLIC','PROJECT')))
         event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.nonretained-private-review',
@@ -668,6 +668,74 @@ def test_private_question_revision_keeps_own_lineage_and_rejects_wrong_or_stale_
         app.forget(original)
         assert not candidates(r.store,'project-work',('PUBLIC','PROJECT'))
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+def test_original_c_can_retain_more_than_32_distinct_private_creative_interests(tmp_path):
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        for i in range(40):
+            _,_,result=choose(app,'own-interest-'+str(i),topic='own-interest-'+str(i))
+            assert result.intention.behavior=='CREATE' and result.evaluation.normative=='ENDORSED'
+            app.runtime.subject.transition_intention(result.intention_id,expected_revision=1,state='COMPLETED')
+        values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+        assert len(values)==40 and len({v.intent_id for _,v in values})==40
+        # The optional artifact lookup must ignore binary and unrelated JSON;
+        # the shared artifact store is not restricted to private JSON objects.
+        with app.runtime.store.transaction('fixture.nonprivate_artifacts') as tx:
+            raw=b'\x00\xff\x89SYNTHETIC_BINARY'
+            binary=tx.artifact(raw);tx.artifact(b'[1,2]');tx.artifact(b'"SYNTHETIC plain JSON"')
+        assert app.runtime.store.artifact(binary)==raw
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('crowding',['unrelated','withdrawn'])
+def test_old_relevant_private_interest_survives_many_unrelated_current_ideas(tmp_path,crowding):
+    from nana_core.continuity.autonomy.private_intent import decision_support
+    from nana_core.continuity.records import RecordService
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+    with LifeApplication(home,clock=clock) as app:
+        source,_,created=choose(app,'stable-own-interest',topic='stable-project')
+        r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        own_rid,own=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0]
+        # Typed synthetic records measure retrieval crowding, not 100 lived
+        # experiences or 100 model-generated thoughts.
+        with r.store.transaction('fixture.unrelated_private_ideas') as tx:
+            records=RecordService(r.store)
+            for i in range(100):
+                clock.advance(1)
+                value=own.model_copy(update={'intent_id':'synthetic.other-interest-'+str(i),
+                    'topic':'other-topic-'+str(i) if crowding=='unrelated' else own.topic,
+                    'status':'CONSIDERED' if crowding=='unrelated' else 'WITHDRAWN'})
+                records.create(tx,kind='INTENTION',scope='project-work',target_id='private-intent.v1',
+                    payload=value.model_dump(mode='json'),records=(created.record_id,))
+        queries=[];r.store.db.set_trace_callback(queries.append)
+        try:assert decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic='stable-project')==(own_rid,)
+        finally:r.store.db.set_trace_callback(None)
+        sql=next(q for q in queries if 'FROM artifacts a INDEXED BY private_intent_topic_lookup_v1' in q)
+        plan=[tuple(row) for row in r.store.db.execute('EXPLAIN QUERY PLAN '+sql)]
+        assert any('private_intent_topic_lookup_v1' in str(row) for row in plan)
+        assert any('private_intent_payload_lookup' in str(row) for row in plan)
+        assert decision_support(r.store,'project-work',('PUBLIC',),topic='stable-project')==()
+        assert decision_support(r.store,'other-scope',('PUBLIC','PROJECT'),topic='stable-project')==()
+        before=r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]
+        _,_,revisited=choose(app,'revisit-stable-project',topic='stable-project')
+        assert revisited.intention.behavior=='CREATE'
+        assert r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]==before
+        # A registered inactive copy without the optional new caches is a
+        # read-only compatibility probe, not a second runtime/Store authority.
+        import sqlite3
+        from nana_core.life.inspector import _ReadView
+        backup=tmp_path/'inactive'/'legacy-private.db';r.store.backup(backup)
+        with sqlite3.connect(backup) as db:
+            db.execute('DROP INDEX private_intent_topic_lookup_v1');db.execute('DROP INDEX private_intent_payload_lookup')
+        with sqlite3.connect(backup.as_uri()+'?mode=ro',uri=True) as db:
+            db.row_factory=sqlite3.Row;readonly=_ReadView(db,backup,'project-work',('PUBLIC','PROJECT'))
+            assert decision_support(readonly,'project-work',('PUBLIC','PROJECT'),topic='stable-project')==(own_rid,)
+            assert not db.execute("SELECT 1 FROM sqlite_master WHERE name='private_intent_topic_lookup_v1'").fetchone()
+        app.forget(source)
+        assert not decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic='stable-project')
+        from nana_core.continuity.store import PRIVATE_INTENT_JSON_FILTER
+        assert r.store.db.execute('SELECT count(*) FROM artifacts WHERE '+PRIVATE_INTENT_JSON_FILTER).fetchone()[0]==0
 
 
 def test_sourced_surprise_trigger_reconsiders_in_c_not_timer_delivery(tmp_path):

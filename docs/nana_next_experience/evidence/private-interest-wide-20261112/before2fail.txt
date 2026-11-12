@@ -1,0 +1,51 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_original_c_can_retain_more_than_32_distinct_private_creative_interests __
+
+tmp_path = PosixPath('/tmp/piwideb/test_original_c_can_retain_mor0')
+
+    def test_original_c_can_retain_more_than_32_distinct_private_creative_interests(tmp_path):
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            for i in range(40):
+                _,_,result=choose(app,'own-interest-'+str(i),topic='own-interest-'+str(i))
+                assert result.intention.behavior=='CREATE' and result.evaluation.normative=='ENDORSED'
+                app.runtime.subject.transition_intention(result.intention_id,expected_revision=1,state='COMPLETED')
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+>           assert len(values)==40 and len({v.intent_id for _,v in values})==40
+E           AssertionError: assert (32 == 40)
+E            +  where 32 = len((('27df8bea-cf57-4eae-b4b5-1dc2403f6d36', PrivateIntent(contract='PRIVATE_INTENT_V1', intent_id='ffc75689-0e4f-4940-a6...H_REALIZATION_GATES', external_effect=False, budget_required=True, third_party=False, execution_authority=False)), ...))
+
+tests/first_life_integration/test_private_intent.py:681: AssertionError
+___ test_old_relevant_private_interest_survives_many_unrelated_current_ideas ___
+
+tmp_path = PosixPath('/tmp/piwideb/test_old_relevant_private_inte0')
+
+    def test_old_relevant_private_interest_survives_many_unrelated_current_ideas(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import decision_support
+        from nana_core.continuity.records import RecordService
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            source,_,created=choose(app,'stable-own-interest',topic='stable-project')
+            r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+            own_rid,own=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0]
+            # Typed synthetic records measure retrieval crowding, not 100 lived
+            # experiences or 100 model-generated thoughts.
+            with r.store.transaction('fixture.unrelated_private_ideas') as tx:
+                records=RecordService(r.store)
+                for i in range(100):
+                    clock.advance(1)
+                    value=own.model_copy(update={'intent_id':'synthetic.other-interest-'+str(i),'topic':'other-topic-'+str(i)})
+                    records.create(tx,kind='INTENTION',scope='project-work',target_id='private-intent.v1',
+                        payload=value.model_dump(mode='json'),records=(created.record_id,))
+>           assert decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic='stable-project')==(own_rid,)
+E           AssertionError: assert () == ('bb6b39dc-94...6a7d6aa422f',)
+E             
+E             Right contains one more item: 'bb6b39dc-942a-4e68-9b91-e6a7d6aa422f'
+E             Use -v to get more diff
+
+tests/first_life_integration/test_private_intent.py:702: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_original_c_can_retain_more_than_32_distinct_private_creative_interests
+FAILED tests/first_life_integration/test_private_intent.py::test_old_relevant_private_interest_survives_many_unrelated_current_ideas
+2 failed, 44 deselected in 0.67s

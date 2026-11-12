@@ -5,9 +5,22 @@ from ..storage.sqlite_store import Store
 from ..contracts import CoreError
 from pathlib import Path
 import os
+import sqlite3
+
+
+PRIVATE_INTENT_JSON_CONTRACT = "CASE WHEN json_valid(CAST(payload AS TEXT)) THEN json_extract(CAST(payload AS TEXT),'$.contract') END"
+PRIVATE_INTENT_JSON_FILTER = PRIVATE_INTENT_JSON_CONTRACT+" IN ('PRIVATE_INTENT_V1','PRIVATE_ACTIVITY_V2','PRIVATE_QUESTION_V3')"
 
 
 REBUILDABLE_LOOKUP_INDEXES = {
+    "private_intent_topic_lookup_v1": (
+        "CREATE INDEX private_intent_topic_lookup_v1 ON artifacts("
+        "json_extract(CAST(payload AS TEXT),'$.owner_identity_id'),json_extract(CAST(payload AS TEXT),'$.topic'),artifact_id) WHERE "+PRIVATE_INTENT_JSON_FILTER
+    ),
+    "private_intent_payload_lookup": (
+        "CREATE INDEX private_intent_payload_lookup ON continuity_records(payload_artifact_id,scope,privacy_class) "
+        "WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE'"
+    ),
     "private_intent_live_lookup": (
         "CREATE INDEX private_intent_live_lookup ON continuity_records(scope,privacy_class,created_at_us DESC) "
         "WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE'"
@@ -59,8 +72,6 @@ class ContinuityStore(Store):
         new_database = not Path(path).exists()
         # An identity-only v1 upgrade has no private payloads or old privacy state.
         if not new_database:
-            import sqlite3
-
             db = sqlite3.connect(f"file:{Path(path).resolve()}?mode=ro", uri=True)
             try:
                 new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
@@ -73,8 +84,11 @@ class ContinuityStore(Store):
             # Opening the original Store already holds the exclusive writer lock.
             # Source-bound idempotency and deferred foreign-key checks must not
             # scan the entire history on each write.
+            try:self.db.execute("SELECT json_valid('{}')").fetchone();has_json=True
+            except sqlite3.OperationalError:has_json=False
             for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
-                if name=='private_intent_live_lookup' and schema_target<13:continue
+                if name.startswith('private_intent_') and schema_target<13:continue
+                if name=='private_intent_topic_lookup_v1' and not has_json:continue
                 self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
             for suffix in ("", "-wal", "-shm", ".lock"):
                 owned = Path(str(self.path) + suffix)

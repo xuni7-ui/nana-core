@@ -73,7 +73,7 @@ def payload_model(data):
         'PRIVATE_QUESTION_V3':PrivateQuestion}.get(data.get('contract'))
 
 
-def candidates(store,scope,privacy_classes):
+def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
     # Scope/privacy/current headers precede the bounded payload window. The
@@ -81,16 +81,38 @@ def candidates(store,scope,privacy_classes):
     # idea must not displace another current idea behind retired headers.
     # A read-only Inspector may inspect a legacy DB before the new owner has
     # installed the lookup. It never creates an index or acquires writer power.
-    installed=store.db.execute("SELECT 1 FROM sqlite_master WHERE type='index' AND name='private_intent_live_lookup'").fetchone()
-    lookup=' INDEXED BY private_intent_live_lookup' if installed else ''
-    rows=store.db.execute("SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records"+lookup+" WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC LIMIT 64",(scope,*privacy_classes)).fetchall()
+    installed={row[0] for row in store.db.execute("SELECT name FROM sqlite_master WHERE type='index' AND name IN ('private_intent_live_lookup','private_intent_topic_lookup_v1','private_intent_payload_lookup')")}
+    if topic is not None and owner_identity_id is not None and {'private_intent_topic_lookup_v1','private_intent_payload_lookup'}<=installed:
+        from ..store import PRIVATE_INTENT_JSON_FILTER
+        # The small purpose-specific artifact index narrows owner/topic, then
+        # the original current header enforces scope/privacy/lifecycle. It is
+        # a rebuildable lookup, never a second memory authority.
+        sql="SELECT r.record_id,r.scope,r.privacy_class,r.lifecycle FROM artifacts a INDEXED BY private_intent_topic_lookup_v1 JOIN continuity_records r INDEXED BY private_intent_payload_lookup ON r.payload_artifact_id=a.artifact_id WHERE "+PRIVATE_INTENT_JSON_FILTER.replace('payload','a.payload')+" AND json_extract(CAST(a.payload AS TEXT),'$.owner_identity_id')=? AND json_extract(CAST(a.payload AS TEXT),'$.topic')=? AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' AND r.scope=? AND r.privacy_class IN ("+marks+") ORDER BY r.created_at_us DESC LIMIT 64 OFFSET ?"
+        args=(owner_identity_id,topic,scope,*privacy_classes)
+    else:
+        # Legacy/read-only/JSON-less engines retain correctness by paging
+        # current permitted headers. They never install a cache on inspection.
+        lookup=' INDEXED BY private_intent_live_lookup' if 'private_intent_live_lookup' in installed else ''
+        sql="SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records"+lookup+" WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC LIMIT 64 OFFSET ?"
+        args=(scope,*privacy_classes)
     records=RecordService(store);out=[]
-    for row in rows:
-        if row['scope']!=scope or row['privacy_class'] not in privacy_classes or row['lifecycle']!='ACTIVE':continue
-        if not records.current_support(row[0]):continue
-        data=records.read(row[0])['payload']
-        model=payload_model(data)
-        if model is not None:out.append((row[0],model.model_validate_json(json.dumps(data))))
+    offset=0
+    while len(out)<64:
+        rows=store.db.execute(sql,(*args,offset)).fetchall()
+        for row in rows:
+            if row['scope']!=scope or row['privacy_class'] not in privacy_classes or row['lifecycle']!='ACTIVE':continue
+            if not records.current_support(row[0]):continue
+            data=records.read(row[0])['payload'];model=payload_model(data)
+            if model is None:continue
+            value=model.model_validate_json(json.dumps(data))
+            if topic is not None and value.topic!=topic:continue
+            if owner_identity_id is not None and value.owner_identity_id!=owner_identity_id:continue
+            if for_decision and (value.status=='WITHDRAWN' or value.disclosure_policy=='WITHDRAWN'
+                    or getattr(value,'activity_state','ACTIVE')=='ABANDONED'):continue
+            out.append((row[0],value))
+            if len(out)==64:break
+        if len(rows)<64:break
+        offset+=64
     return tuple(out)
 
 
@@ -102,7 +124,7 @@ def decision_support(store,scope,privacy_classes,*,topic):
     mint permission, and adds no model request or private-context plaintext.
     """
     if topic is None:return ()
-    return tuple(rid for rid,item in candidates(store,scope,privacy_classes)
+    return tuple(rid for rid,item in candidates(store,scope,privacy_classes,topic=topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
         if item.owner_identity_id==store.identity['identity_id'] and item.topic==topic
         and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN'
         and getattr(item,'activity_state','ACTIVE')!='ABANDONED')
@@ -185,6 +207,9 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
     """
     records=RecordService(store)
     current=candidates(store,event.scope,privacy_classes)
+    if selected_topic is not None:
+        relevant=candidates(store,event.scope,privacy_classes,topic=selected_topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
+        current=tuple({rid:(rid,item) for rid,item in (*current,*relevant)}.values())
     from ..subject.context_fit import depth_boundary
     owned=[]
     if private_intent_ref is not None and event.origin=='SELF_WAKE' and event.retention!='DO_NOT_REMEMBER':
@@ -251,7 +276,7 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
     if review and desired=='ACTIVE':return  # Revise the existing idea, never duplicate it on resumption.
     if (not result.intention_id or not result.record_id or not result.intention.self_generated
         or result.intention.behavior!='CREATE' or not result.evaluation or result.evaluation.normative!='ENDORSED'
-        or not any(m.source=='CREATIVE_INTEREST' for m in result.motivations) or len(current)>=32):return
+        or not any(m.source=='CREATIVE_INTEREST' for m in result.motivations)):return
     if any(item.intent_id==result.intention_id for _,item in current):return
     # No model can submit a private-intent DTO; only the recorded C choice qualifies.
     topic=result.intention.slot_key.removeprefix('concern-')

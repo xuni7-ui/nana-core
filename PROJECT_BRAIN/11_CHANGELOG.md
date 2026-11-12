@@ -3626,3 +3626,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S3/S6/S8 Advanced增量：原C学习动机继承自有有效私问/兴趣，保留原LOW/替代/risk/norm/预算事实；2fail冻结→3pass，121相关+27控制通过。原G既有独立oracle baseline0→EVALUATE/TRANSFER通过，重启同主体后新问题原C选择NUMERIC_SUM，1既有fixture/0synthetic actions；不是长期通用成长。原错夹具阶段名保留，未放宽评估。压缩现役ACTIVE，完整历史留Git/evidence。下一结果反向修私问、多轮策略、商业原生融合及原A–H。证据private-question-learning-20261112/09锚。
 
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6/S8 Advanced增量：C候选可精确修当前自有PRIVATE_QUESTION，same intent/version/time/source lineage；普通创意/过期target拒绝，内容相同不重写。原G独立结果经已有认知修私问并保留lesson/selected_method，不替换正式工作或授权。两组2fixture/61440同预算关rev1/静待、开rev2/REFLECT；3消融+86相关11.00s。c2f独立CI227/1warn非本批；真实模型/长期/多轮策略仍待。证据private-question-revision-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：移除32私念静默保存门，原C40创意保存；相关当前own/topic/source/可用性先筛后限额，解决旧兴趣被无关/撤回挤出及重复保存。原Store注册两再生索引、无缓存只读分页，portable/隐私/二进制artifact213相关通过。手动1k/10k/100k私念synthetic精确话题21查询各旧0→新21，100k P95 .262ms，真实分配index17.4MiB；非语义Memory/实际模型/物理回收或长期资格。保留2首错、withdrawn首错、脚本strict tuple首错，不改断言。下一持续策略/多倾向/商业融合与原A–H，CURRENT不变。证据private-interest-wide-20261112/09锚。

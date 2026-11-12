@@ -1,0 +1,37 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_old_relevant_private_interest_survives_many_unrelated_current_ideas[withdrawn] _
+
+tmp_path = PosixPath('/tmp/piwidestale/test_old_relevant_private_inte1')
+crowding = 'withdrawn'
+
+    @pytest.mark.parametrize('crowding',['unrelated','withdrawn'])
+    def test_old_relevant_private_interest_survives_many_unrelated_current_ideas(tmp_path,crowding):
+        from nana_core.continuity.autonomy.private_intent import decision_support
+        from nana_core.continuity.records import RecordService
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            source,_,created=choose(app,'stable-own-interest',topic='stable-project')
+            r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+            own_rid,own=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0]
+            # Typed synthetic records measure retrieval crowding, not 100 lived
+            # experiences or 100 model-generated thoughts.
+            with r.store.transaction('fixture.unrelated_private_ideas') as tx:
+                records=RecordService(r.store)
+                for i in range(100):
+                    clock.advance(1)
+                    value=own.model_copy(update={'intent_id':'synthetic.other-interest-'+str(i),
+                        'topic':'other-topic-'+str(i) if crowding=='unrelated' else own.topic,
+                        'status':'CONSIDERED' if crowding=='unrelated' else 'WITHDRAWN'})
+                    records.create(tx,kind='INTENTION',scope='project-work',target_id='private-intent.v1',
+                        payload=value.model_dump(mode='json'),records=(created.record_id,))
+>           assert decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic='stable-project')==(own_rid,)
+E           AssertionError: assert () == ('45ebeb58-63...102bf8850a3',)
+E             
+E             Right contains one more item: '45ebeb58-633e-409f-899f-d102bf8850a3'
+E             Use -v to get more diff
+
+tests/first_life_integration/test_private_intent.py:705: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_old_relevant_private_interest_survives_many_unrelated_current_ideas[withdrawn]
+1 failed, 1 passed, 45 deselected in 0.36s

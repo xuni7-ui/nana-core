@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 165,
-  "as_of_us": 1794468223299568,
+  "revision": 166,
+  "as_of_us": 1794472659593908,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_G_OUTCOME_TO_PRIVATE_QUESTION_REVISION",
+  "status": "IN_PROGRESS_PRIVATE_INTEREST_TOPIC_LOOKUP_AND_CAPACITY",
   "progress": [
     "生成中接续Web→真实TLS/BFF→原C双源/4视口通过；修模型末tick漏接输入，正常CLI源码启用，93unit/53后端/41进程授权与56+12浏览器定向通过。16fixture/1DEV主体/真实0，无新安装/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "私问→原G独立学习→重启后方法复用→有源私问修订已接。相同2次既有fixture/61440预算，关采纳revision1/静待，开采纳同intent revision2/REFLECT，原lesson/method不变。3消融+86相关通过，真实模型/商业Token/长期成长未资格。",
+    "原私念32静默保存门移除，40个C创意实际保存；本人/话题/可用性先筛后64候选，原Store双cache/只读fallback/撤回/portable通过。213相关；1k/10k/100k私念夹具旧0/21→新21/21，100k P95 0.262ms，额外index17.4MiB；非通用语义检索。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
-    "持续内心已私念投影/生命周期/自发问题/原G受控学习与结果反向修同私问；多倾向关联/冲突、多轮策略/明确反馈、商业认知融合/自主机会生成待开发。32/64窗口/长链性能与真实长期仍待。",
+    "持续内心有私问/原G双向受控闭环及跨窗口兴趣查询；多倾向关联/冲突、跨轮策略/明确反馈、商业认知/自主机会生成仍待开发。同topic64选择/全局元数据与时间触发窗口、长修订链成本待，不作无限容量/真实长期资格。",
     "根盘ENOSPC，实际同分支工作副本/tmp/nana-inner-refinement-work；原Root f583+4ownedWIP完整保护。/tmp会随环境重建消失，先查远端最新源码/09/ACTIVE；不再旧源码archive补取/403重试，真实模型/手机/生产未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-interest-wide-20261112/README.md",
     "docs/nana_next_experience/evidence/private-question-revision-20261112/README.md",
     "docs/nana_next_experience/evidence/private-question-learning-20261112/README.md",
     "docs/nana_next_experience/evidence/private-own-question-20261112/README.md",
     "docs/nana_next_experience/evidence/private-internal-projection-20261112/README.md",
     "docs/nana_next_experience/evidence/private-reception-scope-20261112/README.md",
     "docs/nana_next_experience/evidence/private-activity-lifecycle-20261112/README.md",
-    "docs/nana_next_experience/evidence/private-interest-c-20261112/README.md",
-    "docs/nana_next_experience/evidence/goal-choice-20261112/README.md"
+    "docs/nana_next_experience/evidence/private-interest-c-20261112/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2721,3 +2721,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-12 当前源码增量] 私问学习动机不再被机会工具价值/已有替代抹去；121+27相关及原G实际独立迁移/重启后C选择受控通过。private-question-learning-20261112/source-sha256锚 29a23751ed7bd775df1e8c9ce528961db180f656edf699760e9dbbe6d272216c。非真实模型/长期通用成长。
 
 [2026-11-12 当前源码增量] 原G有效结果可经原C既有深入认知修同一私人问题，保留原lesson/method和问题谱系；3同预算/版本及86相关通过。private-question-revision-20261112/source-sha256锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16；非真实模型/多轮策略或长期成长完成。
+
+[2026-11-12 当前源码增量] 原私念32计数保存门移除，本人/话题/可用性先筛；双再生index+legacy只读分页，213相关与1k/10k/100k私念精确话题规模对照通过。private-interest-wide-20261112/source-sha256锚 cbb2a223ec0c2443117b7300d2d5c04106dac79423cfaae93355f4b088bd051c。不冒称通用语义记忆/真实活库/长期或物理回收资格。
