@@ -1,3 +1,5 @@
+[2026-11-12 内部形成与执行队列分开] 形成记录后内部REFLECTION完成，问题ACTIVE不当任务完成；10私问不挤占原8pending，满队列仍可私问暂停，重启普通前台通过。292相关+后续旧schema/原子5通过；下一无旧支持的新思想自身发生追源，商业/自然持续策略及原A–H继续。见private-formation-queue-20261112。
+
 [2026-11-12 内部新方向] 原C自发问题可跨当前focus开新topic/同intent重新聚焦，不把焦点当授权；旧公开/定时资格不公开新内容。105相关通过，scope/owner/privacy/reference不放松；下一核对私问形成后的pending占用，并继续多倾向/跨轮策略/商业融合和原A–H。见private-new-direction-20261112。
 
 [2026-11-12 原C plan_step取舍] HIGH负荷/紧迫性可竞争，quiet-only和CONTINUE单项约束有效，REST被禁不虚构，旧CREATE起源仍可继续；冻结4fail→7pass，182相关含原Precision V2通过。原G/私念/普通交流成果保留；广动机竞争、商业内心/持续自然策略及原A–H继续。见plan-step-choice-20261112。

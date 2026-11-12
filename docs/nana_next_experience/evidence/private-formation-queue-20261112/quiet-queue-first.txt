@@ -1,0 +1,54 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_recorded_private_questions_do_not_accumulate_as_pending_external_work[True] _
+
+tmp_path = PosixPath('/tmp/pipendquiet/test_recorded_private_question1')
+other_pending = True
+
+    @pytest.mark.parametrize('other_pending',[False,True])
+    def test_recorded_private_questions_do_not_accumulate_as_pending_external_work(tmp_path,other_pending):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            _,_,seed=choose(app);r=app.runtime
+            r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+            pending=[]
+            if other_pending:
+                for i in range(8):
+                    cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='pending-work-'+str(i),motivation_source='CURIOSITY',
+                        possible_behaviors=('EXPLORE',),resource_class='ORDINARY',urgency='HIGH')
+                    mid=capture(r,'pending-work-'+str(i),cue.model_dump(mode='json'),predicate='concern.pending-work-'+str(i))
+                    cycle=r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.pending-work-'+str(i),
+                        kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,)))
+                    assert cycle.intention.kind=='EXPLORE'
+                    pending.append(dict(r.store.one('subject_intentions',cycle.intention_id)))
+            counts={table:len(r.store.all(table)) for table in ('experiences','lessons','relationship_events')};calls=[]
+            policy=ContextPolicy(policy_id='private-formation',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+            for i in range(10):
+                class QuestionFixture:
+                    descriptor='offline-private-question-formation-fixture'
+                    def propose(self,request):
+                        calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                        base['private_question']={'topic':'creative-project','question':'SYNTHETIC distinct private question '+str(i)}
+                        return json.dumps(base)
+                result=r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.form-private-question-'+str(i),
+                    kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                    model=QuestionFixture(),authority=r.authority,policy=policy)
+                assert result.intention.behavior=='REFLECT'
+                assert r.store.one('subject_intentions',result.intention_id)['state']=='COMPLETED'
+            questions=[v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION']
+            assert len(questions)==10 and all(v.activity_state=='ACTIVE' and v.execution_state=='NOT_INFERRED_FROM_ACTIVITY_STATE' for v in questions)
+            assert len(r.subject.pending('project-work'))==len(pending)
+            assert all(r.store.one('subject_intentions',row['intention_id'])==row for row in pending)
+            if other_pending:
+                resting,_=private_choice(app,'quiet-review-with-full-work-queue','REST',intent_id=questions[0].intent_id)
+>               assert resting.intention.behavior=='REST'
+E               AssertionError: assert None == 'REST'
+E                +  where None = Intention(kind='NO_ACTION', purpose='Keep existing concern without duplicate initiative', slot_key='quiet', source_ids...', 'e439a403-fedb-45ac-b094-bd6fd9a2d25f', 'e8a25084-3ac1-42e6-81ce-87fe4f812b5d'), self_generated=True, behavior=None).behavior
+E                +    where Intention(kind='NO_ACTION', purpose='Keep existing concern without duplicate initiative', slot_key='quiet', source_ids...', 'e439a403-fedb-45ac-b094-bd6fd9a2d25f', 'e8a25084-3ac1-42e6-81ce-87fe4f812b5d'), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/first_life_integration/test_private_intent.py:785: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_recorded_private_questions_do_not_accumulate_as_pending_external_work[True]
+1 failed, 1 passed, 48 deselected in 1.25s

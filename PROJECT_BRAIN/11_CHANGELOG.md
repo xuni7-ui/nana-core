@@ -3634,3 +3634,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S4/S6 Advanced A–E增量：原plan_step不再机械HIGH→REST/LOW→continue，尊重quiet choice及CONTINUE单项norm，无合法REST不虚构；保留原CREATE/LEARN采纳起源不当新步骤白名单。原Goal/Plan/StepRef真实7场景4fail/3pass→7pass，182相关含Precision V2通过33.93s；新场景0Grant/动作/模型，goal/job不变，不当整goal已停或新授权。首次schema12可选表错误保留并查真实runtime表。证据plan-step-choice-20261112/09锚；原A–H与商业内心/自然策略继续。
 
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：取消私问必须沿当前topic的开发者硬门，原C可开新方向/同问题改topic，实权scope/owner/privacy/来源/refs仍原链；改写重置旧公开资格为private，audit-only保持。原Store/C双认知→新兴趣改变后续EXPLORE/关支持IGNORE，1首错→通过、105相关16.04s。无schema新字段/Store/Agent/调用器/真实模型，lookup旧规模测量不重跑不冒称新测。下一核对内部形成与pending任务混淆、商业自然策略和原A–H。证据private-new-direction-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1/S3/S4/S6增量：私问记录后原同事务完成内部形成意向，持续问题仍ACTIVE，非外部目标/学习/投递成功；NO_ACTION不消耗pending故保留满载REST。2首错及quiet首错保留；10私问/8未变pending/暂停/重启前台通过，无刷经验/技能/关系；292相关67.67s后补schema13能力门和原子中断5通过，不拼全仓。原实际权限和8/12普通语义不改。下一无旧支持的真实内生发生追源及商业/自然策略，原A–H继承。证据private-formation-queue-20261112/09锚。

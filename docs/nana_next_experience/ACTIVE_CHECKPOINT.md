@@ -22,7 +22,7 @@
 
 ## 下一项实际开发
 
-1. 下一先核对：已形成的私人问题是否仍占原PENDING执行意向直到外部完成，避免持续内心阻塞正常聊天/生活；只完成形成/记录这一内部步骤，不把question ACTIVE当实际任务已完成。
+1. 已修：问题记录成功只完成“形成”这一内部意向，question仍ACTIVE；NO_ACTION不被pending满队列抹掉。10私问/8原pending/暂停/重启前台，292相关及随后旧schema/原子5通过。证据private-formation-queue-20261112，源码锚 31ccbf7334c7334ec423b45d64245579a263eed7ee890932f7d04bc1e30314bb。下一实际缺口：完全无旧Memory/Project/private support时新私问无record，需真实自身程序发生追源并沿原隐私撤回，不伪造外部观察。
 2. 私问的有源精确修订已完成此受控增量：原G结果在已有C认知中促成同intent新问题/revision2；同2次认知/61440预算，关机制旧问题不变，开机制REFLECT，保留原lesson/method。3消融+86相关11.00s；见evidence/private-question-revision-20261112，源码表锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16。下一是多倾向关联/冲突、反例后的持续策略与生活选择，不自动认定心愿满足。
 3. 私念/交流目的/草稿与多轮策略、明确反馈和真实送达因果融合；尊重明确拒绝/恢复/未知，不把沉默当效果。当前自发私问是原cognize和D fixture profile路径，LifeApp商业INTERPRET/C/RENDER与自然自主机会生成仍待接线/资格。
 4. 所有原A–H、创新优先和13节增补继续：更大独立学习/检索、主链物理存储/隐私、全链Token/成本/超时、原生协议/模型向导、多端产品、仓库闭包与最终匹配发行。已有成果复用，不从零重开。旧32静默保存门已移除；owner/topic/可用性先筛再64候选，单topic64/全局元数据与时间触发窗口/长链性能仍待，不宣称无限容量。
@@ -30,3 +30,5 @@
 保持原C/D/G/Planner/PrecisionV2与One Subject/Store/Loop/Authority；S1–S10/三轴/63标准不改。CURRENT仍266+409。新增真实模型0，手机/生产/自然度/跨日长期/本批匹配安装未资格，不能以受控局部通过称总完成。普通开发/隔离测试/提交/开发push已授权；生产/genesis/私史/旧writer/真实账号/用户设备/新持续费用仍须单独授权。重复artifact403无新路线不再重试；测试/构建写/tmp，保护DB/Git/旧交付/未知文件。
 
 续办定位：实际读取context_fit.choose(CORRECTION)已是WATCH/只澄清缺失信息，早期ASK判断不准，已纠正，不重复开发。真正商业内心接线在LifeApplication._model/chat→world_loop.CognitionSession（普通INTERPRET/C/RENDER）与原SubjectLoop.cognize（Runtime FULL_COGNITION目前local fixture profile）之间；应复用已有volatile_input/typed source验证/原预算，不把私念内文塞进持久普通role_input或公共RENDER，也不暗设额外模型轮询/第二C。
+
+无支持追源实现注意：RecordService.create要求至少Memory/Record；canonical identity在identity_revisions/events中，不直接是continuity_records。现有Provenance domains没有SELF_COGNITION，不能用RECORDED_PUBLIC/DEVELOPMENT_PROJECT假装自身发生。先检查原Memory.capture/namespace/authority、world_loop.concern_source及公开投影用途，再最小扩展；不直接绕过RecordSupport或创建不可擦除私念，不改正式genesis。

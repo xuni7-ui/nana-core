@@ -200,6 +200,17 @@ def consider_question(event,situation,judgment,intention,proposal):
     return proposal
 
 
+def _complete_question_formation(store,tx,intention_id):
+    """The C consideration was recorded; its ongoing question is still active.
+
+    This never completes a goal, learning job, delivery or external action.
+    """
+    row=store.one('subject_intentions',intention_id)
+    if not row or row['kind']!='REFLECTION':raise CoreError('PRIVATE_QUESTION_FORMATION_BINDING_MISMATCH')
+    if row['state']=='PENDING':
+        tx.update('subject_intentions',intention_id,state='COMPLETED',revision=row['revision']+1)
+
+
 def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
@@ -269,6 +280,7 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                 records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),
                     records=tuple(dict.fromkeys((rid,result.record_id,*private_question.related_private_record_ids))),
                     supersedes=rid,target_id='private-intent.v1')
+            _complete_question_formation(store,tx,result.intention_id)
             return
         if not any(item.owner_identity_id==store.identity['identity_id'] and item.topic==private_question.topic
                 and item.category=='PRIVATE_QUESTION' and item.content_summary==private_question.question
@@ -279,6 +291,7 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                 source_memory_ids=result.intention.source_ids,risk_class=event.risk,created_at_us=now,updated_at_us=now,last_choice_cycle_id=result.cycle_id)
             records.create(tx,kind='INTENTION',scope=event.scope,payload=value.model_dump(mode='json'),
                 records=tuple(dict.fromkeys((result.record_id,*private_question.related_private_record_ids))),target_id='private-intent.v1')
+        _complete_question_formation(store,tx,result.intention_id)
         return
     if review and desired=='ACTIVE':return  # Revise the existing idea, never duplicate it on resumption.
     if (not result.intention_id or not result.record_id or not result.intention.self_generated

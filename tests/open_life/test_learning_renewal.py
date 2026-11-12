@@ -63,7 +63,7 @@ def test_private_question_can_start_independent_learning_and_change_unseen_later
             entity_id='synthetic-person',scope='lab',topic='numbers-play',observed_at_us=clock.utc_now_us()),
             model=QuestionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='private-learning',allowed_scopes=('lab',),readable_privacy=('PERSONAL',)))
         assert q.intention.behavior=='REFLECT' and len(model_calls)==1
-        r.subject.transition_intention(q.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',q.intention_id)['state']=='COMPLETED'
         abandon=own.model_copy(update={'possible_behaviors':('WITHDRAW',),
             'private_intent_ref':PrivateIntentRef(record_id=seed_rid,intent_id=seed_item.intent_id,revision=seed_item.revision)})
         change=capture(r,'abandon-seed',abandon.model_dump_json(),predicate='concern.abandon-seed')

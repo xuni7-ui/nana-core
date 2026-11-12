@@ -485,7 +485,7 @@ def test_own_new_question_without_user_message_survives_restart_and_changes_futu
         assert q.disclosure_policy=='PRIVATE_FOR_NOW' and not q.execution_authority
         assert not event.source_memory_ids and event.text is None
         assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD' AND parent_id=? AND relation_kind='SUPPORT'",(qrid,own_rid)).fetchone()
-        r.subject.transition_intention(result.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',result.intention_id)['state']=='COMPLETED'
         changes=r.store.db.total_changes
         assert r.subject.cognize(event,model=OwnQuestionFixture(),authority=r.authority,policy=policy).replayed
         assert len(calls)==1 and r.store.db.total_changes==changes
@@ -598,7 +598,7 @@ def test_existing_runtime_self_queue_drives_one_question_without_periodic_infere
         assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
         assert r.store.all('runtime_cognition_calls')[0]['state']=='SUCCEEDED'
         assert len([v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION'])==1
-        r.subject.transition_intention(result['cycle'].intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',result['cycle'].intention_id)['state']=='COMPLETED'
         for _ in range(3):r.step()
         assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
@@ -649,7 +649,7 @@ def test_private_question_revision_keeps_own_lineage_and_rejects_wrong_or_stale_
                     return json.dumps(base)
             return r.subject.cognize(event,model=QuestionFixture(),authority=r.authority,policy=policy)
         created=think('question-created',old_text)
-        r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',created.intention_id)['state']=='COMPLETED'
         old_rid,old=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')
         with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REVISION'):think('cannot-revise-creative-idea',new_text,seed_rid)
         changed=think('question-revised',new_text,old_rid)
@@ -659,7 +659,7 @@ def test_private_question_revision_keeps_own_lineage_and_rejects_wrong_or_stale_
         assert current.created_at_us==old.created_at_us and current.updated_at_us>=old.updated_at_us
         assert r.store.one('continuity_records',old_rid)['lifecycle']=='SUPERSEDED'
         assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? AND relation_kind='SUPPORT'",(current_rid,old_rid)).fetchone()
-        r.subject.transition_intention(changed.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',changed.intention_id)['state']=='COMPLETED'
         with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REVISION'):think('stale-question-version',old_text,old_rid)
         same=think('unchanged-question',new_text,current_rid)
         assert next(rid for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION')==current_rid
@@ -711,7 +711,7 @@ def test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or
                 model=QuestionFixture(),authority=r.authority,policy=policy)
         created=think('new-direction','creative-project','story-research','SYNTHETIC private question about a newly imagined story direction')
         assert created.intention.behavior=='REFLECT'
-        r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',created.intention_id)['state']=='COMPLETED'
         rid,old=next((rid,q) for rid,q in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if q.category=='PRIVATE_QUESTION')
         assert old.topic=='story-research'
         # A historical eligibility fixture does NOT claim an actual send.
@@ -730,7 +730,7 @@ def test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or
         assert private_intent.decision_support(r.store,'project-work',('PUBLIC','PROJECT'),topic=new.topic)==(new_rid,)
         assert not private_intent.decision_support(r.store,'other-scope',('PUBLIC','PROJECT'),topic=new.topic)
         with pytest.raises(CoreError,match='WITHHELD'):eligible_content(r.store,new.intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
-        r.subject.transition_intention(changed.intention_id,expected_revision=1,state='COMPLETED')
+        assert r.store.one('subject_intentions',changed.intention_id)['state']=='COMPLETED'
         cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=new.topic,motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),resource_class='ORDINARY',
             opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
         mid=capture(r,'new-focus-opportunity',cue.model_dump(mode='json'),predicate='concern.new-focus-opportunity')
@@ -742,6 +742,116 @@ def test_own_question_can_open_and_reframe_a_new_topic_without_changing_scope_or
         after=r.subject.run(event)
         assert before.intention.behavior=='IGNORE' and after.intention.behavior=='EXPLORE'
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('other_pending',[False,True])
+def test_recorded_private_questions_do_not_accumulate_as_pending_external_work(tmp_path,other_pending):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        _,_,seed=choose(app);r=app.runtime
+        r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        pending=[]
+        if other_pending:
+            for i in range(8):
+                cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='pending-work-'+str(i),motivation_source='CURIOSITY',
+                    possible_behaviors=('EXPLORE',),resource_class='ORDINARY',urgency='HIGH')
+                mid=capture(r,'pending-work-'+str(i),cue.model_dump(mode='json'),predicate='concern.pending-work-'+str(i))
+                cycle=r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.pending-work-'+str(i),
+                    kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,)))
+                assert cycle.intention.kind=='EXPLORE'
+                pending.append(dict(r.store.one('subject_intentions',cycle.intention_id)))
+        counts={table:len(r.store.all(table)) for table in ('experiences','lessons','relationship_events')};calls=[]
+        policy=ContextPolicy(policy_id='private-formation',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        for i in range(10):
+            class QuestionFixture:
+                descriptor='offline-private-question-formation-fixture'
+                def propose(self,request):
+                    calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':'creative-project','question':'SYNTHETIC distinct private question '+str(i)}
+                    return json.dumps(base)
+            result=r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.form-private-question-'+str(i),
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                model=QuestionFixture(),authority=r.authority,policy=policy)
+            assert result.intention.behavior=='REFLECT'
+            assert r.store.one('subject_intentions',result.intention_id)['state']=='COMPLETED'
+        questions=[v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION']
+        assert len(questions)==10 and all(v.activity_state=='ACTIVE' and v.execution_state=='NOT_INFERRED_FROM_ACTIVITY_STATE' for v in questions)
+        assert len(r.subject.pending('project-work'))==len(pending)
+        assert all(r.store.one('subject_intentions',row['intention_id'])==row for row in pending)
+        if other_pending:
+            resting,_=private_choice(app,'quiet-review-with-full-work-queue','REST',intent_id=questions[0].intent_id)
+            assert resting.intention.behavior=='REST'
+            assert next(q.activity_state for _,q in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if q.intent_id==questions[0].intent_id)=='PAUSED'
+            assert len(r.subject.pending('project-work'))==8
+            assert all(r.store.one('subject_intentions',row['intention_id'])==row for row in pending)
+        assert all(len(r.store.all(table))==before for table,before in counts.items())
+        assert len(calls)==10 and not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+        identity=r.identity_id
+    with LifeApplication(home) as app:
+        assert app.runtime.identity_id==identity and len(app.runtime.subject.pending('project-work'))==len(pending)
+        if not other_pending:
+            foreground=app.chat('只是吐槽：SYNTHETIC foreground conversation still has room.',topic='ordinary',privacy='PROJECT',message_id='foreground-after-thoughts')
+            assert foreground['mode']=='VENT' and foreground['intention']=='SOCIAL_INTERACTION'
+        assert len(calls)==10
+
+
+@pytest.mark.parametrize('schema_target',[8,12])
+def test_old_store_does_not_claim_or_queue_an_unsupported_private_question(tmp_path,schema_target):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    clock=VirtualClock();authority=OperatorAuthority()
+    with ContinuityStore(tmp_path/'old'/'self.db',clock,schema_target=schema_target) as store:
+        IdentityService(store,authority);memory=MemoryService(store);memory.entity('old-person','PERSON')
+        text='SYNTHETIC old-store context'
+        eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.private.old',source_reference='seed',source_kind='USER_STATEMENT'),
+            text=text,privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id='old-person',scope='old-scope',memory_type=MemoryType.EPISODIC,epistemic_kind='STATEMENT',source_evidence_id=eid,text=text))
+        class UnsupportedQuestionFixture:
+            descriptor='offline-old-store-question-fixture'
+            def propose(self,request):
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'new-direction','question':'SYNTHETIC unsupported private-state contract'}
+                return json.dumps(base)
+        loop=SubjectLoop(store,scopes=('old-scope',))
+        result=loop.cognize(SubjectInput(source_key='synthetic.private.old-question',kind='WAKE',origin='SELF_WAKE',entity_id='old-person',scope='old-scope',
+            privacy_class='PROJECT',topic='old-topic',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,)),model=UnsupportedQuestionFixture(),
+            authority=authority,policy=ContextPolicy(policy_id='old-private-profile',allowed_scopes=('old-scope',),readable_privacy=('PROJECT',)))
+        assert result.intention.kind=='NO_ACTION' and result.intention_id is None and not loop.pending('old-scope')
+        assert 'SYNTHETIC unsupported private-state contract' not in result.model_dump_json()
+        assert not store.all('actions') and not store.all('grants')
+
+
+def test_question_record_and_formation_completion_roll_back_in_one_original_transaction(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        _,_,seed=choose(app);r=app.runtime
+        r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        counts={table:len(r.store.all(table)) for table in ('subject_cycles','subject_intentions')};revision=r.subject.revision;calls=[]
+        class QuestionFixture:
+            descriptor='offline-atomic-question-formation-fixture'
+            def propose(self,request):
+                calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'creative-project','question':'SYNTHETIC this aborted private question must not become recorded'}
+                return json.dumps(base)
+        def stop_after_private_write(*args):raise RuntimeError('CONTROLLED_BEFORE_QUESTION_FORMATION_COMPLETION')
+        monkeypatch.setattr(private_intent,'_complete_question_formation',stop_after_private_write)
+        with pytest.raises(RuntimeError,match='CONTROLLED_BEFORE_QUESTION_FORMATION_COMPLETION'):
+            r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.aborted-question-formation',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                model=QuestionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='atomic-private-question',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT')))
+        assert r.subject.revision==revision and all(len(r.store.all(table))==n for table,n in counts.items())
+        assert not any(q.category=='PRIVATE_QUESTION' for _,q in candidates(r.store,'project-work',('PUBLIC','PROJECT')))
+        assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants')
 
 
 @pytest.mark.parametrize('crowding',['unrelated','withdrawn'])

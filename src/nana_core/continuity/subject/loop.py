@@ -393,7 +393,8 @@ class SubjectLoop:
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
                 from ..autonomy.private_intent import consider_question
-                private_question=consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
+                private_question=(consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
+                    if self.store.schema_target>=13 else None)
                 if private_question is not None:
                     from .contracts import Intention,Judgment
                     judgment=judgment.model_copy(update={'stance':'REFLECT',
@@ -415,7 +416,10 @@ class SubjectLoop:
                 "SELECT count(*) FROM subject_intentions i JOIN continuity_records r ON r.record_id=i.record_id "
                 "WHERE i.state='PENDING' AND i.expires_at_us>? AND r.lifecycle='ACTIVE'",
                 (self.store.clock.utc_now_us(),)).fetchone()[0]
-            if global_pending >= MAX_PENDING or duplicate_slot:
+            # An accepted own question has no pending execution binding. Its
+            # formation is completed in this same transaction after recording;
+            # it does not consume the asynchronous intention queue's capacity.
+            if private_question is None and intention.kind!='NO_ACTION' and (global_pending >= MAX_PENDING or duplicate_slot):
                 from .contracts import Intention, Judgment
                 attention = 'DEFER'
                 judgment = Judgment(stance='DEFER', reason='A matching concern is already pending or attention is full', source_ids=situation.memory_ids)
