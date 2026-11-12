@@ -29,3 +29,9 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="$PWD:$PWD/src" /workspace/nana-test-env/bi
 已存在home会拒绝覆盖；重现时换新空目录。原源码/DB/Git/旧交付不删除。上一2c203b3独立CI43174971755/job131037209418实读229通过/1warning59.73s/clientSKIP，非本批源码。
 
 剩余：多倾向关联/冲突与自然跨轮策略、明确反馈/真实投递、商业认知与自主机会融合；同topic更广相关选择、长版本链成本、全局元数据/时间触发窗口；原A–H通用检索/学习/存储隐私/模型/多端/最终发行继续。CURRENT266+409，不新增APK/生产/真实模型/手机或长期成长资格。
+
+## 已提交源码12fa8b9的独立CI与缓存重建
+
+GitHub run43184552494/job131068699107实读127通过42.33s，客户端按Core-only范围SKIP，非全仓/安装。100001私念头的原注册隔离备份删除两个可再生cache后，以原ContinuityStore重新打开：整体开库含重建1.242099281s，identity不变、recovery_quarantine=true保持、actions/provider requests均0。新build后index已分配页16,703,488 bytes，不等于主文件已回收；原增量索引分配17.4MiB样本保留，不用新值冒充相同测量。JSON见registered-cache-rebuild.json。
+
+首次只复制SQLite缺少privacy anchor而被PRIVACY_ANCHOR_MISSING正确拒绝，保留工具回执；未绕过锚点/隔离门，改走原Store.backup后成功。这里只验可再生缓存在已注册quarantine副本的恢复成本，不是迁移激活、独立发行安装或DR。临时失败库和两份合成副本保留，不自动清理。

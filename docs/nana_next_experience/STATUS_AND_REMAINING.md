@@ -1,3 +1,5 @@
+[2026-11-12 12fa后继实核] 独立CI127通过42.33s/clientSKIP；100001头注册隔离备份原Store开库重建两cache1.2421s，身份/隔离保持，0动作/provider。首个无anchor SQLite-only副本被拒且保留，未放宽恢复门。普通商业INTERPRET/C/RENDER与local-cognize私念链融合/持续策略仍待开发，CORRECTION现役已WATCH不重复修。
+
 [2026-11-12 私念容量/跨窗口查询] 32静默保存门移除；owner/topic/当前可用性先筛再64候选，原双cache/legacy只读/来源撤回/portable213相关通过，1k/10k/100k私念已知话题旧0/21→新21/21，100k P95 .262ms/新增index约17.4MiB。非一般语义记忆/无限容量；同topic64/全局元数据与时间触发/长链性能及原A–H继续。见private-interest-wide-20261112。
 
 [2026-11-12 原G→私问反向闭环] 原独立学习结果经C形成同问题有源修订，保留intent/时间/谱系/lesson/method，拒绝错误及旧目标、相同内容不重写；同2次fixture/61440预算关revision1/静待、开revision2/REFLECT，3消融+86相关通过。自然多轮策略/反馈、多倾向关联、商业融合与原A–H仍待，见private-question-revision-20261112。

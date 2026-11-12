@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 166,
-  "as_of_us": 1794472659593908,
+  "revision": 167,
+  "as_of_us": 1794473248975618,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_PRIVATE_INTEREST_TOPIC_LOOKUP_AND_CAPACITY",
@@ -17,7 +17,7 @@
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原私念32静默保存门移除，40个C创意实际保存；本人/话题/可用性先筛后64候选，原Store双cache/只读fallback/撤回/portable通过。213相关；1k/10k/100k私念夹具旧0/21→新21/21，100k P95 0.262ms，额外index17.4MiB；非通用语义检索。",
+    "私念32静默门已移除，40个C创意保存；owner/topic/可用性先筛后64，213本地/127独立CI。1k–100k私念旧0/21→新21/21，100kP95 .262ms；100k注册隔离备份重建cache开库1.24s，identity/quarantine保持，非语义/安装/真实模型。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
@@ -2723,3 +2723,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-12 当前源码增量] 原G有效结果可经原C既有深入认知修同一私人问题，保留原lesson/method和问题谱系；3同预算/版本及86相关通过。private-question-revision-20261112/source-sha256锚 6f7ce45e72cf5079219296dbd02ea731a5e12ca58aeb03ff25292187f248af16；非真实模型/多轮策略或长期成长完成。
 
 [2026-11-12 当前源码增量] 原私念32计数保存门移除，本人/话题/可用性先筛；双再生index+legacy只读分页，213相关与1k/10k/100k私念精确话题规模对照通过。private-interest-wide-20261112/source-sha256锚 cbb2a223ec0c2443117b7300d2d5c04106dac79423cfaae93355f4b088bd051c。不冒称通用语义记忆/真实活库/长期或物理回收资格。
+
+[2026-11-12 12fa源码后继资格] 独立CI43184552494实读127pass42.33s/clientSKIP；100001私念头注册隔离备份原Store缓存重建开库1.2421s，身份/quarantine保持，首次原始SQLite副本缺privacy anchor被拒，不绕门。详private-interest-wide证据；源码锚不变，无新安装/模型/生产资格。
