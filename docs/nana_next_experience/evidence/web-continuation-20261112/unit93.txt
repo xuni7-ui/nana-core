@@ -1,0 +1,22 @@
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ✓ tests/adapters.test.ts (12 tests) 1456ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  443ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  816ms
+ ✓ tests/native-continuation.test.ts (5 tests) 109ms
+ ✓ tests/chat-stream.test.ts (9 tests) 70ms
+ ✓ tests/living.test.ts (20 tests) 11ms
+ ✓ tests/v2-client.test.ts (9 tests) 13ms
+ ✓ tests/live.test.ts (4 tests) 9ms
+ ✓ tests/memory-center.test.ts (10 tests) 9ms
+ ✓ tests/feedback.test.ts (3 tests) 6ms
+ ✓ tests/provider-center.test.ts (15 tests) 7ms
+ ✓ tests/provider-commands.test.ts (4 tests) 6ms
+ ✓ tests/local-speech.test.ts (2 tests) 5ms
+
+ Test Files  11 passed (11)
+      Tests  93 passed (93)
+   Start at  04:44:14
+   Duration  4.16s (transform 401ms, setup 0ms, collect 569ms, tests 1.70s, environment 2ms, prepare 619ms)
+

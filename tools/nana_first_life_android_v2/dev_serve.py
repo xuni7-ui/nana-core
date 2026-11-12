@@ -34,7 +34,10 @@ def main():
     parser.add_argument("--allow-provider-runtime-budget",action="store_true",help="Explicit fresh DEV metadata/budget setting qualification; no model key or inference")
     parser.add_argument("--allow-private-context", action="store_true", help="Synthetic owned DEV only: explicit PERSONAL surface retention and host scope")
     parser.add_argument("--synthetic-sequence",action="store_true",help="Explicit fresh DEV original-owner + zero-cost loopback sequence probe; no real/private provider")
+    parser.add_argument("--synthetic-continuation",action="store_true",help="Enable original Core in-flight continuation in the explicit synthetic sequence harness only")
     a = parser.parse_args()
+    if a.synthetic_continuation and not a.synthetic_sequence:
+        raise ValueError('SYNTHETIC_CONTINUATION_REQUIRES_SEQUENCE_FIXTURE')
     if a.synthetic_sequence and (a.allow_provider_configuration or a.allow_provider_runtime_budget or a.allow_private_context):
         raise ValueError("SYNTHETIC_SEQUENCE_REQUIRES_ISOLATED_PROJECT_FIXTURE")
     if a.allow_provider_runtime_budget and not a.allow_provider_configuration:
@@ -79,10 +82,12 @@ def main():
             update_config(home,config.model_copy(update={'revision':config.revision+1,
                 'provider_calls_per_day':32,'provider_calls_per_hour':32,'per_provider_calls_per_day':32,
                 'provider_total_calls_limit':32}),expected_revision=config.revision)
-            router,calls=cleanup.enter_context(relay(home,'CHAT',stream_fixture={
-                'release':release_fixture,'release_timeout':15,'reset_release':True},
-                renderer=lambda request:'SYNTHETIC '+('combined response to '+str(len(request['role_input']['dialogue']['communication_purpose']['respond_to_memory_ids']))
-                    if len(request['role_input']['dialogue']['communication_purpose']['respond_to_memory_ids'])>1 else 'individual original response')+' · '+('source-bound fixture wording. '*45)))
+            stream_fixture={'release':release_fixture,'release_timeout':15,'reset_release':True}
+            def render_fixture(request):
+                count=len(request['role_input']['dialogue']['communication_purpose']['respond_to_memory_ids'])
+                if a.synthetic_continuation:stream_fixture['reset_release']=count==1
+                return 'SYNTHETIC '+('combined response to '+str(count) if count>1 else 'individual original response')+' · '+('source-bound fixture wording. '*45)
+            router,calls=cleanup.enter_context(relay(home,'CHAT',stream_fixture=stream_fixture,renderer=render_fixture))
             shutil.copy2(home/'test-providers.json',home/'providers.json')
             def record_fixture():
                 from nana_core.presence.cli import status
@@ -96,7 +101,7 @@ def main():
                     'purpose_input_counts':[len(c['role_input']['dialogue']['communication_purpose']['respond_to_memory_ids']) for c in calls if c['cognitive_role']=='SOCIAL'],
                     'real_provider_calls':0,'sqlite_version':sqlite3.sqlite_version,'python':sys.version.split()[0]},indent=2)+'\n')
             cleanup.callback(record_fixture)
-            cleanup.enter_context(running_owner(home,router))
+            cleanup.enter_context(running_owner(home,router,coalesce_continuations=a.synthetic_continuation))
             cleanup.callback(release_fixture.set)
             watcher_stop=threading.Event()
             def release_when_requested():
@@ -155,6 +160,7 @@ def main():
                     "private_context_qualification": a.allow_private_context,
                     "runtime_budget_qualification":a.allow_provider_runtime_budget,
                     "synthetic_sequence_qualification":a.synthetic_sequence,
+                    "synthetic_continuation_qualification":a.synthetic_continuation,
                     "synthetic_release_marker":str(work/"release.fixture") if a.synthetic_sequence else None,
                 }
             )

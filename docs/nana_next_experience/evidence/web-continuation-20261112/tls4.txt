@@ -1,0 +1,17 @@
+
+Running 4 tests using 1 worker
+
+(node:5104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.5s)
+(node:5318) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.0s)
+(node:5518) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.0s)
+(node:5724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.1s)
+
+  4 passed (16.2s)

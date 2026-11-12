@@ -127,7 +127,7 @@ def run(home, seconds, *, headless=False, router=None, control_enabled=False,sec
 
     with (
         LifeApplication(home, router=router,platform_resolver=secret_resolver) as app,
-        ControlServer(app) if control_enabled else nullcontext() as control,
+        ControlServer(app,coalesce_continuations=True) if control_enabled else nullcontext() as control,
     ):
         from .durability import StorageGuard
 

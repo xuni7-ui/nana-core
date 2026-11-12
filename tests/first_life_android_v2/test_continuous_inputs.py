@@ -66,6 +66,34 @@ def wait_pending(control,count):
     assert len(control.pending_inputs)==count
 
 
+@pytest.mark.parametrize('enabled',[False,True])
+def test_input_already_at_socket_is_checked_at_render_completion_without_an_extra_model_tick(tmp_path,enabled):
+    home,_,_=owned(tmp_path);setup(home)
+    release=threading.Event();prefix=threading.Event()
+    with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router,coalesce_continuations=enabled) as state:
+        # Deterministic boundary: the transport's last progress tick happened
+        # before the new bytes. No subsequent model-wait tick is promised.
+        state['control'].app.runtime.control_progress=lambda:None
+        first,done,thread=launch(home,message('completion-root'),lambda v:prefix.set() if v.get('text') else None)
+        child=socket.socket(socket.AF_UNIX);child.settimeout(6)
+        try:
+            assert prefix.wait(3)
+            child.connect(str(home/'control.sock'))
+            child.sendall((json.dumps({**message('completion-child'),'operation':'surface'})+'\n').encode())
+            assert not state['control'].pending_inputs
+            release.set();assert done.wait(5)
+            second=json.loads(child.makefile('rb').readline())
+            assert first['response']['ok'] and second['ok'] and len(calls)==4
+            parent=first['response']['result'];reply=second['result']
+            if enabled:
+                assert parent['text'] is None and parent['render_state']=='DEFERRED_TO_CONTINUATION'
+                assert reply['respond_to_memory_ids']==[parent['message_memory_id'],reply['message_memory_id']]
+            else:
+                assert parent['text'] and reply['respond_to_memory_ids']==[reply['message_memory_id']]
+        finally:
+            release.set();child.close();thread.join(5)
+
+
 @pytest.mark.parametrize("retained",[False,True])
 def test_followup_waits_without_recursive_subject_or_lost_input(tmp_path,retained):
     home,binding,_=owned(tmp_path);setup(home)

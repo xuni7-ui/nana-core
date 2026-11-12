@@ -1,0 +1,90 @@
+
+Running 4 tests using 1 worker
+
+(node:3919) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.3s)
+(node:4068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.2s)
+(node:4216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.2s)
+(node:4367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (2.9s)
+
+
+  1) [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: expect(received).toBeNull()
+
+    Received: "SYNTHETIC individual original response · source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. "
+
+      337 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      338 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+    > 339 |   expect(root.result.text).toBeNull();expect(root.result.reply_response_id).toBeNull();
+          |                            ^
+      340 |   expect(root.result.render_state).toBe('DEFERRED_TO_CONTINUATION');
+      341 |   expect(child.result.respond_to_memory_ids).toEqual([root.result.message_memory_id,child.result.message_memory_id]);
+      342 |   expect(child.result.reply_response_id).toBeTruthy();expect(child.result.external_delivery).toBe(false);
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:339:28
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-desktop/error-context.md
+
+  2) [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: expect(received).toBeNull()
+
+    Received: "SYNTHETIC individual original response · source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. "
+
+      337 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      338 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+    > 339 |   expect(root.result.text).toBeNull();expect(root.result.reply_response_id).toBeNull();
+          |                            ^
+      340 |   expect(root.result.render_state).toBe('DEFERRED_TO_CONTINUATION');
+      341 |   expect(child.result.respond_to_memory_ids).toEqual([root.result.message_memory_id,child.result.message_memory_id]);
+      342 |   expect(child.result.reply_response_id).toBeTruthy();expect(child.result.external_delivery).toBe(false);
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:339:28
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-360/error-context.md
+
+  3) [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: expect(received).toBeNull()
+
+    Received: "SYNTHETIC individual original response · source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. "
+
+      337 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      338 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+    > 339 |   expect(root.result.text).toBeNull();expect(root.result.reply_response_id).toBeNull();
+          |                            ^
+      340 |   expect(root.result.render_state).toBe('DEFERRED_TO_CONTINUATION');
+      341 |   expect(child.result.respond_to_memory_ids).toEqual([root.result.message_memory_id,child.result.message_memory_id]);
+      342 |   expect(child.result.reply_response_id).toBeTruthy();expect(child.result.external_delivery).toBe(false);
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:339:28
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-390/error-context.md
+
+  4) [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: expect(received).toBeNull()
+
+    Received: "SYNTHETIC individual original response · source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. source-bound fixture wording. "
+
+      337 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      338 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+    > 339 |   expect(root.result.text).toBeNull();expect(root.result.reply_response_id).toBeNull();
+          |                            ^
+      340 |   expect(root.result.render_state).toBe('DEFERRED_TO_CONTINUATION');
+      341 |   expect(child.result.respond_to_memory_ids).toEqual([root.result.message_memory_id,child.result.message_memory_id]);
+      342 |   expect(child.result.reply_response_id).toBeTruthy();expect(child.result.external_delivery).toBe(false);
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:339:28
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-412/error-context.md
+
+  4 failed
+    [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 

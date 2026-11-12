@@ -1,0 +1,86 @@
+
+Running 4 tests using 1 worker
+
+(node:3288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (3.0s)
+(node:3434) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (2.7s)
+(node:3583) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (2.7s)
+(node:3731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources (2.7s)
+
+
+  1) [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: response.text: Protocol error (Network.getResponseBody): No data found for resource with given identifier
+    Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+
+      327 |   await writeFile(marker,'release');
+      328 |   const childHttp=await childResponse,child=(await childHttp.json()).data;
+    > 329 |   const frames=(await rootHttp.text()).trim().split('\n').map(line=>JSON.parse(line));
+          |                                ^
+      330 |   const root=frames.find(frame=>frame.event==='receipt')?.data.data;
+      331 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      332 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:329:32
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-desktop/error-context.md
+
+  2) [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: response.text: Protocol error (Network.getResponseBody): No data found for resource with given identifier
+    Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+
+      327 |   await writeFile(marker,'release');
+      328 |   const childHttp=await childResponse,child=(await childHttp.json()).data;
+    > 329 |   const frames=(await rootHttp.text()).trim().split('\n').map(line=>JSON.parse(line));
+          |                                ^
+      330 |   const root=frames.find(frame=>frame.event==='receipt')?.data.data;
+      331 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      332 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:329:32
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-360/error-context.md
+
+  3) [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: response.text: Protocol error (Network.getResponseBody): No data found for resource with given identifier
+    Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+
+      327 |   await writeFile(marker,'release');
+      328 |   const childHttp=await childResponse,child=(await childHttp.json()).data;
+    > 329 |   const frames=(await rootHttp.text()).trim().split('\n').map(line=>JSON.parse(line));
+          |                                ^
+      330 |   const root=frames.find(frame=>frame.event==='receipt')?.data.data;
+      331 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      332 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:329:32
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-390/error-context.md
+
+  4) [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+
+    Error: response.text: Protocol error (Network.getResponseBody): No data found for resource with given identifier
+    Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+
+      327 |   await writeFile(marker,'release');
+      328 |   const childHttp=await childResponse,child=(await childHttp.json()).data;
+    > 329 |   const frames=(await rootHttp.text()).trim().split('\n').map(line=>JSON.parse(line));
+          |                                ^
+      330 |   const root=frames.find(frame=>frame.event==='receipt')?.data.data;
+      331 |   expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+      332 |   expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:329:32
+
+    Error Context: ../../../../tmp/nana-continuation-tls-browser-results/unified-V4-real-TLS-concur-db548-ft-using-original-C-sources-phone-412/error-context.md
+
+  4 failed
+    [desktop] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-360] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-390] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 
+    [phone-412] › tests/unified.spec.ts:297:1 › V4 real TLS concurrent continuation replaces an unsent draft using original C sources 

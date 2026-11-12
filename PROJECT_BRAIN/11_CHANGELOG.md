@@ -3596,3 +3596,8 @@ Core投影原C输入源和仅非空已生成的responseID，BFF单条严格承�
 ### 2026-11-11 · 原BFF认证并发接续接纳
 
 MessageRequest可选parent/旧None省略；原Core opt-in capability绑定currentidentity/owner/source，原write_lock覆盖Root+child、child独立lane而priority控制保持。两独立HTTP在首理解期间入原队列，原C双源/3fixture/独立回执，不是Web已接。principal/device/gen/context/retention/CAS/idempotence及整个等待隐私锚定向通过，69相关63.22s/最终13HTTP12.93s/22auth20.69s/TS成功；首次反馈UNKNOWN提前reconcile3失败保留并收窄新读取范围，不改断言。证据http-continuation-20261111/09锚，269CI155Core/88unit/120browser实核。下一Web真实接续+TLS/原CLI受控启用；默认Core仍false，原A–H/CURRENT266+409保持。
+
+
+### 2026-11-12 · Web生成期间接续与原CLI正常路径
+
+Web真实进度接纳同scope child、原回执独立归因、等待双结果再drain；UNKNOWN/断流不误重发，错误仅改本条，原20分钟/取消/保留私人边界保持。NativeSDK有限错误归一恢复typed permission/fallback语义，5port合约非手机。TLS发现模型末tick空隙使旧Root仍说话，确定性1fail/1pass后在原safe-point有限读urgent输入；原C/C-D/Store不另建，正常CLI源码显式启用，类默认False保留。53相关50.50s/41managedCLI授权45.98s/93unit4.16s/TS/Vite3.43s/56+12browser/真实TLS4视口16.2s通过；首CDP4fail/真实Root4fail/CLI1fail均保留，不放宽断言。停机16fixture/1身份/0actions-grants/真实0，证据web-continuation-20261112/09锚。原A–H和266+409不减，下一原C自主性因果/全链成本超时及剩余闭包。

@@ -50,6 +50,8 @@ def test_actual_start_pause_stop_restart_and_sigkill(tmp_path):
             s.start()
         from nana_core.life.control import request
 
+        capability=request(home,{'operation':'view','view':'status'})['result']['conversation_continuation']
+        assert capability=={'schema_version':1,'max_pending':1,'retained_coalescing':False,'enabled':True}
         assert request(home, {"operation": "control", "command": "pause"})["ok"]
         assert request(home, {"operation": "control", "command": "resume"})["ok"]
         stopped = s.stop()

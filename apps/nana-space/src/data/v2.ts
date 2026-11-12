@@ -219,7 +219,17 @@ export class V2Client {
     data: Record<string, unknown>;
   }): Promise<unknown> {
     const incarnation = this.incarnation;
-    const result = await nativePort.call(options);
+    let result: unknown;
+    try { result = await nativePort.call(options); }
+    catch (error) {
+      if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+      const code = error instanceof Error ? error.message
+        : error && typeof error === "object" && "message" in error ? error.message : undefined;
+      // Android's call.reject supplies its bounded error in message. Normalize
+      // it before UI permission handling or the two pre-dispatch fallbacks.
+      throw new V2Error(typeof code === "string" && /^[A-Z_]{1,96}$/.test(code)
+        ? code : "NETWORK_OR_EXECUTION_UNKNOWN");
+    }
     if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
     return result;
   }

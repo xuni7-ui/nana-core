@@ -293,3 +293,59 @@ test("V4 real TLS queued sequence preserves three original C inputs in one reply
   expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC first additional fact');
   expect(errors).toEqual([]);
 });
+
+test('V4 real TLS concurrent continuation replaces an unsent draft using original C sources',async({page})=>{
+  const target=JSON.parse(await readFile(process.env.NANA_V2_TARGET!,'utf8'));
+  expect(target.synthetic_continuation_qualification).toBe(true);
+  const marker=join(dirname(process.env.NANA_V2_TARGET!),'release.fixture');
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/index.html?source=live#chat');
+  await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
+  await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
+  await page.getByRole('button',{name:'安全连接',exact:true}).click();
+  const input=page.getByLabel('和奈奈说点什么');await expect(input).toBeEnabled();
+  const before=await(await page.request.get('/api/nana-space/v2/bootstrap')).json();
+  expect(before.capabilities.conversation_continuation).toBe(true);
+  expect(before.data.host.owner_managed).toBe(false);
+  const rootResponse=page.waitForResponse(r=>r.url().endsWith('/messages/stream') && r.request().method()==='POST');
+  await input.fill('SYNTHETIC TLS original thought before a new fact');
+  await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByLabel('生成中的临时回复',{exact:true})).toBeVisible();
+  const rootHttp=await rootResponse,rootBody=rootHttp.request().postDataJSON();
+  const childRequest=page.waitForRequest(r=>r.url().endsWith('/messages') && r.method()==='POST');
+  const childResponse=page.waitForResponse(r=>r.url().endsWith('/messages') && r.request().method()==='POST');
+  await input.fill('SYNTHETIC TLS added fact while the draft is still unsent');
+  await page.getByRole('button',{name:'发送',exact:true}).click();
+  const childBody=(await childRequest).postDataJSON();
+  expect(childBody.continuation_of).toBe(rootBody.client_request_id);
+  expect(childBody.client_request_id).not.toBe(rootBody.client_request_id);
+  await expect.poll(async()=>{
+    const response=await page.request.get('/api/nana-space/v2/receipts/'+childBody.idempotency_key);
+    return response.ok()?(await response.json()).data.state:null;
+  }).toBe('RUNNING');
+  await expect(page.getByLabel('生成中的临时回复',{exact:true})).toHaveCount(0);
+  await writeFile(marker,'release');
+  const childHttp=await childResponse,child=(await childHttp.json()).data;
+  // The SDK cancels its NDJSON reader after the terminal frame. Chromium then
+  // need not retain that response body for DevTools; independently read the
+  // same original receipt, and require the UI to have accepted its stream below.
+  await expect.poll(async()=>{
+    const row=await page.request.get('/api/nana-space/v2/receipts/'+rootBody.idempotency_key);
+    return row.ok()?(await row.json()).data.state:null;
+  }).toBe('VERIFIED');
+  const root=(await(await page.request.get('/api/nana-space/v2/receipts/'+rootBody.idempotency_key)).json()).data;
+  expect(rootHttp.status()).toBe(200);expect(childHttp.status()).toBe(200);
+  expect(root.state).toBe('VERIFIED');expect(child.state).toBe('VERIFIED');
+  expect(root.result.text).toBeNull();expect(root.result.reply_response_id).toBeNull();
+  expect(root.result.render_state).toBe('DEFERRED_TO_CONTINUATION');
+  expect(child.result.respond_to_memory_ids).toEqual([root.result.message_memory_id,child.result.message_memory_id]);
+  expect(child.result.reply_response_id).toBeTruthy();expect(child.result.external_delivery).toBe(false);
+  await expect(page.locator('.live-reply').filter({hasText:'SYNTHETIC combined response to 2'})).toHaveCount(1);
+  await expect(page.locator('.live-reply')).toHaveCount(1);
+  await expect(page.getByText('回应见下方',{exact:true})).toHaveCount(1);
+  const saved=(await(await page.request.get('/api/nana-space/v2/receipts/'+childBody.idempotency_key)).json()).data;
+  expect(saved.result).toEqual(child.result);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC TLS added fact');
+  expect(errors).toEqual([]);
+});

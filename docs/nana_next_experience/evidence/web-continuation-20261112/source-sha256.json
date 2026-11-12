@@ -1,0 +1,13 @@
+{
+  ".github/workflows/nana-next-qualification.yml": "248bf5cb482adee358319501c56792cda83c94f8cd02e2e77e30e1b209bb46bc",
+  "apps/nana-space/src/data/v2.ts": "9448b19380a05939f90f2d708bf62a9d627dce9b175c59de9ecd7b241f74e86a",
+  "apps/nana-space/src/features/LiveSpace.tsx": "a334ff60702d3fddca61974d90b177adaaa2e671ffb60fc76a5d9144dcefe151",
+  "apps/nana-space/tests/native-continuation.test.ts": "6039944e530bab249ae0d27ed78d565fbbe5d354d3d6673c2a5772e2f52cd4c5",
+  "apps/nana-space/tests/unified.spec.ts": "d7763ef81fe70714e5235ef5f35f7b024a40e6d33d0c8ed586fa38d91d5383fe",
+  "apps/nana-space/tests/v3.spec.ts": "dad04dc8d0d6687001bcd69db9c7dc169e13e93ada47d44229d24badabc0e319",
+  "src/nana_core/life/__main__.py": "207042a747f6c07f30ecb40adf3bba6cbeb156d0176c1a779fc516860e1d3008",
+  "src/nana_core/life/control.py": "c9489f98d8c4df711427603182c844c6d43bbfc07a9473c39425b57e6a5bfd51",
+  "tests/first_life_android_v2/test_continuous_inputs.py": "563585185da1101efe8b50640c9da00c7f9eb8c44e90195ec4ba3f1cbc4866b0",
+  "tests/first_life_android_v2/test_supervisor.py": "6f32ef2bb7a685ddf3d14034894cd854f4f6456caacc03f90cb2a9de75f37a39",
+  "tools/nana_first_life_android_v2/dev_serve.py": "91584ca4443753f0dd781310692dcbfc186f90cdaae98f1f2d691fa59b65f4f1"
+}

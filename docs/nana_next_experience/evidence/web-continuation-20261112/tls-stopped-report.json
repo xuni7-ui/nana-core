@@ -1,0 +1,43 @@
+{
+  "subject_id": "8a1c3996-1de8-4d31-a7b9-48d007844922",
+  "lineage_binding": "ade04e18edbf21a038b9a7922c632a6309033847c9019102c3f95a5191045820",
+  "runtime_active": false,
+  "counts": {
+    "identities": 1,
+    "cognitive_requests": 16,
+    "actions": 0,
+    "grants": 0,
+    "surface_events": 8
+  },
+  "roles": [
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL"
+  ],
+  "purpose_input_counts": [
+    1,
+    2,
+    1,
+    2,
+    1,
+    2,
+    1,
+    2
+  ],
+  "real_provider_calls": 0,
+  "sqlite_version": "3.53.1",
+  "python": "3.12.14"
+}

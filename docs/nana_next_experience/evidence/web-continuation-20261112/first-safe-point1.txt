@@ -1,0 +1,34 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_input_already_at_socket_is_checked_at_render_completion_without_an_extra_model_tick[True] _
+
+tmp_path = PosixPath('/tmp/nana-completion-boundary-first/test_input_already_at_socket_i1')
+enabled = True
+
+    @pytest.mark.parametrize('enabled',[False,True])
+    def test_input_already_at_socket_is_checked_at_render_completion_without_an_extra_model_tick(tmp_path,enabled):
+        home,_,_=owned(tmp_path);setup(home)
+        release=threading.Event();prefix=threading.Event()
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router,coalesce_continuations=enabled) as state:
+            # Deterministic boundary: the transport's last progress tick happened
+            # before the new bytes. No subsequent model-wait tick is promised.
+            state['control'].app.runtime.control_progress=lambda:None
+            first,done,thread=launch(home,message('completion-root'),lambda v:prefix.set() if v.get('text') else None)
+            child=socket.socket(socket.AF_UNIX);child.settimeout(6)
+            try:
+                assert prefix.wait(3)
+                child.connect(str(home/'control.sock'))
+                child.sendall((json.dumps({**message('completion-child'),'operation':'surface'})+'\n').encode())
+                assert not state['control'].pending_inputs
+                release.set();assert done.wait(5)
+                second=json.loads(child.makefile('rb').readline())
+                assert first['response']['ok'] and second['ok'] and len(calls)==4
+                parent=first['response']['result'];reply=second['result']
+                if enabled:
+>                   assert parent['text'] is None and parent['render_state']=='DEFERRED_TO_CONTINUATION'
+E                   AssertionError: assert ('A deliberately synthetic language response' is None)
+
+tests/first_life_android_v2/test_continuous_inputs.py:89: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_input_already_at_socket_is_checked_at_render_completion_without_an_extra_model_tick[True]
+1 failed, 1 passed, 20 deselected in 2.20s

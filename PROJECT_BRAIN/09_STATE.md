@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 156,
-  "as_of_us": 1794400211550014,
+  "revision": 157,
+  "as_of_us": 1794458805782536,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_HTTP_CONTINUATION_ADMITTED",
+  "status": "IN_PROGRESS_INFLIGHT_WEB_TLS_WIRED",
   "progress": [
-    "两个独立认证HTTP在首INTERPRET未结束已入原队列；原C两源3fixture调用、各自回执、重复不派发、范围拒绝/priority pause/等待全程隐私锚通过。69相关63.22s、最终HTTP13/授权22及TS通过；Web并发接线下一步。",
+    "生成中接续Web→真实TLS/BFF→原C双源/4视口通过；修模型末tick漏接输入，正常CLI源码启用，93unit/53后端/41进程授权与56+12浏览器定向通过。16fixture/1DEV主体/真实0，无新安装/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,22 +23,22 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "Core opt-in默认FALSE；BFF同principal/context/owner并发接纳已实现/受控测试。Web并发drain、native transport实跑/等待期限/真实TLS与原CLI受控启用待；APK/手机/真实投递长期仍待。",
+    "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
     "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
-    "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
+    "远端artifact下载403保留独立差额，无新路径不再重复；2026-11-12环境重建/tmp丢失，旧缓存/安装不能假设存在。本地重建不冒充远端。原A–H未完，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/web-continuation-20261112/README.md",
     "docs/nana_next_experience/evidence/http-continuation-20261111/README.md",
     "docs/nana_next_experience/evidence/deferred-review-receipt-20261111/README.md",
     "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
     "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
     "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
-    "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
-    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md"
+    "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2689,3 +2689,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-11 原HTTP并发接续接纳（SOURCE ONLY/ISOLATED TESTED）
 
 [实测] docs/nana_next_experience/evidence/http-continuation-20261111/README.md；source-sha256.json锚`cd0c97177c452aee4291a23d1162bda10bea757ada925038c04b4ede71f091bf`。13final12.93s/22auth20.69s/69related63.22s，首3反馈回归保留并最小收窄隐私读取后恢复。实际HTTP并发不是Web/真实TLS/手机资格，默认Core关闭，下一客户端连续输入。269CI155Core/88unit/120browser实核成功，非本批全仓。
+
+
+### 2026-11-12 生成期间接续真实TLS与原CLI源码接线
+
+[实测] docs/nana_next_experience/evidence/web-continuation-20261112/README.md；source-sha256.json锚`68c33deebd882e0a15494f9e37c4aa850de97cef9c85dedd11d1305293a73814`。模型完成safe-point确定性首1fail/1pass→53相关50.50s；实际TLS先CDP4fail再Root独立4fail均保留，修复后4视口16.2s，停机1身份/16fixture/0真实/0actions/grants。93unit/56+12浏览器/41CLI授权通过；源码正常CLI启用，非最终安装/手机/生产/长期成长，CURRENT266+409未改。0ee实际CI168/88/120成功，本批全仓未运行。

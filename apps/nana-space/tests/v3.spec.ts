@@ -1573,3 +1573,140 @@ for(const outcome of ['VERIFIED','UNKNOWN'] as const)test(`SYNTHETIC deferred in
   expect(state.messageBodies).toHaveLength(2);await noHorizontalOverflow(page);
   expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC original input');
 });
+
+// Real SDK ReadableStream decoding, controlled synthetic chunks. The mocked
+// transport remains explicitly distinct from the actual TLS/Core qualification.
+async function controlledRootStream(page:Page,state:MockState,admitImmediately=true){
+  await page.evaluate(({template,admitImmediately})=>{
+    type StreamFixture={body:Record<string,unknown>;admit:()=>void;finish:(receipt:Record<string,unknown>|null)=>void};
+    const target=window as Window & {nanaStreamFixture?:StreamFixture};
+    const original=window.fetch.bind(window);
+    window.fetch=(url,init)=>{
+      if(!String(url).endsWith('/messages/stream'))return original(url,init);
+      const body=JSON.parse(String(init?.body));const encoder=new TextEncoder();
+      const stream=new ReadableStream<Uint8Array>({start(controller){
+        const frame=(value:unknown)=>controller.enqueue(encoder.encode(JSON.stringify(value)+'\n'));
+        const admit=()=>frame({event:'progress',message_id:body.client_request_id,sequence:1,
+          data:{...template,data:{state:'PROVISIONAL_MODEL_DRAFT',text:'SYNTHETIC unsent root draft'}}});
+        target.nanaStreamFixture={body,admit,finish(receipt){
+          if(receipt===null){controller.error(new Error('SYNTHETIC lost root stream'));return;}
+          frame({event:'receipt',message_id:body.client_request_id,data:{...template,data:receipt}});controller.close();
+        }};
+        if(admitImmediately)admit();
+      }});
+      return Promise.resolve(new Response(stream,{status:200,headers:{'Content-Type':'application/x-ndjson'}}));
+    };
+  },{template:envelope(state,{}),admitImmediately});
+}
+async function rootFixtureBody(page:Page){
+  return page.evaluate(()=>((window as Window & {nanaStreamFixture?:{body:Record<string,unknown>}}).nanaStreamFixture?.body));
+}
+async function finishRootStream(page:Page,receipt:Record<string,unknown>|null){
+  await page.evaluate(value=>(window as Window & {nanaStreamFixture?:{finish:(value:Record<string,unknown>|null)=>void}})
+    .nanaStreamFixture!.finish(value),receipt);
+}
+for(const outcome of ['VERIFIED','UNKNOWN','ROOT_LOST'] as const)test(`SYNTHETIC concurrent continuation ${outcome} preserves independent receipts`,async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
+  await open(page,'chat');await controlledRootStream(page,state);
+  const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC active thought');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
+  const root=(await rootFixtureBody(page))!;
+  await input.fill('SYNTHETIC continuation during thought');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(()=>state.messageRoutes?.length).toBe(1);
+  const child=state.messageRoutes![0].request().postDataJSON();
+  expect(child.continuation_of).toBe(root.client_request_id);expect(child.client_request_id).not.toBe(root.client_request_id);
+  await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toHaveCount(0);
+  await input.fill('SYNTHETIC third still waiting');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('等前一条回复后再发送；现在还没有送出。',{exact:true})).toBeVisible();
+  expect(state.messageRoutes).toHaveLength(1);
+  if(outcome!=='UNKNOWN')await page.getByRole('button',{name:'取消这条待发消息'}).click();
+  await state.messageRoutes![0].fulfill({status:200,json:envelope(state,{receipt_id:child.client_request_id,
+    client_request_id:child.client_request_id,operation:'MESSAGE',no_retry:true,state:outcome==='UNKNOWN'?'UNKNOWN':'VERIFIED',
+    dispatch_happened:true,result:outcome==='UNKNOWN'?{}:{state:'SHADOW_REPLY_CANDIDATE',
+      render_state:'UNVERIFIED_MODEL_WORDING',text:'SYNTHETIC actual combined wording',
+      message_memory_id:'memory.continued',respond_to_memory_ids:['memory.active','memory.continued'],reply_response_id:'cycle.continued'}})});
+  if(outcome!=='UNKNOWN')await expect(page.getByText('SYNTHETIC actual combined wording',{exact:true})).toHaveCount(1);
+  await finishRootStream(page,outcome==='ROOT_LOST'?null:{receipt_id:root.client_request_id,
+    client_request_id:root.client_request_id,operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,
+    result:{state:'SHADOW_INPUT_REVIEWED_NO_REPLY',render_state:'DEFERRED_TO_CONTINUATION',text:null,
+      raw_body_persisted:false,exchange_record_id:null,message_memory_id:'memory.active',respond_to_memory_ids:[],reply_response_id:null,
+      external_delivery:false,completion_kind:'SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY'}});
+  if(outcome==='VERIFIED')await expect(page.getByText('回应见下方',{exact:true})).toHaveCount(1);
+  else if(outcome==='UNKNOWN'){
+    await expect(page.getByText('已接续，未单独回复',{exact:true})).toBeVisible();
+    await expect(page.getByText('SYNTHETIC actual combined wording',{exact:true})).toHaveCount(0);
+    await expect(page.getByText('SYNTHETIC third still waiting',{exact:true})).toHaveCount(0);
+  }else await expect(page.getByText('SYNTHETIC actual combined wording',{exact:true})).toHaveCount(1);
+  expect(state.messageRoutes).toHaveLength(1);await noHorizontalOverflow(page);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC active thought');
+});
+
+test('SYNTHETIC concurrent continuation closed window falls back only before reservation with original ID',async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
+  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC finishing root');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
+  const root=(await rootFixtureBody(page))!;
+  await input.fill('SYNTHETIC too late to regroup');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(()=>state.messageRoutes?.length).toBe(1);const child=state.messageRoutes![0].request().postDataJSON();
+  await state.messageRoutes![0].fulfill({status:409,json:{code:'CONTINUATION_WINDOW_CLOSED'}});
+  await expect(page.getByText('等前一条回复后再发送；现在还没有送出。',{exact:true})).toBeVisible();
+  expect(state.messageRoutes).toHaveLength(1);
+  await finishRootStream(page,{receipt_id:root.client_request_id,client_request_id:root.client_request_id,
+    operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC root already replied'}});
+  // The ordinary fallback is a new root stream with the exact original child ID.
+  await expect.poll(async()=>String((await rootFixtureBody(page))?.client_request_id)).toBe(child.client_request_id);
+  const fallback=(await rootFixtureBody(page))!;expect(fallback.continuation_of).toBeUndefined();
+  await finishRootStream(page,{receipt_id:fallback.client_request_id,client_request_id:fallback.client_request_id,
+    operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC ordinary followup'}});
+  await expect(page.getByText('SYNTHETIC ordinary followup',{exact:true})).toBeVisible();
+  await expect(page.getByText('SYNTHETIC root already replied',{exact:true})).toBeVisible();
+});
+
+for(const boundary of ['RETENTION','PRIVACY'] as const)test(`SYNTHETIC concurrent continuation keeps ${boundary} as ordinary queued input`,async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true,shared_life_retention:true};
+  state.privacyScope=['PUBLIC','PROJECT','PERSONAL'];state.roles=['READER','CONVERSATION','PRIVATE_CONTEXT'];
+  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC original public scope');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
+  const root=(await rootFixtureBody(page))!;
+  await page.locator('.next-send-options > summary').click();
+  await page.getByLabel(boundary==='RETENTION'?'记住这次共同经历':'本次包含个人内容',{exact:false}).check();
+  await input.fill('SYNTHETIC separately scoped input');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('等前一条回复后再发送；现在还没有送出。',{exact:true})).toBeVisible();
+  expect(state.messageRoutes||[]).toHaveLength(0);
+  await finishRootStream(page,{receipt_id:root.client_request_id,client_request_id:root.client_request_id,
+    operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC first scoped reply'}});
+  await expect.poll(async()=>String((await rootFixtureBody(page))?.client_request_id)).not.toBe(root.client_request_id);
+  const next=(await rootFixtureBody(page))!;expect(next.continuation_of).toBeUndefined();
+  if(boundary==='RETENTION')expect(next.retain_shared_life).toBe(true);
+  else expect(next.privacy_class).toBe('PERSONAL');
+  await finishRootStream(page,{receipt_id:next.client_request_id,client_request_id:next.client_request_id,
+    operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC separately scoped reply'}});
+  await expect(page.getByText('SYNTHETIC separately scoped reply',{exact:true})).toBeVisible();
+});
+
+test('SYNTHETIC concurrent continuation waits for admission and respects disabled draft streaming',async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
+  await page.addInitScript(()=>localStorage.setItem('nana-space.preferences.v1',JSON.stringify({streamReplies:false})));
+  await open(page,'chat');await controlledRootStream(page,state,false);const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC not yet admitted');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(async()=>Boolean(await rootFixtureBody(page))).toBe(true);const root=(await rootFixtureBody(page))!;
+  await input.fill('SYNTHETIC early second input');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByText('等前一条回复后再发送；现在还没有送出。',{exact:true})).toBeVisible();
+  expect(state.messageRoutes||[]).toHaveLength(0);
+  await page.evaluate(()=>(window as Window & {nanaStreamFixture?:{admit:()=>void}}).nanaStreamFixture!.admit());
+  await expect.poll(()=>state.messageRoutes?.length).toBe(1);
+  const child=state.messageRoutes![0].request().postDataJSON();expect(child.continuation_of).toBe(root.client_request_id);
+  await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toHaveCount(0);
+  await state.messageRoutes![0].fulfill({status:200,json:envelope(state,{receipt_id:child.client_request_id,
+    state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC early input received'}})});
+  await finishRootStream(page,{receipt_id:root.client_request_id,client_request_id:root.client_request_id,
+    operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC first result'}});
+  await expect(page.getByText('SYNTHETIC early input received',{exact:true})).toBeVisible();
+});

@@ -278,12 +278,17 @@ class ControlServer:
                 observation.privacy_class,observation.origin)
 
     def _continuation_pending(self,surface,topic,privacy,retained):
-        """Inspect admitted bytes and indexed event metadata at C's safe point.
+        """Admit bytes already at the socket before committing an unsent draft.
 
-        No C reentry, Store writes, new inference or irreversible effect.
+        The model may finish between transport progress ticks. Use the existing
+        urgent lane once at this safe point; messages only queue, never reenter C.
+        Only the original restrictive controls may execute, as during model wait.
         """
-        if retained or surface is None or self.active_observation is None or not self.pending_inputs:
+        if retained or surface is None or self.active_observation is None:
             return False
+        for _ in range(MAX_PENDING_INPUTS+1):
+            if not self.poll(urgent_only=True):break
+        if not self.pending_inputs:return False
         active=self.active_observation
         if (surface.session_id!=active.binding_id or surface.conversation_id!=active.thread_id
                 or topic!=active.topic or privacy!=active.privacy_class):return False

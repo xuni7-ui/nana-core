@@ -1,0 +1,29 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_actual_start_pause_stop_restart_and_sigkill _______________
+
+tmp_path = PosixPath('/tmp/nana-continuation-cli-first/test_actual_start_pause_stop_r0')
+
+    def test_actual_start_pause_stop_restart_and_sigkill(tmp_path):
+        home, binding, release = owned(tmp_path)
+        s = Supervisor(home, tmp_path / "host", binding, [release], active_release="qualified")
+        try:
+            first = s.start()
+            assert first["process_ready"] and first["owner_managed"]
+            with pytest.raises(ApiError, match="CORE_ALREADY_OWNED"):
+                s.start()
+            from nana_core.life.control import request
+    
+            capability=request(home,{'operation':'view','view':'status'})['result']['conversation_continuation']
+>           assert capability=={'schema_version':1,'max_pending':1,'retained_coalescing':False,'enabled':True}
+E           AssertionError: assert {'schema_vers...abled': False} == {'schema_vers...nabled': True}
+E             
+E             Omitting 3 identical items, use -vv to show
+E             Differing items:
+E             {'enabled': False} != {'enabled': True}
+E             Use -v to get more diff
+
+tests/first_life_android_v2/test_supervisor.py:54: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_supervisor.py::test_actual_start_pause_stop_restart_and_sigkill
+1 failed, 8 deselected in 1.11s

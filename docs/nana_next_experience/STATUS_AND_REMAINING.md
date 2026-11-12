@@ -115,3 +115,8 @@ BFF不再把Core已审阅未回复误作UNKNOWN，严格nullable/no-speech/sourc
 ### 2026-11-11 原认证HTTP并发接纳增量
 
 docs/nana_next_experience/evidence/http-continuation-20261111/README.md：后端原锁保持，有限同scope child进入原C/各自回执/实际3fixture，无第二主体；13HTTP/22auth/69相关通过。None省略兼容旧指纹，等待全程隐私锚、priority pause、重复无dispatch已证。Web/drain/真实TLS/native/CLI启用仍开发项，非全部阻塞；默认关闭，CURRENT266+409不变。269独立CI155/88/120实核；本批不宣称全仓/安装/真实模型/手机/自然度/长期成长完成。
+
+
+### 2026-11-12 生成期间接续已打通原CLI/Web/真实TLS
+
+docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输入可在生成中进入原C，两源下一回复，旧未发草稿不伪作已发送；正常启动源码启用但非已部署。53相关/41进程授权/93unit/56+12浏览器/实际TLS4视口通过，停机1DEV身份16fixture真实0。保留两轮TLS首错与safe-point首错。APK/手机/最终匹配安装/真实模型/真人自然度/跨日成长/原A–H未完；CURRENT266+409。环境重建后旧/tmp安装及缓存不可假定存在。

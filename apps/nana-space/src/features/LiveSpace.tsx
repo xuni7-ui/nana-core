@@ -32,6 +32,7 @@ import type {
   Envelope,
   CommandRequest,
   HostRequest,
+  MessageRequest,
   ProviderCommand,
 } from "../data/v2.generated";
 import {
@@ -93,6 +94,10 @@ const v3Icons = {
   runtime: Activity,
   settings: Settings,
 };
+type ChatInput = {id: ReturnType<typeof crypto.randomUUID>; input: string; retain: boolean;
+  privacyClass: "PROJECT" | "PERSONAL"; version: number; bodyVersion: number; expiresAt: number};
+type ActiveChat = {owner: object; item: ChatInput; admitted: boolean; claimed: boolean;
+  stopped: boolean; pending: Promise<void> | null; requireModel: boolean};
 const v3Descriptions: Partial<Record<Destination, string>> = {
   memories: "那些被记住的片刻，每一条都值得有来处。",
   models: "认知资源可以更换，奈奈始终是奈奈。",
@@ -244,14 +249,15 @@ export function LiveSpace() {
   const current = useRef<Envelope | null>(null);
   const privacy = useRef("");
   const bodyGeneration = useRef(0);
-  const chatInputs = useRef<Array<{id: ReturnType<typeof crypto.randomUUID>; input: string; retain: boolean;
-    privacyClass: "PROJECT" | "PERSONAL"; version: number; bodyVersion: number; expiresAt: number}>>([]);
+  const chatInputs = useRef<ChatInput[]>([]);
   const chatDrain = useRef<object | null>(null);
+  const activeChat = useRef<ActiveChat | null>(null);
   const [waitingInputs, setWaitingInputs] = useState(0);
-  const clearQueuedInputs = useCallback(() => {
+  const clearQueuedInputs = useCallback((keepDrain = false) => {
     chatInputs.current = []; setWaitingInputs(0);
     setTurns(xs => xs.filter(turn => turn.state !== "WAITING_LOCAL"));
-    if (chatDrain.current) {
+    if (!keepDrain && chatDrain.current) {
+      activeChat.current = null;
       chatDrain.current = null; writePending.current = false; setBusy(false);
     }
   }, []);
@@ -269,7 +275,7 @@ export function LiveSpace() {
     return () => clearTimeout(timer);
   }, [waitingInputs]);
   useEffect(() => () => {
-    chatInputs.current = []; chatDrain.current = null; sessionVersion.current++;
+    chatInputs.current = []; chatDrain.current = null; activeChat.current = null; sessionVersion.current++;
   }, []);
   const previousRun = useRef("");
   const [prefs, setPrefs] = usePreferences();
@@ -661,6 +667,51 @@ export function LiveSpace() {
     setWaitingInputs(chatInputs.current.length);
     setTurns(xs => xs.filter(turn => turn.id !== id));
   };
+  const continueChat = () => {
+    const active = activeChat.current, item = chatInputs.current[0];
+    if (!active || !active.admitted || active.claimed || active.stopped || !item
+        || chatDrain.current !== active.owner || item.retain || active.item.retain
+        || item.privacyClass !== active.item.privacyClass || item.version !== active.item.version
+        || item.bodyVersion !== active.item.bodyVersion || performance.now() >= item.expiresAt) return;
+    active.claimed = true;
+    chatInputs.current.shift(); setWaitingInputs(chatInputs.current.length);
+    setTurns(xs => xs.map(t => t.id === item.id ? {...t,state:"REQUESTED",requestedAt:performance.now()}
+      : t.id === active.item.id ? {...t,provisional:undefined} : t));
+    const currentInput = () => item.version === sessionVersion.current && item.bodyVersion === bodyGeneration.current
+      && chatDrain.current === active.owner;
+    active.pending = (async () => {
+      let dispatched = false;
+      try {
+        const b = await fresh();
+        if (!currentInput()) return;
+        if (performance.now() >= item.expiresAt) {
+          setTurns(xs => xs.map(t => t.id === item.id ? {id:t.id,input:"",state:"LOCAL_EXPIRED"} : t));return;
+        }
+        if (!b.privacy_scope.includes(item.privacyClass)) throw new V2Error("SCOPE_DENIED");
+        const request: MessageRequest = {...writeBase(b,item.id),text:item.input,topic:"daily",thread_id:"nana-space",
+          privacy_class:item.privacyClass,require_model:active.requireModel,retain_shared_life:false,
+          continuation_of:active.item.id};
+        dispatched = true;
+        const result = await client.current.write("message",request);
+        if (!currentInput()) return;
+        updateTurn(item.id,result);
+        if (object(result.data).state !== "VERIFIED") {active.stopped=true;clearQueuedInputs(true);}
+      } catch (e) {
+        if (!currentInput()) return;
+        if (e instanceof V2Error && ["CONTINUATION_WINDOW_CLOSED","REVISION_CONFLICT"].includes(e.code)) {
+          // These exact server errors precede reservation/dispatch. Keep the
+          // original ID and consent; no UNKNOWN request is automatically retried.
+          chatInputs.current.unshift(item);setWaitingInputs(chatInputs.current.length);
+          setTurns(xs => xs.map(t => t.id === item.id ? {...t,state:"WAITING_LOCAL"} : t));
+          return;
+        }
+        active.stopped=true;
+        if (e instanceof V2Error && /SESSION|IDENTITY|CONTRACT|SCOPE/.test(e.code)) {fail(e);return;}
+        setError(explain(e));clearQueuedInputs(true);
+        setTurns(xs => xs.map(t => t.id === item.id ? {id:t.id,input:"",state:dispatched?"UNKNOWN":"REJECTED"} : t));
+      }
+    })();
+  };
   const send = async (retain = false, privacyClass: "PROJECT" | "PERSONAL" = "PROJECT") => {
     if (!draft.trim() || ((busy || writePending.current) && !chatDrain.current) || chatInputs.current.length >= 4) return;
     const owner = chatDrain.current || {};
@@ -671,7 +722,7 @@ export function LiveSpace() {
     setWaitingInputs(chatInputs.current.length);
     setDraft(""); setPersonalDraft(false); setRememberDraft(false);
     setTurns(xs => [...xs.slice(-31), {id: queued.id, input: queued.input, state: "WAITING_LOCAL"}]);
-    if (chatDrain.current) return;
+    if (chatDrain.current) {continueChat();return;}
     chatDrain.current = owner; writePending.current = true; setBusy(true);
     try {
       while (chatDrain.current === owner && chatInputs.current.length) {
@@ -684,6 +735,7 @@ export function LiveSpace() {
           continue;
         }
         let dispatched = false;
+        let active: ActiveChat | null = null;
         let inFlight=[item],receiptId=id;
         setTurns(xs => xs.map(turn => turn.id === id ? {...turn, state: "REQUESTED", requestedAt: performance.now()} : turn));
         try {
@@ -718,31 +770,47 @@ export function LiveSpace() {
             ...(b.capabilities.provider_readiness === true ? {require_model: true} : {}),
             ...(b.capabilities.shared_life_retention === true ? {retain_shared_life: retain} : {}),
           };
+          const canContinue = !grouped && !retain && b.capabilities.conversation_continuation === true;
+          if (canContinue) {
+            active={owner,item,admitted:false,claimed:false,stopped:false,pending:null,
+              requireModel:b.capabilities.provider_readiness===true};
+            activeChat.current=active;
+          }
           dispatched = true;
           const result = grouped
             ? await client.current.write("message.sequence",{...request,messages:inFlight.map(m=>({client_message_id:m.id,text:m.input}))})
-            : b.capabilities.chat_streaming === true && prefs.streamReplies
+            : b.capabilities.chat_streaming === true && (prefs.streamReplies || canContinue)
             ? await client.current.streamMessage({...request,text:input}, progress => {
-                if (version === sessionVersion.current && bodyVersion === bodyGeneration.current)
+                if (version === sessionVersion.current && bodyVersion === bodyGeneration.current) {
+                  if (active) active.admitted=true;
                   setTurns(xs => xs.map(turn => turn.id === id ? {...turn, phase: progress.state,
-                    ...(progress.text !== undefined ? {provisional: progress.text} : {})} : turn));
+                    ...(prefs.streamReplies && !active?.claimed && progress.text !== undefined ? {provisional: progress.text} : {})} : turn));
+                  continueChat();
+                }
               })
             : await client.current.write("message", {...request,text:input});
           if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
           updateTurn(receiptId, result);
+          if (active) {active.admitted=false;await active.pending;}
+          if (active?.stopped) break;
           // An uncertain/rejected original receipt never drains more waiting
           // bodies automatically. Only explicitly new input may start later.
           if (object(result.data).state !== "VERIFIED") { clearQueuedInputs(); break; }
           await refresh().catch(() => {});
         } catch (e) {
+          if (active) {active.admitted=false;await active.pending;}
           if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
-          fail(e);
-          setTurns(inFlight.map(m=>({id:m.id,input:"",state:!dispatched?"REJECTED":m.id===receiptId?"UNKNOWN":"GROUP_PENDING",
-            ...(inFlight.length>1?{receiptId}:{} )})));
+          if (e instanceof V2Error && /SESSION|IDENTITY|CONTRACT|SCOPE/.test(e.code)) {fail(e);break;}
+          setError(explain(e));clearQueuedInputs(true);
+          setTurns(xs=>xs.map(t=>inFlight.some(m=>m.id===t.id)
+            ? {id:t.id,input:"",state:!dispatched?"REJECTED":t.id===receiptId?"UNKNOWN":"GROUP_PENDING",
+              ...(inFlight.length>1?{receiptId}:{} )} : t));
           if (dispatched && e instanceof V2Error && ["UNKNOWN_VERIFY_ONLY", "STREAM_INTERRUPTED_VERIFY_ONLY",
               "INVALID_STREAM", "STREAM_RESPONSE_BOUND", "STREAM_FRAME_BOUND"].includes(e.code))
             await refresh().catch(() => {});
           break;
+        } finally {
+          if (activeChat.current === active) activeChat.current=null;
         }
       }
     } finally {
