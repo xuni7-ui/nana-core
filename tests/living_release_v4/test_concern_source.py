@@ -129,3 +129,45 @@ def test_existing_legacy_event_keeps_its_original_key_before_fresh_retention_che
         restored = concerns.opportunity()
         assert restored.input.source_key == key
         assert runtime.submit(restored) == queue
+
+
+def test_own_occurrence_retains_private_attention_provenance_and_registered_erasure(tmp_path):
+    from nana_core.continuity.autonomy.private_intent import anchor_own_occurrence
+    from nana_core.continuity.subject import SubjectInput
+    from nana_core.continuity import ContinuityStore
+    with fresh(tmp_path/'self.db') as runtime:
+        event=SubjectInput(kind='WAKE',origin='SELF_WAKE',source_key='synthetic.own-occurrence',
+            entity_id=runtime.config.entity_id,scope='world',privacy_class='PERSONAL',observed_at_us=runtime.clock.utc_now_us())
+        rooted=anchor_own_occurrence(runtime.store,event,authority=runtime.authority)
+        own=rooted.source_memory_ids[0];memory=MemoryService(runtime.store,runtime.authority)
+        source_row=runtime.store.one('memories',own)
+        # Metadata is real; it is not meaningful dream material to be repeatedly
+        # summarized instead of the subject's actual experiences.
+        assert runtime.work.maintenance._select((source_row,),'world')==()
+        concerns=ConcernService(runtime,resources=('synthetic://source-proof',))
+        cid=offer(runtime,concerns,'own-concern',(own,))
+        assert binding(runtime.store,runtime.store.one('open_concerns',cid))[1:3]==('SELF_COGNITION','recorded.subject.concern')
+        view=concerns.view()[0]
+        assert view['private_content_withheld'] and view['topic']=='private-content-withheld' and view['motivation']=='PRIVATE_CONTENT_WITHHELD'
+        opportunity=concerns.opportunity();derived=memory.read(opportunity.input.source_memory_ids[0])
+        assert derived['source_provenance']['domain']=='SELF_COGNITION' and derived['epistemic_kind']=='INFERENCE'
+        assert derived['authority']=='INFERRED' and derived['memory_type']=='PROSPECTIVE'
+        from nana_core.continuity.subject.watch import collect_opportunities
+        watched=collect_opportunities(runtime.subject,entity_id=runtime.config.entity_id,now_us=runtime.clock.utc_now_us(),quiet_since_us=0,quiet_window_us=0)
+        assert not any(item.source_id==derived['memory_id'] for item in watched)
+        # The same source may never be promoted to an external observation or
+        # attributed to the recipient by changing MemoryCandidate alone.
+        with pytest.raises(CoreError,match='SELF_COGNITION_IS_OCCURRENCE_NOT_WORLD_CLAIM'):
+            memory.add(MemoryCandidate(entity_id=runtime.config.entity_id,scope='world',memory_type=MemoryType.EPISODIC,
+                epistemic_kind='OBSERVATION',source_evidence_id=source_row['source_evidence_id'],text=memory.read(own)['text']))
+        with pytest.raises(CoreError,match='SELF_COGNITION_DERIVATION_REQUIRES_INFERENCE'):
+            memory.add(MemoryCandidate(entity_id=runtime.config.entity_id,scope='world',memory_type=MemoryType.EPISODIC,
+                epistemic_kind='OBSERVATION',source_evidence_id=derived['source_evidence_id'],text=derived['text']))
+        backup=tmp_path/'inactive'/'private.db';runtime.store.backup(backup)
+        identity=runtime.identity_id
+        memory.forget(own,runtime.authority)
+        assert not concerns.view()
+        with pytest.raises(CoreError,match='SOURCE_DELETED'):anchor_own_occurrence(runtime.store,event,authority=runtime.authority)
+        with ContinuityStore(backup,runtime.clock,schema_target=13) as inactive:
+            assert inactive.identity['identity_id']==identity and inactive.one('memories',own)['lifecycle']=='DELETED'
+        assert not runtime.store.all('actions') and not runtime.store.all('grants')

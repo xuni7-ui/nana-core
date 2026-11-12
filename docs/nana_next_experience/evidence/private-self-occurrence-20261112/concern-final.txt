@@ -1,0 +1,55 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_own_occurrence_retains_private_attention_provenance_and_registered_erasure _
+
+tmp_path = PosixPath('/tmp/piselfd/test_own_occurrence_retains_pr0')
+
+    def test_own_occurrence_retains_private_attention_provenance_and_registered_erasure(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import anchor_own_occurrence
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity import ContinuityStore
+        with fresh(tmp_path/'self.db') as runtime:
+            event=SubjectInput(kind='WAKE',origin='SELF_WAKE',source_key='synthetic.own-occurrence',
+                entity_id=runtime.config.entity_id,scope='world',privacy_class='PERSONAL',observed_at_us=runtime.clock.utc_now_us())
+            rooted=anchor_own_occurrence(runtime.store,event,authority=runtime.authority)
+            own=rooted.source_memory_ids[0];memory=MemoryService(runtime.store)
+            source_row=runtime.store.one('memories',own)
+            # Metadata is real; it is not meaningful dream material to be repeatedly
+            # summarized instead of the subject's actual experiences.
+            assert runtime.work.maintenance._select((source_row,),'world')==()
+            concerns=ConcernService(runtime,resources=('synthetic://source-proof',))
+            cid=offer(runtime,concerns,'own-concern',(own,))
+            assert binding(runtime.store,runtime.store.one('open_concerns',cid))[1:3]==('SELF_COGNITION','recorded.subject.concern')
+            view=concerns.view()[0]
+            assert view['private_content_withheld'] and view['topic']=='private-content-withheld' and view['motivation']=='PRIVATE_CONTENT_WITHHELD'
+            opportunity=concerns.opportunity();derived=memory.read(opportunity.input.source_memory_ids[0])
+            assert derived['source_provenance']['domain']=='SELF_COGNITION' and derived['epistemic_kind']=='INFERENCE'
+            assert derived['authority']=='INFERRED' and derived['memory_type']=='PROSPECTIVE'
+            # The same source may never be promoted to an external observation or
+            # attributed to the recipient by changing MemoryCandidate alone.
+            with pytest.raises(CoreError,match='SELF_COGNITION_IS_OCCURRENCE_NOT_WORLD_CLAIM'):
+                memory.add(MemoryCandidate(entity_id=runtime.config.entity_id,scope='world',memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=source_row['source_evidence_id'],text=memory.read(own)['text']))
+            with pytest.raises(CoreError,match='SELF_COGNITION_DERIVATION_REQUIRES_INFERENCE'):
+                memory.add(MemoryCandidate(entity_id=runtime.config.entity_id,scope='world',memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=derived['source_evidence_id'],text=derived['text']))
+            backup=tmp_path/'inactive'/'private.db';runtime.store.backup(backup)
+            identity=runtime.identity_id
+>           memory.forget(own,runtime.authority)
+
+tests/living_release_v4/test_concern_source.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7fc0314452e0>
+memory_id = '93da46c2-70e1-44fb-88cb-d40de7d958b0'
+authority = <nana_core.actions.OperatorAuthority object at 0x7fc031705610>
+
+    def forget(self, memory_id, authority):
+        if self._authority is None or authority is not self._authority:
+>           raise CoreError("UNAUTHENTICATED_OPERATOR")
+E           nana_core.contracts.CoreError: UNAUTHENTICATED_OPERATOR
+
+src/nana_core/continuity/memory.py:496: CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_concern_source.py::test_own_occurrence_retains_private_attention_provenance_and_registered_erasure
+1 failed, 8 deselected in 0.40s

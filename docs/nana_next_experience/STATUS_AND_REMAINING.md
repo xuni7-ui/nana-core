@@ -155,3 +155,7 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 私念生命周期与精确复审增量
 
 同一原INTENTION家族V2可暂停/复启/放弃/再采纳，PrivateIntentRef在C前绑定当前版本，原C后增量更新；普通D事件不擅改私念，暂停不抹兴趣。源撤回/隔离备份payload、旧读者忽略后返回新源保留、portable已知cache剥离、70header不挤另一兴趣有受控证据。最终176相关+2短路径宿主通过，不冒一次全仓。旧32/64容量与内部内容投影/新问/多轮策略/S8等仍待，当前下一修SocialPrivacy误伤非社交思考。证据private-activity-lifecycle-20261112；CURRENT266+409/生产未动。
+
+### 2026-11-12 内生发生支持补齐
+
+没有旧Memory/Project时不再丢掉有效私问；新SELF_COGNITION只观察一次原程序候选验证，私问保持猜想/私密/无执行权。173相关+最终watch9及三隐私组/注册备份撤回通过，非商业/跨日/全部完成。原相关只列表/内容/已有源新问的部分继承为已实现，本次见evidence/private-self-occurrence-20261112。下一真实关系投影/策略与商业融合；A–H/发行资格继续。

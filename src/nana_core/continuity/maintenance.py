@@ -124,7 +124,7 @@ class MaintenanceService:
             if (not self._visible(row['memory_id']) or row['epistemic_kind'] not in {'OBSERVATION','STATEMENT'}
                     or (row['predicate_key'] or '').startswith('concern.')):continue
             source=self.records.memory.read(row['memory_id'])
-            if source['source_provenance']['domain']=='LOCAL_INTERACTION_METADATA':continue
+            if source['source_provenance']['domain'] in {'LOCAL_INTERACTION_METADATA','SELF_COGNITION'}:continue
             candidates.append(source)
         important=set()
         for table,states in (('commitments',('ADOPTED','ACTIVE')),('projects',('ACTIVE','PAUSED'))):

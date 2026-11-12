@@ -130,3 +130,26 @@ def test_sparse_ranking_matches_independent_order_and_falls_back_without_index(c
     store.db.execute('DROP INDEX memory_terms_term_lookup')
     assert [r['memory_id'] for r in memory.query(**args,query_terms=('needle','anchor'))] == [x[0] for x in sorted(expected,key=lambda x:(-len(set(re.findall(r'\w{2,64}',x[1])) & {'needle','anchor'}),-x[2],x[3]))][:128]
     assert memory.query(**{**args,'privacy_classes':('PUBLIC',)},query_terms=('needle',)) == []
+
+
+@pytest.mark.parametrize('fault',['no-authority','statement','private-body','foreign-namespace','consent'])
+def test_self_cognition_provenance_cannot_mint_external_claim_or_private_transcript(tmp_path,fault):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity.contracts import SELF_COGNITION_OCCURRENCE_TEXT
+    from nana_core.continuity import IdentityService
+    from nana_core.presence.authority import VirtualClock
+    with ContinuityStore(tmp_path/'own.db',VirtualClock(),schema_target=13) as store:
+        IdentityService(store,OperatorAuthority())
+        values=dict(domain='SELF_COGNITION',source_namespace='recorded.subject.cognition-occurrence',
+            source_reference='self.'+'a'*64,source_kind='SYSTEM_VERIFICATION')
+        body=SELF_COGNITION_OCCURRENCE_TEXT
+        if fault=='statement':values['source_kind']='USER_STATEMENT'
+        if fault=='private-body':body='Unverified private guess is not an observed world fact'
+        if fault=='foreign-namespace':values['source_namespace']='recorded.external'
+        with pytest.raises((CoreError,ValidationError)):
+            MemoryService(store,None if fault=='no-authority' else OperatorAuthority()).capture(EvidenceInput(
+                provenance=Provenance(**values),text=body,privacy_class='PERSONAL',observed_time_us=store.clock.utc_now_us(),
+                retention_consent_ref='not-consent' if fault=='consent' else None))
+        assert not store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace LIKE 'recorded.subject.%'").fetchone()
+        with pytest.raises(ValidationError):
+            Provenance(domain='RECORDED_PUBLIC',source_namespace='recorded.subject.cognition-occurrence',source_reference='x',source_kind='DIRECT_OBSERVATION')

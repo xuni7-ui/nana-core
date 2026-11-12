@@ -602,6 +602,13 @@ class SubjectLoop:
         context = assembler.assemble(request, policy, subject_frame=frame,capabilities=capabilities,limitations=limitations)
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
+        if self.store.schema_target>=13 and not situation.memory_ids and not situation.support_record_ids:
+            from ..autonomy.private_intent import consider_question,anchor_own_occurrence
+            _,judgment,intention=decide(event,situation,appraisal,motives)
+            if consider_question(event,situation,judgment,intention,result.proposal.private_question) is not None:
+                # The recorded fact is this validated candidate occurrence. It
+                # is not a new external observation or an adopted world belief.
+                event=anchor_own_occurrence(self.store,event,authority=authority)
         return self.run(event, expected_revision=revision, _deliberation=result)
 
     def maintain(self):
