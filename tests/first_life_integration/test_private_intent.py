@@ -1104,12 +1104,13 @@ def test_c_can_reconsider_association_without_inventing_a_changed_question(tmp_p
     home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
     with LifeApplication(home) as app:
         r=app.runtime;_,_,seed=choose(app);r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
-        def propose(key,text,related=(),revises=None):
+        def propose(key,text,related=(),revises=None,clear=False):
             class AssociationRevisionFixture:
                 descriptor='offline-association-revision-fixture'
                 def propose(self,request):
                     base=json.loads(AnalyticalFixturePort().propose(request))
                     base['private_question']={'topic':'creative-project','question':text,'related_private_record_ids':related,'revises_record_id':revises}
+                    if clear:base['private_question']['clear_related_private_records']=True
                     return json.dumps(base)
             r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
                 kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
@@ -1125,4 +1126,18 @@ def test_c_can_reconsider_association_without_inventing_a_changed_question(tmp_p
         assert next(v for v in projection if v['record_id']==rid)['related_private_record_ids']==(b,)
         same,unchanged=propose('same-association',updated.content_summary,(b,),rid)
         assert same==rid and unchanged.revision==updated.revision
+        cleared_rid,cleared=propose('clear-association',updated.content_summary,revises=rid,clear=True)
+        assert cleared.intent_id==updated.intent_id and cleared.revision==updated.revision+1
+        count=r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]
+        from pydantic import ValidationError
+        with pytest.raises(ValidationError):propose('ambiguous-clear-and-replace',cleared.content_summary,(b,),cleared_rid,clear=True)
+        with pytest.raises(ValidationError):propose('unbound-clear',cleared.content_summary,clear=True)
+        assert r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]==count
+        projection=internal_projection(r.store,(cleared_rid,),scope='project-work',privacy_classes=('PROJECT',))
+        assert {v['record_id'] for v in projection}=={cleared_rid} and cleared.content_summary==original.content_summary
+        assert {qa.intent_id,qb.intent_id}<={v.intent_id for _,v in candidates(r.store,'project-work',('PROJECT',))}
+        private_choice(app,'pause-after-association-clear','REST',intent_id=cleared.intent_id)
+        paused_rid,paused=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==cleared.intent_id)
+        assert paused.activity_state=='PAUSED'
+        assert {v['record_id'] for v in internal_projection(r.store,(paused_rid,),scope='project-work',privacy_classes=('PROJECT',))}=={paused_rid}
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('lessons')

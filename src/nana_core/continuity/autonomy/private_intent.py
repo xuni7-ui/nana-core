@@ -5,7 +5,7 @@ has no scheduler, model, execution kernel or authority to grant/revoke anything.
 """
 import json
 from typing import Literal
-from pydantic import Field,model_serializer
+from pydantic import Field,model_serializer,model_validator
 from ...contracts import DTO,CoreError
 from ..records import RecordService
 from .disclosure import expectation
@@ -53,12 +53,20 @@ class PrivateQuestionProposal(DTO):
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     question:str=Field(min_length=1,max_length=512)
     related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
+    clear_related_private_records:bool=False
     revises_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+
+    @model_validator(mode='after')
+    def unambiguous_association_choice(self):
+        if self.clear_related_private_records and (self.revises_record_id is None or self.related_private_record_ids):
+            raise ValueError('clearing associations requires one current revision and no replacement links')
+        return self
 
     @model_serializer(mode='wrap')
     def compatible_wire(self,handler):
         value=handler(self)
         if self.revises_record_id is None:value.pop('revises_record_id',None)
+        if not self.clear_related_private_records:value.pop('clear_related_private_records',None)
         return value
 
 
@@ -315,7 +323,11 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
             rid,item=old
             reframed=item.content_summary!=private_question.question or item.topic!=private_question.topic
             previous_associations=_association_record_ids(store,rid,owner_intent_id=item.intent_id,scope=event.scope,privacy_classes=privacy_classes)
-            associations=tuple(dict.fromkeys(x for x in private_question.related_private_record_ids if x!=rid)) or previous_associations
+            # Clear the current association projection, not the related ideas
+            # or their original source/erasure lineage. Omission keeps old wire
+            # semantics; it is never silently interpreted as abandonment.
+            associations=() if private_question.clear_related_private_records else (
+                tuple(dict.fromkeys(x for x in private_question.related_private_record_ids if x!=rid)) or previous_associations)
             association_changed=set(associations)!=set(previous_associations)
             if reframed or association_changed or item.activity_state!='ACTIVE':
                 changes={'content_summary':private_question.question,'topic':private_question.topic,'activity_state':'ACTIVE',

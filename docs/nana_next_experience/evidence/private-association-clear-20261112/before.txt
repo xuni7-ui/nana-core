@@ -1,0 +1,72 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_c_can_reconsider_association_without_inventing_a_changed_question ____
+
+tmp_path = PosixPath('/dev/shm/piclearb/test_c_can_reconsider_associat0')
+
+    def test_c_can_reconsider_association_without_inventing_a_changed_question(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import internal_projection
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            r=app.runtime;_,_,seed=choose(app);r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+            def propose(key,text,related=(),revises=None,clear=False):
+                class AssociationRevisionFixture:
+                    descriptor='offline-association-revision-fixture'
+                    def propose(self,request):
+                        base=json.loads(AnalyticalFixturePort().propose(request))
+                        base['private_question']={'topic':'creative-project','question':text,'related_private_record_ids':related,'revises_record_id':revises}
+                        if clear:base['private_question']['clear_related_private_records']=True
+                        return json.dumps(base)
+                r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                    kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                    model=AssociationRevisionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='association-revision',allowed_scopes=('project-work',),readable_privacy=('PROJECT',)))
+                return next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.content_summary==text)
+            a,qa=propose('first-question','SYNTHETIC own question about one possible explanation')
+            b,qb=propose('second-question','SYNTHETIC own question about a different explanation')
+            old,original=propose('linked-question','SYNTHETIC same question whose association changes',(a,))
+            rid,updated=propose('reconsider-link',original.content_summary,(b,),old)
+            assert updated.intent_id==original.intent_id and updated.revision==original.revision+1
+            projection=internal_projection(r.store,(rid,),scope='project-work',privacy_classes=('PROJECT',))
+            assert {v['record_id'] for v in projection}=={rid,b}
+            assert next(v for v in projection if v['record_id']==rid)['related_private_record_ids']==(b,)
+            same,unchanged=propose('same-association',updated.content_summary,(b,),rid)
+            assert same==rid and unchanged.revision==updated.revision
+>           cleared_rid,cleared=propose('clear-association',updated.content_summary,revises=rid,clear=True)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:1129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/first_life_integration/test_private_intent.py:1115: in propose
+    r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+src/nana_core/continuity/subject/loop.py:603: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.cognition.DeliberationSession object at 0x7fb19d6b3740>
+model = <test_private_intent.test_c_can_reconsider_association_without_inventing_a_changed_question.<locals>.propose.<locals>.AssociationRevisionFixture object at 0x7fb19d460680>
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='5b56c87b-ae2b-49a7-9bd4-5909b4c2b23b', identity...af-0db6-45d2-a13b-d15d75a788a3',))), content_digest='fb5cfd83041b57df8459ae284cfcce84298fbc644dadc7e31d1d61cc6edf71dc')
+request = ContextRequest(schema_version=1, entity_id='project-user', scopes=('project-work',), task_class='subject_deliberation'...ivacy_class='PROJECT', query_terms=(), destination='LOCAL_FIXTURE', max_input_tokens=65536, output_reserve_tokens=4096)
+policy = ContextPolicy(policy_id='association-revision', allowed_scopes=('project-work',), readable_privacy=('PROJECT',), remote_privacy=())
+
+    def run(self, model: ContinuityModelPort, context, request, policy):
+        self.assembler.validate(context, request, policy)
+        envelope = FrozenModelInput(task_class=request.task_class,
+            context_json=context.model_dump_json(), context_digest=context.content_digest)
+        # The adapter gets immutable serialized data, no service/authority handles.
+        raw = model.propose(envelope)
+        if type(raw) is not str or len(raw.encode()) > 32768:
+            raise CoreError("INVALID_COGNITIVE_REPLY")
+>       proposal = CognitiveProposal.model_validate_json(raw)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for CognitiveProposal
+E       private_question.clear_related_private_records
+E         Extra inputs are not permitted [type=extra_forbidden, input_value=True, input_type=bool]
+E           For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+
+src/nana_core/continuity/cognition.py:65: ValidationError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_c_can_reconsider_association_without_inventing_a_changed_question
+1 failed, 57 deselected in 0.67s

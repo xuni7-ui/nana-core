@@ -56,3 +56,9 @@
 原Anthropic跟随校验last_id，保持同HTTPShost/native headers，单次8页/256KiB/256模型与十秒后续机会窗口；循环/缺失/非法cursor诚实partial，不重试auth失败，不新增推理。前端提示partial并可手填未列出名字。32相关17.53s、TS/Vite及四视口8合成浏览器通过12.7s；首次编辑器未打开、修夹具相对路径错误及无效重跑中止日志如实保留。见evidence/model-catalog-pagination-20261112，源码表锚 fad1dcaf6b14dd01def3dc3239a7a5b9bc3df35bc868b02a5e737fd7747cf13b。
 
 独立先前CI实读：55805d5 Core114pass32.64s/clientSKIP；53f0db9 client93unit/148browser、CoreSKIP。非本批/全仓。下一回原C关联独立清除（现空list沿旧语义保留关系），再商业持续策略/保留/反馈和原A–H。无真实模型/手机/生产/新匹配安装；APK最后统一必要构建。
+
+## 最新内心取舍：保留问题，解除联系
+
+原C可明确clear当前联系，保留问题文本/intent，版本增量；旧空list仍为保持，默认false从wire省略。原其他思想/源依赖不删，暂停不会恢复被放下的联系；含糊clear+替代/无target在原认知解析拒绝。冻结1fail→1pass，最终私念/Context/C/portable66通过6.66s，见evidence/private-association-clear-20261112，源码表锚 3664756a7f4d41065ab01cd114f020819b7821bee77630a495d042876d6ffd75。没有新增模型阶段或实际权限。
+
+下一源码已定位：原PrivateIntent.category PRIVATE_PLAN仅DTO存在，无原C创建该类内容的消费者；直接复用原V2/PrivateActivity及原cognize/源发生/精准生命周期补接，不另建计划权威。商业持续策略/保留/真实反馈/自发机会和原A–H仍在。最终匹配安装/真实模型/手机/生产/自然度/跨日成长未资格。
