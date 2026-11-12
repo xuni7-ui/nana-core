@@ -1004,3 +1004,125 @@ def test_private_timing_source_withdrawal_cannot_reveal_after_restart(tmp_path):
         assert not candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
         assert not metadata(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
         assert inspect(home,scope='project-work',entity_id='project-user').private_activity!='PRESENT_CONTENT_WITHHELD'
+
+
+def test_cross_topic_private_association_changes_later_c_choice_without_public_disclosure(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextAssembler,ContextPolicy,ContextRequest
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    parent_text='SYNTHETIC question: Could quiet observation reveal a different creative method?'
+    child_text='SYNTHETIC question: Could I explore the associated new story direction?'
+    policy=ContextPolicy(policy_id='cross-topic-association',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+    calls=[]
+    def think(app,key,focus,model):
+        r=app.runtime
+        return r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic=focus,observed_at_us=r.clock.utc_now_us()),
+            model=model,authority=r.authority,policy=policy)
+    class QuestionFixture:
+        descriptor='offline-associated-question-fixture'
+        def __init__(self,topic,text,related=(),revises=None):self.topic,self.text,self.related,self.revises=topic,text,related,revises
+        def propose(self,request):
+            calls.append(json.loads(request.context_json));base=json.loads(AnalyticalFixturePort().propose(request))
+            base['private_question']={'topic':self.topic,'question':self.text,'related_private_record_ids':self.related,'revises_record_id':self.revises}
+            return json.dumps(base)
+    with LifeApplication(home) as app:
+        _,_,seed=choose(app);r=app.runtime
+        r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        think(app,'association-parent','creative-project',QuestionFixture('old-question',parent_text))
+        parent_rid,parent=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.topic=='old-question')
+        think(app,'association-child','old-question',QuestionFixture('new-direction',child_text,(parent_rid,)))
+        child_rid,child=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.topic=='new-direction')
+        assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? AND relation_kind='SUPPORT'",(child_rid,parent_rid)).fetchone()
+        identity=r.identity_id
+    with LifeApplication(home) as app:
+        r=app.runtime;assert r.identity_id==identity
+        projected=private_intent.internal_projection(r.store,(child_rid,),scope='project-work',privacy_classes=('PROJECT',))
+        assert {p['record_id'] for p in projected}=={child_rid,parent_rid}
+        child_view=next(p for p in projected if p['record_id']==child_rid)
+        assert child_view['related_private_record_ids']==(parent_rid,)
+        assert child_view['association_semantics']=='OWN_ASSOCIATION_NOT_WORLD_CAUSATION_OR_PRIORITY'
+        class AssociationSensitiveFixture:
+            descriptor='offline-association-choice-fixture'
+            def propose(self,request):
+                data=json.loads(request.context_json);calls.append(data)
+                own=[json.loads(b['data_json']) for b in data['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                linked=any(p['record_id']==child_rid and parent_rid in p.get('related_private_record_ids',()) for p in own)
+                if linked and any(p['content_summary']==parent_text for p in own):base['proposed_operations']=['WAIT']
+                return json.dumps(base)
+        real_projection=private_intent.internal_projection
+        with monkeypatch.context() as patch:
+            def flat(*args,**kwargs):return real_projection(*args,**{**kwargs,'include_associations':False})
+            patch.setattr(private_intent,'internal_projection',flat)
+            before=think(app,'association-off','new-direction',AssociationSensitiveFixture())
+        after=think(app,'association-on','new-direction',AssociationSensitiveFixture())
+        assert before.intention.kind!='WAIT' and after.intention.kind=='WAIT'
+        assert len(calls)==4 and {v['manifest']['input_limit'] for v in calls[-2:]}=={61440}
+        assert calls[-1]['manifest']['input_tokens']<=61440
+        assert parent_text not in after.model_dump_json() and child_text not in after.model_dump_json()
+        assert parent_text not in json.dumps(app.board(),ensure_ascii=False)
+        ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='project-user',scopes=('project-work',),
+            task_class='public-review',task='Review actual public source',task_privacy_class='PROJECT'),policy)
+        assert parent_text not in ordinary.model_dump_json() and child_text not in ordinary.model_dump_json()
+        assert not private_intent.internal_projection(r.store,(child_rid,),scope='another-scope',privacy_classes=('PROJECT',))
+        assert not private_intent.internal_projection(r.store,(child_rid,),scope='project-work',privacy_classes=('PUBLIC',))
+        assert not r.store.all('actions') and not r.store.all('grants')
+        print('PRIVATE_ASSOCIATION_ABLATION',json.dumps({'before_kind':before.intention.kind,'after_kind':after.intention.kind,
+            'input_limit':[v['manifest']['input_limit'] for v in calls[-2:]],'input_units':[v['manifest']['input_tokens'] for v in calls[-2:]],
+            'counter':calls[-1]['manifest']['counter'],'fixture_calls_per_choice':1,'real_provider_calls':0}))
+        revised=think(app,'revise-associated-question','new-direction',QuestionFixture('new-direction',child_text+' Reconsidered.',revises=child_rid))
+        assert revised.intention.behavior=='REFLECT'
+        child_rid,child=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==child.intent_id)
+        assert child.revision==2
+        assert {p['record_id'] for p in private_intent.internal_projection(r.store,(child_rid,),scope='project-work',privacy_classes=('PROJECT',))}=={child_rid,parent_rid}
+        from nana_core.continuity.subject.opportunities import PrivateIntentRef
+        def review(rid,item,behavior,key):
+            cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=item.topic,motivation_source='CREATIVE_INTEREST',possible_behaviors=(behavior,),
+                private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision),resource_class='ORDINARY')
+            mid=capture(r,key,cue.model_dump(mode='json'),predicate='concern.'+key)
+            return r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,)))
+        review(child_rid,child,'REST','pause-associated-question')
+        paused_rid,paused=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==child.intent_id)
+        assert paused.activity_state=='PAUSED'
+        assert {p['record_id'] for p in private_intent.internal_projection(r.store,(paused_rid,),scope='project-work',privacy_classes=('PROJECT',))}=={paused_rid,parent_rid}
+        review(parent_rid,parent,'WITHDRAW','abandon-related-question')
+        projection=private_intent.internal_projection(r.store,(paused_rid,),scope='project-work',privacy_classes=('PROJECT',))
+        assert {p['record_id'] for p in projection}=={paused_rid}
+        assert parent_text not in json.dumps(projection,ensure_ascii=False)
+        app.forget(parent.source_memory_ids[0])
+        assert not private_intent.internal_projection(r.store,(paused_rid,),scope='project-work',privacy_classes=('PROJECT',))
+        assert len(calls)==5
+
+
+def test_c_can_reconsider_association_without_inventing_a_changed_question(tmp_path):
+    from nana_core.continuity.autonomy.private_intent import internal_projection
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        r=app.runtime;_,_,seed=choose(app);r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        def propose(key,text,related=(),revises=None):
+            class AssociationRevisionFixture:
+                descriptor='offline-association-revision-fixture'
+                def propose(self,request):
+                    base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':'creative-project','question':text,'related_private_record_ids':related,'revises_record_id':revises}
+                    return json.dumps(base)
+            r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                model=AssociationRevisionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='association-revision',allowed_scopes=('project-work',),readable_privacy=('PROJECT',)))
+            return next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.content_summary==text)
+        a,qa=propose('first-question','SYNTHETIC own question about one possible explanation')
+        b,qb=propose('second-question','SYNTHETIC own question about a different explanation')
+        old,original=propose('linked-question','SYNTHETIC same question whose association changes',(a,))
+        rid,updated=propose('reconsider-link',original.content_summary,(b,),old)
+        assert updated.intent_id==original.intent_id and updated.revision==original.revision+1
+        projection=internal_projection(r.store,(rid,),scope='project-work',privacy_classes=('PROJECT',))
+        assert {v['record_id'] for v in projection}=={rid,b}
+        assert next(v for v in projection if v['record_id']==rid)['related_private_record_ids']==(b,)
+        same,unchanged=propose('same-association',updated.content_summary,(b,),rid)
+        assert same==rid and unchanged.revision==updated.revision
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('lessons')

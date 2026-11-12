@@ -130,7 +130,7 @@ def decision_support(store,scope,privacy_classes,*,topic):
         and getattr(item,'activity_state','ACTIVE')!='ABANDONED')
 
 
-def internal_projection(store,record_ids,*,scope,privacy_classes):
+def internal_projection(store,record_ids,*,scope,privacy_classes,include_associations=True):
     """Only C-selected own current thoughts, for its existing deliberation.
 
     This is not recipient disclosure. The caller's original context assembler
@@ -155,7 +155,28 @@ def internal_projection(store,record_ids,*,scope,privacy_classes):
             'updated_at_us':getattr(item,'updated_at_us',head['created_at_us']),
             'epistemic_status':getattr(item,'epistemic_status','OWN_TENDENCY_NOT_WORLD_FACT'),'disclosure_policy':item.disclosure_policy,
             'recipient_disclosure':False,'execution_authority':False})
+    if include_associations:
+        selected=tuple(out);by_id={item['record_id']:item for item in out}
+        for item in selected:
+            links=_association_record_ids(store,item['record_id'],owner_intent_id=item['intent_id'],scope=scope,privacy_classes=privacy_classes)
+            if not links:continue
+            item['related_private_record_ids']=links
+            item['association_semantics']='OWN_ASSOCIATION_NOT_WORLD_CAUSATION_OR_PRIORITY'
+            # One direct association step from a thought already selected by C.
+            # Each extra block still competes in the complete context budget.
+            for related in internal_projection(store,links,scope=scope,privacy_classes=privacy_classes,include_associations=False):
+                if related['record_id'] in by_id:continue
+                related['selection_basis']='DIRECT_ASSOCIATION_OF_C_SELECTED_THOUGHT'
+                by_id[related['record_id']]=related;out.append(related)
     return tuple(out)
+
+
+def _association_record_ids(store,record_id,*,owner_intent_id,scope,privacy_classes):
+    # These are the existing explicit private support edges, not a similarity
+    # graph, a full history walk, or the previous revision of this same idea.
+    ids=tuple(row[0] for row in store.db.execute("SELECT d.parent_id FROM record_dependencies d JOIN continuity_records r ON r.record_id=d.parent_id WHERE d.record_id=? AND d.parent_kind='RECORD' AND d.relation_kind='SUPPORT' AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' ORDER BY d.parent_id",(record_id,)))
+    return tuple(item['record_id'] for item in internal_projection(store,ids,scope=scope,privacy_classes=privacy_classes,include_associations=False)
+        if item['intent_id']!=owner_intent_id)
 
 
 def review_target(store,reference,*,scope,privacy_classes,topic):
@@ -281,7 +302,8 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                     updated_at_us=store.clock.utc_now_us(),last_choice_cycle_id=result.cycle_id)
                 revised=(PrivateQuestion if isinstance(item,PrivateQuestion) else PrivateActivity).model_validate_json(json.dumps(data))
             else:revised=PrivateIntent.model_validate_json(json.dumps(data))
-            parents=(rid,result.record_id) if 'activity_state' in changes or 'content_summary' in changes else (rid,)
+            associations=_association_record_ids(store,rid,owner_intent_id=item.intent_id,scope=event.scope,privacy_classes=privacy_classes)
+            parents=(rid,result.record_id,*associations) if 'activity_state' in changes or 'content_summary' in changes else (rid,*associations)
             records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),records=parents,
                 supersedes=rid,target_id='private-intent.v1')
     if (private_question is not None and result.intention_id and result.record_id
@@ -292,17 +314,20 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                     or old[1].status=='WITHDRAWN' or old[1].disclosure_policy=='WITHDRAWN'):raise CoreError('PRIVATE_QUESTION_REVISION_UNAVAILABLE')
             rid,item=old
             reframed=item.content_summary!=private_question.question or item.topic!=private_question.topic
-            if reframed or item.activity_state!='ACTIVE':
+            previous_associations=_association_record_ids(store,rid,owner_intent_id=item.intent_id,scope=event.scope,privacy_classes=privacy_classes)
+            associations=tuple(dict.fromkeys(x for x in private_question.related_private_record_ids if x!=rid)) or previous_associations
+            association_changed=set(associations)!=set(previous_associations)
+            if reframed or association_changed or item.activity_state!='ACTIVE':
                 changes={'content_summary':private_question.question,'topic':private_question.topic,'activity_state':'ACTIVE',
                     'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
                     'source_memory_ids':result.intention.source_ids}
-                if reframed:
+                if reframed or association_changed:
                     # Old eligibility/timing never discloses new private contents.
                     changes.update(disclosure_policy='MANAGER_AUDIT_ONLY' if item.disclosure_policy=='MANAGER_AUDIT_ONLY' else 'PRIVATE_FOR_NOW',
                         status='CONSIDERED',trigger_at_us=None)
                 revised=item.model_copy(update=changes)
                 records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),
-                    records=tuple(dict.fromkeys((rid,result.record_id,*private_question.related_private_record_ids))),
+                    records=tuple(dict.fromkeys((rid,result.record_id,*associations))),
                     supersedes=rid,target_id='private-intent.v1')
             _complete_question_formation(store,tx,result.intention_id)
             return

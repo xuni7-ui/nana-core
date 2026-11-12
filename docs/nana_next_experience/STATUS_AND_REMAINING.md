@@ -159,3 +159,7 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 内生发生支持补齐
 
 没有旧Memory/Project时不再丢掉有效私问；新SELF_COGNITION只观察一次原程序候选验证，私问保持猜想/私密/无执行权。173相关+最终watch9及三隐私组/注册备份撤回通过，非商业/跨日/全部完成。原相关只列表/内容/已有源新问的部分继承为已实现，本次见evidence/private-self-occurrence-20261112。下一真实关系投影/策略与商业融合；A–H/发行资格继续。
+
+### 2026-11-12 原私念联系的后续决策因果
+
+一层当前自有联系由原Record进入既有C Context；可单独修订关系/随原问题暂停延续，停止当前关联投影不抹原始追源。原Store重启同预算消融NO_ACTION→WAIT，114相关及后补2/最终58通过，+1105估算非Token。不是通用思想网络/商业持续策略/长期自主生活完成，后者及原A–H继续。见evidence/private-association-20261112。

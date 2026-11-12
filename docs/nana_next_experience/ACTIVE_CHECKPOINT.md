@@ -37,4 +37,10 @@
 
 原C在原模型一次调用验证候选后，缺旧支持才记真实SELF_COGNITION发生根；三隐私组新问题可保存/重启，重放0调用，原来源撤回及注册inactive备份擦除。新根为固定程序元数据，不把想法变世界事实；私问仍默认private/no authority。173相关40.45s+最终watch9通过0.64s，3原版首错和夹具错误保留，见evidence/private-self-occurrence-20261112，源码表锚 1ad81a5564fa87228342dd847b4521c36485d3167c94a685d7551a868bb646e0。旧071独立CI43195508611已实读245pass/1warning61.87s，clientSKIP；不是本源码CI或全仓。
 
-下一具体工作：多个内部倾向的关联/冲突目前仅record依赖，Context投影未显式保留有意义的关系；检查并扩展既有PrivateQuestion原投影而不造图Store。随后商业INTERPRET/C/RENDER私念/持续交流策略与明确反馈，原A–H照旧。匹配安装/真实模型/手机/生产/自然度/长期仍未资格。
+上批下一项的一层关联已在本次接通，见下；复杂冲突/自主机会/商业持续策略与原A–H仍待。
+
+## 最新：私念关联真实参与后续选择
+
+原Record直接联系→既有内部Context：转新topic后仍见一层当前自有相关思想；修订/暂停延续，单改联系可以新revision，放弃/撤回不自动复活，原普通界面不泄露。同61440预算关NO_ACTION/开WAIT，各1fixture，估算26858→27963（+1105，非真实Token）；114相关21.38s后补2目标0.63s/最终58私人检查6.28s。见evidence/private-association-20261112，源码表锚 bf7f2a2a5bcd6ecd758d0c4d1e38dcd960c8a8af6c301171bd8e551d97f04938。bd48独立CI43199749478已实读162通过46.06s/clientSKIP，不是本批CI。
+
+下一具体工作：核对原商业LifeApplication._model/CognitionSession.prepare的INTERPRET→C→SOCIAL/RENDER链和当前保留语义，再接紧凑私人策略/明确反馈；不将普通瞬时会话内容借SELF_COGNITION入口自动持久化。空关联独立清除、复杂冲突/跨时间自发机会仍有开发差额。无匹配新安装/真实模型/手机/生产/自然度/跨日长期新资格，原A–H/CURRENT266+409保持。测试已移/dev/shm避免/tmp剩759MiB压力，所有原DB/Git/未知文件保护。

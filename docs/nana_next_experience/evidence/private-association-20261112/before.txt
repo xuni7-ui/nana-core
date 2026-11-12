@@ -1,0 +1,51 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_cross_topic_private_association_changes_later_c_choice_without_public_disclosure _
+
+tmp_path = PosixPath('/dev/shm/pilinkb/test_cross_topic_private_assoc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f30a8cd35f0>
+
+    def test_cross_topic_private_association_changes_later_c_choice_without_public_disclosure(tmp_path,monkeypatch):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextAssembler,ContextPolicy,ContextRequest
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        parent_text='SYNTHETIC question: Could quiet observation reveal a different creative method?'
+        child_text='SYNTHETIC question: Could I explore the associated new story direction?'
+        policy=ContextPolicy(policy_id='cross-topic-association',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        calls=[]
+        def think(app,key,focus,model):
+            r=app.runtime
+            return r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic=focus,observed_at_us=r.clock.utc_now_us()),
+                model=model,authority=r.authority,policy=policy)
+        class QuestionFixture:
+            descriptor='offline-associated-question-fixture'
+            def __init__(self,topic,text,related=()):self.topic,self.text,self.related=topic,text,related
+            def propose(self,request):
+                calls.append(json.loads(request.context_json));base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':self.topic,'question':self.text,'related_private_record_ids':self.related}
+                return json.dumps(base)
+        with LifeApplication(home) as app:
+            _,_,seed=choose(app);r=app.runtime
+            r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+            think(app,'association-parent','creative-project',QuestionFixture('old-question',parent_text))
+            parent_rid,parent=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.topic=='old-question')
+            think(app,'association-child','old-question',QuestionFixture('new-direction',child_text,(parent_rid,)))
+            child_rid,child=next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.topic=='new-direction')
+            assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? AND relation_kind='SUPPORT'",(child_rid,parent_rid)).fetchone()
+            identity=r.identity_id
+        with LifeApplication(home) as app:
+            r=app.runtime;assert r.identity_id==identity
+            projected=private_intent.internal_projection(r.store,(child_rid,),scope='project-work',privacy_classes=('PROJECT',))
+>           assert {p['record_id'] for p in projected}=={child_rid,parent_rid}
+E           AssertionError: assert {'c496a89a-57...3ed7f2ee155c'} == {'c496a89a-57...d88b79034af2'}
+E             
+E             Extra items in the right set:
+E             'f9ad7e98-288f-4eda-8e00-d88b79034af2'
+E             Use -v to get more diff
+
+tests/first_life_integration/test_private_intent.py:1042: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_cross_topic_private_association_changes_later_c_choice_without_public_disclosure
+1 failed, 56 deselected in 0.46s

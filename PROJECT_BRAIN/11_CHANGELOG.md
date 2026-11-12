@@ -3638,3 +3638,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S1/S3/S4/S6增量：私问记录后原同事务完成内部形成意向，持续问题仍ACTIVE，非外部目标/学习/投递成功；NO_ACTION不消耗pending故保留满载REST。2首错及quiet首错保留；10私问/8未变pending/暂停/重启前台通过，无刷经验/技能/关系；292相关67.67s后补schema13能力门和原子中断5通过，不拼全仓。原实际权限和8/12普通语义不改。下一无旧支持的真实内生发生追源及商业/自然策略，原A–H继承。证据private-formation-queue-20261112/09锚。
 
 - 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S4/S5/S6增量：无旧来源时原cognize候选可由真实SELF_COGNITION发生追源，原私问不丢；固定位元数据/原Operator/typed inference/排重和视图遮蔽，非伪造世界观察。冻结3fail→3pass，76综合及173相关40.45s+后续watch9通过，夹具3错保留不放宽原权限；同调用/重放0增量/重启/撤回及注册备份通过。旧071独立CI245/1warn，不当本批。下一关联/持续策略/商业融合与原A–H；无新安装/真实模型/手机/生产资格。证据private-self-occurrence-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6增量：复用私念原Record直接联系做原C一层当前内部投影，不造图Store/权重/第二脑；新topic跨重启同61440预算关NO_ACTION/开WAIT，每次1fixture，+1105 UTF8估算非真实Token。关系单变更可同intent新rev，暂停/改写延续、放弃/源撤回/公共遮蔽保留；2首错分别保留，114相关后补2目标/最终58通过。bd48独立CI162非本批。下一商业持续策略/反馈/自发机会/复杂关联及原A–H，无新安装/真实模型/手机/生产验收。证据private-association-20261112/09锚。
