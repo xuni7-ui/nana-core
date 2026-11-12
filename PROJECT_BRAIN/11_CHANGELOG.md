@@ -3641,3 +3641,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 ### 2026-11-12 · Codex B / R1 原Store来源关联检索隔离候选
 
 [源码/实测] 固定Graphiti ebef986a0b2360211b65751c111cacb4a7d790eb/Apache-2.0，仅机制研究未复制源码；否定重复时态Store/外部图权威，保留有锚点多跳召回小候选。独立工作树基线A f583f18，Core源码零改。88合成keys/24固定两跳目标，同32原World视图上限快照12/24、候选24/24/0错误路径；原快照非最佳query-aware baseline，候选实际6views/原32，不推断全局速度/Token或C/G成长。6定向通过2.37s/8deselected，撤回/已知时间/同身份重启/跨实例与期限保持；读期间SQL写/新增事件0、family实分配不变、模型0。实验源码/成本/原始数据/阶段审查及A接入条件见docs/nana_next_experience/evidence/graphiti-association-20261112/README.md，源码表锚710359287620f161efa52955bc7ffc1c1a96d0de214ab5d1a21e11c30cc2c628。本阶段候选尚不宜生产接线，下一用更不利/query-aware基线与原C后续选择独立消融；产品PR14已提交，合并被自动审批拒绝（记录缺B合并授权），保持待A评估，不绕过。
+
+
+### 2026-11-12 · Codex B R1查询感知反例：撤回此窄图展开集成候选
+
+[实测] 正常合入A 071669b，未改Core。补既有WorldModel.view固定两跳组合，同32上限/同88keys原快照12/24、图展开24/24、简单组合24/24，后两者实际各6视图。65key无关分支反例图展开32次耗尽/0匹配，简单原API组合2次/1匹配；无Store检索写、模型0。12定向通过4.97s/8deselected，原首阶段数据保留。决定结束本窄研究并撤回推广，不增加图层；Graphiti其他机制与通用语义尚未评价。证据graphiti-association-20261112/query-aware-*.json/txt，源码锚619377c23dc7de4cf7187390ead3e1cc1dd34d9f6595a28dcb1408ba73336f6b。下一B-P统一模型预设/减少地址手填；A持续内心/原C-D-G成果不动。

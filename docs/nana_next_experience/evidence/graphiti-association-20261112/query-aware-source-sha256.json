@@ -1,0 +1,10 @@
+{
+  "base_A": "071669bd62a1a8f5fa812775ae8518c12b727ebc",
+  "supersedes_integration_candidate": true,
+  "files": {
+    "tools/nana_next_experience/association_probe.py": "3eb0696250ffbbf13a8baa437b07146ac68c8d54c6c4bca1c7a47ac3d21c918b",
+    "tools/nana_next_experience/association_compare.py": "88d1f6d12b9af15bda1d4037e938cb503fe5f6151875d560e5535a4725e19be0",
+    "tools/nana_next_experience/association_direct_baseline.py": "c6698d18fa321e24c6a2282cecfeff612345a187144fac4e27b2b2dbd36ac647",
+    "tests/world_loop/test_association_research.py": "d3a57ad151112c033a1391170a47fdb4d13b8bb6422cd3108757d269f8f335c1"
+  }
+}

@@ -21,8 +21,10 @@ from nana_core.continuity.world_loop.world import WorldModel, SourcedClaim
 from nana_core.presence.authority import VirtualClock
 from nana_core.storage import canonical
 from .association_probe import linked_recall
+from .association_direct_baseline import direct_two_hop
 
 PREDICATES = ('interest.a', 'interest.b', 'interest.c', 'needs')
+PATTERNS = tuple((first, 'needs') for first in PREDICATES[:-1])
 
 
 def add_link(store, key, source, target, predicate, *, privacy='PUBLIC', **changes):
@@ -75,12 +77,14 @@ def run(repeats=5):
             def allocated():
                 return sum(p.stat().st_blocks*512 for p in Path(folder).iterdir() if p.is_file())
             disk_before = allocated()
-            samples = {'snapshot32': [], 'linked32': []}
+            samples = {'snapshot32': [], 'linked32': [], 'direct32': []}
             cpu = {key: 0.0 for key in samples}
             scores = {}
             for repeat in range(repeats):
                 for seed, goals in expected.items():
-                    order = ('snapshot32', 'linked32') if repeat % 2 == 0 else ('linked32', 'snapshot32')
+                    methods = tuple(samples)
+                    shift = repeat % len(methods)
+                    order = methods[shift:] + methods[:shift]
                     for method in order:
                         start, process = time.perf_counter_ns(), time.process_time_ns()
                         if method == 'snapshot32':
@@ -90,7 +94,8 @@ def run(repeats=5):
                             views = len(snapshot)
                             false_positive = None  # Flat snapshots are not answer classifiers.
                         else:
-                            result = linked_recall(world, seed, predicates=PREDICATES)
+                            result = (linked_recall(world, seed, predicates=PREDICATES) if method == 'linked32'
+                                else direct_two_hop(world, seed, patterns=PATTERNS))
                             leaves = {path.entities for path in result.paths if len(path.predicates) == 2}
                             correct = len(leaves & {goal['entities'] for goal in goals})
                             false_positive = len(leaves - {goal['entities'] for goal in goals})
@@ -107,8 +112,10 @@ def run(repeats=5):
                 for seed in expected:
                     if method == 'snapshot32':
                         world.snapshot(limit=32)
-                    else:
+                    elif method == 'linked32':
                         linked_recall(world, seed, predicates=PREDICATES, timeout_ms=1000)
+                    else:
+                        direct_two_hop(world, seed, patterns=PATTERNS, timeout_ms=1000)
                 peak[method] = tracemalloc.get_traced_memory()[1]
                 tracemalloc.stop()
             assert store.db.total_changes == changes
@@ -133,9 +140,39 @@ def run(repeats=5):
                 'store_family_allocated_bytes_after': disk_after,
                 'production_integrated': False,
                 'limits': ['structured entity links, not natural-language extraction or semantic recall',
-                    'snapshot32 is the existing recency projection, not an optimal query-aware baseline',
+                    'direct32 uses the question ordered predicates; linked32 gets their union and ignores order',
                     'Python allocation peak is not RSS; scratch ingestion/storage is not a disk saving',
                     'no C choice, learned skill, long-term behavior or Graphiti runtime comparison proven']}
+
+
+def adverse_query():
+    """A known pattern amid newer unrelated branches; no method is tuned here."""
+    with tempfile.TemporaryDirectory(prefix='nana-association-adverse-') as folder:
+        with ContinuityStore(Path(folder)/'original.db', VirtualClock(), schema_target=13) as store:
+            IdentityService(store, OperatorAuthority())
+            add_link(store, 'old-interest', 'seed', 'topic', 'interest.a')
+            add_link(store, 'old-need', 'topic', 'resource', 'needs')
+            predicates = ('interest.a', 'noise.b', 'noise.c', 'noise.d', 'noise.e', 'noise.f', 'noise.g', 'needs')
+            for number, predicate in enumerate(predicates[1:]):
+                hub = f'hub.{number}'
+                add_link(store, f'root.{number}', 'seed', hub, predicate)
+                for j, tail in enumerate(predicates):
+                    add_link(store, f'tail.{number}.{j}', hub, f'noise-target.{number}.{j}', tail)
+            world = WorldModel(store, scopes=('world',), privacy_classes=('PUBLIC',))
+            changes = store.db.total_changes
+            results = {}
+            for method in ('linked32', 'direct32'):
+                result = (linked_recall(world, 'seed', predicates=predicates) if method == 'linked32'
+                    else direct_two_hop(world, 'seed', patterns=(('interest.a', 'needs'),)))
+                leaves = {p.entities for p in result.paths if len(p.predicates) == 2}
+                target = {('seed', 'topic', 'resource')}
+                results[method] = {'matching_paths': len(leaves & target),
+                    'raw_nonmatching_paths': len(leaves-target), 'views_read': result.views_read,
+                    'budget_exhausted': result.budget_exhausted, 'deadline_exceeded': result.deadline_exceeded}
+            assert store.db.total_changes == changes
+            return {'world_keys': 65, 'max_views': 32, 'pattern': ['interest.a', 'needs'],
+                'methods': results, 'store_mutations': 0, 'model_calls': 0,
+                'interpretation': 'nonmatching graph paths are not false facts; they spend query budget without answering this pattern'}
 
 
 if __name__ == '__main__':
@@ -143,6 +180,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     result = run()
+    result['adverse_query'] = adverse_query()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps({method: data['correct_paths'] for method, data in result['methods'].items()}))

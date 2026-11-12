@@ -144,3 +144,8 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 ## 2026-11-12 · Codex B R1 隔离关联实验
 
 用户持续研究/开发/提交授权：仅 tools/nana_next_experience/{association_probe.py,association_compare.py}、tests/world_loop/test_association_research.py；docs/nana_next_experience/evidence/graphiti-association-20261112/{README.md,upstream-source.json,source-sha256.json,results.json,first-results.json,first4.txt,final6.txt}；PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}追加及本清单。全部合成/源码元数据，独立原Store只读实验，不含第三方源码、运行DB、Key、私人历史、模型或生产权限。
+
+
+## 2026-11-12 · R1查询感知续办
+
+原隔离研究范围增量：tools/nana_next_experience/association_direct_baseline.py；原association_compare.py与test_association_research.py；同一证据目录query-aware-{results.json,tests.txt,source-sha256.json}与README；09/11追加及本清单。全部合成原Store实验/原创代码，无第三方源码、运行DB或凭据；原数据不覆盖。

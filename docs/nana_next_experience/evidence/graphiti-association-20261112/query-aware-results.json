@@ -1,0 +1,350 @@
+{
+  "scope": "SYNTHETIC_EXPLICIT_WORLD_LINKS_ONLY",
+  "nana_subjects": 1,
+  "world_keys": 88,
+  "unique_roots": 8,
+  "expected_two_hop_paths": 24,
+  "max_original_views": 32,
+  "candidate_safe_point_deadline_ms": 100,
+  "frozen_target_paths_sha256": "daeb76c2b81ec955e0471e3ecc2e29c93523b8e800740841c7573081242bf982",
+  "repeats": 5,
+  "methods": {
+    "snapshot32": {
+      "correct_paths": 12,
+      "cases": [
+        {
+          "seed": "seed.0",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.1",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.2",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.3",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.4",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.5",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.6",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.7",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        }
+      ],
+      "p50_ms": 5.489672499999999,
+      "p95_ms": 7.143031,
+      "cpu_ms_all_samples": 224.326079,
+      "python_tracemalloc_peak_bytes_separate_pass": 88562,
+      "raw_latency_ms": [
+        5.934004,
+        5.262372,
+        5.381251,
+        7.143031,
+        5.428215,
+        5.63927,
+        5.378057,
+        5.630095,
+        5.55113,
+        8.904799,
+        5.6429,
+        4.73876,
+        5.667065,
+        4.878704,
+        5.706927,
+        5.942229,
+        5.689235,
+        5.574808,
+        4.622275,
+        4.871448,
+        5.343234,
+        6.271764,
+        5.029745,
+        6.221464,
+        4.987848,
+        5.281755,
+        4.721931,
+        6.478399,
+        7.407954,
+        6.069317,
+        5.216398,
+        4.894386,
+        5.946867,
+        6.018159,
+        5.022804,
+        4.953386,
+        5.688399,
+        4.955494,
+        4.987548,
+        5.381722
+      ]
+    },
+    "linked32": {
+      "correct_paths": 24,
+      "cases": [
+        {
+          "seed": "seed.0",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.1",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.2",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.3",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.4",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.5",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.6",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.7",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        }
+      ],
+      "p50_ms": 1.27802,
+      "p95_ms": 1.653675,
+      "cpu_ms_all_samples": 51.198726,
+      "python_tracemalloc_peak_bytes_separate_pass": 39777,
+      "raw_latency_ms": [
+        1.729456,
+        1.16156,
+        1.316495,
+        1.441123,
+        1.203588,
+        1.14252,
+        1.523108,
+        1.25157,
+        1.392895,
+        1.047635,
+        1.41694,
+        1.281915,
+        1.160406,
+        1.496437,
+        1.274125,
+        1.401717,
+        1.113477,
+        1.062512,
+        1.038014,
+        1.084175,
+        1.653675,
+        1.29113,
+        1.070735,
+        1.552128,
+        1.058633,
+        1.343769,
+        1.133737,
+        1.363346,
+        1.32561,
+        1.064496,
+        1.127476,
+        1.714648,
+        1.141575,
+        1.388013,
+        1.346729,
+        1.071842,
+        1.351741,
+        1.384097,
+        1.1607,
+        1.21488
+      ]
+    },
+    "direct32": {
+      "correct_paths": 24,
+      "cases": [
+        {
+          "seed": "seed.0",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.1",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.2",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.3",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.4",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.5",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.6",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.7",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        }
+      ],
+      "p50_ms": 1.0915655,
+      "p95_ms": 1.332048,
+      "cpu_ms_all_samples": 43.83975099999999,
+      "python_tracemalloc_peak_bytes_separate_pass": 38000,
+      "raw_latency_ms": [
+        0.979259,
+        1.12594,
+        1.053301,
+        1.098321,
+        1.087094,
+        1.012351,
+        1.237558,
+        1.220581,
+        1.20882,
+        1.100027,
+        0.983515,
+        0.96497,
+        1.053636,
+        0.982399,
+        1.150233,
+        1.097716,
+        1.114956,
+        1.332048,
+        0.967206,
+        1.028946,
+        0.918465,
+        1.540562,
+        0.987392,
+        1.111893,
+        1.005189,
+        1.008046,
+        0.83222,
+        1.27149,
+        1.300856,
+        1.032661,
+        1.116131,
+        1.064545,
+        1.096037,
+        1.392518,
+        1.199999,
+        0.942343,
+        1.193619,
+        0.914661,
+        1.213867,
+        0.976055
+      ]
+    }
+  },
+  "model_calls": 0,
+  "real_tokens": null,
+  "store_mutations_during_retrieval": 0,
+  "new_persistent_index": false,
+  "store_family_allocated_bytes_before": 5873664,
+  "store_family_allocated_bytes_after": 5873664,
+  "production_integrated": false,
+  "limits": [
+    "structured entity links, not natural-language extraction or semantic recall",
+    "direct32 uses the question ordered predicates; linked32 gets their union and ignores order",
+    "Python allocation peak is not RSS; scratch ingestion/storage is not a disk saving",
+    "no C choice, learned skill, long-term behavior or Graphiti runtime comparison proven"
+  ],
+  "adverse_query": {
+    "world_keys": 65,
+    "max_views": 32,
+    "pattern": [
+      "interest.a",
+      "needs"
+    ],
+    "methods": {
+      "linked32": {
+        "matching_paths": 0,
+        "raw_nonmatching_paths": 24,
+        "views_read": 32,
+        "budget_exhausted": true,
+        "deadline_exceeded": false
+      },
+      "direct32": {
+        "matching_paths": 1,
+        "raw_nonmatching_paths": 0,
+        "views_read": 2,
+        "budget_exhausted": false,
+        "deadline_exceeded": false
+      }
+    },
+    "store_mutations": 0,
+    "model_calls": 0,
+    "interpretation": "nonmatching graph paths are not false facts; they spend query budget without answering this pattern"
+  }
+}
