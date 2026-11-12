@@ -447,12 +447,13 @@ def test_internal_projection_uses_original_complete_budget_and_invalidates_on_wi
             'disabled',disabled.manifest.input_tokens,'limit',enabled.manifest.input_limit,'minimum_package_limit',compact.manifest.input_limit)
 
 
-def test_own_new_question_without_user_message_survives_restart_and_changes_future_choice(tmp_path,monkeypatch):
+@pytest.mark.parametrize('next_behavior',['EXPLORE','LEARN','SEEK_CAPABILITY'])
+def test_own_new_question_without_user_message_survives_restart_and_changes_future_choice(tmp_path,monkeypatch,next_behavior):
     from nana_core.continuity.autonomy import private_intent
     from nana_core.continuity.cognition import AnalyticalFixturePort
     from nana_core.continuity.records import RecordService
     from nana_core.continuity.context import ContextPolicy,ContextAssembler,ContextRequest
-    from nana_core.continuity.subject.opportunities import OpportunityAssessment
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment,LearningValue
     import sqlite3
     from nana_core.life.inspector import _ReadView
     home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
@@ -504,8 +505,10 @@ def test_own_new_question_without_user_message_survives_restart_and_changes_futu
         private_choice(app,'resume-own-question','CREATE',intent_id=q.intent_id)
         qrid,resumed=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.intent_id==q.intent_id)
         assert resumed.contract=='PRIVATE_QUESTION_V3' and resumed.activity_state=='ACTIVE' and resumed.content_summary==question
-        cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='creative-project',motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),
-            resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='creative-project',motivation_source='CURIOSITY',possible_behaviors=(next_behavior,),
+            resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',relationship_relevance='LOW',alternative='AVAILABLE')
+                if next_behavior in {'LEARN','SEEK_CAPABILITY'} else None)
         def next_event(key):
             mid=capture(r,key,cue.model_dump(mode='json'),predicate='concern.'+key)
             return SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
@@ -514,7 +517,7 @@ def test_own_new_question_without_user_message_survives_restart_and_changes_futu
             patch.setattr(private_intent,'decision_support',lambda *args,**kwargs:())
             before=r.subject.run(next_event('without-inner-interest'))
         after=r.subject.run(next_event('with-inner-interest'))
-        assert before.intention.behavior=='IGNORE' and after.intention.behavior=='EXPLORE'
+        assert before.intention.behavior=='IGNORE' and after.intention.behavior==next_behavior
         assert next(m for m in after.motivations if m.source=='PRIVATE_INTEREST').source_ids==(qrid,)
         ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='project-user',scopes=('project-work',),
             task_class='dialogue',task='SYNTHETIC ordinary response',task_privacy_class='PROJECT',max_input_tokens=65536),policy)
@@ -523,6 +526,8 @@ def test_own_new_question_without_user_message_survives_restart_and_changes_futu
         app.forget(original)
         assert not any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')))
         assert not backup_questions()
+        withdrawn=r.subject.run(next_event('after-interest-withdrawal'))
+        assert withdrawn.intention.behavior=='IGNORE' and not any(m.source=='PRIVATE_INTEREST' for m in withdrawn.motivations)
         assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 
@@ -596,6 +601,28 @@ def test_existing_runtime_self_queue_drives_one_question_without_periodic_infere
         r.subject.transition_intention(result['cycle'].intention_id,expected_revision=1,state='COMPLETED')
         for _ in range(3):r.step()
         assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('condition,expected',[('risk','REST'),('norm','IGNORE'),('withdrawn','IGNORE')])
+def test_private_learning_interest_keeps_original_risk_norm_and_source_constraints(tmp_path,condition,expected):
+    from nana_core.continuity.subject.opportunities import LearningValue,OpportunityAssessment
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        mid,_,created=choose(app);r=app.runtime
+        r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        if condition=='withdrawn':app.forget(mid)
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='creative-project',motivation_source='NORM',prohibited_behaviors=('LEARN',))
+            capture(r,'learning-norm',norm.model_dump(mode='json'),kind='USER_STATEMENT',predicate='concern.constraint.private-learning')
+        cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='creative-project',motivation_source='CURIOSITY',possible_behaviors=('LEARN',),
+            resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',risk='HIGH' if condition=='risk' else 'LOW'))
+        source=capture(r,'private-learning-boundary',cue.model_dump(mode='json'),predicate='concern.private-learning-boundary')
+        result=r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-learning-boundary',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(source,)))
+        assert result.intention.behavior==expected
+        assert cue.learning_value.interest=='LOW' and cue.learning_value.alternative=='AVAILABLE'
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 

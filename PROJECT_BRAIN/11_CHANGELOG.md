@@ -3622,3 +3622,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S5/S6 Advanced增量：原C已选私念内容进入已有深入认知Context，原公开表达继续withheld；同主体重启/开关消融/撤回及完整包预算7通过，88相关通过16.69s。固定fixture由内容使C候选→WAIT，1既有调用；同状态+867 UTF8估算单位不称实际Token/费用。来源推理中撤回原STALE_CONTEXT/no commit，未绕权限。证据private-internal-projection-20261112/09锚；未有真实模型/普通对话多轮策略/完整发行，继续自主新问及原A–H。
 
 - 2026-11-12｜NEXT_EXPERIENCE S1–S6/S8接口 Advanced增量：既有认知可提private_question，原C保留独立判断采纳，同私念家族V3区分问题/事实，原精准生命周期/来源与注册备份撤回；私问单独影响未来EXPLORE开关消融，D原SELF队列/reserve/单fixture完成且后续不重复。239相关+最终51通过；初始夹具/零预算/不绑定cause失败保留，未放宽保留/预算。原provider raw output检查不削弱，普通C trace移除内文。商业内心/自然度/完整S8仍未资格，下一修private interest→LEARN旧guard，原A–H/CURRENT不变。证据private-own-question-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S3/S6/S8 Advanced增量：原C学习动机继承自有有效私问/兴趣，保留原LOW/替代/risk/norm/预算事实；2fail冻结→3pass，121相关+27控制通过。原G既有独立oracle baseline0→EVALUATE/TRANSFER通过，重启同主体后新问题原C选择NUMERIC_SUM，1既有fixture/0synthetic actions；不是长期通用成长。原错夹具阶段名保留，未放宽评估。压缩现役ACTIVE，完整历史留Git/evidence。下一结果反向修私问、多轮策略、商业原生融合及原A–H。证据private-question-learning-20261112/09锚。

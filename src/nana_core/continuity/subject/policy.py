@@ -196,9 +196,9 @@ def decide(event, situation, appraisal, motives):
         assessment=cue.opportunity_assessment
         # Generic utility/novelty does not erase a current source-backed personal
         # interest. Enjoyment need not promise learning or task productivity.
-        interested_learning = (cue.learning_value is not None
-            and cue.learning_value.interest in {'RELEVANT', 'HIGH'}
-            and bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'}))
+        interested_learning = (bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'})
+            and (personal_interest or (cue.learning_value is not None
+                and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
         interested_activity = personal_interest and bool(set(options) & {'EXPLORE', 'CREATE'})
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
@@ -224,8 +224,10 @@ def decide(event, situation, appraisal, motives):
         value=cue.learning_value
         if value and set(options)&{'LEARN','SEEK_CAPABILITY'}:
             low_value=value.goal_value=='LOW' and value.future_reuse=='LOW' and value.interest=='LOW' and value.relationship_relevance=='LOW'
-            # An existing capability does not cancel a sourced interest in learning.
-            if low_value or (value.alternative=='AVAILABLE' and value.interest=='LOW'):
+            # A current own question/preference is an independent learning
+            # motive, even when this opportunity has little instrumental value.
+            # Keep its original assessments and actual execution budgets intact.
+            if not interested_learning and (low_value or (value.alternative=='AVAILABLE' and value.interest=='LOW')):
                 return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='NOT_WORTH_LEARNING: limited reuse/value or an available existing capability makes new learning unnecessary',source_ids=sources),
                     Intention(kind='NO_ACTION',purpose='Keep the gap visible without compulsory learning or creating a redundant plugin',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='WATCH'))
             if value.risk=='HIGH' or (value.time_compute_cost=='HEAVY' and cue.urgency!='HIGH' and not interested_learning):

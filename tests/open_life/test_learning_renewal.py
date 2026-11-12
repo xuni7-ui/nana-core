@@ -36,6 +36,71 @@ def jobs(r):
     return r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid").fetchall()
 
 
+def test_private_question_can_start_independent_learning_and_change_unseen_later_plan(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.continuity.open_agency.learning import LearningService
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment,PrivateIntentRef
+    clock=VirtualClock()
+    with runtime(tmp_path/'self.db',clock) as r:
+        own=ConcernCue(cue_kind='OPEN_LOOP',topic_key='numbers-play',motivation_source='CREATIVE_INTEREST',possible_behaviors=('CREATE',),resource_class='ORDINARY')
+        source=capture(r,'own-numeric-play',own.model_dump_json(),predicate='concern.own-numeric-play')
+        event=SubjectInput(source_key='synthetic.private.numeric-play',kind='WAKE',origin='SELF_WAKE',entity_id='synthetic-person',scope='lab',
+            observed_at_us=clock.utc_now_us(),source_memory_ids=(source,))
+        seed=r.subject.run(event);r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+        seed_rid,seed_item=private_intent.candidates(r.store,'lab',('PERSONAL',))[0]
+        model_calls=[]
+        class QuestionFixture:
+            descriptor='offline-private-question-learning-fixture'
+            def propose(self,request):
+                model_calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'numbers-play','question':'SYNTHETIC: How can fractional counts in my numerical play be combined correctly?',
+                    'related_private_record_ids':[seed_rid]}
+                return json.dumps(base)
+        q=r.subject.cognize(SubjectInput(source_key='synthetic.private.numeric-question',kind='WAKE',origin='SELF_WAKE',
+            entity_id='synthetic-person',scope='lab',topic='numbers-play',observed_at_us=clock.utc_now_us()),
+            model=QuestionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='private-learning',allowed_scopes=('lab',),readable_privacy=('PERSONAL',)))
+        assert q.intention.behavior=='REFLECT' and len(model_calls)==1
+        r.subject.transition_intention(q.intention_id,expected_revision=1,state='COMPLETED')
+        abandon=own.model_copy(update={'possible_behaviors':('WITHDRAW',),
+            'private_intent_ref':PrivateIntentRef(record_id=seed_rid,intent_id=seed_item.intent_id,revision=seed_item.revision)})
+        change=capture(r,'abandon-seed',abandon.model_dump_json(),predicate='concern.abandon-seed')
+        r.subject.run(event.model_copy(update={'source_key':'synthetic.private.abandon-seed','source_memory_ids':(change,)}))
+        question_rid=next(rid for rid,item in private_intent.candidates(r.store,'lab',('PERSONAL',)) if item.category=='PRIVATE_QUESTION')
+        spec=number_learning();learning=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',));r.work.open_learning=learning
+        opportunity=ConcernCue(cue_kind='OPPORTUNITY',topic_key='numbers-play',motivation_source='CURIOSITY',program_id=spec.learning_key,
+            possible_behaviors=('LEARN',),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'private-learning-opportunity',opportunity.model_dump_json(),predicate='concern.private-learning-opportunity')
+        with monkeypatch.context() as patch:
+            patch.setattr(private_intent,'decision_support',lambda *args,**kwargs:())
+            without=r.subject.run(event.model_copy(update={'source_key':'synthetic.private.learning-disabled','source_memory_ids':(mid,)}))
+        assert without.intention.behavior=='IGNORE' and not jobs(r)
+        send(r,'private-learning-enabled',(mid,));first=r.step()
+        assert first['cycle'].intention.behavior=='LEARN'
+        assert next(m for m in first['cycle'].motivations if m.source=='PRIVATE_INTEREST').source_ids==(question_rid,)
+        r.drain(24)
+        assert learning.strategy('numbers','lab')[1]=='NUMERIC_SUM'
+        learned=body(r,jobs(r)[0]);assert learned['results']['BASELINE']['passed']==0
+        assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+        identity=r.identity_id
+    with runtime(tmp_path/'self.db',clock) as r:
+        assert r.identity_id==identity
+        learning=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',));r.work.open_learning=learning
+        assert learning.strategy('numbers','lab')[1]=='NUMERIC_SUM'
+        # Original independent oracle and cases remain unchanged. The later
+        # problem is neither the question text nor a held-out answer in a prompt.
+        obj=objective(method='NAIVE_SUM');port=configure(r,tmp_path/'world.fixture.json',(obj,));r.work.agency.learning=learning
+        port.seed_observation(obj.operators[0].resource,[1.2,2.3]);later=cue(r,obj)
+        send(r,'private-question-later-plan',(later,),task_class='numbers');result=r.step()
+        assert result['cycle'].judgment.selected_method=='NUMERIC_SUM' and len(model_calls)==1
+        print('PRIVATE_QUESTION_S8_FIXTURE','baseline_passed',learned['results']['BASELINE']['passed'],
+            'evaluation',learned['results']['EVALUATE']['all_passed'],'transfer',learned['results']['TRANSFER']['all_passed'],
+            'later_method',result['cycle'].judgment.selected_method,'same_subject_restart',r.identity_id==identity,
+            'fixture_cognition_calls',len(model_calls),'synthetic_actions',len(r.store.all('actions')))
+
+
 def body(r, job):
     return RecordService(r.store).read(job['record_id'])['payload']
 
