@@ -1,0 +1,172 @@
+......F................................................................. [ 44%]
+.F...................................................................... [ 88%]
+..................                                                       [100%]
+=================================== FAILURES ===================================
+_ test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts _
+
+tmp_path = PosixPath('/tmp/nana-private-lifecycle-final/test_private_idea_can_pause_re0')
+
+    def test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import PrivateActivity,decision_support
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            original_source,_,first=choose(app);identity=app.runtime.identity_id
+            app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+            original=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            clock.advance(1_000_000)
+            cycle,event=private_choice(app,'pause-private-idea','REST')
+            assert cycle.intention.behavior=='REST'
+            rid,paused=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0]
+            assert isinstance(paused,PrivateActivity) and paused.activity_state=='PAUSED'
+            assert paused.intent_id==original.intent_id and paused.revision==2
+            assert paused.last_choice_cycle_id==cycle.cycle_id and paused.updated_at_us>paused.created_at_us
+            before=app.runtime.store.db.total_changes
+            app.runtime.subject.run(event)
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].revision==2
+            assert app.runtime.store.db.total_changes==before  # Original source replay, no repeated revision.
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].activity_state=='PAUSED'
+            # Rest did not erase an interest. Original C can choose it again even
+            # when instrumental value remains LOW and the opportunity is repeated.
+            clock.advance(1_000_000);resumed,_=private_choice(app,'resume-private-idea','CREATE')
+            assert resumed.intention.behavior=='CREATE'
+            value=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            assert value.intent_id==original.intent_id and value.activity_state=='ACTIVE' and value.revision==3
+            clock.advance(1_000_000);withdrawn,_=private_choice(app,'abandon-private-idea','WITHDRAW')
+            assert withdrawn.intention.behavior=='WITHDRAW'
+            value=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            assert value.activity_state=='ABANDONED' and value.revision==4
+            assert decision_support(app.runtime.store,'project-work',('PUBLIC','PROJECT'),topic='creative-project')==()
+            from nana_core.continuity.context import ContextAssembler,ContextRequest
+            package=ContextAssembler(app.runtime.store,app.runtime.authority).assemble(
+                ContextRequest(entity_id='project-user',scopes=('project-work',),task_class='first-life',
+                    task='ordinary outward context',task_privacy_class='PROJECT'),app.policy)
+            assert not any(block.kind=='PRIVATE_INTENT_STATE' for block in package.blocks)
+            ignored,_=private_choice(app,'old-idea-not-automatic','CREATE');assert ignored.intention.behavior=='IGNORE'
+            assert candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1].revision==4
+        with LifeApplication(home,clock=clock) as app:
+            assert app.runtime.identity_id==identity
+            clock.advance(1_000_000)
+            renewed,_=private_choice(app,'new-ground-for-reconsidering','CREATE',value='HIGH',novelty='NEW')
+            assert renewed.intention.behavior=='CREATE'
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+            assert len(values)==1 and values[0][1].intent_id==original.intent_id
+            assert values[0][1].activity_state=='ACTIVE' and values[0][1].revision==5
+            assert values[0][1].epistemic_status=='OWN_TENDENCY_NOT_WORLD_FACT'
+            assert values[0][1].execution_state=='NOT_INFERRED_FROM_ACTIVITY_STATE'
+            # Passage of time alone is not a new thought, a success or a reason to
+            # recreate the private state. Existing idle runtime remains available.
+            clock.advance(48*60*60*1_000_000)
+>           for _ in range(3):app.step()
+                              ^^^^^^^^
+E           AttributeError: 'LifeApplication' object has no attribute 'step'
+
+tests/first_life_integration/test_private_intent.py:185: AttributeError
+_____________ test_owned_http_one_occurrence_and_timeout_no_replay _____________
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fb61c412f00>
+tmp_path = PosixPath('/tmp/nana-private-lifecycle-final/test_owned_http_one_occurrence0')
+
+    def test_owned_http_one_occurrence_and_timeout_no_replay(runtime,tmp_path):
+        from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+        from threading import Thread
+        import time
+        calls=[]
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self,*args):pass
+            def do_GET(self):
+                calls.append(self.path)
+                if self.path=='/slow':time.sleep(1.2)
+                raw=b'{"source":"owned HTTP project feed"}'
+                self.send_response(200);self.send_header('Content-Length',str(len(raw)));self.end_headers()
+                try:self.wfile.write(raw)
+                except BrokenPipeError:pass
+        server=ThreadingHTTPServer(('127.0.0.1',0),Handler);thread=Thread(target=server.serve_forever,daemon=True);thread.start()
+        try:
+            base='http://127.0.0.1:'+str(server.server_port)
+            sources=(IntakeSource(source_id='good',channel='OWNED_HTTP',location=base+'/feed',privacy='PUBLIC'),IntakeSource(source_id='slow',channel='OWNED_HTTP',location=base+'/slow',privacy='PUBLIC'))
+            intake=WorldIntake(runtime,tmp_path,sources,scope='world')
+            m=intake.read('good');assert intake.read('good')==m and calls.count('/feed')==1
+            with pytest.raises(CoreError,match='UNKNOWN'):intake.read('slow')
+            with pytest.raises(CoreError,match='UNKNOWN_NO_RETRY'):WorldIntake(runtime,tmp_path,sources,scope='world').read('slow')
+            with pytest.raises(CoreError,match='UNKNOWN_NO_RETRY'):intake.read('slow',observation_id='new-poll-does-not-retry')
+            assert calls.count('/slow')==1
+            # Operational attempts live in existing jobs, not unsupported machine
+            # config keys. Official B8 must still export the same Subject.
+            from nana_core.continuity.portable import SubjectPackageService,PortableTransferAuthority
+            from nana_core.continuity import ContinuityStore
+            from uuid import uuid4
+            path=runtime.store.path;clock=runtime.clock.source;runtime.stop()
+            authority=PortableTransferAuthority()
+            with ContinuityStore(path,clock,schema_target=13) as store:
+>               package=SubjectPackageService(store,authority).export(tmp_path/'http-subject.nana',destination_id=str(uuid4()),source_commit='1fd40c9cbd12a56a4ec1e3f11d37aaffeea69cf7',authority=authority)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_attention_research.py:218: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.portable.SubjectPackageService object at 0x7fb61c362c90>
+path = PosixPath('/tmp/nana-private-lifecycle-final/test_owned_http_one_occurrence0/http-subject.nana')
+destination_id = 'aff0d22f-5cc1-462c-84c4-422c61d11b17'
+source_commit = '1fd40c9cbd12a56a4ec1e3f11d37aaffeea69cf7'
+authority = <nana_core.continuity.portable.PortableTransferAuthority object at 0x7fb61c5ee900>
+pending_effects = False
+
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
+        self._auth(authority);s=self._store;path=Path(path)
+        try:
+            if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
+        except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
+        if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
+        old=s.one('core_meta','portable.retired')
+        if old:
+            transfer=json.loads(old['value_json'])
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+        else:
+            lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
+            floor=s.one('core_meta','runtime.epoch_floor')
+            transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
+                'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
+                'exported_at_us':s.clock.utc_now_us()}
+            # Existing stopped-runtime fence is satisfied by a trusted maintenance
+            # guard while exclusive Store flock remains held. No second runtime.
+            prior=getattr(s,'_runtime_guard',None)
+            s._runtime_guard=lambda: None
+            try:
+                with s.transaction('portable.source_retired',transfer) as tx:
+                    tx.put('core_meta',{'key':'portable.retired','value_json':canonical(transfer)})
+            finally:s._runtime_guard=prior
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.subject-package-',dir=path.parent) as name:
+            root=Path(name);dbpath=root/'subject.sqlite'
+            s.backup(dbpath)  # official managed, deletion-aware, quarantined backup
+            db=sqlite3.connect(dbpath,isolation_level=None)
+            try:
+                if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
+                db.execute("DELETE FROM core_meta WHERE key IN ("+",".join("?" for _ in _TRANSIENT)+")",tuple(sorted(_TRANSIENT)))
+                db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                # This physical lookup is rebuildable host infrastructure, not
+                # portable Subject schema. Remove only the exact known index
+                # from the already isolated backup; reject a substituted shape.
+                from .store import REBUILDABLE_LOOKUP_INDEXES
+                for index_name, expected_sql in REBUILDABLE_LOOKUP_INDEXES.items():
+                    index = db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name=?", (index_name,)).fetchone()
+                    if index:
+                        if index[0] != expected_sql:
+                            raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                        db.execute('DROP INDEX ' + index_name)
+                schema_sha=_schema_digest(db)
+>               if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: PORTABLE_SCHEMA_DRIFT
+
+src/nana_core/continuity/portable.py:188: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts
+FAILED tests/open_life/test_attention_research.py::test_owned_http_one_occurrence_and_timeout_no_replay
+2 failed, 160 passed in 51.46s

@@ -1,0 +1,15 @@
+# 自主新疑问 → 原C → 持续私念 → 后续选择
+
+基线9cdc9cf。扩展原CognitiveProposal可选private_question（topic/question/related private refs）；None在线格式中省略，保留原默认协议。候选可由同一既有认知形成，不需要新的外部观察，也不能冒充事实。候选关联引用只可来自本次真正装配的PRIVATE_INTERNAL_STATE，伪造/省略预算后不存在的引用拒绝。
+
+原C的consider_question在既有判断内选择：SELF_WAKE、允许保留、现有WATCH/THINK_MORE/REMEMBER/REFLECT等认知方向可形成新私问；不覆写休息、明确规范/边界、他人消息、资源/目标执行/特定review或已选独立lesson。采纳仍受原pending/backpressure/normative评价。采纳不直接公开问题，不执行计划；普通Cycle只写generic私问目的并移除私念认知原文，真正内容在原INTENTION/private-intent.v1家族的PRIVATE_QUESTION_V3中保存。类型为PRIVATE_QUESTION/OWN_QUESTION_NOT_WORLD_FACT，PRIVATE_FOR_NOW、execution_authority=False。V1/V2复用不迁移DB，不造第二Store/C/Planner；V3沿原精确引用生命周期暂停/恢复并保留问题内容，来源撤回沿原链处理。
+
+受控实际Core闭环：已有自身创意后，无新用户消息/文本/输入memory的SELF_WAKE经已有一次深入认知提出新问题，C选择REFLECT，原Store保存。重复同source不再调用/写入。放弃原创意后，该问题仍能独立存在；重启后PAUSED→ACTIVE不丢问题。只剩该问题可支持PRIVATE_INTEREST，未见后续低价值/重复EXPLORE机会：禁用私念支持时IGNORE，启用时EXPLORE，motivation唯一来源正是该问题record。普通Context/Inspector/Cycle trace不泄露问题，recipient eligible_content仍WITHHELD；撤回原来源后主库/注册隔离备份的问题都不可回读。不是S8技能已学成或真人自然度资格。
+
+原D运行入口也实接：presence/runtime.py:FULL_COGNITION→SubjectLoop.cognize，不只是直接调用私有函数。合成SELF_EVENT/SELF_TRIGGER绑定原INTENTION的真实cause，经原持久队列/原预算reserve→一次本地fixture→C→原私念，call SUCCEEDED/queue DONE；三个普通后续step不再推理。首次零预算被MODEL_ESTIMATED_COST_EXHAUSTED正确阻止，只在隔离测试配置显式nominal1000预算，不改正式默认或绕过预算。随后仅CANONICAL_SELF cause使无支持topic按原隐私规则剥离，fixture缺内部块导致原MODEL_FAILED_LIGHT_FALLBACK；改用既有INTENTION cause，未放松保留/队列规则，最终1通过。此为原fixture-model Runtime路径；LifeApp商业INTERPRET/C/RENDER和真正自主机会生成尚未完整融合，不能称为真实模型24h内心已验收。
+
+首次7失败是测试NameError/错误retention枚举/不保留却带源/错误RecordService返回键等夹具问题，原错保留；修正实际接口后7通过。另一次不存在test_providers路径导致0 collected，保留但不算资格；实际test_providers_frontend补入。42focused通过2.99s；239原私念/continuous_self/portable/affective/open_life/对话通过44.90s；新增D路由/backup最终51相关通过3.91s。非一次全仓，非新安装/回退/手机/生产。所有模型输出是明示固定fixture，不称自主生成内容质量或语义理解实测；新增付费调用0、实际商业Token/成本未测。原C独立判断与原授权/UNKNOWN不改。
+
+前一投影提交9cdc独立CI43170711164/job131023272481实读121通过/1warning54.15s，client正确SKIP，与当前未提交源码资格分开。
+
+下一真实缺口已定位：policy.interested_learning只读cue.learning_value.interest，尚未继承已采纳private question/interest；interested_activity又限CREATE/EXPLORE，会让原C把真实私问触发的LEARN在低价值/重复/已有替代时提前WATCH/IGNORE。先补这段因果并保持来源撤回/预算/norm，再继续多轮策略/明确反馈、C/D/G和真实商业路径、A–H其余。32/64窗口和长链性能仍待，不把本局部称完整内心或总任务完成。

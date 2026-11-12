@@ -1,0 +1,25 @@
+......F...                                                               [100%]
+=================================== FAILURES ===================================
+_ test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts _
+
+tmp_path = PosixPath('/tmp/nana-private-lifecycle-first/test_private_idea_can_pause_re0')
+
+    def test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import PrivateActivity,decision_support
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            original_source,_,first=choose(app);identity=app.runtime.identity_id
+            app.runtime.subject.transition_intention(first.intention_id,expected_revision=1,state='COMPLETED')
+            original=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0][1]
+            clock.advance(1_000_000)
+            cycle,event=private_choice(app,'pause-private-idea','REST')
+            assert cycle.intention.behavior=='REST'
+            rid,paused=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))[0]
+>           assert isinstance(paused,PrivateActivity) and paused.activity_state=='PAUSED'
+E           AssertionError: assert (False)
+E            +  where False = isinstance(PrivateIntent(contract='PRIVATE_INTENT_V1', intent_id='3c7af417-11ca-4732-a18d-b9c4f4df5fae', owner_identity_id='98d0f...d='FRESH_REALIZATION_GATES', external_effect=False, budget_required=True, third_party=False, execution_authority=False), <class 'nana_core.continuity.autonomy.private_intent.PrivateActivity'>)
+
+tests/first_life_integration/test_private_intent.py:144: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_idea_can_pause_resume_abandon_and_reconsider_in_original_c_across_restarts
+1 failed, 9 passed in 0.80s

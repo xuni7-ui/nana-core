@@ -1,3 +1,23 @@
+[2026-11-12 内部形成与执行队列分开] 形成记录后内部REFLECTION完成，问题ACTIVE不当任务完成；10私问不挤占原8pending，满队列仍可私问暂停，重启普通前台通过。292相关+后续旧schema/原子5通过；下一无旧支持的新思想自身发生追源，商业/自然持续策略及原A–H继续。见private-formation-queue-20261112。
+
+[2026-11-12 内部新方向] 原C自发问题可跨当前focus开新topic/同intent重新聚焦，不把焦点当授权；旧公开/定时资格不公开新内容。105相关通过，scope/owner/privacy/reference不放松；下一核对私问形成后的pending占用，并继续多倾向/跨轮策略/商业融合和原A–H。见private-new-direction-20261112。
+
+[2026-11-12 原C plan_step取舍] HIGH负荷/紧迫性可竞争，quiet-only和CONTINUE单项约束有效，REST被禁不虚构，旧CREATE起源仍可继续；冻结4fail→7pass，182相关含原Precision V2通过。原G/私念/普通交流成果保留；广动机竞争、商业内心/持续自然策略及原A–H继续。见plan-step-choice-20261112。
+
+[2026-11-12 12fa后继实核] 独立CI127通过42.33s/clientSKIP；100001头注册隔离备份原Store开库重建两cache1.2421s，身份/隔离保持，0动作/provider。首个无anchor SQLite-only副本被拒且保留，未放宽恢复门。普通商业INTERPRET/C/RENDER与local-cognize私念链融合/持续策略仍待开发，CORRECTION现役已WATCH不重复修。
+
+[2026-11-12 私念容量/跨窗口查询] 32静默保存门移除；owner/topic/当前可用性先筛再64候选，原双cache/legacy只读/来源撤回/portable213相关通过，1k/10k/100k私念已知话题旧0/21→新21/21，100k P95 .262ms/新增index约17.4MiB。非一般语义记忆/无限容量；同topic64/全局元数据与时间触发/长链性能及原A–H继续。见private-interest-wide-20261112。
+
+[2026-11-12 原G→私问反向闭环] 原独立学习结果经C形成同问题有源修订，保留intent/时间/谱系/lesson/method，拒绝错误及旧目标、相同内容不重写；同2次fixture/61440预算关revision1/静待、开revision2/REFLECT，3消融+86相关通过。自然多轮策略/反馈、多倾向关联、商业融合与原A–H仍待，见private-question-revision-20261112。
+
+[2026-11-12 私问→原G学习] 原学习兴趣继承主体已采纳私问，LOW/REPEATED/已有替代不再提前抹去；121+27相关通过，原G独立评价/迁移及同主体重启后C新问题选方法受控通过。真实模型0，S8结果反向修私念/多轮策略/商业认知和A–H其他剩余继续；见private-question-learning-20261112。
+
+[2026-11-12 自主私问原C/D闭环] 原认知新问题候选→C采纳→同Store V3→跨重启暂停/恢复→后续探索选择；原D队列预算单fixture/不轮询通过。239相关+最终51，真实模型0，不代表商业路径/多轮策略/S8迁移完成。下一私问→LEARN旧兴趣guard实际缺口，见private-own-question-20261112。
+
+[2026-11-12 原C内容级内部投影] 同一私念源record→相关内容→原已有cognize→C选择，普通聊天不暴露；88相关/7同预算通过，同状态+867保守UTF8计量单位，新增provider0。自主新问/联想、多轮策略/反馈、S8迁移及A–H原剩余继续，见private-internal-projection-20261112。
+
+[2026-11-12 原C接收者边界作用范围修复] 私人无执行绑定CREATE/REST可继续并保持不公开，对外SOCIALIZE/资源操作/明确norm仍原链。46私念/情感+151相关集成通过，首次3失败保留；新增模型0。bead518独立CI228/2warnings成功且clientSKIP。内容级内部投影/自主新问/多轮策略/C-D-G迁移仍待，所有原A–H/发行资格继承。见evidence/private-reception-scope-20261112。
+
 # Next Experience 与十域长期精修：总任务与进度
 
 本文件是原有主任务的当前工作清单，不创建新路线。真实环境状态以现场回执为准，测试证据不得冒充线上或真人体验。冻结总框架与63条基础标准保持不变。
@@ -130,3 +150,8 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 Phase A首个私念→C选择连接
 
 原PrivateIntent引用在C前进入评价/动机/相关兴趣取舍，消融同输入/同0模型预算IGNORE→CREATE，重启与源撤回/公开遮蔽保留。93定向14.40s，不是完整多轮策略/自主新问/S8融合完成；下一直接延伸原模型。根盘已满，实际同分支开发/tmp/nana-inner-refinement-work，原Root f583+4WIP/Git/DB/旧交付保护，未来tmp丢失须读远端最新。证据private-interest-c-20261112；CURRENT266+409与生产不变。
+
+
+### 2026-11-12 私念生命周期与精确复审增量
+
+同一原INTENTION家族V2可暂停/复启/放弃/再采纳，PrivateIntentRef在C前绑定当前版本，原C后增量更新；普通D事件不擅改私念，暂停不抹兴趣。源撤回/隔离备份payload、旧读者忽略后返回新源保留、portable已知cache剥离、70header不挤另一兴趣有受控证据。最终176相关+2短路径宿主通过，不冒一次全仓。旧32/64容量与内部内容投影/新问/多轮策略/S8等仍待，当前下一修SocialPrivacy误伤非社交思考。证据private-activity-lifecycle-20261112；CURRENT266+409/生产未动。

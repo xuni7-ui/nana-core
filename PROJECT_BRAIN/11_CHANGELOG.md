@@ -3613,6 +3613,31 @@ Web真实进度接纳同scope child、原回执独立归因、等待双结果再
 PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Appraisal/PRIVATE_INTEREST→原decide创造兴趣可竞争泛化LOW/重复；不改工具价值、不抬事实、不给权限，原公开Context仍遮蔽，重复同purpose不增私念。实际跨重启消融开关IGNORE→CREATE、撤回/无关/owner范围/非保留与Context等93相关14.40s通过，0新增模型请求。首source-family fixture两错保留，独立旧archive/ENOSPC失败其后4pass不算旧基线。证据private-interest-c-20261112/09锚。根盘无空间，受控源码/Git仅复制TMP同分支，原Root/数据/旧交付未动；下一原模型策略/新问/生命周期/内部投影→C-D-G，不宣称完整内心或原A–H完成。
 
 
+### 2026-11-12 · 原私念生命周期、版本目标与索引/备份闭包
+
+原家族PrivateActivityV2承载自身倾向非事实/非任务结果，C前精确PrivateIntentRef绑定→原C选择→同Tx更新；generic idle误改首错修为必须目标引用，48h虚拟停机复开不削lease/不乱改思想。暂停保兴趣/放弃不自动重启/新理由再采纳，原source replay不增版本。70header挤占首错与planner选错index已修，原再生索引登记使portable schema校验继续严格，source撤回触达隔离副本当前artifact NULL。176相关49.86s/2长socket路径→短路2pass2.96s，70focused10.77s，旧源仅读取兼容非新功能/最终回退；准确f583三blob对照1fail3pass补齐。证据private-activity-lifecycle-20261112/09锚；463CI162/1warn客户端skip，不跑无关发行。下一C社会边界作用域/内部投影/自主新问/多轮策略/C-D-G，原A–H/CURRENT/权限不变。
+
+- 2026-11-12｜NEXT_EXPERIENCE S3/S6/S7 Advanced增量：修原C把接收者表达边界套给无执行绑定私人CREATE/REST的实际缺口；共用纯分类，原资源/norm/Manager/Privacy不变。冻结3fail/3pass→6pass，补充46私念情感+151集成通过，新增模型/动作/Grant0；bead518独立CI228/2warnings非本批。证据private-reception-scope-20261112与09锚；内容级私念/自主新问/多轮策略/C-D-G继续，不代表完整任务或生产完成。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S5/S6 Advanced增量：原C已选私念内容进入已有深入认知Context，原公开表达继续withheld；同主体重启/开关消融/撤回及完整包预算7通过，88相关通过16.69s。固定fixture由内容使C候选→WAIT，1既有调用；同状态+867 UTF8估算单位不称实际Token/费用。来源推理中撤回原STALE_CONTEXT/no commit，未绕权限。证据private-internal-projection-20261112/09锚；未有真实模型/普通对话多轮策略/完整发行，继续自主新问及原A–H。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1–S6/S8接口 Advanced增量：既有认知可提private_question，原C保留独立判断采纳，同私念家族V3区分问题/事实，原精准生命周期/来源与注册备份撤回；私问单独影响未来EXPLORE开关消融，D原SELF队列/reserve/单fixture完成且后续不重复。239相关+最终51通过；初始夹具/零预算/不绑定cause失败保留，未放宽保留/预算。原provider raw output检查不削弱，普通C trace移除内文。商业内心/自然度/完整S8仍未资格，下一修private interest→LEARN旧guard，原A–H/CURRENT不变。证据private-own-question-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S3/S6/S8 Advanced增量：原C学习动机继承自有有效私问/兴趣，保留原LOW/替代/risk/norm/预算事实；2fail冻结→3pass，121相关+27控制通过。原G既有独立oracle baseline0→EVALUATE/TRANSFER通过，重启同主体后新问题原C选择NUMERIC_SUM，1既有fixture/0synthetic actions；不是长期通用成长。原错夹具阶段名保留，未放宽评估。压缩现役ACTIVE，完整历史留Git/evidence。下一结果反向修私问、多轮策略、商业原生融合及原A–H。证据private-question-learning-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6/S8 Advanced增量：C候选可精确修当前自有PRIVATE_QUESTION，same intent/version/time/source lineage；普通创意/过期target拒绝，内容相同不重写。原G独立结果经已有认知修私问并保留lesson/selected_method，不替换正式工作或授权。两组2fixture/61440同预算关rev1/静待、开rev2/REFLECT；3消融+86相关11.00s。c2f独立CI227/1warn非本批；真实模型/长期/多轮策略仍待。证据private-question-revision-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：移除32私念静默保存门，原C40创意保存；相关当前own/topic/source/可用性先筛后限额，解决旧兴趣被无关/撤回挤出及重复保存。原Store注册两再生索引、无缓存只读分页，portable/隐私/二进制artifact213相关通过。手动1k/10k/100k私念synthetic精确话题21查询各旧0→新21，100k P95 .262ms，真实分配index17.4MiB；非语义Memory/实际模型/物理回收或长期资格。保留2首错、withdrawn首错、脚本strict tuple首错，不改断言。下一持续策略/多倾向/商业融合与原A–H，CURRENT不变。证据private-interest-wide-20261112/09锚。
+
+- 2026-11-12｜12fa源码后继资格实核：独立CI127pass42.33s/clientSKIP，100001私念头原注册quarantine备份重建两cache并开库1.2421s/身份隔离保持/0动作provider。首次SQLite-only副本PRIVACY_ANCHOR_MISSING拒绝保留，不绕锚，用原backup新副本完成；不当安装/迁移或DR。定时续办指令已在本对话接收继续、记录工具last_run状态边界。纠正CORRECTION已WATCH的源码判断，不重复开发；下一商业volatile内心/原C策略融合，原A–H保持。只改资格记录，无源码/发行改变。
+
+- 2026-11-12｜NEXT_EXPERIENCE S4/S6 Advanced A–E增量：原plan_step不再机械HIGH→REST/LOW→continue，尊重quiet choice及CONTINUE单项norm，无合法REST不虚构；保留原CREATE/LEARN采纳起源不当新步骤白名单。原Goal/Plan/StepRef真实7场景4fail/3pass→7pass，182相关含Precision V2通过33.93s；新场景0Grant/动作/模型，goal/job不变，不当整goal已停或新授权。首次schema12可选表错误保留并查真实runtime表。证据plan-step-choice-20261112/09锚；原A–H与商业内心/自然策略继续。
+
+- 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6 Advanced增量：取消私问必须沿当前topic的开发者硬门，原C可开新方向/同问题改topic，实权scope/owner/privacy/来源/refs仍原链；改写重置旧公开资格为private，audit-only保持。原Store/C双认知→新兴趣改变后续EXPLORE/关支持IGNORE，1首错→通过、105相关16.04s。无schema新字段/Store/Agent/调用器/真实模型，lookup旧规模测量不重跑不冒称新测。下一核对内部形成与pending任务混淆、商业自然策略和原A–H。证据private-new-direction-20261112/09锚。
+
+- 2026-11-12｜NEXT_EXPERIENCE S1/S3/S4/S6增量：私问记录后原同事务完成内部形成意向，持续问题仍ACTIVE，非外部目标/学习/投递成功；NO_ACTION不消耗pending故保留满载REST。2首错及quiet首错保留；10私问/8未变pending/暂停/重启前台通过，无刷经验/技能/关系；292相关67.67s后补schema13能力门和原子中断5通过，不拼全仓。原实际权限和8/12普通语义不改。下一无旧支持的真实内生发生追源及商业/自然策略，原A–H继承。证据private-formation-queue-20261112/09锚。
+
+
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
 
 [源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。

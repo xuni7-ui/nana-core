@@ -1,0 +1,33 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_revising_one_private_idea_does_not_hide_another_current_interest _____
+
+tmp_path = PosixPath('/tmp/nana-private-churn-before/test_revising_one_private_idea0')
+
+    def test_revising_one_private_idea_does_not_hide_another_current_interest(tmp_path):
+        """Historical header fixture, not 70 fabricated experiences/model thoughts."""
+        from nana_core.continuity.records import RecordService
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            for key,topic in [('stable-private','stable-project'),('revised-private','creative-project')]:
+                _,_,cycle=choose(app,key,topic=topic)
+                app.runtime.subject.transition_intention(cycle.intention_id,expected_revision=1,state='COMPLETED')
+            records=RecordService(app.runtime.store)
+            rid,value=next((rid,item) for rid,item in candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT')) if item.topic=='creative-project')
+            for _ in range(70):
+                value=value.model_copy(update={'revision':value.revision+1})
+                with app.runtime.store.transaction('fixture.private_header_history') as tx:
+                    rid=records.create(tx,kind='INTENTION',scope='project-work',target_id='private-intent.v1',
+                        payload=value.model_dump(mode='json'),records=(rid,),supersedes=rid)
+            values=candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT'))
+>           assert {v.topic for _,v in values}=={'stable-project','creative-project'}
+E           AssertionError: assert {'creative-project'} == {'creative-pr...able-project'}
+E             
+E             Extra items in the right set:
+E             'stable-project'
+E             Use -v to get more diff
+
+tests/first_life_integration/test_private_intent.py:198: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_revising_one_private_idea_does_not_hide_another_current_interest
+1 failed, 10 deselected in 0.19s

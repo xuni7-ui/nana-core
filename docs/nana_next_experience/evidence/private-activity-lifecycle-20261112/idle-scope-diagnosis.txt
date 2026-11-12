@@ -1,0 +1,8 @@
+{"step": 0, "state": "PAUSED", "revision": 6, "cognitive_requests": 0}
+{"step": 1, "state": "PAUSED", "revision": 6, "cognitive_requests": 0}
+{"step": 2, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}
+{"step": 3, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}
+{"step": 4, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}
+{"step": 5, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}
+{"step": 6, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}
+{"step": 7, "state": "ABANDONED", "revision": 7, "cognitive_requests": 0}

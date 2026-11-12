@@ -314,6 +314,18 @@ class ContextAssembler:
             mandatory.append(ContextBlock(block_id="subject-deliberation",kind="SUBJECT_APPRAISAL",
                 data_json=subject_frame.model_dump_json(), source_memory_ids=subject_frame.source_memory_ids,
                 source_record_ids=subject_frame.source_record_ids))
+            if self.store.schema_target>=13:
+                from .autonomy.private_intent import internal_projection
+                # Only original C's selected references, never all private history.
+                # Ordinary reply/context calls have no subject_frame and cannot
+                # receive these contents. Each thought competes in the existing
+                # complete-package budget rather than a fixed thought-count cap.
+                for thought in internal_projection(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,privacy_classes=privacy):
+                    rid=thought['record_id']
+                    candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
+                        data_json=canonical(thought),source_record_ids=(rid,),
+                        source_memory_ids=RecordService(self.store).support(rid))))
         # No duplicate relationship prose; it is supplied as individual memory blocks.
         candidates.append((900.0, ContextBlock(block_id="relationship", kind="RELATIONSHIP_LINKS", data_json=canonical({
             "entity_id": frame.relationship.entity_id,
@@ -429,11 +441,11 @@ class ContextAssembler:
         if self.store.schema_target>=13:
             from .autonomy.private_intent import metadata as private_metadata
             for scope in request.scopes:
-                values=private_metadata(self.store,scope,privacy)[:2]
+                values=[v for v in private_metadata(self.store,scope,privacy) if v.get('activity_state')!='ABANDONED'][:2]
                 if values:
                     # Recipient expression may know a private activity exists,
                     # never its purpose/content, even when data privacy is PUBLIC.
-                    safe=[{k:v[k] for k in ('category','status','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
+                    safe=[{k:v[k] for k in ('category','status','activity_state','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
                     candidates.append((936.0,ContextBlock(block_id='private-intent-state:'+scope,kind='PRIVATE_INTENT_STATE',data_json=canonical({'activities':safe,'content_withheld':True,'delivery_authority':False}),source_record_ids=tuple(v['record_id'] for v in values),source_memory_ids=tuple(sorted({m for v in values for m in v['source_memory_ids']})))))
         if conversation_topic is not None and self.store.schema_target>=13:
             from .person_self import project, compact, stable_core, recall_core

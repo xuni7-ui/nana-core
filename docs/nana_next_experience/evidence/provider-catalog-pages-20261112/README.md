@@ -31,3 +31,5 @@ npx playwright test --config playwright.v3.config.ts --grep 'model catalog:|nati
 回退：撤销本批接口/客户端/测试提交，无 schema、主体数据、凭据或 CURRENT 迁移。旧客户端可忽略新增响应字段；新客户端对旧后端无分页游标时保留手填。`source-sha256.json` 只覆盖本批 12 个源码/测试，不自指；SHA256 锚 `924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43`。GitHub 集成/CI 以实际后续回执为准。
 
 集成前续核：已正常合入 A `4635690e522f1fd317172368abb8bed8a5c53e4e` 的原内心兴趣成果，完整保留其两份账本，仅合并本批追加。精确分页 HTTP 后续检查 1 passed / 15 deselected，见 `after-a463.txt`；未重复未受影响完整发行。PR #14 已推送但合并被自动审批以缺少 B 合并授权拒绝，仍由 A 评估或等待用户明确授权，不绕过。
+
+2026-11-12 18:00续办：正常合入A 071669b，最新两份A账本全文保留后接B后缀。原分页HTTP补验1通过/15deselected/3.12s（after-a071.txt）；12份业务/测试指纹不变，不重复51回归/发行。PR14仍待A评估，本轮未重试合并。R1研究PR15已按查询感知控制的否定结论关闭，B队列已更新。

@@ -1,0 +1,90 @@
+FFF...                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-EXPLICITLY_PRIVATE] _
+
+tmp_path = PosixPath('/tmp/prscope/test_reception_boundary_restra0')
+expectation = 'EXPLICITLY_PRIVATE', behavior = 'CREATE'
+
+    @pytest.mark.parametrize('expectation',['EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','CONTEXT_SENSITIVE'])
+    @pytest.mark.parametrize('behavior',['CREATE','SOCIALIZE'])
+    def test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity(tmp_path,expectation,behavior):
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            spec=SocialExpectationSpec(topic='creative-project',expectation=expectation)
+            capture(app.runtime,'private-reception',spec.model_dump(mode='json'),kind='USER_STATEMENT',
+                predicate='social.expectation.creative-project')
+            cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',
+                possible_behaviors=(behavior,),resource_class='ORDINARY',availability='AVAILABLE')
+            mid=capture(app.runtime,'private-creative-choice',cue.model_dump(mode='json'),predicate='concern.creative-project')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-creative-choice',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=app.runtime.subject.run(event)
+            if behavior=='CREATE':
+>               assert cycle.intention.behavior=='CREATE' and cycle.evaluation.normative=='ENDORSED'
+E               AssertionError: assert ('STAY_SILENT' == 'CREATE'
+E                 
+E                 - CREATE
+E                 + STAY_SILENT)
+
+tests/first_life_integration/test_private_intent.py:295: AssertionError
+_ test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-EXPLICITLY_FORBIDDEN] _
+
+tmp_path = PosixPath('/tmp/prscope/test_reception_boundary_restra1')
+expectation = 'EXPLICITLY_FORBIDDEN', behavior = 'CREATE'
+
+    @pytest.mark.parametrize('expectation',['EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','CONTEXT_SENSITIVE'])
+    @pytest.mark.parametrize('behavior',['CREATE','SOCIALIZE'])
+    def test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity(tmp_path,expectation,behavior):
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            spec=SocialExpectationSpec(topic='creative-project',expectation=expectation)
+            capture(app.runtime,'private-reception',spec.model_dump(mode='json'),kind='USER_STATEMENT',
+                predicate='social.expectation.creative-project')
+            cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',
+                possible_behaviors=(behavior,),resource_class='ORDINARY',availability='AVAILABLE')
+            mid=capture(app.runtime,'private-creative-choice',cue.model_dump(mode='json'),predicate='concern.creative-project')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-creative-choice',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=app.runtime.subject.run(event)
+            if behavior=='CREATE':
+>               assert cycle.intention.behavior=='CREATE' and cycle.evaluation.normative=='ENDORSED'
+E               AssertionError: assert ('STAY_SILENT' == 'CREATE'
+E                 
+E                 - CREATE
+E                 + STAY_SILENT)
+
+tests/first_life_integration/test_private_intent.py:295: AssertionError
+_ test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-CONTEXT_SENSITIVE] _
+
+tmp_path = PosixPath('/tmp/prscope/test_reception_boundary_restra2')
+expectation = 'CONTEXT_SENSITIVE', behavior = 'CREATE'
+
+    @pytest.mark.parametrize('expectation',['EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','CONTEXT_SENSITIVE'])
+    @pytest.mark.parametrize('behavior',['CREATE','SOCIALIZE'])
+    def test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity(tmp_path,expectation,behavior):
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            spec=SocialExpectationSpec(topic='creative-project',expectation=expectation)
+            capture(app.runtime,'private-reception',spec.model_dump(mode='json'),kind='USER_STATEMENT',
+                predicate='social.expectation.creative-project')
+            cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',
+                possible_behaviors=(behavior,),resource_class='ORDINARY',availability='AVAILABLE')
+            mid=capture(app.runtime,'private-creative-choice',cue.model_dump(mode='json'),predicate='concern.creative-project')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.private-creative-choice',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                observed_at_us=app.runtime.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=app.runtime.subject.run(event)
+            if behavior=='CREATE':
+>               assert cycle.intention.behavior=='CREATE' and cycle.evaluation.normative=='ENDORSED'
+E               AssertionError: assert (None == 'CREATE')
+E                +  where None = Intention(kind='WAIT', purpose='Clarify rather than assume interaction latitude', slot_key='clarify', source_ids=('308b0375-8001-4813-8dd6-af1ef37bc28c', '91073e5c-6963-4325-9d4e-f2384e2e22ad'), self_generated=True, behavior=None).behavior
+E                +    where Intention(kind='WAIT', purpose='Clarify rather than assume interaction latitude', slot_key='clarify', source_ids=('308b0375-8001-4813-8dd6-af1ef37bc28c', '91073e5c-6963-4325-9d4e-f2384e2e22ad'), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/first_life_integration/test_private_intent.py:295: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-EXPLICITLY_PRIVATE]
+FAILED tests/first_life_integration/test_private_intent.py::test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-EXPLICITLY_FORBIDDEN]
+FAILED tests/first_life_integration/test_private_intent.py::test_reception_boundary_restrains_expression_without_banning_unbound_private_creativity[CREATE-CONTEXT_SENSITIVE]
+3 failed, 3 passed, 13 deselected in 0.42s

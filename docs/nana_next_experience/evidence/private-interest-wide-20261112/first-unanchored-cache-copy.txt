@@ -1,0 +1,7 @@
+Captured tool result from the first isolated synthetic cache-cost probe, not a production restore:
+SQLite-only backup copy opened with ContinuityStore(schema_target=13).
+src/nana_core/continuity/store.py:99 -> PrivacyJournal(...)
+src/nana_core/continuity/privacy.py:99
+nana_core.contracts.CoreError: PRIVACY_ANCHOR_MISSING
+
+The unregistered copy and original synthetic fixture DB were preserved. No anchor was manufactured and no recovery gate was disabled. A NEW copy was then created via ContinuityStore.backup, which registers the privacy family and sets recovery_quarantine=true. Only cache rebuild/read was tested; no SubjectLoop/model/execution activation.

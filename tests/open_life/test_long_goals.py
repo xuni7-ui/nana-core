@@ -5,6 +5,44 @@ from nana_core.continuity.subject import SubjectInput
 from nana_core.continuity.subject.opportunities import ConcernCue
 from tests.open_autonomy.helpers import fresh,configure,objective,capture,cue,send
 
+
+@pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+    ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+    ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+    ('LOW','HIGH',('REST',),(),'REST'),
+    ('HIGH','HIGH',('REST',),(),'REST'),
+    ('LOW','LOW',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+    ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+    ('LOW','LOW',('CREATE',),(),'CONTINUE_PROJECT'),
+])
+def test_adopted_plan_step_competes_with_load_rest_and_sourced_norm_without_new_authority(tmp_path,load,urgency,options,prohibited,expected):
+    from nana_core.continuity.agency import step_view
+    obj=objective()
+    with fresh(tmp_path/'s.db') as r:
+        port=configure(r,tmp_path/'world.fixture.json',(obj,),grant=False)
+        port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+        send(r,'adopt-step-choice',(cue(r,obj),));r.step()
+        ref=r.work.agency.next_reference();assert ref is not None
+        view=step_view(r.store,ref,scope='lab',privacy_classes=('PERSONAL',))
+        goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',ref.work_id))
+        current=ConcernCue(cue_kind='OPEN_LOOP',topic_key='step.choice',motivation_source='LONG_TERM_GOAL',
+            possible_behaviors=options,cognitive_load=load,urgency=urgency)
+        source=capture(r,'step-current-choice',current.model_dump_json(),predicate='concern.step.choice')
+        sources=[source]
+        if prohibited:
+            norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='step.choice',motivation_source='NORM',prohibited_behaviors=prohibited)
+            sources.append(capture(r,'step-current-norm',norm.model_dump_json(),predicate='concern.constraint.step-choice'))
+        event=SubjectInput(source_key='synthetic.plan.step-choice',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='lab',
+            observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),realization_target=view.target,goal_step=ref)
+        cycle=r.subject.run(event)
+        assert cycle.intention.behavior==expected
+        if expected=='CONTINUE_PROJECT':
+            assert cycle.intention.kind=='ACTION_PROPOSAL' and cycle.evaluation.normative=='ENDORSED'
+            assert cycle.realization_target==view.target
+        else:assert cycle.intention.kind=='NO_ACTION' and cycle.realization_target is None
+        assert r.store.one('goals',view.goal_id)==goal and r.store.one('jobs',ref.work_id)==job
+        assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('runtime_cognition_calls')
+
 def test_one_ongoing_goal_c_pause_restart_resume_abandon_without_plan_replay(tmp_path):
     path=tmp_path/'s.db';world=tmp_path/'world.fixture.json';obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
     def review(r,goal,kind,key):

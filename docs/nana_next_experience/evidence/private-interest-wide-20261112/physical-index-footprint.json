@@ -1,0 +1,12 @@
+{
+  "db_bytes": 269914112,
+  "page_size": 4096,
+  "page_count": 65897,
+  "freelist_count": 0,
+  "allocated_index_bytes": {
+    "private_intent_live_lookup": 7794688,
+    "private_intent_payload_lookup": 7487488,
+    "private_intent_topic_lookup_v1": 10760192
+  },
+  "active_private_headers": 100001
+}

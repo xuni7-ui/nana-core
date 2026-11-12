@@ -1,0 +1,141 @@
+F....F.                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_own_new_question_without_user_message_survives_restart_and_changes_future_choice _
+
+tmp_path = PosixPath('/tmp/pqnew2/test_own_new_question_without_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa25d2401d0>
+
+    def test_own_new_question_without_user_message_survives_restart_and_changes_future_choice(tmp_path,monkeypatch):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.records import RecordService
+        from nana_core.continuity.context import ContextPolicy,ContextAssembler,ContextRequest
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        question='SYNTHETIC-PRIVATE-NEW-QUESTION: Could this creative project become an interactive story?'
+        calls=[]
+        with LifeApplication(home) as app:
+            original,_,created=choose(app)
+            r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+            own_rid=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0][0]
+            identity=r.identity_id
+            # The wake contains no new user text, source memory or external event.
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.own-question',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us())
+            policy=ContextPolicy(policy_id='own-question-fixture',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+            class OwnQuestionFixture:
+                descriptor='offline-own-question-fixture-not-quality-evidence'
+                def propose(self,request):
+                    calls.append(request)
+                    base=json.loads(AnalyticalFixturePort().propose(request))
+                    base.update(interpretation=question,private_question={'topic':'creative-project','question':question,'related_private_record_ids':[own_rid]})
+                    return json.dumps(base)
+            result=r.subject.cognize(event,model=OwnQuestionFixture(),authority=r.authority,policy=policy)
+            assert result.judgment.stance=='REFLECT' and result.intention.behavior=='REFLECT' and len(calls)==1
+            assert question not in result.model_dump_json()
+            values=[(rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION']
+            assert len(values)==1
+            qrid,q=values[0]
+            assert q.content_summary==question and q.epistemic_status=='OWN_QUESTION_NOT_WORLD_FACT'
+            assert q.disclosure_policy=='PRIVATE_FOR_NOW' and not q.execution_authority
+            assert not event.source_memory_ids and event.text is None
+>           assert own_rid in RecordService(r.store).read(qrid)['source_record_ids']
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'source_record_ids'
+
+tests/first_life_integration/test_private_intent.py:483: KeyError
+_ test_model_question_is_a_candidate_and_c_keeps_original_boundaries[nonretained] _
+
+tmp_path = PosixPath('/tmp/pqnew2/test_model_question_is_a_candi4')
+condition = 'nonretained'
+
+    @pytest.mark.parametrize('condition',['user','norm','resource','rest','nonretained','unsupported-reference'])
+    def test_model_question_is_a_candidate_and_c_keeps_original_boundaries(tmp_path,condition):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.records import RecordService
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            r=app.runtime;calls=[]
+            if condition=='norm':
+                norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='creative-project',motivation_source='NORM',prohibited_behaviors=('REFLECT',))
+                capture(r,'question-norm',norm.model_dump(mode='json'),kind='USER_STATEMENT',predicate='concern.constraint.question')
+            cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CURIOSITY',
+                possible_behaviors=('REST',) if condition=='rest' else ('REFLECT',),
+                resource_ref='synthetic://private/resource' if condition=='resource' else None,resource_class='ORDINARY')
+            mid=capture(r,'question-admission',cue.model_dump(mode='json'),predicate='concern.question-admission')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.question-admission',
+                kind='WAKE' if condition!='user' else 'INTERACTION',origin='USER' if condition=='user' else 'SELF_WAKE',
+                entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),
+                retention='DO_NOT_REMEMBER' if condition=='nonretained' else 'MAY_REMEMBER')
+            class CandidateFixture:
+                descriptor='offline-question-candidate-admission'
+                def propose(self,request):
+                    calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':'creative-project','question':'SYNTHETIC private question never a command',
+                        'related_private_record_ids':['forged-private-record'] if condition=='unsupported-reference' else []}
+                    return json.dumps(base)
+            policy=ContextPolicy(policy_id='question-admission',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+            if condition=='unsupported-reference':
+                with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REFERENCE'):
+                    r.subject.cognize(event,model=CandidateFixture(),authority=r.authority,policy=policy)
+>           else:r.subject.cognize(event,model=CandidateFixture(),authority=r.authority,policy=policy)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:542: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:574: in cognize
+    source = self.ingress.ingest(event)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.ingress.SubjectIngress object at 0x7fa25d094d70>
+event = SubjectInput(conversation_proposal=None, problem_frame=None, interaction_signal=None, growth_assessment_id=None, schem...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+
+    def ingest(self, event: SubjectInput):
+        if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
+        now = self.store.clock.utc_now_us()
+        if event.surface:
+            from ..surfaces import source_key
+            if event.surface.subject_id != self.store.identity['identity_id'] or event.source_key != source_key(event.surface):
+                raise CoreError('SURFACE_BINDING_INVALID')
+        if event.observed_at_us > now or (event.occurred_at_us is not None and event.occurred_at_us > event.observed_at_us):
+            raise CoreError('INVALID_SUBJECT_TIME')
+        if not self.store.one('entities', event.entity_id):
+            raise CoreError('UNKNOWN_SUBJECT_ENTITY')
+        previous = self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?', (event.source_key,)).fetchone()
+        if previous:
+            row = dict(previous)
+            if row['entity_id'] != event.entity_id or row['scope'] != event.scope or row['kind'] != event.kind or row['origin'] != event.origin:
+                raise CoreError('SUBJECT_SOURCE_COLLISION')
+            if row['record_id']:
+                try:
+                    old = self.records.read(row['record_id'])['payload']['input']
+                except CoreError:
+                    raise CoreError('SUBJECT_SOURCE_RETIRED') from None
+                if SubjectInput.model_validate_json(canonical(old)).model_dump(mode='json') != json.loads(event.model_dump_json()):
+                    raise CoreError('SUBJECT_SOURCE_COLLISION')
+            # Nonretained input intentionally has no content hash that might leak it.
+            return row
+        request_target=None
+        if self.store.schema_target>=10 and event.relational_request:
+            request_target='relational-request:'+digest([event.scope,event.entity_id,event.relational_request.request_id])
+            if self.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? LIMIT 1",(request_target,)).fetchone():
+                raise CoreError('RELATIONAL_REQUEST_ID_REUSED')
+        if event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:
+            from .context_fit import boundary_key
+            request_target=boundary_key(event.entity_id,event.scope,event.interaction_signal.topic_key,purpose='DELIVERY' if event.interaction_signal.kind in {'DECLINE_DELIVERY','REOPEN_DELIVERY'} else 'COGNITION')
+        support = tuple(dict.fromkeys((*event.source_memory_ids, *event.constraint_memory_ids)))
+        for memory_id in support:
+            item = self.memory.read(memory_id)
+            if item['scope'] != event.scope:
+                raise CoreError('CROSS_SCOPE_SUBJECT_INPUT')
+            if event.retention == 'DO_NOT_REMEMBER':
+>               raise CoreError('NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION')
+E               nana_core.contracts.CoreError: NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION
+
+src/nana_core/continuity/subject/ingress.py:68: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_own_new_question_without_user_message_survives_restart_and_changes_future_choice
+FAILED tests/first_life_integration/test_private_intent.py::test_model_question_is_a_candidate_and_c_keeps_original_boundaries[nonretained]
+2 failed, 5 passed, 30 deselected in 0.64s
