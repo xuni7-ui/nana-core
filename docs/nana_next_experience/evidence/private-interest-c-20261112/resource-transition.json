@@ -1,0 +1,14 @@
+{
+  "reason": "root filesystem ENOSPC; tracked-source/git copied to /tmp isolated same-branch worktree",
+  "protected_original": "/workspace/nana-unified-release",
+  "active_worktree": "/tmp/nana-inner-refinement-work",
+  "root_pytest_cache_mutation_avoided": true,
+  "fontconfig_cache_preserved_entries": 30,
+  "fontconfig_manifest_sha256": "fdded431b3ffa9a7a715a51458799c23003ce6e7c8e5ee56137a4ce67b896d95",
+  "fontconfig_move_did_not_recover_sufficient_overlay_space": true,
+  "test_venv_pyc_relocation": "FIRST_CACHE_COPIED_TO_TMP_THEN_SYMLINK_ENOSPC_NOT_COMPLETE",
+  "test_venv_first_cache_preserved": "/tmp/nana-preserved-test-python-bytecode/_distutils_hack/__pycache__",
+  "production_runtime_or_source_binary_modified": false,
+  "original_git_or_database_deleted_or_moved": false,
+  "tmp_lifetime": "EPHEMERAL_CHECK_REMOTE_LATEST_AFTER_REPROVISION"
+}

@@ -49,6 +49,19 @@ def candidates(store,scope,privacy_classes):
     return tuple(out)
 
 
+def decision_support(store,scope,privacy_classes,*,topic):
+    """Original C's relevant own interests, not recipient disclosure content.
+
+    The original record remains the source of identity/lifecycle/privacy and
+    withdrawal. Returning only references cannot turn a thought into a fact or
+    mint permission, and adds no model request or private-context plaintext.
+    """
+    if topic is None:return ()
+    return tuple(rid for rid,item in candidates(store,scope,privacy_classes)
+        if item.owner_identity_id==store.identity['identity_id'] and item.topic==topic
+        and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN')
+
+
 def after_choice(store,tx,event,result,*,privacy_classes):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
@@ -71,6 +84,9 @@ def after_choice(store,tx,event,result,*,privacy_classes):
     if any(item.intent_id==result.intention_id for _,item in current):return
     # No model can submit a private-intent DTO; only the recorded C choice qualifies.
     topic=result.intention.slot_key.removeprefix('concern-')
+    if any(item.owner_identity_id==store.identity['identity_id'] and item.topic==topic
+            and item.status!='WITHDRAWN' and item.disclosure_policy!='WITHDRAWN'
+            and item.content_summary==result.intention.purpose[:512] for _,item in current):return
     facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=topic,privacy_classes=privacy_classes)
     mode='PRIVATE_FOR_NOW';trigger=None
     for _,spec in facts:
