@@ -1,0 +1,9 @@
+Source f7c30787ab8b72ce7e21f0ef21ef9e7b257ff223 run43157054621, both integration jobs completed SUCCESS. Actual GitHub connector log excerpts; not new full regression or artifact download.
+client-feedback job 130979530696
+2026-11-12T04:48:53.3707773Z [32m✓ built in 2.72s[39m
+2026-11-12T04:48:55.8057415Z [2m Test Files [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+2026-11-12T04:48:55.8059211Z [2m      Tests [22m [1m[32m93 passed[39m[22m[90m (93)[39m
+2026-11-12T04:48:56.0384399Z ℹ skipped 0
+2026-11-12T04:51:18.1285969Z   148 passed (2.0m)
+original-core-feedback job 130979530701
+2026-11-12T04:50:58.4384721Z 135 passed in 130.48s (0:02:10)

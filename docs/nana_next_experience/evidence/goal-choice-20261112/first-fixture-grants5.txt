@@ -1,0 +1,212 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-HIGH-options0-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/tmp/nana-goal-choice-first/test_lifecycle_review_competes0')
+load = 'HIGH', urgency = 'HIGH', options = ('CONTINUE_PROJECT', 'REST')
+expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('load,urgency,options,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),'REST'),
+        ('HIGH','HIGH',('REST',),'REST'),
+        ('LOW','HIGH',('REST',),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+    ])
+    def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,expected):
+        path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+        obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+        with fresh(path) as r:
+            port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'ongoing-choice',(cue(r,obj),));r.step()
+            goal=r.store.all('goals')[0];identity=r.identity_id
+            plan=json.loads(goal['body_json'])['plan_record_id']
+        with fresh(path) as r:
+            configure(r,world,(obj,));assert r.identity_id==identity
+            goal=r.store.one('goals',goal['goal_id'])
+            concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+            event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),
+                goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+            cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'REST' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + REST
+
+tests/open_life/test_long_goals.py:82: AssertionError
+_ test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-LOW-options1-REST] _
+
+tmp_path = PosixPath('/tmp/nana-goal-choice-first/test_lifecycle_review_competes1')
+load = 'HIGH', urgency = 'LOW', options = ('CONTINUE_PROJECT', 'REST')
+expected = 'REST'
+
+    @pytest.mark.parametrize('load,urgency,options,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),'REST'),
+        ('HIGH','HIGH',('REST',),'REST'),
+        ('LOW','HIGH',('REST',),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+    ])
+    def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,expected):
+        path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+        obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+        with fresh(path) as r:
+            port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'ongoing-choice',(cue(r,obj),));r.step()
+            goal=r.store.all('goals')[0];identity=r.identity_id
+            plan=json.loads(goal['body_json'])['plan_record_id']
+        with fresh(path) as r:
+            configure(r,world,(obj,));assert r.identity_id==identity
+            goal=r.store.one('goals',goal['goal_id'])
+            concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+            event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),
+                goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+            cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+            assert cycle.intention.behavior==expected
+            updated=r.store.one('goals',goal['goal_id'])
+            assert updated['state']==('SUSPENDED' if expected=='REST' else 'ACTIVE')
+            assert json.loads(updated['body_json'])['plan_record_id']==plan
+            assert len(r.store.all('goals'))==1 and not r.store.all('actions')
+>           assert not r.store.all('grants') and not r.store.all('cognitive_requests')
+E           AssertionError: assert (not [{'grant_id': '45a94fb8-0d27-485d-b338-3bb9f6e71526', 'issuer': 'offline-operator', 'identity_id': 'eedf1962-3d48-4d28...r': 'offline-operator', 'identity_id': 'eedf1962-3d48-4d28-9ca5-875453642aab', 'not_before_us': 1791590400000000, ...}])
+E            +  where [{'grant_id': '45a94fb8-0d27-485d-b338-3bb9f6e71526', 'issuer': 'offline-operator', 'identity_id': 'eedf1962-3d48-4d28...r': 'offline-operator', 'identity_id': 'eedf1962-3d48-4d28-9ca5-875453642aab', 'not_before_us': 1791590400000000, ...}] = all('grants')
+E            +    where all = <nana_core.continuity.store.ContinuityStore object at 0x7fdcab457a10>.all
+E            +      where <nana_core.continuity.store.ContinuityStore object at 0x7fdcab457a10> = <nana_core.presence.runtime.NanaRuntime object at 0x7fdcab4c6ab0>.store
+
+tests/open_life/test_long_goals.py:87: AssertionError
+_ test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-HIGH-options2-REST] _
+
+tmp_path = PosixPath('/tmp/nana-goal-choice-first/test_lifecycle_review_competes2')
+load = 'HIGH', urgency = 'HIGH', options = ('REST',), expected = 'REST'
+
+    @pytest.mark.parametrize('load,urgency,options,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),'REST'),
+        ('HIGH','HIGH',('REST',),'REST'),
+        ('LOW','HIGH',('REST',),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+    ])
+    def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,expected):
+        path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+        obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+        with fresh(path) as r:
+            port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'ongoing-choice',(cue(r,obj),));r.step()
+            goal=r.store.all('goals')[0];identity=r.identity_id
+            plan=json.loads(goal['body_json'])['plan_record_id']
+        with fresh(path) as r:
+            configure(r,world,(obj,));assert r.identity_id==identity
+            goal=r.store.one('goals',goal['goal_id'])
+            concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+            event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),
+                goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+            cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+            assert cycle.intention.behavior==expected
+            updated=r.store.one('goals',goal['goal_id'])
+            assert updated['state']==('SUSPENDED' if expected=='REST' else 'ACTIVE')
+            assert json.loads(updated['body_json'])['plan_record_id']==plan
+            assert len(r.store.all('goals'))==1 and not r.store.all('actions')
+>           assert not r.store.all('grants') and not r.store.all('cognitive_requests')
+E           AssertionError: assert (not [{'grant_id': '5aa654fb-c556-489d-8693-835be5f4f438', 'issuer': 'offline-operator', 'identity_id': 'b0f89fa2-8c65-4d87...r': 'offline-operator', 'identity_id': 'b0f89fa2-8c65-4d87-a815-c0fa61f82b22', 'not_before_us': 1791590400000000, ...}])
+E            +  where [{'grant_id': '5aa654fb-c556-489d-8693-835be5f4f438', 'issuer': 'offline-operator', 'identity_id': 'b0f89fa2-8c65-4d87...r': 'offline-operator', 'identity_id': 'b0f89fa2-8c65-4d87-a815-c0fa61f82b22', 'not_before_us': 1791590400000000, ...}] = all('grants')
+E            +    where all = <nana_core.continuity.store.ContinuityStore object at 0x7fdcab27f770>.all
+E            +      where <nana_core.continuity.store.ContinuityStore object at 0x7fdcab27f770> = <nana_core.presence.runtime.NanaRuntime object at 0x7fdcab4c72c0>.store
+
+tests/open_life/test_long_goals.py:87: AssertionError
+_ test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[LOW-HIGH-options3-REST] _
+
+tmp_path = PosixPath('/tmp/nana-goal-choice-first/test_lifecycle_review_competes3')
+load = 'LOW', urgency = 'HIGH', options = ('REST',), expected = 'REST'
+
+    @pytest.mark.parametrize('load,urgency,options,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),'REST'),
+        ('HIGH','HIGH',('REST',),'REST'),
+        ('LOW','HIGH',('REST',),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+    ])
+    def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,expected):
+        path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+        obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+        with fresh(path) as r:
+            port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'ongoing-choice',(cue(r,obj),));r.step()
+            goal=r.store.all('goals')[0];identity=r.identity_id
+            plan=json.loads(goal['body_json'])['plan_record_id']
+        with fresh(path) as r:
+            configure(r,world,(obj,));assert r.identity_id==identity
+            goal=r.store.one('goals',goal['goal_id'])
+            concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+            event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),
+                goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+            cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'REST'
+E             
+E             - REST
+E             + CONTINUE_PROJECT
+
+tests/open_life/test_long_goals.py:82: AssertionError
+_ test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[LOW-LOW-options4-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/tmp/nana-goal-choice-first/test_lifecycle_review_competes4')
+load = 'LOW', urgency = 'LOW', options = ('CONTINUE_PROJECT', 'REST')
+expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('load,urgency,options,expected',[
+        ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+        ('HIGH','LOW',('CONTINUE_PROJECT','REST'),'REST'),
+        ('HIGH','HIGH',('REST',),'REST'),
+        ('LOW','HIGH',('REST',),'REST'),
+        ('LOW','LOW',('CONTINUE_PROJECT','REST'),'CONTINUE_PROJECT'),
+    ])
+    def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,expected):
+        path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+        obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+        with fresh(path) as r:
+            port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+            send(r,'ongoing-choice',(cue(r,obj),));r.step()
+            goal=r.store.all('goals')[0];identity=r.identity_id
+            plan=json.loads(goal['body_json'])['plan_record_id']
+        with fresh(path) as r:
+            configure(r,world,(obj,));assert r.identity_id==identity
+            goal=r.store.one('goals',goal['goal_id'])
+            concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+                possible_behaviors=options,cognitive_load=load,urgency=urgency)
+            cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+            event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),
+                goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+            cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+            assert cycle.intention.behavior==expected
+            updated=r.store.one('goals',goal['goal_id'])
+            assert updated['state']==('SUSPENDED' if expected=='REST' else 'ACTIVE')
+            assert json.loads(updated['body_json'])['plan_record_id']==plan
+            assert len(r.store.all('goals'))==1 and not r.store.all('actions')
+>           assert not r.store.all('grants') and not r.store.all('cognitive_requests')
+E           AssertionError: assert (not [{'grant_id': '07b38abb-a768-411a-b7fc-45f4ff9c7294', 'issuer': 'offline-operator', 'identity_id': '629e908c-7935-43aa...r': 'offline-operator', 'identity_id': '629e908c-7935-43aa-b893-cf19634ee62c', 'not_before_us': 1791590400000000, ...}])
+E            +  where [{'grant_id': '07b38abb-a768-411a-b7fc-45f4ff9c7294', 'issuer': 'offline-operator', 'identity_id': '629e908c-7935-43aa...r': 'offline-operator', 'identity_id': '629e908c-7935-43aa-b893-cf19634ee62c', 'not_before_us': 1791590400000000, ...}] = all('grants')
+E            +    where all = <nana_core.continuity.store.ContinuityStore object at 0x7fdcab287290>.all
+E            +      where <nana_core.continuity.store.ContinuityStore object at 0x7fdcab287290> = <nana_core.presence.runtime.NanaRuntime object at 0x7fdcab27dcd0>.store
+
+tests/open_life/test_long_goals.py:87: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_long_goals.py::test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-HIGH-options0-CONTINUE_PROJECT]
+FAILED tests/open_life/test_long_goals.py::test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-LOW-options1-REST]
+FAILED tests/open_life/test_long_goals.py::test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[HIGH-HIGH-options2-REST]
+FAILED tests/open_life/test_long_goals.py::test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[LOW-HIGH-options3-REST]
+FAILED tests/open_life/test_long_goals.py::test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest[LOW-LOW-options4-CONTINUE_PROJECT]
+5 failed, 4 deselected in 0.70s

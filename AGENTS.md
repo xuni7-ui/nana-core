@@ -4,7 +4,9 @@
 
 **用户当前实施原则（2026-11-11）：** [创新优先与工程负担精简](docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)适用于同一A/B任务。能力、自主性、体验、可验证成长优先；探索定向对照，集成相关回归，发行/迁移才完整验证。复用已验证成果，已定位外部403单列；必要身份/数据/授权/真实投递保证及冻结框架继续保留。
 
-**当前补充：**本节中“本轮 Foundation”等是历史阶段描述，不是当前任务；以 `PROJECT_BRAIN/09_STATE.md`、用户授权及实际 Git/运行回执为准。开发前核对现役分支、任务继承和现有实现，按职责扩展原模块，保持单主体/Store/Loop；实现、测试、接线、部署和真实体验分开报告。参见 `docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md`。Codex A继续主体与真实体验精修；Codex B按项目负责人最新授权推进仓库入口焕新和低风险目录整理，保留真实消费者、封签交付和原始证据。
+**2026-11-12高优先级增补：** [持续内心生活与动机因果（含13节）](docs/nana_next_experience/task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md)继承同一主任务，原C内的持续状态先影响选择再表达；允许自主形成思想，事实/猜想/私念/承诺分开，不造第二主体、Store、Planner或内心Agent。A负责内心认知和原C/D/G十域因果；B负责通用多端、自然交互、开源深入研究、隔离原型及独立对照，不并行改写A的Core。下文较早的B治理范围不是对B新职责的限制。
+
+**当前补充：**本节中“本轮 Foundation”等是历史阶段描述，不是当前任务；以 `PROJECT_BRAIN/09_STATE.md`、用户授权及实际 Git/运行回执为准。开发前核对现役分支、任务继承和现有实现，按职责扩展原模块，保持单主体/Store/Loop；实现、测试、接线、部署和真实体验分开报告。参见 `docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md`。A/B按上方2026-11-12更新分工继续；既有仓库整理仍保护真实消费者、封签交付和原始证据。
 
 用户已正式冻结总框架。动手前先读 `PROJECT_BRAIN/00_MASTER_FRAMEWORK.md` → `01_CAPABILITY_MATRIX.md` → `09_STATE.md`，再定位07/08与具体证据。
 本条更新下方§9中旧“先只读09”的入口顺序；09仍是当前任务状态唯一入口。不得把聊天、新功能或单次体验直接变成总路线变更。

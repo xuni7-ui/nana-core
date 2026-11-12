@@ -120,3 +120,8 @@ docs/nana_next_experience/evidence/http-continuation-20261111/README.md：后端
 ### 2026-11-12 生成期间接续已打通原CLI/Web/真实TLS
 
 docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输入可在生成中进入原C，两源下一回复，旧未发草稿不伪作已发送；正常启动源码启用但非已部署。53相关/41进程授权/93unit/56+12浏览器/实际TLS4视口通过，停机1DEV身份16fixture真实0。保留两轮TLS首错与safe-point首错。APK/手机/最终匹配安装/真实模型/真人自然度/跨日成长/原A–H未完；CURRENT266+409。环境重建后旧/tmp安装及缓存不可假定存在。
+
+
+### 2026-11-12 最高优先级：持续内心生活与动机因果
+
+用户13节增补已归档task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md，沿同一C-D-G/Store/Context/Delivery先补私念在决策前被消费，随后跨轮策略/明确反馈/重启/无输入/S8与同预算消融；原A–H及S1–S10/63标准不变。旧PrivateIntent已有创建/披露/撤回，但不等于持续内心因果已接通。原C目标取舍73定向通过只是局部增量，下一直接接线；A/B分工按13.6更新，B不只做治理。f7独立CI135/93/148成功，未改CURRENT/生产/手机/真实模型。

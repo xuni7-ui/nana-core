@@ -146,9 +146,20 @@ def decide(event, situation, appraisal, motives):
     if situation.goal_review_id and event.goal_review and event.goal_review.purpose=='LIFECYCLE':
         # Ending a sourced adopted goal does not start more work. Attention
         # load can defer continuation, but must not turn withdrawal into a pause.
-        behavior='WITHDRAW' if situation.cue and 'WITHDRAW' in directions(situation.cue) else 'REST' if situation.cue and situation.cue.cognitive_load=='HIGH' else 'CONTINUE_PROJECT'
-        return ('DEFER' if behavior=='REST' else 'FOCUS_NOW',Judgment(stance='DEFER' if behavior=='REST' else 'AGREE',reason='Review continued ownership of a sourced goal; pause, continue or abandon without replaying its plan',source_ids=sources),
-            Intention(kind='NO_ACTION' if behavior in {'REST','WITHDRAW'} else 'GOAL_CANDIDATE',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
+        # Current load is a rest motive, not a compulsory pause of every
+        # urgent, supported continuation. Conversely urgency cannot invent a
+        # continuation when the current cue only offers rest. Norms still apply.
+        can_continue=('CONTINUE_PROJECT' not in situation.prohibited_behaviors
+            and (situation.cue is None or 'CONTINUE_PROJECT' in options))
+        loaded=bool(situation.cue and situation.cue.cognitive_load=='HIGH')
+        urgent=bool(situation.cue and situation.cue.urgency=='HIGH')
+        if 'WITHDRAW' in options:behavior='WITHDRAW'
+        elif not can_continue or (loaded and not urgent):
+            behavior='REST' if 'REST' not in situation.prohibited_behaviors else None
+        else:behavior='CONTINUE_PROJECT'
+        quiet=behavior in {'REST',None}
+        return ('DEFER' if quiet else 'FOCUS_NOW',Judgment(stance='DEFER' if quiet else 'AGREE',reason='Review sourced goal ownership, current load and urgency without inventing work or replaying its plan',source_ids=sources),
+            Intention(kind='GOAL_CANDIDATE' if behavior=='CONTINUE_PROJECT' else 'NO_ACTION',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
         return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
     if situation.memory_review_id and (situation.pending_count>=6 or (situation.cue and situation.cue.cognitive_load=='HIGH')):

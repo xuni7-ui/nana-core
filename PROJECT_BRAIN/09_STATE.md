@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 157,
-  "as_of_us": 1794458805782536,
+  "revision": 158,
+  "as_of_us": 1794459450119198,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_INFLIGHT_WEB_TLS_WIRED",
+  "status": "IN_PROGRESS_PERSISTENT_INNER_LIFE_FUSION",
   "progress": [
     "生成中接续Web→真实TLS/BFF→原C双源/4视口通过；修模型末tick漏接输入，正常CLI源码启用，93unit/53后端/41进程授权与56+12浏览器定向通过。16fixture/1DEV主体/真实0，无新安装/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原C安静/已采纳学习可竞争承诺；LARGE存储不伪作疲倦。队列取消隐式8机会/天，显式宿主1–24配额/容量/去重/原D/实际模型执行预算保持；89相关14.10s，9机会后同状态0重复，重启第10独立事件通过。",
+    "原C目标LIFECYCLE有源紧急继续不再必然被HIGH load暂停，REST-only不再被低负荷造继续；norm/既有goal-plan/grant保持，原版2fail3pass→最终73相关8.64s，真实模型0。持续内心13节最高优先级已继承，主体私念因果尚待实现。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
-    "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
+    "最高优先级Persistent Inner Life：原PrivateIntent已有创造后记录/重启/披露撤回，C前置消费/多轮策略/内部自主新问/更新关联→S8尚未接通；先补原C动机与Context投影，保留外部事实/私念/假设及非保留边界。",
     "远端artifact下载403保留独立差额，无新路径不再重复；2026-11-12环境重建/tmp丢失，旧缓存/安装不能假设存在。本地重建不冒充远端。原A–H未完，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/goal-choice-20261112/README.md",
+    "docs/nana_next_experience/task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md",
     "docs/nana_next_experience/evidence/web-continuation-20261112/README.md",
     "docs/nana_next_experience/evidence/http-continuation-20261111/README.md",
     "docs/nana_next_experience/evidence/deferred-review-receipt-20261111/README.md",
     "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
     "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
-    "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
-    "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
-    "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md"
+    "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2694,3 +2694,10 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-12 生成期间接续真实TLS与原CLI源码接线
 
 [实测] docs/nana_next_experience/evidence/web-continuation-20261112/README.md；source-sha256.json锚`68c33deebd882e0a15494f9e37c4aa850de97cef9c85dedd11d1305293a73814`。模型完成safe-point确定性首1fail/1pass→53相关50.50s；实际TLS先CDP4fail再Root独立4fail均保留，修复后4视口16.2s，停机1身份/16fixture/0真实/0actions/grants。93unit/56+12浏览器/41CLI授权通过；源码正常CLI启用，非最终安装/手机/生产/长期成长，CURRENT266+409未改。0ee实际CI168/88/120成功，本批全仓未运行。
+
+
+### 2026-11-12 原C生命周期取舍与持续内心最高优先级
+
+[实测] docs/nana_next_experience/evidence/goal-choice-20261112/README.md，source-sha256.json锚`60fa591ea85e8d423e4db3832906ff69e93d5555d0d46810dc1ded3ff65b3d8a`。73相关8.64s，原版2fail/3pass及两次fixture错误保留。用户13节增补继承同任务，原private_intent→C.situation/Context→跨轮策略/原G成最高优先级；当前只确认缺口，不称内心机制已实现。
+
+[实测补记] f7c3078独立CI43157054621：135Core130.48s/93unit/148browser2.0m/Vite2.72s SUCCESS，basef7-ci.txt保存原日志摘录；非全仓/本批新取舍/安装或生产。

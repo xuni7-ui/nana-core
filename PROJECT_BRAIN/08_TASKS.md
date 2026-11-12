@@ -1508,3 +1508,8 @@ Source878b9e5 separates human-tagged and fixture support/counterexamples, preven
 Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
 
 [2026-11-09恢复实测] d2同源安装梦境/原C/虚拟72h/冷回读/撤回补证据通过（仅外部探针按持久化到期推进，无Runtime补丁）；外部预留条件误作高认知负荷已修，57定向通过。全仓另跑待完整总结，不拼接为最新全仓PASS；其余原任务和真实模型/手机/自然度/长期/生产仍开放。
+
+
+### 2026-11-12 · 原唯一任务高优先级增补：持续内心生活与动机因果
+
+用户13节输入见docs/nana_next_experience/task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md。S1–S10/原C-D-G/Store内A复用接线→B真实策略闭环→C重启/无输入→D原S8/同预算消融；不是新框架或新63标准。已有私念/多消息/梦境/反馈复用，未接C前置消费与跨轮修正不得算完成。A负责Core内心因果，B负责通用多端/自然交互/开源隔离研究和独立对照，不缩为仅治理。最高优先级与原自然交流/Shared Life/S8共同推进，原A–H继承。

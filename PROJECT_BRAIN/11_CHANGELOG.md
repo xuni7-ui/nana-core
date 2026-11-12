@@ -3601,3 +3601,8 @@ MessageRequest可选parent/旧None省略；原Core opt-in capability绑定curren
 ### 2026-11-12 · Web生成期间接续与原CLI正常路径
 
 Web真实进度接纳同scope child、原回执独立归因、等待双结果再drain；UNKNOWN/断流不误重发，错误仅改本条，原20分钟/取消/保留私人边界保持。NativeSDK有限错误归一恢复typed permission/fallback语义，5port合约非手机。TLS发现模型末tick空隙使旧Root仍说话，确定性1fail/1pass后在原safe-point有限读urgent输入；原C/C-D/Store不另建，正常CLI源码显式启用，类默认False保留。53相关50.50s/41managedCLI授权45.98s/93unit4.16s/TS/Vite3.43s/56+12browser/真实TLS4视口16.2s通过；首CDP4fail/真实Root4fail/CLI1fail均保留，不放宽断言。停机16fixture/1身份/0actions-grants/真实0，证据web-continuation-20261112/09锚。原A–H和266+409不减，下一原C自主性因果/全链成本超时及剩余闭包。
+
+
+### 2026-11-12 · C目标生命周期选择与内心生活13节继承
+
+原C有源紧急继续/HIGH负荷竞争、REST-only不造继续，norm/旧plan/goal/Grant和WITHDRAW保留；原2fail3pass→61相关6.01s→最终73相关8.64s含Precision，不跑全仓/发布。两次夹具错误原样保留。证据goal-choice-20261112/09锚。归档用户正式13节最高优先级、AGENTS/mission/08接线及B职责更新，沿原private_intent/SubjectLoop/Context确认C前置消费实际缺口，下一立即实现，不宣称已完整内心生活；原A–H/CURRENT266+409/权限不变。

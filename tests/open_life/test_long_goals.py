@@ -52,3 +52,46 @@ def test_sourced_withdrawal_can_end_ongoing_goal_under_load_after_restart(tmp_pa
         configure(r,world,(obj,));assert r.identity_id==identity
         assert r.store.one('goals',goal['goal_id'])['state']=='ABANDONED'
         assert len(r.store.all('goals'))==1 and not r.store.all('actions')
+
+
+@pytest.mark.parametrize('load,urgency,options,prohibited,expected',[
+    ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+    ('HIGH','LOW',('CONTINUE_PROJECT','REST'),(),'REST'),
+    ('HIGH','HIGH',('REST',),(),'REST'),
+    ('LOW','HIGH',('REST',),(),'REST'),
+    ('LOW','LOW',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT'),
+    ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT',),'REST'),
+    ('HIGH','HIGH',('CONTINUE_PROJECT','REST'),('CONTINUE_PROJECT','REST'),None),
+])
+def test_lifecycle_review_competes_with_load_without_forcing_either_work_or_rest(tmp_path,load,urgency,options,prohibited,expected):
+    path=tmp_path/'s.db';world=tmp_path/'world.fixture.json'
+    obj=objective().model_copy(update={'horizon':'ONGOING','review_after_us':1})
+    with fresh(path) as r:
+        port=configure(r,world,(obj,));port.seed_observation(obj.operators[0].resource,[1.2,2.3])
+        send(r,'ongoing-choice',(cue(r,obj),));r.step()
+        goal=r.store.all('goals')[0];identity=r.identity_id
+        plan=json.loads(goal['body_json'])['plan_record_id']
+    with fresh(path) as r:
+        configure(r,world,(obj,));assert r.identity_id==identity
+        goal=r.store.one('goals',goal['goal_id'])
+        concern=ConcernCue(cue_kind='OPEN_LOOP',topic_key='ongoing.choice',motivation_source='LONG_TERM_GOAL',
+            possible_behaviors=options,cognitive_load=load,urgency=urgency)
+        cause=capture(r,'lifecycle-choice',concern.model_dump_json(),predicate='concern.ongoing.choice')
+        sources=[cause]
+        if prohibited:
+            norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='ongoing.choice',motivation_source='MAINTENANCE',
+                prohibited_behaviors=prohibited)
+            sources.append(capture(r,'lifecycle-boundary',norm.model_dump_json(),predicate='concern.ongoing.boundary'))
+        event=SubjectInput(source_key='synthetic.ongoing.choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id=r.config.entity_id,scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=tuple(sources),
+            goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause,purpose='LIFECYCLE'))
+        grants={row['grant_id'] for row in r.store.all('grants')}
+        cycle=r.subject.run(event);r.work.after_cycle(cycle,event)
+        assert cycle.intention.behavior==expected
+        updated=r.store.one('goals',goal['goal_id'])
+        assert updated['state']==('SUSPENDED' if expected=='REST' else 'ACTIVE')
+        assert json.loads(updated['body_json'])['plan_record_id']==plan
+        assert len(r.store.all('goals'))==1 and not r.store.all('actions')
+        assert {row['grant_id'] for row in r.store.all('grants')}==grants
+        if r.store.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='cognitive_requests'").fetchone():
+            assert r.store.db.execute('SELECT count(*) FROM cognitive_requests').fetchone()[0]==0
