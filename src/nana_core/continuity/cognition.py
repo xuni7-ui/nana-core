@@ -7,9 +7,10 @@ No response here can contain a Grant, Receipt, success state or Store mutation.
 import json
 from typing import Literal, Protocol
 
-from pydantic import Field
+from pydantic import Field,model_serializer
 
 from ..contracts import CoreError, DTO
+from .autonomy.private_intent import PrivateQuestionProposal
 
 
 class FrozenModelInput(DTO):
@@ -20,6 +21,7 @@ class FrozenModelInput(DTO):
 
 
 class CognitiveProposal(DTO):
+    private_question:PrivateQuestionProposal|None=None
     schema_version: Literal[2] = 2
     identity_id: str
     identity_revision: int = Field(ge=1)
@@ -27,6 +29,12 @@ class CognitiveProposal(DTO):
     proposed_operations: tuple[Literal["READ_SOURCE", "LOCATE_SOURCE", "DRAFT", "ASK", "WAIT"], ...] = Field(min_length=1, max_length=8)
     memory_refs: tuple[str, ...] = Field(default=(), max_length=64)
     lesson_refs: tuple[str, ...] = Field(default=(), max_length=32)
+
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.private_question is None:value.pop('private_question',None)
+        return value
 
 
 class ContinuityModelPort(Protocol):
@@ -62,6 +70,10 @@ class DeliberationSession:
         lessons = {json.loads(b.data_json)["lesson_id"] for b in context.blocks if b.kind == "LESSON"}
         if not set(proposal.memory_refs) <= available or not set(proposal.lesson_refs) <= lessons:
             raise CoreError("UNSUPPORTED_COGNITIVE_REFERENCE")
+        if proposal.private_question:
+            private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
+            if not set(proposal.private_question.related_private_record_ids)<=private_refs:
+                raise CoreError('UNSUPPORTED_PRIVATE_QUESTION_REFERENCE')
         self.assembler.validate(context, request, policy)  # state may change during inference
         return DeliberationResult(model_descriptor=model.descriptor, context_digest=context.content_digest,
                                   raw_proposal_json=raw, proposal=proposal)

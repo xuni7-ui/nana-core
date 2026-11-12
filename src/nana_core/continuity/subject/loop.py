@@ -387,11 +387,20 @@ class SubjectLoop:
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)
+            private_question=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
-                if judgment.stance in {'WATCH','REMEMBER','THINK_MORE'} and not judgment.lesson_ids and any(x in operations for x in ('ASK','WAIT')):
+                from ..autonomy.private_intent import consider_question
+                private_question=consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
+                if private_question is not None:
+                    from .contracts import Intention,Judgment
+                    judgment=Judgment(stance='REFLECT',reason='Consider an own private question, without treating it as an observation or a permission',source_ids=situation.memory_ids)
+                    intention=Intention(kind='REFLECTION',purpose='Consider an own private question; contents remain private',
+                        slot_key='private-question-'+digest(private_question.model_dump(mode='json'))[:32],
+                        source_ids=situation.memory_ids,self_generated=True,behavior='REFLECT')
+                elif judgment.stance in {'WATCH','REMEMBER','THINK_MORE'} and not judgment.lesson_ids and any(x in operations for x in ('ASK','WAIT')):
                     from .contracts import Intention, Judgment
                     judgment = Judgment(stance='ASK' if 'ASK' in operations else 'DEFER',
                         reason='Cognitive proposal requests clarification or waiting; no unsupported truth is adopted',
@@ -478,7 +487,10 @@ class SubjectLoop:
                 selected_memory_candidate_id=event.memory_review_id,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
-                    'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})
+                    'context_digest': _deliberation.context_digest, 'raw_proposal_json':
+                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,
+                            'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
+                        if _deliberation.proposal.private_question or situation.private_interest_records else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
@@ -499,7 +511,7 @@ class SubjectLoop:
                 from ..autonomy.private_intent import after_choice
                 after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes,
                     selected_topic=situation.cue.topic_key if situation.cue else event.topic,
-                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None)
+                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question)
         return result.model_copy(update={'record_id': record})
 
     def result(self, row, *, replayed=False):

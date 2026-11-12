@@ -48,6 +48,24 @@ class PrivateActivity(PrivateIntent):
     execution_state:Literal['NOT_INFERRED_FROM_ACTIVITY_STATE']='NOT_INFERRED_FROM_ACTIVITY_STATE'
 
 
+class PrivateQuestionProposal(DTO):
+    """An own question proposed in existing cognition, never an observation."""
+    topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
+    question:str=Field(min_length=1,max_length=512)
+    related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
+
+
+class PrivateQuestion(PrivateActivity):
+    contract:Literal['PRIVATE_QUESTION_V3']='PRIVATE_QUESTION_V3'
+    category:Literal['PRIVATE_QUESTION']='PRIVATE_QUESTION'
+    epistemic_status:Literal['OWN_QUESTION_NOT_WORLD_FACT']='OWN_QUESTION_NOT_WORLD_FACT'
+
+
+def payload_model(data):
+    return {'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity,
+        'PRIVATE_QUESTION_V3':PrivateQuestion}.get(data.get('contract'))
+
+
 def candidates(store,scope,privacy_classes):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
@@ -64,8 +82,8 @@ def candidates(store,scope,privacy_classes):
         if row['scope']!=scope or row['privacy_class'] not in privacy_classes or row['lifecycle']!='ACTIVE':continue
         if not records.current_support(row[0]):continue
         data=records.read(row[0])['payload']
-        if data.get('contract')=='PRIVATE_INTENT_V1':out.append((row[0],PrivateIntent.model_validate_json(json.dumps(data))))
-        elif data.get('contract')=='PRIVATE_ACTIVITY_V2':out.append((row[0],PrivateActivity.model_validate_json(json.dumps(data))))
+        model=payload_model(data)
+        if model is not None:out.append((row[0],model.model_validate_json(json.dumps(data))))
     return tuple(out)
 
 
@@ -96,7 +114,7 @@ def internal_projection(store,record_ids,*,scope,privacy_classes):
                 or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE'
                 or not records.current_support(rid)):continue
         data=records.read(rid)['payload']
-        model={'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity}.get(data.get('contract'))
+        model=payload_model(data)
         if model is None:continue
         item=model.model_validate_json(json.dumps(data))
         if (item.owner_identity_id!=store.identity['identity_id'] or item.status=='WITHDRAWN'
@@ -106,7 +124,7 @@ def internal_projection(store,record_ids,*,scope,privacy_classes):
             'activity_state':getattr(item,'activity_state','ACTIVE'),
             'created_at_us':getattr(item,'created_at_us',head['created_at_us']),
             'updated_at_us':getattr(item,'updated_at_us',head['created_at_us']),
-            'epistemic_status':'OWN_TENDENCY_NOT_WORLD_FACT','disclosure_policy':item.disclosure_policy,
+            'epistemic_status':getattr(item,'epistemic_status','OWN_TENDENCY_NOT_WORLD_FACT'),'disclosure_policy':item.disclosure_policy,
             'recipient_disclosure':False,'execution_authority':False})
     return tuple(out)
 
@@ -120,7 +138,7 @@ def review_target(store,reference,*,scope,privacy_classes,topic):
     records=RecordService(store)
     if not records.current_support(reference.record_id):raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
     data=records.read(reference.record_id)['payload']
-    model={'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity}.get(data.get('contract'))
+    model=payload_model(data)
     if model is None:raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
     item=model.model_validate_json(json.dumps(data))
     if (item.owner_identity_id!=store.identity['identity_id'] or item.intent_id!=reference.intent_id
@@ -130,7 +148,28 @@ def review_target(store,reference,*,scope,privacy_classes,topic):
     return reference.record_id,item
 
 
-def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None):
+def consider_question(event,situation,judgment,intention,proposal):
+    """Original C may consider an own new question without an external event.
+
+    The model does not adopt a goal, replace a specific review or obtain an
+    execution binding. Rest, disagreement, sourced norms and current boundaries
+    retain their original choice; no source assertion is inferred from a question.
+    """
+    if (proposal is None or event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
+            or judgment.stance not in {'WATCH','THINK_MORE','REMEMBER','REFLECT'}
+            or judgment.lesson_ids or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
+            or intention.behavior in {'REST','WITHDRAW','STAY_SILENT','IGNORE','DO_NOTHING','DEFER'}
+            or any((event.realization_target,event.goal_step,event.goal_review,event.memory_review_id,
+                event.governance_review_id,event.disposition_reflection_id,event.growth_assessment_id))
+            or 'REFLECT' in situation.prohibited_behaviors
+            or (situation.context_fit and not situation.context_fit.allow_deepening)
+            or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id or proposal.topic!=situation.cue.topic_key))
+            or (event.topic and proposal.topic!=event.topic)):
+        return None
+    return proposal
+
+
+def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
     A wall clock only permits reconsideration in another ordinary C cycle. Even a
@@ -162,20 +201,32 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
         if review and rid==owned[0][0]:
             if getattr(item,'activity_state','ACTIVE')!=desired:
                 changes['activity_state']=desired
-            if desired=='ACTIVE' and item.content_summary!=result.intention.purpose[:512]:
+            if desired=='ACTIVE' and not isinstance(item,PrivateQuestion) and item.content_summary!=result.intention.purpose[:512]:
                 changes['content_summary']=result.intention.purpose[:512]
         if changes:
             data={**item.model_dump(mode='json'),**changes,'revision':item.revision+1}
             if 'activity_state' in changes or isinstance(item,PrivateActivity):
-                data.update(contract='PRIVATE_ACTIVITY_V2',
+                data.update(contract='PRIVATE_QUESTION_V3' if isinstance(item,PrivateQuestion) else 'PRIVATE_ACTIVITY_V2',
                     activity_state=changes.get('activity_state',getattr(item,'activity_state','ACTIVE')),
                     created_at_us=getattr(item,'created_at_us',store.one('continuity_records',rid)['created_at_us']),
                     updated_at_us=store.clock.utc_now_us(),last_choice_cycle_id=result.cycle_id)
-                revised=PrivateActivity.model_validate_json(json.dumps(data))
+                revised=(PrivateQuestion if isinstance(item,PrivateQuestion) else PrivateActivity).model_validate_json(json.dumps(data))
             else:revised=PrivateIntent.model_validate_json(json.dumps(data))
             parents=(rid,result.record_id) if 'activity_state' in changes or 'content_summary' in changes else (rid,)
             records.create(tx,kind='INTENTION',scope=event.scope,payload=revised.model_dump(mode='json'),records=parents,
                 supersedes=rid,target_id='private-intent.v1')
+    if (private_question is not None and result.intention_id and result.record_id
+            and result.intention.behavior=='REFLECT' and result.evaluation and result.evaluation.normative=='ENDORSED'):
+        if not any(item.owner_identity_id==store.identity['identity_id'] and item.topic==private_question.topic
+                and item.category=='PRIVATE_QUESTION' and item.content_summary==private_question.question
+                and getattr(item,'activity_state','ACTIVE')!='ABANDONED' for _,item in current):
+            now=store.clock.utc_now_us()
+            value=PrivateQuestion(intent_id=result.intention_id,owner_identity_id=store.identity['identity_id'],cycle_id=result.cycle_id,
+                topic=private_question.topic,content_summary=private_question.question,disclosure_policy='PRIVATE_FOR_NOW',
+                source_memory_ids=result.intention.source_ids,risk_class=event.risk,created_at_us=now,updated_at_us=now,last_choice_cycle_id=result.cycle_id)
+            records.create(tx,kind='INTENTION',scope=event.scope,payload=value.model_dump(mode='json'),
+                records=tuple(dict.fromkeys((result.record_id,*private_question.related_private_record_ids))),target_id='private-intent.v1')
+        return
     if review and desired=='ACTIVE':return  # Revise the existing idea, never duplicate it on resumption.
     if (not result.intention_id or not result.record_id or not result.intention.self_generated
         or result.intention.behavior!='CREATE' or not result.evaluation or result.evaluation.normative!='ENDORSED'

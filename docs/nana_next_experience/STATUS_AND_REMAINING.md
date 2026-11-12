@@ -1,3 +1,5 @@
+[2026-11-12 自主私问原C/D闭环] 原认知新问题候选→C采纳→同Store V3→跨重启暂停/恢复→后续探索选择；原D队列预算单fixture/不轮询通过。239相关+最终51，真实模型0，不代表商业路径/多轮策略/S8迁移完成。下一私问→LEARN旧兴趣guard实际缺口，见private-own-question-20261112。
+
 [2026-11-12 原C内容级内部投影] 同一私念源record→相关内容→原已有cognize→C选择，普通聊天不暴露；88相关/7同预算通过，同状态+867保守UTF8计量单位，新增provider0。自主新问/联想、多轮策略/反馈、S8迁移及A–H原剩余继续，见private-internal-projection-20261112。
 
 [2026-11-12 原C接收者边界作用范围修复] 私人无执行绑定CREATE/REST可继续并保持不公开，对外SOCIALIZE/资源操作/明确norm仍原链。46私念/情感+151相关集成通过，首次3失败保留；新增模型0。bead518独立CI228/2warnings成功且clientSKIP。内容级内部投影/自主新问/多轮策略/C-D-G迁移仍待，所有原A–H/发行资格继承。见evidence/private-reception-scope-20261112。

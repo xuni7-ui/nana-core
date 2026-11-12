@@ -1,0 +1,47 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_existing_runtime_self_queue_drives_one_question_without_periodic_inference _
+
+tmp_path = PosixPath('/tmp/pqrt2/test_existing_runtime_self_que0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fbeea9c2600>
+
+    def test_existing_runtime_self_queue_drives_one_question_without_periodic_inference(tmp_path,monkeypatch):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            _,_,created=choose(app)
+            r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+            r.cognition.set_model('analytical');calls=[]
+            class RuntimeQuestionFixture:
+                descriptor='offline-existing-runtime-private-question-fixture'
+                def propose(self,request):
+                    calls.append(request);data=json.loads(request.context_json)
+                    private=next(b for b in data['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE')
+                    base=json.loads(AnalyticalFixturePort().propose(request))
+                    base['private_question']={'topic':'creative-project','question':'SYNTHETIC: What alternative form could this project take?',
+                        'related_private_record_ids':private['source_record_ids']}
+                    return json.dumps(base)
+            monkeypatch.setattr(r.cognition,'port',lambda call:RuntimeQuestionFixture())
+            now=r.clock.utc_now_us()
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.queued-own-question',
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',
+                observed_at_us=now,significance='HIGH',uncertainty='HIGH')
+            qid=r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,
+                causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=now,priority=0))
+            result=r.step()
+>           assert result['queue_id']==qid and result['mode']=='FULL_COGNITION' and result['cycle'].intention.behavior=='REFLECT',result['reason']
+E           AssertionError: MODEL_ESTIMATED_COST_EXHAUSTED
+E           assert ('90f6ed42-70b...-9cec0324df54' == '90f6ed42-70b...-9cec0324df54'
+E             
+E               90f6ed42-70b7-484b-8ae3-9cec0324df54 and 'LIGHT_COGNITION' == 'FULL_COGNITION'
+E             
+E             - FULL_COGNITION
+E             ? -- ^
+E             + LIGHT_COGNITION
+E             ?  ^^^^)
+
+tests/first_life_integration/test_private_intent.py:580: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_existing_runtime_self_queue_drives_one_question_without_periodic_inference
+1 failed, 37 deselected in 0.23s

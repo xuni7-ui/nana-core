@@ -113,10 +113,11 @@ def test_private_decision_references_respect_owner_scope_privacy_and_nonretentio
         assert not store.all('cognitive_requests') and not store.all('actions') and not store.all('grants')
 
 
-def private_choice(app,key,behavior,*,value='LOW',novelty='REPEATED'):
+def private_choice(app,key,behavior,*,value='LOW',novelty='REPEATED',intent_id=None):
     from nana_core.continuity.subject.opportunities import OpportunityAssessment,PrivateIntentRef
     r=app.runtime
-    rid,item=next((rid,item) for rid,item in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if item.topic=='creative-project')
+    rid,item=next((rid,item) for rid,item in candidates(r.store,'project-work',('PUBLIC','PROJECT'))
+        if item.topic=='creative-project' and (intent_id is None or item.intent_id==intent_id))
     cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='creative-project',motivation_source='CREATIVE_INTEREST',
         possible_behaviors=(behavior,),resource_class='ORDINARY',
         private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision),
@@ -444,6 +445,158 @@ def test_internal_projection_uses_original_complete_budget_and_invalidates_on_wi
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
         print('PRIVATE_INTERNAL_SAME_STATE_BUDGET',enabled.manifest.counter,'enabled',enabled.manifest.input_tokens,
             'disabled',disabled.manifest.input_tokens,'limit',enabled.manifest.input_limit,'minimum_package_limit',compact.manifest.input_limit)
+
+
+def test_own_new_question_without_user_message_survives_restart_and_changes_future_choice(tmp_path,monkeypatch):
+    from nana_core.continuity.autonomy import private_intent
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.records import RecordService
+    from nana_core.continuity.context import ContextPolicy,ContextAssembler,ContextRequest
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment
+    import sqlite3
+    from nana_core.life.inspector import _ReadView
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    question='SYNTHETIC-PRIVATE-NEW-QUESTION: Could this creative project become an interactive story?'
+    calls=[]
+    with LifeApplication(home) as app:
+        original,_,created=choose(app)
+        r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        own_rid=candidates(r.store,'project-work',('PUBLIC','PROJECT'))[0][0]
+        identity=r.identity_id
+        # The wake contains no new user text, source memory or external event.
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.own-question',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us())
+        policy=ContextPolicy(policy_id='own-question-fixture',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        class OwnQuestionFixture:
+            descriptor='offline-own-question-fixture-not-quality-evidence'
+            def propose(self,request):
+                calls.append(request)
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base.update(interpretation=question,private_question={'topic':'creative-project','question':question,'related_private_record_ids':[own_rid]})
+                return json.dumps(base)
+        result=r.subject.cognize(event,model=OwnQuestionFixture(),authority=r.authority,policy=policy)
+        assert result.judgment.stance=='REFLECT' and result.intention.behavior=='REFLECT' and len(calls)==1
+        assert question not in result.model_dump_json()
+        values=[(rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION']
+        assert len(values)==1
+        qrid,q=values[0]
+        assert q.content_summary==question and q.epistemic_status=='OWN_QUESTION_NOT_WORLD_FACT'
+        assert q.disclosure_policy=='PRIVATE_FOR_NOW' and not q.execution_authority
+        assert not event.source_memory_ids and event.text is None
+        assert r.store.db.execute("SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD' AND parent_id=? AND relation_kind='SUPPORT'",(qrid,own_rid)).fetchone()
+        r.subject.transition_intention(result.intention_id,expected_revision=1,state='COMPLETED')
+        changes=r.store.db.total_changes
+        assert r.subject.cognize(event,model=OwnQuestionFixture(),authority=r.authority,policy=policy).replayed
+        assert len(calls)==1 and r.store.db.total_changes==changes
+        private_choice(app,'abandon-seed-after-question','WITHDRAW',intent_id=created.intention_id)
+        backup=tmp_path/'inactive'/'question.db';r.store.backup(backup)
+        def backup_questions():
+            with sqlite3.connect(backup.as_uri()+'?mode=ro',uri=True) as db:
+                db.row_factory=sqlite3.Row
+                return [v for _,v in candidates(_ReadView(db,backup,'project-work',('PUBLIC','PROJECT')),'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION']
+        assert backup_questions()[0].content_summary==question
+    with LifeApplication(home) as app:
+        r=app.runtime;assert r.identity_id==identity
+        assert any(v.content_summary==question for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')))
+        private_choice(app,'pause-own-question','REST',intent_id=q.intent_id)
+        paused=next(v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.intent_id==q.intent_id)
+        assert paused.contract=='PRIVATE_QUESTION_V3' and paused.activity_state=='PAUSED' and paused.content_summary==question
+        private_choice(app,'resume-own-question','CREATE',intent_id=q.intent_id)
+        qrid,resumed=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.intent_id==q.intent_id)
+        assert resumed.contract=='PRIVATE_QUESTION_V3' and resumed.activity_state=='ACTIVE' and resumed.content_summary==question
+        cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key='creative-project',motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),
+            resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        def next_event(key):
+            mid=capture(r,key,cue.model_dump(mode='json'),predicate='concern.'+key)
+            return SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        with monkeypatch.context() as patch:
+            patch.setattr(private_intent,'decision_support',lambda *args,**kwargs:())
+            before=r.subject.run(next_event('without-inner-interest'))
+        after=r.subject.run(next_event('with-inner-interest'))
+        assert before.intention.behavior=='IGNORE' and after.intention.behavior=='EXPLORE'
+        assert next(m for m in after.motivations if m.source=='PRIVATE_INTEREST').source_ids==(qrid,)
+        ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='project-user',scopes=('project-work',),
+            task_class='dialogue',task='SYNTHETIC ordinary response',task_privacy_class='PROJECT',max_input_tokens=65536),policy)
+        assert question not in ordinary.model_dump_json() and question not in inspect(home,scope='project-work',entity_id='project-user').model_dump_json()
+        with pytest.raises(CoreError,match='WITHHELD'):eligible_content(r.store,q.intent_id,scope='project-work',privacy_classes=('PUBLIC','PROJECT'))
+        app.forget(original)
+        assert not any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')))
+        assert not backup_questions()
+        assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('condition',['user','norm','resource','rest','nonretained','unsupported-reference'])
+def test_model_question_is_a_candidate_and_c_keeps_original_boundaries(tmp_path,condition):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.continuity.records import RecordService
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+    with LifeApplication(home) as app:
+        r=app.runtime;calls=[]
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='creative-project',motivation_source='NORM',prohibited_behaviors=('REFLECT',))
+            capture(r,'question-norm',norm.model_dump(mode='json'),kind='USER_STATEMENT',predicate='concern.constraint.question')
+        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='creative-project',motivation_source='CURIOSITY',
+            possible_behaviors=('REST',) if condition=='rest' else ('REFLECT',),
+            resource_ref='synthetic://private/resource' if condition=='resource' else None,resource_class='ORDINARY')
+        mid=capture(r,'question-admission',cue.model_dump(mode='json'),predicate='concern.question-admission')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.question-admission',
+            kind='WAKE' if condition!='user' else 'INTERACTION',origin='USER' if condition=='user' else 'SELF_WAKE',
+            entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),source_memory_ids=() if condition=='nonretained' else (mid,),
+            retention='DO_NOT_REMEMBER' if condition=='nonretained' else 'MAY_REMEMBER')
+        class CandidateFixture:
+            descriptor='offline-question-candidate-admission'
+            def propose(self,request):
+                calls.append(request);base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'creative-project','question':'SYNTHETIC private question never a command',
+                    'related_private_record_ids':['forged-private-record'] if condition=='unsupported-reference' else []}
+                return json.dumps(base)
+        policy=ContextPolicy(policy_id='question-admission',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT'))
+        if condition=='unsupported-reference':
+            with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_QUESTION_REFERENCE'):
+                r.subject.cognize(event,model=CandidateFixture(),authority=r.authority,policy=policy)
+        else:r.subject.cognize(event,model=CandidateFixture(),authority=r.authority,policy=policy)
+        assert not any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')))
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+def test_existing_runtime_self_queue_drives_one_question_without_periodic_inference(tmp_path,monkeypatch):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.presence.contracts import RuntimeEvent,Cause
+    # An isolated nominal fixture reservation, never a real-provider budget.
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0,provider_cost_ceiling_micro=1000)
+    with LifeApplication(home) as app:
+        _,_,created=choose(app)
+        r=app.runtime;r.subject.transition_intention(created.intention_id,expected_revision=1,state='COMPLETED')
+        r.cognition.set_model('analytical');calls=[]
+        class RuntimeQuestionFixture:
+            descriptor='offline-existing-runtime-private-question-fixture'
+            def propose(self,request):
+                calls.append(request);data=json.loads(request.context_json)
+                private=next(b for b in data['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE')
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'creative-project','question':'SYNTHETIC: What alternative form could this project take?',
+                    'related_private_record_ids':private['source_record_ids']}
+                return json.dumps(base)
+        monkeypatch.setattr(r.cognition,'port',lambda call:RuntimeQuestionFixture())
+        now=r.clock.utc_now_us()
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.queued-own-question',
+            kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',
+            observed_at_us=now,significance='HIGH',uncertainty='HIGH')
+        qid=r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,
+            causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),
+                Cause(kind='INTENTION',reference_id=created.intention_id,revision=2)),due_at_us=now,priority=0))
+        result=r.step()
+        assert result['queue_id']==qid and result['mode']=='FULL_COGNITION' and result['cycle'].intention.behavior=='REFLECT',result['reason']
+        assert r.store.one('runtime_queue',qid)['state']=='DONE'
+        assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
+        assert r.store.all('runtime_cognition_calls')[0]['state']=='SUCCEEDED'
+        assert len([v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT')) if v.category=='PRIVATE_QUESTION'])==1
+        r.subject.transition_intention(result['cycle'].intention_id,expected_revision=1,state='COMPLETED')
+        for _ in range(3):r.step()
+        assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 
 def test_sourced_surprise_trigger_reconsiders_in_c_not_timer_delivery(tmp_path):
