@@ -3608,6 +3608,11 @@ Web真实进度接纳同scope child、原回执独立归因、等待双结果再
 原C有源紧急继续/HIGH负荷竞争、REST-only不造继续，norm/旧plan/goal/Grant和WITHDRAW保留；原2fail3pass→61相关6.01s→最终73相关8.64s含Precision，不跑全仓/发布。两次夹具错误原样保留。证据goal-choice-20261112/09锚。归档用户正式13节最高优先级、AGENTS/mission/08接线及B职责更新，沿原private_intent/SubjectLoop/Context确认C前置消费实际缺口，下一立即实现，不宣称已完整内心生活；原A–H/CURRENT266+409/权限不变。
 
 
+### 2026-11-12 · 原私念在C决策前产生可验证差异
+
+PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Appraisal/PRIVATE_INTEREST→原decide创造兴趣可竞争泛化LOW/重复；不改工具价值、不抬事实、不给权限，原公开Context仍遮蔽，重复同purpose不增私念。实际跨重启消融开关IGNORE→CREATE、撤回/无关/owner范围/非保留与Context等93相关14.40s通过，0新增模型请求。首source-family fixture两错保留，独立旧archive/ENOSPC失败其后4pass不算旧基线。证据private-interest-c-20261112/09锚。根盘无空间，受控源码/Git仅复制TMP同分支，原Root/数据/旧交付未动；下一原模型策略/新问/生命周期/内部投影→C-D-G，不宣称完整内心或原A–H完成。
+
+
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
 
 [源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。

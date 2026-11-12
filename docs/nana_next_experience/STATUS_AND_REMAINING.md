@@ -125,3 +125,8 @@ docs/nana_next_experience/evidence/web-continuation-20261112/README.md：新输�
 ### 2026-11-12 最高优先级：持续内心生活与动机因果
 
 用户13节增补已归档task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md，沿同一C-D-G/Store/Context/Delivery先补私念在决策前被消费，随后跨轮策略/明确反馈/重启/无输入/S8与同预算消融；原A–H及S1–S10/63标准不变。旧PrivateIntent已有创建/披露/撤回，但不等于持续内心因果已接通。原C目标取舍73定向通过只是局部增量，下一直接接线；A/B分工按13.6更新，B不只做治理。f7独立CI135/93/148成功，未改CURRENT/生产/手机/真实模型。
+
+
+### 2026-11-12 Phase A首个私念→C选择连接
+
+原PrivateIntent引用在C前进入评价/动机/相关兴趣取舍，消融同输入/同0模型预算IGNORE→CREATE，重启与源撤回/公开遮蔽保留。93定向14.40s，不是完整多轮策略/自主新问/S8融合完成；下一直接延伸原模型。根盘已满，实际同分支开发/tmp/nana-inner-refinement-work，原Root f583+4WIP/Git/DB/旧交付保护，未来tmp丢失须读远端最新。证据private-interest-c-20261112；CURRENT266+409与生产不变。

@@ -29,3 +29,5 @@ npx playwright test --config playwright.v3.config.ts --grep 'model catalog:|nati
 能力/代价：用户可继续选后续页模型，避免错误协议或虚假完整目录；每次显式翻页产生一个有界目录 GET，LLM 调用/Token 为 0，不新增依赖、持久化、Store、主体或调度器。未测 CPU/RSS、真实 provider、Java/手机、最终发行或生产；不把测试耗时当产品性能。原网页 native-only Key 输入与连接推理测试等向导缺口仍在队列。代码为本仓库原创修改，未复制第三方 SDK，许可现状不变。
 
 回退：撤销本批接口/客户端/测试提交，无 schema、主体数据、凭据或 CURRENT 迁移。旧客户端可忽略新增响应字段；新客户端对旧后端无分页游标时保留手填。`source-sha256.json` 只覆盖本批 12 个源码/测试，不自指；SHA256 锚 `924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43`。GitHub 集成/CI 以实际后续回执为准。
+
+集成前续核：已正常合入 A `4635690e522f1fd317172368abb8bed8a5c53e4e` 的原内心兴趣成果，完整保留其两份账本，仅合并本批追加。精确分页 HTTP 后续检查 1 passed / 15 deselected，见 `after-a463.txt`；未重复未受影响完整发行。PR #14 已推送但合并被自动审批以缺少 B 合并授权拒绝，仍由 A 评估或等待用户明确授权，不绕过。

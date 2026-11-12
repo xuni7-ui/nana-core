@@ -11,6 +11,7 @@ from .experience_need import ExperienceNeed
 
 
 class Situation(DTO):
+    private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
     problem_frame: FrameAssessment | None = None
     context_fit: ContextFitAssessment | None = None
@@ -56,6 +57,8 @@ def appraise(event: SubjectInput, situation: Situation):
         reasons.append('an adopted commitment is due')
     if situation.unresolved_interest:
         reasons.append('supported interest remains unresolved')
+    if situation.private_interest_records:
+        reasons.append('A relevant own private idea remains available; this is not disclosure permission')
     if not reasons:
         reasons.append('evaluate input without assuming it is an adopted goal')
     if situation.context_fit:reasons.append(situation.context_fit.reason)
@@ -67,7 +70,7 @@ def appraise(event: SubjectInput, situation: Situation):
         relationship_relevance='RELEVANT' if situation.familiar or event.relationship_kind else 'LOW',
         self_relevance='RELEVANT' if event.preference_signal else 'LOW',
         unfinished_tension='HIGH' if situation.due_commitment_ids else 'RELEVANT' if situation.unresolved_interest else 'NONE',
-        interest_relevance='HIGH' if situation.unresolved_interest else 'LOW', risk=event.risk,
+        interest_relevance='HIGH' if situation.unresolved_interest or situation.private_interest_records else 'LOW', risk=event.risk,
         conflict='HIGH' if conflict or norm_conflict else 'NONE', urgency='HIGH' if situation.due_commitment_ids else event.urgency,
         expected_value=assessment.value if assessment else 'RELEVANT' if situation.unresolved_interest or situation.project_ids else 'LOW',
         uncertainty=event.uncertainty, privacy_relevance='HIGH' if event.privacy_class in {'PERSONAL','SECRET'} else 'LOW',
@@ -76,6 +79,8 @@ def appraise(event: SubjectInput, situation: Situation):
 
 def motivate(event, situation, appraisal):
     motives = []
+    if situation.private_interest_records:
+        motives.append(Motivation(source='PRIVATE_INTEREST',strength='RELEVANT',source_ids=situation.private_interest_records))
     if situation.plan_step:
         motives.append(Motivation(source='ADOPTED_GOAL',strength='RELEVANT',source_ids=(situation.plan_step.goal_id,situation.plan_step.record_id)))
     if situation.due_commitment_ids:
@@ -130,7 +135,7 @@ def decide(event, situation, appraisal, motives):
     # already adopted personal interest. An explicit promise review still wins;
     # ordinary interest cues continue through the same norm/load/value guards.
     personal_interest = bool(situation.cue
-        and situation.cue.topic_key in situation.adopted_interests)
+        and (situation.cue.topic_key in situation.adopted_interests or situation.private_interest_records))
     options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
     quiet_choice=bool(options and options[0] in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'})
     # A due promise remains visible/pressing without making rest or silence

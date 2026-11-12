@@ -1,6 +1,6 @@
 # Codex B 当前队列
 
-同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
+同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
 
 ## 产品队列（真实阻塞优先）
 
@@ -11,7 +11,7 @@
 
 ## 研究队列（每题到实验或否定）
 
-1. R1 自组织长期记忆：优先单一 Graphiti 时态/来源关联机制。先固定上游 SHA/许可证及真实调用路径，核对原 TemporalMemory/World/Store 的重复；选择已证明的多跳或时间冲突缺口，隔离原型对照同预算原机制，独立评价后形成给 A 的小 PR。尚未源码审查，不宣称收益。
+1. R1 自组织长期记忆：优先单一 Graphiti 时态/来源关联机制。先固定上游 SHA/许可证及真实调用路径，核对原 TemporalMemory/World/Store 的重复；选择已证明的多跳或时间冲突缺口，隔离原型对照同预算原机制，独立评价后形成给 A 的小 PR。现已固定 Graphiti ebef986a0b2360211b65751c111cacb4a7d790eb，完成原 Store 只读关联实验；[独立研究草稿 PR #15](https://github.com/xuni7-ui/nana-core/pull/15) 同32视图上限在88条合成关系上12/24→24/24，6定向通过。尚未证明自然语言/C/G因果；下一更不利语料/query-aware基线与原C后续选择消融，不直接生产接线。
 2. R2/R3 内生认知与学习迁移：在 A 当前内心生活入口明确后，选择 AIRI 或 Voyager 一个可复用机制，做来源→后续自主选择/迁移的隔离消融；不并行造内心 Agent、学习权威或计时问模型。
 3. R4/R5 语音打断/延迟与条件处理：依据真实端侧体验和资源数据择一实验，不凭宣传承诺 Token 节省。真实 Token、字节估计、合成输入分开计量。
 

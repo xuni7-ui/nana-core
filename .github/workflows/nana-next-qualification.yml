@@ -30,6 +30,9 @@ on:
       - src/nana_core/continuity/open_life/opportunities.py
       - tests/open_life/test_adopted_interest.py
       - src/nana_core/continuity/subject/policy.py
+      - src/nana_core/continuity/subject/loop.py
+      - src/nana_core/continuity/autonomy/private_intent.py
+      - tests/first_life_integration/test_private_intent.py
       - src/nana_core/continuity/subject/opportunities.py
       - tests/open_life/test_attention_demand.py
       - src/nana_core/continuity/subject/context_fit.py
@@ -258,6 +261,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('subject/policy.py','subject/loop.py','autonomy/private_intent.py','test_private_intent.py'), ['tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/vision_first/test_context_fit.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_memory_use_feedback.py']),
             (('subject/experience_need.py','test_experience_need.py'), ['tests/foundation_closure/test_experience_need.py','tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/open_life/test_learning_renewal.py']),
             (('open_agency/world.py',), ['tests/open_autonomy/test_learning.py','tests/precision/test_learning.py','tests/open_life/test_learning_renewal.py']),
             (('world_loop/cognition.py','world_loop/anthropic.py','continuity/provider_routing.py','tests/provider_routing/'), ['tests/provider_routing','tests/world_loop','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),

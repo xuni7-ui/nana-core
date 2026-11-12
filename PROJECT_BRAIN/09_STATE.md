@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 158,
-  "as_of_us": 1794459450119198,
+  "revision": 159,
+  "as_of_us": 1794460685174350,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PERSISTENT_INNER_LIFE_FUSION",
+  "status": "IN_PROGRESS_PRIVATE_INTEREST_C_DECISION_WIRED",
   "progress": [
     "生成中接续Web→真实TLS/BFF→原C双源/4视口通过；修模型末tick漏接输入，正常CLI源码启用，93unit/53后端/41进程授权与56+12浏览器定向通过。16fixture/1DEV主体/真实0，无新安装/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原C目标LIFECYCLE有源紧急继续不再必然被HIGH load暂停，REST-only不再被低负荷造继续；norm/既有goal-plan/grant保持，原版2fail3pass→最终73相关8.64s，真实模型0。持续内心13节最高优先级已继承，主体私念因果尚待实现。",
+    "原私念首次在C决策前影响Appraisal/动机/选择：跨重启同候选关闭支持IGNORE、启用CREATE，仍LOW价值/novelty；撤回/无关/owner/scope/privacy/nonretention与公开内容遮蔽通过，93相关14.40s，新增模型0。非完整内心/多轮策略。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
-    "最高优先级Persistent Inner Life：原PrivateIntent已有创造后记录/重启/披露撤回，C前置消费/多轮策略/内部自主新问/更新关联→S8尚未接通；先补原C动机与Context投影，保留外部事实/私念/假设及非保留边界。",
-    "远端artifact下载403保留独立差额，无新路径不再重复；2026-11-12环境重建/tmp丢失，旧缓存/安装不能假设存在。本地重建不冒充远端。原A–H未完，生产/模型/账号/手机未操作。"
+    "持续内心Phase A首条私念→C已接；V1类别/32生成阈值/64窗口、内部相关状态投影、多轮策略/反馈、自己新疑问/联想/生命周期→C-D-G/S8尚未完成。原公共Context只给元数据，不能以此冒充深度融合。",
+    "根盘ENOSPC，实际同分支工作副本/tmp/nana-inner-refinement-work；原Root f583+4ownedWIP完整保护。/tmp会随环境重建消失，先查远端最新源码/09/ACTIVE；不再旧源码archive补取/403重试，真实模型/手机/生产未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-interest-c-20261112/README.md",
     "docs/nana_next_experience/evidence/goal-choice-20261112/README.md",
     "docs/nana_next_experience/task_inputs/PERSISTENT_INNER_LIFE_AND_MOTIVATIONAL_CAUSALITY_2026_11_12.md",
     "docs/nana_next_experience/evidence/web-continuation-20261112/README.md",
     "docs/nana_next_experience/evidence/http-continuation-20261111/README.md",
     "docs/nana_next_experience/evidence/deferred-review-receipt-20261111/README.md",
     "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
-    "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
-    "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md"
+    "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2701,6 +2701,11 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [实测] docs/nana_next_experience/evidence/goal-choice-20261112/README.md，source-sha256.json锚`60fa591ea85e8d423e4db3832906ff69e93d5555d0d46810dc1ded3ff65b3d8a`。73相关8.64s，原版2fail/3pass及两次fixture错误保留。用户13节增补继承同任务，原private_intent→C.situation/Context→跨轮策略/原G成最高优先级；当前只确认缺口，不称内心机制已实现。
 
 [实测补记] f7c3078独立CI43157054621：135Core130.48s/93unit/148browser2.0m/Vite2.72s SUCCESS，basef7-ci.txt保存原日志摘录；非全仓/本批新取舍/安装或生产。
+
+
+### 2026-11-12 Phase A私念→原C前置选择
+
+[实测] docs/nana_next_experience/evidence/private-interest-c-20261112/README.md；source-sha256.json锚`af32a79ce46b9fa8e8b48dfffc687da642087d03f7e61b23bae794aad442afdd`。93相关14.40s，同源关闭支持/启用比较及同主体重启/撤回/公开遮蔽。有效对照是消融，独立旧archive因partial clone/ENOSPC失败，其后4pass不可当旧版。新增模型0，不称真实Token自然度/长期/发行完成。当前实际工作副本/tmp/nana-inner-refinement-work，原Root/Git/DB/旧交付未删移，后续必须远端提交。
 
 
 ### 2026-11-12 · Codex B 通用模型目录的显式分页

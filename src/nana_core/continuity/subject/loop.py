@@ -118,6 +118,13 @@ class SubjectLoop:
             cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
         if cue is not None and len(pending)>=6 and not due:
             cue=cue.model_copy(update={'cognitive_load':'HIGH'})
+        private_interests=()
+        if self.store.schema_target>=13 and event.retention!='DO_NOT_REMEMBER':
+            from ..autonomy.private_intent import decision_support
+            private_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
+            private_interests=decision_support(self.store,event.scope,private_privacy,topic=cue.topic_key if cue else event.topic)
+            records.extend(private_interests)
+            for rid in private_interests:memories.extend(self.records.support(rid))
         prohibited=tuple(dict.fromkeys(b for _,c in candidates if c.cue_kind=='CONSTRAINT' and (cue is None or c.topic_key==cue.topic_key) for b in c.prohibited_behaviors))
         memories.extend(mid for mid,_ in candidates)
         last_act=None
@@ -186,7 +193,7 @@ class SubjectLoop:
         if event.problem_frame:
             from .framing import evaluate
             frame=evaluate(event.problem_frame,self.records,scope=event.scope,privacy_classes=self.privacy_classes)
-        return Situation(experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
