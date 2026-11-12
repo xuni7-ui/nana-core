@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/getzep/graphiti",
+  "commit": "ebef986a0b2360211b65751c111cacb4a7d790eb",
+  "head_commit_time": "2026-11-11T01:25:27Z",
+  "declared_version": "0.31.2",
+  "license": "Apache-2.0",
+  "upstream_code_copied": false,
+  "upstream_runtime_executed": false,
+  "upstream_tests_executed": false,
+  "reason": "source mechanism study only; original Nana Store implementation without third-party DB/model dependency",
+  "files": {
+    "LICENSE": "2825300b20d7b951209835a4a331f29e24725a39d65168e4b831df53aa372650",
+    "pyproject.toml": "f409096fde64090b47e7a6c8cc1edeceb521edb737a6bf2b7468e8f8edaee1e0",
+    "graphiti_core/edges.py": "637732ae4291ca0e5b53e43dd92be6f46a91e352719cb7ea1570ebab7d5d0e33",
+    "graphiti_core/graphiti.py": "4e456b2255196d13466e31d13d0f5790e85d611731cbdfa733abfb3091f24040",
+    "graphiti_core/search/search.py": "bd224cb6a272d0be096779f3105a78639538f84d043a0c5ff5efddc9e46edf2a",
+    "graphiti_core/search/search_utils.py": "1128c86077ac250a8197ffb5109b36baa48cd1cb3863feef275d904a33af4cb4",
+    "graphiti_core/utils/maintenance/edge_operations.py": "3f894ecf6e2cfb7a60d40d750fb4d0cf42d10d694312d72b4bb10ba5f86d36f9",
+    "graphiti_core/llm_client/llm_runtime.py": "3df5b39ce25578eb317c1495736a3de6b7c809c8745e3934df2bbe9a40a83325"
+  }
+}

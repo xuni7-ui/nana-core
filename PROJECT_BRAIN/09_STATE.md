@@ -2701,3 +2701,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [实测] docs/nana_next_experience/evidence/goal-choice-20261112/README.md，source-sha256.json锚`60fa591ea85e8d423e4db3832906ff69e93d5555d0d46810dc1ded3ff65b3d8a`。73相关8.64s，原版2fail/3pass及两次fixture错误保留。用户13节增补继承同任务，原private_intent→C.situation/Context→跨轮策略/原G成最高优先级；当前只确认缺口，不称内心机制已实现。
 
 [实测补记] f7c3078独立CI43157054621：135Core130.48s/93unit/148browser2.0m/Vite2.72s SUCCESS，basef7-ci.txt保存原日志摘录；非全仓/本批新取舍/安装或生产。
+
+
+### 2026-11-12 · Codex B / R1 原Store来源关联检索隔离候选
+
+[源码/实测] 固定Graphiti ebef986a0b2360211b65751c111cacb4a7d790eb/Apache-2.0，仅机制研究未复制源码；否定重复时态Store/外部图权威，保留有锚点多跳召回小候选。独立工作树基线A f583f18，Core源码零改。88合成keys/24固定两跳目标，同32原World视图上限快照12/24、候选24/24/0错误路径；原快照非最佳query-aware baseline，候选实际6views/原32，不推断全局速度/Token或C/G成长。6定向通过2.37s/8deselected，撤回/已知时间/同身份重启/跨实例与期限保持；读期间SQL写/新增事件0、family实分配不变、模型0。实验源码/成本/原始数据/阶段审查及A接入条件见docs/nana_next_experience/evidence/graphiti-association-20261112/README.md，源码表锚710359287620f161efa52955bc7ffc1c1a96d0de214ab5d1a21e11c30cc2c628。本阶段候选尚不宜生产接线，下一用更不利/query-aware基线与原C后续选择独立消融；产品PR14已提交，合并被自动审批拒绝（记录缺B合并授权），保持待A评估，不绕过。

@@ -1,0 +1,221 @@
+{
+  "scope": "SYNTHETIC_EXPLICIT_WORLD_LINKS_ONLY",
+  "nana_subjects": 1,
+  "world_keys": 88,
+  "unique_roots": 8,
+  "expected_two_hop_paths": 24,
+  "max_original_views": 32,
+  "candidate_safe_point_deadline_ms": 100,
+  "repeats": 5,
+  "methods": {
+    "snapshot32": {
+      "correct_paths": 12,
+      "cases": [
+        {
+          "seed": "seed.0",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.1",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.2",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.3",
+          "correct_paths": 0,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.4",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.5",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.6",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        },
+        {
+          "seed": "seed.7",
+          "correct_paths": 3,
+          "views_read": 32,
+          "false_positive_paths": null
+        }
+      ],
+      "p50_ms": 5.4772885,
+      "p95_ms": 7.668608,
+      "cpu_ms_all_samples": 237.63933099999997,
+      "python_tracemalloc_peak_bytes_separate_pass": 90461,
+      "raw_latency_ms": [
+        6.495556,
+        4.546226,
+        4.958321,
+        5.591867,
+        5.241694,
+        5.524706,
+        5.429871,
+        5.297992,
+        4.847762,
+        5.418144,
+        4.976219,
+        4.872906,
+        5.319329,
+        6.230871,
+        7.661497,
+        4.425804,
+        5.713242,
+        5.973223,
+        5.627985,
+        4.409825,
+        4.520369,
+        5.276781,
+        4.577107,
+        5.02741,
+        4.699527,
+        4.937661,
+        6.008053,
+        12.846188,
+        7.269782,
+        7.225769,
+        7.668608,
+        7.639238,
+        6.667949,
+        5.268388,
+        7.083418,
+        5.057593,
+        8.236635,
+        7.422503,
+        6.784956,
+        7.008364
+      ]
+    },
+    "linked32": {
+      "correct_paths": 24,
+      "cases": [
+        {
+          "seed": "seed.0",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.1",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.2",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.3",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.4",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.5",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.6",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        },
+        {
+          "seed": "seed.7",
+          "correct_paths": 3,
+          "views_read": 6,
+          "false_positive_paths": 0
+        }
+      ],
+      "p50_ms": 1.2748065,
+      "p95_ms": 2.732809,
+      "cpu_ms_all_samples": 58.533843,
+      "python_tracemalloc_peak_bytes_separate_pass": 36657,
+      "raw_latency_ms": [
+        1.514662,
+        1.639153,
+        1.417272,
+        1.181327,
+        0.970832,
+        1.223978,
+        1.30298,
+        1.289328,
+        1.084715,
+        1.036019,
+        1.174926,
+        1.069685,
+        2.547528,
+        1.048542,
+        2.829806,
+        1.40358,
+        1.738989,
+        1.254828,
+        0.953949,
+        1.083713,
+        1.173275,
+        1.182939,
+        1.016109,
+        0.922128,
+        0.986293,
+        0.932975,
+        1.087194,
+        2.123042,
+        1.730036,
+        1.675425,
+        1.357088,
+        2.732809,
+        1.104076,
+        3.955464,
+        2.299485,
+        1.420269,
+        1.278038,
+        1.307726,
+        1.373009,
+        1.271575
+      ]
+    }
+  },
+  "model_calls": 0,
+  "real_tokens": null,
+  "store_mutations_during_retrieval": 0,
+  "new_persistent_index": false,
+  "production_integrated": false,
+  "limits": [
+    "structured entity links, not natural-language extraction or semantic recall",
+    "snapshot32 is the existing recency projection, not an optimal query-aware baseline",
+    "Python allocation peak is not RSS; scratch ingestion/storage is not a disk saving",
+    "no C choice, learned skill, long-term behavior or Graphiti runtime comparison proven"
+  ]
+}

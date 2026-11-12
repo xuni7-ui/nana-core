@@ -1,0 +1,8 @@
+{
+  "base": "f583f187152c452b9638ff2d6c96b91bd4fe68da",
+  "files": {
+    "tools/nana_next_experience/association_probe.py": "3eb0696250ffbbf13a8baa437b07146ac68c8d54c6c4bca1c7a47ac3d21c918b",
+    "tools/nana_next_experience/association_compare.py": "f0c9cfaa11bba9b8fe98c175c7eeda509c850a5631971b9e5cd99ed22044d358",
+    "tests/world_loop/test_association_research.py": "2e02d08c4928adb5ac6af5fe08a2620b88f4fb601d1b72baf094c4a17dcb79d1"
+  }
+}
