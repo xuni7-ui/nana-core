@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /dev/shm/nana-generic-client-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../dev/shm/nana-generic-client-dist/index.html                          0.73 kB │ gzip:  0.47 kB
+../../../../dev/shm/nana-generic-client-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../dev/shm/nana-generic-client-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../dev/shm/nana-generic-client-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../dev/shm/nana-generic-client-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../dev/shm/nana-generic-client-dist/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+../../../../dev/shm/nana-generic-client-dist/assets/clock-3-fJSmTyzF.js          0.35 kB │ gzip:  0.27 kB
+../../../../dev/shm/nana-generic-client-dist/assets/eye-Bm2nE47s.js              0.42 kB │ gzip:  0.30 kB
+../../../../dev/shm/nana-generic-client-dist/assets/lock-keyhole-CLupAF69.js     0.42 kB │ gzip:  0.32 kB
+../../../../dev/shm/nana-generic-client-dist/assets/shield-check-B4qBrcQP.js     0.48 kB │ gzip:  0.35 kB
+../../../../dev/shm/nana-generic-client-dist/assets/radio-MkKDtefy.js            0.83 kB │ gzip:  0.40 kB
+../../../../dev/shm/nana-generic-client-dist/assets/refresh-cw-BVml77dU.js       0.84 kB │ gzip:  0.42 kB
+../../../../dev/shm/nana-generic-client-dist/assets/sparkles-S2NSpggD.js         0.92 kB │ gzip:  0.44 kB
+../../../../dev/shm/nana-generic-client-dist/assets/smartphone-DGFAYkoA.js       1.08 kB │ gzip:  0.46 kB
+../../../../dev/shm/nana-generic-client-dist/assets/plus-q2iYYtYD.js             1.16 kB │ gzip:  0.46 kB
+../../../../dev/shm/nana-generic-client-dist/assets/Avatar-fPcQT3Uf.js           1.57 kB │ gzip:  0.92 kB
+../../../../dev/shm/nana-generic-client-dist/assets/upload-Bffwpv_X.js           1.69 kB │ gzip:  0.67 kB
+../../../../dev/shm/nana-generic-client-dist/assets/ui-Bl9vT3C7.js               1.69 kB │ gzip:  0.64 kB
+../../../../dev/shm/nana-generic-client-dist/assets/sun-B8pcWWmK.js              1.85 kB │ gzip:  0.59 kB
+../../../../dev/shm/nana-generic-client-dist/assets/monitor-BfBL9qWw.js          1.94 kB │ gzip:  0.70 kB
+../../../../dev/shm/nana-generic-client-dist/assets/x-C_1AVuoo.js                2.42 kB │ gzip:  0.83 kB
+../../../../dev/shm/nana-generic-client-dist/assets/preferences-D7xA273q.js      3.31 kB │ gzip:  1.24 kB
+../../../../dev/shm/nana-generic-client-dist/assets/ChatPage-DhK5i0iH.js         7.31 kB │ gzip:  3.42 kB
+../../../../dev/shm/nana-generic-client-dist/assets/SettingsPage-DfSZqSat.js    10.20 kB │ gzip:  4.67 kB
+../../../../dev/shm/nana-generic-client-dist/assets/RuntimePage-DvZD4B4C.js     16.46 kB │ gzip:  6.42 kB
+../../../../dev/shm/nana-generic-client-dist/assets/CoreApp-CWVT-YYQ.js         19.67 kB │ gzip:  8.37 kB
+../../../../dev/shm/nana-generic-client-dist/assets/ExplorePages-BT6QehnT.js    27.19 kB │ gzip:  8.98 kB
+../../../../dev/shm/nana-generic-client-dist/assets/index-CjFfEHtl.js          120.23 kB │ gzip: 37.21 kB
+../../../../dev/shm/nana-generic-client-dist/assets/LiveSpace-A8da9F43.js      185.39 kB │ gzip: 61.93 kB
+../../../../dev/shm/nana-generic-client-dist/assets/index-BXBGcDuA.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.48s

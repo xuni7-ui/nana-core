@@ -10,7 +10,7 @@ export function BilibiliView({ data, available }: { data: unknown; available: bo
   const items = all.filter(item => (item.title + item.bvid).toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
   return <div className="v3-stack">
     <V3Card title="一起看见更大的世界" eyebrow="BILIBILI · SOURCED LIFE">
-      <p className="v3-muted">这里展示奈奈真正取得的资料和理解范围。标题、字幕、评论与采样画面分别标记，不能互相冒充。</p>
+      <p className="v3-muted">这里展示实际取得的资料和理解范围。标题、字幕、评论与采样画面分别标记，不能互相冒充。</p>
       <label className="v3-search"><Search size={17}/><input aria-label="搜索B站经历" value={query} onChange={e => setQuery(e.target.value)} placeholder="视频标题或 BV 号" maxLength={128}/></label>
     </V3Card>
     {!available ? <Blank title="这扇窗还没有接通">当前服务尚未提供B站来源投影。不会用演示观看记录代替真实经历。</Blank>

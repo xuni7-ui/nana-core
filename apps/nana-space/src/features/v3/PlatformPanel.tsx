@@ -13,7 +13,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
   const refresh = async () => {
     setBusy(true);
     try { setStatus(await client.platformStatus()); }
-    catch { setMessage("暂时读不到平台状态，请检查奈奈是否已启动。不会自动发送或重试消息。"); }
+    catch { setMessage("暂时读不到平台状态，请检查运行进程是否已启动。不会自动发送或重试消息。"); }
     finally { setBusy(false); }
   };
   useEffect(() => {
@@ -52,8 +52,8 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
     } catch { setMessage("未确认凭据变更。请刷新核对；需要支持此功能的 Android 版本及管理权限。"); }
     finally { setBusy(false); }
   };
-  return <V3Card title="连接奈奈的生活入口" eyebrow="ONE CORE · LIVE CHANNELS">
-    <p className="v3-muted">每个入口都回到同一个奈奈。连接设置、读取许可与发送授权分别核验。</p>
+  return <V3Card title="连接生活入口" eyebrow="ONE CORE · LIVE CHANNELS">
+    <p className="v3-muted">每个入口都回到同一个主体。连接设置、读取许可与发送授权分别核验。</p>
     {!rows.length && <p className="v3-muted">还没有绑定可用的 QQ / B站账号通道。云端完成账号与联系人绑定后会显示在这里。</p>}
     {rows.map(row => <article className="v3-card" key={`${row.platform}.${row.channel_id}`}>
       <h3>{row.platform === "qq" ? "QQ" : "哔哩哔哩"} · {String(row.channel_id)}</h3>

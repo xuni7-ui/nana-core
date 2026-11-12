@@ -211,7 +211,7 @@ public class NanaHostPlugin extends Plugin {
             input.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
             if (Build.VERSION.SDK_INT >= 26) input.setImportantForAutofill(android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(getActivity())
-                .setTitle("登录奈奈")
+                .setTitle("登录 Nana Space")
                 .setMessage("服务器：" + base + "\n输入服务器登录口令。手机仅保存加密设备凭据；口令不会进入网页或被保存。")
                 .setView(input)
                 .setNegativeButton("取消", (d,w) -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); })
@@ -504,12 +504,12 @@ public class NanaHostPlugin extends Plugin {
             SharedPreferences seen = getContext().getSharedPreferences("nana_notification_metadata", Context.MODE_PRIVATE);
             if (event.equals(seen.getString("last_event", ""))) {call.resolve();return;}
             NotificationManager manager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            if (Build.VERSION.SDK_INT >= 26) manager.createNotificationChannel(new NotificationChannel("nana_presence", "奈奈的动态", NotificationManager.IMPORTANCE_DEFAULT));
+            if (Build.VERSION.SDK_INT >= 26) manager.createNotificationChannel(new NotificationChannel("nana_presence", "生活动态", NotificationManager.IMPORTANCE_DEFAULT));
             Intent intent = new Intent(getContext(), MainActivity.class);intent.putExtra("nana_page", page);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pending = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             manager.notify(1, new NotificationCompat.Builder(getContext(), "nana_presence")
-                .setSmallIcon(R.drawable.nana_notification).setContentTitle("奈奈 · 新动态")
+                .setSmallIcon(R.drawable.nana_notification).setContentTitle("Nana Space · 新动态")
                 .setContentText("打开查看有来源的最新状态。").setContentIntent(pending).setAutoCancel(true).build());
             seen.edit().putString("last_event", event).apply();call.resolve();
         } catch (Exception ex) {reject(call, ex);}

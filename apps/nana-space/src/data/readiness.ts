@@ -15,7 +15,7 @@ export function readinessLabel(code: unknown): string {
     PROVIDER_TOTAL_RESERVED_COST_BUDGET: "本次授权的费用预留不足",
     UNRESOLVED_PROVIDER_CALL_NO_RETRY: "上一笔模型请求仍待核实，暂不重复调用",
     PRE_DISPATCH_UNAVAILABLE: "当前宿主尚未授权此供应商或不支持此协议",
-    UNAVAILABLE_CORE_STOPPED: "连接入口在线，奈奈的运行进程尚未就绪",
+    UNAVAILABLE_CORE_STOPPED: "连接入口在线，主体运行进程尚未就绪",
     LIVE_PROVIDER_NOT_AUTHORIZED_OR_BUDGETED: "真实模型调用尚未授权或缺少额度",
     PROVIDER_READINESS_UNAVAILABLE: "暂时无法核实模型状态，请检查连接",
     SECRET_INPUT_CANCELLED: "已取消，没有提交凭据",

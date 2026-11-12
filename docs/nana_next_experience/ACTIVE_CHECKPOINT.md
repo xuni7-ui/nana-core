@@ -44,3 +44,9 @@
 原Record直接联系→既有内部Context：转新topic后仍见一层当前自有相关思想；修订/暂停延续，单改联系可以新revision，放弃/撤回不自动复活，原普通界面不泄露。同61440预算关NO_ACTION/开WAIT，各1fixture，估算26858→27963（+1105，非真实Token）；114相关21.38s后补2目标0.63s/最终58私人检查6.28s。见evidence/private-association-20261112，源码表锚 bf7f2a2a5bcd6ecd758d0c4d1e38dcd960c8a8af6c301171bd8e551d97f04938。bd48独立CI43199749478已实读162通过46.06s/clientSKIP，不是本批CI。
 
 下一具体工作：核对原商业LifeApplication._model/CognitionSession.prepare的INTERPRET→C→SOCIAL/RENDER链和当前保留语义，再接紧凑私人策略/明确反馈；不将普通瞬时会话内容借SELF_COGNITION入口自动持久化。空关联独立清除、复杂冲突/跨时间自发机会仍有开发差额。无匹配新安装/真实模型/手机/生产/自然度/跨日长期新资格，原A–H/CURRENT266+409保持。测试已移/dev/shm避免/tmp剩759MiB压力，所有原DB/Git/未知文件保护。
+
+## 最新产品增量：通用实例默认称呼
+
+现役LiveSpace/V3/模型向导/Avatar/HTML及Android登录通知不写死实例私人称呼，Nana Space品牌/原身份关系/真实返回名字/明确虚构demo保留。TS/Vite/93单测及既有聊天布局/UNKNOWN/供应商记忆草稿四视口12通过18.8s；没有新造copy测试/重打APK/native/手机/生产。见evidence/generic-client-entry-20261112，源码表锚 4f91157414cb39cdc4845a168c14c86ba7d43af80754cf5f0d7aacbbbcd1ab3c。
+
+继续可执行项：实际模型目录/配置协议及商业内心持续策略。后者仍须在原保留语义、Provider预算和独立C中融合，不能把瞬时聊天借自发生根保存。原A–H/内心13节/最终匹配发行与真实体验差额完整继承。

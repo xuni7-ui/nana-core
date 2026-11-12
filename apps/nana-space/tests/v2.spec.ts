@@ -46,7 +46,7 @@ test("v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host l
       "把下一场流星雨留给我们",
     );
   }
-  await page.getByLabel("和奈奈说点什么").fill("先别分析这个话题");
+  await page.getByLabel("输入消息").fill("先别分析这个话题");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   await expect(page.locator(".live-reply")).toContainText("VERIFIED");
   await expect(page.locator(".live-reply")).toContainText("这个话题先停在这里");

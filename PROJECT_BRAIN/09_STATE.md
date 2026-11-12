@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 172,
-  "as_of_us": 1794479480526670,
+  "revision": 173,
+  "as_of_us": 1794479879038165,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRIVATE_ASSOCIATION_DECISION_CAUSALITY",
+  "status": "IN_PROGRESS_INNER_CAUSALITY_AND_GENERIC_CLIENT",
   "progress": [
-    "生成中接续Web→真实TLS/BFF→原C双源/4视口通过；修模型末tick漏接输入，正常CLI源码启用，93unit/53后端/41进程授权与56+12浏览器定向通过。16fixture/1DEV主体/真实0，无新安装/手机/生产资格。",
+    "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -31,14 +31,14 @@
     "根盘ENOSPC，实际同分支工作副本/tmp/nana-inner-refinement-work；原Root f583+4ownedWIP完整保护。/tmp会随环境重建消失，先查远端最新源码/09/ACTIVE；不再旧源码archive补取/403重试，真实模型/手机/生产未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/generic-client-entry-20261112/README.md",
     "docs/nana_next_experience/evidence/private-association-20261112/README.md",
     "docs/nana_next_experience/evidence/private-self-occurrence-20261112/README.md",
     "docs/nana_next_experience/evidence/private-formation-queue-20261112/README.md",
     "docs/nana_next_experience/evidence/private-new-direction-20261112/README.md",
     "docs/nana_next_experience/evidence/plan-step-choice-20261112/README.md",
     "docs/nana_next_experience/evidence/private-interest-wide-20261112/README.md",
-    "docs/nana_next_experience/evidence/private-question-revision-20261112/README.md",
-    "docs/nana_next_experience/evidence/private-question-learning-20261112/README.md"
+    "docs/nana_next_experience/evidence/private-question-revision-20261112/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2735,3 +2735,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-12 当前源码增量] 无旧Memory/Project仍可在原C同调用形成持久私问；SELF_COGNITION是程序候选发生，非外界事实/问题答案。173相关+最终watch9通过，原撤回/备份和隐私保留；private-self-occurrence-20261112/source-sha256锚 1ad81a5564fa87228342dd847b4521c36485d3167c94a685d7551a868bb646e0。商业内心/跨轮策略与原A–H继续。
 
 [2026-11-12 当前源码增量] 原私念联系进入原C既有认知，跨topic/重启同61440预算关NO_ACTION/开WAIT，2目标/114相关及最终58通过分项；+1105 UTF8估算不是商业Token。private-association-20261112/source-sha256锚 bf7f2a2a5bcd6ecd758d0c4d1e38dcd960c8a8af6c301171bd8e551d97f04938。商业持续策略/明确结果反馈、复杂关联与原A–H继续。
+
+[2026-11-12 通用产品增量] 现役公开客户端去写死实例私人称呼，不动原身份关系/真实投影与明确虚构demo。TS/Vite/93单测/四视口12浏览器通过，Android仅copy未native资格。generic-client-entry-20261112/source-sha256锚 4f91157414cb39cdc4845a168c14c86ba7d43af80754cf5f0d7aacbbbcd1ab3c。内心商业策略/模型目录及原A–H继续，CURRENT不动。

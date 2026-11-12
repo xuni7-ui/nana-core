@@ -3,10 +3,10 @@ import type { LivePage } from "../../data/v2";
 /** UI destinations reuse finite v2 views; they never add native/API operations. */
 export const destinations = {
   home: ["生活空间", "home"],
-  chat: ["和奈奈聊聊", "chat"],
+  chat: ["聊聊", "chat"],
   memories: ["记忆与我们", "memories"],
   models: ["模型中心", "settings"],
-  room: ["奈奈的小房间", "home"],
+  room: ["小房间", "home"],
   journal: ["生活动态", "journal"],
   goals: ["小小计划", "goals"],
   world: ["世界探索", "world"],

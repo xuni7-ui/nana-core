@@ -209,7 +209,7 @@ export function HomeView({
           <h1>
             {room ? (
               <>
-                奈奈的小房间<span>安静相伴，也各自生长。</span>
+                小房间<span>安静相伴，也各自生长。</span>
               </>
             ) : (
               <>
@@ -222,14 +222,14 @@ export function HomeView({
           <p>
             {connected
               ? ready
-                ? "这个窗口连接着同一个奈奈。她此刻的生活与关心，都有来处。"
-                : "已经连接奈奈，正在等待她的最新近况。"
-              : "这是通向奈奈的窗口。连接之后，真实的生活、记忆和共同经历会在这里慢慢出现。"}
+                ? "这个窗口连接着同一段持续的生活。近况与关心，都有来处。"
+                : "已经连接，正在等待最新近况。"
+              : "连接之后，真实的生活、记忆和共同经历会在这里慢慢出现。"}
           </p>
           <div className="v3-inline">
             <button className="v3-button primary" onClick={() => go("chat")}>
               <MessageCircle size={17} />
-              和奈奈聊聊 <ArrowUpRight size={16} />
+              开始聊天 <ArrowUpRight size={16} />
             </button>
             <button
               className="v3-button ghost"
@@ -250,7 +250,7 @@ export function HomeView({
         <div
           className="v3-room-scene"
           role="img"
-          aria-label="奈奈的小房间，静态角色展示，不代表实时心情"
+          aria-label="小房间，静态角色展示，不代表实时心情"
         >
           <div className="v3-room-window" />
           <span className="v3-room-star one">✧</span>
@@ -266,7 +266,7 @@ export function HomeView({
         </div>
       </section>
       {shares.length > 0 && <V3Card title="她留待分享的片刻" eyebrow="FROM HER OWN JUDGMENT">
-        <p className="v3-muted">这些候选来自奈奈已有的判断与来源。目前尚未送达，会等合适的时机与权限。</p>
+        <p className="v3-muted">这些候选来自当前主体已有的判断与来源。目前尚未送达，会等合适的时机与权限。</p>
         <div className="v3-records">{shares.map(item => <article className="v3-record" key={item.id}>
           <span className="v3-record-icon"><MessageCircle size={18}/></span>
           <div><div className="v3-record-head"><strong>有来源的分享候选</strong><span className="v3-chip">尚未送达</span></div>
@@ -329,7 +329,7 @@ export function HomeView({
             <Moon size={27} />
             <h3>不必每一刻都做些什么。</h3>
             <p>
-              奈奈可以探索，也可以休息。你忙的时候，这里会留着一个不催促的入口。
+              可以探索，也可以休息。你忙的时候，这里会留着一个不催促的入口。
             </p>
             <button className="v3-button soft" onClick={() => go("settings")}>
               安静与交流设置 <ChevronRight size={15} />
@@ -431,7 +431,7 @@ export function BackupView({
         )}
         <p className="v3-muted">
           需要 Host Admin
-          单次确认。手机不会打包数据库，也不会创建或恢复另一个奈奈。
+          单次确认。手机不会打包数据库，也不会创建或恢复另一个主体。
         </p>
       </V3Card>
       <div className="v3-two-column">
