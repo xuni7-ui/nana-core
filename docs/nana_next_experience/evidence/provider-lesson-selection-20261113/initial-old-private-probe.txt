@@ -1,0 +1,41 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_original_qualified_lesson_changes_a_later_self_question_and_withdrawal_removes_its_influence[active] _
+
+tmp_path = PosixPath('/dev/shm/plearnold/test_original_qualified_lesson0')
+condition = 'active'
+
+    @pytest.mark.parametrize('condition',['active','suspended','wrong-task'])
+    def test_original_qualified_lesson_changes_a_later_self_question_and_withdrawal_removes_its_influence(tmp_path,condition):
+        path=tmp_path/'original'/'self.db';clock=VirtualClock();authority=OperatorAuthority()
+        with ContinuityStore(path,clock,schema_target=13) as store:
+            IdentityService(store,authority);memory=MemoryService(store,authority);memory.entity('synthetic-sister','PERSON')
+            original,result,experience,lesson=learn_missing_locator(store,memory,authority)
+            if condition=='suspended':ExperienceService(store,authority).suspend(lesson,authority)
+        config=RuntimeConfig(schema_target=13,scopes=('synthetic-home',),entity_id='synthetic-sister',privacy_classes=('PERSONAL',))
+        policy=ContextPolicy(policy_id='self-qualified-lesson',allowed_scopes=('synthetic-home',),readable_privacy=('PERSONAL',))
+        seen=[]
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            lessons=[json.loads(b['data_json'])['lesson_id'] for b in context['blocks'] if b['kind']=='LESSON'];seen.append(lessons)
+            return StructuredProposal(interpretation='SYNTHETIC sourced learning reconsideration',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],lesson_refs=tuple(lessons),
+                interpretation='SYNTHETIC ask a new question using a checked method' if lessons else 'SYNTHETIC wait without claiming a learned method',
+                proposed_operations=('READ_SOURCE','LOCATE_SOURCE','DRAFT') if lessons else ('WAIT',),
+                private_question={'topic':'own-source-method','question':'SYNTHETIC Could the checked locator method help a new kind of private research?'} if lessons else None))
+        with provider_harness(proposer=propose) as (transport,state):
+            with NanaRuntime(path,config,clock=clock) as r:
+                source=SubjectInput(source_key='synthetic.later-learning-choice',kind='WAKE',origin='SELF_WAKE',entity_id='synthetic-sister',scope='synthetic-home',
+                    task_class='unrelated-domain' if condition=='wrong-task' else 'reading_card',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us())
+                cycle=r.subject.cognize(source,model=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536)),authority=r.authority,policy=policy)
+                expected=condition=='active'
+>               assert bool(candidates(r.store,'synthetic-home',('PERSONAL',)))==expected
+E               AssertionError: assert False == True
+E                +  where False = bool(())
+E                +    where () = candidates(<nana_core.continuity.store.ContinuityStore object at 0x7f3e92b5e330>, 'synthetic-home', ('PERSONAL',))
+E                +      where <nana_core.continuity.store.ContinuityStore object at 0x7f3e92b5e330> = <nana_core.presence.runtime.NanaRuntime object at 0x7f3e929ff740>.store
+
+tests/person_self/test_provider_subject_learning.py:44: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_learning.py::test_original_qualified_lesson_changes_a_later_self_question_and_withdrawal_removes_its_influence[active]
+1 failed, 2 passed in 0.48s

@@ -1,3 +1,11 @@
+## 现役revision194
+
+原C已选任务类别的原G合格Lesson由ContextAssembler进入同次SELF，world.self角色/隐私上限/原引用与整体预算保持；无Frame不得指定类别。精确旧fd同输入同预算REST→新EXPLORE，均HTTP1/0Goal与动作，暂停/异类/重启/撤回有效。189相关29.88s，wire单例+2450bytes，真实商业Token/成本null。证据provider-lesson-selection-20261113。
+
+下一具体断点：正常D私人机会由watch生成的task_class仍为空，不能假称所有私人计划已能选择相关方法；先沿原PRIVATE_QUESTION/PRIVATE_PLAN来源与原C语义核对类别/证据消费者，不增加硬写topic→技能映射或第二学习器。原reading_card任务判断/候选保护未删除，初始私问探针失败保留；不要假称新私问已形成。持续情感/结果因果/G广迁移、startup产品、装配精简/其余A–H/旧reader与匹配发行保留。CURRENT266+409，无新增真实模型/手机/生产/自然度/长期资格。
+
+当前工作副本仍/tmp/nana-inner-refinement-work；Root f583+4WIP和18bc未动。已完成seedless、volatile原焦点及有限承诺按实际方向归因三个后继增量，直接复用。下文旧下一以本段/09优先。
+
 ## 现役revision193
 
 原C实际ACCEPT并由原服务形成的有限社交承诺保持；evaluation现与当前实际选择共用适用条件，不再把自主REST/DO_NOTHING错标RESTRAINED。精确旧d3：选REST却私计划仍ACTIVE；新同候选/原C→PAUSED、重启保持/重放0写，真实SOCIALIZE仍克制，承诺整行不改。132相关16.48s，新增Provider0。见voluntary-restraint-scope-20261113。

@@ -1,0 +1,9 @@
+{
+  "run": 43467294354,
+  "job": 132030048440,
+  "lines": [
+    "2026-11-13T16:58:39.6797060Z 344 passed in 196.01s (0:03:16)"
+  ],
+  "client": "SKIPPED",
+  "artifact_downloaded": false
+}

@@ -1,0 +1,35 @@
+{
+  "active_behavior_assertion_failed": false,
+  "requests": [
+    {
+      "state": "PROPOSED",
+      "input_bytes": 30338,
+      "output_bytes": 755,
+      "reserved_bytes": 42627,
+      "lesson_blocks": 1,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 65536,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      }
+    }
+  ],
+  "cycles": [
+    {
+      "behavior": "EXPLORE",
+      "stance": "THINK_MORE",
+      "wall_us": 83790,
+      "cpu_us": 83361,
+      "family_allocated_bytes_delta": 471040,
+      "goals": 0,
+      "provider_ledger_rows": 1,
+      "fixture_ledger_rows": 0,
+      "actions": 0
+    }
+  ],
+  "real_model_calls": 0,
+  "actual_commercial_tokens": null,
+  "actual_commercial_cost": null,
+  "limits": "One same-input/same-budget owned HTTP probe. Qualified fixture lesson and deterministic proposer, no real LLM, P95, installation or long-term effect."
+}

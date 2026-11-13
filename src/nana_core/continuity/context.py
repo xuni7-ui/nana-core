@@ -223,9 +223,15 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None, private_record_ids=()):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None, private_record_ids=(), subject_task_class=None):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
+        lesson_request=request
+        if subject_task_class is not None:
+            if subject_frame is None or request.task_class!='world.self':raise CoreError('SUBJECT_TASK_CLASS_BINDING_REQUIRED')
+            # Only lesson selection follows the original C task category. The
+            # SELF role/privacy ceiling and stored task descriptor stay intact.
+            lesson_request=ContextRequest.model_validate_json(canonical({**request.model_dump(mode='json'),'task_class':subject_task_class}))
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
         if conversation_topic is not None or (subject_frame is not None and request.task_class=='world.self'):
             from .memory import PRIVACY_RANK
@@ -529,7 +535,7 @@ class ContextAssembler:
                             'changes_fact_credibility':False,'grants_authority':False}),source_record_ids=refs,
                         source_memory_ids=tuple(sorted({mid for rid in refs for mid in RecordService(self.store).support(rid)})))))
         if not (pinned_only or source_only):
-            candidates.extend(self._lessons(request, privacy))
+            candidates.extend(self._lessons(lesson_request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
             if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
