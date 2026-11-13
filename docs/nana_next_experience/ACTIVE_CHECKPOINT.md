@@ -1,8 +1,8 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
-**当前速读（2026-11-13，09 revision184，本批新业务源码）：**正常D/内外待办分离后，商业私念正文仅在相关可读INTERPRET按预算投影，原C判断后采纳公开choice再交RENDER。精确旧源/同预算消融及同Store停旧启新保持身份，2模型调用不增。170相关后补7/3通过，不相加称全仓；旧b6独立174另记。证据commercial-inner-communication-20261113及09锚。
+**当前速读（2026-11-13，09 revision185，本批新业务源码）：**商业私念/原C公开choice后，已在原Record补可选有界跨轮方法，不自动建任务。重启后不重放用户原话也能继续；同方法不扩写/续期，当前拒绝/新方向/撤回/过期可停止，兴趣保留。194相关及最终11通过，原c43独立483另记，均非全仓/真实模型。见communication-strategy-continuity-20261113及09锚。
 
-**仍未完成的下一主链：**当前choice仅当前认知请求，不是持久策略。继续有界跨轮策略/明确反馈及反证/实际结果归因→原Experience/S8独立后续迁移，更多情感/动机协同与原A–H。旧reader对非空choice/private ref安全回退、匹配发行及真实模型/手机/生产/自然度/跨日资格未完成，CURRENT266+409不动。
+**仍未完成的下一主链：**当前方法是假设且未评价效果。继续原投递/话轮/明确反馈/反证范围与实际结果归因→Experience/原S8独立后续迁移；更多情感/多动机/长期成长及A–H。新strategy proposal/choice/private ref旧reader回退、匹配发行及真实模型/手机/生产/自然度/跨日资格待，CURRENT266+409不动。
 
 实际工作副本 `/tmp/nana-inner-refinement-work`，同dev/nana-core-next-experience-codex。根盘ENOSPC；原 `/workspace/nana-unified-release` 停在f583+4ownedWIP完整保护，旧 `/workspace/nana-core` 18bc736不动。/tmp易失；丢失时取远端最新合法HEAD/09到有空间副本，不reset/rebase/覆盖原Root。16:00北京时间一次性续办已设置，本对话收到相同续办指令后继续同一执行线；工具last_run_time登记08:06:58UTC，现disabled/next=null，不据此推断总任务完成或平台后台永久运行。现役检查点只保留当前摘要；过往详单在Git和下列证据。
 
@@ -122,3 +122,10 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 首次8192预算裁出私问与schema漏嵌套定义、旧“全部INTERPRET禁正文”断言均保留并准确分类；新16k对照两边一致，Schema可达闭包已修。当前工具同主体/同Store/同私问、CPU/页/WAL原值保留；+3400测量wire bytes，非实际Token/节费，fixture usage常量不可冒充。不是新安装/真实模型/生产/自然度/长期资格。
 
 精确下一点：CommunicationPurpose.validity仍CURRENT_COGNITIVE_REQUEST_ONLY。沿原Cycle Record/Experience选择同联系人/范围/topic且仍有效的少量先前策略与停止条件，不存逐字推理，不转Goal、不回放未保留用户原话；新的明确反馈/反证可改或停止当前方法，沉默/送达不评成功，之后才交原S8独立后续评价。原C策略/情感选择不是确定性固定映射，也不由候选自评转正式习惯。此前A–H、真实平台/新旧reader回退及匹配发行继续。
+
+
+## 2026-11-13 当前后继：原Record有界方法
+
+C可选1–86400秒活跃审阅窗或结束旧方法，原INTENTION Record scoped target存紧凑假设（不入subject_intentions，不建Goal/表/Agent/第二Planner）；当前联系人/topic/recipient/privacy及原支持决定是否进入INTERPRET。相同方式不写新快照或延到期，时间到不删记录/兴趣/不调模型。精确旧c43同条件重启后丢方法，新关私念正文/不重放原话仍续用；11目标与194相关通过，原lease夹具违规和C尊重模型拒绝但未停旧方法首错保留，未放宽lease/永久边界。source表锚 `546ebc165e2d77957a1565b56ec4a96e8cf4e6e2dc5e033f03df869d5a613004`。
+
+仅方法假设，不是真实效果/成长；Meta一直NOT_EVALUATED。下一重点读原DeliveryAdmission/Exchange/LanguageSample反馈来源与Experience路径，绑定实际收件范围/反馈/结果，不能把生成或送达当安慰成功、沉默当好评；之后才由原G独立实践/后续迁移。新持续方法尚无真实模型/平台/跨日/手机/安装/生产资格，旧reader安全回退及原A–H完整继续。原始证据communication-strategy-continuity-20261113；/tmp易失，提交push后继续。

@@ -3664,3 +3664,7 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S3/S4/S6自主性A–E：外部pending容量不再硬否决0占槽私人形成；private ref认知ASK/WAIT以内部NO_ACTION/DEFER保持原关注，不加外向待办，普通WAIT控制不变。3fail/2pass→7目标及153相关31.91s含Precision，原8PENDING逐行不变、原D同预算0→1fixture/1私问。未删模型/预算/并发/quiet/执行门，证据private-cognition-not-pending-work-20261113/09锚；商业策略/反馈/S8及A–H/回退/匹配发行继续，真实0。
 
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S6/S7 Advanced：原私念正文只在相关可读INTERPRET按完整预算进入，可选交流方式交原C独立判断后公开choice→原RENDER；不带私念依据字段，原无内文安全句柄保留，不造第二脑/Store/调用阶段。精确旧源失败、新同预算消融/同Store顺序换源保持身份，各2fixture；170相关后补7/3通过，嵌套schema首错修复/首次小预算裁剪与旧契约变更如实保留。+3400 wire bytes非Token/节费，旧b6独立174另记。证据commercial-inner-communication-20261113/09锚；choice当前请求，持久策略/真实反馈/S8及A–H/旧reader回退/匹配发行继续，真实模型/手机/生产0。
+
+- 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：可选持续交流方法落原Record scoped target，非任务/第二脑；重启不重放原话仍续用，同方法不写新快照/续期，拒绝/新方向/撤回/到期可停但不删兴趣。精确旧c43首轮正常/重启丢方法对照失败→新11目标及194相关通过；租约夹具首错与拒绝未停实际首错保留，原lease/永久边界保护未放宽。491-byte单例快照/原索引查找/各轮2fixture、效果NOT_EVALUATED；旧c43独立483另记。证据communication-strategy-continuity-20261113/09锚，下一确切反馈/结果→Experience/原S8及A–H/旧reader回退/匹配发行，真实0。
+
+- 本批补充：公开接收者停止请求修订原私有方法时保留原privacy floor，新增2相关检查通过；原194/11范围不混为重跑全仓，源码锚随当前代码更新。

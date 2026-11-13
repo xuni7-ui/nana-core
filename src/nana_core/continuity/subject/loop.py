@@ -512,7 +512,7 @@ class SubjectLoop:
                     tx.put('subject_goal_candidates', {'candidate_id': candidate_id,
                         'intention_id': intention_id, 'record_id': candidate_record, 'state': 'PROPOSED'})
             from .context_fit import consider_communication
-            communication=consider_communication(self.store,event,situation,intention,evaluation,privacy_classes=self.privacy_classes)
+            communication,communication_proposal=consider_communication(self.store,event,situation,intention,evaluation,privacy_classes=self.privacy_classes)
             result = CycleResult(communication_choice=communication,conversation_decision=conversation,context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
@@ -550,6 +550,9 @@ class SubjectLoop:
                 after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes,
                     selected_topic=situation.cue.topic_key if situation.cue else event.topic,
                     private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question,private_plan=private_plan)
+                from .context_fit import record_communication_strategy
+                record_communication_strategy(self.store,tx,event,result.model_copy(update={'record_id':record}),communication_proposal,
+                    privacy_classes=self.privacy_classes)
         return result.model_copy(update={'record_id': record})
 
     def result(self, row, *, replayed=False):

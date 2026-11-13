@@ -1,0 +1,26 @@
+{
+  "source": "c43aed90bc15e2fdd62c4c962def17e2941964c0",
+  "package": "/dev/shm/nana-communication-strategy-baseline",
+  "restored_files": [
+    {
+      "path": "src/nana_core/continuity/context.py",
+      "baseline_sha256": "c6984d938b291c2c6c32b2e95a1cec691b66285da02c9980b992b90f08ba27b3"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/context_fit.py",
+      "baseline_sha256": "18529b4b875c6141b86505d7b1a6d794ce5913e1c5145e95d2ab26bfe435199c"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/loop.py",
+      "baseline_sha256": "dfa4d5320bbce3336f0c947dbc30995e6117b0114d741939ef9cac9f65d83cf8"
+    },
+    {
+      "path": "src/nana_core/continuity/world_loop/cognition.py",
+      "baseline_sha256": "7437202e2dac6561df5831359ad9887d6560d673441072bca6e367928859659e"
+    },
+    {
+      "path": "src/nana_core/life/dialogue_contracts.py",
+      "baseline_sha256": "bbe9001197c18789bd8674d8ae9444223f6bda27d0fd8fbd05b7a2f49055559b"
+    }
+  ]
+}

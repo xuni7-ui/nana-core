@@ -55,6 +55,7 @@ def test_private_state_changes_public_communication_choice_before_render_without
         cycle=app.runtime.subject.result(app.runtime.store.one('subject_cycles',after['cycle_id']))
         assert cycle.communication_choice.model_dump(mode='json')==choice
         assert app.runtime.identity_id==identity and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert not app.runtime.store.db.execute("SELECT 1 FROM continuity_records WHERE target_id LIKE 'communication-strategy.%'").fetchone()
         assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_USER_TRANSIENT_CANARY')>0").fetchone()
 
 

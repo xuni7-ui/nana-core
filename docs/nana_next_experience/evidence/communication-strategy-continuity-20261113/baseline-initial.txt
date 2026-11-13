@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_bounded_own_method_survives_restart_without_private_history_injection_or_repeated_strategy_writes _
+
+tmp_path = PosixPath('/dev/shm/commstrategybaseline/test_bounded_own_method_surviv0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f1c1432ec30>
+
+    def test_bounded_own_method_survives_restart_without_private_history_injection_or_repeated_strategy_writes(tmp_path,monkeypatch):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();root,rid=seed(app);identity=app.runtime.identity_id
+                first=app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',message_id='first')
+                assert first['render_state']=='UNVERIFIED_MODEL_WORDING' and 'keep listening' in first['text']
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();monkeypatch.setattr(app.runtime.subject,'dialogue_private_refs',lambda **kwargs:(),raising=False)
+                later=app.chat('SYNTHETIC related followup',topic='own-curiosity',privacy='PROJECT',message_id='later')
+>               assert 'keep listening' in later['text'] and app.runtime.identity_id==identity
+E               AssertionError: assert ('keep listening' in 'SYNTHETIC: hello.')
+
+tests/person_self/test_communication_strategy.py:51: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_communication_strategy.py::test_bounded_own_method_survives_restart_without_private_history_injection_or_repeated_strategy_writes
+1 failed, 9 deselected in 0.93s

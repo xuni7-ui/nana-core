@@ -1,0 +1,46 @@
+..F....                                                                  [100%]
+=================================== FAILURES ===================================
+__________ test_method_expiry_does_not_wake_model_or_delete_interest ___________
+
+tmp_path = PosixPath('/dev/shm/commstrategyfirst/test_method_expiry_does_not_wa0')
+
+    def test_method_expiry_does_not_wake_model_or_delete_interest(tmp_path):
+        from nana_core.continuity.subject.context_fit import communication_strategy_projection
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=32768) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();seed(app)
+            app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT')
+            assert len(strategy_rows(app))==1
+            count=len(app.runtime.store.all('cognitive_requests'));clock.advance(601*SECOND)
+>           for _ in range(4):app.runtime.step()
+                              ^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_communication_strategy.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/presence/runtime.py:297: in step
+    self.lease.heartbeat()
+src/nana_core/presence/authority.py:114: in heartbeat
+    row = self.assert_current()
+          ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7fd6be15a8d0>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_communication_strategy.py::test_method_expiry_does_not_wake_model_or_delete_interest
+1 failed, 6 passed in 5.09s

@@ -1,0 +1,75 @@
+{
+  "scope": "SYNTHETIC_RESTART_COMPACT_METHOD_SINGLE_SAMPLE",
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "stages": [
+    {
+      "turn": 1,
+      "identity_id": "9ba2c03f-e241-48f6-bb14-9fc8727fcece",
+      "reply": "SYNTHETIC: keep listening without turning this into a project.",
+      "fixture_http_calls": 2,
+      "real_model_calls": 0,
+      "wire_input_bytes": [
+        25569,
+        21546
+      ],
+      "wire_output_bytes": [
+        584,
+        528
+      ],
+      "strategy_records": 1,
+      "strategy_payload_bytes": [
+        491
+      ],
+      "strategy_projection_in_interpret": false,
+      "strategy_projection_in_render": false,
+      "no_pending_work": true,
+      "no_goals": true,
+      "elapsed_single_sample": {
+        "cpu_us": 116936,
+        "wall_us": 121192
+      },
+      "lookup_plan": [
+        "SEARCH continuity_records USING INDEX autonomy_record_target (record_kind=? AND target_id=?)",
+        "USE TEMP B-TREE FOR LAST TERM OF ORDER BY"
+      ]
+    },
+    {
+      "turn": 2,
+      "identity_id": "9ba2c03f-e241-48f6-bb14-9fc8727fcece",
+      "reply": "SYNTHETIC: keep listening without turning this into a project.",
+      "fixture_http_calls": 2,
+      "real_model_calls": 0,
+      "wire_input_bytes": [
+        25228,
+        21715
+      ],
+      "wire_output_bytes": [
+        585,
+        571
+      ],
+      "strategy_records": 1,
+      "strategy_payload_bytes": [
+        491
+      ],
+      "strategy_projection_in_interpret": true,
+      "strategy_projection_in_render": false,
+      "no_pending_work": true,
+      "no_goals": true,
+      "elapsed_single_sample": {
+        "cpu_us": 124382,
+        "wall_us": 126134
+      },
+      "lookup_plan": [
+        "SEARCH continuity_records USING INDEX autonomy_record_target (record_kind=? AND target_id=?)",
+        "USE TEMP B-TREE FOR LAST TERM OF ORDER BY"
+      ]
+    }
+  ],
+  "same_subject": true,
+  "same_strategy_record_count": true,
+  "raw_user_words_not_replayed": true,
+  "actual_provider_tokens": null,
+  "actual_model_cost": null,
+  "new_install_or_production": false
+}

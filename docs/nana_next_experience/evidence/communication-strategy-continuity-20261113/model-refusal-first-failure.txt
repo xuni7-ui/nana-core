@@ -1,0 +1,23 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_current_model_refusal_can_end_own_method_without_installing_permanent_user_boundary _
+
+tmp_path = PosixPath('/dev/shm/commstrategydeclinebefore/test_current_model_refusal_can0')
+
+    def test_current_model_refusal_can_end_own_method_without_installing_permanent_user_boundary(tmp_path):
+        from nana_core.continuity.subject.context_fit import communication_strategy_projection,depth_boundary
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=32768) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();seed(app);app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',message_id='begin')
+            result=app.chat('SYNTHETIC no-longer-this-method',topic='own-curiosity',privacy='PROJECT',message_id='refusal')
+            assert result['mode']=='RESPECT_BOUNDARY'
+>           assert communication_strategy_projection(app.runtime.store,scope='project-work',entity_id='project-user',topic='own-curiosity',recipient_context=None,privacy_classes=('PROJECT',)) is None
+E           AssertionError: assert {'record_id': '2cae6f2c-3bf3-496f-a1c7-3ac6d9b26426', 'choice': {'approach': 'LISTEN', 'detail': 'BRIEF', 'follow_up': 'NONE'}, 'created_at_us': 1791590400000000, 'expires_at_us': 1791591000000000, ...} is None
+E            +  where {'record_id': '2cae6f2c-3bf3-496f-a1c7-3ac6d9b26426', 'choice': {'approach': 'LISTEN', 'detail': 'BRIEF', 'follow_up': 'NONE'}, 'created_at_us': 1791590400000000, 'expires_at_us': 1791591000000000, ...} = <function communication_strategy_projection at 0x7f0f19fed580>(<nana_core.continuity.store.ContinuityStore object at 0x7f0f19c3a5a0>, scope='project-work', entity_id='project-user', topic='own-curiosity', recipient_context=None, privacy_classes=('PROJECT',))
+E            +    where <nana_core.continuity.store.ContinuityStore object at 0x7f0f19c3a5a0> = <nana_core.presence.runtime.NanaRuntime object at 0x7f0f19c3bdd0>.store
+E            +      where <nana_core.presence.runtime.NanaRuntime object at 0x7f0f19c3bdd0> = <nana_core.life.application.LifeApplication object at 0x7f0f19c3a180>.runtime
+
+tests/person_self/test_communication_strategy.py:142: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_communication_strategy.py::test_current_model_refusal_can_end_own_method_without_installing_permanent_user_boundary
+1 failed, 9 deselected in 0.89s

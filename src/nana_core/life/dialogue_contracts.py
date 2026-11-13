@@ -1,6 +1,6 @@
 """Semantic proposals, never identity, relationship, goal or execution authority."""
 from typing import Literal, Annotated
-from pydantic import Field, StringConstraints, model_serializer
+from pydantic import Field, StringConstraints, model_serializer, model_validator
 from ..contracts import DTO
 from ..continuity.person_self import ConversationProposal, ConversationDecision
 
@@ -14,6 +14,21 @@ class CommunicationChoice(DTO):
 
 class CommunicationProposal(CommunicationChoice):
     basis_private_record_ids:tuple[Annotated[str,StringConstraints(min_length=1,max_length=128)],...]=Field(default=(),max_length=8)
+    strategy_duration_seconds:int|None=Field(default=None,ge=1,le=86400)
+    end_previous_strategy:bool=False
+
+    @model_validator(mode='after')
+    def one_strategy_update(self):
+        if self.end_previous_strategy and self.strategy_duration_seconds is not None:
+            raise ValueError('end a previous method or retain a method, not both')
+        return self
+
+    @model_serializer(mode='wrap')
+    def compatible_strategy_wire(self,handler):
+        value=handler(self)
+        if self.strategy_duration_seconds is None:value.pop('strategy_duration_seconds',None)
+        if not self.end_previous_strategy:value.pop('end_previous_strategy',None)
+        return value
 
 class DialogueMeaning(DTO):
     communication_proposal:CommunicationProposal|None=None
@@ -37,6 +52,30 @@ class DialogueRecipient(DTO):
     platform: str = Field(min_length=1, max_length=96)
     binding_id: str = Field(min_length=1, max_length=96)
     conversation_id: str = Field(min_length=1, max_length=128)
+
+
+class CommunicationStrategy(DTO):
+    """A C-owned method hypothesis in the existing Record, never an outcome."""
+    contract:Literal['COMMUNICATION_STRATEGY_V1']='COMMUNICATION_STRATEGY_V1'
+    owner_identity_id:str
+    entity_id:str
+    topic:str
+    recipient_context:DialogueRecipient|None=None
+    choice:CommunicationChoice|None=None
+    basis_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
+    state:Literal['ACTIVE','STOPPED']
+    source_cycle_id:str
+    created_at_us:int=Field(ge=0)
+    expires_at_us:int=Field(ge=0)
+    effect_status:Literal['NOT_EVALUATED_NO_EFFECT_INFERRED']='NOT_EVALUATED_NO_EFFECT_INFERRED'
+    execution_authority:Literal[False]=False
+
+    @model_validator(mode='after')
+    def valid_method(self):
+        if self.state=='ACTIVE' and (self.choice is None or self.expires_at_us<=self.created_at_us):
+            raise ValueError('active method needs a choice and a bounded review window')
+        if self.state=='STOPPED' and self.choice is not None:raise ValueError('stopped method has no active choice')
+        return self
 
 
 class DialogueTurn(DTO):

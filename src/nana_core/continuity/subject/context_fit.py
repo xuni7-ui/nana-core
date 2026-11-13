@@ -6,7 +6,7 @@ person/scope/topic observations; inferred disagreement cannot install a refusal.
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO
-from ...storage import digest
+from ...storage import digest,canonical
 from ..records import RecordService
 
 # An existing delivery-boundary ledger topic, not a new availability authority.
@@ -135,21 +135,92 @@ def consider_communication(store,event,situation,intention,evaluation,*,privacy_
     fit=situation.context_fit;signal=event.interaction_signal
     if (not fit or not signal or signal.basis!='MODEL_PROPOSAL' or not signal.proposal_record_id
             or signal.proposal_record_id not in fit.source_record_ids
-            or fit.mode in {'UNCLEAR','RESPECT_BOUNDARY'} or not fit.allow_delivery
-            or intention.kind not in {'SOCIAL_INTERACTION','DISAGREE'}
-            or not evaluation or evaluation.normative!='ENDORSED'):
-        return None
+            or fit.mode=='UNCLEAR'):
+        return None,None
     from ...life.dialogue_contracts import CommunicationProposal,CommunicationChoice
     from ..autonomy.private_intent import internal_projection
     import json
     records=RecordService(store)
     data=records.read(signal.proposal_record_id)['payload']['reply']['proposal']['dialogue'].get('communication_proposal')
-    if data is None:return None
+    if data is None:return None,None
     proposal=CommunicationProposal.model_validate_json(json.dumps(data))
     current={v['record_id'] for v in internal_projection(store,situation.private_interest_records,
         scope=event.scope,privacy_classes=privacy_classes)}
-    if not set(proposal.basis_private_record_ids)<=current:return None
-    return CommunicationChoice(approach=proposal.approach,detail=proposal.detail,follow_up=proposal.follow_up)
+    if not set(proposal.basis_private_record_ids)<=current:return None,None
+    if (fit.mode=='RESPECT_BOUNDARY' and intention.kind=='NO_ACTION' and proposal.end_previous_strategy):
+        # C may stop its own method in this context without manufacturing an
+        # explicit, permanent user boundary from a model interpretation.
+        return None,proposal
+    if (fit.mode=='RESPECT_BOUNDARY' or not fit.allow_delivery
+            or intention.kind not in {'SOCIAL_INTERACTION','DISAGREE'}
+            or not evaluation or evaluation.normative!='ENDORSED'):
+        return None,None
+    return CommunicationChoice(approach=proposal.approach,detail=proposal.detail,follow_up=proposal.follow_up),proposal
+
+
+def _strategy_key(store,scope,entity_id,topic,recipient):
+    if hasattr(recipient,'model_dump'):recipient=recipient.model_dump(mode='json')
+    return 'communication-strategy.'+digest([store.identity['identity_id'],scope,entity_id,topic,recipient])
+
+
+def _strategy_latest(store,scope,entity_id,topic,recipient):
+    # Read the latest header even if retired/withheld. Never fall back to an
+    # older strategy after a correction, stop, withdrawal or privacy change.
+    return store.db.execute("SELECT * FROM continuity_records WHERE record_kind='INTENTION' AND scope=? AND target_id=? ORDER BY created_at_us DESC,rowid DESC LIMIT 1",
+        (scope,_strategy_key(store,scope,entity_id,topic,recipient))).fetchone()
+
+
+def communication_strategy_projection(store,*,scope,entity_id,topic,recipient_context,privacy_classes):
+    if store.schema_target<13:return None
+    head=_strategy_latest(store,scope,entity_id,topic,recipient_context)
+    if not head or head['lifecycle']!='ACTIVE' or head['privacy_class'] not in privacy_classes:return None
+    records=RecordService(store)
+    if not records.current_support(head['record_id']):return None
+    from ...life.dialogue_contracts import CommunicationStrategy
+    from ..autonomy.private_intent import internal_projection
+    value=CommunicationStrategy.model_validate_json(canonical(records.read(head['record_id'])['payload']))
+    expected_recipient=recipient_context.model_dump(mode='json') if hasattr(recipient_context,'model_dump') else recipient_context
+    if (value.owner_identity_id!=store.identity['identity_id'] or value.entity_id!=entity_id or value.topic!=topic
+            or (value.recipient_context.model_dump(mode='json') if value.recipient_context else None)!=expected_recipient
+            or value.state!='ACTIVE' or value.expires_at_us<=store.clock.utc_now_us()):return None
+    current={item['record_id'] for item in internal_projection(store,value.basis_private_record_ids,
+        scope=scope,privacy_classes=privacy_classes,include_associations=False)}
+    if not set(value.basis_private_record_ids)<=current:return None
+    # Only a compact prior own method, never the previous user words, private
+    # reasons, a claim of effectiveness or a command to follow it unchanged.
+    return {'record_id':head['record_id'],'choice':value.choice.model_dump(mode='json'),
+        'created_at_us':value.created_at_us,'expires_at_us':value.expires_at_us,
+        'effect_status':value.effect_status,'semantics':'PRIOR_OWN_METHOD_HYPOTHESIS_RECONSIDER_NOW',
+        'execution_authority':False}
+
+
+def record_communication_strategy(store,tx,event,result,proposal,*,privacy_classes):
+    if not result.record_id or event.retention=='DO_NOT_REMEMBER' or not event.interaction_signal:return
+    from ...life.dialogue_contracts import CommunicationStrategy
+    signal=event.interaction_signal;recipient=None
+    if event.surface:recipient={'platform':event.surface.platform,'binding_id':event.surface.session_id,'conversation_id':event.surface.conversation_id}
+    head=_strategy_latest(store,event.scope,event.entity_id,signal.topic_key,recipient)
+    explicit_stop=signal.basis=='EXPLICIT' and signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY'}
+    stop=explicit_stop or bool(proposal and proposal.end_previous_strategy)
+    duration=proposal.strategy_duration_seconds if proposal else None
+    if (not stop and (duration is None or result.communication_choice is None)) or (stop and head is None):return
+    records=RecordService(store)
+    previous=communication_strategy_projection(store,scope=event.scope,entity_id=event.entity_id,topic=signal.topic_key,
+        recipient_context=recipient,privacy_classes=privacy_classes)
+    if stop and previous is None:return
+    if previous and not stop and previous['choice']==result.communication_choice.model_dump(mode='json'):
+        old=CommunicationStrategy.model_validate_json(canonical(records.read(head['record_id'])['payload']))
+        if not proposal.basis_private_record_ids or set(proposal.basis_private_record_ids)==set(old.basis_private_record_ids):
+            return  # Same method/conditions: no repeated writes or sliding expiry.
+    now=store.clock.utc_now_us()
+    value=CommunicationStrategy(owner_identity_id=store.identity['identity_id'],entity_id=event.entity_id,topic=signal.topic_key,
+        recipient_context=recipient,choice=None if stop else result.communication_choice,
+        basis_private_record_ids=() if stop else proposal.basis_private_record_ids,state='STOPPED' if stop else 'ACTIVE',
+        source_cycle_id=result.cycle_id,created_at_us=now,expires_at_us=now if stop else now+duration*1_000_000)
+    prior=head['record_id'] if head and head['lifecycle']=='ACTIVE' else None
+    records.create(tx,kind='INTENTION',scope=event.scope,payload=value.model_dump(mode='json'),records=(result.record_id,),
+        supersedes=prior,target_id=_strategy_key(store,event.scope,event.entity_id,signal.topic_key,recipient),
+        privacy_floor=head['privacy_class'] if prior else None)
 
 def plan_binding(store,reference,*,scope,privacy_classes,goal_id=None):
     """Follow existing adopted-goal lineage, not a model-named private topic."""

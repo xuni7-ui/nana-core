@@ -1,12 +1,12 @@
 # 2026-11-13 当前机制深化增量（同一主任务）
 
-实际源码与09顶部CURRENT优先；现役revision184（商业私念→原C当前交流choice候选，170相关后补7/3；独立174为旧b6源码），证据见ACTIVE末段及09 refs。以下历史待办中已由本段覆盖的部分复用，不重复实施。
+实际源码与09顶部CURRENT优先；现役revision185（原Record有界跨轮方法，194相关/最终11通过；独立483为旧c43源码）。以下历史待办由本段及ACTIVE后继覆盖，不重复实施。
 
 - 原私人活动→正常D/SELF/C已接受控候选；前台quiet延后、同Store重启换fixture、入队前/后资源等待、当前版本淘汰/撤回、UNKNOWN不重试已补。单版本不反复调用，同资源条件不重复写入。新ref旧reader回退与真实长期生活尚未资格。
-- 正常商业chat的interaction_signal.topic进入原C private decision_support，相关且可读时参与Appraisal/Motivation，重启/无关/PUBLIC/撤回已测。本批已补相关私念→INTERPRET候选→原C公开choice→RENDER，原C仍独立判断；choice仅当前请求，不能称持久策略/结果学习闭环完成。
+- 正常商业chat的interaction_signal.topic进入原C private decision_support，相关且可读时参与Appraisal/Motivation，重启/无关/PUBLIC/撤回已测。本批已补相关私念→INTERPRET候选→原C公开choice→RENDER，原C仍独立判断；公开choice仍仅当前请求；本批原Record已有可选有界跨轮方法，仍未评价效果/不能称结果学习闭环完成。
 - 原8执行待办不再作为0占槽私问的固定否决；私人ASK/WAIT不再自动排外向等待任务，普通WAIT不变。模型/预算/并发/quiet与真实执行门继续，7目标及153相关通过，非商业/长期资格。
 - 原cognize可容纳当次passing_thought，C可NO_ACTION、0自动Goal/私念/Memory/evidence；普通trace遮蔽，重启不重建未保留理由。仅离线fixture合同/行为证据，无真实模型自发性声明。
-- 下一最高优先：原Record上有界跨轮策略、情感与多动机、明确反馈/反证及实际结果→S8独立后续迁移；与现有多消息/CommunicationPurpose/投递链融合。其余A–H、广检索学习、物理存储隐私、全链Token/模型产品、多端及匹配发行继续。十九节增补在task_inputs/TEN_DOMAIN_MECHANISM_AND_CAUSAL_SYNERGY_2026_11_13.md，固定总纲/63标准不改。
+- 下一最高优先：原投递/交流方法的确切反馈与结果→Experience/S8独立后续迁移、情感及多动机；有界方法继续按真实效果精修；与现有多消息/CommunicationPurpose/投递链融合。其余A–H、广检索学习、物理存储隐私、全链Token/模型产品、多端及匹配发行继续。十九节增补在task_inputs/TEN_DOMAIN_MECHANISM_AND_CAUSAL_SYNERGY_2026_11_13.md，固定总纲/63标准不改。
 
 ---
 
