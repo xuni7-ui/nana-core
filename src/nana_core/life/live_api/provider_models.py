@@ -6,6 +6,7 @@ No credentials, remote bodies or catalog text enter Subject memory or logs.
 """
 
 import json
+import math
 import re
 import time
 import urllib.error
@@ -142,6 +143,7 @@ def discover(service, principal, provider_id, revision, *, after_id=None):
             raise ApiError('PROVIDER_CONFIG_REVISION_CONFLICT', 409)
         return service.envelope({**result, 'provider_profile_id':provider_id,
             'profile_revision':revision, 'source':'PROVIDER_CATALOG',
+            'retry_after_ms':min(10000, math.ceil(max(0,service.provider_catalog_after-time.monotonic())*1000)),
             'qualification':'NOT_ESTABLISHED', 'inference_calls':0,
             'configuration_changed':False}, principal=principal)
     except CoreError as exc:

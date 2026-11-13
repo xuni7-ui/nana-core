@@ -44,6 +44,7 @@ def test_authenticated_catalog_from_existing_vault_does_not_change_routes(runnin
     status, result, _ = http(server, path, headers=headers)
     assert status==200 and result['data']['models']==['catalog.model']
     assert result['data']['qualification']=='NOT_ESTABLISHED'
+    assert 0 < result['data']['retry_after_ms'] <= 10000
     assert result['data']['inference_calls']==0 and len(calls)==1
     assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in json.dumps(result)
     assert (service.supervisor.home/'providers.json').read_bytes()==before

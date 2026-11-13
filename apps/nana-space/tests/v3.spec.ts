@@ -901,6 +901,37 @@ test("SYNTHETIC model catalog: explicit list read fills draft and registers only
   await noHorizontalOverflow(page);
 });
 
+test("SYNTHETIC catalog cooldown: server wait prevents redundant reads without blocking model choices", async ({page}) => {
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogProtocol='ANTHROPIC';
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  const reads:(string|null)[]=[];
+  await page.route(`**${API}providers/models?*`,async route=>{
+    const cursor=new URL(route.request().url()).searchParams.get('after_id');reads.push(cursor);
+    return route.fulfill({status:200,json:envelope(state,{provider_profile_id:'provider.catalog',profile_revision:1,
+      models:cursor?['native/new']:['native/first'],truncated:!cursor,next_after_id:cursor?null:'native/first',
+      retry_after_ms:10000})});
+  });
+  await open(page,'models');
+  await page.clock.install({time:new Date("2030-01-01T00:00:00Z")});
+  await page.clock.pauseAt(new Date("2030-01-01T00:00:01Z"));
+  const catalog=page.getByLabel('读取服务商模型');
+  const read=catalog.getByRole('button',{name:/读取 .* 模型/});
+  await read.click();
+  const next=catalog.getByRole('button',{name:'读取下一页',exact:true});
+  await expect(next).toBeDisabled();await expect(read).toBeDisabled();
+  await expect(catalog).toContainText('10 秒后可再次读取');
+  await catalog.getByRole('combobox').selectOption('native/first');
+  await expect(page.getByLabel('远端 Model ID',{exact:true})).toHaveValue('native/first');
+  await page.clock.runFor(9000);await expect(next).toBeDisabled();
+  expect(reads).toEqual([null]);
+  await page.clock.runFor(1000);await expect(next).toBeEnabled();await expect(read).toBeEnabled();
+  expect(reads).toEqual([null]); // No automatic retry at expiry.
+  await next.click();await expect(catalog).toContainText('服务商当前列表已读完');
+  expect(reads).toEqual([null,'native/first']);
+  await noHorizontalOverflow(page);
+});
+
 test("SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol", async ({page}) => {
   const state=await installMock(page);
   state.catalogEnabled=true;state.catalogProtocol='ANTHROPIC';

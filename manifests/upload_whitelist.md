@@ -156,3 +156,8 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 ## 2026-11-13 · B 模型配置集成
 
 沿用用户开发/提交/推送/PR持续授权；model-configuration-integration-20261113/{README.md,validation.json,source-sha256.json}及其逐项登记源码/测试，CODEX_B_QUEUE.md与09/11仅追加及本白名单。无第三方源码、凭据、数据或构建产物。
+
+
+## 2026-11-13 · B 目录等待提示
+
+持续授权范围：catalog-wait-20261113/{README.md,source-sha256.json}及指纹中6份源码/测试；CODEX_B_QUEUE.md、09/11追加、本清单。沿用原凭据/10秒节流，无真实Key/私史/依赖/构建产物。

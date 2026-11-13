@@ -3665,3 +3665,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 ### 2026-11-13 · Codex B 模型配置单一集成候选
 
 [源码/实测] S5-C03/S1-C04 Advanced，工程工作线NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY继承旧B成果。基于A d29120b正常合并B14/16，保留A目录8页/256KiB/10秒/256 ID预算与通用文案；B显式续页及协议继承和共用预设可共同工作。38客户端、56四视口fixture、44本地认证HTTP/目录/授权通过及TS/Vite通过；无推理/新依赖/配置权威/数据迁移。PR14单一待A集成候选，PR16纳入后关闭独立推进，分支保留。证据model-configuration-integration-20261113，源码锚1ed8ff4c070d84ff40c4892e45bdb010cc5b5b32530eaf02511e2aff782dc54d。未改A主体语义/CURRENT/生产，不冒真实Provider/手机/Java或发行资格；下一目录等待体验及有证据的基础设施性能对照。
+
+
+### 2026-11-13 · B 目录等待体验
+
+[源码/实测] S5-C03/S1-C04 Advanced，成功目录响应返回原共享节流剩余ms，模型中心显示倒计时并避免已知立即429，已读选择不阻塞，无自动重试/新限制/推理调用。19客户端、24目录HTTP及TS/Vite通过；相关四视口12通过，新场景测试时钟竞态修正后4通过，未放宽行为断言。证据catalog-wait-20261113，源码锚ff4a0b44cb5078728c16f6cf3850987c8459702540e770f5e82f841f3dbae61b。PR14更新候选，PR16实际已关闭且功能保留；非A合并/真实手机/Provider/生产。下一隔离验证重复Provider配置解析成本。

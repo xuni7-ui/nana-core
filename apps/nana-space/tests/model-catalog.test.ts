@@ -32,3 +32,13 @@ test("multi-page cycles and long duplicate-only catalogs cannot grow an unlimite
   expect(large.models).toHaveLength(catalogDisplayLimit);expect(large.nextAfterId).toBeUndefined();
   expect(large.truncated).toBe(true);
 });
+
+
+test("catalog wait is optional and bounded; unknown metadata does not discard usable model choices", () => {
+  for (const wait of [0, 1, 10000])
+    expect(readModelCatalog({models:["one"],truncated:false,retry_after_ms:wait}).retryAfterMs).toBe(wait);
+  for (const wait of [-1,10001,0.5,"1000",null]) {
+    const result=readModelCatalog({models:["one"],truncated:false,retry_after_ms:wait});
+    expect(result.retryAfterMs).toBeUndefined();expect(result.models).toEqual(["one"]);
+  }
+});

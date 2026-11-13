@@ -3,6 +3,7 @@ export interface ModelCatalogPage {
   models: string[];
   truncated: boolean;
   nextAfterId?: string;
+  retryAfterMs?: number;
 }
 export interface ModelCatalog extends ModelCatalogPage {
   revision: number;
@@ -21,6 +22,8 @@ export function readModelCatalog(value: unknown): ModelCatalogPage {
     throw new Error("服务商分页信息无效，请重新读取列表。");
   return {
     models: [...new Set(raw.models as string[])],
+    ...(typeof raw.retry_after_ms === "number" && Number.isInteger(raw.retry_after_ms) &&
+      raw.retry_after_ms >= 0 && raw.retry_after_ms <= 10000 ? {retryAfterMs:raw.retry_after_ms} : {}),
     // Older servers without completion metadata cannot attest a full catalog.
     truncated: raw.truncated !== false,
     ...(typeof next === "string" ? { nextAfterId: next } : {}),
