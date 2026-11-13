@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-13",
+  "ephemeral_worktree_and_logs_lost": true,
+  "remote_recovered_head": "fabdd486fad4757148ce6cfe7ddebd14f875f1ec",
+  "active_worktree": "/tmp/nana-inner-refinement-work",
+  "recovery": "fresh legitimate Git clone into free /tmp; no runtime Store copied",
+  "protected_original_head": "f583f187152c452b9638ff2d6c96b91bd4fe68da",
+  "protected_original_dirty_files_sha256": {
+    "src/nana_core/continuity/autonomy/private_intent.py": "f48a55af69b7063f80e07a239be31db67d2a9edc2165b3630b29ce20d6508476",
+    "src/nana_core/continuity/subject/loop.py": "d1c7ea80b4877c72e5d1aed4c989cfee19e112e5b510ea5a1d34556ae2dc618a",
+    "src/nana_core/continuity/subject/policy.py": "86152194970ce333b4fb5f78ed7f1e7a614ad1be8c8bcefb9e418e6de49252f3",
+    "tests/first_life_integration/test_private_intent.py": "1d8e586471dad5053175d00a4ab30f3377f191c588620de7e53e97d39ae0efcd"
+  },
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "pydantic": "2.13.4",
+  "not_cloud_sqlite_3_51_3": true,
+  "timer_timezone": "Asia/Shanghai",
+  "timer_times": [
+    "2026-11-13T17:00:00+08:00",
+    "2026-11-13T23:00:00+08:00"
+  ],
+  "timers_confirmed_by_automation_create": true
+}

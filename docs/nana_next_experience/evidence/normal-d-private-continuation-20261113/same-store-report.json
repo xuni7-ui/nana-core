@@ -1,0 +1,55 @@
+{
+  "scope": "SYNTHETIC_NORMAL_D_SAME_STORE_FORWARD_SOURCE_CHANGE",
+  "stages": [
+    {
+      "actions": 0,
+      "calls": [],
+      "clock_us": 1791590403000000,
+      "core_source": "/dev/shm/nana-d-fabdd48-source/nana_core/__init__.py",
+      "d_fixture_calls": 0,
+      "grants": 0,
+      "identity_id": "772a89d8-0665-46c3-89ee-89228cb5de2a",
+      "paid_token_measurement": "NOT_RUN",
+      "private_plan_ids": [
+        "b94501a0-e9b5-444e-826c-793411983398"
+      ],
+      "private_question_count": 0,
+      "private_schedule_count": 0,
+      "real_provider_calls": 0,
+      "runtime_call_count": 0,
+      "stage": "baseline",
+      "user_messages": 0
+    },
+    {
+      "actions": 0,
+      "calls": [
+        {
+          "counter": "UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER",
+          "input_limit": 61440,
+          "input_units": 12623
+        }
+      ],
+      "clock_us": 1791590403000000,
+      "core_source": "/tmp/nana-inner-refinement-work/src/nana_core/__init__.py",
+      "d_fixture_calls": 1,
+      "grants": 0,
+      "identity_id": "772a89d8-0665-46c3-89ee-89228cb5de2a",
+      "paid_token_measurement": "NOT_RUN",
+      "private_plan_ids": [
+        "b94501a0-e9b5-444e-826c-793411983398"
+      ],
+      "private_question_count": 1,
+      "private_schedule_count": 1,
+      "real_provider_calls": 0,
+      "runtime_call_count": 1,
+      "stage": "candidate",
+      "user_messages": 0
+    }
+  ],
+  "same_subject": true,
+  "same_initial_private_plan": true,
+  "single_writer_at_a_time": true,
+  "actual_provider_tokens": "NOT_MEASURED",
+  "installation_or_production_qualification": false,
+  "reverse_source_rollback": "NOT_TESTED"
+}

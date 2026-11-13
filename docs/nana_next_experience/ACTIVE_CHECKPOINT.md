@@ -68,3 +68,11 @@
 private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无旧记忆也可根于真实程序发生，默认private/no execution，形成完成不假装执行。重启后同学习机会关私念IGNORE/开LEARN，精准暂停/恢复不覆盖计划内容，能同intent修订且与问题并存，源撤回保留原身份。180相关47.30s后补无效候选异常私文隐藏3首错→4目标0.53s及最终79相关6.69s，未拼全仓。见evidence/private-plan-20261112，源码表锚 af79f81271e28af0baac5a5fefd21d44138fbd86bad04fddec45d42403297b21。新增0模型阶段，3有效fixture+1拒绝跨类型fixture，真实0。旧Schema/Question/Precision不改，未新建Store/Planner/模块/表。
 
 下一确定源码入口：presence/runtime.py _refresh_attention→SubjectLoop.background_opportunities→subject/watch.py collect_opportunities目前没有按PRIVATE_ACTIVITY记录/版本/条件的机会。补正常D无用户消息续办，验证前台优先、静默窗口/忙闲、暂停重启、同条件不重复模型，不靠周期问模型或额外pending意向冒充持续生活。当前cognize受控成功不当此项已接。商业INTERPRET/C/RENDER私人策略和瞬时保留/真实反馈仍待，原A–H/CURRENT266+409/最终匹配安装与真实模型/手机/生产/自然度/长期完整继承。
+
+## 2026-11-13 当前恢复与D首批候选
+
+环境重建丢失旧/tmp未提交D/临时日志，已合法clone实际远端fabdd48至同/tmp路径，保护Root f583+4WIP与旧18bc。新环境3.12.14/SQLite3.53.1/Pydantic2.13.4；不复述旧临时安装存在。首批D源码与正常Runtime.step夹具已恢复重测：精确fab旧源2fail/3pass→新5pass0.57s，私念/连续运行/Context/C92相关15.78s后补旧schema写入前拒绝7pass0.95s。手动同一DEV DB停旧源/启新源，身份/原计划保持，0调用/0新问→1fixture/1新问，无用户/真实provider/动作。见evidence/normal-d-private-continuation-20261113，源码表锚 667d028985be13fe001b7846fe1e3e7df65787b4e532e41b2e3212e2279c5e5b。
+
+这是候选接线，不是正常D全验收：下一先补前台在预查后插入、静默延后/重启、模型/预算改变及陈旧ref/撤回排队，再相关回归。新private_thought_ref真实队列/模板的旧reader回退未资格；旧输入无ref从wire省略。商业持续策略/保留/明确反馈与原A–H不缩减。避免/tmp再丢：本批验证后立即提交push，再在该合法后继连续精修。
+
+新增续办工具已确认今天北京时间17:00与23:00两次一次性任务，继承届时最新进度且不暂停当前工作；未推断定时结果或总工程完成。CURRENT266+409/生产不变。

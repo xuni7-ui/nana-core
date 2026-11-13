@@ -3648,3 +3648,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-12｜NEXT_EXPERIENCE S2/S3/S6增量：保留原问题可明确解除当前联系，不删除相关思想/原追源，暂停不复活；新proposal默认false省略保持旧wire，必须原C绑定当前修订且不混替代refs。1首错→目标通过，最终私念/Context/C/portable66通过6.66s，无新模型阶段/权限/Store。证据private-association-clear-20261112/09锚；下一原PRIVATE_PLAN只有DTO的实际接线、商业策略及原A–H，无新安装/真实模型/手机/生产/长期资格。
 
 - 2026-11-12｜NEXT_EXPERIENCE S1/S2/S3/S6/S8接口：原PRIVATE_PLAN由只声明接入已有认知/原C/原V2，私密/无旧支持发生根/重启/精准暂停恢复修订与问题共存；同机会关IGNORE/开LEARN，未假装学会或执行。180相关后补异常私文回显3首错→4目标、最终79相关通过6.69s；保留ValidationError/strict/forbid/frozen不吞错误。原错误WITHDRAWN夹具拒绝保留后用合法DROPPED。无新模块/Store/Planner/表/模型阶段，真实0。下一正常D私人活动条件机会/商业持续策略与原A–H，非新安装/手机/生产/自然度/长期资格。证据private-plan-20261112/09锚。
+
+- 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S4/S6候选：环境重建后保护原Root/WIP/旧快照，合法clone fab并恢复未提交D；私人精确ref→原collector/D/SELF/C，原C与资源只读预查，无模型/预算不消费机会，修PROJECT-only调度绑定。精确旧源2fail/3pass→5pass；92相关后补旧schema写前拒绝7通过，同DEV DB旧→新保持身份/原计划，0D调用/0新问→1fixture/1新问。原临时旧日志丢失如实记录，不冒安装/生产/自然度/长期。证据normal-d-private-continuation-20261113/09锚；下一前台竞态/恢复/广回归/旧reader回退与原A–H。新17/23北京时间续办确认且不暂停现任务。

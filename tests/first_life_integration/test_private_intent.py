@@ -1227,3 +1227,86 @@ def test_original_c_private_plan_is_durable_private_and_changes_later_learning_c
         assert not store.all('actions') and not store.all('grants') and not store.all('lessons') and not store.all('experiences') and not store.all('commitments')
         memory.forget(root,authority)
         assert not candidates(store,'own-scope',('PROJECT',)) and store.identity['identity_id']==identity
+
+
+@pytest.mark.parametrize('condition',['available','unconfigured','budget','paused','withdrawn'])
+def test_normal_d_continues_current_private_activity_once_without_user_or_periodic_model_poll(tmp_path,monkeypatch,condition):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from nana_core.continuity.subject.opportunities import PrivateIntentRef
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import RuntimeConfig,SECOND
+    path=tmp_path/'own'/'self.db';clock=VirtualClock();authority=OperatorAuthority()
+    plan_text='SYNTHETIC private plan to explore an unfamiliar visual composition, without promising any external action.'
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        IdentityService(store,authority);memory=MemoryService(store,authority);memory.entity('counterparty','PERSON')
+        class SeedPlan:
+            descriptor='offline-d-continuation-seed'
+            def propose(self,request):
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_plan']={'topic':'own-composition','plan':plan_text}
+                return json.dumps(base)
+        loop=SubjectLoop(store,scopes=('own-scope',),privacy_classes=('PROJECT',))
+        def wake(key,**fields):return SubjectInput(source_key='synthetic.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),**fields)
+        loop.cognize(wake('d-seed-plan'),model=SeedPlan(),authority=authority,policy=ContextPolicy(policy_id='d-private-seed',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+        rid,plan=candidates(store,'own-scope',('PROJECT',))[0];identity=store.identity['identity_id']
+        if condition=='paused':
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key=plan.topic,possible_behaviors=('REST',),
+                private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=plan.intent_id,revision=plan.revision))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.d-private',source_reference='pause',source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+            mid=memory.add(MemoryCandidate(entity_id='counterparty',scope='own-scope',memory_type=MemoryType.PROSPECTIVE,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=cue.model_dump_json(),predicate_key='concern.d-pause'))
+            loop.run(wake('d-pause-plan',source_memory_ids=(mid,)))
+            assert candidates(store,'own-scope',('PROJECT',))[0][1].activity_state=='PAUSED'
+        if condition=='withdrawn':memory.forget(plan.source_memory_ids[0],authority)
+    config=RuntimeConfig(schema_target=13,scopes=('own-scope',),entity_id='counterparty',privacy_classes=('PROJECT',),
+        model=None if condition=='unconfigured' else 'analytical',max_calls_per_day=0 if condition=='budget' else 8,
+        idle_recall_us=2*SECOND,review_interval_us=10*SECOND,cognition_cooldown_us=0)
+    calls=[]
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        class ContinuePlan:
+            descriptor='offline-d-private-continuation-not-real-model'
+            def propose(self,request):
+                calls.append(request)
+                assert plan_text in request.context_json
+                base=json.loads(AnalyticalFixturePort().propose(request))
+                base['private_question']={'topic':'own-composition','question':'SYNTHETIC own new question: Could negative space connect these contrasting compositional interests?'}
+                return json.dumps(base)
+        monkeypatch.setattr(runtime.cognition,'port',lambda call:ContinuePlan())
+        runtime.refresh_attention();runtime.step()
+        assert not runtime.store.db.execute("SELECT 1 FROM runtime_schedules WHERE dedupe_key LIKE 'private-thought.%'").fetchone()
+        clock.advance(3*SECOND);runtime.refresh_attention();runtime.step()
+        rows=runtime.store.db.execute("SELECT * FROM runtime_schedules WHERE dedupe_key LIKE 'private-thought.%'").fetchall()
+        assert len(rows)==(1 if condition=='available' else 0)
+        for _ in range(4):runtime.step()
+        if condition=='available':
+            assert len(calls)==1 and len(runtime.store.all('runtime_cognition_calls'))==1
+            values=candidates(runtime.store,'own-scope',('PROJECT',))
+            assert {v.category for _,v in values}=={'PRIVATE_PLAN','PRIVATE_QUESTION'}
+            assert any('negative space' in v.content_summary for _,v in values)
+            assert not runtime.subject.pending('own-scope')
+            for _ in range(3):runtime.refresh_attention();runtime.step()
+            assert len(calls)==1
+        else:assert not calls and not runtime.store.all('runtime_cognition_calls')
+        assert runtime.identity_id==identity and not runtime.store.all('actions') and not runtime.store.all('grants')
+
+
+@pytest.mark.parametrize('schema_target',[8,12])
+def test_unsupported_private_continuation_is_rejected_before_subject_ingress(tmp_path,schema_target):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.subject.opportunities import PrivateIntentRef
+    clock=VirtualClock();authority=OperatorAuthority()
+    with ContinuityStore(tmp_path/'self.db',clock,schema_target=schema_target) as store:
+        IdentityService(store,authority);MemoryService(store).entity('counterparty','PERSON')
+        event=SubjectInput(source_key='synthetic.unsupported-continuation',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='test',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),private_thought_ref=PrivateIntentRef(record_id='synthetic.missing',intent_id='synthetic.missing',revision=1))
+        count=len(store.all('events'))
+        with pytest.raises(CoreError,match='PRIVATE_CONTINUATION_SCHEMA_REQUIRED'):
+            SubjectLoop(store,scopes=('test',),privacy_classes=('PROJECT',)).run(event)
+        assert not store.all('subject_events') and not store.all('subject_cycles') and len(store.all('events'))==count

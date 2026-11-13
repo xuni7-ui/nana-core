@@ -3,11 +3,12 @@ from pydantic import Field
 from ...contracts import DTO
 from ...storage import digest
 from ..records import RecordService
-from .opportunities import cues_from
+from .opportunities import cues_from,PrivateIntentRef
 from ..recurrence import RecurrenceSpec
 
 
 class AttentionOpportunity(DTO):
+    private_thought_ref:PrivateIntentRef|None=None
     key: str
     source_kind: str
     source_id: str
@@ -52,6 +53,16 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 scope=scope,entity_id=entity_id,due_at_us=max(cue.not_before_us,source['ingested_time_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=(mid,),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
                 task_class='interaction.shared_discovery' if cue.cue_kind=='DISCOVERY' else None))
+        if store.schema_target>=13:
+            from ..autonomy.private_intent import candidates
+            for rid,item in candidates(store,scope,loop.privacy_classes,owner_identity_id=store.identity['identity_id'],for_decision=True,for_continuation=True):
+                due_at=max(item.updated_at_us+quiet_window_us,quiet_since_us+quiet_window_us)
+                if now_us<due_at:continue
+                formed=store.one('subject_intentions',item.intent_id)
+                result.append(AttentionOpportunity(key='private-thought.'+rid,source_kind='INTENTION',source_id=item.intent_id,
+                    source_revision=formed['revision'],scope=scope,entity_id=entity_id,due_at_us=now_us,
+                    memory_ids=records.support(rid),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
+                    private_thought_ref=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)))
         for row in store.db.execute("SELECT * FROM commitments WHERE scope=? AND state IN ('ADOPTED','ACTIVE') ORDER BY due_at_us,updated_at_us LIMIT 64",(scope,)):
             if store.schema_target>=9 and row['state'] in {'ADOPTED','ACTIVE'} and loop.visible(row['record_id'],scope):
                 body=records.read(row['record_id'])['payload']
@@ -81,4 +92,7 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
                 task_class=row['task_class'],reflection_experience_id=row['experience_id'],priority=2))
-    return tuple((*result,*growth_results)[:64])
+    available=(*result,*growth_results)
+    if 'runtime_schedules' in getattr(store,'keys',{}):
+        available=[item for item in available if not store.db.execute('SELECT 1 FROM runtime_schedules WHERE dedupe_key=?',(item.key,)).fetchone()]
+    return tuple(available[:64])

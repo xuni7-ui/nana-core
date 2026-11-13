@@ -30,6 +30,12 @@ class SubjectLoop:
     def situation(self, event, source):
         now = self.store.clock.utc_now_us()
         records, memories, projects, commitments, due, methods = [], [], [], [], [], []
+        continued=None
+        if event.private_thought_ref is not None:
+            if self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
+            from ..autonomy.private_intent import continuation_target
+            continued=continuation_target(self.store,event.private_thought_ref,scope=event.scope,privacy_classes=self.privacy_classes)
+            event=event.model_copy(update={'topic':continued[1].topic})
         if source['record_id']:
             if not self.visible(source['record_id'], event.scope):
                 raise CoreError('SUBJECT_SOURCE_UNAVAILABLE')
@@ -123,6 +129,7 @@ class SubjectLoop:
             from ..autonomy.private_intent import decision_support
             private_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
             private_interests=decision_support(self.store,event.scope,private_privacy,topic=cue.topic_key if cue else event.topic)
+            if continued is not None and continued[0] not in private_interests:private_interests=(*private_interests,continued[0])
             records.extend(private_interests)
             for rid in private_interests:memories.extend(self.records.support(rid))
             if cue and cue.private_intent_ref:

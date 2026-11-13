@@ -89,7 +89,7 @@ def payload_model(data):
         'PRIVATE_QUESTION_V3':PrivateQuestion}.get(data.get('contract'))
 
 
-def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False):
+def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
     # Scope/privacy/current headers precede the bounded payload window. The
@@ -111,6 +111,9 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
         lookup=' INDEXED BY private_intent_live_lookup' if 'private_intent_live_lookup' in installed else ''
         sql="SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records"+lookup+" WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC LIMIT 64 OFFSET ?"
         args=(scope,*privacy_classes)
+    if for_continuation:
+        alias='r' if 'FROM artifacts a ' in sql else 'continuity_records'
+        sql=sql.replace(' ORDER BY '," AND NOT EXISTS (SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='private-thought.'||"+alias+".record_id) ORDER BY ",1)
     records=RecordService(store);out=[]
     offset=0
     while len(out)<64:
@@ -125,6 +128,10 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
             if owner_identity_id is not None and value.owner_identity_id!=owner_identity_id:continue
             if for_decision and (value.status=='WITHDRAWN' or value.disclosure_policy=='WITHDRAWN'
                     or getattr(value,'activity_state','ACTIVE')=='ABANDONED'):continue
+            if for_continuation:
+                formed=store.one('subject_intentions',value.intent_id)
+                if (not isinstance(value,PrivateActivity) or value.activity_state!='ACTIVE'
+                        or not formed or formed['kind']!='REFLECTION' or formed['state']!='COMPLETED'):continue
             out.append((row[0],value))
             if len(out)==64:break
         if len(rows)<64:break
@@ -195,7 +202,7 @@ def _association_record_ids(store,record_id,*,owner_intent_id,scope,privacy_clas
         if item['intent_id']!=owner_intent_id)
 
 
-def review_target(store,reference,*,scope,privacy_classes,topic):
+def review_target(store,reference,*,scope,privacy_classes,topic=None):
     """Validate the exact current version before the original C considers it."""
     head=store.one('continuity_records',reference.record_id)
     if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
@@ -208,10 +215,18 @@ def review_target(store,reference,*,scope,privacy_classes,topic):
     if model is None:raise CoreError('PRIVATE_INTENT_REVIEW_UNAVAILABLE')
     item=model.model_validate_json(json.dumps(data))
     if (item.owner_identity_id!=store.identity['identity_id'] or item.intent_id!=reference.intent_id
-            or item.revision!=reference.revision or item.topic!=topic or item.status=='WITHDRAWN'
+            or item.revision!=reference.revision or (topic is not None and item.topic!=topic) or item.status=='WITHDRAWN'
             or item.disclosure_policy=='WITHDRAWN'):
         raise CoreError('PRIVATE_INTENT_REVIEW_STALE_OR_UNBOUND')
     return reference.record_id,item
+
+
+def continuation_target(store,reference,*,scope,privacy_classes):
+    rid,item=review_target(store,reference,scope=scope,privacy_classes=privacy_classes)
+    if not isinstance(item,PrivateActivity) or item.activity_state!='ACTIVE':raise CoreError('PRIVATE_CONTINUATION_INACTIVE')
+    formed=store.one('subject_intentions',item.intent_id)
+    if not formed or formed['kind']!='REFLECTION' or formed['state']!='COMPLETED':raise CoreError('PRIVATE_CONTINUATION_NOT_FORMED')
+    return rid,item
 
 
 def consider_question(event,situation,judgment,intention,proposal):
@@ -222,14 +237,9 @@ def consider_plan(event,situation,judgment,intention,proposal):
     return _consider_formation(event,situation,judgment,intention,proposal)
 
 
-def _consider_formation(event,situation,judgment,intention,proposal):
-    """Original C may consider an own question or plan without an external event.
-
-    The model does not adopt a goal, replace a specific review or obtain an
-    execution binding. Rest, disagreement, sourced norms and current boundaries
-    retain their original choice; no source assertion is inferred from a question.
-    """
-    if (proposal is None or event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
+def can_consider_private_formation(event,situation,judgment,intention):
+    """The original C's pre-choice, reused by D only to allocate its method."""
+    if (event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
             or judgment.stance not in {'WATCH','THINK_MORE','REMEMBER','REFLECT'}
             or (judgment.lesson_ids and intention.kind not in {'NO_ACTION','REFLECTION'})
             or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
@@ -239,9 +249,12 @@ def _consider_formation(event,situation,judgment,intention,proposal):
             or 'REFLECT' in situation.prohibited_behaviors
             or (situation.context_fit and not situation.context_fit.allow_deepening)
             or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id))):
-        return None
-    # A focus label is not an authorization boundary: an own question may open
-    # a new direction. Owner/scope/privacy/current-source checks remain separate.
+        return False
+    return True
+
+
+def _consider_formation(event,situation,judgment,intention,proposal):
+    if proposal is None or not can_consider_private_formation(event,situation,judgment,intention):return None
     return proposal
 
 
@@ -288,7 +301,9 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
     """
     records=RecordService(store)
     formation=private_question or private_plan
+    continued=continuation_target(store,event.private_thought_ref,scope=event.scope,privacy_classes=privacy_classes) if event.private_thought_ref else None
     current=candidates(store,event.scope,privacy_classes)
+    if continued and not any(rid==continued[0] for rid,_ in current):current=(*current,continued)
     for topic in dict.fromkeys(t for t in (selected_topic,formation.topic if formation else None) if t is not None):
         relevant=candidates(store,event.scope,privacy_classes,topic=topic,owner_identity_id=store.identity['identity_id'],for_decision=True)
         current=tuple({rid:(rid,item) for rid,item in (*current,*relevant)}.values())
