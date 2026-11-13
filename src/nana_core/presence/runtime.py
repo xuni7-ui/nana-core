@@ -219,6 +219,8 @@ class NanaRuntime:
             for opportunity in opportunities:
                 inp = SubjectInput(
                     source_key="synthetic.runtime.attention-template",
+                    private_thought_ref=getattr(opportunity,"private_thought_ref",None),
+                    privacy_class=max(self.config.privacy_classes,key=lambda p: {'PUBLIC':0,'PROJECT':1,'PERSONAL':2}[p],default='PUBLIC'),
                     kind="WAKE",
                     origin="SELF_WAKE",
                     entity_id=opportunity.entity_id,
@@ -230,6 +232,9 @@ class NanaRuntime:
                     growth_assessment_id=opportunity.growth_assessment_id,
                     commitment_check_id=opportunity.commitment_check_id,
                 )
+                if getattr(opportunity,"private_thought_ref",None) is not None:
+                    if self.queue.has_reactive() or now<max(self.oper['last_activity_us'],(self.oper['last_interaction_us'] or 0))+self.config.idle_recall_us:continue
+                    if self.cognition.preview_private(inp,self.subject)[0]!='FULL_COGNITION':continue
                 event = RuntimeEvent(
                     event_type=opportunity.event_type,
                     trigger=opportunity.wake_trigger,

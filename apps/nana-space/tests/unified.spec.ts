@@ -9,14 +9,14 @@ test("V4 real connection rejects undispatched model calls and respects a topic b
   await page.getByRole("button", { name: "安全连接", exact: true }).click();
   const remember = page.getByLabel("记住这次共同经历", { exact: false });
   await expect(remember).not.toBeChecked();
-  await page.getByLabel("和奈奈说点什么", { exact: true }).fill("PROJECT: source-backed current progress please");
+  await page.getByLabel("输入消息", { exact: true }).fill("PROJECT: source-backed current progress please");
   const receipt = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   const rejected = await (await receipt).json();
   expect(rejected.data.state).toBe("REJECTED");
   expect(rejected.data.dispatch_happened).toBe(false);
   await expect(page.getByText("这次未提交", { exact: false })).toBeVisible();
-  await page.getByLabel("和奈奈说点什么", { exact: true }).fill("先不聊这个话题");
+  await page.getByLabel("输入消息", { exact: true }).fill("先不聊这个话题");
   const boundary = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   const respected = await (await boundary).json();
@@ -130,7 +130,7 @@ test("explicit private context uses the real Core and current device scope", asy
   await expect(personal).not.toBeChecked();
   await personal.check();
   await page.getByLabel("记住这次共同经历", {exact: false}).check();
-  await page.getByLabel("和奈奈说点什么", {exact: true}).fill("先不聊这个话题");
+  await page.getByLabel("输入消息", {exact: true}).fill("先不聊这个话题");
   const request = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
   await page.getByRole("button", {name: "发送", exact: true}).click();
   const response = await request, result = await response.json();
@@ -263,7 +263,7 @@ test("V4 real TLS queued sequence preserves three original C inputs in one reply
   await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
   await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
   await page.getByRole('button',{name:'安全连接',exact:true}).click();
-  const input=page.getByLabel('和奈奈说点什么');await expect(input).toBeEnabled();
+  const input=page.getByLabel('输入消息');await expect(input).toBeEnabled();
   const before=await(await page.request.get('/api/nana-space/v2/bootstrap')).json();
   expect(before.capabilities.conversation_sequence).toBe(true);
   expect(before.data.host.owner_managed).toBe(false); // Explicit in-process qualification owner.
@@ -303,7 +303,7 @@ test('V4 real TLS concurrent continuation replaces an unsent draft using origina
   await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
   await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
   await page.getByRole('button',{name:'安全连接',exact:true}).click();
-  const input=page.getByLabel('和奈奈说点什么');await expect(input).toBeEnabled();
+  const input=page.getByLabel('输入消息');await expect(input).toBeEnabled();
   const before=await(await page.request.get('/api/nana-space/v2/bootstrap')).json();
   expect(before.capabilities.conversation_continuation).toBe(true);
   expect(before.data.host.owner_managed).toBe(false);

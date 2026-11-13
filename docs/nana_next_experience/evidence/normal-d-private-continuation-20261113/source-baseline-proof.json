@@ -1,0 +1,42 @@
+{
+  "baseline_commit": "fabdd486fad4757148ce6cfe7ddebd14f875f1ec",
+  "baseline_method": "copy unchanged checked-out source; replace all modified source files with verified local HEAD blobs",
+  "pytest_pythonpath_override": "/dev/shm/nana-d-fabdd48-source",
+  "source_files": [
+    {
+      "path": "src/nana_core/continuity/autonomy/private_intent.py",
+      "baseline_sha256": "cd4563891f8c89debe70b96f25f8afb16722676b4c26d464ca0c1e5437bcd9cb",
+      "candidate_sha256": "c1fb251b1aec14db0a317d906b7c69f0a6b3452b99b6fd49b87ff3677251e43f"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/contracts.py",
+      "baseline_sha256": "5cf34a92d49ab0ec021298746676437f983e1658d7406042800289ac4d32794c",
+      "candidate_sha256": "fac70b4a44350b327aab2e95fe97f4e70c58f41fb212ef51a39a485ebce15e4f"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/ingress.py",
+      "baseline_sha256": "636f00c88b32e74bb7757e16441e62c6a478c0c0a7a98b0a7223247d9e0def2d",
+      "candidate_sha256": "c3faf71beaace1b9d72831b803ec26034808d5ddb5d4ad60bba351846420f3f8"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/loop.py",
+      "baseline_sha256": "290e0badcde5e38205ef852a4d9cfbcc434cf25dc2e33b9b1b26e24ba2063547",
+      "candidate_sha256": "fe0cd18fbbda6a5b139b47439d2612d5ef571ceeae63082da3ed3ee9b3176e69"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/watch.py",
+      "baseline_sha256": "aa1fbfb3cb5f3f123c0283965008ac74a18d2f794aed59e6fbcb2a67ed72f405",
+      "candidate_sha256": "826c70c4e7e70bc09edaa476fd2aeebb3748e4d13f612c81735be20f8db70060"
+    },
+    {
+      "path": "src/nana_core/presence/cognition.py",
+      "baseline_sha256": "612282394ac8319298fb2bda1658408dba23932ec4582af153bc44d32964d901",
+      "candidate_sha256": "517fb03864892dda8714bb0e361f108c7b716066a45b041d92a84a338b0d0d4c"
+    },
+    {
+      "path": "src/nana_core/presence/runtime.py",
+      "baseline_sha256": "82e048dc8a74ddfe1e9c202a81f0762602ea0bc7429f0f59db502cf3898e8db5",
+      "candidate_sha256": "f4fa67cdc51dcc5659a4012e63f342217e0afa3c3dff5d51793843272a424b8c"
+    }
+  ]
+}

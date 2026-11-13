@@ -185,12 +185,12 @@ public class NanaNotificationJob extends JobService {
                 .putLong("last_at", System.currentTimeMillis()).putString("state", "LOCAL_HINT_SUBMITTED_NOT_HUMAN_ACK").commit()) return;
             NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= 26)
-                manager.createNotificationChannel(new NotificationChannel("nana_presence", "奈奈的动态", NotificationManager.IMPORTANCE_DEFAULT));
+                manager.createNotificationChannel(new NotificationChannel("nana_presence", "生活动态", NotificationManager.IMPORTANCE_DEFAULT));
             Intent intent = new Intent(this, MainActivity.class).putExtra("nana_page", "home")
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pending = PendingIntent.getActivity(this, JOB, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             manager.notify(JOB, new NotificationCompat.Builder(this, "nana_presence").setSmallIcon(R.drawable.nana_notification)
-                .setContentTitle("奈奈 · 有新的动态").setContentText("有新的生活动态，方便时打开看看。")
+                .setContentTitle("Nana Space · 有新的动态").setContentText("有新的生活动态，方便时打开看看。")
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE).setContentIntent(pending).setAutoCancel(true).build());
         }
     }

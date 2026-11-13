@@ -106,6 +106,8 @@ interface MockState {
   biliHistory?: Record<string, unknown>;
   catalogEnabled?: boolean;
   catalogProtocol?: string;
+  catalogTruncated?: boolean;
+
   memorySearchRows?: Record<string,unknown>[];
   lifeItems?: Record<string,unknown>[];
   noteRows?: Record<string,unknown>[];
@@ -224,8 +226,9 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
     if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
-    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"],truncated:false,
+    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"],truncated:state.catalogTruncated===true,
       provider_profile_id:"provider.catalog",profile_revision:1,qualification:"NOT_ESTABLISHED",inference_calls:0});
+
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
       if(state.noteReject)return route.fulfill({status:409,json:{code:"REVISION_CONFLICT"}});
@@ -502,7 +505,7 @@ test("SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second PO
   state.abortMessage = true;
   await open(page, "chat");
   await page
-    .getByLabel("和奈奈说点什么")
+    .getByLabel("输入消息")
     .fill("SYNTHETIC one-shot uncertain message");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   await expect(
@@ -533,7 +536,7 @@ test("SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot r
   const state = await installMock(page);
   await open(page, "chat");
   await page
-    .getByLabel("和奈奈说点什么")
+    .getByLabel("输入消息")
     .fill("SYNTHETIC first disposable message");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   await expect(page.locator(".live-reply")).toContainText(PRIVATE_MARKER);
@@ -546,7 +549,7 @@ test("SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot r
   await expect(page.locator(".live-turn")).toHaveCount(0);
   state.delayMessage = true;
   await page
-    .getByLabel("和奈奈说点什么")
+    .getByLabel("输入消息")
     .fill("SYNTHETIC pending disposable message");
   await page.getByRole("button", { name: "发送", exact: true }).click();
   await expect.poll(() => Boolean(state.messageRoute)).toBe(true);
@@ -757,14 +760,14 @@ test("SYNTHETIC living privacy: a withdrawal between view and history clears tra
   state.capabilities = {conversation_history: true};
   state.history = {items: [], pending_receipts: []};
   await open(page, "chat");
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC current transient wording");
+  await page.getByLabel("输入消息").fill("SYNTHETIC current transient wording");
   await page.getByRole("button", {name: "发送", exact: true}).click();
   await expect(page.locator(".live-reply")).toContainText(PRIVATE_MARKER);
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC unfinished draft");
+  await page.getByLabel("输入消息").fill("SYNTHETIC unfinished draft");
   state.historyWatermark = "fixture-history-newer-than-view";
   await page.getByRole("button", {name: "刷新真实状态"}).click();
   await expect(page.locator(".live-turn")).toHaveCount(0);
-  await expect(page.getByLabel("和奈奈说点什么")).toHaveValue("");
+  await expect(page.getByLabel("输入消息")).toHaveValue("");
   expect(state.requests.filter(x => x.method === "POST" && x.path === "messages")).toHaveLength(1);
 });
 
@@ -775,7 +778,7 @@ test("SYNTHETIC living boundaries: reader history stays gated, Bili coverage is 
   state.biliHistory = {items: [{source_memory_id: "source-public-video", bvid: "BV1t55v6DE2v", title: "SYNTHETIC public source video",
     coverage: "METADATA_ONLY_NOT_WATCHED", observed_at_us: 1793026800000000, comment_samples: 2, visual_frames: 0, source_origin: "REAL_PLATFORM_HTTP", watched: true}]};
   await open(page, "chat");
-  await expect(page.getByLabel("和奈奈说点什么")).toBeDisabled();
+  await expect(page.getByLabel("输入消息")).toBeDisabled();
   expect(state.requests.filter(x => x.path === "conversation/history")).toEqual([]);
   await go(page, "bilibili", "world");
   await expect(page.locator(".v4-bili-card")).toContainText("只读到视频信息");
@@ -859,7 +862,7 @@ test("Daily chat: message area owns the screen and options remain reachable", as
   await page.getByRole("button", {name:"搜索对话",exact:true}).click();
   await expect(page.getByLabel("搜索当前对话")).toBeVisible();
   await page.getByRole("button", {name:"收起搜索",exact:true}).click();
-  await page.getByLabel("和奈奈说点什么").focus();
+  await page.getByLabel("输入消息").focus();
   if (page.viewportSize()!.width < 900) {
     await expect(page.getByRole("navigation",{name:"移动端导航"})).toBeHidden();
     await page.setViewportSize({width:page.viewportSize()!.width,height:480});
@@ -964,6 +967,22 @@ for(const scenario of ['TRUNCATED','FOREIGN_PROFILE'] as const) test(`SYNTHETIC 
   await noHorizontalOverflow(page);
 });
 
+test("SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft", async ({page}) => {
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogTruncated=true;
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  await open(page,"models");
+  const catalog=page.getByLabel("读取服务商模型");
+  await catalog.getByRole("button",{name:/读取 .* 模型/}).click();
+  await expect(catalog).toContainText("列表尚未完整，可手动填写未显示的模型名称");
+  await page.getByRole("button",{name:"添加供应商草稿",exact:true}).click();
+  await page.getByLabel("远端 Model ID",{exact:true}).fill("native.unlisted-model");
+  await expect(page.getByLabel("远端 Model ID",{exact:true})).toHaveValue("native.unlisted-model");
+  expect(state.requests.filter(r=>r.path==="providers/models")).toHaveLength(1);
+  expect(state.requests.filter(r=>r.method!=="GET")).toHaveLength(0);
+
+});
+
 test("SYNTHETIC older-memory search: explicit scoped read, no memory write", async ({page}) => {
   const state = await installMock(page);
   state.capabilities = {memory_search:true};
@@ -1047,8 +1066,8 @@ test("SYNTHETIC retention: connection opt-in survives sends, excludes personal a
   const send = async (text: string, keyboard = false) => {
     if (await page.locator(".next-send-options").getAttribute("open") !== null)
       await page.locator(".next-send-options summary").click();
-    await page.getByLabel("和奈奈说点什么").fill(text);
-    if (keyboard) await page.getByLabel("和奈奈说点什么").press("Control+Enter");
+    await page.getByLabel("输入消息").fill(text);
+    if (keyboard) await page.getByLabel("输入消息").press("Control+Enter");
     else await page.getByRole("button", { name: "发送", exact: true }).click();
     await expect(page.getByRole("button", { name: "发送", exact: true })).toBeDisabled();
     await expect(continuous).toBeEnabled();
@@ -1093,20 +1112,20 @@ test("SYNTHETIC stream: final receipt replaces provisional text, interruption ne
   state.capabilities={chat_streaming:true};
   await open(page,"chat");
   await expect(page.getByRole("button",{name:"逐字回复 · 开"})).toHaveAttribute("aria-pressed","true");
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC stream turn");
+  await page.getByLabel("输入消息").fill("SYNTHETIC stream turn");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toBeVisible();
   await expect(page.getByText("SYNTHETIC 临时生成文字",{exact:true})).toHaveCount(0);
   state.streamInterrupted=true;
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC interrupted turn");
+  await page.getByLabel("输入消息").fill("SYNTHETIC interrupted turn");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect(page.getByText("这条消息的结果还不能确认。先核验原回执，不重复发送。",{exact:true})).toBeVisible();
   await expect(page.getByText("SYNTHETIC 临时生成文字",{exact:true})).toHaveCount(0);
   expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(2);
   expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(0);
-  await expect(page.getByLabel("和奈奈说点什么")).toBeEnabled();
+  await expect(page.getByLabel("输入消息")).toBeEnabled();
   state.streamInterrupted=false;
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC independent message after UNKNOWN");
+  await page.getByLabel("输入消息").fill("SYNTHETIC independent message after UNKNOWN");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toBeVisible();
   expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(3);
@@ -1120,7 +1139,7 @@ test("SYNTHETIC stream: final receipt replaces provisional text, interruption ne
 test("SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message",async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
   await open(page,"chat");
-  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC waiting model request");
+  await page.getByLabel("输入消息").fill("SYNTHETIC waiting model request");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
   await go(page,"settings");
@@ -1232,7 +1251,7 @@ for (const [mode, label] of [
 test("SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order",async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
   await open(page,"chat");
-  const input=page.getByLabel("和奈奈说点什么");
+  const input=page.getByLabel("输入消息");
   await input.fill("SYNTHETIC first turn");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
@@ -1280,7 +1299,7 @@ for(const lost of [false,true])test(`SYNTHETIC queued sequence ${lost?'UNKNOWN v
     expect(route.request().url().split('/').at(-1)).toBe(parent);reads++;
     return route.fulfill({status:200,json:envelope(state,reads===1?{receipt_id:parent,operation:'MESSAGE_SEQUENCE',state:'UNKNOWN',dispatch_happened:true}:completed())});
   });
-  await open(page,'chat');const input=page.getByLabel('和奈奈说点什么');
+  await open(page,'chat');const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC first already active');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
   for(const text of ['SYNTHETIC burst one','SYNTHETIC burst two','SYNTHETIC burst three']){
@@ -1308,7 +1327,7 @@ for(const boundary of ['RETENTION','PRIVACY','WIRE'] as const)test(`SYNTHETIC qu
   state.capabilities={conversation_sequence:true,shared_life_retention:true};
   state.privacyScope=['PUBLIC','PROJECT','PERSONAL'];state.roles=['READER','CONVERSATION','PRIVATE_CONTEXT'];
   let sequences=0;await page.route(`**${API}messages/sequence`,route=>{sequences++;return route.abort('failed');});
-  await open(page,'chat');const input=page.getByLabel('和奈奈说点什么');
+  await open(page,'chat');const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC active before split');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect.poll(()=>state.messageRoutes?.length).toBe(1);
   if(boundary!=='WIRE')await page.locator('.next-send-options > summary').click();
@@ -1336,7 +1355,7 @@ for(const boundary of ['RETENTION','PRIVACY','WIRE'] as const)test(`SYNTHETIC qu
 test("SYNTHETIC local chat inbox clears queued text after an unknown original receipt",async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
   await open(page,"chat");
-  const input=page.getByLabel("和奈奈说点什么");
+  const input=page.getByLabel("输入消息");
   await input.fill("SYNTHETIC first uncertain turn");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
@@ -1358,7 +1377,7 @@ test("SYNTHETIC local chat inbox expires unsent bodies while the original reques
   state.capabilities={conversation_sequence:true};
   await page.clock.install();
   await open(page,"chat");
-  const input=page.getByLabel("和奈奈说点什么");
+  const input=page.getByLabel("输入消息");
   await input.fill("SYNTHETIC active request stays pending");
   await page.getByRole("button",{name:"发送",exact:true}).click();
   await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
@@ -1612,7 +1631,7 @@ for(const outcome of ['VERIFIED','UNKNOWN'] as const)test(`SYNTHETIC deferred in
   const state=await installMock(page);state.delayMessage=true;
   state.capabilities={conversation_sequence:false,chat_streaming:false};
   await open(page,'chat');
-  const input=page.getByLabel('和奈奈说点什么');
+  const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC original input');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect.poll(()=>state.messageRoutes?.length).toBe(1);
   await input.fill('SYNTHETIC continued input');await page.getByRole('button',{name:'发送',exact:true}).click();
@@ -1678,7 +1697,7 @@ for(const outcome of ['VERIFIED','UNKNOWN','ROOT_LOST'] as const)test(`SYNTHETIC
   const state=await installMock(page);state.delayMessage=true;
   state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
   await open(page,'chat');await controlledRootStream(page,state);
-  const input=page.getByLabel('和奈奈说点什么');
+  const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC active thought');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
   const root=(await rootFixtureBody(page))!;
@@ -1715,7 +1734,7 @@ for(const outcome of ['VERIFIED','UNKNOWN','ROOT_LOST'] as const)test(`SYNTHETIC
 test('SYNTHETIC concurrent continuation closed window falls back only before reservation with original ID',async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
   state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
-  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('和奈奈说点什么');
+  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC finishing root');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
   const root=(await rootFixtureBody(page))!;
@@ -1739,7 +1758,7 @@ for(const boundary of ['RETENTION','PRIVACY'] as const)test(`SYNTHETIC concurren
   const state=await installMock(page);state.delayMessage=true;
   state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true,shared_life_retention:true};
   state.privacyScope=['PUBLIC','PROJECT','PERSONAL'];state.roles=['READER','CONVERSATION','PRIVATE_CONTEXT'];
-  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('和奈奈说点什么');
+  await open(page,'chat');await controlledRootStream(page,state);const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC original public scope');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect(page.getByText('SYNTHETIC unsent root draft',{exact:true})).toBeVisible();
   const root=(await rootFixtureBody(page))!;
@@ -1763,7 +1782,7 @@ test('SYNTHETIC concurrent continuation waits for admission and respects disable
   const state=await installMock(page);state.delayMessage=true;
   state.capabilities={conversation_sequence:false,conversation_continuation:true,chat_streaming:true};
   await page.addInitScript(()=>localStorage.setItem('nana-space.preferences.v1',JSON.stringify({streamReplies:false})));
-  await open(page,'chat');await controlledRootStream(page,state,false);const input=page.getByLabel('和奈奈说点什么');
+  await open(page,'chat');await controlledRootStream(page,state,false);const input=page.getByLabel('输入消息');
   await input.fill('SYNTHETIC not yet admitted');await page.getByRole('button',{name:'发送',exact:true}).click();
   await expect.poll(async()=>Boolean(await rootFixtureBody(page))).toBe(true);const root=(await rootFixtureBody(page))!;
   await input.fill('SYNTHETIC early second input');await page.getByRole('button',{name:'发送',exact:true}).click();

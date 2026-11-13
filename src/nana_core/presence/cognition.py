@@ -72,12 +72,25 @@ class CognitionCoordinator:
     def choose(self,row,event,loop):
         if row['event_type']=='TIME_EVENT' and row['wake_trigger']=='TIME_TRIGGER':
             return 'NO_COGNITION','LOW_FREQUENCY_TIME_MAINTENANCE'
-        source=self.store.one('subject_events',row['subject_event_id'])
+        return self._choose(row,event,loop,self.store.one('subject_events',row['subject_event_id']))
+
+    def preview_private(self,event,loop):
+        """Read-only C/resource assessment before recording a D opportunity."""
+        if event.private_thought_ref is None:raise CoreError('PRIVATE_CONTINUATION_REFERENCE_REQUIRED')
+        row={'event_type':'SELF_EVENT','wake_trigger':'SELF_TRIGGER','queue_id':None}
+        return self._choose(row,event,loop,{'record_id':None})
+
+    def _choose(self,row,event,loop,source):
         situation=loop.situation(event,source)
         from ..continuity.subject.policy import appraise
         appraisal=appraise(event,situation)
         if event.retention=='DO_NOT_REMEMBER':return 'LIGHT_COGNITION','NONRETENTION_NO_MODEL'
         need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
+        if event.private_thought_ref is not None:
+            from ..continuity.subject.policy import motivate,decide
+            from ..continuity.autonomy.private_intent import can_consider_private_formation
+            _,judgment,intention=decide(event,situation,appraisal,motivate(event,situation,appraisal))
+            need=bool(can_consider_private_formation(event,situation,judgment,intention))
         if not need:return 'LIGHT_COGNITION','C_POLICY_SUFFICIENT'
         now=self.store.clock.utc_now_us()
         if self.model_kind is None or self.availability=='UNAVAILABLE':return 'LIGHT_COGNITION','MODEL_UNAVAILABLE_SELF_CONTINUES'

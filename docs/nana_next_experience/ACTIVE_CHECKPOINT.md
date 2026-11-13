@@ -37,4 +37,42 @@
 
 原C在原模型一次调用验证候选后，缺旧支持才记真实SELF_COGNITION发生根；三隐私组新问题可保存/重启，重放0调用，原来源撤回及注册inactive备份擦除。新根为固定程序元数据，不把想法变世界事实；私问仍默认private/no authority。173相关40.45s+最终watch9通过0.64s，3原版首错和夹具错误保留，见evidence/private-self-occurrence-20261112，源码表锚 1ad81a5564fa87228342dd847b4521c36485d3167c94a685d7551a868bb646e0。旧071独立CI43195508611已实读245pass/1warning61.87s，clientSKIP；不是本源码CI或全仓。
 
-下一具体工作：多个内部倾向的关联/冲突目前仅record依赖，Context投影未显式保留有意义的关系；检查并扩展既有PrivateQuestion原投影而不造图Store。随后商业INTERPRET/C/RENDER私念/持续交流策略与明确反馈，原A–H照旧。匹配安装/真实模型/手机/生产/自然度/长期仍未资格。
+上批下一项的一层关联已在本次接通，见下；复杂冲突/自主机会/商业持续策略与原A–H仍待。
+
+## 最新：私念关联真实参与后续选择
+
+原Record直接联系→既有内部Context：转新topic后仍见一层当前自有相关思想；修订/暂停延续，单改联系可以新revision，放弃/撤回不自动复活，原普通界面不泄露。同61440预算关NO_ACTION/开WAIT，各1fixture，估算26858→27963（+1105，非真实Token）；114相关21.38s后补2目标0.63s/最终58私人检查6.28s。见evidence/private-association-20261112，源码表锚 bf7f2a2a5bcd6ecd758d0c4d1e38dcd960c8a8af6c301171bd8e551d97f04938。bd48独立CI43199749478已实读162通过46.06s/clientSKIP，不是本批CI。
+
+下一具体工作：核对原商业LifeApplication._model/CognitionSession.prepare的INTERPRET→C→SOCIAL/RENDER链和当前保留语义，再接紧凑私人策略/明确反馈；不将普通瞬时会话内容借SELF_COGNITION入口自动持久化。空关联独立清除、复杂冲突/跨时间自发机会仍有开发差额。无匹配新安装/真实模型/手机/生产/自然度/跨日长期新资格，原A–H/CURRENT266+409保持。测试已移/dev/shm避免/tmp剩759MiB压力，所有原DB/Git/未知文件保护。
+
+## 最新产品增量：通用实例默认称呼
+
+现役LiveSpace/V3/模型向导/Avatar/HTML及Android登录通知不写死实例私人称呼，Nana Space品牌/原身份关系/真实返回名字/明确虚构demo保留。TS/Vite/93单测及既有聊天布局/UNKNOWN/供应商记忆草稿四视口12通过18.8s；没有新造copy测试/重打APK/native/手机/生产。见evidence/generic-client-entry-20261112，源码表锚 4f91157414cb39cdc4845a168c14c86ba7d43af80754cf5f0d7aacbbbcd1ab3c。
+
+继续可执行项：实际模型目录/配置协议及商业内心持续策略。后者仍须在原保留语义、Provider预算和独立C中融合，不能把瞬时聊天借自发生根保存。原A–H/内心13节/最终匹配发行与真实体验差额完整继承。
+
+## 最新模型产品：原生目录翻页
+
+原Anthropic跟随校验last_id，保持同HTTPShost/native headers，单次8页/256KiB/256模型与十秒后续机会窗口；循环/缺失/非法cursor诚实partial，不重试auth失败，不新增推理。前端提示partial并可手填未列出名字。32相关17.53s、TS/Vite及四视口8合成浏览器通过12.7s；首次编辑器未打开、修夹具相对路径错误及无效重跑中止日志如实保留。见evidence/model-catalog-pagination-20261112，源码表锚 fad1dcaf6b14dd01def3dc3239a7a5b9bc3df35bc868b02a5e737fd7747cf13b。
+
+独立先前CI实读：55805d5 Core114pass32.64s/clientSKIP；53f0db9 client93unit/148browser、CoreSKIP。非本批/全仓。下一回原C关联独立清除（现空list沿旧语义保留关系），再商业持续策略/保留/反馈和原A–H。无真实模型/手机/生产/新匹配安装；APK最后统一必要构建。
+
+## 最新内心取舍：保留问题，解除联系
+
+原C可明确clear当前联系，保留问题文本/intent，版本增量；旧空list仍为保持，默认false从wire省略。原其他思想/源依赖不删，暂停不会恢复被放下的联系；含糊clear+替代/无target在原认知解析拒绝。冻结1fail→1pass，最终私念/Context/C/portable66通过6.66s，见evidence/private-association-clear-20261112，源码表锚 3664756a7f4d41065ab01cd114f020819b7821bee77630a495d042876d6ffd75。没有新增模型阶段或实际权限。
+
+下一源码已定位：原PrivateIntent.category PRIVATE_PLAN仅DTO存在，无原C创建该类内容的消费者；直接复用原V2/PrivateActivity及原cognize/源发生/精准生命周期补接，不另建计划权威。商业持续策略/保留/真实反馈/自发机会和原A–H仍在。最终匹配安装/真实模型/手机/生产/自然度/跨日成长未资格。
+
+## 最新内心主线：未公开计划真正接入原C
+
+private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无旧记忆也可根于真实程序发生，默认private/no execution，形成完成不假装执行。重启后同学习机会关私念IGNORE/开LEARN，精准暂停/恢复不覆盖计划内容，能同intent修订且与问题并存，源撤回保留原身份。180相关47.30s后补无效候选异常私文隐藏3首错→4目标0.53s及最终79相关6.69s，未拼全仓。见evidence/private-plan-20261112，源码表锚 af79f81271e28af0baac5a5fefd21d44138fbd86bad04fddec45d42403297b21。新增0模型阶段，3有效fixture+1拒绝跨类型fixture，真实0。旧Schema/Question/Precision不改，未新建Store/Planner/模块/表。
+
+下一确定源码入口：presence/runtime.py _refresh_attention→SubjectLoop.background_opportunities→subject/watch.py collect_opportunities目前没有按PRIVATE_ACTIVITY记录/版本/条件的机会。补正常D无用户消息续办，验证前台优先、静默窗口/忙闲、暂停重启、同条件不重复模型，不靠周期问模型或额外pending意向冒充持续生活。当前cognize受控成功不当此项已接。商业INTERPRET/C/RENDER私人策略和瞬时保留/真实反馈仍待，原A–H/CURRENT266+409/最终匹配安装与真实模型/手机/生产/自然度/长期完整继承。
+
+## 2026-11-13 当前恢复与D首批候选
+
+环境重建丢失旧/tmp未提交D/临时日志，已合法clone实际远端fabdd48至同/tmp路径，保护Root f583+4WIP与旧18bc。新环境3.12.14/SQLite3.53.1/Pydantic2.13.4；不复述旧临时安装存在。首批D源码与正常Runtime.step夹具已恢复重测：精确fab旧源2fail/3pass→新5pass0.57s，私念/连续运行/Context/C92相关15.78s后补旧schema写入前拒绝7pass0.95s。手动同一DEV DB停旧源/启新源，身份/原计划保持，0调用/0新问→1fixture/1新问，无用户/真实provider/动作。见evidence/normal-d-private-continuation-20261113，源码表锚 667d028985be13fe001b7846fe1e3e7df65787b4e532e41b2e3212e2279c5e5b。
+
+这是候选接线，不是正常D全验收：下一先补前台在预查后插入、静默延后/重启、模型/预算改变及陈旧ref/撤回排队，再相关回归。新private_thought_ref真实队列/模板的旧reader回退未资格；旧输入无ref从wire省略。商业持续策略/保留/明确反馈与原A–H不缩减。避免/tmp再丢：本批验证后立即提交push，再在该合法后继连续精修。
+
+新增续办工具已确认今天北京时间17:00与23:00两次一次性任务，继承届时最新进度且不暂停当前工作；未推断定时结果或总工程完成。CURRENT266+409/生产不变。

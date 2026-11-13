@@ -27,6 +27,7 @@ class SubjectIngress:
         self.store, self.memory, self.records = store, MemoryService(store), RecordService(store)
 
     def ingest(self, event: SubjectInput):
+        if event.private_thought_ref is not None and self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
         if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
         now = self.store.clock.utc_now_us()
         if event.surface:

@@ -6,7 +6,7 @@ export function ModelSetup({disabled,canBindCredential=false,phase="NEW",savedDr
  const [draft,setDraft]=useState<ProviderDraft>(savedDraft || {...newProviderDraft(),displayName:presets[0].name,baseUrl:presets[0].url,modelId:presets[0].model});
  const [status,setStatus]=useState("");
  const locked=disabled || phase!=="NEW";
- return <section className="next-setup v3-card"><span className="v3-eyebrow">MAKE IT YOURS</span><h2>把你喜欢的模型，带给奈奈</h2><p>选择服务商，填写模型名称。{canBindCredential ? "接着在手机安全输入框绑定密钥，再设置默认模型。" : "先保存配置；凭据需在已授权手机上绑定，当前默认模型不会改变。"}</p>
+ return <section className="next-setup v3-card"><span className="v3-eyebrow">MAKE IT YOURS</span><h2>选择适合的认知模型</h2><p>选择服务商，填写模型名称。{canBindCredential ? "接着在手机安全输入框绑定密钥，再设置默认模型。" : "先保存配置；凭据需在已授权手机上绑定，当前默认模型不会改变。"}</p>
  <form onSubmit={e=>{e.preventDefault();void onSetup(draft,setStatus);}}><label>服务商<select value={Math.max(0,presets.findIndex(p=>p.name===draft.displayName))} disabled={locked} onChange={e=>{const p=presets[Number(e.target.value)];setDraft({...newProviderDraft(),displayName:p.name,baseUrl:p.url,modelId:p.model,protocol:p.protocol});}}>{presets.map((p,i)=><option key={p.name} value={i}>{p.name}</option>)}</select></label>
  <label>API 地址<input required disabled={locked} type="url" value={draft.baseUrl} onChange={e=>setDraft({...draft,baseUrl:e.target.value})}/></label>
  <label>模型名称<input required disabled={locked} value={draft.modelId} placeholder="填写服务商提供的模型名称" onChange={e=>setDraft({...draft,modelId:e.target.value})}/></label>

@@ -32,6 +32,10 @@ on:
       - tests/open_life/test_learning_renewal.py
       - src/nana_core/continuity/subject/policy.py
       - src/nana_core/continuity/subject/loop.py
+      - src/nana_core/continuity/subject/contracts.py
+      - src/nana_core/continuity/subject/ingress.py
+      - src/nana_core/presence/cognition.py
+      - src/nana_core/presence/runtime.py
       - src/nana_core/continuity/subject/watch.py
       - src/nana_core/continuity/autonomy/private_intent.py
       - src/nana_core/continuity/autonomy/evaluation.py
@@ -274,6 +278,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('presence/runtime.py','presence/cognition.py','subject/contracts.py','subject/ingress.py','subject/watch.py'), ['tests/continuous_runtime','tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_context.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
             (('continuity/contracts.py','continuity/memory.py','continuity/maintenance.py','world_loop/concern_source.py','world_loop/attention.py','subject/watch.py','test_concern_source.py','continuous_self/test_memory.py'), ['tests/continuous_self/test_memory.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/living_release_v4/test_concern_source.py','tests/living_autonomy/test_maintenance.py','tests/world_loop/test_independent_concern_sources.py','tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py']),
             (('subject/policy.py','test_learning_renewal.py'), ['tests/open_life/test_learning_renewal.py','tests/open_autonomy/test_learning.py']),
             (('continuity/store.py',), ['tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py','tests/portable_subject/test_relational_reuse.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py']),

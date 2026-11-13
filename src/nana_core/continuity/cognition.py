@@ -7,10 +7,10 @@ No response here can contain a Grant, Receipt, success state or Store mutation.
 import json
 from typing import Literal, Protocol
 
-from pydantic import Field,model_serializer
+from pydantic import Field,model_serializer,model_validator
 
 from ..contracts import CoreError, DTO
-from .autonomy.private_intent import PrivateQuestionProposal
+from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal
 
 
 class FrozenModelInput(DTO):
@@ -21,7 +21,9 @@ class FrozenModelInput(DTO):
 
 
 class CognitiveProposal(DTO):
+    model_config={**DTO.model_config, "hide_input_in_errors":True}
     private_question:PrivateQuestionProposal|None=None
+    private_plan:PrivatePlanProposal|None=None
     schema_version: Literal[2] = 2
     identity_id: str
     identity_revision: int = Field(ge=1)
@@ -30,10 +32,17 @@ class CognitiveProposal(DTO):
     memory_refs: tuple[str, ...] = Field(default=(), max_length=64)
     lesson_refs: tuple[str, ...] = Field(default=(), max_length=32)
 
+    @model_validator(mode='after')
+    def one_private_edit(self):
+        if self.private_question is not None and self.private_plan is not None:
+            raise ValueError('one private edit per formation intention; existing thoughts coexist')
+        return self
+
     @model_serializer(mode='wrap')
     def compatible_wire(self,handler):
         value=handler(self)
         if self.private_question is None:value.pop('private_question',None)
+        if self.private_plan is None:value.pop('private_plan',None)
         return value
 
 
@@ -70,15 +79,16 @@ class DeliberationSession:
         lessons = {json.loads(b.data_json)["lesson_id"] for b in context.blocks if b.kind == "LESSON"}
         if not set(proposal.memory_refs) <= available or not set(proposal.lesson_refs) <= lessons:
             raise CoreError("UNSUPPORTED_COGNITIVE_REFERENCE")
-        if proposal.private_question:
+        for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN')):
+            if candidate is None:continue
             private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
-            if not set(proposal.private_question.related_private_record_ids)<=private_refs:
-                raise CoreError('UNSUPPORTED_PRIVATE_QUESTION_REFERENCE')
-            if proposal.private_question.revises_record_id is not None:
+            if not set(candidate.related_private_record_ids)<=private_refs:
+                raise CoreError('UNSUPPORTED_'+category+'_REFERENCE')
+            if candidate.revises_record_id is not None:
                 target=next((json.loads(b.data_json) for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE'
-                    and proposal.private_question.revises_record_id in b.source_record_ids),None)
-                if target is None or target['category']!='PRIVATE_QUESTION':
-                    raise CoreError('UNSUPPORTED_PRIVATE_QUESTION_REVISION')
+                    and candidate.revises_record_id in b.source_record_ids),None)
+                if target is None or target['category']!=category:
+                    raise CoreError('UNSUPPORTED_'+category+'_REVISION')
         self.assembler.validate(context, request, policy)  # state may change during inference
         return DeliberationResult(model_descriptor=model.descriptor, context_digest=context.content_digest,
                                   raw_proposal_json=raw, proposal=proposal)

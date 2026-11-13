@@ -1,0 +1,98 @@
+FF.F.                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f263e66a240>
+
+    def test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference(monkeypatch):
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        pages=[{'data':[{'id':'native.alpha'},{'id':'native.beta'}],'has_more':True,'last_id':'native.beta'},
+               {'data':[{'id':'native.beta'},{'id':'native.gamma'}],'has_more':False,'last_id':'native.gamma'}]
+        class Opener:
+            def open(self,request,timeout):
+                assert request.full_url==('https://catalog.example/v1/models' if not calls else 'https://catalog.example/v1/models?after_id=native.beta')
+                assert request.get_method()=='GET' and request.data is None and 0<timeout<=10
+                assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.get_header('Authorization') is None
+                calls.append(request.full_url)
+                return Response(json.dumps(pages[len(calls)-1]).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+>       assert result=={'models':['native.alpha','native.beta','native.gamma'],'truncated':False}
+E       AssertionError: assert {'models': ['...ncated': True} == {'models': ['...cated': False}
+E         
+E         Differing items:
+E         {'models': ['native.alpha', 'native.beta']} != {'models': ['native.alpha', 'native.beta', 'native.gamma']}
+E         {'truncated': True} != {'truncated': False}
+E         Use -v to get more diff
+
+tests/first_life_android_v2/test_provider_models.py:128: AssertionError
+_ test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor[cycle] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f263e668ce0>
+stop = 'cycle'
+
+    @pytest.mark.parametrize('stop',['cycle','deadline','pages','hostile-cursor'])
+    def test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor(monkeypatch,stop):
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        class Opener:
+            def open(self,request,timeout):
+                assert request.full_url.startswith('https://catalog.example/v1/models')
+                assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in request.full_url
+                calls.append(request.full_url)
+                model='native.page-'+str(len(calls)) if stop=='pages' else 'native.same'
+                cursor='https://untrusted.invalid/TEST_ONLY_NOT_SECRET_CATALOG' if stop=='hostile-cursor' else model
+                return Response(json.dumps({'data':[{'id':model}],'has_more':True,'last_id':cursor}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        if stop=='deadline':
+            clock=iter((0.,11.,12.,13.));monkeypatch.setattr(provider_models.time,'monotonic',lambda:next(clock))
+        result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+        assert result['truncated'] is True and result['models']
+>       assert len(calls)==({'cycle':2,'deadline':1,'pages':8,'hostile-cursor':1}[stop])
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len(['https://catalog.example/v1/models'])
+
+tests/first_life_android_v2/test_provider_models.py:152: AssertionError
+_ test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor[pages] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f263e6a0920>
+stop = 'pages'
+
+    @pytest.mark.parametrize('stop',['cycle','deadline','pages','hostile-cursor'])
+    def test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor(monkeypatch,stop):
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        class Opener:
+            def open(self,request,timeout):
+                assert request.full_url.startswith('https://catalog.example/v1/models')
+                assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in request.full_url
+                calls.append(request.full_url)
+                model='native.page-'+str(len(calls)) if stop=='pages' else 'native.same'
+                cursor='https://untrusted.invalid/TEST_ONLY_NOT_SECRET_CATALOG' if stop=='hostile-cursor' else model
+                return Response(json.dumps({'data':[{'id':model}],'has_more':True,'last_id':cursor}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        if stop=='deadline':
+            clock=iter((0.,11.,12.,13.));monkeypatch.setattr(provider_models.time,'monotonic',lambda:next(clock))
+        result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+        assert result['truncated'] is True and result['models']
+>       assert len(calls)==({'cycle':2,'deadline':1,'pages':8,'hostile-cursor':1}[stop])
+E       AssertionError: assert 1 == 8
+E        +  where 1 = len(['https://catalog.example/v1/models'])
+
+tests/first_life_android_v2/test_provider_models.py:152: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor[cycle]
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor[pages]
+3 failed, 2 passed, 7 deselected in 0.56s

@@ -32,7 +32,7 @@ export function Avatar({
     <img
       className={`avatar ${className}`}
       src="/assets/nana-next.svg"
-      alt="奈奈 · 原创静态形象"
+      alt="原创静态形象"
       width={size}
       height={size}
     />
@@ -69,7 +69,7 @@ export function AvatarStage({
           <span className="orbit-spark">✦</span>
         </div>
       )}
-      <h3>同一个奈奈，不同的窗口</h3>
+      <h3>同一段生活，不同的窗口</h3>
       <p>当前为静态头像。形象是表达层，主体始终属于 Nana Core。</p>
       <label className="button secondary file-button">
         预览本地角色图片

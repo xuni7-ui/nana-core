@@ -126,7 +126,7 @@ export function ModelCenter({
       <div className="v3-section-top">
         <div>
           <span className="v3-eyebrow">INTELLIGENCE, YOUR WAY</span>
-          <h2>能力各有所长，奈奈始终是奈奈。</h2>
+          <h2>认知资源各有所长，主体保持连续。</h2>
           <p>为每一种能力选择合适的资源。模型可替换，身份与经历持续。</p>
         </div>
         <button

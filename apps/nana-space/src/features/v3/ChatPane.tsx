@@ -228,7 +228,7 @@ export function ChatPane({
         <div>
           <Avatar size={36} />
           <span>
-            <h1>奈奈</h1>
+            <h1>聊天</h1>
             <small>在这里，接着聊</small>
           </span>
         </div>
@@ -270,7 +270,7 @@ export function ChatPane({
             <Avatar size={100} />
             <span className="v3-eyebrow">JUST A LITTLE MOMENT TOGETHER</span>
             <h2>想说什么，都可以慢慢说。</h2>
-            <p>未选择保留的文字只留在当前窗口。明确保留的共同经历来自同一个奈奈；没有连接时不生成演示回复。</p>
+            <p>未选择保留的文字只留在当前窗口。明确保留的共同经历归属于当前连接的主体；没有连接时不生成演示回复。</p>
             <div className="v3-suggestions">
               {["今天在关注什么？", "我们目前做到哪了？", "先陪我待一会儿"].map(
                 (s) => (
@@ -334,7 +334,7 @@ export function ChatPane({
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
                         {t.provisional && <span className="next-provisional" aria-label="生成中的临时回复" aria-live="off">{t.provisional}</span>}
-                        <span role="status" aria-live="polite">{t.provisional ? "回复正在生成" : t.phase === "RENDERING" ? "奈奈正在组织回应" : "正在等奈奈回复"}<span aria-hidden="true"> · {waitingSeconds} 秒</span></span>
+                        <span role="status" aria-live="polite">{t.provisional ? "回复正在生成" : t.phase === "RENDERING" ? "正在组织回应" : "正在等待回复"}<span aria-hidden="true"> · {waitingSeconds} 秒</span></span>
                         {t.provisional && <small>生成中，以完成后的回复为准。</small>}
                         {waitingSeconds >= 12 && <small>这次稍久一些，你可以先读读前面的对话。</small>}
                       </span>
@@ -372,7 +372,7 @@ export function ChatPane({
                   )}
                 </div>
                 {feedbackTurn===t.id && <div className="v3-feedback" aria-label="交流反馈">
-                  <p>保存你的感受，帮助今后的交流；不会改写奈奈的身份或记忆事实。</p>
+                  <p>保存你的感受，帮助今后的交流；不会改写主体身份或记忆事实。</p>
                   {(!feedbackReceipts[t.id] || feedbackReceipts[t.id].state==="REJECTED") && <div>
                     {([['TOO_VERBOSE','有点啰嗦'],['NATURAL','这样刚好'],['TOO_TERSE','想听多一点']] as const).map(([tag,label])=>
                       <button key={tag} disabled={busy||feedbackBusy} onClick={()=>void review(t,tag)}>保存：{label}</button>)}
@@ -386,7 +386,7 @@ export function ChatPane({
                       verify={onVerifyFeedback?mid=>void review(t,undefined,mid):undefined} /> : null}
                 </div>}
                 <small className="v3-muted">
-                  {t.pendingReceipt ? t.state === "UNKNOWN" ? "只恢复原请求编号，原文没有缓存；请核验回执" : "已核验原请求；此窗口没有重发原文" : t.restored ? "从奈奈保留的共同经历恢复 · 来源仍有效" : t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
+                  {t.pendingReceipt ? t.state === "UNKNOWN" ? "只恢复原请求编号，原文没有缓存；请核验回执" : "已核验原请求；此窗口没有重发原文" : t.restored ? "从已保留的共同经历恢复 · 来源仍有效" : t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
                 </small>
                 {t.state === "UNKNOWN" && (
                   <button
@@ -432,9 +432,9 @@ export function ChatPane({
           }}
         >
           <textarea
-            aria-label="和奈奈说点什么"
+            aria-label="输入消息"
             placeholder={
-              allowed ? "把这一刻，说给奈奈听…" : "连接已有主体后，开始聊天"
+              allowed ? "这一刻，想聊些什么？" : "连接已有主体后，开始聊天"
             }
             value={draft}
             maxLength={2048}

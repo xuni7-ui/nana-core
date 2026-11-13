@@ -412,7 +412,7 @@ export function MemoryCenter({
           <Upload size={20} />
         </div>
         <p>
-          仅在当前页面内预览你选择的文件，不上传、不自动写入记忆。内容标记为「用户提供」，不会冒充奈奈亲历。
+          仅在当前页面内预览你选择的文件，不上传、不自动写入记忆。内容标记为「用户提供」，不会冒充主体亲历。
         </p>
         <input
           ref={fileInput}
@@ -582,7 +582,7 @@ export function MemoryCenter({
               <X size={17} />
             </button>
           </div>
-          <span className="v3-chip">你提供的声明 · 不作为奈奈亲历或已证实事实</span>
+          <span className="v3-chip">你提供的声明 · 不作为主体亲历或已证实事实</span>
           <textarea
             aria-label="记忆草稿内容"
             rows={4}
@@ -590,7 +590,7 @@ export function MemoryCenter({
             value={draft}
             disabled={noteSaving||noteReceipt?.state==="UNKNOWN"}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="这是你提供的备注或纠正，不是奈奈自己的经历…"
+            placeholder="这是你提供的备注或纠正，不是主体自己的经历…"
           />
           <p>{onSaveNote?"确认后保存到同一个云端记忆库；更新保留来源与旧版本，不调用模型。不要填写 Key、口令或 Cookie。":"当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。"}</p>
           {onSaveNote && <>

@@ -1,0 +1,23 @@
+[WebServer] (node:16778) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:16795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/v3.spec.ts:870:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.6s)
+  ✓  2 [desktop] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (1.0s)
+(node:16966) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone-360] › tests/v3.spec.ts:870:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.1s)
+  ✓  4 [phone-360] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (923ms)
+(node:17136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [phone-390] › tests/v3.spec.ts:870:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.2s)
+  ✓  6 [phone-390] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (958ms)
+(node:17306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [phone-412] › tests/v3.spec.ts:870:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.1s)
+  ✓  8 [phone-412] › tests/v3.spec.ts:899:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (931ms)
+
+  8 passed (12.7s)

@@ -1,9 +1,9 @@
 """C-stage subject contracts. No executable authority and no real ingress switch."""
 from typing import Literal,get_args
-from pydantic import Field, model_validator
+from pydantic import Field, model_validator,model_serializer
 from ...contracts import DTO
 from .social import SocialInteractionProposal
-from .opportunities import Behavior,SyntheticActionProposal
+from .opportunities import Behavior,SyntheticActionProposal,PrivateIntentRef
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 from ..extensions import SurfaceEnvelope
 from ..agency_contracts import GoalStepRef,GoalReviewRef
@@ -36,6 +36,7 @@ class PreferenceSignal(DTO):
 from ..person_self import ConversationProposal, ConversationDecision
 
 class SubjectInput(DTO):
+    private_thought_ref:PrivateIntentRef|None=None
     conversation_proposal: ConversationProposal | None = None
     problem_frame: ProblemFrame | None = None
     interaction_signal: InteractionSignal | None = None
@@ -81,8 +82,16 @@ class SubjectInput(DTO):
     disposition_reflection_id: str | None = None
     relational_request: RelationalRequest | None = None
 
+    @model_serializer(mode='wrap')
+    def preserve_legacy_input(self,handler):
+        value=handler(self)
+        if self.private_thought_ref is None:value.pop('private_thought_ref',None)
+        return value
+
     @model_validator(mode='after')
     def provenance(self):
+        if self.private_thought_ref is not None and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.retention=='DO_NOT_REMEMBER'):
+            raise ValueError('private continuation requires a retained self wake, not a user command')
         if self.domain=='SOURCED_LIFE' and (self.origin!='SELF_WAKE' or self.kind!='WAKE' or not self.source_key.startswith('local.') or not self.source_memory_ids or self.text is not None):raise ValueError('sourced life wake requires retained sources, not a new user instruction')
         if self.problem_frame and not {c.memory_id for c in (*self.problem_frame.assumed,*self.problem_frame.required)} <= set(self.source_memory_ids):raise ValueError("framing requires explicit visible sources")
         if self.domain=='LOCAL_INTERACTION' and (not self.source_key.startswith('local.') or self.kind!='INTERACTION' or self.origin!='USER' or not self.text or not self.text.startswith('Local input reviewed meaning: ')):raise ValueError('local dialogue only carries normalized metadata')

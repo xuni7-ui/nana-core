@@ -101,10 +101,10 @@ type ActiveChat = {owner: object; item: ChatInput; admitted: boolean; claimed: b
   stopped: boolean; pending: Promise<void> | null; requireModel: boolean};
 const v3Descriptions: Partial<Record<Destination, string>> = {
   memories: "那些被记住的片刻，每一条都值得有来处。",
-  models: "认知资源可以更换，奈奈始终是奈奈。",
+  models: "认知资源可以更换，主体身份与经历保持连续。",
   settings: "把窗口调得舒服一点，把边界看得清楚一点。",
   devices: "很多扇窗，通向同一个持续的主体。",
-  backup: "可靠的备份，保护同一个奈奈的连续性。",
+  backup: "可靠的备份，保护同一个主体的连续性。",
 };
 const reasons: Record<string, string> = {
   INVALID_IDENTITY: "主体或谱系不匹配，已清除当前视图。",
@@ -590,7 +590,7 @@ export function LiveSpace() {
     setError("");
     const subject = identity.trim();
     if ((!isNative() || usePairCode) && (!subject || subject.length > 96)) {
-      setError("请填写已有奈奈的 Subject ID（最多 96 个字符）。");
+      setError("请填写已有主体的 Subject ID（最多 96 个字符）。");
       return;
     }
     const address = base.trim(),
@@ -915,7 +915,7 @@ export function LiveSpace() {
       const response=await client.current.write("memories.note",{...writeBase(b,id),text,privacy_class,consent:true,...(target_id?{target_id}:{})});
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       const receipt=object(response.data);setReceipt(receipt);
-      setNotice(receipt.state==="VERIFIED"?"备注已保存；它是你提供的声明，不会冒充奈奈亲历。":typeof receipt.error==="string"?(reasons[receipt.error]||"保存结果待核验，请查看原回执。"):"保存结果待核验，不会重复提交。");
+      setNotice(receipt.state==="VERIFIED"?"备注已保存；它是你提供的声明，不会冒充主体亲历。":typeof receipt.error==="string"?(reasons[receipt.error]||"保存结果待核验，请查看原回执。"):"保存结果待核验，不会重复提交。");
       await refresh();
       return {id,state:String(receipt.state)};
     }catch(error){
@@ -1443,7 +1443,7 @@ export function LiveSpace() {
         <div className="v3-sidebar-companion">
           <Avatar size={50} />
           <span>
-            <strong>奈奈的小宇宙</strong>
+            <strong>生活的小宇宙</strong>
             <small>
               {connected ? "同一个主体，许多种相遇" : "等一个真实的连接"}
             </small>
@@ -1564,7 +1564,7 @@ export function LiveSpace() {
                 <em>柔软的入口。</em>
               </h1>
               <p>
-                同一个奈奈。属于她的世界，
+                持续的生活，独立的世界，
                 <br />
                 和我们慢慢积累的日常。
               </p>
@@ -1576,7 +1576,7 @@ export function LiveSpace() {
             </div>
             <V3Card
               title={
-                isNative() ? "把奈奈的窗口带在身边" : "欢迎回到这个小小空间"
+                isNative() ? "把生活的窗口带在身边" : "欢迎回到这个小小空间"
               }
               eyebrow="A LITTLE CLOSER, EVERY DAY"
               className="v3-login-card"
@@ -1700,14 +1700,14 @@ export function LiveSpace() {
                     setRememberConnection(false);
                   }}
                 >
-                  连接奈奈
+                  连接已有主体
                 </button>
               </div>
             )}
             {bootstrap && bootstrap.realm !== "PRODUCTION_SINGLE_SUBJECT" && (
               <div className="v3-dev-banner">
                 <ShieldCheck size={13} />
-                明确的开发主体 · 不是云端正式奈奈
+                隔离开发实例 · 非生产环境
               </div>
             )}
             {page !== "home" && page !== "room" && page !== "chat" && (
@@ -1832,6 +1832,7 @@ export function LiveSpace() {
                     if(value.provider_profile_id !== id || value.profile_revision !== revision)
                       throw new V2Error("PROVIDER_CONFIG_REVISION_CONFLICT");
                     return readModelCatalog(value);
+
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
@@ -1900,7 +1901,7 @@ export function LiveSpace() {
               <div className="v3-stack">
                 <PlatformPanel client={client.current} canManage={roles.includes('HOST_ADMIN') && bootstrap?.capabilities.platform_configuration_write === true}/>
                 <V3Card
-                  title="同一个奈奈，许多生活入口"
+                  title="同一段生活，许多入口"
                   eyebrow="ONE SUBJECT · MANY SURFACES"
                 >
                   <div className="v3-device-grid">
@@ -2189,7 +2190,7 @@ export function LiveSpace() {
                     eyebrow="PREFERENCES, NOT A NEW IDENTITY"
                   >
                     <p className="v3-muted">
-                      这是你的交流偏好草稿。不会改写奈奈的身份、共同历史或独立判断；当前没有服务端偏好写入接口。
+                      这是你的交流偏好草稿。不会改写主体身份、共同历史或独立判断；当前没有服务端偏好写入接口。
                     </p>
                     <div className="v3-tag-row">
                       {["短一点", "多倾听", "轻松一点", "需要时直说"].map(
@@ -2253,7 +2254,7 @@ export function LiveSpace() {
                             return nativePort.notificationQuiet({ quiet: prefs.quiet });
                           })
                             .then(() => nativePort.backgroundNotifications({ enabled: true }))
-                            .then(() => setNotifications("后台动态提醒已安排：系统约每15分钟检查一次，可因省电而延迟；只提醒奈奈有来源的分享候选，不显示私人正文。实机送达尚待验证。"))
+                            .then(() => setNotifications("后台动态提醒已安排：系统约每15分钟检查一次，可因省电而延迟；只提醒有来源的分享候选，不显示私人正文。实机送达尚待验证。"))
                             .catch(fail)
                         }>开启后台动态提醒</button>
                         <button className="v3-button soft" onClick={() =>
@@ -2399,7 +2400,7 @@ export function LiveSpace() {
             )}
             {page !== "chat" && (
               <footer className="v3-footer">
-                <span>✧ 同一个奈奈 · 许多种相遇</span>
+                <span>✧ 同一段生活 · 许多种相遇</span>
                 {connected ? (
                   <button onClick={() => go("settings")}>
                     空间设置 <ChevronRight size={14} />

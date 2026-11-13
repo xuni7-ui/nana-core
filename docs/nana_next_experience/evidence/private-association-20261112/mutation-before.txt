@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_c_can_reconsider_association_without_inventing_a_changed_question ____
+
+tmp_path = PosixPath('/dev/shm/pilinkmb/test_c_can_reconsider_associat0')
+
+    def test_c_can_reconsider_association_without_inventing_a_changed_question(tmp_path):
+        from nana_core.continuity.autonomy.private_intent import internal_projection
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0)
+        with LifeApplication(home) as app:
+            r=app.runtime;_,_,seed=choose(app);r.subject.transition_intention(seed.intention_id,expected_revision=1,state='COMPLETED')
+            def propose(key,text,related=(),revises=None):
+                class AssociationRevisionFixture:
+                    descriptor='offline-association-revision-fixture'
+                    def propose(self,request):
+                        base=json.loads(AnalyticalFixturePort().propose(request))
+                        base['private_question']={'topic':'creative-project','question':text,'related_private_record_ids':related,'revises_record_id':revises}
+                        return json.dumps(base)
+                r.subject.cognize(SubjectInput(domain='DEVELOPMENT_MATERIAL',privacy_class='PROJECT',source_key='development.'+key,
+                    kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',topic='creative-project',observed_at_us=r.clock.utc_now_us()),
+                    model=AssociationRevisionFixture(),authority=r.authority,policy=ContextPolicy(policy_id='association-revision',allowed_scopes=('project-work',),readable_privacy=('PROJECT',)))
+                return next((rid,v) for rid,v in candidates(r.store,'project-work',('PROJECT',)) if v.content_summary==text)
+            a,qa=propose('first-question','SYNTHETIC own question about one possible explanation')
+            b,qb=propose('second-question','SYNTHETIC own question about a different explanation')
+            old,original=propose('linked-question','SYNTHETIC same question whose association changes',(a,))
+            rid,updated=propose('reconsider-link',original.content_summary,(b,),old)
+>           assert updated.intent_id==original.intent_id and updated.revision==original.revision+1
+E           AssertionError: assert ('af99e277-cea...-0dfef1b52c02' == 'af99e277-cea...-0dfef1b52c02'
+E             
+E               af99e277-cea2-4c66-9e8f-0dfef1b52c02 and 1 == (1 + 1))
+E            +  where 1 = PrivateQuestion(contract='PRIVATE_QUESTION_V3', intent_id='af99e277-cea2-4c66-9e8f-0dfef1b52c02', owner_identity_id='3...bcd6-4e3f67a86982', epistemic_status='OWN_QUESTION_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE').revision
+E            +  and   1 = PrivateQuestion(contract='PRIVATE_QUESTION_V3', intent_id='af99e277-cea2-4c66-9e8f-0dfef1b52c02', owner_identity_id='3...bcd6-4e3f67a86982', epistemic_status='OWN_QUESTION_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE').revision
+
+tests/first_life_integration/test_private_intent.py:1122: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_c_can_reconsider_association_without_inventing_a_changed_question
+1 failed, 57 deselected in 0.58s

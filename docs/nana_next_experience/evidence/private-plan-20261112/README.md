@@ -1,0 +1,17 @@
+# 原C真正形成未公开计划候选
+
+基线a487a05。PRIVATE_PLAN仅在原PrivateIntent的category声明出现，没有原C生成内容的消费调用。原版尝试private_plan被CognitiveProposal拒绝，首错保存。现把可选private_plan接入同一已有cognize→原C判断→原INTENTION记录，用原PRIVATE_ACTIVITY_V2/PRIVATE_PLAN承载内容；复用原源发生、Context、精准版本/关联/生命周期，不新增Store/Planner/情感系统/内心Agent/DBschema。
+
+计划是自有倾向与未公开打算，不是外界事实/承诺/已执行的Goal或技能。原C可按现有risk/norm/资源与取舍拒绝候选；仅SELF/schema13/MAY_REMEMBER的现役窗口接通，不把User瞬时私文借内生来源保存，商业对话/更多思想类型仍待。没有旧Memory/Project时仍可根于真实SELF_COGNITION程序发生，固定元数据无私文。形成记录后仅完成这项“考虑计划”的REFLECTION意向，计划继续ACTIVE，既不占异步执行队列，也不冒外部成功。
+
+同一形成意向只接受一个问题或计划编辑，避免一个intent_id被绑定为两份不同对象；跨轮多个倾向可以共存，受控同Store同时ACTIVE私人计划与私人问题，不增加排他人生目标或生活优先级。未提出计划时wire省略新字段；原Question shape保持语义兼容。原V2在PRIVATE_PLAN恢复时不再用通用purpose覆盖实际计划文字。
+
+受控原Store/Identity/C：无外部记忆形成计划→默认private/普通Cycle和Context不出正文→同主体重启→同学习机会，关闭私念支持IGNORE、开启LEARN；后者只有学习候选，测试明确DROPPED，没有伪造学会或执行。精准暂停/恢复保持内容，可由原既有认知修同intent新版本；不能用question类型偷换plan版本。随后私人问题并存，来源撤回清掉派生计划/问题，身份不变。3个有效既有fixture（形成/新问/修订）+1个拒绝跨类型修订fixture，共4；没有周期或新增模型阶段，没有真实provider/账单/实际Token。无Actions/Grants/Lessons/Experiences/Commitments。
+
+计划/问题共用DTO编辑字段和同一原C形成逻辑；现有非保留/用户输入窗口/资源/明确norm/休息6类反例、schema8/12忽略不留假pending、private record后中断原事务回滚均分别覆盖两类。首次测试用不存在的WITHDRAWN意向状态被原接口拒绝，after.txt保留，修为原合法DROPPED没有改源码权限或放宽断言。
+
+另复现三类无效私有候选的ValidationError字符串回显input_value/私文（3fail）。只为原CognitiveProposal/私有编辑DTO启用hide_input_in_errors；保留原严格类型/forbid extra/frozen/同一ValidationError与无输入typed diagnostics，不放宽解析也不吞权限错误。异常对象显式errors(include_input=True)仍是可信进程内原诊断接口，未声称任意调用方主动序列化原对象也自动脱敏。
+
+目标修复1pass0.45s；68私念通过7.27s；原连续运行/Context/Memory/affect/Precision/G/对话180相关通过47.30s；随后共存/错误隐私4目标0.53s与最终79相关6.69s。不拼一次全仓，180是在最终错误格式/共存补充前，79是最终相关。旧schema/原S7/Precision既有断言保留，未改冻结总纲。无新安装/APK/真实模型/手机/生产/真人自然度/跨日长期资格，CURRENT266+409不变。
+
+下一具体接线差额：普通Runtime._refresh_attention→SubjectLoop.background_opportunities→subject.watch.collect_opportunities尚没有基于私人活动记录版本/条件的机会；本批是原cognize真实受控入口，不当正常D已自主续办。先查原collector/Scheduler/队列cause与静默窗口，补一次有意义状态延续、前台优先、暂停/恢复和同条件不重复调用，不能固定轮询问模型。商业INTERPRET/C/RENDER私念策略与保留语义/明确反馈、原G广迁移及原A–H全部继续。另实核resources.unresolved_live_calls只计RESERVED/CALLING，普通UNKNOWN已分开，不重复删除现役安全约束或冒称发现需修的全局UNKNOWN锁。

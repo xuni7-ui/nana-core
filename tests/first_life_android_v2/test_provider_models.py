@@ -34,7 +34,7 @@ def test_authenticated_catalog_from_existing_vault_does_not_change_routes(runnin
         'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
     before = (service.supervisor.home/'providers.json').read_bytes()
     calls = []
-    def read(p, value, *, after_id=None):
+    def read(p, value):
         calls.append(p.provider_profile_id)
         assert value=='TEST_ONLY_NOT_SECRET_CATALOG'
         return {'models':['catalog.model'], 'truncated':False}
@@ -101,31 +101,97 @@ def test_native_catalog_uses_native_headers_and_reports_remaining_pages(monkeypa
             assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
             assert request.get_header('Anthropic-version')=='2026-10-21'
             assert request.get_header('Authorization') is None and request.data is None
-            return Response(json.dumps({'data':[{'type':'model','id':'native.synthetic'}],
-                'has_more':True,'last_id':'native.synthetic'}).encode())
+            return Response(json.dumps({'data':[{'type':'model','id':'native.synthetic'}],'has_more':True}).encode())
     monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
     result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
-    assert result=={'models':['native.synthetic'],'truncated':True,'next_after_id':'native.synthetic'} and len(calls)==1
+    assert result=={'models':['native.synthetic'],'truncated':True} and len(calls)==1
 
 
-def test_native_catalog_explicit_page_uses_upstream_order_for_cursor(monkeypatch):
+def test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference(monkeypatch):
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    pages=[{'data':[{'id':'native.alpha'},{'id':'native.beta'}],'has_more':True,'last_id':'native.beta'},
+           {'data':[{'id':'native.beta'},{'id':'native.gamma'}],'has_more':False,'last_id':'native.gamma'}]
+    class Opener:
+        def open(self,request,timeout):
+            assert request.full_url==('https://catalog.example/v1/models?limit=256' if not calls else 'https://catalog.example/v1/models?limit=254&after_id=native.beta')
+            assert request.get_method()=='GET' and request.data is None and 0<timeout<=10
+            assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+            assert request.get_header('Authorization') is None
+            calls.append(request.full_url)
+            return Response(json.dumps(pages[len(calls)-1]).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert result=={'models':['native.alpha','native.beta','native.gamma'],'truncated':False}
+    assert len(calls)==2
+
+
+@pytest.mark.parametrize('stop',['cycle','deadline','pages','hostile-cursor'])
+def test_native_pagination_stops_honestly_without_retrying_or_leaking_cursor(monkeypatch,stop):
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    class Opener:
+        def open(self,request,timeout):
+            assert request.full_url.startswith('https://catalog.example/v1/models')
+            assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in request.full_url
+            calls.append(request.full_url)
+            model='native.page-'+str(len(calls)) if stop=='pages' else 'native.same'
+            cursor='https://untrusted.invalid/TEST_ONLY_NOT_SECRET_CATALOG' if stop=='hostile-cursor' else model
+            return Response(json.dumps({'data':[{'id':model}],'has_more':True,'last_id':cursor}).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    if stop=='deadline':
+        clock=iter((0.,11.,12.,13.));monkeypatch.setattr(provider_models.time,'monotonic',lambda:next(clock))
+    result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert result['truncated'] is True and result['models']
+    assert len(calls)==({'cycle':2,'deadline':1,'pages':8,'hostile-cursor':1}[stop])
+
+
+@pytest.mark.parametrize('failure,code',[('auth','PROVIDER_CATALOG_AUTH'),('bytes','PROVIDER_CATALOG_BOUND')])
+def test_native_later_page_failures_do_not_hide_partial_read_or_expand_byte_budget(monkeypatch,failure,code):
+    import urllib.error
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    class Opener:
+        def open(self,request,timeout):
+            calls.append(request.full_url)
+            if len(calls)==2 and failure=='auth':
+                raise urllib.error.HTTPError(request.full_url,403,'Untrusted reason',{},io.BytesIO(b'TEST_ONLY_NOT_SECRET_CATALOG'))
+            page={'data':[{'id':'native.page-'+str(len(calls))}],'has_more':True,'last_id':'native.page-'+str(len(calls))}
+            if failure=='bytes':page['untrusted_padding']='x'*180000
+            return Response(json.dumps(page).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    with pytest.raises(ApiError,match=code) as error:
+        provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert len(calls)==2 and 'TEST_ONLY_NOT_SECRET_CATALOG' not in str(error.value)
+
+def test_native_explicit_continuation_keeps_upstream_order_inside_bounded_batch(monkeypatch):
     calls = []
     class Response(io.BytesIO):
         status = 200
         headers = Message()
     Response.headers['Content-Type'] = 'application/json'
+    pages = [{'data': [{'id': 'z-model'}, {'id': 'a/model:1'}], 'has_more': True, 'last_id': 'a/model:1'},
+             {'data': [{'id': 'b-final'}], 'has_more': False}]
     class Opener:
         def open(self, request, timeout):
             calls.append(request.full_url)
             assert request.get_header('X-api-key') == 'TEST_ONLY_NOT_SECRET_CATALOG'
             assert request.data is None
-            # The last upstream ID differs from the last sorted display ID.
-            return Response(json.dumps({'data': [{'id': 'z-model'}, {'id': 'a/model:1'}],
-                'has_more': True, 'last_id': 'a/model:1'}).encode())
+            return Response(json.dumps(pages[len(calls)-1]).encode())
     monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
     result = provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id='previous/model:1')
-    assert calls == ['https://catalog.example/v1/models?limit=256&after_id=previous%2Fmodel%3A1']
-    assert result == {'models': ['a/model:1', 'z-model'], 'truncated': True, 'next_after_id': 'a/model:1'}
+    assert calls == ['https://catalog.example/v1/models?limit=256&after_id=previous%2Fmodel%3A1',
+                     'https://catalog.example/v1/models?limit=254&after_id=a%2Fmodel%3A1']
+    assert result == {'models': ['a/model:1', 'b-final', 'z-model'], 'truncated': False}
 
 
 @pytest.mark.parametrize('rows,has_more,last_id,after_id', [
@@ -136,7 +202,7 @@ def test_native_catalog_explicit_page_uses_upstream_order_for_cursor(monkeypatch
     ([{'id': 'one'}], 'yes', 'one', None),
     ([{'id': f'model-{n}'} for n in range(257)], True, 'model-256', None),
 ])
-def test_native_catalog_cannot_skip_or_loop_pages(monkeypatch, rows, has_more, last_id, after_id):
+def test_native_invalid_pagination_keeps_partial_truth_without_a_cursor(monkeypatch, rows, has_more, last_id, after_id):
     class Response(io.BytesIO):
         status = 200
         headers = Message()
@@ -145,8 +211,13 @@ def test_native_catalog_cannot_skip_or_loop_pages(monkeypatch, rows, has_more, l
         def open(self, request, timeout):
             return Response(json.dumps({'data': rows, 'has_more': has_more, 'last_id': last_id}).encode())
     monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
-    with pytest.raises(ApiError, match='PROVIDER_CATALOG_(FORMAT|BOUND)'):
-        provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id=after_id)
+    if type(has_more) is not bool:
+        with pytest.raises(ApiError, match='PROVIDER_CATALOG_FORMAT'):
+            provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id=after_id)
+    else:
+        result = provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id=after_id)
+        assert result['truncated'] is True and result.get('next_after_id') is None
+        assert len(result['models']) <= 256
 
 
 def test_authenticated_catalog_page_keeps_host_revision_and_authority_checks(running, monkeypatch):
@@ -199,8 +270,32 @@ def test_compatible_partial_catalog_does_not_invent_a_pagination_protocol(monkey
                 'has_more': True, 'last_id': 'unqualified-cursor'}).encode())
     monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
     result = provider_models.read_catalog(profile(), 'TEST_ONLY_NOT_SECRET_CATALOG')
-    assert len(result['models']) == 256 and result['truncated'] is True and result['next_after_id'] is None
+    assert len(result['models']) == 256 and result['truncated'] is True and result.get('next_after_id') is None
     assert calls == ['https://catalog.example/v1/models']
     with pytest.raises(ApiError, match='PROVIDER_CATALOG_QUERY_REQUIRED'):
         provider_models.read_catalog(profile(), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id='unqualified-cursor')
     assert len(calls) == 1
+
+
+def test_native_visible_limit_returns_exact_cursor_and_explicit_read_loses_no_ids(monkeypatch):
+    calls = []
+    first_ids = [f'model-{n:03d}' for n in reversed(range(256))]
+    class Response(io.BytesIO):
+        status = 200
+        headers = Message()
+    Response.headers['Content-Type'] = 'application/json'
+    class Opener:
+        def open(self, request, timeout):
+            calls.append(request.full_url)
+            value = ({'data': [{'id': mid} for mid in first_ids], 'has_more': True, 'last_id': first_ids[-1]}
+                if len(calls) == 1 else {'data': [{'id': 'model-tail'}], 'has_more': False})
+            return Response(json.dumps(value).encode())
+    monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
+    first = provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert first['truncated'] and first['next_after_id'] == 'model-000'
+    assert first['models'][-1] == 'model-255' and len(calls) == 1
+    last = provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id=first['next_after_id'])
+    assert last == {'models': ['model-tail'], 'truncated': False}
+    assert calls == ['https://catalog.example/v1/models?limit=256',
+        'https://catalog.example/v1/models?limit=256&after_id=model-000']
+    assert set(first['models']+last['models']) == set(first_ids+['model-tail'])
