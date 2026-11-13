@@ -2755,3 +2755,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-12 · Codex B 模型预设共用与简易配置续办
 
 [源码/实测] 独立分支基线A 071669b，B-P/P1/DOMAIN S5-C03 Advanced；简易向导与高级编辑器共用既有providerPresets/factory，OpenAI/Anthropic/DeepSeek沿用原已知地址预填，其他地域仍显式手填；9项既有兼容协议可在简易入口选，未接通native/LOCAL不冒充可用。原CAS/UNKNOWN/凭据/预算/路由权限不变，无新API/依赖/持久化。20单测、36四视口fixture及TS/Vite通过；证据provider-presets-20261112，源码锚4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6。R1查询感知控制否定此窄图展开并关闭PR15，实验分支/反例保留；PR14待A评估，B不重试被拒合并。核心、CURRENT/APK、真实provider/手机/生产未改；两条最小队列继续。
+
+
+### 2026-11-13 · Codex B 模型配置单一集成候选
+
+[源码/实测] S5-C03/S1-C04 Advanced，工程工作线NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY继承旧B成果。基于A d29120b正常合并B14/16，保留A目录8页/256KiB/10秒/256 ID预算与通用文案；B显式续页及协议继承和共用预设可共同工作。38客户端、56四视口fixture、44本地认证HTTP/目录/授权通过及TS/Vite通过；无推理/新依赖/配置权威/数据迁移。PR14单一待A集成候选，PR16纳入后关闭独立推进，分支保留。证据model-configuration-integration-20261113，源码锚1ed8ff4c070d84ff40c4892e45bdb010cc5b5b32530eaf02511e2aff782dc54d。未改A主体语义/CURRENT/生产，不冒真实Provider/手机/Java或发行资格；下一目录等待体验及有证据的基础设施性能对照。

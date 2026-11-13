@@ -151,3 +151,8 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 ## 2026-11-12 · Codex B 供应商预设共用
 
 持续开发/提交授权：apps/nana-space/src/{data/provider-center.ts,features/next/ModelSetup.tsx}，对应tests/{provider-center.test.ts,v3.spec.ts}；docs/nana_next_experience/evidence/provider-presets-20261112/{README.md,source-sha256.json,unit20.txt,browser36.txt,build.txt}；CODEX_B_QUEUE.md、PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}追加及本清单。仅原创代码、已知公开端点元数据与合成证据，无Key/DB/私史/依赖或二进制。
+
+
+## 2026-11-13 · B 模型配置集成
+
+沿用用户开发/提交/推送/PR持续授权；model-configuration-integration-20261113/{README.md,validation.json,source-sha256.json}及其逐项登记源码/测试，CODEX_B_QUEUE.md与09/11仅追加及本白名单。无第三方源码、凭据、数据或构建产物。
