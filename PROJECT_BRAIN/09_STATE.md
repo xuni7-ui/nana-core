@@ -8,7 +8,7 @@
   "scope": "project-work",
   "privacy_class": "PROJECT",
   "revision": 188,
-  "as_of_us": 1794568879721244,
+  "as_of_us": 1794569164277506,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_DELIBERATED_DIRECTION_IN_ORIGINAL_C",
@@ -27,7 +27,7 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "原cognize方向回接受控可用；D模型资源仍只有fixture，商业Provider/Router/usage/UNKNOWN/完整预算适配及真实自主方向资格待。情感/多动机/预期实际效果和广G长期迁移、原A–H/旧reader回退与匹配发行继续。",
+    "原cognize方向回接受控可用；D资源仍fixture，商业已有SELF角色但无typed内心消费者，须复用原cognitive_requests预算/usage/UNKNOWN及真实自身来源。情感/效果/广G长期、A–H/旧reader回退与匹配发行继续；7e8 CI300非当前07结果。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [

@@ -2,6 +2,10 @@
 
 ## 当前接续：原cognize方向回接，revision188
 
+已推源码 `07c52c929b1cf8f06fcddcbecd76496a49857f83`；此前 `269ea2e` 反馈/G迁移、`7e8b099` 约束范围修复同分支祖先。当前工作树clean，原Root/历史副本不动。独立7e8 CI43415274293/job131851722177已实读300pass1warning52.71s/clientSKIP；07自身CI待实际回执，不能继承旧结论。
+
+商业资源断点已核对，接续勿重复全仓审计：`RoutedTarget.cognition_session`已有原host额度与route guard，`CognitionSession.prepare`已有完整wire计量/字节费用预留/UNKNOWN。角色枚举**已存在SELF**，不需为此另造模型阶段；但非空role_input当前仅PLAN/LEARN/SKILL/dialogue/MEDIA可接，SELF尚无原DeliberationFrame/CognitiveProposal消费者，原prepare也未接subject_frame且要求至少一项原Memory引用。无旧Memory的自主认知不可伪造外部来源或强制保存短念凑过门。原Runtime FULL_COGNITION还走runtime_cognition_calls fixture资源；适配必须复用真实cognitive_requests账本，不能直接port.exchange绕过预算/UNKNOWN或双重认账。先做无付费loopback适配/超时和前台中断资格，再谈真实授权。
+
 原C既有ModelPort可选preferred_behavior，只能来自本次Frame候选，之后同C按当前norm/load/risk等再判；可REST/LEARN越过首项，原来源不改、不授执行权。精确旧7e8三目标失败→当前30相关通过12.75s、随后私因trace遮蔽11通过；相关大批248pass/1规范夹具错已保留并以独立真实CONSTRAINT修正后5目标通过，不称大批全绿。source/失败/资源证据 `evidence/deliberated-direction-20261113/README.md`。
 
 下一实际缺口：`presence/cognition.py` KINDS/SupervisedModelPort只注册analytical/cautious等fixture；`SubjectLoop.cognize`和商业`world_loop.CognitionSession`为已有两种模型资源路径，不能把分项PASS当商业自主闭环。先复用原ProviderRouter/完整请求预算/usage/超时/UNKNOWN与Vault，不造第二Loop/调度或绕过原预算；允许无新增付费隔离适配验证。同步继续情感意义/策略预期实际结果/G迁移及原A–H。此前choice/private-ref和新非空direction合同旧reader回退、匹配发行与真实模型/手机/生产/自然度/长期均待。CURRENT266+409。下方旧187及历史下一按本段/09最新接续。

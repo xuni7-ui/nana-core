@@ -3676,3 +3676,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S3/S4/S6：复用原DeliberationFrame/CognitiveProposal/同C事务，可选当前方向偏好允许非首项REST/LEARN，当前来源/norm/load/risk/原执行门照旧；无新Loop/表/模型阶段。精确旧7e8源码包285py匹配3fail1pass，相关248pass/1规范夹具首错保留、改真实CONSTRAINT后5目标及最终30相关12.75s；1既有认知/重放0/45新增frame字段字节非Token。证据deliberated-direction-20261113/09锚；D模型资源仍fixture，商业原Router/usage/UNKNOWN融合、情感/效果/G迁移与原A–H/旧reader回退/匹配交付继续，真实0。
 
 - 同批隐私补充：preferred_behavior参与时遮蔽原interpretation trace，即使没有旧private record；最后11相关通过，含无旧私念时的有效REST/私因canary，原30范围不冒称重跑。方向可留粗摘要，私人理由不出普通日志；09源码锚同步。
+
+- 续办精确化：源码07c52c9已推，原商业SELF枚举已存在但typed输入/原Frame与seedless来源、双资源账本适配尚未接；具体接口/边界存ACTIVE，避免下一执行者直接exchange绕过原预算/UNKNOWN或重造模型阶段。实读旧7e8独立CI300pass1warning52.71s/clientSKIP，非07结果；仅元数据不重复应用验证。
