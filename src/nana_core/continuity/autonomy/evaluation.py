@@ -22,7 +22,9 @@ def evaluate(event,situation,attention,judgment,intention):
         or (situation.social_privacy and situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'}
             and intention.kind=='NO_ACTION' and not unbound_private_choice(event,situation,intention))))
     restrained=restrained or bool(situation.context_fit and situation.context_fit.mode=='RESPECT_BOUNDARY' and motive and intention.kind=='NO_ACTION')
-    restrained=restrained or bool(situation.voluntary_restraints and intention.kind=='NO_ACTION')
+    from ..subject.policy import current_directions,voluntary_restraint_applies
+    restrained=restrained or bool(intention.kind=='NO_ACTION' and intention.behavior=='STAY_SILENT'
+        and voluntary_restraint_applies(event,situation,current_directions(situation)))
     if restrained and not hard_unavailable:
         normative,code='RESTRAINED','SUBJECT_RESTRAINED'
     elif intention.kind not in {'NO_ACTION','WAIT'}:

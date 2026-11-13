@@ -75,33 +75,41 @@ def test_instance_bootstrap_is_data_not_default_persona(tmp_path):
         ContinuityStore(path,VirtualClock(),identity_bootstrap=bootstrap)
 
 
-def test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative(subject):
+def _adopt_bounded_social(store,authority,*,scope='lab',entity='person-a',loop=None):
     from nana_core.continuity.relational.contracts import RelationalRequest,DAY
     from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
     from nana_core.continuity.subject import PreferenceSignal
-    from nana_core.continuity.subject.opportunities import ConcernCue
-    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
-    from nana_core.continuity.memory import MemoryService
-    store,authority=subject;controller=SubjectBootstrapAuthority();boot=SubjectBootstrapService(store,controller)
-    boot.install(SubjectPersonalitySeed(identity_id=store.identity['identity_id'],scope='lab',revision=1,
+    controller=SubjectBootstrapAuthority();boot=SubjectBootstrapService(store,controller)
+    boot.install(SubjectPersonalitySeed(identity_id=store.identity['identity_id'],scope=scope,revision=1,
         relational_accommodation='HIGH',conviction_persistence='HIGH'),controller)
-    boot.install(RelationalAnchorSpec(identity_id=store.identity['identity_id'],anchor_id='primary',entity_id='person-a',
-        role_kind='PRIMARY_USER',role_label='companion',scope='lab',revision=1,effective_from_us=store.clock.utc_now_us()),controller)
-    loop=SubjectLoop(store,scopes=('lab',))
+    boot.install(RelationalAnchorSpec(identity_id=store.identity['identity_id'],anchor_id='primary',entity_id=entity,
+        role_kind='PRIMARY_USER',role_label='companion',scope=scope,revision=1,effective_from_us=store.clock.utc_now_us()),controller)
+    loop=loop or SubjectLoop(store,scopes=(scope,))
     def event(key,**kw):
-        return SubjectInput(source_key='synthetic.scope-accommodation.'+key,kind='INTERACTION',origin='USER',entity_id='person-a',scope='lab',
+        return SubjectInput(source_key='synthetic.scope-accommodation.'+key,kind='INTERACTION',origin='USER',entity_id=entity,scope=scope,
             text='Fictional scoped choice',significance='RELEVANT',observed_at_us=store.clock.utc_now_us(),**kw)
     for n in range(2):
         loop.run(event('preference-'+str(n),preference_signal=PreferenceSignal(topic='social_exploration',direction='SUPPORT',interpretation='SYNTHETIC interested in meeting people')))
-    accepted=loop.run(event('accept',relational_request=RelationalRequest(request_id='bounded',requesting_entity='person-a',
+    accepted=loop.run(event('accept',relational_request=RelationalRequest(request_id='bounded',requesting_entity=entity,
         operation='REFRAIN',behavior_domain='SOCIAL_NEW_CONTACTS',duration_us=DAY)))
     assert accepted.relational_decision.response.decision=='ACCEPT'
     cid=VoluntaryAccommodationService(store,authority).materialize(accepted.cycle_id,authority)
     assert cid
+    assert store.one('commitments',cid)['state']=='ACTIVE'
+    return loop,cid
+
+
+def test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative(subject):
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from nana_core.continuity.memory import MemoryService
+    store,authority=subject;loop,cid=_adopt_bounded_social(store,authority)
     before=dict(store.one('commitments',cid))
-    assert before['state']=='ACTIVE'
+    def event(key,**kw):
+        return SubjectInput(source_key='synthetic.scope-accommodation.'+key,kind='INTERACTION',origin='USER',entity_id='person-a',scope='lab',
+            text='Fictional scoped choice',significance='RELEVANT',observed_at_us=store.clock.utc_now_us(),**kw)
     memory=MemoryService(store,authority)
-    for first,expected in [('CREATE','CREATE'),('SOCIALIZE','STAY_SILENT')]:
+    for first,expected in [('CREATE','CREATE'),('SOCIALIZE','STAY_SILENT'),('REST','REST'),('DO_NOTHING','DO_NOTHING')]:
         cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='art-option',
             behavior_domain='SOCIAL_NEW_CONTACTS',possible_behaviors=(first,'SOCIALIZE' if first=='CREATE' else 'CREATE'))
         evidence=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.scoped-choice',source_reference=first,source_kind='DIRECT_OBSERVATION'),
@@ -110,4 +118,5 @@ def test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alterna
             source_evidence_id=evidence,text=cue.model_dump_json(),predicate_key='concern.art-option.'+first.lower()))
         choice=loop.run(event('choice-'+first,source_memory_ids=(mid,)))
         assert choice.intention.behavior==expected
+        assert choice.evaluation.normative==('RESTRAINED' if first=='SOCIALIZE' else 'ENDORSED' if first=='CREATE' else 'UNDECIDED')
     assert dict(store.one('commitments',cid))==before and not store.all('actions') and not store.all('grants')

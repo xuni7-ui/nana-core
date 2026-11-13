@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 192,
-  "as_of_us": 1794588813141410,
+  "revision": 193,
+  "as_of_us": 1794589245554637,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_C_VOLATILE_FOCUS",
+  "status": "IN_PROGRESS_AUTONOMY_RESTRAINT_CAUSAL_SCOPE",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原Record跨轮方法继承；明确评价绑定原C实际choice/消息/topic/recipient，原索引有界投影→C可改换/结束方法。重启/UNKNOWN/回读/隔离/撤回/过期受控通过；最终56相关，效果仍未知，不自动人格或技能改写。",
+    "原方法/明确意见→同C后续选择及G反例已有受控证据；有限社交承诺evaluation不再误标自主REST/DO_NOTHING为受约束，私计划可暂停/重启保留，真实SOCIALIZE仍克制/承诺整行不变。最终132相关，非情绪效果/自主进化。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "原D/SELF单账本与seedless自主请求已接；原C具体思考焦点现经volatile进同一次完整wire，不存私文。旧同预算DEFER/0问题→新REFLECT/1问题，均1HTTP；最终65相关，前180/1fail分列；真实0。"
@@ -31,14 +31,14 @@
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-focus-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md",
     "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md",
     "docs/nana_next_experience/evidence/choice-constraint-scope-20261113/README.md",
-    "docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md",
-    "docs/nana_next_experience/evidence/communication-strategy-continuity-20261113/README.md"
+    "docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2804,3 +2804,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [实测] revision191 seedless Provider→原C/原D资源等待证据provider-seedless-20261113；源码表SHA256 5171504f81a0e3c045af1bbb0f1b41c2b5f81798159fba8193e147fa74c9b87b（表不自指）。212相关通过；精确旧673源码285py同输入失败/当前成功，短念/不保留/撤回/重启与0重复资源请求分别实测。非全仓/真实模型/最终发行。
 
 [实测] revision192原C volatile focus证据provider-focus-20261113；源码表SHA256 78bace8034268d0316aaa9f73644e09bfb36238ee2681138cc37ca24f8720208（表不自指）。最终65相关通过；精确旧3a源码285py同输入两方向DEFER/0私问，新REFLECT/对应私问；原预算/UNKNOWN/保留语义不弱化。非全仓/真实模型/发行。
+
+[实测] revision193有限承诺原评价范围证据voluntary-restraint-scope-20261113；源码表SHA256 73bcbfff3eda823923c4abdcc217330c836d8c47bf29bfb7a18685f1a6d12f6a（表不自指）。132相关通过，精确旧d3/private原V1隐含ACTIVE首错保留；实际承诺整行/真实社交限制不改，合法私计划暂停跨重启。非自主进化/真实模型/完整发行。

@@ -115,6 +115,18 @@ def motivate(event, situation, appraisal):
     return tuple(motives)
 
 
+def current_directions(situation):
+    options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
+    if situation.preferred_behavior in options:
+        options=[situation.preferred_behavior,*[x for x in options if x!=situation.preferred_behavior]]
+    return options
+
+
+def voluntary_restraint_applies(event,situation,options):
+    """A bounded social accommodation applies to the selected social option."""
+    return bool(situation.voluntary_restraints and options and options[0]=='SOCIALIZE' and event.urgency!='HIGH')
+
+
 def decide(event, situation, appraisal, motives):
     """Source-backed obligations, constraints and interests; no execution power."""
     sources, self_generated = situation.memory_ids, event.origin == 'SELF_WAKE'
@@ -145,11 +157,7 @@ def decide(event, situation, appraisal, motives):
     # ordinary interest cues continue through the same norm/load/value guards.
     personal_interest = bool(situation.cue
         and (situation.cue.topic_key in situation.adopted_interests or situation.private_interest_records))
-    options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
-    if situation.preferred_behavior in options:
-        # Original cognition may reconsider an offered direction. Preserve the
-        # cue/assessments; current C still applies norms, load, costs and bounds.
-        options=[situation.preferred_behavior,*[x for x in options if x!=situation.preferred_behavior]]
+    options=current_directions(situation)
     quiet_choice=bool(options and options[0] in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'})
     # A due promise remains visible/pressing without making rest or silence
     # unavailable. An explicit promise review still takes its original route;
@@ -185,7 +193,7 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='NO_ACTION',purpose='Rest or finish existing intentions before optional memory work',slot_key='quiet',source_ids=sources,self_generated=True,behavior='REST'))
     if situation.memory_review_id:
         return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
-    if situation.voluntary_restraints and options and options[0]=='SOCIALIZE' and event.urgency!='HIGH':
+    if voluntary_restraint_applies(event,situation,options):
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.plan_step:

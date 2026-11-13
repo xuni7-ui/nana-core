@@ -3686,3 +3686,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S4/S6：无旧Memory的原C Provider请求以实际资源考虑程序发生作最小来源，严格区分尚未执行/候选验证/世界事实，不保存短念或强制Goal。精确旧673源同输入COGNITION_SOURCES_REQUIRED→当前同C私问；预算等待有源只读不重复claim，恢复同qid/重启/撤回通过，最终212相关43.58s，真实0。证据provider-seedless-20261113；下一volatile原task焦点/装配、情感效果/G迁移及原A–H，CURRENT不变。
 
 - 2026-11-13｜NEXT_EXPERIENCE S2/S3/S4/S6/S7：原C非默认思考焦点由已有volatile输入进入同一次SELF wire，严格事件/隐私绑定/完整计量，裸持久描述符不构成请求，私文丢失/源撤回清cache不重发。精确旧3a同输入同预算DEFER/0私问→新REFLECT/1私问，皆1HTTP，单例wire+156bytes非Token；前夹具及framing错误保留，180pass/1fail后最终65相关16.37s。证据provider-focus-20261113；情感/结果/G迁移及A–H/发行继续，真实0。
+
+- 2026-11-13｜NEXT_EXPERIENCE S3/S6/Shared Life A–E：原有限自我社交承诺评价按实际方向适用，不再将自主休息/不做事误归RESTRAINED。复用同C规范过滤/偏好次序，原承诺/克制条件不改；精确旧d3选REST仍私计划ACTIVE→新正常PAUSED/重启保留/重放0写，承诺整行不变且实际SOCIALIZE仍受限。最终132相关16.48s，Provider新增0，非情绪效果或奈奈自主进化；证据voluntary-restraint-scope-20261113，原A–H继续。

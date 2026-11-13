@@ -1,0 +1,13 @@
+# 有限社交承诺不再错误归因其他自主选择
+
+同一主任务S3/S6/Shared Life Advanced A–E，基线d3ab4b453365b97ec4aceae7d8b406074d5ea6b1。原7e8已修决策端未选SOCIALIZE限制连带否决CREATE；本批复用，补原evaluation消费者的遗漏：voluntary_restraints存在便将任何NO_ACTION标为RESTRAINED，包括原C主动选REST/DO_NOTHING。原私人活动after_choice只允许有根据的ENDORSED或UNDECIDED暂停，因此这个错误标签真实阻止私人计划暂停。
+
+只在原policy提取同一规范过滤/当前偏好排序，原decide的承诺适用条件不变；evaluation复用该条件，仅实际选择社交且因有限承诺保持STAY_SILENT时归因受约束。自主休息/不做事不再凭另一方向的承诺被标记。没有删承诺、不修改期限或审查、没有新Planner/权重/权限/事实表。
+
+精确旧d3全部285py核对。经原C实际ACCEPT→原VoluntaryAccommodationService.materialize的ACTIVE有限社交承诺，另有自己的创作私人计划；相同原cognize/候选选择REST而非首项SOCIALIZE，旧REST/RESTRAINED/原V1隐含ACTIVE→新REST/UNDECIDED/PAUSED。状态版本更新并跨同Store重启保持，同事件重放DB不写/不再次调用ModelPort；承诺整行不变。对照继续覆盖CREATE/实际SOCIALIZE/REST/DO_NOTHING，真实SOCIALIZE仍STAY_SILENT/RESTRAINED。未涉及真实账号或实际外发。
+
+16针对→6集成→最终132相关16.48s通过，含原私念、关系、affective_autonomy、方向和实际限制。首个旧V1没有activity_state属性及一次测试目录拼错均原样保留；改为原V1既有隐含ACTIVE语义后真正旧行为对照失败，未放宽PAUSED/原承诺/重启/重放断言。未全仓或发行。
+
+额外Provider调用0，原有一次离线C ModelPort候选/重放0；商业Token/成本未运行，不将程序字符串当Token。无新持久字段/表/调用阶段，修复后合法暂停会有原PrivateActivity一次正常版本提交，非零存储宣称。没有性能/P95/学习效果或真实情感改善结论。
+
+下一继续原情感评价/动机→选择→可靠结果修正及G独立未来迁移，不能将这一开发者修复称为奈奈自主进化。原A–H、startup产品、装配/检索存储/旧reader及匹配发行继续；CURRENT266+409，真实模型/手机/生产/自然度/长期未新增资格。

@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains _
+
+tmp_path = PosixPath('/dev/shm/pboundprivold2/test_private_plan_can_pause_by0')
+
+    def test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains(tmp_path):
+        from tests.portable_subject.test_relational_reuse import _adopt_bounded_social
+        from nana_core.continuity.subject.opportunities import PrivateIntentRef
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock();calls=[]
+        class RestChoice:
+            descriptor='synthetic-private-rest-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value['preferred_behavior']='REST'
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            r=app.runtime;_adopt_bounded_social(r.store,r.authority,scope='project-work',entity='project-user',loop=r.subject)
+            _,_,formed=choose(app)
+            r.subject.transition_intention(formed.intention_id,expected_revision=1,state='COMPLETED')
+            rid,idea=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.topic=='creative-project')
+            promise=dict(r.store.all('commitments')[0]);assert promise['state']=='ACTIVE'
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key=idea.topic,
+                behavior_domain='SOCIAL_NEW_CONTACTS',possible_behaviors=('SOCIALIZE','REST'),
+                private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=idea.intent_id,revision=idea.revision))
+            mid=capture(r,'private-rest-with-promise',cue.model_dump(mode='json'),predicate='concern.private-rest')
+            event=SubjectInput(source_key='synthetic.private-rest-with-promise',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.cognize(event,model=RestChoice(),authority=r.authority,policy=app.policy)
+            paused=next(v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.intent_id==idea.intent_id)
+>           assert (cycle.intention.behavior,cycle.evaluation.normative,getattr(paused,'activity_state','ACTIVE'))==('REST','UNDECIDED','PAUSED')
+E           AssertionError: assert ('REST', 'RES...ED', 'ACTIVE') == ('REST', 'UND...ED', 'PAUSED')
+E             
+E             At index 1 diff: 'RESTRAINED' != 'UNDECIDED'
+E             Use -v to get more diff
+
+tests/first_life_integration/test_private_intent.py:1641: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains
+1 failed in 0.62s

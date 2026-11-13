@@ -1,3 +1,9 @@
+## 现役revision193
+
+原C实际ACCEPT并由原服务形成的有限社交承诺保持；evaluation现与当前实际选择共用适用条件，不再把自主REST/DO_NOTHING错标RESTRAINED。精确旧d3：选REST却私计划仍ACTIVE；新同候选/原C→PAUSED、重启保持/重放0写，真实SOCIALIZE仍克制，承诺整行不改。132相关16.48s，新增Provider0。见voluntary-restraint-scope-20261113。
+
+下一沿原Appraisal/Motivation/PrivateActivity/Experience补情感意义→未来选择及可靠结果→G独立后续迁移；关系/人格/内心不重建第二权威。C具体focus/seedless/正常D资源前两批已接，勿重复开发。startup产品入口、三阶段装配、其余A–H/旧reader/匹配发行仍待，CURRENT266+409。下文旧下一以本段/09为准。
+
 ## 现役revision192
 
 原C冻结task/task_class经现有volatile接同次SELF完整wire，私文不进持久descriptor/context；预览/实际计量含完整焦点，丢失/撤回不重发且清cache。精确旧3a同预算DEFER/0问题→新REFLECT/1问题，均HTTP1；最终65相关16.37s，前180/1fail分列。输入wire单例+156bytes，不冒充真实Token或模型质量。见provider-focus-20261113。

@@ -1,0 +1,74 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains _
+
+tmp_path = PosixPath('/dev/shm/pboundprivold/test_private_plan_can_pause_by0')
+
+    def test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains(tmp_path):
+        from tests.portable_subject.test_relational_reuse import _adopt_bounded_social
+        from nana_core.continuity.subject.opportunities import PrivateIntentRef
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock();calls=[]
+        class RestChoice:
+            descriptor='synthetic-private-rest-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value['preferred_behavior']='REST'
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            r=app.runtime;_adopt_bounded_social(r.store,r.authority,scope='project-work',entity='project-user',loop=r.subject)
+            _,_,formed=choose(app)
+            r.subject.transition_intention(formed.intention_id,expected_revision=1,state='COMPLETED')
+            rid,idea=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.topic=='creative-project')
+            promise=dict(r.store.all('commitments')[0]);assert promise['state']=='ACTIVE'
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key=idea.topic,
+                behavior_domain='SOCIAL_NEW_CONTACTS',possible_behaviors=('SOCIALIZE','REST'),
+                private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=idea.intent_id,revision=idea.revision))
+            mid=capture(r,'private-rest-with-promise',cue.model_dump(mode='json'),predicate='concern.private-rest')
+            event=SubjectInput(source_key='synthetic.private-rest-with-promise',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.cognize(event,model=RestChoice(),authority=r.authority,policy=app.policy)
+            paused=next(v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.intent_id==idea.intent_id)
+>           assert (cycle.intention.behavior,cycle.evaluation.normative,paused.activity_state)==('REST','UNDECIDED','PAUSED')
+                                                                        ^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_integration/test_private_intent.py:1641: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PrivateIntent(contract='PRIVATE_INTENT_V1', intent_id='527fbd11-a4a8-42ea-9cf3-e1daa9cb5682', owner_identity_id='5e9ed...d='FRESH_REALIZATION_GATES', external_effect=False, budget_required=True, third_party=False, execution_authority=False)
+item = 'activity_state'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'PrivateIntent' object has no attribute 'activity_state'
+
+/workspace/nana-test-env/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains
+1 failed in 0.75s

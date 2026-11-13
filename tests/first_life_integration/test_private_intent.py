@@ -1611,3 +1611,43 @@ def test_original_pending_work_does_not_prohibit_private_question_formation_in_n
         assert len(calls)==1 and any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'own-scope',('PROJECT',)))
         assert {x['intention_id'] for x in r.subject.pending('own-scope')}=={x['intention_id'] for x in before}
         assert all(r.store.one('subject_intentions',x['intention_id'])==x for x in before)
+
+
+def test_private_plan_can_pause_by_c_choice_while_a_separate_bounded_social_promise_remains(tmp_path):
+    from tests.portable_subject.test_relational_reuse import _adopt_bounded_social
+    from nana_core.continuity.subject.opportunities import PrivateIntentRef
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    home=tmp_path/'life';initialize(home,max_autonomous_materials=0);clock=VirtualClock();calls=[]
+    class RestChoice:
+        descriptor='synthetic-private-rest-choice'
+        def propose(self,request):
+            calls.append(request)
+            value=json.loads(AnalyticalFixturePort().propose(request));value['preferred_behavior']='REST'
+            return json.dumps(value)
+    with LifeApplication(home,clock=clock) as app:
+        r=app.runtime;_adopt_bounded_social(r.store,r.authority,scope='project-work',entity='project-user',loop=r.subject)
+        _,_,formed=choose(app)
+        r.subject.transition_intention(formed.intention_id,expected_revision=1,state='COMPLETED')
+        rid,idea=next((rid,v) for rid,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.topic=='creative-project')
+        promise=dict(r.store.all('commitments')[0]);assert promise['state']=='ACTIVE'
+        cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key=idea.topic,
+            behavior_domain='SOCIAL_NEW_CONTACTS',possible_behaviors=('SOCIALIZE','REST'),
+            private_intent_ref=PrivateIntentRef(record_id=rid,intent_id=idea.intent_id,revision=idea.revision))
+        mid=capture(r,'private-rest-with-promise',cue.model_dump(mode='json'),predicate='concern.private-rest')
+        event=SubjectInput(source_key='synthetic.private-rest-with-promise',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+        cycle=r.subject.cognize(event,model=RestChoice(),authority=r.authority,policy=app.policy)
+        paused=next(v for _,v in candidates(r.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.intent_id==idea.intent_id)
+        assert (cycle.intention.behavior,cycle.evaluation.normative,getattr(paused,'activity_state','ACTIVE'))==('REST','UNDECIDED','PAUSED')
+        assert paused.revision==idea.revision+1 and cycle.evaluation.considered
+        writes=r.store.db.total_changes
+        assert r.subject.cognize(event,model=RestChoice(),authority=r.authority,policy=app.policy).cycle_id==cycle.cycle_id
+        assert len(calls)==1 and r.store.db.total_changes==writes
+        assert dict(r.store.one('commitments',promise['commitment_id']))==promise
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+        identity=r.identity_id
+    with LifeApplication(home,clock=clock) as app:
+        assert app.runtime.identity_id==identity
+        paused=next(v for _,v in candidates(app.runtime.store,'project-work',('PUBLIC','PROJECT','PERSONAL')) if v.intent_id==idea.intent_id)
+        assert paused.activity_state=='PAUSED' and paused.revision==idea.revision+1
+        assert dict(app.runtime.store.one('commitments',promise['commitment_id']))==promise

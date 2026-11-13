@@ -1,0 +1,51 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative _
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7f91eb2d9af0>, <nana_core.actions.OperatorAuthority object at 0x7f91eb2d9e50>)
+
+    def test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative(subject):
+        from nana_core.continuity.relational.contracts import RelationalRequest,DAY
+        from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.continuity.memory import MemoryService
+        store,authority=subject;controller=SubjectBootstrapAuthority();boot=SubjectBootstrapService(store,controller)
+        boot.install(SubjectPersonalitySeed(identity_id=store.identity['identity_id'],scope='lab',revision=1,
+            relational_accommodation='HIGH',conviction_persistence='HIGH'),controller)
+        boot.install(RelationalAnchorSpec(identity_id=store.identity['identity_id'],anchor_id='primary',entity_id='person-a',
+            role_kind='PRIMARY_USER',role_label='companion',scope='lab',revision=1,effective_from_us=store.clock.utc_now_us()),controller)
+        loop=SubjectLoop(store,scopes=('lab',))
+        def event(key,**kw):
+            return SubjectInput(source_key='synthetic.scope-accommodation.'+key,kind='INTERACTION',origin='USER',entity_id='person-a',scope='lab',
+                text='Fictional scoped choice',significance='RELEVANT',observed_at_us=store.clock.utc_now_us(),**kw)
+        for n in range(2):
+            loop.run(event('preference-'+str(n),preference_signal=PreferenceSignal(topic='social_exploration',direction='SUPPORT',interpretation='SYNTHETIC interested in meeting people')))
+        accepted=loop.run(event('accept',relational_request=RelationalRequest(request_id='bounded',requesting_entity='person-a',
+            operation='REFRAIN',behavior_domain='SOCIAL_NEW_CONTACTS',duration_us=DAY)))
+        assert accepted.relational_decision.response.decision=='ACCEPT'
+        cid=VoluntaryAccommodationService(store,authority).materialize(accepted.cycle_id,authority)
+        assert cid
+        before=dict(store.one('commitments',cid))
+        assert before['state']=='ACTIVE'
+        memory=MemoryService(store,authority)
+        for first,expected in [('CREATE','CREATE'),('SOCIALIZE','STAY_SILENT'),('REST','REST'),('DO_NOTHING','DO_NOTHING')]:
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='art-option',
+                behavior_domain='SOCIAL_NEW_CONTACTS',possible_behaviors=(first,'SOCIALIZE' if first=='CREATE' else 'CREATE'))
+            evidence=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.scoped-choice',source_reference=first,source_kind='DIRECT_OBSERVATION'),
+                text=cue.model_dump_json(),privacy_class='PERSONAL',observed_time_us=store.clock.utc_now_us()))
+            mid=memory.add(MemoryCandidate(entity_id='person-a',scope='lab',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',
+                source_evidence_id=evidence,text=cue.model_dump_json(),predicate_key='concern.art-option.'+first.lower()))
+            choice=loop.run(event('choice-'+first,source_memory_ids=(mid,)))
+            assert choice.intention.behavior==expected
+>           assert choice.evaluation.normative==('RESTRAINED' if first=='SOCIALIZE' else 'ENDORSED' if first=='CREATE' else 'UNDECIDED')
+E           AssertionError: assert 'RESTRAINED' == 'UNDECIDED'
+E             
+E             - UNDECIDED
+E             + RESTRAINED
+
+tests/portable_subject/test_relational_reuse.py:113: AssertionError
+=========================== short test summary info ============================
+FAILED tests/portable_subject/test_relational_reuse.py::test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative
+1 failed in 0.18s
