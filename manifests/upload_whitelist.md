@@ -146,3 +146,8 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 - `docs/nana_next_experience/evidence/provider-catalog-pages-20261112/{README.md,source-sha256.json,before-2fail.txt,browser-first.txt,related51.txt,catalog16.txt,client37.txt,browser16.txt,after-fast-forward.txt,after-a463.txt,after-a071.txt,after-bd48.txt,prerequisite-failures.txt}`：仅源码指纹/合成测试与已知环境失败记录。
 - `docs/nana_next_experience/CODEX_B_QUEUE.md`、`PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}`（保留 A 原文，仅追加）及本白名单。
 - 不含依赖目录、构建产物、数据库、运行配置、凭据、私人历史或 APK；保持原许可现状，逐文件扫描后本地提交/开发分支 push 与小范围 PR。
+
+
+## 2026-11-12 · Codex B 供应商预设共用
+
+持续开发/提交授权：apps/nana-space/src/{data/provider-center.ts,features/next/ModelSetup.tsx}，对应tests/{provider-center.test.ts,v3.spec.ts}；docs/nana_next_experience/evidence/provider-presets-20261112/{README.md,source-sha256.json,unit20.txt,browser36.txt,build.txt}；CODEX_B_QUEUE.md、PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}追加及本清单。仅原创代码、已知公开端点元数据与合成证据，无Key/DB/私史/依赖或二进制。

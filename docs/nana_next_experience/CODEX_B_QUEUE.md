@@ -1,18 +1,12 @@
-# Codex B 当前队列
+# Codex B 工程队列
 
-同一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`；B 长期职责 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER`。当前事实入口仍为 `PROJECT_BRAIN/09_STATE.md`。产品候选 [PR #14](https://github.com/xuni7-ui/nana-core/pull/14) 已推送；合并被自动审批以缺少 B 合并授权拒绝，未修改共享分支。不重开总纲或第二主体。2026-11-12 从 f7c3078 恢复，开发中继承 A f583f18，随后正常合入 A 4635690 / 071669b / bd48d40；现有治理成果、队列、记忆反馈、便携发行与导航直接复用。A 继续原 C/D/G/Store/MemoryService/SubjectLoop 与内心生活因果；B 不并行覆盖。
+工作线 `NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY`，继承原 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER` 的工程成果，服务A唯一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`。事实入口仍为 `PROJECT_BRAIN/09_STATE.md`，不另建项目或主体权威。
 
-## 产品队列（真实阻塞优先）
+- **已完成并继承**：A的通用客户端文案与有界原生模型目录读取；PR11/12/13仓库焕新；原连续输入、凭据/Vault、预算、UNKNOWN与路由。不重复治理或另做同类实现。
+- **正在执行**：在A `d29120b` 上整合B的显式目录续页、供应商实际协议继承、简易/高级预设。保留A每次读取8页/256KiB/10秒窗口、256可见ID和当前中性文案；追加经过验证的续页cursor与客户端状态。做必要同链验证，形成单一干净候选。
+- **待集成**：[PR14](https://github.com/xuni7-ui/nana-core/pull/14)为整合候选；[PR16](https://github.com/xuni7-ui/nana-core/pull/16)的预设功能纳入该候选，原分支保留，验证完成后停止独立PR推进。B只修改自己的候选，不向A主分支合并未确认业务。
+- **已关闭/被取代**：[PR15](https://github.com/xuni7-ui/nana-core/pull/15)的窄图展开候选经查询感知对照被否定；原API组合已足够，分支/反例保留，不重跑88key实验或增加图服务。A后续已覆盖的目录和文案实现直接继承。
+- **外部资格差额**：真实Provider/账单、Java/手机、实际账号、生产与最终匹配发行分列；不冒充通过，不影响独立工程开发。已定位artifact403无新路线不重试；APK在匹配发行阶段才统一构建。
+- **下一项**：模型目录再次读取的节流等待与状态提示，减少已知429和重复操作；随后依据实际调用链选择重复解析/上下文装配或Provider基础设施的一个同条件性能对照。涉及C/记忆语义/学习评价的改变只交A评估，不直接接入。
 
-1. 本批候选：显式模型目录分页、完整性提示、按供应商实际协议建模；[代码与定向证据](evidence/provider-catalog-pages-20261112/README.md)。已实现/已测试，集成与真实 provider/Android 资格分别核对。
-2. 模型配置：[PR #16](https://github.com/xuni7-ui/nana-core/pull/16)已统一简易/高级预设并减少地址手填，20单测/36四视口/TS通过，待评估。继续既有断点向导、Vault、原预算和 UNKNOWN，完成已授权连接测试与更少步骤的模型选择；检查普通 Web 必须借助 native Key 输入的真实使用缺口，不直接删除已有身份/凭据边界。上下文/视觉/流式未知则明确自定义，不按型号猜能力。
-3. 通用实例显示配置：沿现有 subject identity 与客户端配置区分产品名/主体名/关系称呼；默认中性中文，旧奈奈实例保留。先核对现有配置入口再改，不重命名包/API/applicationId。
-4. 连续输入、多端取消/恢复与实际回执：继承 f7 Web/TLS 原 C 接续成果，补原生 transport 与设备资格；普通聊天不堆诊断。设备未绑定只限制设备验收，独立源码开发继续。
-
-## 研究队列（每题到实验或否定）
-
-1. R1 自组织长期记忆：优先单一 Graphiti 时态/来源关联机制。先固定上游 SHA/许可证及真实调用路径，核对原 TemporalMemory/World/Store 的重复；选择已证明的多跳或时间冲突缺口，隔离原型对照同预算原机制，独立评价后形成给 A 的小 PR。现已固定 Graphiti ebef986a0b2360211b65751c111cacb4a7d790eb，完成原 Store 只读关联实验；[独立研究草稿 PR #15](https://github.com/xuni7-ui/nana-core/pull/15) 同32视图上限在88条合成关系上12/24→24/24，6定向通过。续办查询感知控制已达同样24/24；65key无关分支反例原API组合2读命中，通用展开32读耗尽未命中，12定向通过。该窄候选已否定并关闭PR15，代码/原始证据保留，不再为它追加图层或Core接线。
-2. R2/R3 内生认知与学习迁移：在 A 当前内心生活入口明确后，选择 AIRI 或 Voyager 一个可复用机制，做来源→后续自主选择/迁移的隔离消融；不并行造内心 Agent、学习权威或计时问模型。
-3. R4/R5 语音打断/延迟与条件处理：依据真实端侧体验和资源数据择一实验，不凭宣传承诺 Token 节省。真实 Token、字节估计、合成输入分开计量。
-
-恢复先核对远端、A/B 新提交与本批 PR/CI。已定位 artifact 403 不重复；小源码改动仅定向验证，跨系统集成补相关回归，发行/迁移才完整验证。北京时间 2026-11-12 18:00 已设本线程一次续办提醒，设置后当前研发继续。无需为接续本队列索取旧聊天或凭据。
+恢复先核对最新远端HEAD、A/B交接和PR结果。当前只操作B工作树；不覆盖A未提交工作，不reset/rebase/force。验证分级，提交后记录实际收益、验证范围、是否集成、剩余差额和下一项，不以测试/文档数量作为成果。

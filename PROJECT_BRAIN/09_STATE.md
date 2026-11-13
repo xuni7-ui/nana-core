@@ -2750,3 +2750,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
 
 [源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。
+
+
+### 2026-11-12 · Codex B 模型预设共用与简易配置续办
+
+[源码/实测] 独立分支基线A 071669b，B-P/P1/DOMAIN S5-C03 Advanced；简易向导与高级编辑器共用既有providerPresets/factory，OpenAI/Anthropic/DeepSeek沿用原已知地址预填，其他地域仍显式手填；9项既有兼容协议可在简易入口选，未接通native/LOCAL不冒充可用。原CAS/UNKNOWN/凭据/预算/路由权限不变，无新API/依赖/持久化。20单测、36四视口fixture及TS/Vite通过；证据provider-presets-20261112，源码锚4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6。R1查询感知控制否定此窄图展开并关闭PR15，实验分支/反例保留；PR14待A评估，B不重试被拒合并。核心、CURRENT/APK、真实provider/手机/生产未改；两条最小队列继续。

@@ -1435,7 +1435,37 @@ test("SYNTHETIC long reply feedback binds full Unicode response without repostin
 });
 
 
-for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC'] as const) test(`SYNTHETIC model setup: numeric UUID ${scenario}`, async ({page}) => {
+test('SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit',async({page})=>{
+  const state=await installMock(page);state.capabilities={provider_configuration_write:true};
+  await open(page,'models');const setup=page.locator('.next-setup');
+  await expect(setup.getByRole('heading',{name:'选择适合的认知模型',exact:true})).toBeVisible();
+  const options=await setup.getByRole('combobox',{name:'服务商',exact:true}).locator('option').evaluateAll(
+    rows=>rows.map(row=>(row as HTMLOptionElement).value));
+  expect(options).toContain('qwen');expect(options).toContain('groq');
+  expect(options).not.toContain('gemini');expect(options).not.toContain('ollama');
+  await page.getByRole('button',{name:'添加供应商草稿',exact:true}).click();
+  const advanced=page.getByLabel('供应商配置草稿',{exact:true});
+  for(const [id,url] of [['openai','https://api.openai.com/v1'],['anthropic','https://api.anthropic.com/v1'],
+      ['deepseek','https://api.deepseek.com']]){
+    await setup.getByRole('combobox',{name:'服务商',exact:true}).selectOption(id);
+    await advanced.getByRole('combobox',{name:'供应商预设',exact:true}).selectOption(id);
+    await expect(setup.getByLabel('API 地址',{exact:true})).toHaveValue(url);
+    await expect(advanced.getByLabel('已确认的 Base URL',{exact:true})).toHaveValue(url);
+  }
+  await setup.getByLabel('API 地址',{exact:true}).fill('https://custom.example/v1');
+  await expect(setup.getByLabel('API 地址',{exact:true})).toHaveValue('https://custom.example/v1');
+  await setup.getByRole('combobox',{name:'服务商',exact:true}).selectOption('qwen');
+  await expect(setup.getByLabel('API 地址',{exact:true})).toBeEmpty();
+  await expect(setup.getByLabel('模型名称',{exact:true})).toBeEmpty();
+  await setup.getByLabel('模型名称',{exact:true}).fill('synthetic.region-model');
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+  expect(state.requests.filter(r=>r.method!=='GET')).toHaveLength(0);
+  await advanced.getByRole('combobox',{name:'供应商预设',exact:true}).selectOption('qwen');
+  await expect(advanced.getByLabel('已确认的 Base URL',{exact:true})).toBeEmpty();
+  await noHorizontalOverflow(page);
+});
+
+for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC','QWEN'] as const) test(`SYNTHETIC model setup: numeric UUID ${scenario}`, async ({page}) => {
   const lostAck=scenario==='LOST_ACK';
   const rejected=scenario==='REJECTED';
   const state=await installMock(page);
@@ -1475,6 +1505,11 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC'] as const) tes
     await expect(setup.getByLabel('API 地址',{exact:true})).toHaveValue('https://api.anthropic.com/v1');
     await setup.getByLabel('模型名称',{exact:true}).fill('synthetic-native-model');
   }
+  if(scenario==='QWEN'){
+    await setup.getByRole('combobox',{name:'服务商',exact:true}).selectOption('qwen');
+    await setup.getByLabel('API 地址',{exact:true}).fill('https://regional.example/v1');
+    await setup.getByLabel('模型名称',{exact:true}).fill('synthetic.region-model');
+  }
   await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
   if(rejected){
     await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();
@@ -1497,8 +1532,9 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC'] as const) tes
     expect(model.model_profile_id).toMatch(/^model\.[a-z][a-z0-9._-]+$/);
     expect(model.provider_profile_id).toBe(provider.provider_profile_id);
     expect(provider.default_timeout_ms).toBe(120000);
-    expect(model.remote_model_id).toBe(scenario==='ANTHROPIC'?'synthetic-native-model':'deepseek-chat');
+    expect(model.remote_model_id).toBe(scenario==='ANTHROPIC'?'synthetic-native-model':scenario==='QWEN'?'synthetic.region-model':'deepseek-chat');
     expect(provider.protocol).toBe(scenario==='ANTHROPIC'?'ANTHROPIC':'OPENAI_COMPATIBLE_CHAT');
+    if(scenario==='QWEN')expect(provider.base_url).toBe('https://regional.example/v1');
   }
   expect(commands.some(c=>c.operation==='SET_CAPABILITY_ROUTE')).toBe(false);
   expect(state.requests.some(r=>r.path==='providers/credentials/bind'||r.path==='providers/models')).toBe(false);
