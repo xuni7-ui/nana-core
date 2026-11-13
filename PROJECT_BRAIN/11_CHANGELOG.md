@@ -3654,3 +3654,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D私人机会worker前复核quiet/current ref，前台注册后插入也延后原队列，同条件不重复claim；nullable首修失败如实保留。6恢复目标/111相关通过，重启换fixture与原身份计划保持、撤回排队0模型。用户十九节机制深化归原task_inputs/mission/AGENTS，不改63标准。证据private-d-foreground-recovery-20261113/09锚；下一已入队资源变化/陈旧ref/商业策略与A–H，无安装/真实模型/手机/生产/长期新资格。
 
 - 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D已入队资源暂缺不消耗私念机会；原队列read-only readiness无新增权威，无模型/零预算原版2fail→保留READY，同条件四次0写入/0模型，恢复同queue1fixture。陈旧ref/UNKNOWN恢复不重试，115相关通过，旧d291独立CI205另记。证据private-d-resource-resume-20261113/09锚；继续商业topic/内心策略/反馈/S8与原A–H，无新安装/真实模型/手机/生产资格。
+
+- 2026-11-13｜NEXT_EXPERIENCE S2/S3/S6/S7：正常商业chat主题从现有interaction_signal回填原private decision_support，修相关兴趣未进入原C评价/动机的真实断点。首错→重启/当前匹配/无关/PUBLIC/撤回四话轮8HTTP合成通过，153相关39.53s，无新模型阶段/私文披露。证据private-commercial-topic-20261113/09锚；不称回复策略改变或商业内心闭环完成，下一短念非持久与策略/反馈/S8、原A–H。
