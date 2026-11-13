@@ -1,0 +1,39 @@
+......................F................................................. [ 39%]
+........................................................................ [ 79%]
+.....................................                                    [100%]
+=================================== FAILURES ===================================
+_ test_self_resource_keeps_complete_request_framing_counter_and_overflow_gate[False] _
+
+tmp_path = PosixPath('/dev/shm/pfocusreg/test_self_resource_keeps_compl0')
+overflow = False
+
+    @pytest.mark.parametrize('overflow',[False,True])
+    def test_self_resource_keeps_complete_request_framing_counter_and_overflow_gate(tmp_path,overflow):
+        from tests.world_loop.test_model_framing import bind,exact_fixture
+        from nana_core.continuity.world_loop.cognition import CognitionRequest
+        from nana_core.storage import canonical
+        home=tmp_path/'home';initialize(home)
+        with provider_harness(proposer=candidate) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime;mid,event=event_for(app)
+            bind(transport,(lambda body:70000) if overflow else exact_fixture)
+            session=CognitionSession(r,transport,app.policy)
+            port=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=65536))
+            if overflow:
+                with pytest.raises(CoreError,match='INSUFFICIENT_CONTEXT_BUDGET'):r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+                assert state['calls']==0 and not r.store.all('cognitive_requests')
+            else:
+                assert r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy).intention.behavior=='REST'
+                payload=session.records.read(r.store.all('cognitive_requests')[0]['record_id'])['payload']
+                request=CognitionRequest.model_validate_json(canonical(payload['request']))
+>               assert payload['token_accounting']['input_tokens']==exact_fixture(json.loads(transport.request_body(request)))
+E               assert 45144 == 45047
+E                +  where 45047 = <function exact_fixture at 0x7fa6328e7ec0>({'max_tokens': 2048, 'messages': [{'content': 'Return only JSON matching expected_schema. subject_cognition is a tenta...d8e11ba873c2f11161202b945"}', 'role': 'user'}], 'model': 'harness-v1', 'response_format': {'type': 'json_object'}, ...})
+E                +    where {'max_tokens': 2048, 'messages': [{'content': 'Return only JSON matching expected_schema. subject_cognition is a tenta...d8e11ba873c2f11161202b945"}', 'role': 'user'}], 'model': 'harness-v1', 'response_format': {'type': 'json_object'}, ...} = <function loads at 0x7fa633e33b00>(b'{"max_tokens":2048,"messages":[{"content":"Return only JSON matching expected_schema. subject_cognition is a tentati...a873c2f11161202b945\\"}","role":"user"}],"model":"harness-v1","response_format":{"type":"json_object"},"stream":false}')
+E                +      where <function loads at 0x7fa633e33b00> = json.loads
+E                +      and   b'{"max_tokens":2048,"messages":[{"content":"Return only JSON matching expected_schema. subject_cognition is a tentati...a873c2f11161202b945\\"}","role":"user"}],"model":"harness-v1","response_format":{"type":"json_object"},"stream":false}' = request_body(CognitionRequest(response_mode='JSON', request_id='a91a96bb-704b-47d1-93a1-639098f11a58', subject_epoch=1, subject_rev...created_at_us=1791590400000000, deadline_us=1791590520000000, provenance='PROPOSAL_NOT_AUTHORITY', route_snapshot=None))
+E                +        where request_body = <nana_core.continuity.world_loop.cognition.OpenAIJSONTransport object at 0x7fa6328fef30>.request_body
+
+tests/person_self/test_provider_subject_cognition.py:179: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_cognition.py::test_self_resource_keeps_complete_request_framing_counter_and_overflow_gate[False]
+1 failed, 180 passed in 77.16s (0:01:17)

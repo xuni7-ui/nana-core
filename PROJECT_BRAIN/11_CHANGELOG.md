@@ -3684,3 +3684,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S4/S6：原D/队列/Runtime及LifeApp显式owner绑定商业SELF，完整请求preview只读/不预留，原route/host预算/恢复重验，provider不调用fixture reserve/finish；quiet/前台UNKNOWN跨重启/源撤回保持。精确dde旧槽诊断2资源账项→新1、HTTP皆1/同C问题/0动作，非账单节费；内容投影关闭后不产相同私问，计划ACTIVE。316相关后省掉claim重复预览并105，最后11受控通过；无真实模型/手机/生产/新APK。证据provider-normal-d-20261113/09锚。下一seedless请求真实自身追源、startup产品/装配优化/情感/G及原A–H，CURRENT不变。
 
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S4/S6：无旧Memory的原C Provider请求以实际资源考虑程序发生作最小来源，严格区分尚未执行/候选验证/世界事实，不保存短念或强制Goal。精确旧673源同输入COGNITION_SOURCES_REQUIRED→当前同C私问；预算等待有源只读不重复claim，恢复同qid/重启/撤回通过，最终212相关43.58s，真实0。证据provider-seedless-20261113；下一volatile原task焦点/装配、情感效果/G迁移及原A–H，CURRENT不变。
+
+- 2026-11-13｜NEXT_EXPERIENCE S2/S3/S4/S6/S7：原C非默认思考焦点由已有volatile输入进入同一次SELF wire，严格事件/隐私绑定/完整计量，裸持久描述符不构成请求，私文丢失/源撤回清cache不重发。精确旧3a同输入同预算DEFER/0私问→新REFLECT/1私问，皆1HTTP，单例wire+156bytes非Token；前夹具及framing错误保留，180pass/1fail后最终65相关16.37s。证据provider-focus-20261113；情感/结果/G迁移及A–H/发行继续，真实0。

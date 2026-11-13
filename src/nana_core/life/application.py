@@ -236,8 +236,9 @@ class LifeApplication:
             # provider dispatch (configuration/credential binding remains local).
             # Dispatch uses _session again, including its original recovery gate.
             session=self.session if self.session and self.session.route_snapshot==snapshot else self.router.resolve(request,self.policy).cognition_session(self.runtime,project_state_source=self.current_project_state)
+            from ..continuity.world_loop.cognition import subject_focus_inputs
             return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,subject_frame=frame,
-                role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':event.privacy_class}},budget=limits())
+                **subject_focus_inputs(frame.subject_event_id,event.privacy_class,event.text or 'Assess current concerns; silence is allowed',event.task_class or 'subject_deliberation'),budget=limits())
         self.runtime.cognition.bind_provider(factory,preview)
         return {'enabled':True,'dispatch_happened':False,'owner_startup_rebind_required':True}
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=(),recipient_context=None):

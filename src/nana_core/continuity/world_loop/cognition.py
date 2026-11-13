@@ -18,6 +18,24 @@ from ..open_agency.contracts import Objective
 from ..subject.opportunities import Behavior
 
 Role=Literal['INTERPRET','GOALS','PLAN','REPLAN','REFLECT','LEARN','SKILL','SOCIAL','SELF','RETRIEVE','SUMMARIZE','MEDIA']
+
+
+def subject_focus_inputs(subject_event_id,privacy_class,task,task_class='subject_deliberation'):
+    """Bind the original C focus without persisting its unretained wording."""
+    descriptor={'subject_event_id':subject_event_id,'privacy_class':privacy_class,'focus':'VOLATILE'}
+    return {'role_input':{'subject_cognition':descriptor},
+        'volatile_input':{'subject_cognition':{**descriptor,'task':task,'task_class':task_class}}}
+
+
+def _subject_focus_valid(descriptor,volatile):
+    if type(volatile) is not dict or set(volatile)!={'subject_cognition'}:return False
+    actual=volatile['subject_cognition']
+    return (type(actual) is dict and set(actual)==set(descriptor)|{'task','task_class'}
+        and all(actual.get(k)==v for k,v in descriptor.items())
+        and type(actual.get('task')) is str and 1<=len(actual['task'])<=4096
+        and type(actual.get('task_class')) is str and re.fullmatch(r'[A-Za-z0-9._:-]{1,96}',actual['task_class']) is not None)
+
+
 class CognitionBudget(DTO):
     input_tokens: int=Field(default=16384,ge=256,le=65536)
     output_tokens: int=Field(default=2048,ge=64,le=8192)
@@ -195,8 +213,12 @@ class OpenAIJSONTransport:
         return value
     def messages(self,request):
         if request.cognitive_role=='SELF' and request.role_input.get('subject_cognition'):
+            descriptor=request.role_input['subject_cognition']
+            if descriptor.get('focus')=='VOLATILE' and not _subject_focus_valid(descriptor,request.media_input()):
+                raise TransportFailure('SUBJECT_FOCUS_EXPIRED_NO_REPLAY')
+            body=request.model_dump(mode='json');body['role_input']=request.media_input()
             return [{'role':'system','content':'Return only JSON matching expected_schema. subject_cognition is a tentative candidate for the original Subject C, never an observation, permission or execution result. Use the canonical identity and exact selected memory/lesson/private-record references. A new private question, plan, passing thought or preference is optional; silence/wait is valid. Do not manufacture external observations. Original C reconsiders every candidate. Private content is not public speech.'},
-                {'role':'user','content':request.model_dump_json()}]
+                {'role':'user','content':canonical(body)}]
         if request.cognitive_role in {'INTERPRET','SOCIAL'} and request.role_input.get('dialogue'):
             body=request.model_dump(mode='json');body['role_input']=request.media_input()
             # Dialogue has a smaller writable surface than planning/learning.
@@ -425,9 +447,15 @@ class CognitionSession:
             from ..subject.contracts import DeliberationFrame
             descriptor=role_input['subject_cognition']
             if (role!='SELF' or type(subject_frame) is not DeliberationFrame or set(role_input)!={'subject_cognition'}
-                    or type(descriptor) is not dict or set(descriptor)!={'subject_event_id','privacy_class'}
+                    or type(descriptor) is not dict or set(descriptor) not in ({'subject_event_id','privacy_class'},{'subject_event_id','privacy_class','focus'})
                     or descriptor['subject_event_id']!=subject_frame.subject_event_id
                     or descriptor['privacy_class'] not in {'PUBLIC','PROJECT','PERSONAL','SECRET'}):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
+            if 'focus' in descriptor:
+                if descriptor['focus']!='VOLATILE' or not _subject_focus_valid(descriptor,volatile_input):raise CoreError('SUBJECT_FOCUS_BINDING_INVALID')
+                # Freeze a local copy; the caller cannot mutate an already
+                # measured/prepared focus by retaining its input dictionary.
+                volatile_input=json.loads(canonical(volatile_input))
+            elif volatile_input is not None:raise CoreError('SUBJECT_FOCUS_BINDING_INVALID')
         elif subject_frame is not None:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
         subject_source=self.store.one('subject_events',subject_frame.subject_event_id) if subject_frame is not None else None
         if subject_frame is not None and (not subject_source or subject_source['scope']!=subject_frame.scope
@@ -484,7 +512,9 @@ class CognitionSession:
         if token_counter is None:
             from ..context import ConservativeCounter
             self.assembler.counter=ConservativeCounter()
-        req=ContextRequest(entity_id=subject_source['entity_id'] if subject_source else r.config.entity_id,scopes=(subject_frame.scope,) if subject_frame is not None else r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input.get('dialogue') or role_input.get('subject_cognition') or {}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        task=('Assess the original C focus in role_input.subject_cognition; proposals only; silence is valid.'
+            if role_input.get('subject_cognition',{}).get('focus')=='VOLATILE' else 'Interpret sourced context; proposals only; silence is valid.')
+        req=ContextRequest(entity_id=subject_source['entity_id'] if subject_source else r.config.entity_id,scopes=(subject_frame.scope,) if subject_frame is not None else r.config.scopes,task_class='world.'+role.lower(),task=task,task_privacy_class=(role_input.get('dialogue') or role_input.get('subject_cognition') or {}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
         private_refs=()
         if role=='INTERPRET' and role_input.get('dialogue'):
             dialogue_scope=self.records.memory.read(role_input['dialogue']['message_memory_id'])['scope']
@@ -634,6 +664,10 @@ class CognitionSession:
         if self.runtime.stop_requested:return self._finish(row,'STALE','RUNTIME_STOP_REQUESTED_NO_DISPATCH')
         if not self._current(row):return self._finish(row,'STALE','STALE_CONTEXT')
         request=CognitionRequest.model_validate_json(canonical(self.records.read(row['record_id'])['payload']['request']))
+        if request.cognitive_role=='SELF' and request.role_input.get('subject_cognition',{}).get('focus')=='VOLATILE':
+            request._volatile_media=self._volatile_inputs.pop(request_id,None)
+            if not _subject_focus_valid(request.role_input['subject_cognition'],request._volatile_media):
+                return self._finish(row,'STALE','SUBJECT_FOCUS_EXPIRED_NO_REPLAY')
         if request.cognitive_role in {'INTERPRET','SOCIAL'} and request.role_input.get('dialogue'):
             if request_id not in self._volatile_inputs:return self._finish(row,'STALE','DIALOGUE_BODY_EXPIRED_NO_REPLAY')
             request._volatile_media=self._volatile_inputs.pop(request_id)
@@ -796,6 +830,7 @@ class CognitionSession:
             if len(self._volatile_recall)>64:self._volatile_recall.pop(next(iter(self._volatile_recall)))
         return {'state':'PROPOSED','request_id':request_id,'record_id':rid}
     def _finish(self,row,state,code):
+        self._volatile_inputs.pop(row['request_id'],None)
         data={'request_id':row['request_id'],'state':state,'code':code}
         if isinstance(self.transport,OpenAIJSONTransport) and self.transport.last_parse_request_id==row['request_id'] and self.transport.last_parse_diagnostic is not None:
             data['parser_diagnostic']=self.transport.last_parse_diagnostic.model_dump(mode='json')
@@ -868,9 +903,11 @@ class SubjectCognitionPort:
         frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
         if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
         frame=frames[0]
+        tasks=[json.loads(b.data_json) for b in context.blocks if b.kind=='TASK_CONSTRAINTS']
+        if len(tasks)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
         request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
             subject_frame=frame,budget=self.budget,
-            role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':self.privacy_class}})
+            **subject_focus_inputs(frame.subject_event_id,self.privacy_class,tasks[0]['task'],frozen.task_class))
         result=self.session.execute(request_id)
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
         if not result.get('record_id'):

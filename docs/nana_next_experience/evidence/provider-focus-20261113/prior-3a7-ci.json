@@ -1,0 +1,11 @@
+{
+  "commit": "3a7faa08235386e106534248e1f218f2b0f4010a",
+  "run": 43465846970,
+  "job": 132024973202,
+  "core": "554 passed in 266.80s",
+  "client": "SKIPPED",
+  "summary_lines": [
+    "2026-11-13T16:51:42.1123039Z 554 passed in 266.80s (0:04:26)"
+  ],
+  "artifact_downloaded": false
+}

@@ -1,0 +1,97 @@
+FFF.......                                                               [100%]
+=================================== FAILURES ===================================
+_ test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[color] _
+
+tmp_path = PosixPath('/dev/shm/pfocus1/test_actual_original_focus_cha0')
+interest = 'color'
+
+    @pytest.mark.parametrize('interest',['color','rhythm'])
+    def test_actual_original_focus_changes_its_private_question_without_retaining_focus_text(tmp_path,interest):
+        focus='PRIVATE_FOCUS_CANARY_'+interest;received=[]
+        def propose(request):
+            actual=request.media_input()['subject_cognition'];received.append(actual)
+            assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+            identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC original focus candidate',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC private association',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-'+interest,'question':'SYNTHETIC A new question about '+interest}))
+        with provider_harness(proposer=propose) as (transport,state),bare(tmp_path,VirtualClock()) as r:
+            policy=ContextPolicy(policy_id='focus-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy)
+            source=event(r,'focus').model_copy(update={'text':focus,'task_class':'own.research'})
+            cycle=r.subject.cognize(source,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=policy)
+            assert cycle.judgment.stance=='REFLECT' and state['calls']==1 and len(received)==1
+            assert [v.topic for _,v in candidates(r.store,'own-scope',('PROJECT',))]==['own-'+interest]
+            assert not r.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(focus,)).fetchone()
+>           assert not r.store.db.execute('SELECT 1 FROM events WHERE instr(body_json,?)>0',(focus,)).fetchone()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           sqlite3.OperationalError: no such column: body_json
+
+tests/person_self/test_provider_subject_focus.py:36: OperationalError
+_ test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[rhythm] _
+
+tmp_path = PosixPath('/dev/shm/pfocus1/test_actual_original_focus_cha1')
+interest = 'rhythm'
+
+    @pytest.mark.parametrize('interest',['color','rhythm'])
+    def test_actual_original_focus_changes_its_private_question_without_retaining_focus_text(tmp_path,interest):
+        focus='PRIVATE_FOCUS_CANARY_'+interest;received=[]
+        def propose(request):
+            actual=request.media_input()['subject_cognition'];received.append(actual)
+            assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+            identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC original focus candidate',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC private association',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-'+interest,'question':'SYNTHETIC A new question about '+interest}))
+        with provider_harness(proposer=propose) as (transport,state),bare(tmp_path,VirtualClock()) as r:
+            policy=ContextPolicy(policy_id='focus-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy)
+            source=event(r,'focus').model_copy(update={'text':focus,'task_class':'own.research'})
+            cycle=r.subject.cognize(source,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=policy)
+            assert cycle.judgment.stance=='REFLECT' and state['calls']==1 and len(received)==1
+            assert [v.topic for _,v in candidates(r.store,'own-scope',('PROJECT',))]==['own-'+interest]
+            assert not r.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(focus,)).fetchone()
+>           assert not r.store.db.execute('SELECT 1 FROM events WHERE instr(body_json,?)>0',(focus,)).fetchone()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           sqlite3.OperationalError: no such column: body_json
+
+tests/person_self/test_provider_subject_focus.py:36: OperationalError
+_ test_focus_is_in_complete_wire_budget_preview_and_native_messages_but_not_saved_request _
+
+tmp_path = PosixPath('/dev/shm/pfocus1/test_focus_is_in_complete_wire0')
+
+    def test_focus_is_in_complete_wire_budget_preview_and_native_messages_but_not_saved_request(tmp_path):
+        from tests.world_loop.test_model_framing import bind,exact_fixture
+        from nana_core.continuity.world_loop.anthropic import AnthropicJSONTransport
+        home=tmp_path/'home';initialize(home);requests=[]
+        def propose(request):
+            requests.append(request);identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC focused wait',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC wait',proposed_operations=('WAIT',)))
+        with provider_harness(proposer=propose) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();mid,options=inputs(app);options=focus_options(options);options['budget']=CognitionBudget(input_tokens=65536)
+            bind(transport);session=CognitionSession(app.runtime,transport,app.policy)
+            snapshot=app.runtime.store.snapshot();writes=app.runtime.store.db.total_changes
+            first=session.preview('original-focus','SELF',(mid,),**options)
+            assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes and not session._volatile_inputs
+            # Both the private focus and its full protocol framing affect admission.
+            longer=focus_options(options,'PRIVATE_FOCUS_CANARY_bound'+'x'*512)
+            assert session.preview('longer-focus','SELF',(mid,),**longer)['token_accounting']['input_tokens']>first['token_accounting']['input_tokens']
+            rid=session.prepare('original-focus','SELF',(mid,),**options)
+            saved=session.records.read(app.runtime.store.one('cognitive_requests',rid)['record_id'])['payload']['request']
+            assert 'PRIVATE_FOCUS_CANARY' not in json.dumps(saved)
+            options['volatile_input']['subject_cognition']['task']='PRIVATE_MUTATED_AFTER_PREPARE'
+            assert session.execute(rid)['state']=='PROPOSED' and state['calls']==1
+            # The harness reconstructs the actual wire request, including volatile focus.
+            actual=requests[0];assert actual.media_input()['subject_cognition']['task']=='PRIVATE_FOCUS_CANARY_bound'
+            assert exact_fixture(json.loads(transport.request_body(actual)))==first['token_accounting']['input_tokens']
+>           native=AnthropicJSONTransport(transport.endpoint,transport.model_id,transport.provider_id,harness=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: OpenAIJSONTransport.__init__() takes 3 positional arguments but 4 positional arguments (and 1 keyword-only argument) were given
+
+tests/person_self/test_provider_subject_focus.py:71: TypeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_focus.py::test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[color]
+FAILED tests/person_self/test_provider_subject_focus.py::test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[rhythm]
+FAILED tests/person_self/test_provider_subject_focus.py::test_focus_is_in_complete_wire_budget_preview_and_native_messages_but_not_saved_request
+3 failed, 7 passed in 1.74s

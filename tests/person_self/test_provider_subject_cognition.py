@@ -163,8 +163,9 @@ def test_self_resource_keeps_complete_request_framing_counter_and_overflow_gate(
     from tests.world_loop.test_model_framing import bind,exact_fixture
     from nana_core.continuity.world_loop.cognition import CognitionRequest
     from nana_core.storage import canonical
-    home=tmp_path/'home';initialize(home)
-    with provider_harness(proposer=candidate) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+    home=tmp_path/'home';initialize(home);actual_requests=[]
+    def proposed(request):actual_requests.append(request);return candidate(request)
+    with provider_harness(proposer=proposed) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
         app.pause();r=app.runtime;mid,event=event_for(app)
         bind(transport,(lambda body:70000) if overflow else exact_fixture)
         session=CognitionSession(r,transport,app.policy)
@@ -175,7 +176,10 @@ def test_self_resource_keeps_complete_request_framing_counter_and_overflow_gate(
         else:
             assert r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy).intention.behavior=='REST'
             payload=session.records.read(r.store.all('cognitive_requests')[0]['record_id'])['payload']
-            request=CognitionRequest.model_validate_json(canonical(payload['request']))
+            saved=CognitionRequest.model_validate_json(canonical(payload['request']))
+            from nana_core.continuity.world_loop.cognition import TransportFailure
+            with pytest.raises(TransportFailure,match='SUBJECT_FOCUS_EXPIRED_NO_REPLAY'):transport.request_body(saved)
+            request=actual_requests[0]  # Actual wire, including unretained focus.
             assert payload['token_accounting']['input_tokens']==exact_fixture(json.loads(transport.request_body(request)))
             assert payload['token_accounting']['input_tokens']+request.budget.output_tokens<=request.budget.input_tokens
             assert state['calls']==1

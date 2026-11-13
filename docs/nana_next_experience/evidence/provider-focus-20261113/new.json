@@ -1,0 +1,25 @@
+{
+  "focus_received": true,
+  "stance": "REFLECT",
+  "private_questions": 1,
+  "provider_calls": 1,
+  "original_ledger_rows": 1,
+  "fixture_ledger_rows": 0,
+  "memories": 1,
+  "actions": 0,
+  "budget": {
+    "input_tokens": 32768,
+    "output_tokens": 2048,
+    "timeout_ms": 120000,
+    "cost_ceiling_micro": 0
+  },
+  "reserved_bytes": 34337,
+  "wire_input_bytes": 22048,
+  "wire_output_bytes": 773,
+  "wall_us": 44967,
+  "cpu_us": 43133,
+  "real_model_calls": 0,
+  "actual_commercial_tokens": null,
+  "actual_commercial_cost": null,
+  "limits": "Single data-driven owned HTTP fixture. Same input/budget. Not P95, commercial-token count, independent learning, installation or naturalness."
+}

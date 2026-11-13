@@ -6,7 +6,7 @@ from nana_core.presence.authority import VirtualClock
 from nana_core.presence.contracts import SECOND
 from nana_core.continuity.context import ContextPolicy
 from nana_core.continuity.cognition import CognitiveProposal
-from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal,subject_focus_inputs
 from nana_core.continuity.world_loop.harness import provider_harness
 from nana_core.continuity.autonomy.private_intent import candidates
 from tests.first_life_integration.test_private_intent import _private_d_fixture
@@ -31,7 +31,7 @@ def bind(runtime,transport,*,blocked=None,budget=None,previews=None):
         if frame is None or not (frame.source_memory_ids or frame.source_record_ids):return  # No imaginary source in read-only preview.
         if previews is not None:previews.append(frame.subject_event_id)
         return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
-            subject_frame=frame,role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':event.privacy_class}},budget=budget)
+            subject_frame=frame,**subject_focus_inputs(frame.subject_event_id,event.privacy_class,event.text or 'Assess current concerns; silence is allowed',event.task_class or 'subject_deliberation'),budget=budget)
     runtime.cognition.bind_provider(lambda event:session.subject_port(privacy_class=event.privacy_class,budget=budget),preview)
     return session
 

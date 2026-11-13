@@ -1,0 +1,156 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[color] _
+
+tmp_path = PosixPath('/dev/shm/pfocusold/test_actual_original_focus_cha0')
+interest = 'color'
+
+    @pytest.mark.parametrize('interest',['color','rhythm'])
+    def test_actual_original_focus_changes_its_private_question_without_retaining_focus_text(tmp_path,interest):
+        focus='PRIVATE_FOCUS_CANARY_'+interest;received=[]
+        def propose(request):
+            actual=request.media_input()['subject_cognition'];received.append(actual)
+            assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+            identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC original focus candidate',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC private association',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-'+interest,'question':'SYNTHETIC A new question about '+interest}))
+        with provider_harness(proposer=propose) as (transport,state),bare(tmp_path,VirtualClock()) as r:
+            policy=ContextPolicy(policy_id='focus-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy)
+            source=event(r,'focus').model_copy(update={'text':focus,'task_class':'own.research'})
+>           cycle=r.subject.cognize(source,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_provider_subject_focus.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/subject/loop.py:650: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/cognition.py:127: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7fa094492cc0>
+frozen = FrozenModelInput(schema_version=2, task_class='own.research', context_json='{"manifest":{"schema_version":1,"identity_...28a5cb03983001967bcce69d5d3f970c"}', context_digest='3449807cb4be0d2967f5a14cef9b960828a5cb03983001967bcce69d5d3f970c')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':self.privacy_class}})
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: PROVIDER_INVALID_REPLY
+
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/world_loop/cognition.py:875: CoreError
+----------------------------- Captured stderr call -----------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 35922)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/dev/shm/nana-focus-3a7/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/tests/person_self/test_provider_subject_focus.py", line 23, in propose
+    assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+AssertionError: assert (None == 'PRIVATE_FOCUS_CANARY_color')
+ +  where None = <built-in method get of dict object at 0x7fa094013940>('task')
+ +    where <built-in method get of dict object at 0x7fa094013940> = {'privacy_class': 'PROJECT', 'subject_event_id': '18c4c2d5-52db-4455-981c-4a0e1bd04b58'}.get
+----------------------------------------
+_ test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[rhythm] _
+
+tmp_path = PosixPath('/dev/shm/pfocusold/test_actual_original_focus_cha1')
+interest = 'rhythm'
+
+    @pytest.mark.parametrize('interest',['color','rhythm'])
+    def test_actual_original_focus_changes_its_private_question_without_retaining_focus_text(tmp_path,interest):
+        focus='PRIVATE_FOCUS_CANARY_'+interest;received=[]
+        def propose(request):
+            actual=request.media_input()['subject_cognition'];received.append(actual)
+            assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+            identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC original focus candidate',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC private association',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-'+interest,'question':'SYNTHETIC A new question about '+interest}))
+        with provider_harness(proposer=propose) as (transport,state),bare(tmp_path,VirtualClock()) as r:
+            policy=ContextPolicy(policy_id='focus-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy)
+            source=event(r,'focus').model_copy(update={'text':focus,'task_class':'own.research'})
+>           cycle=r.subject.cognize(source,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_provider_subject_focus.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/subject/loop.py:650: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/cognition.py:127: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7fa094680740>
+frozen = FrozenModelInput(schema_version=2, task_class='own.research', context_json='{"manifest":{"schema_version":1,"identity_...909749fe8d3b18935038c240d6d8a76a"}', context_digest='57bcba7bae26bfd12089e84367b40fde909749fe8d3b18935038c240d6d8a76a')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':self.privacy_class}})
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: PROVIDER_INVALID_REPLY
+
+/dev/shm/nana-focus-3a7/src/nana_core/continuity/world_loop/cognition.py:875: CoreError
+----------------------------- Captured stderr call -----------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 50688)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/dev/shm/nana-focus-3a7/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/tests/person_self/test_provider_subject_focus.py", line 23, in propose
+    assert actual.get('task')==focus and actual.get('task_class')=='own.research'
+AssertionError: assert (None == 'PRIVATE_FOCUS_CANARY_rhythm')
+ +  where None = <built-in method get of dict object at 0x7fa09275a5c0>('task')
+ +    where <built-in method get of dict object at 0x7fa09275a5c0> = {'privacy_class': 'PROJECT', 'subject_event_id': '0523e036-be8f-44f4-8388-898871105210'}.get
+----------------------------------------
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_focus.py::test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[color]
+FAILED tests/person_self/test_provider_subject_focus.py::test_actual_original_focus_changes_its_private_question_without_retaining_focus_text[rhythm]
+2 failed in 0.46s
