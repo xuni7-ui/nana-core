@@ -1310,3 +1310,135 @@ def test_unsupported_private_continuation_is_rejected_before_subject_ingress(tmp
         with pytest.raises(CoreError,match='PRIVATE_CONTINUATION_SCHEMA_REQUIRED'):
             SubjectLoop(store,scopes=('test',),privacy_classes=('PROJECT',)).run(event)
         assert not store.all('subject_events') and not store.all('subject_cycles') and len(store.all('events'))==count
+
+
+def _private_d_fixture(tmp_path,clock):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import RuntimeConfig,SECOND
+    path=tmp_path/'private'/'self.db';authority=OperatorAuthority()
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        IdentityService(store,authority);MemoryService(store).entity('counterparty','PERSON')
+        class Seed:
+            descriptor='offline-private-d-race-seed'
+            def propose(self,request):
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['private_plan']={'topic':'own-composition','plan':'SYNTHETIC own quiet visual composition plan; external action is not promised.'}
+                return json.dumps(value)
+        SubjectLoop(store,scopes=('own-scope',),privacy_classes=('PROJECT',)).cognize(
+            SubjectInput(source_key='synthetic.private-d-race-seed',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us()),
+            model=Seed(),authority=authority,policy=ContextPolicy(policy_id='private-d-race',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+        rid,plan=candidates(store,'own-scope',('PROJECT',))[0]
+    cfg=RuntimeConfig(schema_target=13,scopes=('own-scope',),entity_id='counterparty',privacy_classes=('PROJECT',),model='analytical',idle_recall_us=2*SECOND,review_interval_us=10*SECOND,cognition_cooldown_us=0)
+    return NanaRuntime(path,cfg,clock=clock),rid,plan
+
+
+@pytest.mark.parametrize('arrival',['before-refresh','after-schedule'])
+def test_private_d_waits_for_quiet_when_foreground_arrives_during_admission(tmp_path,monkeypatch,arrival):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[];foreground=[]
+    with runtime as r:
+        class ReflectQuietly:
+            descriptor='offline-private-d-quiet-reflection'
+            def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+        monkeypatch.setattr(r.cognition,'port',lambda call:ReflectQuietly())
+        def incoming():
+            event=SubjectInput(source_key='synthetic.private-d-foreground',kind='INTERACTION',origin='USER',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),text='SYNTHETIC foreground interruption',source_memory_ids=plan.source_memory_ids)
+            foreground.append(r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us(),priority=3)))
+        clock.advance(3*SECOND)
+        if arrival=='before-refresh':incoming()
+        else:
+            original_add=r.scheduler.add
+            def after_add(spec):
+                result=original_add(spec)
+                if spec.dedupe_key.startswith('private-thought.') and not foreground:incoming()
+                return result
+            monkeypatch.setattr(r.scheduler,'add',after_add)
+        r.refresh_attention();first=r.step()
+        assert first['queue_id']==foreground[0] and not calls
+        r.step()
+        assert not calls  # A real user interaction restarts the original quiet window.
+        rows=r.store.db.execute("SELECT q.* FROM runtime_queue q JOIN runtime_schedules s ON s.last_queue_id=q.queue_id WHERE s.dedupe_key LIKE 'private-thought.%'").fetchall()
+        if rows:
+            assert rows[0]['state']=='DEFERRED' and rows[0]['due_at_us']>=clock.utc_now_us()+2*SECOND
+            attempts=rows[0]['attempts']
+            for _ in range(3):r.refresh_attention();r.step()
+            assert r.store.one('runtime_queue',rows[0]['queue_id'])['attempts']==attempts and not calls
+        clock.advance(3*SECOND);r.refresh_attention()
+        for _ in range(4):r.step()
+        assert len(calls)==1 and len(r.store.all('runtime_cognition_calls'))==1
+        clock.advance(3*SECOND);r.refresh_attention();r.step()
+        assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants')
+
+
+def test_private_d_deferred_quiet_window_survives_restart_and_model_change(tmp_path,monkeypatch):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+    path=tmp_path/'private'/'self.db';config=runtime.config;identity=runtime.identity_id
+    with runtime as r:
+        clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+        scheduled=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+        event=SubjectInput(source_key='synthetic.restart-quiet-user',kind='INTERACTION',origin='USER',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=plan.source_memory_ids)
+        foreground=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us(),priority=3))
+        assert r.step()['queue_id']==foreground
+        assert r.step()['reason']=='PRIVATE_THOUGHT_WAITING_FOR_QUIET'
+        before=r.store.one('runtime_queue',scheduled)
+        assert before['state']=='DEFERRED' and not r.store.all('runtime_cognition_calls')
+    with NanaRuntime(path,config.model_copy(update={'model':'cautious'}),clock=clock) as r:
+        class Continued:
+            descriptor='offline-restarted-private-plan'
+            def propose(self,request):
+                calls.append(request);assert plan.content_summary in request.context_json
+                return AnalyticalFixturePort().propose(request)
+        monkeypatch.setattr(r.cognition,'port',lambda call:Continued())
+        assert r.identity_id==identity and r.store.one('runtime_queue',scheduled)['due_at_us']==before['due_at_us']
+        r.step();assert not calls
+        clock.advance(3*SECOND)
+        assert r.step()['queue_id']==scheduled and len(calls)==1
+        assert r.store.all('runtime_cognition_calls')[0]['provider']=='cautious'
+        for _ in range(3):r.refresh_attention();r.step()
+        assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants')
+
+
+@pytest.mark.parametrize('constraint',['unconfigured','budget'])
+def test_private_d_resource_unavailability_does_not_consume_activity_before_restart(tmp_path,monkeypatch,constraint):
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import SECOND
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config;calls=[]
+    path=tmp_path/'private'/'self.db';identity=runtime.identity_id;runtime.stop()
+    limited=config.model_copy(update={'model':None} if constraint=='unconfigured' else {'max_calls_per_day':0})
+    with NanaRuntime(path,limited,clock=clock) as r:
+        clock.advance(3*SECOND);r.refresh_attention();r.step()
+        assert not r.store.db.execute("SELECT 1 FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()
+        assert not r.store.all('runtime_cognition_calls')
+    with NanaRuntime(path,config,clock=clock) as r:
+        class Available:
+            descriptor='offline-restored-private-resource'
+            def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+        monkeypatch.setattr(r.cognition,'port',lambda call:Available())
+        r.refresh_attention();r.step()
+        assert r.identity_id==identity and len(calls)==1
+        assert candidates(r.store,'own-scope',('PROJECT',))[0][1].intent_id==plan.intent_id
+
+
+def test_private_d_queued_activity_is_retired_without_model_after_source_withdrawal(tmp_path,monkeypatch):
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.presence.contracts import SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock)
+    with runtime as r:
+        clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+        qid=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+        monkeypatch.setattr(r.cognition,'port',lambda call:pytest.fail('Withdrawn private activity must not reach a model'))
+        MemoryService(r.store,r.authority).forget(plan.source_memory_ids[0],r.authority)
+        for _ in range(3):r.refresh_attention();r.step()
+        assert r.store.one('runtime_queue',qid)['state']=='IGNORED'
+        assert not r.store.all('runtime_cognition_calls') and not candidates(r.store,'own-scope',('PROJECT',))

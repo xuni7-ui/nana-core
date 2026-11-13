@@ -1,0 +1,119 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_private_d_waits_for_quiet_when_foreground_arrives_during_admission[after-schedule] _
+
+tmp_path = PosixPath('/dev/shm/pidquieta/test_private_d_waits_for_quiet1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f40268c86e0>
+arrival = 'after-schedule'
+
+    @pytest.mark.parametrize('arrival',['before-refresh','after-schedule'])
+    def test_private_d_waits_for_quiet_when_foreground_arrives_during_admission(tmp_path,monkeypatch,arrival):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[];foreground=[]
+        with runtime as r:
+            class ReflectQuietly:
+                descriptor='offline-private-d-quiet-reflection'
+                def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+            monkeypatch.setattr(r.cognition,'port',lambda call:ReflectQuietly())
+            def incoming():
+                event=SubjectInput(source_key='synthetic.private-d-foreground',kind='INTERACTION',origin='USER',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),text='SYNTHETIC foreground interruption',source_memory_ids=plan.source_memory_ids)
+                foreground.append(r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us(),priority=3)))
+            clock.advance(3*SECOND)
+            if arrival=='before-refresh':incoming()
+            else:
+                original_add=r.scheduler.add
+                def after_add(spec):
+                    result=original_add(spec)
+                    if spec.dedupe_key.startswith('private-thought.') and not foreground:incoming()
+                    return result
+                monkeypatch.setattr(r.scheduler,'add',after_add)
+            r.refresh_attention();first=r.step()
+            assert first['queue_id']==foreground[0] and not calls
+>           r.step()
+
+tests/first_life_integration/test_private_intent.py:1365: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.runtime.NanaRuntime object at 0x7f40268cb170>
+
+    def step(self):
+        self.cadence.assert_owner()
+        self.cadence.drain(self.submit)
+        self.lease.heartbeat()
+        if not self.queue.has_reactive() and not (self.work and self.work.paused):
+            recovered = self._recover_followup()
+            if recovered:
+                return recovered
+        if self.perception:
+            self.perception.poll()
+        if not (self.work and self.work.paused):
+            self._watch_sources()
+            self.scheduler.due()
+            if not self.queue.has_reactive() and self.scheduler.routine_pending():
+                self.subject.maintain()
+                checkpoint=self.store.db.execute("PRAGMA wal_checkpoint(PASSIVE)").fetchone()
+                if checkpoint[0]==0:self.oper['last_successful_checkpoint_us']=self.clock.utc_now_us()
+                self.scheduler.acknowledge_routine()
+        work_activity = self.work.opportunity() if self.work and not self.queue.has_reactive() else None
+        row = self.queue.claim(user_only=bool(self.work and self.work.paused))
+        if row is None:
+            if work_activity and ("recovered" in work_activity or "blocked" in work_activity):
+                self._save_oper()
+                return {
+                    "queue_id": None,
+                    "mode": "NO_COGNITION",
+                    "reason": "RECOVERED_WORK_SAFE_POINT",
+                    "cycle": None,
+                    "work": work_activity,
+                }
+            if self.work:
+                activity = self.work.maintenance_slice()
+                if activity:
+                    self._save_oper()
+                    return {
+                        "queue_id": None,
+                        "mode": "NO_COGNITION",
+                        "reason": "BOUNDED_MAINTENANCE_SLICE",
+                        "cycle": None,
+                        "maintenance": activity,
+                    }
+            self.cadence.idle_rounds = min(8, self.cadence.idle_rounds + 1)
+            self._save_oper()
+            return None
+        self.cadence.idle_rounds = 0
+        self._processing = row
+        self.oper["last_event"] = row["queue_id"]
+        self.oper["last_wake_us"] = self.clock.utc_now_us()
+        try:
+            if self.perception:
+                observed = self.perception.handle_queue(row)
+                if observed is not None:
+                    self.queue.finish(row, "DONE", "PERCEPTION_OPPORTUNITY_HANDLED")
+                    self._save_oper()
+                    return {
+                        "queue_id": row["queue_id"],
+                        "mode": "NO_COGNITION",
+                        "reason": "PERCEPTION_OPPORTUNITY_HANDLED",
+                        "cycle": None,
+                        "perception": observed,
+                    }
+            event = self.queue.input(row)
+            self.queue.cause_memories(
+                tuple(Cause.model_validate_json(canonical(x)) for x in json.loads(row["cause_json"])), event.scope
+            )
+            if event.origin == "USER":
+                self.oper["last_interaction_us"] = event.observed_at_us
+            if event.private_thought_ref is not None:
+                from ..continuity.autonomy.private_intent import continuation_target
+                continuation_target(self.store,event.private_thought_ref,scope=event.scope,privacy_classes=self.config.privacy_classes)
+                quiet_until=max(self.oper['last_activity_us'],self.oper['last_interaction_us'] or 0)+self.config.idle_recall_us
+                if self.clock.utc_now_us()<quiet_until:
+>                   expired=quiet_until>=row['expires_at_us']
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   TypeError: '>=' not supported between instances of 'int' and 'NoneType'
+
+src/nana_core/presence/runtime.py:342: TypeError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_d_waits_for_quiet_when_foreground_arrives_during_admission[after-schedule]
+1 failed, 1 passed, 75 deselected in 0.63s
