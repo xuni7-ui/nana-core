@@ -1,5 +1,9 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
+**当前速读（2026-11-13，09 revision181，本提交）：**正常D已补私人活动接线、前台静默延后、重启/资源等待/陈旧ref/撤回/UNKNOWN；商业chat topic已进入原C私人兴趣评价，短念可在当次结束不保存。对应111/115/153/113均为各批相关检查，不能相加称全仓。详见本文末四条当前记录及09锚；以下较早“下一”均为继承历史，已被后继完成的项不重开发。
+
+**仍未完成的下一主链：**商业决策前的相关内心/可选策略→C采纳的公开交流目的→原RENDER；明确反馈/反证→原Experience/S8后续迁移。短念fixture不证明真实自发性，topic修复不证明回复策略改变。新D ref旧reader安全回退、原A–H/统一匹配发行及真实模型/手机/生产/自然度/跨日资格仍待。今天北京时间17:00/23:00续办已设，不暂停当前工作。
+
 实际工作副本 `/tmp/nana-inner-refinement-work`，同dev/nana-core-next-experience-codex。根盘ENOSPC；原 `/workspace/nana-unified-release` 停在f583+4ownedWIP完整保护，旧 `/workspace/nana-core` 18bc736不动。/tmp易失；丢失时取远端最新合法HEAD/09到有空间副本，不reset/rebase/覆盖原Root。16:00北京时间一次性续办已设置，本对话收到相同续办指令后继续同一执行线；工具last_run_time登记08:06:58UTC，现disabled/next=null，不据此推断总任务完成或平台后台永久运行。现役检查点只保留当前摘要；过往详单在Git和下列证据。
 
 ## 当前能力与证据
@@ -95,3 +99,10 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 ## 2026-11-13 商业C现役消费者后继
 
 基线6655a28；正常chat的interaction_signal.topic_key接原private decision_support，修相关兴趣缺失，非扩大到无关私念。原C current appraisal/motive仅相关可读时LOW→HIGH/带精确ref；同主体重启/不同topic/PUBLIC/撤回、4话轮8合成HTTP通过，私文不进request上下文。153相关39.53s，见evidence/private-commercial-topic-20261113/09锚。外部措辞fixture固定，不称商业策略完成。下一短暂思想在原cognize中不强制入库，然后商业可选策略/明确反馈/S8仍要真实接线；A–H与旧reader/匹配发行继续。
+
+
+## 2026-11-13 当前后继：短念非任务/非强制持久化
+
+基线45e7432，原CognitiveProposal可选passing_thought，None省略旧wire；当前认知允许短暂联想自然结束，C仍可NO_ACTION，0强制Goal/PrivateActivity/Memory/evidence。普通trace删该字段与可能复制的interpretation，验证错误隐藏私文；无新循环/表/模型阶段。2旧extra_forbidden首错和“无支持replay不可读”夹具首错保留，113相关通过16.19s，见evidence/passing-thought-20261113，源码锚 `7e9910bacced954c0a9aab46bdddbc1029e987fb36f1ac65e5ebf938515f6919`。无真实provider/手机/生产/新安装，fixture不证明真实自发思想。
+
+精确下一点：LifeApplication._model当前INTERPRET/C后SOCIAL只传CommunicationPurpose等公开决策，CognitionSession._prepare未传subject_frame；商业C topic消费者已修，但不能直接把私人正文送RENDER。应在原C内部选择相关倾向/可选策略，再把C采纳且可公开的交流目的交原RENDER，保留无原文聊天语义、完整预算、接收者scope、来源撤回与UNKNOWN；明确反馈/反证再回原Record/Experience/S8，不从沉默推成功。不新造内心Agent/第二评判。原D新ref旧reader回退、其余十域高级因果及原A–H/最终匹配发行继续未完成。

@@ -508,9 +508,9 @@ class SubjectLoop:
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json':
-                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,
+                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,'passing_thought':None,
                             'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
-                        if _deliberation.proposal.private_question or _deliberation.proposal.private_plan or situation.private_interest_records else _deliberation.raw_proposal_json})
+                        if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan or situation.private_interest_records else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,

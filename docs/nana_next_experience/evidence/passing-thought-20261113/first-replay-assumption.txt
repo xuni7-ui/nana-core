@@ -1,0 +1,69 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_passing_private_thought_can_end_without_goal_or_persistent_body[False] __
+
+tmp_path = PosixPath('/dev/shm/pipassingnew/test_passing_private_thought_c0')
+with_history = False
+
+    @pytest.mark.parametrize('with_history',[False,True])
+    def test_passing_private_thought_can_end_without_goal_or_persistent_body(tmp_path,with_history):
+        from nana_core.actions import OperatorAuthority
+        from nana_core.continuity import ContinuityStore,IdentityService
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.continuity.subject import SubjectLoop
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        path=tmp_path/'passing'/'self.db';clock=VirtualClock();authority=OperatorAuthority();calls=[]
+        thought='SYNTHETIC_PRIVATE_PASSING_CANARY: perhaps these two imagined shapes rhyme; no wish to keep or pursue this association.'
+        class Passing:
+            descriptor='offline-passing-association-not-consciousness-proof'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                assert 'passing_thought' not in value  # Absent field keeps the old wire.
+                value.update(passing_thought=thought,interpretation=thought)
+                return json.dumps(value)
+        with ContinuityStore(path,clock,schema_target=13) as store:
+            IdentityService(store,authority);memory=MemoryService(store,authority);memory.entity('counterparty','PERSON')
+            support=()
+            if with_history:
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.passing',source_reference='history',source_kind='DIRECT_OBSERVATION'),text='SYNTHETIC ordinary visual observation',privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+                support=(memory.add(MemoryCandidate(entity_id='counterparty',scope='own-scope',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text='SYNTHETIC ordinary visual observation')),)
+            before=(len(store.all('memories')),len(store.all('continuity_evidence')))
+            loop=SubjectLoop(store,scopes=('own-scope',),privacy_classes=('PROJECT',))
+            event=SubjectInput(source_key='synthetic.passing-association',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=support)
+            result=loop.cognize(event,model=Passing(),authority=authority,policy=ContextPolicy(policy_id='passing-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+            assert len(calls)==1 and result.intention.kind=='NO_ACTION' and result.goal_candidate_id is None
+            assert thought not in result.model_dump_json() and not candidates(store,'own-scope',('PROJECT',))
+            assert not loop.pending('own-scope') and not store.all('subject_goal_candidates') and not store.all('goals')
+            assert (len(store.all('memories')),len(store.all('continuity_evidence')))==before
+            assert not store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0",(thought,)).fetchone()
+>           loop.cognize(event,model=Passing(),authority=authority,policy=ContextPolicy(policy_id='passing-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+
+tests/first_life_integration/test_private_intent.py:1549: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:596: in cognize
+    return self.run(event)
+           ^^^^^^^^^^^^^^^
+src/nana_core/continuity/subject/loop.py:256: in run
+    return self.result(dict(old), replayed=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7f4d35acbaa0>
+row = {'cycle_id': '4ef8ee5e-b33b-4a26-9460-a9093b674777', 'subject_event_id': '784ecf5b-9b3e-47b7-9254-e7154bce0fbc', 'revision': 1, 'record_id': None, ...}
+replayed = True
+
+    def result(self, row, *, replayed=False):
+        if row['record_id'] and live_record(self.store, row['record_id']):
+            value = self.records.read(row['record_id'])['payload']
+            return CycleResult.model_validate_json(canonical(value)).model_copy(update={'record_id': row['record_id'], 'replayed': replayed})
+        # An expired/deleted/never-retained rationale is not reconstructed from
+        # guesses. Keep the immutable operational receipt, with no private text.
+>       raise CoreError('SUBJECT_RATIONALE_NOT_RETAINED' if not row['record_id'] else 'SUBJECT_RATIONALE_RETIRED')
+E       nana_core.contracts.CoreError: SUBJECT_RATIONALE_NOT_RETAINED
+
+src/nana_core/continuity/subject/loop.py:543: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_passing_private_thought_can_end_without_goal_or_persistent_body[False]
+1 failed, 1 passed, 91 deselected in 0.68s

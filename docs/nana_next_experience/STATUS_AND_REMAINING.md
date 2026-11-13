@@ -1,3 +1,14 @@
+# 2026-11-13 当前机制深化增量（同一主任务）
+
+实际源码与09顶部CURRENT优先；现役revision181，证据见ACTIVE末段及09 refs。以下历史待办中已由本段覆盖的部分复用，不重复实施。
+
+- 原私人活动→正常D/SELF/C已接受控候选；前台quiet延后、同Store重启换fixture、入队前/后资源等待、当前版本淘汰/撤回、UNKNOWN不重试已补。单版本不反复调用，同资源条件不重复写入。新ref旧reader回退与真实长期生活尚未资格。
+- 正常商业chat的interaction_signal.topic进入原C private decision_support，相关且可读时参与Appraisal/Motivation，重启/无关/PUBLIC/撤回已测。尚未让私人内容与可选策略通过商业内部认知影响对外决策，不能称自然策略闭环完成。
+- 原cognize可容纳当次passing_thought，C可NO_ACTION、0自动Goal/私念/Memory/evidence；普通trace遮蔽，重启不重建未保留理由。仅离线fixture合同/行为证据，无真实模型自发性声明。
+- 下一最高优先：商业内心/情感与可选交流策略、明确反馈/反证及实际结果→S8独立后续迁移；与现有多消息/CommunicationPurpose/投递链融合。其余A–H、广检索学习、物理存储隐私、全链Token/模型产品、多端及匹配发行继续。十九节增补在task_inputs/TEN_DOMAIN_MECHANISM_AND_CAUSAL_SYNERGY_2026_11_13.md，固定总纲/63标准不改。
+
+---
+
 [2026-11-12 内部形成与执行队列分开] 形成记录后内部REFLECTION完成，问题ACTIVE不当任务完成；10私问不挤占原8pending，满队列仍可私问暂停，重启普通前台通过。292相关+后续旧schema/原子5通过；下一无旧支持的新思想自身发生追源，商业/自然持续策略及原A–H继续。见private-formation-queue-20261112。
 
 [2026-11-12 内部新方向] 原C自发问题可跨当前focus开新topic/同intent重新聚焦，不把焦点当授权；旧公开/定时资格不公开新内容。105相关通过，scope/owner/privacy/reference不放松；下一核对私问形成后的pending占用，并继续多倾向/跨轮策略/商业融合和原A–H。见private-new-direction-20261112。

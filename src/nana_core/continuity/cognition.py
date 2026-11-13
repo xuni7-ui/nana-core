@@ -22,6 +22,9 @@ class FrozenModelInput(DTO):
 
 class CognitiveProposal(DTO):
     model_config={**DTO.model_config, "hide_input_in_errors":True}
+    # Optional current-process association, not a memory, fact, goal or a
+    # request to persist. C may simply let it end in this cognition.
+    passing_thought:str|None=Field(default=None,min_length=1,max_length=512)
     private_question:PrivateQuestionProposal|None=None
     private_plan:PrivatePlanProposal|None=None
     schema_version: Literal[2] = 2
@@ -41,6 +44,7 @@ class CognitiveProposal(DTO):
     @model_serializer(mode='wrap')
     def compatible_wire(self,handler):
         value=handler(self)
+        if self.passing_thought is None:value.pop('passing_thought',None)
         if self.private_question is None:value.pop('private_question',None)
         if self.private_plan is None:value.pop('private_plan',None)
         return value

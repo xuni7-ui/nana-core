@@ -1511,3 +1511,49 @@ def test_private_d_unknown_attempt_remains_unknown_and_is_not_retried_when_model
         r.step()
         assert r.store.one('runtime_queue',row['queue_id'])['state']=='DONE'
         assert len(r.store.all('runtime_cognition_calls'))==1 and r.store.one('runtime_cognition_calls',call)['state']=='UNKNOWN'
+
+
+@pytest.mark.parametrize('with_history',[False,True])
+def test_passing_private_thought_can_end_without_goal_or_persistent_body(tmp_path,with_history):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.subject import SubjectLoop
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    path=tmp_path/'passing'/'self.db';clock=VirtualClock();authority=OperatorAuthority();calls=[]
+    thought='SYNTHETIC_PRIVATE_PASSING_CANARY: perhaps these two imagined shapes rhyme; no wish to keep or pursue this association.'
+    class Passing:
+        descriptor='offline-passing-association-not-consciousness-proof'
+        def propose(self,request):
+            calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+            assert 'passing_thought' not in value  # Absent field keeps the old wire.
+            value.update(passing_thought=thought,interpretation=thought)
+            return json.dumps(value)
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        IdentityService(store,authority);memory=MemoryService(store,authority);memory.entity('counterparty','PERSON')
+        support=()
+        if with_history:
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.passing',source_reference='history',source_kind='DIRECT_OBSERVATION'),text='SYNTHETIC ordinary visual observation',privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+            support=(memory.add(MemoryCandidate(entity_id='counterparty',scope='own-scope',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text='SYNTHETIC ordinary visual observation')),)
+        before=(len(store.all('memories')),len(store.all('continuity_evidence')))
+        loop=SubjectLoop(store,scopes=('own-scope',),privacy_classes=('PROJECT',))
+        event=SubjectInput(source_key='synthetic.passing-association',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=support)
+        result=loop.cognize(event,model=Passing(),authority=authority,policy=ContextPolicy(policy_id='passing-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+        assert len(calls)==1 and result.intention.kind=='NO_ACTION' and result.goal_candidate_id is None
+        assert thought not in result.model_dump_json() and not candidates(store,'own-scope',('PROJECT',))
+        assert not loop.pending('own-scope') and not store.all('subject_goal_candidates') and not store.all('goals')
+        assert (len(store.all('memories')),len(store.all('continuity_evidence')))==before
+        assert not store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0",(thought,)).fetchone()
+        if with_history:
+            replay=loop.cognize(event,model=Passing(),authority=authority,policy=ContextPolicy(policy_id='passing-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+            assert replay.replayed and replay.cycle_id==result.cycle_id
+        else:
+            with pytest.raises(CoreError,match='SUBJECT_RATIONALE_NOT_RETAINED'):
+                loop.cognize(event,model=Passing(),authority=authority,policy=ContextPolicy(policy_id='passing-private',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+        assert len(calls)==1  # Existing replay protection, no repeated thought call.
+        identity=store.identity['identity_id']
+    with ContinuityStore(path,clock,schema_target=13) as store:
+        assert store.identity['identity_id']==identity and not candidates(store,'own-scope',('PROJECT',))
+        assert not store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0",(thought,)).fetchone()

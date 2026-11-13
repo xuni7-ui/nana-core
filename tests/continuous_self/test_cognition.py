@@ -62,7 +62,7 @@ def test_model_cannot_forge_authority_receipt_identity_or_memory_reference(cogni
             constructor(store, None)
 
 
-@pytest.mark.parametrize('kind',['private_question','private_plan','two-edits'])
+@pytest.mark.parametrize('kind',['private_question','private_plan','two-edits','passing_thought'])
 def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognitive,kind):
     from nana_core.continuity.cognition import CognitiveProposal
     store,_,_=cognitive
@@ -71,6 +71,7 @@ def test_private_cognitive_validation_errors_do_not_echo_private_contents(cognit
         'proposed_operations':['DRAFT']}
     if kind=='two-edits':
         value.update(private_question={'topic':'private-test','question':private[:100]},private_plan={'topic':'private-test','plan':private[:100]})
+    elif kind=='passing_thought':value[kind]=private
     else:value[kind]={'topic':'private-test',('question' if kind=='private_question' else 'plan'):private}
     with pytest.raises(ValidationError) as error:CognitiveProposal.model_validate_json(json.dumps(value))
     assert 'PRIVATE_CANARY_INNER_CONTENT_' not in str(error.value)

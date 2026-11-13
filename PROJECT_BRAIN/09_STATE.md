@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 180,
-  "as_of_us": 1794547815672531,
+  "revision": 181,
+  "as_of_us": 1794548193798280,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_COMMERCIAL_C_PRIVATE_TOPIC_CONSUMER",
+  "status": "IN_PROGRESS_INNER_LIFE_PASSING_THOUGHT",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,25 +20,25 @@
     "原私念→正常D资源等待/前台/重启/UNKNOWN有115相关资格；商业chat缺topic消费者已补，4话轮8合成HTTP仅相关可读私念进入原C Appraisal/Motivation，重启/低privacy/撤回通过。153相关通过；尚未证明回复策略改变。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原生Anthropic模型目录同host/native headers有界翻页，不完整列表前端提示且保留手填；冻结3fail/2pass→32相关通过，TS/Vite+四视口8浏览器通过。558独立CI114Core、53f独立93unit/148browser，非本批全仓/真实API/手机。"
+    "原C可选passing_thought允许短念在当次结束：0强制Goal/私念/Memory/evidence，普通trace遮蔽、重启不重建/重放不再调用。113相关通过；非真实模型自发性/商业策略闭环。Anthropic目录既有32+8与TS/Vite资格继承。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "正常D已补前台/静默/重启/资源恢复/陈旧ref与撤回/UNKNOWN；新private ref队列模板旧reader安全回退仍待。商业主链私人策略/保留/真实反馈/S8、更多动机冲突/单topic64/实际长期及原A–H继续，不当全部内心生活验收。",
+    "正常D前台/静默/重启/资源等待/陈旧ref/撤回/UNKNOWN及商业chat topic→C动机已接；短念不必保存有113相关。商业决策前内心与可选策略/真实反馈/S8、更多冲突/单topic64/长期待；新ref旧reader回退、原A–H不取消。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/passing-thought-20261113/README.md",
     "docs/nana_next_experience/evidence/private-commercial-topic-20261113/README.md",
     "docs/nana_next_experience/evidence/private-d-resource-resume-20261113/README.md",
     "docs/nana_next_experience/evidence/private-d-foreground-recovery-20261113/README.md",
     "docs/nana_next_experience/evidence/normal-d-private-continuation-20261113/README.md",
     "docs/nana_next_experience/evidence/private-plan-20261112/README.md",
     "docs/nana_next_experience/evidence/private-association-clear-20261112/README.md",
-    "docs/nana_next_experience/evidence/model-catalog-pagination-20261112/README.md",
-    "docs/nana_next_experience/evidence/generic-client-entry-20261112/README.md"
+    "docs/nana_next_experience/evidence/model-catalog-pagination-20261112/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2760,3 +2760,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ## 2026-11-13 商业聊天私人兴趣主题消费者
 
 chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appraisal/Motivation由缺失改为当前相关精确refs，PUBLIC/无关/撤回不带入。首错、四话轮8合成HTTP与153相关通过，未证明回复策略改变。证据private-commercial-topic-20261113，源码锚 `f6445d4844512ff68db3b1a3224ce829923594d5a12135088ad55bc374b45c28`。下一短念非持久化及商业策略/反馈/S8，A–H继续。
+
+
+## 2026-11-13 短念可出现而不成为任务
+
+原cognize可选passing_thought沿原C判断，普通trace不留私文，不自动Goal/PrivateActivity/Memory；两无用户场景各1既有fixture。重启不重建未保留理由，replay无新调用，旧契约拒绝保持。113相关16.19s。见evidence/passing-thought-20261113，源码表锚 `7e9910bacced954c0a9aab46bdddbc1029e987fb36f1ac65e5ebf938515f6919`。不宣称真实自发思维、商业策略/长期完成。
