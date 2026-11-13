@@ -1,0 +1,2 @@
+4654e25c61fe8dc9d76dcf0122c5ef50cc6a3f529609f53d9405ccca0c7e4fd0  src/nana_core/continuity/subject/loop.py
+7f90b3c54a213b0b9faa2b6b5245800cfd5ffd02f0183afa09673e5fde60fcff  tests/person_self/test_dialogue_integration.py

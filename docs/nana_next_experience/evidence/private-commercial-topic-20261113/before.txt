@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_commercial_chat_c_selects_private_interest_for_current_topic_without_disclosure_or_extra_calls _
+
+tmp_path = PosixPath('/dev/shm/pictopicold/test_commercial_chat_c_selects0')
+
+    def test_commercial_chat_c_selects_private_interest_for_current_topic_without_disclosure_or_extra_calls(tmp_path):
+        from tests.first_life_integration.test_private_intent import choose
+        from nana_core.continuity.autonomy.private_intent import candidates
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            app.pause()
+            _,_,formed=choose(app,topic='own-composition')
+            rid,idea=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            app.runtime.subject.transition_intention(formed.intention_id,expected_revision=1,state='COMPLETED')
+            for topic,relevant in [('another-topic',False),('own-composition',True)]:
+                result=app.chat('SYNTHETIC current-topic chat',topic=topic,privacy='PROJECT',message_id=topic)
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING',result
+                cycle=app.runtime.subject.result(app.runtime.store.one('subject_cycles',result['cycle_id']))
+                selected=tuple(ref for motive in cycle.motivations if motive.source=='PRIVATE_INTEREST' for ref in motive.source_ids)
+>               assert (rid in selected)==relevant
+E               AssertionError: assert ('b21c400f-4a31-47f2-a0cf-3a091ce29f9a' in ()) == True
+
+tests/person_self/test_dialogue_integration.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_dialogue_integration.py::test_commercial_chat_c_selects_private_interest_for_current_topic_without_disclosure_or_extra_calls
+1 failed, 7 deselected in 1.25s
