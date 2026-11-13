@@ -83,3 +83,10 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 基线d291，原quiet窗口在worker模型前复核，延后原队列到静默结束，同时间扫描不重复claim。原版竞态1fail/1pass，首修nullable1fail/1pass均保留；最终2竞态/6恢复目标、111相关通过。停机重启换fixture仍同identity/计划/queue due，撤回排队0调用。源码锚 `9db8e7d83e993cee62e162d54ebc98cc52e6245b6cf0ba4cdffeccf0a5820ad9`，见evidence/private-d-foreground-recovery-20261113。不是商业模型/真实跨日或安装。
 
 十九节机制深化已归task_inputs/mission/AGENTS，按现役HEAD/Brain继续，不以参考176覆盖当前。下一立即修已入队后预算/模型变化不应消费机会，补当前ref修订淘汰，再商业内心→原C目的→RENDER及明确反馈/S8因果。原A–H、旧reader回退、最终匹配发行及真实资格继续未完成。
+
+
+## 2026-11-13 原D资源等待后继
+
+原版已入队改无模型/零预算2首错，候选保留READY、同条件4step/refresh 0写入/0模型，恢复同queue/identity1fixture；陈旧版本模型前淘汰，UNKNOWN轻量恢复不改原UNKNOWN不重派发。115相关20.53s，最终断言收紧后UNKNOWN单项通过；旧d291独立CI205pass54.24s/clientSKIP另存。证据private-d-resource-resume-20261113，源码锚 `792a83b5e4dc7fe2a4febce7b71a3df7cc4b183b2cff0a1c9f8e24cdf0fc9e7d`。
+
+下一沿商业LifeApplication._model→CognitionSession._prepare→原C/Context消费者补缺：目前原C有private_interest_records，但商业模型请求不带subject_frame/私人状态；先核对正常chat event.topic空时对interaction_signal.topic_key的选择是否准确，避免不相关私念挤入，再决策前内部状态和可选交流策略/明确反馈→S8。不能把离线D资格冒作商业或全内心完成。新ref旧reader回退/原A–H继续。

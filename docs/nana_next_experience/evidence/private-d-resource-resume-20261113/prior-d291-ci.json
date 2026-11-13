@@ -1,0 +1,12 @@
+{
+  "source": "d29120b21c2029703af107e44a718d9bf479e171",
+  "run_id": 43368824797,
+  "job_id": 131699714353,
+  "conclusion": "success",
+  "client": "skipped",
+  "log_excerpt": [
+    "2026-11-13T04:58:36.5108126Z \u001b[36;1mprint('TARGETED_CHECKS',selected,flush=True)\u001b[0m",
+    "2026-11-13T04:58:36.6087800Z TARGETED_CHECKS ['tests/affective_autonomy', 'tests/continuous_runtime', 'tests/continuous_self/test_cognition.py', 'tests/continuous_self/test_context.py', 'tests/continuous_self/test_memory.py', 'tests/continuous_self/test_privacy.py', 'tests/continuous_self/test_privacy_copy_increment.py', 'tests/first_life_integration/test_private_intent.py', 'tests/living_autonomy/test_maintenance.py', 'tests/living_release_v4/test_concern_source.py', 'tests/person_self/test_dialogue_integration.py', 'tests/person_self/test_memory_use_feedback.py', 'tests/portable_subject/test_package.py', 'tests/portable_subject/test_providers_frontend.py', 'tests/portable_subject/test_schema_genericity.py', 'tests/precision/test_planning.py', 'tests/precision/test_recovery.py', 'tests/vision_first/test_context_fit.py', 'tests/world_loop/test_independent_concern_sources.py']",
+    "2026-11-13T04:59:32.0151595Z 205 passed in 54.24s"
+  ]
+}

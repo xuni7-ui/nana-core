@@ -28,6 +28,8 @@ PYTHONPATH=src:. python tools/nana_next_experience/experiments/provider_config_c
 
 ## 验证及接入
 
-validation.txt记录89相关通过、2个环境缺PIL失败→装仓库指定Pillow12.3.0后原媒体3路径通过/2.31s；仅复跑受影响路径。新增8个回归包含同大小/mtime修改、不同实例、atomic回到旧文档、warm后权限/软硬链接/缺失/超限/重复键、frozen DTO、动态凭据状态、原CAS及自定义验证。初次7通过/1失败是测试把原MISSING误写UNAVAILABLE，按既有真实协议修正；原始失败在first-failures.txt。未更改产品协议或放宽断言。
+validation.txt记录89相关通过、2个环境缺PIL失败→装仓库指定Pillow12.3.0后原媒体3路径通过/2.31s；仅复跑受影响路径。新增8个回归包含同大小/mtime修改、不同实例、atomic回到旧文档、warm后权限/软硬链接/缺失/超限/重复键、frozen DTO、动态凭据状态及自定义验证；原CAS回归亦保持。初次7通过/1失败是测试把原MISSING误写UNAVAILABLE，按既有真实协议修正；原始失败在first-failures.txt。未更改产品协议或放宽断言。
+
+接续A6655a28资源暂停恢复仅正常合并；本批源码/测试/实验指纹不变，保留A账本前缀，复用以上验证。
 
 唯一集成位置ProviderConfigService._load，不修改主体行为；A原调用者无需变更。撤回18行即可回原全量解析，无数据迁移、配置开关或运行数据回写。客户端不变，不重复Web/APK/发行。候选未主线集成/部署，真实账号/Provider/手机/生产不在范围。源码表指纹仅采集时状态，不是运行证明。
