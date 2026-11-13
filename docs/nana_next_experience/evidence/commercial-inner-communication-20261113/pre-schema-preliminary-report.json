@@ -1,0 +1,139 @@
+{
+  "same_subject": true,
+  "same_store": true,
+  "same_initial_private_state": true,
+  "same_budget": true,
+  "single_writer_at_a_time": true,
+  "old_writer_stopped_before_new": true,
+  "stages": [
+    {
+      "stage": "baseline",
+      "module": "/dev/shm/nana-commercial-c-baseline/nana_core/__init__.py",
+      "identity_id": "1e66073c-24f5-46a0-905c-d816df88f3c2",
+      "private_record_id": "772d208e-3314-4f95-9c94-edbc51b9a492",
+      "reply": "SYNTHETIC: hello.",
+      "choice": null,
+      "fixture_http_calls": 2,
+      "real_model_calls": 0,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      },
+      "request_roles": [
+        "INTERPRET",
+        "SOCIAL"
+      ],
+      "private_context_by_role": [
+        false,
+        false
+      ],
+      "measured_wire_input_bytes": [
+        21682,
+        21205
+      ],
+      "measured_wire_output_bytes": [
+        450,
+        489
+      ],
+      "fixture_http_latency_us": [
+        7630,
+        3155
+      ],
+      "fixture_usage_tokens_per_call": {
+        "input": 10,
+        "output": 10,
+        "not_real_token_measurement": true
+      },
+      "real_provider_tokens": null,
+      "real_provider_cost": null,
+      "timing": {
+        "cpu_us": 132860,
+        "wall_us": 133949,
+        "process_peak_rss_bytes": 60149760
+      },
+      "storage_before": {
+        "family_allocated_bytes": 1871872,
+        "page_count": 199,
+        "freelist_count": 0,
+        "db_total_changes": 431
+      },
+      "storage_after": {
+        "family_allocated_bytes": 2928640,
+        "page_count": 224,
+        "freelist_count": 0,
+        "db_total_changes": 518
+      },
+      "scope": "CONTROLLED_SINGLE_SAMPLE_NOT_P50_P95_OR_PRODUCTION_PERFORMANCE"
+    },
+    {
+      "stage": "candidate",
+      "module": "/tmp/nana-inner-refinement-work/src/nana_core/__init__.py",
+      "identity_id": "1e66073c-24f5-46a0-905c-d816df88f3c2",
+      "private_record_id": "772d208e-3314-4f95-9c94-edbc51b9a492",
+      "reply": "SYNTHETIC: explore two possible connections and compare their differences, without asserting either as fact.",
+      "choice": {
+        "approach": "EXPLORE",
+        "detail": "DEEP",
+        "follow_up": "NONE"
+      },
+      "fixture_http_calls": 2,
+      "real_model_calls": 0,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      },
+      "request_roles": [
+        "INTERPRET",
+        "SOCIAL"
+      ],
+      "private_context_by_role": [
+        true,
+        false
+      ],
+      "measured_wire_input_bytes": [
+        24009,
+        22219
+      ],
+      "measured_wire_output_bytes": [
+        628,
+        580
+      ],
+      "fixture_http_latency_us": [
+        6813,
+        3352
+      ],
+      "fixture_usage_tokens_per_call": {
+        "input": 10,
+        "output": 10,
+        "not_real_token_measurement": true
+      },
+      "real_provider_tokens": null,
+      "real_provider_cost": null,
+      "timing": {
+        "cpu_us": 148263,
+        "wall_us": 149888,
+        "process_peak_rss_bytes": 59916288
+      },
+      "storage_before": {
+        "family_allocated_bytes": 958464,
+        "page_count": 224,
+        "freelist_count": 0,
+        "db_total_changes": 3
+      },
+      "storage_after": {
+        "family_allocated_bytes": 1875968,
+        "page_count": 250,
+        "freelist_count": 0,
+        "db_total_changes": 90
+      },
+      "scope": "CONTROLLED_SINGLE_SAMPLE_NOT_P50_P95_OR_PRODUCTION_PERFORMANCE"
+    }
+  ],
+  "installation_qualification": false,
+  "real_model_or_production": false,
+  "reverse_source_rollback": "NOT_TESTED"
+}

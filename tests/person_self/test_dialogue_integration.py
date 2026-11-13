@@ -32,7 +32,12 @@ def test_commercial_chat_c_selects_private_interest_for_current_topic_without_di
                 assert cycle.appraisal.interest_relevance==('HIGH' if relevant else 'LOW')
             assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
         assert len(requests)==8  # Existing INTERPRET/RENDER only; no inner model loop.
-        assert all(idea.content_summary not in request['context_json'] for request in requests)
+        # Only the matching, sufficiently private INTERPRET request may consider
+        # this own state. Public/other topics/withdrawn sources and every RENDER
+        # keep the original non-disclosure guarantee.
+        assert all(idea.content_summary not in request['context_json']
+            for index,request in enumerate(requests) if index!=2)
+        assert requests[2]['cognitive_role']=='INTERPRET'
 
 
 def test_original_transport_c_role_adoption_both_sides_and_restart(tmp_path):

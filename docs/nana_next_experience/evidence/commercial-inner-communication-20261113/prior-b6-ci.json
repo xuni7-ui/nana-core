@@ -1,0 +1,12 @@
+{
+  "source_commit": "b6f4069980bac74096062ad7895042f334847f55",
+  "run_id": 43374601488,
+  "job_id": 131718211956,
+  "conclusion": "success",
+  "client": "skipped",
+  "scope": "PRIOR_SOURCE_AFFECTED_CHECKS_NOT_CURRENT_CANDIDATE",
+  "log_excerpt": [
+    "2026-11-13T05:51:30.7823226Z TARGETED_CHECKS ['tests/affective_autonomy', 'tests/continuous_runtime', 'tests/continuous_self/test_cognition.py', 'tests/continuous_self/test_context.py', 'tests/first_life_integration/test_private_intent.py', 'tests/person_self/test_dialogue_integration.py', 'tests/person_self/test_memory_use_feedback.py', 'tests/portable_subject/test_providers_frontend.py', 'tests/precision/test_planning.py', 'tests/precision/test_recovery.py', 'tests/vision_first/test_context_fit.py']",
+    "2026-11-13T05:52:28.2376886Z 174 passed in 56.35s"
+  ]
+}

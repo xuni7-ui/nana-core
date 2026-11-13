@@ -1,0 +1,9 @@
+{
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "phase": "DEV_SYNTHETIC_LOOPBACK",
+  "real_model_calls": 0,
+  "production_changes": false,
+  "root_worktree_preserved": "/workspace/nana-unified-release@f583f18+4WIP",
+  "historical_worktree_preserved": "/workspace/nana-core@18bc736"
+}

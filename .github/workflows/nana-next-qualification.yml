@@ -67,6 +67,8 @@ on:
       - src/nana_core/life/live_api/contracts.py
       - tests/first_life_android_v2/test_long_feedback.py
       - tests/person_self/test_long_feedback_binding.py
+      - tests/person_self/test_inner_communication.py
+      - tools/nana_next_experience/qualification/inner_communication_v1.py
       - tests/open_autonomy/test_delivery.py
       - tools/nana_astrbot_shadow/bridge_wire.py
       - src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py
@@ -278,6 +280,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('life/dialogue_contracts.py','life/application.py','world_loop/cognition.py','subject/context_fit.py','subject/loop.py','test_inner_communication.py','qualification/inner_communication_v1.py'), ['tests/person_self/test_inner_communication.py']),
             (('presence/runtime.py','presence/cognition.py','subject/contracts.py','subject/ingress.py','subject/watch.py'), ['tests/continuous_runtime','tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_context.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
             (('continuity/contracts.py','continuity/memory.py','continuity/maintenance.py','world_loop/concern_source.py','world_loop/attention.py','subject/watch.py','test_concern_source.py','continuous_self/test_memory.py'), ['tests/continuous_self/test_memory.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/living_release_v4/test_concern_source.py','tests/living_autonomy/test_maintenance.py','tests/world_loop/test_independent_concern_sources.py','tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py']),
             (('subject/policy.py','test_learning_renewal.py'), ['tests/open_life/test_learning_renewal.py','tests/open_autonomy/test_learning.py']),

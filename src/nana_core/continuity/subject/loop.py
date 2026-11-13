@@ -27,6 +27,16 @@ class SubjectLoop:
     def visible(self, record_id, scope):
         return state.visible(self.store,record_id,scope,self.privacy_classes)
 
+    def dialogue_private_refs(self, *, scope, topic, privacy_classes):
+        """C's current own considerations, before its normal dialogue decision.
+
+        This read-only selection is neither disclosure nor adoption. The same
+        records compete in the complete INTERPRET request budget.
+        """
+        if scope not in self.scopes:raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        from ..autonomy.private_intent import decision_support
+        return decision_support(self.store,scope,tuple(p for p in privacy_classes if p in self.privacy_classes),topic=topic)
+
     def situation(self, event, source):
         now = self.store.clock.utc_now_us()
         records, memories, projects, commitments, due, methods = [], [], [], [], [], []
@@ -501,7 +511,9 @@ class SubjectLoop:
                             'adopted': False, 'execution_authority': False}, records=(record,))
                     tx.put('subject_goal_candidates', {'candidate_id': candidate_id,
                         'intention_id': intention_id, 'record_id': candidate_record, 'state': 'PROPOSED'})
-            result = CycleResult(conversation_decision=conversation,context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
+            from .context_fit import consider_communication
+            communication=consider_communication(self.store,event,situation,intention,evaluation,privacy_classes=self.privacy_classes)
+            result = CycleResult(communication_choice=communication,conversation_decision=conversation,context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,

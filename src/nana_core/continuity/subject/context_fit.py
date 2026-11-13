@@ -125,6 +125,32 @@ def social_candidate(fit,*,style,source_ids,available=True):
     if fit.mode=='SHARE':return propose_social(topic=fit.topic_key,style=style,available=available,source_ids=source_ids)
     return SocialInteractionProposal(act='CHECK_IN' if fit.mode=='VENT' else 'ASK',topic_key=fit.topic_key,approach='CHECK_RECEPTION',source_memory_ids=source_ids)
 
+
+def consider_communication(store,event,situation,intention,evaluation,*,privacy_classes):
+    """Original C may adopt a method only after its independent choice.
+
+    The interpretation binding has already been validated by assess(). Private
+    reasons stay in their original records; the public choice has only enums.
+    """
+    fit=situation.context_fit;signal=event.interaction_signal
+    if (not fit or not signal or signal.basis!='MODEL_PROPOSAL' or not signal.proposal_record_id
+            or signal.proposal_record_id not in fit.source_record_ids
+            or fit.mode in {'UNCLEAR','RESPECT_BOUNDARY'} or not fit.allow_delivery
+            or intention.kind not in {'SOCIAL_INTERACTION','DISAGREE'}
+            or not evaluation or evaluation.normative!='ENDORSED'):
+        return None
+    from ...life.dialogue_contracts import CommunicationProposal,CommunicationChoice
+    from ..autonomy.private_intent import internal_projection
+    import json
+    records=RecordService(store)
+    data=records.read(signal.proposal_record_id)['payload']['reply']['proposal']['dialogue'].get('communication_proposal')
+    if data is None:return None
+    proposal=CommunicationProposal.model_validate_json(json.dumps(data))
+    current={v['record_id'] for v in internal_projection(store,situation.private_interest_records,
+        scope=event.scope,privacy_classes=privacy_classes)}
+    if not set(proposal.basis_private_record_ids)<=current:return None
+    return CommunicationChoice(approach=proposal.approach,detail=proposal.detail,follow_up=proposal.follow_up)
+
 def plan_binding(store,reference,*,scope,privacy_classes,goal_id=None):
     """Follow existing adopted-goal lineage, not a model-named private topic."""
     from ..agency import step_view

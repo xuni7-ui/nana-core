@@ -34,6 +34,7 @@ class PreferenceSignal(DTO):
 
 
 from ..person_self import ConversationProposal, ConversationDecision
+from ...life.dialogue_contracts import CommunicationChoice
 
 class SubjectInput(DTO):
     private_thought_ref:PrivateIntentRef|None=None
@@ -194,6 +195,7 @@ class DeliberationTrace(DTO):
 
 
 class CycleResult(DTO):
+    communication_choice:CommunicationChoice|None=None
     conversation_decision: ConversationDecision | None = None
     experience_need: ExperienceNeed | None = None
     problem_frame: FrameAssessment | None = None
@@ -223,6 +225,12 @@ class CycleResult(DTO):
     request_decision: RequestDecision | None = None
     selected_disposition_id: str | None = None
     relational_decision: RelationalDecision | None = None
+
+    @model_serializer(mode='wrap')
+    def compatible_choice_wire(self,handler):
+        value=handler(self)
+        if self.communication_choice is None:value.pop('communication_choice',None)
+        return value
 
 
 class WakeCondition(DTO):

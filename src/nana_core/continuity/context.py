@@ -223,7 +223,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None, private_record_ids=()):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -294,6 +294,18 @@ class ContextAssembler:
             block=ContextBlock(block_id='project-current-state',kind='PROJECT_CURRENT_STATE',data_json=canonical(current))
             if require_current_state:mandatory.append(block)
             else:candidates.append((950.0,block))
+        if private_record_ids and (request.task_class!='world.interpret' or conversation_topic is None or subject_frame is not None or self.store.schema_target<13):
+            raise CoreError('PRIVATE_CONTEXT_ROLE_DENIED')
+        if private_record_ids:
+            from .autonomy.private_intent import internal_projection
+            thoughts=tuple(item for scope in request.scopes for item in
+                internal_projection(self.store,private_record_ids,scope=scope,privacy_classes=privacy))
+            if not set(private_record_ids)<={item['record_id'] for item in thoughts}:
+                raise CoreError('PRIVATE_CONTEXT_REFERENCE_UNAVAILABLE')
+            for thought in thoughts:
+                rid=thought['record_id']
+                candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
+                    data_json=canonical(thought),source_record_ids=(rid,),source_memory_ids=RecordService(self.store).support(rid))))
         if subject_frame is not None:
             from .subject.contracts import DeliberationFrame
             if not isinstance(subject_frame, DeliberationFrame) or subject_frame.scope not in request.scopes:
@@ -506,7 +518,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.

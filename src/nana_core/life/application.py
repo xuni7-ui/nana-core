@@ -239,7 +239,7 @@ class LifeApplication:
         descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent) or any(t.text_truncated for t in recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             recipient_context=recipient_context,
             reply_character_limit=2048 if cycle and cycle.realization_target else 16384,
-            communication_purpose=CommunicationPurpose(cycle_id=cycle.cycle_id,respond_to_memory_ids=reply_sources,purpose=cycle.intention.purpose) if cycle else None,
+            communication_purpose=CommunicationPurpose(cycle_id=cycle.cycle_id,respond_to_memory_ids=reply_sources,purpose=cycle.intention.purpose,choice=cycle.communication_choice) if cycle else None,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*reply_sources,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,query_terms=recall_query_terms if phase=='RENDER' else (),

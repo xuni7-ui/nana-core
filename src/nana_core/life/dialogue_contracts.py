@@ -6,7 +6,17 @@ from ..continuity.person_self import ConversationProposal, ConversationDecision
 
 MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
 
+class CommunicationChoice(DTO):
+    """A bounded way to communicate, not a task, utterance or action grant."""
+    approach:Literal['LISTEN','CHAT','EXPLAIN','PLAY','EXPLORE']
+    detail:Literal['BRIEF','BALANCED','DEEP','UNSPECIFIED']='UNSPECIFIED'
+    follow_up:Literal['NONE','OPTIONAL']='OPTIONAL'
+
+class CommunicationProposal(CommunicationChoice):
+    basis_private_record_ids:tuple[Annotated[str,StringConstraints(min_length=1,max_length=128)],...]=Field(default=(),max_length=8)
+
 class DialogueMeaning(DTO):
+    communication_proposal:CommunicationProposal|None=None
     kind:MeaningKind
     confidence:Literal['LOW','RELEVANT','HIGH']='LOW'
     conversation_proposal:ConversationProposal|None=None
@@ -14,6 +24,7 @@ class DialogueMeaning(DTO):
     @model_serializer(mode='wrap')
     def legacy_wire(self,handler):
         value=handler(self)
+        if self.communication_proposal is None:value.pop('communication_proposal',None)
         if not self.recall_query_terms:value.pop('recall_query_terms',None)
         return value
 
@@ -57,6 +68,13 @@ class CommunicationPurpose(DTO):
     purpose: str = Field(min_length=1, max_length=512)
     validity: Literal['CURRENT_COGNITIVE_REQUEST_ONLY'] = 'CURRENT_COGNITIVE_REQUEST_ONLY'
     execution_authority: Literal[False] = False
+    choice: CommunicationChoice | None = None
+
+    @model_serializer(mode='wrap')
+    def compatible_choice_wire(self,handler):
+        value=handler(self)
+        if self.choice is None:value.pop('choice',None)
+        return value
 
 
 class DialogueContext(DTO):

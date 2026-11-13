@@ -1,0 +1,34 @@
+{
+  "source": "b6f4069980bac74096062ad7895042f334847f55",
+  "package": "/dev/shm/nana-commercial-c-baseline",
+  "restored_files": [
+    {
+      "path": "src/nana_core/continuity/context.py",
+      "baseline_sha256": "0c77e806a08139d7544310d61cf45b1235c474f77d90e8a9d3bc1a964407df9b"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/context_fit.py",
+      "baseline_sha256": "2c6a1eeb45ab221026c4725d7d3af7c75e5d611866d9dc510320808ec2de4d21"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/contracts.py",
+      "baseline_sha256": "fac70b4a44350b327aab2e95fe97f4e70c58f41fb212ef51a39a485ebce15e4f"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/loop.py",
+      "baseline_sha256": "313adf0d2d0e27ef16c0b62ed1ba90a09ba3fde0f435e20efbf473dbe21fb036"
+    },
+    {
+      "path": "src/nana_core/continuity/world_loop/cognition.py",
+      "baseline_sha256": "45881e304ca3b99b807d1abfac6da9ccfbe1474583c62de25193ec74d2beab64"
+    },
+    {
+      "path": "src/nana_core/life/application.py",
+      "baseline_sha256": "455cd95aecdd088a97f0292b3a6518f0f0ff0795a5297a99d2234551bc58b80d"
+    },
+    {
+      "path": "src/nana_core/life/dialogue_contracts.py",
+      "baseline_sha256": "ce034cc766b86858db5aa7227cd034ed2cf4fcd75d3dd2d7453cb9bf825896c6"
+    }
+  ]
+}

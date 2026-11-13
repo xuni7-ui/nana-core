@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_private_state_changes_public_communication_choice_before_render_without_extra_call _
+
+tmp_path = PosixPath('/dev/shm/innercomseedless/test_private_state_changes_pub0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f35d9f17b00>
+
+    def test_private_state_changes_public_communication_choice_before_render_without_extra_call(tmp_path,monkeypatch):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();root,rid=seed(app);identity=app.runtime.identity_id
+            with monkeypatch.context() as off:
+                off.setattr(app.runtime.subject,'dialogue_private_refs',lambda **kwargs:(),raising=False)
+                before=app.chat('SYNTHETIC_USER_TRANSIENT_CANARY',topic='own-curiosity',privacy='PROJECT',message_id='off')
+            after=app.chat('SYNTHETIC_USER_TRANSIENT_CANARY',topic='own-curiosity',privacy='PROJECT',message_id='on')
+            assert before['render_state']==after['render_state']=='UNVERIFIED_MODEL_WORDING'
+>           assert before['text']=='SYNTHETIC: hello.' and 'two possible connections' in after['text']
+E           AssertionError: assert ('SYNTHETIC: hello.' == 'SYNTHETIC: hello.'
+E             
+E               SYNTHETIC: hello. and 'two possible connections' in 'SYNTHETIC: hello.')
+
+tests/person_self/test_inner_communication.py:48: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_inner_communication.py::test_private_state_changes_public_communication_choice_before_render_without_extra_call
+1 failed in 0.87s

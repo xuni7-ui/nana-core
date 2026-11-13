@@ -1,0 +1,1 @@
+{"same_subject": true, "same_store": true, "same_initial_private_state": true, "same_budget": true, "single_writer_at_a_time": true, "old_writer_stopped_before_new": true, "installation_qualification": false, "real_model_or_production": false, "reverse_source_rollback": "NOT_TESTED"}

@@ -11,7 +11,7 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None,meaning_builder=None,context_limit=8192):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
@@ -23,6 +23,7 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
                 proposal['dialogue']={'kind':kind,'confidence':'HIGH'}
                 if recall_query_terms:proposal['dialogue']['recall_query_terms']=recall_query_terms
                 if conversation_proposal:proposal['dialogue']['conversation_proposal']=conversation_proposal
+                if meaning_builder:proposal['dialogue'].update(meaning_builder(request))
             else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
             raw=json.dumps({'id':'synthetic-dialogue','model':body['model'],'usage':{'prompt_tokens':10,'completion_tokens':10},'choices':[{'finish_reason':'stop','message':{'content':json.dumps(proposal)}}]}).encode()
@@ -46,7 +47,7 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
     try:
         authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)
         p=ProviderProfile(provider_profile_id=profile_id,display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',locality='LOCAL_FIXTURE',base_url=f'http://127.0.0.1:{server.server_port}/v1',permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))
-        m=ModelProfile(model_profile_id=model_profile_id,provider_profile_id=p.provider_profile_id,remote_model_id=remote_model_id,model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=8192,output_limit=2048)
+        m=ModelProfile(model_profile_id=model_profile_id,provider_profile_id=p.provider_profile_id,remote_model_id=remote_model_id,model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=context_limit,output_limit=2048)
         service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=service.load().revision,provider=p),authority)
         service.update(ProviderCommand(operation='UPSERT_MODEL',expected_revision=service.load().revision,model=m),authority)
         service.update(ProviderCommand(operation='SET_CAPABILITY_ROUTE',expected_revision=service.load().revision,route=CapabilityRoute(operation='COGNITION',primary_model_profile_id=m.model_profile_id,permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))),authority)
@@ -133,7 +134,15 @@ def test_dialogue_wire_schema_excludes_non_dialogue_authority_fields(tmp_path):
    assert not fields & {'interests','plan_operator_ids','method','skill_source','media'}
    assert ('dialogue' in fields) == (body['cognitive_role']=='INTERPRET')
    assert ('draft' in fields) == (body['cognitive_role']=='SOCIAL')
-   assert set(body['expected_schema']['$defs'])==({'DialogueMeaning','ConversationProposal'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})
+   definitions=body['expected_schema']['$defs']
+   def check_refs(node):
+    if isinstance(node,dict):
+     if '$ref' in node:assert node['$ref'].rsplit('/',1)[-1] in definitions
+     for value in node.values():check_refs(value)
+    elif isinstance(node,list):
+     for value in node:check_refs(value)
+   check_refs(body['expected_schema'])
+   assert set(definitions)==({'DialogueMeaning','ConversationProposal','CommunicationProposal'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})
 
 
 def test_daily_dialogue_timeout_defaults_and_independent_phase_budgets(tmp_path):

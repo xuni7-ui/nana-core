@@ -1,8 +1,8 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
-**当前速读（2026-11-13，09 revision183，本批新业务源码）：**正常D、商业topic→C动机、短念非持久与内部/外部待办分离已有受控增量；原8待办不禁止私问、私人ASK/WAIT不新增执行任务，普通等待保持。最新153相关31.91s；旧e3ad独立CI148仅旧范围，不作本批/全仓。详见本文末及09锚，较早下一项由合法后继覆盖，不重开发。
+**当前速读（2026-11-13，09 revision184，本批新业务源码）：**正常D/内外待办分离后，商业私念正文仅在相关可读INTERPRET按预算投影，原C判断后采纳公开choice再交RENDER。精确旧源/同预算消融及同Store停旧启新保持身份，2模型调用不增。170相关后补7/3通过，不相加称全仓；旧b6独立174另记。证据commercial-inner-communication-20261113及09锚。
 
-**仍未完成的下一主链：**商业决策前的相关内心/可选策略→C采纳的公开交流目的→原RENDER；明确反馈/反证→原Experience/S8后续迁移。短念fixture不证明真实自发性，topic修复不证明回复策略改变。新D ref旧reader安全回退、原A–H/统一匹配发行及真实模型/手机/生产/自然度/跨日资格仍待。今天北京时间17:00/23:00续办已设，不暂停当前工作。
+**仍未完成的下一主链：**当前choice仅当前认知请求，不是持久策略。继续有界跨轮策略/明确反馈及反证/实际结果归因→原Experience/S8独立后续迁移，更多情感/动机协同与原A–H。旧reader对非空choice/private ref安全回退、匹配发行及真实模型/手机/生产/自然度/跨日资格未完成，CURRENT266+409不动。
 
 实际工作副本 `/tmp/nana-inner-refinement-work`，同dev/nana-core-next-experience-codex。根盘ENOSPC；原 `/workspace/nana-unified-release` 停在f583+4ownedWIP完整保护，旧 `/workspace/nana-core` 18bc736不动。/tmp易失；丢失时取远端最新合法HEAD/09到有空间副本，不reset/rebase/覆盖原Root。16:00北京时间一次性续办已设置，本对话收到相同续办指令后继续同一执行线；工具last_run_time登记08:06:58UTC，现disabled/next=null，不据此推断总任务完成或平台后台永久运行。现役检查点只保留当前摘要；过往详单在Git和下列证据。
 
@@ -113,3 +113,12 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 原pending>=6无差别挡FULL，以及private ref的ASK/WAIT新增PENDING，均定位为内部/外部职责混用。仅私念形成不受执行槽数否决，原模型/并发/预算/quiet/权限不变；私念等待保持NO_ACTION/DEFER，不新增外向澄清/Goal，不放弃原计划。旧3fail/2pass→7目标，153相关31.91s含Precision/普通WAIT控制。原8任务逐行不变，原D同预算0→1fixture/1新私问；不是低成本不付代价，真实provider0。证据private-cognition-not-pending-work-20261113，源码锚 `9565f2a5c9ebc64be35e9627dc58dff4012fe9063ee4d1807e2da50b9b413b1c`。
 
 下一商业主链入口不变：LifeApplication._model / CognitionSession._prepare / SubjectLoop原C / ContextAssembler / CommunicationPurpose。当前正常chat只补topic动机，尚无决策前私念内容/可选交流策略的商业消费者。保留只在内部选择相关私念、原C自主采纳策略、仅公开目的进RENDER、明确反馈/反证接原Experience/S8的边界。原D新ref旧reader安全回退及全部A–H/最终匹配发行/真实资格继续；环境/tmp易失，所有本批源码/日志必须push后再续。
+
+
+## 2026-11-13 当前商业接线候选
+
+原C选择私念refs，CognitionSession在当前topic/privacy/全请求预算内只给INTERPRET PRIVATE_INTERNAL_STATE；返回可选方法/信息量/追问，C在原Appraisal/Motivation/Judgment/Intention/norm之后考虑，公开choice不带私念依据字段，原RENDER核对与当前C完全一致。原安全状态投影仍有无内文句柄，不能称RENDER无所有ID。8受控场景含模型替换/撤回复制/无效依据/篡改C/无topic或SOCIAL拒绝/显式lighter改变方式但不抹兴趣。精确旧源1fail→新同预算消融及同Store旧→新2调用/各边通过，170相关后补7/3。源码锚 `638b3037cb32f65d4985a86756791e036f3d35310f6a8f69eea769444a2a9775`，见commercial-inner-communication-20261113。
+
+首次8192预算裁出私问与schema漏嵌套定义、旧“全部INTERPRET禁正文”断言均保留并准确分类；新16k对照两边一致，Schema可达闭包已修。当前工具同主体/同Store/同私问、CPU/页/WAL原值保留；+3400测量wire bytes，非实际Token/节费，fixture usage常量不可冒充。不是新安装/真实模型/生产/自然度/长期资格。
+
+精确下一点：CommunicationPurpose.validity仍CURRENT_COGNITIVE_REQUEST_ONLY。沿原Cycle Record/Experience选择同联系人/范围/topic且仍有效的少量先前策略与停止条件，不存逐字推理，不转Goal、不回放未保留用户原话；新的明确反馈/反证可改或停止当前方法，沉默/送达不评成功，之后才交原S8独立后续评价。原C策略/情感选择不是确定性固定映射，也不由候选自评转正式习惯。此前A–H、真实平台/新旧reader回退及匹配发行继续。

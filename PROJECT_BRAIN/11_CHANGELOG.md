@@ -3662,3 +3662,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE独立回执：实读e3ad889 CI43373281761/job131714021637，148相关通过38.15s/clientSKIP；前三实现提交workflow均success，所选范围/摘要归passing-thought证据。仅更新CURRENT182/ACTIVE及原状态清单，不重复应用测试/构建，不称全仓/安装/生产。下一商业内部倾向→C可选交流策略/明确反馈/S8及原A–H，精确入口已存ACTIVE。
 
 - 2026-11-13｜NEXT_EXPERIENCE S3/S4/S6自主性A–E：外部pending容量不再硬否决0占槽私人形成；private ref认知ASK/WAIT以内部NO_ACTION/DEFER保持原关注，不加外向待办，普通WAIT控制不变。3fail/2pass→7目标及153相关31.91s含Precision，原8PENDING逐行不变、原D同预算0→1fixture/1私问。未删模型/预算/并发/quiet/执行门，证据private-cognition-not-pending-work-20261113/09锚；商业策略/反馈/S8及A–H/回退/匹配发行继续，真实0。
+
+- 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S6/S7 Advanced：原私念正文只在相关可读INTERPRET按完整预算进入，可选交流方式交原C独立判断后公开choice→原RENDER；不带私念依据字段，原无内文安全句柄保留，不造第二脑/Store/调用阶段。精确旧源失败、新同预算消融/同Store顺序换源保持身份，各2fixture；170相关后补7/3通过，嵌套schema首错修复/首次小预算裁剪与旧契约变更如实保留。+3400 wire bytes非Token/节费，旧b6独立174另记。证据commercial-inner-communication-20261113/09锚；choice当前请求，持久策略/真实反馈/S8及A–H/旧reader回退/匹配发行继续，真实模型/手机/生产0。

@@ -1,0 +1,59 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_dialogue_wire_schema_excludes_non_dialogue_authority_fields _______
+
+tmp_path = PosixPath('/dev/shm/innercomschemadef/test_dialogue_wire_schema_excl0')
+
+    def test_dialogue_wire_schema_excludes_non_dialogue_authority_fields(tmp_path):
+     home=tmp_path/'home';initialize(home,active=0)
+     with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+      app.pause();answer=app.chat('SYNTHETIC_PROJECT',privacy='PROJECT')
+      assert answer['render_state']=='UNVERIFIED_MODEL_WORDING'
+      for body in requests:
+       fields=set(body['expected_schema']['properties'])
+       assert not fields & {'interests','plan_operator_ids','method','skill_source','media'}
+       assert ('dialogue' in fields) == (body['cognitive_role']=='INTERPRET')
+       assert ('draft' in fields) == (body['cognitive_role']=='SOCIAL')
+       definitions=body['expected_schema']['$defs']
+       def check_refs(node):
+        if isinstance(node,dict):
+         if '$ref' in node:assert node['$ref'].rsplit('/',1)[-1] in definitions
+         for value in node.values():check_refs(value)
+        elif isinstance(node,list):
+         for value in node:check_refs(value)
+>      check_refs(body['expected_schema'])
+
+tests/independent_life/test_dialogue.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/independent_life/test_dialogue.py:141: in check_refs
+    for value in node.values():check_refs(value)
+                               ^^^^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:141: in check_refs
+    for value in node.values():check_refs(value)
+                               ^^^^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:141: in check_refs
+    for value in node.values():check_refs(value)
+                               ^^^^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:141: in check_refs
+    for value in node.values():check_refs(value)
+                               ^^^^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:141: in check_refs
+    for value in node.values():check_refs(value)
+                               ^^^^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:143: in check_refs
+    for value in node:check_refs(value)
+                      ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'$ref': '#/$defs/CommunicationProposal'}
+
+    def check_refs(node):
+     if isinstance(node,dict):
+>     if '$ref' in node:assert node['$ref'].rsplit('/',1)[-1] in definitions
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E     AssertionError: assert 'CommunicationProposal' in {'ConversationProposal': {'additionalProperties': False, 'properties': {'kind': {'enum': ['RELATIONSHIP_ROLE', 'EXPRES...LINE_DELIVERY', ...], 'title': 'Kind', 'type': 'string'}, ...}, 'required': ['kind'], 'title': 'DialogueMeaning', ...}}
+
+tests/independent_life/test_dialogue.py:140: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_dialogue.py::test_dialogue_wire_schema_excludes_non_dialogue_authority_fields
+1 failed, 22 deselected in 0.81s
