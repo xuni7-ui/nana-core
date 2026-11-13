@@ -139,3 +139,8 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 
 Only PROJECT_BRAIN/01_CAPABILITY_MATRIX.md,07_ROADMAP.md,08_TASKS.md,09_STATE.md,10_DECISIONS.md,11_CHANGELOG.md; docs/nana_cloud_first_life_launch_v1_status.md; docs/nana_master_framework_foundation_audit_v1_report.md; named JSON/txt/md evidence in docs/nana_master_framework_foundation_audit_v1_evidence/; tools/nana_foundation_audit/check.py and probe_topic_scope.py; this whitelist.
 Master Framework, application source/tests, runtime configs/DBs, credentials, outside-repo preserved draft and old bundle are excluded. Exact staged names/hashes checked before commit.
+
+
+## 2026-11-13 · B Provider配置解析复用候选
+
+用户持续开发/提交/推送/PR授权：provider-config-parse-cache-20261113/{README.md,benchmark.json,cold-control-repeat.json,first-failures.txt,validation.txt,source-sha256.json}，其指纹3份原创源码/测试/本地实验；09/11仅追加及本白名单。无第三方复制/真实凭据/私史/依赖/构建产物。

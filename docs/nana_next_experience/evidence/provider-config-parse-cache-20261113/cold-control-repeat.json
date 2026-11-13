@@ -1,0 +1,17 @@
+{
+  "reason": "follow-up to first cold p95 regression; no parallel suite in this environment",
+  "load_forced_miss": {
+    "baseline": {
+      "n": 240,
+      "wall_median_ms": 4.293191,
+      "wall_p95_ms": 6.812423,
+      "cpu_mean_ms": 4.866330325
+    },
+    "candidate": {
+      "n": 240,
+      "wall_median_ms": 4.2609065,
+      "wall_p95_ms": 7.296701,
+      "cpu_mean_ms": 4.9191592208333335
+    }
+  }
+}
