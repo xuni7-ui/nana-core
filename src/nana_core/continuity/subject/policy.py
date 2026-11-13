@@ -1,7 +1,7 @@
 """Pure, inspectable initial C policy. No clock, storage, random or executor."""
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
-from .opportunities import ConcernCue,directions
+from .opportunities import Behavior,ConcernCue,directions
 from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
@@ -11,6 +11,7 @@ from .experience_need import ExperienceNeed
 
 
 class Situation(DTO):
+    preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
     problem_frame: FrameAssessment | None = None
@@ -137,6 +138,10 @@ def decide(event, situation, appraisal, motives):
     personal_interest = bool(situation.cue
         and (situation.cue.topic_key in situation.adopted_interests or situation.private_interest_records))
     options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
+    if situation.preferred_behavior in options:
+        # Original cognition may reconsider an offered direction. Preserve the
+        # cue/assessments; current C still applies norms, load, costs and bounds.
+        options=[situation.preferred_behavior,*[x for x in options if x!=situation.preferred_behavior]]
     quiet_choice=bool(options and options[0] in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'})
     # A due promise remains visible/pressing without making rest or silence
     # unavailable. An explicit promise review still takes its original route;
@@ -202,7 +207,8 @@ def decide(event, situation, appraisal, motives):
         # Quiet/withdrawal options start no work and do not need instrumental
         # value, novelty or spare capacity. Norm/privacy filtering still precedes them.
         if quiet_choice:
-            return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
+            reason='Current cognition prefers this offered quiet direction; an available concern does not require activity' if situation.preferred_behavior==behavior else 'An available concern does not require activity'
+            return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason=reason,source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
         assessment=cue.opportunity_assessment
         # Generic utility/novelty does not erase a current source-backed personal
@@ -258,6 +264,7 @@ def decide(event, situation, appraisal, motives):
                 Intention(kind='NO_ACTION',purpose='Wait for a receptive context',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
         kind='SOCIAL_INTERACTION' if behavior=='SOCIALIZE' else 'EXPLORE' if behavior=='EXPLORE' else 'GOAL_CANDIDATE'
         reason='A supported light interest can coexist with current load; rest remains available and execution is separately admitted' if cue.cognitive_load=='HIGH' else 'Current evidence supports considering this direction within constraints'
+        if situation.preferred_behavior==behavior:reason='Current cognition prefers this offered direction; C rechecks present sources and constraints without granting execution'
         return ('FOCUS_NOW',Judgment(stance='THINK_MORE',reason=reason,source_ids=sources,lesson_ids=situation.lesson_ids),
             Intention(kind=kind,purpose='Consider '+behavior.lower()+' for the unresolved topic '+cue.topic_key,
                 slot_key='concern-'+cue.topic_key,source_ids=sources,self_generated=self_generated,behavior=behavior))

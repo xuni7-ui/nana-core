@@ -9,7 +9,7 @@ from .growth import Growth, live_record
 from .ingress import SubjectIngress
 from .policy import Situation, appraise, decide, motivate
 from . import state
-from .opportunities import cues_from,SyntheticActionProposal
+from .opportunities import cues_from,directions,SyntheticActionProposal
 from .social import propose_social
 
 
@@ -315,6 +315,8 @@ class SubjectLoop:
                 if event.realization_target!=view.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
                 situation=situation.model_copy(update={'plan_step':view,'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*view.source_memory_ids))),
                     'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,view.record_id)))})
+            if _deliberation is not None and _deliberation.proposal.preferred_behavior is not None:
+                situation=situation.model_copy(update={'preferred_behavior':_deliberation.proposal.preferred_behavior})
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
@@ -528,7 +530,8 @@ class SubjectLoop:
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json':
                         canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,'passing_thought':None,
                             'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
-                        if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan or situation.private_interest_records else _deliberation.raw_proposal_json})
+                        if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan
+                            or _deliberation.proposal.preferred_behavior is not None or situation.private_interest_records else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
@@ -628,7 +631,8 @@ class SubjectLoop:
         from .contracts import DeliberationFrame
         frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
             appraisal=appraisal,motivations=motives,attention=attention,
-            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids)
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+            behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
         assembler = ContextAssembler(self.store, authority)
         request = ContextRequest(entity_id=event.entity_id, scopes=(event.scope,),
             task_class=event.task_class or 'subject_deliberation',

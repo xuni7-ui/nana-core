@@ -1,0 +1,45 @@
+..F..................................................................... [ 28%]
+........................................................................ [ 57%]
+........................................................................ [ 86%]
+.................................                                        [100%]
+=================================== FAILURES ===================================
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[norm-still-applies] _
+
+tmp_path = PosixPath('/dev/shm/dirrelated/test_existing_cognition_can_pr2')
+preference = 'LEARN', prohibited = ('LEARN',), risk = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),prohibited_behaviors=prohibited,
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'LEARN' == 'CREATE'
+E             
+E             - CREATE
+E             + LEARN
+
+tests/person_self/test_deliberated_direction.py:39: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[norm-still-applies]
+1 failed, 248 passed in 31.83s

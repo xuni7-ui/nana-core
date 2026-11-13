@@ -1,0 +1,304 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[rest-not-first] _
+
+tmp_path = PosixPath('/dev/shm/dirafter/test_existing_cognition_can_pr0')
+preference = 'REST', prohibited = (), risk = 'LOW', expected = 'REST'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),prohibited_behaviors=prohibited,
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7fbc3fed6540>
+event = SubjectInput(private_thought_ref=None, conversation_proposal=None, problem_frame=None, interaction_signal=None, growth...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+model = <person_self.test_deliberated_direction.test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain.<locals>.Choosing object at 0x7fbc4030afc0>
+authority = <nana_core.actions.OperatorAuthority object at 0x7fbc3fed65d0>
+policy = ContextPolicy(policy_id='independent-life', allowed_scopes=('project-work',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=())
+capabilities = (), limitations = ()
+
+    def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):
+        """Optional bounded D cognition. Never hold SQLite transaction over model.
+    
+        Freeze after idempotent ingress, validate before/after inference, then
+        accept against the same subject revision. No model receives services.
+        """
+        from ..context import ContextAssembler, ContextRequest
+        from ..cognition import DeliberationSession
+        if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
+            raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        source = self.ingress.ingest(event)
+        if self.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone():
+            return self.run(event)
+        revision = self.revision
+        # Complete the pre-deliberation stages before invoking a ModelPort.
+        # This is a tentative view, not a committed judgment/intention. The
+        # transaction re-appraises against current support before acceptance.
+        situation = self.situation(event, source)
+        appraisal = appraise(event, situation)
+        motives = motivate(event, situation, appraisal)
+        attention = decide(event, situation, appraisal, motives)[0]
+        if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
+            return self.run(event, expected_revision=revision)
+        from .contracts import DeliberationFrame
+        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
+            appraisal=appraisal,motivations=motives,attention=attention,
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+>           behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+                                                 ^^^^^^^^^^
+E       NameError: name 'directions' is not defined
+
+src/nana_core/continuity/subject/loop.py:634: NameError
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[learn-not-first] _
+
+tmp_path = PosixPath('/dev/shm/dirafter/test_existing_cognition_can_pr1')
+preference = 'LEARN', prohibited = (), risk = 'LOW', expected = 'LEARN'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),prohibited_behaviors=prohibited,
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7fbc3ff7ba70>
+event = SubjectInput(private_thought_ref=None, conversation_proposal=None, problem_frame=None, interaction_signal=None, growth...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+model = <person_self.test_deliberated_direction.test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain.<locals>.Choosing object at 0x7fbc3ff531d0>
+authority = <nana_core.actions.OperatorAuthority object at 0x7fbc3ff78ad0>
+policy = ContextPolicy(policy_id='independent-life', allowed_scopes=('project-work',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=())
+capabilities = (), limitations = ()
+
+    def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):
+        """Optional bounded D cognition. Never hold SQLite transaction over model.
+    
+        Freeze after idempotent ingress, validate before/after inference, then
+        accept against the same subject revision. No model receives services.
+        """
+        from ..context import ContextAssembler, ContextRequest
+        from ..cognition import DeliberationSession
+        if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
+            raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        source = self.ingress.ingest(event)
+        if self.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone():
+            return self.run(event)
+        revision = self.revision
+        # Complete the pre-deliberation stages before invoking a ModelPort.
+        # This is a tentative view, not a committed judgment/intention. The
+        # transaction re-appraises against current support before acceptance.
+        situation = self.situation(event, source)
+        appraisal = appraise(event, situation)
+        motives = motivate(event, situation, appraisal)
+        attention = decide(event, situation, appraisal, motives)[0]
+        if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
+            return self.run(event, expected_revision=revision)
+        from .contracts import DeliberationFrame
+        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
+            appraisal=appraisal,motivations=motives,attention=attention,
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+>           behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+                                                 ^^^^^^^^^^
+E       NameError: name 'directions' is not defined
+
+src/nana_core/continuity/subject/loop.py:634: NameError
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[norm-still-applies] _
+
+tmp_path = PosixPath('/dev/shm/dirafter/test_existing_cognition_can_pr2')
+preference = 'LEARN', prohibited = ('LEARN',), risk = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),prohibited_behaviors=prohibited,
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7fbc3fdc1b20>
+event = SubjectInput(private_thought_ref=None, conversation_proposal=None, problem_frame=None, interaction_signal=None, growth...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+model = <person_self.test_deliberated_direction.test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain.<locals>.Choosing object at 0x7fbc3fdc29c0>
+authority = <nana_core.actions.OperatorAuthority object at 0x7fbc3fdc16a0>
+policy = ContextPolicy(policy_id='independent-life', allowed_scopes=('project-work',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=())
+capabilities = (), limitations = ()
+
+    def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):
+        """Optional bounded D cognition. Never hold SQLite transaction over model.
+    
+        Freeze after idempotent ingress, validate before/after inference, then
+        accept against the same subject revision. No model receives services.
+        """
+        from ..context import ContextAssembler, ContextRequest
+        from ..cognition import DeliberationSession
+        if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
+            raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        source = self.ingress.ingest(event)
+        if self.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone():
+            return self.run(event)
+        revision = self.revision
+        # Complete the pre-deliberation stages before invoking a ModelPort.
+        # This is a tentative view, not a committed judgment/intention. The
+        # transaction re-appraises against current support before acceptance.
+        situation = self.situation(event, source)
+        appraisal = appraise(event, situation)
+        motives = motivate(event, situation, appraisal)
+        attention = decide(event, situation, appraisal, motives)[0]
+        if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
+            return self.run(event, expected_revision=revision)
+        from .contracts import DeliberationFrame
+        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
+            appraisal=appraisal,motivations=motives,attention=attention,
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+>           behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+                                                 ^^^^^^^^^^
+E       NameError: name 'directions' is not defined
+
+src/nana_core/continuity/subject/loop.py:634: NameError
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[selected-learning-risk-still-applies] _
+
+tmp_path = PosixPath('/dev/shm/dirafter/test_existing_cognition_can_pr3')
+preference = 'LEARN', prohibited = (), risk = 'HIGH', expected = 'REST'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),prohibited_behaviors=prohibited,
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7fbc3fdca930>
+event = SubjectInput(private_thought_ref=None, conversation_proposal=None, problem_frame=None, interaction_signal=None, growth...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+model = <person_self.test_deliberated_direction.test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain.<locals>.Choosing object at 0x7fbc3fdc30b0>
+authority = <nana_core.actions.OperatorAuthority object at 0x7fbc3fdca780>
+policy = ContextPolicy(policy_id='independent-life', allowed_scopes=('project-work',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=())
+capabilities = (), limitations = ()
+
+    def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):
+        """Optional bounded D cognition. Never hold SQLite transaction over model.
+    
+        Freeze after idempotent ingress, validate before/after inference, then
+        accept against the same subject revision. No model receives services.
+        """
+        from ..context import ContextAssembler, ContextRequest
+        from ..cognition import DeliberationSession
+        if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
+            raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        source = self.ingress.ingest(event)
+        if self.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone():
+            return self.run(event)
+        revision = self.revision
+        # Complete the pre-deliberation stages before invoking a ModelPort.
+        # This is a tentative view, not a committed judgment/intention. The
+        # transaction re-appraises against current support before acceptance.
+        situation = self.situation(event, source)
+        appraisal = appraise(event, situation)
+        motives = motivate(event, situation, appraisal)
+        attention = decide(event, situation, appraisal, motives)[0]
+        if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
+            return self.run(event, expected_revision=revision)
+        from .contracts import DeliberationFrame
+        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
+            appraisal=appraisal,motivations=motives,attention=attention,
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+>           behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+                                                 ^^^^^^^^^^
+E       NameError: name 'directions' is not defined
+
+src/nana_core/continuity/subject/loop.py:634: NameError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[rest-not-first]
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[learn-not-first]
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[norm-still-applies]
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[selected-learning-risk-still-applies]
+4 failed in 0.51s

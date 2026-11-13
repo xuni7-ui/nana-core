@@ -1,0 +1,9 @@
+{
+  "sha": "269ea2e4ecdf0c2f78e2b7f1c3fc46c1c8783ab5",
+  "run_id": 43414223127,
+  "job_id": 131848222388,
+  "core_result": "380 passed, 1 warning in 258.29s",
+  "client": "skipped",
+  "scope": "prior-source affected integration; not new batch or full repository",
+  "artifact_downloaded": false
+}

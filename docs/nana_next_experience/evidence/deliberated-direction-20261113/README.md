@@ -1,0 +1,25 @@
+# 已有原C认知参与普通方向取舍
+
+同一主任务S3/S6/S4 Advanced，基线7e8b099a03157a762dae9612e385feba2d4948a1。此前原cognize能消费private_question/private_plan与ASK/WAIT，但普通活动基本取directions首项；模型即使在interpretation表达另一倾向，也没有结构化回接。
+
+最小接线：原DeliberationFrame可选behavior_options呈现本次原cue候选；原CognitiveProposal可选preferred_behavior提出方向。原DeliberationSession验证它属于当次框架候选，之后原C事务重新装配当前Situation并判断；只调整本次考虑顺序，不改原cue、学习价值、风险、norm或来源。原C的边界/项目/承诺/计划/负荷/当前风险及最后评价仍可拒绝或改变该候选，Manager/Grant/Kernel仍独立。quiet可以成为实际NO_ACTION，不强制目标；LEARN仅原GOAL_CANDIDATE，不冒充已学习或执行。未提供偏好时保持原初始policy默认。
+
+这是在原C使用的既有ModelPort资源中形成候选后回到同一C，不是独立情感Agent/Planner或把模型候选变成最终权威。新框架候选是当前活动方向，不是思想许可白名单；自主新思想/私问/私计划仍通过原producer形成，不要求其内容来自这些方向枚举。短念原机制不变。
+
+## 同预算对照及反例
+
+精确旧Git7e8b099包全部py逐一比对，同一ModelPort理解同样的“倾向REST/LEARN”；夹具仅在输出合同声明支持字段时附typed候选，未支持时旧版只有interpretation。旧3fail1pass（始终CREATE，实际规范控制保持CREATE），新可REST/LEARN；想选被当前真实CONSTRAINT禁止的LEARN时仍选合法CREATE，选高风险LEARN时C改REST。原来源cue逐字不变，原身份/同cycle重放/停机再读选择连续；每个目标事件1既有ModelPort，重放0额外，0actions/grants/goals，不等于无原意向候选。
+
+不支持的方向明确拒绝UNSUPPORTED_COGNITIVE_BEHAVIOR且不提交cycle/intention；legacy默认不发preferred_behavior，空frame不发behavior_options。norm是原带来源CONSTRAINT，不是模型或OPPORTUNITY自行声明的禁止字段。首次新代码遗漏directions import保留；第一规范夹具误把禁止项放OPPORTUNITY，Core正确未把其升格规范，导致目标反向控制失败。改为原独立CONSTRAINT来源，未改生产norm逻辑/断言；最终五目标通过0.46s。
+
+相关批248pass/1夹具失败31.83s，保留完整日志，不称全绿。只修该夹具及加粗粒度判断原因后，最终30相关12.75s通过，含方向、原商业方法/反馈、Cognition与Context；其余源路径未改不重复大批。不是全仓/安装/商业模型资格。
+
+## 成本、兼容与真实缺口
+
+单例：原完整ContextRequest限额65536输入/4096 reserve不变，1既有认知，无额外轮询；新frame三方向字段增加45序列化字节，仅字段差，不是完整旧新版请求差或真实Token。实际Provider Token/费用null、真实模型0；未测生产P50/P95/内存/物理磁盘。新字段默认省略；有字段的新认知帧/候选对旧reader的降级仍待，不能以None兼容证明全版可回退。
+
+重要边界：该增量在原SubjectLoop.cognize/受控ModelPort接线。正常D已有调度、预算、quiet/重启/来源撤回机制继承，但CognitionCoordinator/SupervisedModelPort目前只注册analytical/cautious等fixture，尚未证明商业提供商的自主方向选择。商业LifeApplication的INTERPRET/C/RENDER已支持交流方法；不能将两个路径分项通过当自主商业完整主链。下一核对并复用原Provider/Router/usage/UNKNOWN/完整预算，将合格认知适配归入原D资源层，不造第二循环、不免费重发旧UNKNOWN或增加未授权真实调用。
+
+原情感意义/多倾向竞争/可验证预期与实际效果、更广原G后续迁移、存储隐私/Token/产品/匹配发行等A–H仍在推进。旧269ea2e独立CI43414223127/job131848222388实际380pass1warning258.29s/clientSKIP，非当前新批。CURRENT266+409，手机/生产/自然度/长期无新增资格。
+
+最终隐私补充：只要新preferred_behavior参与，原trace也遮蔽interpretation，即使没有旧private record/新private_question等标记。粗粒度方向可留，私人理由不成为普通日志；追加11相关通过（private-eleven-final），包含无旧私念时有效REST及私因canary不出trace。前30不是该补丁后的完整重跑。源码表锚已更新，不以旧日志冒作最终源码全仓资格。

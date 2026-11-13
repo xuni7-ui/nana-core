@@ -1,0 +1,8 @@
+{
+  "baseline": "7e8b099a03157a762dae9612e385feba2d4948a1",
+  "all_python_files_matched_git_blobs": 285,
+  "test_pythonpath": "/dev/shm/nana-deliberated-direction-baseline",
+  "result": "3 failed, 1 passed, 1 deselected in 0.43s",
+  "same_semantic_fixture": "preference typed only when output contract advertises support; interpretation unchanged",
+  "current_source_anchor": "c7f0ae7db0030e2716d844e3b2e0a8c64357ff262a0fa4a661066b749acb2b52"
+}

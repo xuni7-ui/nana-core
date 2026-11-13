@@ -1,0 +1,20 @@
+{
+  "source_baseline": "7e8b099a03157a762dae9612e385feba2d4948a1",
+  "scenario": "existing cognize prefers REST over CREATE/LEARN; replay and restart verified by original test",
+  "accepted_cognition_calls_for_target": 1,
+  "replay_extra_model_calls": 0,
+  "available_directions": [
+    "CREATE",
+    "LEARN",
+    "REST"
+  ],
+  "added_frame_key_bytes": 45,
+  "same_context_request_limits": {
+    "max_input_tokens": 65536,
+    "output_reserve_tokens": 4096
+  },
+  "actual_provider_tokens": null,
+  "actual_provider_cost": null,
+  "real_model_calls": 0,
+  "measurement_limits": "Added-frame byte delta only, not full old/new request or token measurement; no latency/performance/production savings claim."
+}

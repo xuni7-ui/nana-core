@@ -1,5 +1,11 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
+## 当前接续：原cognize方向回接，revision188
+
+原C既有ModelPort可选preferred_behavior，只能来自本次Frame候选，之后同C按当前norm/load/risk等再判；可REST/LEARN越过首项，原来源不改、不授执行权。精确旧7e8三目标失败→当前30相关通过12.75s、随后私因trace遮蔽11通过；相关大批248pass/1规范夹具错已保留并以独立真实CONSTRAINT修正后5目标通过，不称大批全绿。source/失败/资源证据 `evidence/deliberated-direction-20261113/README.md`。
+
+下一实际缺口：`presence/cognition.py` KINDS/SupervisedModelPort只注册analytical/cautious等fixture；`SubjectLoop.cognize`和商业`world_loop.CognitionSession`为已有两种模型资源路径，不能把分项PASS当商业自主闭环。先复用原ProviderRouter/完整请求预算/usage/超时/UNKNOWN与Vault，不造第二Loop/调度或绕过原预算；允许无新增付费隔离适配验证。同步继续情感意义/策略预期实际结果/G迁移及原A–H。此前choice/private-ref和新非空direction合同旧reader回退、匹配发行与真实模型/手机/生产/自然度/长期均待。CURRENT266+409。下方旧187及历史下一按本段/09最新接续。
+
 ## 当前接续：按实际选择约束，revision187
 
 已修原C中未选SOCIALIZE/LEARN的边界/学习风险成本连带否决CREATE；实际选社交/高风险学习仍守原限制，实际有限关系约定整行保留。精确269旧包5fail2pass→当前245相关33.55s，0新模型/动作。见 `evidence/choice-constraint-scope-20261113/README.md`。

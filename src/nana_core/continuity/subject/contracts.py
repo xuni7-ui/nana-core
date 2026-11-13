@@ -185,6 +185,13 @@ class DeliberationFrame(DTO):
     attention: Literal['FOCUS_NOW','BACKGROUND_WATCH','DEFER','IGNORE','RECALL_LATER']
     source_memory_ids: tuple[str, ...]
     source_record_ids: tuple[str, ...]
+    behavior_options:tuple[Behavior,...]=Field(default=(),max_length=8)
+
+    @model_serializer(mode='wrap')
+    def compatible_options(self,handler):
+        result=handler(self)
+        if not self.behavior_options:result.pop('behavior_options',None)
+        return result
 
 
 class DeliberationTrace(DTO):

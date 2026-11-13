@@ -11,6 +11,7 @@ from pydantic import Field,model_serializer,model_validator
 
 from ..contracts import CoreError, DTO
 from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal
+from .subject.opportunities import Behavior
 
 
 class FrozenModelInput(DTO):
@@ -25,6 +26,8 @@ class CognitiveProposal(DTO):
     # Optional current-process association, not a memory, fact, goal or a
     # request to persist. C may simply let it end in this cognition.
     passing_thought:str|None=Field(default=None,min_length=1,max_length=512)
+    # A candidate direction within the current C frame, not an action/authority.
+    preferred_behavior:Behavior|None=None
     private_question:PrivateQuestionProposal|None=None
     private_plan:PrivatePlanProposal|None=None
     schema_version: Literal[2] = 2
@@ -45,6 +48,7 @@ class CognitiveProposal(DTO):
     def compatible_wire(self,handler):
         value=handler(self)
         if self.passing_thought is None:value.pop('passing_thought',None)
+        if self.preferred_behavior is None:value.pop('preferred_behavior',None)
         if self.private_question is None:value.pop('private_question',None)
         if self.private_plan is None:value.pop('private_plan',None)
         return value
@@ -83,6 +87,10 @@ class DeliberationSession:
         lessons = {json.loads(b.data_json)["lesson_id"] for b in context.blocks if b.kind == "LESSON"}
         if not set(proposal.memory_refs) <= available or not set(proposal.lesson_refs) <= lessons:
             raise CoreError("UNSUPPORTED_COGNITIVE_REFERENCE")
+        if proposal.preferred_behavior is not None:
+            choices={choice for block in context.blocks if block.kind=='SUBJECT_APPRAISAL'
+                for choice in json.loads(block.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
         for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN')):
             if candidate is None:continue
             private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
