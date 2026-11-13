@@ -1,0 +1,28 @@
+{
+  "base_a": "d29120b21c2029703af107e44a718d9bf479e171",
+  "integration_source": "a428f33",
+  "b_catalog_parent": "8e626263c924331f7f5ef496d22dd805b50e839b",
+  "b_presets_parent": "f43f851cebb82fa9dd3e279715f0270d0df5b913",
+  "checks": [
+    {
+      "command": "npm run build:live",
+      "cwd": "apps/nana-space",
+      "result": "PASS TypeScript and Vite"
+    },
+    {
+      "command": "npm test -- --run tests/model-catalog.test.ts tests/v2-client.test.ts tests/native-continuation.test.ts tests/provider-center.test.ts tests/provider-commands.test.ts",
+      "cwd": "apps/nana-space",
+      "result": "38 passed, 5 files, 2.67s"
+    },
+    {
+      "command": "npx playwright test --config playwright.v3.config.ts --grep 'model catalog:|native catalog:|catalog completion:|provider presets:|model setup: numeric UUID|model setup resumes original steps:'",
+      "cwd": "apps/nana-space",
+      "result": "56 passed, desktop and 360/390/412 CSS-pixel viewports, 1.7m"
+    },
+    {
+      "command": "PYTHONPATH=src:. PYTHONDONTWRITEBYTECODE=1 python -m pytest tests/first_life_android_v2/test_provider_models.py tests/first_life_android_v2/test_http_integration.py tests/first_life_android_v2/test_auth_contract.py -q",
+      "result": "44 passed, 59.60s"
+    }
+  ],
+  "scope": "Local fixture providers, original authenticated local BFF/Core HTTP; no real provider/key/billing/device/deployment/release qualification."
+}

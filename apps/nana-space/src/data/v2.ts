@@ -430,10 +430,14 @@ export class V2Client {
       ? await this.nativeCall({operation:"providers.runtime.status",data:{}})
       : await this.request("providers/runtime"));
   }
-  async providerModels(providerId: string, revision: number): Promise<Envelope> {
+  async providerModels(providerId: string, revision: number, afterId?: string): Promise<Envelope> {
+    if (afterId !== undefined && !/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(afterId))
+      throw new V2Error("PROVIDER_CATALOG_QUERY_REQUIRED");
     return this.accept(isNative()
-      ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision}})
-      : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}`));
+      ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision,
+          ...(afterId !== undefined ? {after_id: afterId} : {})}})
+      : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}`
+          + (afterId !== undefined ? `&after_id=${encodeURIComponent(afterId)}` : "")));
   }
   async searchMemories(query: string): Promise<Envelope> {
     return this.accept(isNative()

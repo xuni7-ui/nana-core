@@ -89,6 +89,13 @@ test("new finite provider and backup routes use original session and unknown wri
   expect(String(request.mock.calls.at(-1)?.[0])).toBe(
     "/api/nana-space/v2/providers/models?provider_profile_id=catalog.main&profile_revision=7",
   );
+  await client.providerModels("catalog.main", 7, "model/previous:1");
+  expect(String(request.mock.calls.at(-1)?.[0])).toBe(
+    "/api/nana-space/v2/providers/models?provider_profile_id=catalog.main&profile_revision=7&after_id=model%2Fprevious%3A1",
+  );
+  const count=request.mock.calls.length;
+  await expect(client.providerModels("catalog.main",7,"x&profile_revision=8")).rejects.toMatchObject({code:"PROVIDER_CATALOG_QUERY_REQUIRED"});
+  expect(request.mock.calls.length).toBe(count);
   await expect(
     client.write("providers.command", {
       client_request_id: "new",

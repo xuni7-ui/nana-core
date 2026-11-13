@@ -1,0 +1,51 @@
+[WebServer] (node:5874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 36 tests using 1 worker
+
+(node:5892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:1350:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (2.4s)
+  ✓   2 [desktop] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID SAVED (1.6s)
+  ✓   3 [desktop] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID LOST_ACK (1.6s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID REJECTED (1.4s)
+  ✓   5 [desktop] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.7s)
+  ✓   6 [desktop] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID QWEN (1.5s)
+  ✓   7 [desktop] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED (1.5s)
+  ✓   8 [desktop] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN (1.9s)
+  ✓   9 [desktop] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN (1.6s)
+(node:6369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [phone-360] › tests/v3.spec.ts:1350:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.6s)
+  ✓  11 [phone-360] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID SAVED (1.2s)
+  ✓  12 [phone-360] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID LOST_ACK (1.4s)
+  ✓  13 [phone-360] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID REJECTED (1.5s)
+  ✓  14 [phone-360] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.5s)
+  ✓  15 [phone-360] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID QWEN (1.3s)
+  ✓  16 [phone-360] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED (1.5s)
+  ✓  17 [phone-360] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN (1.7s)
+  ✓  18 [phone-360] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN (1.4s)
+(node:6935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [phone-390] › tests/v3.spec.ts:1350:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.5s)
+  ✓  20 [phone-390] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID SAVED (1.3s)
+  ✓  21 [phone-390] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID LOST_ACK (1.3s)
+  ✓  22 [phone-390] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID REJECTED (1.2s)
+  ✓  23 [phone-390] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID ANTHROPIC (2.1s)
+  ✓  24 [phone-390] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID QWEN (2.1s)
+  ✓  25 [phone-390] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED (2.7s)
+  ✓  26 [phone-390] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN (3.3s)
+  ✓  27 [phone-390] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN (2.6s)
+(node:7408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  28 [phone-412] › tests/v3.spec.ts:1350:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (3.3s)
+  ✓  29 [phone-412] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID SAVED (1.4s)
+  ✓  30 [phone-412] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID LOST_ACK (1.5s)
+  ✓  31 [phone-412] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID REJECTED (1.2s)
+  ✓  32 [phone-412] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.5s)
+  ✓  33 [phone-412] › tests/v3.spec.ts:1380:85 › SYNTHETIC model setup: numeric UUID QWEN (1.7s)
+  ✓  34 [phone-412] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_REJECTED (1.4s)
+  ✓  35 [phone-412] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: PROVIDER_UNKNOWN (1.7s)
+  ✓  36 [phone-412] › tests/v3.spec.ts:1456:86 › SYNTHETIC model setup resumes original steps: MODEL_UNKNOWN (1.5s)
+
+  36 passed (1.1m)

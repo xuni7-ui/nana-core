@@ -1,0 +1,31 @@
+[WebServer] (node:2700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:2718) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:872:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.9s)
+  ✓   2 [desktop] › tests/v3.spec.ts:901:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (2.1s)
+  ✓   3 [desktop] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: TRUNCATED (1.6s)
+  ✓   4 [desktop] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: FOREIGN_PROFILE (2.3s)
+(node:3042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [phone-360] › tests/v3.spec.ts:872:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (3.2s)
+  ✓   6 [phone-360] › tests/v3.spec.ts:901:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (4.3s)
+  ✓   7 [phone-360] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: TRUNCATED (3.0s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: FOREIGN_PROFILE (2.5s)
+(node:3361) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone-390] › tests/v3.spec.ts:872:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (2.5s)
+  ✓  10 [phone-390] › tests/v3.spec.ts:901:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (2.1s)
+  ✓  11 [phone-390] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: TRUNCATED (1.3s)
+  ✓  12 [phone-390] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: FOREIGN_PROFILE (1.1s)
+(node:3658) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-412] › tests/v3.spec.ts:872:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.5s)
+  ✓  14 [phone-412] › tests/v3.spec.ts:901:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (1.5s)
+  ✓  15 [phone-412] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: TRUNCATED (1.0s)
+  ✓  16 [phone-412] › tests/v3.spec.ts:948:65 › SYNTHETIC catalog completion: FOREIGN_PROFILE (1.1s)
+
+  16 passed (40.4s)

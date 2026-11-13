@@ -1,0 +1,17 @@
+{
+  "apps/nana-space/android/app/src/main/java/life/nana/space/NanaHostPlugin.java": "bae5c2d8bb3912c95a919f2b423e42351b139b15f4631969c2f470e7fd29ceb9",
+  "apps/nana-space/src/data/model-catalog.ts": "f0ad92e92dcd57eab8490706649b867174c1b996b8f32cd507d651908a63fcaf",
+  "apps/nana-space/src/data/provider-center.ts": "0a11a7915023f56d789dd224e365c02f7f13893d9d20b8c213c3c5ac79891ebb",
+  "apps/nana-space/src/data/v2.ts": "f0bf7bf7c6f39c217a01581049dc64cc8cd4fd1c147fb1e345b78ecf14f8431d",
+  "apps/nana-space/src/features/LiveSpace.tsx": "fba77e538057a2b50c9c416559075eb63e88ed4454196b0bae5f3180e6fa74a9",
+  "apps/nana-space/src/features/next/ModelSetup.tsx": "62500572b86fa6c7be2ae2ec061b3550399d065a3cee703a79550e1e016b4500",
+  "apps/nana-space/src/features/v3/ModelCenter.tsx": "8cdab36860395e8b5a07e236c19172ee151aef405c5bf6049b7973ddbbf0b64d",
+  "apps/nana-space/tests/model-catalog.test.ts": "90e291dd1bff577491be72a607d219c35fc7039b2012d10e084abae637f3bde7",
+  "apps/nana-space/tests/native-continuation.test.ts": "14875a6f81eec4d911eee1edefd4e79bee95f058c3028755d3a6b3b8c0f25327",
+  "apps/nana-space/tests/provider-center.test.ts": "c27c54c8f098470767557113cac45225386b0f08a5c89e34f039f4eaab0f41a5",
+  "apps/nana-space/tests/v2-client.test.ts": "e43b0b470e2a8c55e4a2c737fd7d495d03f75ace9d5da2824e8abaf36f3a63b8",
+  "apps/nana-space/tests/v3.spec.ts": "27857d2d6864b567abe482f839f606509400b4731c512bad60f8a69d2989cb28",
+  "src/nana_core/life/live_api/provider_models.py": "4e4d87edfe43b076d6305a8cec6afebd4632cb85580b3e1780b3585fdd39ea8a",
+  "src/nana_core/life/live_api/server.py": "97bda0a44ca23e4019efa37430555c656a27c4753df8303cd7e2736ea15b01dc",
+  "tests/first_life_android_v2/test_provider_models.py": "eabda3c1fe15f5abc55bcf950eeda00633fe0f779f2b00accfaa104027978bc9"
+}
