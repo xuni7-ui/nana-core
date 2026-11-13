@@ -90,3 +90,8 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 原版已入队改无模型/零预算2首错，候选保留READY、同条件4step/refresh 0写入/0模型，恢复同queue/identity1fixture；陈旧版本模型前淘汰，UNKNOWN轻量恢复不改原UNKNOWN不重派发。115相关20.53s，最终断言收紧后UNKNOWN单项通过；旧d291独立CI205pass54.24s/clientSKIP另存。证据private-d-resource-resume-20261113，源码锚 `792a83b5e4dc7fe2a4febce7b71a3df7cc4b183b2cff0a1c9f8e24cdf0fc9e7d`。
 
 下一沿商业LifeApplication._model→CognitionSession._prepare→原C/Context消费者补缺：目前原C有private_interest_records，但商业模型请求不带subject_frame/私人状态；先核对正常chat event.topic空时对interaction_signal.topic_key的选择是否准确，避免不相关私念挤入，再决策前内部状态和可选交流策略/明确反馈→S8。不能把离线D资格冒作商业或全内心完成。新ref旧reader回退/原A–H继续。
+
+
+## 2026-11-13 商业C现役消费者后继
+
+基线6655a28；正常chat的interaction_signal.topic_key接原private decision_support，修相关兴趣缺失，非扩大到无关私念。原C current appraisal/motive仅相关可读时LOW→HIGH/带精确ref；同主体重启/不同topic/PUBLIC/撤回、4话轮8合成HTTP通过，私文不进request上下文。153相关39.53s，见evidence/private-commercial-topic-20261113/09锚。外部措辞fixture固定，不称商业策略完成。下一短暂思想在原cognize中不强制入库，然后商业可选策略/明确反馈/S8仍要真实接线；A–H与旧reader/匹配发行继续。

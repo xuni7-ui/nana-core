@@ -128,7 +128,10 @@ class SubjectLoop:
         if self.store.schema_target>=13 and event.retention!='DO_NOT_REMEMBER':
             from ..autonomy.private_intent import decision_support
             private_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
-            private_interests=decision_support(self.store,event.scope,private_privacy,topic=cue.topic_key if cue else event.topic)
+            private_topic = cue.topic_key if cue else event.topic or (
+                event.interaction_signal.topic_key if event.interaction_signal else None
+            )
+            private_interests=decision_support(self.store,event.scope,private_privacy,topic=private_topic)
             if continued is not None and continued[0] not in private_interests:private_interests=(*private_interests,continued[0])
             records.extend(private_interests)
             for rid in private_interests:memories.extend(self.records.support(rid))

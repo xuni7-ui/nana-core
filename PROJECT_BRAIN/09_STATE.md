@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 179,
-  "as_of_us": 1794547558218416,
+  "revision": 180,
+  "as_of_us": 1794547815672531,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRIVATE_D_RESOURCE_RESUME",
+  "status": "IN_PROGRESS_COMMERCIAL_C_PRIVATE_TOPIC_CONSUMER",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原私念→正常D/C已有：前台静默延后/重启换fixture保留，同版本不轮询；已入队无模型/零预算保持READY，四次同条件0写入/调用，恢复同queue1fixture，陈旧ref淘汰/UNKNOWN不重试。115相关通过；旧d291独立205通过。",
+    "原私念→正常D资源等待/前台/重启/UNKNOWN有115相关资格；商业chat缺topic消费者已补，4话轮8合成HTTP仅相关可读私念进入原C Appraisal/Motivation，重启/低privacy/撤回通过。153相关通过；尚未证明回复策略改变。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "原生Anthropic模型目录同host/native headers有界翻页，不完整列表前端提示且保留手填；冻结3fail/2pass→32相关通过，TS/Vite+四视口8浏览器通过。558独立CI114Core、53f独立93unit/148browser，非本批全仓/真实API/手机。"
@@ -31,14 +31,14 @@
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-commercial-topic-20261113/README.md",
     "docs/nana_next_experience/evidence/private-d-resource-resume-20261113/README.md",
     "docs/nana_next_experience/evidence/private-d-foreground-recovery-20261113/README.md",
     "docs/nana_next_experience/evidence/normal-d-private-continuation-20261113/README.md",
     "docs/nana_next_experience/evidence/private-plan-20261112/README.md",
     "docs/nana_next_experience/evidence/private-association-clear-20261112/README.md",
     "docs/nana_next_experience/evidence/model-catalog-pagination-20261112/README.md",
-    "docs/nana_next_experience/evidence/generic-client-entry-20261112/README.md",
-    "docs/nana_next_experience/evidence/private-association-20261112/README.md"
+    "docs/nana_next_experience/evidence/generic-client-entry-20261112/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2757,6 +2757,11 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 原版入队后无模型/零预算2fail→新保留READY，条件未变四次0写入/0调用，同Store恢复同queue1fixture；陈旧ref淘汰、UNKNOWN不重试。115相关通过；d291独立CI205另记。见evidence/private-d-resource-resume-20261113，源码锚 `792a83b5e4dc7fe2a4febce7b71a3df7cc4b183b2cff0a1c9f8e24cdf0fc9e7d`。继续商业消费者/topic/策略反馈/S8与A–H，旧reader回退及匹配发行待。
 
 
+## 2026-11-13 商业聊天私人兴趣主题消费者
+
+chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appraisal/Motivation由缺失改为当前相关精确refs，PUBLIC/无关/撤回不带入。首错、四话轮8合成HTTP与153相关通过，未证明回复策略改变。证据private-commercial-topic-20261113，源码锚 `f6445d4844512ff68db3b1a3224ce829923594d5a12135088ad55bc374b45c28`。下一短念非持久化及商业策略/反馈/S8，A–H继续。
+
+
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
 
 [源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。
@@ -2779,3 +2784,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [2026-11-13 B接续核对] A推进至b016e6c，前台/静默恢复修复正常合并至B候选；完整保留A CURRENT178及账本前缀、B追加。模型配置源码及catalog-wait指纹未变，无新接口重叠，复用刚完成的定向验证，不重复构建/发行。原C/continuity/presence相对A无B差额。
 
 [2026-11-13 B交接] PR14模型配置候选已含PR16（实际关闭），等待体验通过；正常继承最新A6655a28，模型6文件指纹不变且continuity/presence相对A无差额，复用定向验证。独立Provider解析复用draft PR17（6ebd6fd）已有同条件数值/冷miss反例/89+原媒体3路径验证，A按实际负载决定；B下一普通Web连接测试与凭据配置差额，不等待回复或扩大缓存层。
+
+[2026-11-13 B批次对齐] 最新核对A45e7432，仅原主体topic appraisal及其资格；正常合并保留A账本前缀，B产品源码指纹不变，无接口重叠，不重复模型配置/发行验证。

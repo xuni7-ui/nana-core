@@ -5,6 +5,36 @@ from tests.independent_life.test_dialogue import relay
 from .conftest import initialize
 
 
+def test_commercial_chat_c_selects_private_interest_for_current_topic_without_disclosure_or_extra_calls(tmp_path):
+    from tests.first_life_integration.test_private_intent import choose
+    from nana_core.continuity.autonomy.private_intent import candidates
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    with relay(home,'CHAT') as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();identity=app.runtime.identity_id
+            root,_,formed=choose(app,topic='own-composition')
+            rid,idea=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            app.runtime.subject.transition_intention(formed.intention_id,expected_revision=1,state='COMPLETED')
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();assert app.runtime.identity_id==identity
+            for key,topic,privacy,relevant in [
+                ('unrelated','another-topic','PROJECT',False),
+                ('matching','own-composition','PROJECT',True),
+                ('public','own-composition','PUBLIC',False),
+                ('withdrawn','own-composition','PROJECT',False),
+            ]:
+                if key=='withdrawn':app.forget(root)
+                result=app.chat('SYNTHETIC current-topic chat',topic=topic,privacy=privacy,message_id=key)
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING',result
+                cycle=app.runtime.subject.result(app.runtime.store.one('subject_cycles',result['cycle_id']))
+                selected=tuple(ref for motive in cycle.motivations if motive.source=='PRIVATE_INTEREST' for ref in motive.source_ids)
+                assert (rid in selected)==relevant
+                assert cycle.appraisal.interest_relevance==('HIGH' if relevant else 'LOW')
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert len(requests)==8  # Existing INTERPRET/RENDER only; no inner model loop.
+        assert all(idea.content_summary not in request['context_json'] for request in requests)
+
+
 def test_original_transport_c_role_adoption_both_sides_and_restart(tmp_path):
     home=tmp_path/'home';initialize(home);clock=VirtualClock()
     p={'kind':'RELATIONSHIP_ROLE','operation':'PROPOSE','value':'sibling','quote':'sibling'}
