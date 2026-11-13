@@ -267,6 +267,30 @@ class NanaRuntime:
                         break
                     raise
 
+    def _private_resources_ready(self, row):
+        """Offer the existing method later; resource absence is not abandonment.
+
+        No model is called here. Original C still owns the eventual choice;
+        source invalidity and prior attempts must reach normal retirement or
+        UNKNOWN handling instead of being hidden behind a resource pause.
+        """
+        try:
+            if json.loads(row['metadata_json']).get('private_thought_ref') is None:
+                return True
+            event = self.queue.input(row)
+            if event.private_thought_ref is None:
+                return True
+            if self.store.db.execute(
+                'SELECT 1 FROM runtime_cognition_calls WHERE queue_id=?', (row['queue_id'],)
+            ).fetchone():
+                return True
+            mode, reason = self.cognition.choose(row, event, self.subject)
+            return mode == 'FULL_COGNITION' or reason in {
+                'C_POLICY_SUFFICIENT', 'MODEL_ATTEMPT_ALREADY_RESERVED', 'NONRETENTION_NO_MODEL',
+            }
+        except CoreError:
+            return True
+
     def step(self):
         self.cadence.assert_owner()
         self.cadence.drain(self.submit)
@@ -286,7 +310,9 @@ class NanaRuntime:
                 if checkpoint[0]==0:self.oper['last_successful_checkpoint_us']=self.clock.utc_now_us()
                 self.scheduler.acknowledge_routine()
         work_activity = self.work.opportunity() if self.work and not self.queue.has_reactive() else None
-        row = self.queue.claim(user_only=bool(self.work and self.work.paused))
+        row = self.queue.claim(
+            user_only=bool(self.work and self.work.paused), ready=self._private_resources_ready,
+        )
         if row is None:
             if work_activity and ("recovered" in work_activity or "blocked" in work_activity):
                 self._save_oper()

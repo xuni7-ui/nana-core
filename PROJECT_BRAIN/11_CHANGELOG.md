@@ -3652,3 +3652,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S4/S6候选：环境重建后保护原Root/WIP/旧快照，合法clone fab并恢复未提交D；私人精确ref→原collector/D/SELF/C，原C与资源只读预查，无模型/预算不消费机会，修PROJECT-only调度绑定。精确旧源2fail/3pass→5pass；92相关后补旧schema写前拒绝7通过，同DEV DB旧→新保持身份/原计划，0D调用/0新问→1fixture/1新问。原临时旧日志丢失如实记录，不冒安装/生产/自然度/长期。证据normal-d-private-continuation-20261113/09锚；下一前台竞态/恢复/广回归/旧reader回退与原A–H。新17/23北京时间续办确认且不暂停现任务。
 
 - 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D私人机会worker前复核quiet/current ref，前台注册后插入也延后原队列，同条件不重复claim；nullable首修失败如实保留。6恢复目标/111相关通过，重启换fixture与原身份计划保持、撤回排队0模型。用户十九节机制深化归原task_inputs/mission/AGENTS，不改63标准。证据private-d-foreground-recovery-20261113/09锚；下一已入队资源变化/陈旧ref/商业策略与A–H，无安装/真实模型/手机/生产/长期新资格。
+
+- 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D已入队资源暂缺不消耗私念机会；原队列read-only readiness无新增权威，无模型/零预算原版2fail→保留READY，同条件四次0写入/0模型，恢复同queue1fixture。陈旧ref/UNKNOWN恢复不重试，115相关通过，旧d291独立CI205另记。证据private-d-resource-resume-20261113/09锚；继续商业topic/内心策略/反馈/S8与原A–H，无新安装/真实模型/手机/生产资格。

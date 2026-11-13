@@ -1,0 +1,3 @@
+11953a3481bfa168ddd22851340baef8e3bb4564d1ee79973c933f0fb228b045  src/nana_core/presence/queue.py
+4785f77cbbf1556432e7930f7bef817746af241a79d2d9465e8d7da83165e7fd  src/nana_core/presence/runtime.py
+b5f5f65bedf4ee5192b6dd2015469fb9166c48ebbf5c4d74312058ff1e62ae2d  tests/first_life_integration/test_private_intent.py

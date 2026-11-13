@@ -1442,3 +1442,72 @@ def test_private_d_queued_activity_is_retired_without_model_after_source_withdra
         for _ in range(3):r.refresh_attention();r.step()
         assert r.store.one('runtime_queue',qid)['state']=='IGNORED'
         assert not r.store.all('runtime_cognition_calls') and not candidates(r.store,'own-scope',('PROJECT',))
+
+
+@pytest.mark.parametrize('constraint',['unconfigured','budget'])
+def test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes(tmp_path,monkeypatch,constraint):
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import SECOND
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config;calls=[]
+    path=tmp_path/'private'/'self.db';identity=runtime.identity_id
+    with runtime as r:
+        clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+        qid=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+        assert r.store.one('runtime_queue',qid)['state']=='READY'
+    limited=config.model_copy(update={'model':None} if constraint=='unconfigured' else {'max_calls_per_day':0})
+    with NanaRuntime(path,limited,clock=clock) as r:
+        r.step()
+        assert r.store.one('runtime_queue',qid)['state']=='READY'
+        writes=r.store.db.total_changes;events=len(r.store.all('events'))
+        for _ in range(4):r.refresh_attention();r.step()
+        assert r.store.db.total_changes==writes and len(r.store.all('events'))==events
+        assert not r.store.all('runtime_cognition_calls') and r.store.one('runtime_queue',qid)['attempts']==0
+    with NanaRuntime(path,config,clock=clock) as r:
+        class Available:
+            descriptor='offline-queued-private-resource-restored'
+            def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+        monkeypatch.setattr(r.cognition,'port',lambda call:Available())
+        assert r.step()['queue_id']==qid and len(calls)==1 and r.identity_id==identity
+        for _ in range(3):r.refresh_attention();r.step()
+        assert len(calls)==1 and r.store.one('runtime_queue',qid)['state']=='DONE'
+
+
+def test_private_d_queued_old_revision_retires_without_calling_model(tmp_path,monkeypatch):
+    from nana_core.presence.contracts import SECOND
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.context import ContextPolicy
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock)
+    with runtime as r:
+        clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+        qid=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+        class Revised:
+            descriptor='offline-revise-before-private-continuation'
+            def propose(self,request):
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['private_plan']={'topic':plan.topic,'plan':plan.content_summary+' Reconsider the earlier method before continuing.','revises_record_id':rid}
+                return json.dumps(value)
+        r.subject.cognize(SubjectInput(source_key='synthetic.private-d-revise-before-worker',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),topic=plan.topic,source_memory_ids=plan.source_memory_ids),
+            model=Revised(),authority=r.authority,policy=ContextPolicy(policy_id='private-d-revision',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',)))
+        current=candidates(r.store,'own-scope',('PROJECT',))[0][1]
+        assert current.intent_id==plan.intent_id and current.revision==plan.revision+1
+        monkeypatch.setattr(r.cognition,'port',lambda call:pytest.fail('Stale private revision must not reach a model'))
+        r.step()
+        assert r.store.one('runtime_queue',qid)['state']=='IGNORED' and not r.store.all('runtime_cognition_calls')
+
+
+def test_private_d_unknown_attempt_remains_unknown_and_is_not_retried_when_model_is_unconfigured(tmp_path,monkeypatch):
+    from nana_core.presence import NanaRuntime
+    from nana_core.presence.contracts import SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config
+    path=tmp_path/'private'/'self.db'
+    with runtime as r:
+        clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+        row=r.queue.claim();call=r.cognition.reserve(row)
+        assert json.loads(row['metadata_json'])['private_thought_ref']['record_id']==rid
+    with NanaRuntime(path,config.model_copy(update={'model':None}),clock=clock) as r:
+        assert r.store.one('runtime_cognition_calls',call)['state']=='UNKNOWN'
+        monkeypatch.setattr(r.cognition,'port',lambda call:pytest.fail('UNKNOWN private request must not be retried'))
+        r.step()
+        assert r.store.one('runtime_queue',row['queue_id'])['state']=='DONE'
+        assert len(r.store.all('runtime_cognition_calls'))==1 and r.store.one('runtime_cognition_calls',call)['state']=='UNKNOWN'
