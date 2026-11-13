@@ -227,7 +227,7 @@ class ContextAssembler:
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
-        if conversation_topic is not None:
+        if conversation_topic is not None or (subject_frame is not None and request.task_class=='world.self'):
             from .memory import PRIVACY_RANK
             privacy=tuple(p for p in privacy if PRIVACY_RANK[p]<=PRIVACY_RANK[request.task_privacy_class])
         if request.task_privacy_class not in privacy:

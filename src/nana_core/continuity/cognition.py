@@ -60,11 +60,59 @@ class ContinuityModelPort(Protocol):
 
 
 class DeliberationResult(DTO):
+    resource_record_id:str|None=None
     model_descriptor: str
     context_digest: str
     raw_proposal_json: str
     proposal: CognitiveProposal
     execution: Literal["NOT_EXECUTED"] = "NOT_EXECUTED"
+
+    @model_serializer(mode='wrap')
+    def compatible_resource(self,handler):
+        result=handler(self)
+        if self.resource_record_id is None:result.pop('resource_record_id',None)
+        return result
+
+
+def validate_resource_record(store,rid,proposal,*,scope,subject_event_id,privacy_classes):
+    """An adapter audit pointer is not authority; bind its exact original reply."""
+    from .records import RecordService
+    from ..storage import digest
+    records=RecordService(store);head=store.one('continuity_records',rid)
+    if (not head or head['record_kind']!='COGNITION_PROPOSAL' or head['scope']!=scope
+            or head['privacy_class'] not in privacy_classes or not records.current_support(rid)):
+        raise CoreError('SUBJECT_RESOURCE_BINDING_INVALID')
+    payload=records.read(rid)['payload'];request=store.one('cognitive_requests',payload['reply']['request_id'])
+    if (not request or request['state']!='PROPOSED' or payload.get('subject_candidate_digest')!=digest(proposal.model_dump(mode='json'))):
+        raise CoreError('SUBJECT_RESOURCE_BINDING_INVALID')
+    body=records.read(request['record_id'])['payload']['request']
+    from .subject.state import revision
+    lease=store.one('runtime_lease',store.identity['identity_id'])
+    if (not lease or request['owner_epoch']!=lease['epoch'] or request['subject_revision']!=revision(store)
+            or body['cognitive_role']!='SELF' or body['role_input'].get('subject_cognition',{}).get('subject_event_id')!=subject_event_id):
+        raise CoreError('SUBJECT_RESOURCE_BINDING_INVALID')
+    return rid
+
+
+def validate_cognitive_proposal(proposal, context):
+    """One reference/identity contract for original C and its provider resource."""
+    manifest=context.manifest
+    if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+        raise CoreError('MODEL_IDENTITY_MISMATCH')
+    available={m for b in context.blocks for m in b.source_memory_ids}
+    lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+    if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+        raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+    if proposal.preferred_behavior is not None:
+        choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+        if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+    for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN')):
+        if candidate is None:continue
+        private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
+        if not set(candidate.related_private_record_ids)<=private_refs:raise CoreError('UNSUPPORTED_'+category+'_REFERENCE')
+        if candidate.revises_record_id is not None:
+            target=next((json.loads(b.data_json) for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' and candidate.revises_record_id in b.source_record_ids),None)
+            if target is None or target['category']!=category:raise CoreError('UNSUPPORTED_'+category+'_REVISION')
 
 
 class DeliberationSession:
@@ -80,30 +128,10 @@ class DeliberationSession:
         if type(raw) is not str or len(raw.encode()) > 32768:
             raise CoreError("INVALID_COGNITIVE_REPLY")
         proposal = CognitiveProposal.model_validate_json(raw)
-        manifest = context.manifest
-        if (proposal.identity_id, proposal.identity_revision) != (manifest.identity_id, manifest.identity_revision):
-            raise CoreError("MODEL_IDENTITY_MISMATCH")
-        available = {m for b in context.blocks for m in b.source_memory_ids}
-        lessons = {json.loads(b.data_json)["lesson_id"] for b in context.blocks if b.kind == "LESSON"}
-        if not set(proposal.memory_refs) <= available or not set(proposal.lesson_refs) <= lessons:
-            raise CoreError("UNSUPPORTED_COGNITIVE_REFERENCE")
-        if proposal.preferred_behavior is not None:
-            choices={choice for block in context.blocks if block.kind=='SUBJECT_APPRAISAL'
-                for choice in json.loads(block.data_json).get('behavior_options',())}
-            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
-        for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN')):
-            if candidate is None:continue
-            private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
-            if not set(candidate.related_private_record_ids)<=private_refs:
-                raise CoreError('UNSUPPORTED_'+category+'_REFERENCE')
-            if candidate.revises_record_id is not None:
-                target=next((json.loads(b.data_json) for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE'
-                    and candidate.revises_record_id in b.source_record_ids),None)
-                if target is None or target['category']!=category:
-                    raise CoreError('UNSUPPORTED_'+category+'_REVISION')
+        validate_cognitive_proposal(proposal,context)
         self.assembler.validate(context, request, policy)  # state may change during inference
         return DeliberationResult(model_descriptor=model.descriptor, context_digest=context.content_digest,
-                                  raw_proposal_json=raw, proposal=proposal)
+                                  raw_proposal_json=raw, proposal=proposal,resource_record_id=getattr(model,'resource_record_id',None))
 
 
 class AnalyticalFixturePort:

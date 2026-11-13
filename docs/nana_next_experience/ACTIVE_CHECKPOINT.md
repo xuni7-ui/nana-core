@@ -1,5 +1,11 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
+## 当前接续：原SELF资源接同C，revision189
+
+基线af13后继：既有SELF角色支持原Frame/CognitiveProposal候选→同C，原provider账本/预算/usage/UNKNOWN/回执依赖，无第二Loop或fixture双计费。实际owned HTTP选择REST/新私问，短念/解释不落普通审计，源撤回贯穿；新源/前台仍阻断。own-audit stale首错、费用/隐私等夹具错均存 `evidence/provider-subject-resource-20261113/README.md`，176相关后补21，真实模型0。
+
+下一直接推进正常D：当前 `presence/cognition.py` 仍fixture KINDS，`runtime.py FULL_COGNITION`固定先reserve fixture行。需显式provider资源factory和read-only readiness接原choose/private preview，不在provider路径调用fixture.reserve/finish，不把商业timeout套1.5s/30s fixture限制；原前台/quiet/来源版本/UNKNOWN去重与恢复继续。`LifeApplication._session`已有inspect/resolve/预算/原账本恢复可复用；普通chat仍原INTERPRET/C/RENDER。无旧Memory/Record首个商业请求还缺真实自身请求发生来源，不可冒用已验证thought-occurrence或伪造外部观察；两次本地装配也待有证据精简。阶段189不称正常D自动商业可用。其余情感/策略效果/G迁移及A–H/旧reader/匹配发行保留，CURRENT266+409。下方188与旧下一按本段/09优先。
+
 ## 当前接续：原cognize方向回接，revision188
 
 已推源码 `07c52c929b1cf8f06fcddcbecd76496a49857f83`；此前 `269ea2e` 反馈/G迁移、`7e8b099` 约束范围修复同分支祖先。当前工作树clean，原Root/历史副本不动。独立7e8 CI43415274293/job131851722177已实读300pass1warning52.71s/clientSKIP；07自身CI待实际回执，不能继承旧结论。

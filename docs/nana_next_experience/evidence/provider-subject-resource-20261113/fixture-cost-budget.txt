@@ -1,0 +1,21 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+_______ test_timeout_remains_unknown_and_same_request_never_redispatches _______
+
+tmp_path = PosixPath('/dev/shm/pself3/test_timeout_remains_unknown_a0')
+
+    def test_timeout_remains_unknown_and_same_request_never_redispatches(tmp_path):
+        home=tmp_path/'home';initialize(home)
+        with provider_harness(proposer=candidate,delay=.15) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime;mid,event=event_for(app);session=CognitionSession(r,transport,app.policy)
+            port=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(timeout_ms=50,cost_ceiling_micro=17))
+>           with pytest.raises(CoreError,match='PROVIDER_TIMEOUT_BILLING_UNKNOWN'):r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'PROVIDER_TIMEOUT_BILLING_UNKNOWN'
+E             Actual message: 'COGNITION_COST_BUDGET'
+
+tests/person_self/test_provider_subject_cognition.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_cognition.py::test_timeout_remains_unknown_and_same_request_never_redispatches
+1 failed, 5 passed in 1.22s

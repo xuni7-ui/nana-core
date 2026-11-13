@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 188,
-  "as_of_us": 1794569164277506,
+  "revision": 189,
+  "as_of_us": 1794583919656413,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_DELIBERATED_DIRECTION_IN_ORIGINAL_C",
+  "status": "IN_PROGRESS_PROVIDER_SELF_RESOURCE_ORIGINAL_C",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,25 +20,25 @@
     "原Record跨轮方法继承；明确评价绑定原C实际choice/消息/topic/recipient，原索引有界投影→C可改换/结束方法。重启/UNKNOWN/回读/隔离/撤回/过期受控通过；最终56相关，效果仍未知，不自动人格或技能改写。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原C已解除未选方向连带约束；原cognize现可提当前方向偏好后由同C重新判断，REST/LEARN可越过首项，当前norm/risk仍可拒绝。精确旧源3fail1pass→30相关后补11私因遮蔽；旧269 CI380另记。非商业D自发性或全部多动机完成。"
+    "原SELF资源typed候选→同C已接原provider账本/预算/usage/UNKNOWN，回执Record依赖绑定C，短念/解释不入普通审计。请求审计不假作新经历，新源/撤回/前台仍阻断。176相关后补21通过；1HTTP/1原账本/0fixture账本，非正常D商业资格。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "原cognize方向回接受控可用；D资源仍fixture，商业已有SELF角色但无typed内心消费者，须复用原cognitive_requests预算/usage/UNKNOWN及真实自身来源。情感/效果/广G长期、A–H/旧reader回退与匹配发行继续；7e8 CI300非当前07结果。",
+    "SELF资源已受控接原C；正常D factory/readiness/quiet/恢复与单账本/商业timeout仍需接线，无旧Memory首个请求真实自身追源待。不做付费调用；情感/效果/广G长期/A–H、旧reader回退和匹配发行继续。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md",
     "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md",
     "docs/nana_next_experience/evidence/choice-constraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md",
     "docs/nana_next_experience/evidence/communication-strategy-continuity-20261113/README.md",
     "docs/nana_next_experience/evidence/commercial-inner-communication-20261113/README.md",
     "docs/nana_next_experience/evidence/private-cognition-not-pending-work-20261113/README.md",
-    "docs/nana_next_experience/evidence/passing-thought-20261113/README.md",
-    "docs/nana_next_experience/evidence/private-commercial-topic-20261113/README.md"
+    "docs/nana_next_experience/evidence/passing-thought-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2792,3 +2792,7 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ## 2026-11-13 原C既有认知重选活动方向
 
 [实测/受控] 原DeliberationFrame候选→CognitiveProposal可选preferred_behavior→当前C同事务重评价，非首项REST/LEARN、norm拒绝/实际学习风险、来源不改、重放0额外调用/同身份重启。精确旧7e8源码285个py匹配，3fail1pass；新相关248pass/1规范夹具错误保留，正确CONSTRAINT后5目标与最后30相关通过12.75s。单例1既有ModelPort/45字段字节非Token。证据 docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md；source-sha256.txt锚 `c7f0ae7db0030e2716d844e3b2e0a8c64357ff262a0fa4a661066b749acb2b52`。商业D资源适配与真实自主性/情感/结果/原A–H及回退发行继续。
+
+## 2026-11-13 原SELF商业资源与同C回执
+
+[受控实测] af13基线旧入口缺失，未冒作旧模型行为；非SELF schema与旧结构相同。原商业SELF typed候选→原C、原账本1/fixture账本0，真实own-audit stale首错修复为四种固定请求审计不改变主体输入stamp；新源/撤回/前台反向有效。176相关后补21，独立字符framing非商业Token，真实模型0。证据 docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md；source-sha256.txt锚 `4da3feb9a4dc92c94a6cdd0eb3257b918c8a856ddb4e0b65973ed53c8744f205`。下一原正常D显式provider factory/只读准入与120s独立timeout/单账本恢复，seedless请求自身追源及原A–H，CURRENT266+409不变。

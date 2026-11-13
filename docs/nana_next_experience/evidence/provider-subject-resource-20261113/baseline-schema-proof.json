@@ -1,0 +1,10 @@
+{
+  "baseline": "af13a86dd92454eec7dab1edf3453010c64300c0",
+  "old_subject_port": false,
+  "old_subject_frame": false,
+  "non_self_request_schema_unchanged": true,
+  "old_non_self_schema_sha256": "c4922902eb1b37909e8466c9dfa2df644ad68d9ffee996b2ae778c2ce2c04668",
+  "baseline_limit": "Old source lacks entrypoint. AttributeError is an implementation-availability observation, not a real-model behavioral or cost comparison.",
+  "all_baseline_python_files_match_git": 285,
+  "current_source_anchor": "4da3feb9a4dc92c94a6cdd0eb3257b918c8a856ddb4e0b65973ed53c8744f205"
+}

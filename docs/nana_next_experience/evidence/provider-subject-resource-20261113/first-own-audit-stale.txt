@@ -1,0 +1,53 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log _
+
+tmp_path = PosixPath('/dev/shm/pself1/test_provider_resource_uses_or0')
+
+    def test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log(tmp_path):
+        home=tmp_path/'home';initialize(home);requests=[]
+        def propose(request):
+            requests.append(request)
+            context=json.loads(request.context_json);identity=context['manifest']
+            return StructuredProposal(interpretation='PRIVATE_ROOT_REASON_CANARY',source_refs=(),
+                subject_cognition=CognitiveProposal(identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],
+                    interpretation='PRIVATE_CANDIDATE_REASON_CANARY',proposed_operations=('DRAFT',),preferred_behavior='REST',
+                    passing_thought='PRIVATE_PASSING_ASSOCIATION_CANARY'))
+        with provider_harness(proposer=propose) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='private-creation',possible_behaviors=('CREATE','REST'))
+            mid=capture(r,'provider-subject-opportunity',cue.model_dump(mode='json'),predicate='concern.provider-subject')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.provider-subject',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            session=CognitionSession(r,transport,app.policy,max_calls_per_day=24)
+>           cycle=r.subject.cognize(event,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_provider_subject_cognition.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:642: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:105: in run
+    self.assembler.validate(context, request, policy)  # state may change during inference
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.context.ContextAssembler object at 0x7f1b68f6aba0>
+package = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='17b4d37e-16f4-42f9-8538-c04dc4d48f96', identity...68-b016-4807-b7c9-634f1d47c37f',))), content_digest='9698a68738bb8760a363458ab945960aea556ecd28d82a849fef81563ad033cf')
+request = ContextRequest(schema_version=1, entity_id='project-user', scopes=('project-work',), task_class='subject_deliberation'...ivacy_class='PROJECT', query_terms=(), destination='LOCAL_FIXTURE', max_input_tokens=65536, output_reserve_tokens=4096)
+policy = ContextPolicy(policy_id='independent-life', allowed_scopes=('project-work',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=())
+
+    def validate(self, package, request, policy):
+        if package.content_digest not in self._issued:
+            raise CoreError("CONTEXT_NOT_ISSUED_BY_ASSEMBLER")
+        if (package.manifest.state_token != state_token(self.store) or
+                package.manifest.request_digest != digest(request.model_dump(mode="json")) or
+                package.manifest.policy_digest != digest(policy.model_dump(mode="json"))):
+>           raise CoreError("STALE_CONTEXT")
+E           nana_core.contracts.CoreError: STALE_CONTEXT
+
+src/nana_core/continuity/context.py:662: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_cognition.py::test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log
+1 failed in 0.20s

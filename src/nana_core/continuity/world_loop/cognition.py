@@ -65,7 +65,11 @@ from .semantic_contracts import MediaSemantics
 
 from ...life.dialogue_contracts import DialogueMeaning,DialogueDraft,DialogueContext
 
+from ..cognition import CognitiveProposal,validate_cognitive_proposal
+
+
 class StructuredProposal(DTO):
+    subject_cognition:CognitiveProposal|None=None
     dialogue:DialogueMeaning|None=None
     draft:DialogueDraft|None=None
     @model_serializer(mode='wrap')
@@ -73,6 +77,7 @@ class StructuredProposal(DTO):
         value=handler(self)
         if self.dialogue is None:value.pop('dialogue',None)
         if self.draft is None:value.pop('draft',None)
+        if self.subject_cognition is None:value.pop('subject_cognition',None)
         return value
     media:MediaSemantics|None=None
     interpretation:str=Field(min_length=1,max_length=2048)
@@ -83,6 +88,30 @@ class StructuredProposal(DTO):
     method:str|None=Field(default=None,max_length=64)
     uncertainty:Literal['LOW','RELEVANT','HIGH','UNKNOWN']='UNKNOWN'
     confidence:float=Field(default=0.,ge=0.,le=1.)
+def proposal_schema(internal=False):
+    """Expose the original C candidate only to its existing SELF resource role."""
+    schema=StructuredProposal.model_json_schema()
+    if internal:
+        allowed={'interpretation','source_refs','uncertainty','confidence','subject_cognition'}
+        schema['properties']={k:v for k,v in schema['properties'].items() if k in allowed}
+        schema['required']=[*schema.get('required',()),'subject_cognition']
+    else:schema['properties'].pop('subject_cognition',None)
+    def refs(value):
+        if isinstance(value,dict):
+            ref=value.get('$ref');out={ref.rsplit('/',1)[-1]} if isinstance(ref,str) and ref.startswith('#/$defs/') else set()
+            return out.union(*(refs(child) for child in value.values()))
+        if isinstance(value,list):return set().union(*(refs(child) for child in value))
+        return set()
+    pending=list(refs(schema['properties']));definitions={}
+    while pending:
+        name=pending.pop()
+        if name in definitions:continue
+        definitions[name]=schema['$defs'][name];pending.extend(refs(definitions[name])-definitions.keys())
+    if definitions:schema['$defs']=definitions
+    else:schema.pop('$defs',None)
+    return schema
+
+
 class HTTPObservation(DTO):
     """Allowlisted wire measurements, never headers, credentials or raw bodies."""
     request_body_sha256:str=Field(pattern=r'^[a-f0-9]{64}$')
@@ -165,6 +194,9 @@ class OpenAIJSONTransport:
         if self._credential and self._credential in value:return None
         return value
     def messages(self,request):
+        if request.cognitive_role=='SELF' and request.role_input.get('subject_cognition'):
+            return [{'role':'system','content':'Return only JSON matching expected_schema. subject_cognition is a tentative candidate for the original Subject C, never an observation, permission or execution result. Use the canonical identity and exact selected memory/lesson/private-record references. A new private question, plan, passing thought or preference is optional; silence/wait is valid. Do not manufacture external observations. Original C reconsiders every candidate. Private content is not public speech.'},
+                {'role':'user','content':request.model_dump_json()}]
         if request.cognitive_role in {'INTERPRET','SOCIAL'} and request.role_input.get('dialogue'):
             body=request.model_dump(mode='json');body['role_input']=request.media_input()
             # Dialogue has a smaller writable surface than planning/learning.
@@ -355,8 +387,8 @@ def allowed_for_role(transport,policy):
 def allowed_for_request(transport,policy,role_input):
     """A private-capable provider is not a private request authorization."""
     allowed=allowed_for_role(transport,policy)
-    dialogue=role_input.get('dialogue') if type(role_input) is dict else None
-    if type(dialogue) is dict and dialogue.get('privacy_class') in {'PUBLIC','PROJECT','PERSONAL'}:
+    dialogue=(role_input.get('dialogue') or role_input.get('subject_cognition')) if type(role_input) is dict else None
+    if type(dialogue) is dict and dialogue.get('privacy_class') in {'PUBLIC','PROJECT','PERSONAL','SECRET'}:
         from ..memory import PRIVACY_RANK
         ceiling=PRIVACY_RANK[dialogue['privacy_class']]
         allowed=tuple(p for p in allowed if PRIVACY_RANK[p]<=ceiling)
@@ -367,21 +399,33 @@ class CognitionSession:
         if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
         self.runtime,self.store,self.transport,self.policy=runtime,runtime.store,transport,policy
         self.records=RecordService(self.store);self.assembler=ContextAssembler(self.store,runtime.authority,project_state_source=project_state_source)
-        self.draft_sink=None;self.max_calls=max_calls_per_day;self._workers=[];self._volatile_inputs={};self._volatile_dialogue={};self._volatile_recall={}
+        self.draft_sink=None;self.max_calls=max_calls_per_day;self._workers=[];self._volatile_inputs={};self._volatile_dialogue={};self._volatile_recall={};self._volatile_subject={}
         if route_snapshot is not None and type(route_snapshot) is not RouteSnapshot:raise CoreError('ROUTE_SNAPSHOT_REQUIRED')
         self.route_snapshot,self._route_guard=route_snapshot,route_guard
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
-    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=(),subject_frame=None):
         previous=self.assembler.counter
         try:
             return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
-                role_input=role_input,volatile_input=volatile_input,pinned_only=pinned_only,query_terms=query_terms)
+                role_input=role_input,volatile_input=volatile_input,pinned_only=pinned_only,query_terms=query_terms,subject_frame=subject_frame)
         finally:
             # A framing callback briefly sees owner-local unretained input. Never
             # leave its closure as an assembler/long-lived plaintext cache.
             self.assembler.counter=previous
 
-    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=(),subject_frame=None):
+        if subject_frame is not None and role!='SELF':raise CoreError('SUBJECT_CONTEXT_ROLE_DENIED')
+        if role_input and 'subject_cognition' in role_input:
+            from ..subject.contracts import DeliberationFrame
+            descriptor=role_input['subject_cognition']
+            if (role!='SELF' or type(subject_frame) is not DeliberationFrame or set(role_input)!={'subject_cognition'}
+                    or type(descriptor) is not dict or set(descriptor)!={'subject_event_id','privacy_class'}
+                    or descriptor['subject_event_id']!=subject_frame.subject_event_id
+                    or descriptor['privacy_class'] not in {'PUBLIC','PROJECT','PERSONAL','SECRET'}):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
+        elif subject_frame is not None:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        subject_source=self.store.one('subject_events',subject_frame.subject_event_id) if subject_frame is not None else None
+        if subject_frame is not None and (not subject_source or subject_source['scope']!=subject_frame.scope
+                or subject_frame.scope not in self.runtime.config.scopes):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
         if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
@@ -418,7 +462,7 @@ class CognitionSession:
                 request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
                 source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
                 current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,
-                expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,
+                expected_schema=proposal_schema(bool(subject_frame)),role_input=role_input,budget=b,created_at_us=now,
                 deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
         token_counter=getattr(self.transport,'token_counter',None)
         if token_counter is not None:
@@ -432,13 +476,13 @@ class CognitionSession:
         if token_counter is None:
             from ..context import ConservativeCounter
             self.assembler.counter=ConservativeCounter()
-        req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input or {}).get('dialogue',{}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        req=ContextRequest(entity_id=subject_source['entity_id'] if subject_source else r.config.entity_id,scopes=(subject_frame.scope,) if subject_frame is not None else r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input.get('dialogue') or role_input.get('subject_cognition') or {}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
         private_refs=()
         if role=='INTERPRET' and role_input.get('dialogue'):
             dialogue_scope=self.records.memory.read(role_input['dialogue']['message_memory_id'])['scope']
             private_refs=r.subject.dialogue_private_refs(scope=dialogue_scope,topic=role_input['dialogue']['topic'],
                 privacy_classes=allowed_for_request(self.transport,self.policy,role_input))
-        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None,private_record_ids=private_refs)
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None,private_record_ids=private_refs,subject_frame=subject_frame)
         if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
         history_support=[]
         selected={m for block in context.blocks for m in block.source_memory_ids}
@@ -449,7 +493,9 @@ class CognitionSession:
         if role_input:
             from ..open_agency.world import bounded_data,LocalWorldRegistry
             if role!='MEDIA':bounded_data(role_input)
-            if role in {'PLAN','REPLAN'}:
+            if role=='SELF' and subject_frame is not None:
+                extra_parents=subject_frame.source_record_ids
+            elif role in {'PLAN','REPLAN'}:
                 from ..open_agency.contracts import PlannerInput
                 parsed=PlannerInput.model_validate_json(canonical(role_input))
                 parent=self.records.read(parsed.source_record_id)
@@ -540,7 +586,7 @@ class CognitionSession:
             if resource.reserved_estimated_cost_micro+b.cost_ceiling_micro>limits.max_estimated_cost_micro_per_day:raise CoreError('COGNITION_COST_BUDGET')
         self.assembler.validate(context,req,self.policy)
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
-            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id,**({'token_accounting':token_accounting} if token_accounting else {})},memories=tuple(dict.fromkeys((*refs,*history_support))),records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))),privacy_floor=LocalWorldRegistry.payload_privacy(role_input) if role_input.get('dialogue') else None)
+            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id,**({'token_accounting':token_accounting} if token_accounting else {})},memories=tuple(dict.fromkeys((*refs,*history_support))),records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))),privacy_floor=LocalWorldRegistry.payload_privacy(role_input) if role_input.get('dialogue') or role_input.get('subject_cognition') else None)
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})
         if volatile_input is not None:self._volatile_inputs[request_id]=volatile_input
         return request_id
@@ -674,6 +720,18 @@ class CognitionSession:
         request=CognitionRequest.model_validate_json(canonical(self.records.read(row['record_id'])['payload']['request']))
         refs=set(request.source_context_refs)
         if not set(reply.proposal.source_refs)<=refs or any(not set(i.source_memory_ids)<=refs for i in reply.proposal.interests):return self._finish(row,'REJECTED','UNSUPPORTED_CITATIONS')
+        subject_candidate=None
+        if request.cognitive_role=='SELF' and request.role_input.get('subject_cognition'):
+            subject_candidate=reply.proposal.subject_cognition
+            if (subject_candidate is None or reply.proposal.dialogue is not None or reply.proposal.draft is not None
+                    or reply.proposal.interests or reply.proposal.plan_operator_ids or reply.proposal.method
+                    or reply.proposal.skill_source or reply.proposal.media is not None):return self._finish(row,'REJECTED','SUBJECT_COGNITION_CONTRACT_REQUIRED')
+            from ..context import ContextPackage
+            try:validate_cognitive_proposal(subject_candidate,ContextPackage.model_validate_json(request.context_json))
+            except CoreError as exc:return self._finish(row,'REJECTED',exc.code)
+            reply=reply.model_copy(update={'proposal':reply.proposal.model_copy(update={
+                'subject_cognition':None,'interpretation':'Transient original C candidate; private wording not retained'})})
+        elif reply.proposal.subject_cognition is not None:return self._finish(row,'REJECTED','SUBJECT_COGNITION_ROLE_REQUIRED')
         if request.cognitive_role=='MEDIA':
             from .semantics import validate_semantics
             try:validate_semantics(request,reply,self.transport)
@@ -713,11 +771,14 @@ class CognitionSession:
             proposal=reply.proposal.model_copy(update={'interpretation':'Transient local dialogue proposal; free wording not retained','draft':reply.proposal.draft.model_copy(update={'text':None}) if reply.proposal.draft else None})
             reply=reply.model_copy(update={'proposal':proposal})
         with self.store.transaction('world.cognition_proposed',{'request_id':request_id}) as tx:
-            rid=self.records.create(tx,kind='COGNITION_PROPOSAL',scope=self.records.read(row['record_id'])['scope'],payload={'reply':reply.model_dump(mode='json'),'response_digest':digest(reply.model_dump(mode='json')),'latency_us':latency_us,'proposal_not_truth':True},records=(row['record_id'],),target_id=request_id)
+            rid=self.records.create(tx,kind='COGNITION_PROPOSAL',scope=self.records.read(row['record_id'])['scope'],payload={'reply':reply.model_dump(mode='json'),'response_digest':digest(reply.model_dump(mode='json')),'latency_us':latency_us,'proposal_not_truth':True,**({'subject_candidate_digest':digest(subject_candidate.model_dump(mode='json'))} if subject_candidate else {})},records=(row['record_id'],),target_id=request_id)
             tx.update('cognitive_requests',request_id,state='PROPOSED',response_digest=digest(reply.model_dump(mode='json')),input_bytes=reply.wire_input_bytes,output_bytes=reply.wire_output_bytes,actual_cost_micro=reply.cost_micro,latency_us=latency_us)
             from ..accounting import record_usage
             record_usage(tx,reply)
         if transient is not None:self._volatile_dialogue[request_id]=transient
+        if subject_candidate is not None:
+            self._volatile_subject[request_id]=subject_candidate
+            if len(self._volatile_subject)>64:self._volatile_subject.pop(next(iter(self._volatile_subject)))
         if recall_terms:
             self._volatile_recall[request_id]=recall_terms
             if len(self._volatile_recall)>64:self._volatile_recall.pop(next(iter(self._volatile_recall)))
@@ -744,9 +805,20 @@ class CognitionSession:
     def take_dialogue_draft(self,record_id):
         reply=self.proposal(record_id)
         return self._volatile_dialogue.pop(reply.request_id,None)
+    def take_subject_candidate(self,record_id):
+        head=self.store.one('continuity_records',record_id)
+        # Consume even when a withdrawal/stale fence prevents the read. Do not
+        # leave a private candidate cached after its source has been invalidated.
+        candidate=self._volatile_subject.pop(head['target_id'],None) if head and head['record_kind']=='COGNITION_PROPOSAL' else None
+        reply=self.proposal(record_id)
+        if candidate is None:raise CoreError('SUBJECT_CANDIDATE_EXPIRED_NO_REPLAY')
+        return candidate
     def take_recall_terms(self,record_id):
         reply=self.proposal(record_id)
         return self._volatile_recall.pop(reply.request_id,())
+
+    def subject_port(self,*,privacy_class,budget=None):
+        return SubjectCognitionPort(self,privacy_class=privacy_class,budget=budget)
 
     def journal(self,limit=32,*,scopes=None,privacy_classes=None):
         scopes=tuple(scopes or self.runtime.config.scopes);privacy=tuple(privacy_classes or self.runtime.config.privacy_classes);out=[]
@@ -760,3 +832,38 @@ class CognitionSession:
                     item['routing']={'snapshot':snapshot,'dispatch_status':'RESPONSE_RECEIVED' if x['state']=='PROPOSED' else 'NOT_STARTED' if x['state']=='PREPARED' else 'POSSIBLE_OR_ATTEMPTED','completion_state':x['state'],'latency_us':x['latency_us'],'input_bytes':x['input_bytes'],'output_bytes':x['output_bytes'],'actual_cost_micro':x['actual_cost_micro'],'cost_known':x['actual_cost_micro'] is not None,'response_digest':x['response_digest']}
                 out.append(item)
         return tuple(out)
+
+
+class SubjectCognitionPort:
+    """Host-owned adapter to the existing request/usage/UNKNOWN ledger.
+
+    Original C receives only an immutable candidate. No additional scheduler,
+    fixture reservation, executor or automatic retry belongs to this resource.
+    """
+    def __init__(self,session,*,privacy_class,budget=None):
+        if privacy_class not in {'PUBLIC','PROJECT','PERSONAL','SECRET'}:raise CoreError('SUBJECT_CONTEXT_PRIVACY_INVALID')
+        self.session,self.privacy_class,self.budget=session,privacy_class,budget
+        self.resource_record_id=None
+        self.descriptor='provider-subject-resource.'+digest([session.transport.provider_id,session.transport.model_id])[:24]
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':self.privacy_class}})
+        result=self.session.execute(request_id)
+        if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+        if not result.get('record_id'):
+            row=self.session.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL' AND target_id=? AND lifecycle='ACTIVE' LIMIT 1",(request_id,)).fetchone()
+            if not row:raise CoreError('SUBJECT_CANDIDATE_EXPIRED_NO_REPLAY')
+            result['record_id']=row[0]
+        candidate=self.session.take_subject_candidate(result['record_id'])
+        validate_cognitive_proposal(candidate,context)
+        self.resource_record_id=result['record_id']
+        return candidate.model_dump_json()

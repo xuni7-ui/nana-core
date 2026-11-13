@@ -1,0 +1,29 @@
+{
+  "baseline": "af13a86dd92454eec7dab1edf3453010c64300c0",
+  "calls": 1,
+  "chosen_behavior": "REST",
+  "original_cognition_ledger_rows": 1,
+  "fixture_ledger_rows": 0,
+  "resource_call_delta": 1,
+  "reserved_bytes": 57369,
+  "wire_input_bytes": 45080,
+  "wire_output_bytes": 653,
+  "budget": {
+    "input_tokens": 32768,
+    "output_tokens": 2048,
+    "timeout_ms": 120000,
+    "cost_ceiling_micro": 0
+  },
+  "latency_us": 3886,
+  "whole_cognize_wall_us": 50256,
+  "whole_cognize_cpu_us": 49877,
+  "real_usage_reported_calls": 0,
+  "fixture_usage_reported_calls": 1,
+  "fixture_input_tokens": 10,
+  "fixture_output_tokens": 10,
+  "actual_commercial_provider_tokens": null,
+  "actual_commercial_cost": null,
+  "real_model_calls": 0,
+  "source_semantics": "Typed candidate, not observation/authority; original C binds provider receipt as Record support",
+  "limits": "Single local HTTP fixture sample; two local context assemblies currently; no P50/P95 or real model/token/production cost savings claim."
+}

@@ -1,0 +1,30 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log _
+
+tmp_path = PosixPath('/dev/shm/pselfold/test_provider_resource_uses_or0')
+
+    def test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log(tmp_path):
+        home=tmp_path/'home';initialize(home);requests=[]
+        def propose(request):
+            requests.append(request)
+            context=json.loads(request.context_json);identity=context['manifest']
+            return StructuredProposal(interpretation='PRIVATE_ROOT_REASON_CANARY',source_refs=(),
+                subject_cognition=CognitiveProposal(identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],
+                    interpretation='PRIVATE_CANDIDATE_REASON_CANARY',proposed_operations=('DRAFT',),preferred_behavior='REST',
+                    passing_thought='PRIVATE_PASSING_ASSOCIATION_CANARY'))
+        with provider_harness(proposer=propose) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='private-creation',possible_behaviors=('CREATE','REST'))
+            mid=capture(r,'provider-subject-opportunity',cue.model_dump(mode='json'),predicate='concern.provider-subject')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.provider-subject',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            session=CognitionSession(r,transport,app.policy,max_calls_per_day=24)
+>           cycle=r.subject.cognize(event,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=app.policy)
+                                                ^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'CognitionSession' object has no attribute 'subject_port'
+
+tests/person_self/test_provider_subject_cognition.py:48: AttributeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_cognition.py::test_provider_resource_uses_original_ledger_then_c_chooses_without_private_candidate_log
+1 failed, 14 deselected in 0.16s

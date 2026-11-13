@@ -1,0 +1,28 @@
+...........F                                                             [100%]
+=================================== FAILURES ===================================
+_ test_subject_request_privacy_ceiling_applies_to_the_original_frame_before_dispatch _
+
+tmp_path = PosixPath('/dev/shm/pselfguards/test_subject_request_privacy_c0')
+
+    def test_subject_request_privacy_ceiling_applies_to_the_original_frame_before_dispatch(tmp_path):
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.continuity.memory import MemoryService
+        home=tmp_path/'home';initialize(home)
+        with provider_harness(proposer=candidate) as (transport,state),LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime;memory=MemoryService(r.store,r.authority)
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.subject-private',source_reference='private-source',source_kind='DIRECT_OBSERVATION'),
+                text='SYNTHETIC_PRIVATE_SOURCE',privacy_class='PERSONAL',observed_time_us=r.clock.utc_now_us()))
+            mid=memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text='SYNTHETIC_PRIVATE_SOURCE'))
+            event=SubjectInput(domain='SYNTHETIC_ONLY',source_key='synthetic.private-resource',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            session=CognitionSession(r,transport,app.policy)
+>           with pytest.raises(CoreError,match='SUBJECT_FRAME_PRIVACY_DENIED'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'SUBJECT_FRAME_PRIVACY_DENIED'
+E             Actual message: 'CONTEXT_REQUIRED_SOURCE_DENIED'
+
+tests/person_self/test_provider_subject_cognition.py:154: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_cognition.py::test_subject_request_privacy_ceiling_applies_to_the_original_frame_before_dispatch
+1 failed, 11 passed in 1.78s

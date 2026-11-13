@@ -281,6 +281,11 @@ class SubjectLoop:
             self.growth.apply(tx, event, source)
             self._expire(tx)  # counter-evidence may inhibit an earlier optional intention
             situation = self.situation(event, source)
+            if _deliberation is not None and _deliberation.resource_record_id is not None:
+                from ..cognition import validate_resource_record
+                rid=validate_resource_record(self.store,_deliberation.resource_record_id,_deliberation.proposal,
+                    scope=event.scope,subject_event_id=source['subject_event_id'],privacy_classes=self.privacy_classes)
+                situation=situation.model_copy(update={'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
             if self.store.schema_target>=11:
                 adopted=[];plan_refs=[]
                 for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
