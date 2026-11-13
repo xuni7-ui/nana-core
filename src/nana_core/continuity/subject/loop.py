@@ -422,8 +422,14 @@ class SubjectLoop:
                     judgment = Judgment(stance='ASK' if 'ASK' in operations else 'DEFER',
                         reason='Cognitive proposal requests clarification or waiting; no unsupported truth is adopted',
                         source_ids=situation.memory_ids)
-                    intention = Intention(kind='WAIT', purpose='Hold the concern pending clarification',
-                        slot_key='clarify', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
+                    if event.private_thought_ref is not None:
+                        # An unresolved private thought is not another external
+                        # task or an outward request for clarification.
+                        intention = Intention(kind='NO_ACTION', purpose='Keep the private concern open without allocating a task or asking outwardly',
+                            slot_key='quiet', source_ids=situation.memory_ids, self_generated=True, behavior='DEFER')
+                    else:
+                        intention = Intention(kind='WAIT', purpose='Hold the concern pending clarification',
+                            slot_key='clarify', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
             pending = self.pending(event.scope)
             duplicate_slot = any(r['slot_key'] == intention.slot_key for r in pending)
             global_pending = self.store.db.execute(

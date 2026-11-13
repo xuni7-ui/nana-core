@@ -1,6 +1,6 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
-**当前速读（2026-11-13，09 revision182；业务源码e3ad889，后继仅证据记录）：**正常D已补私人活动接线、前台静默延后、重启/资源等待/陈旧ref/撤回/UNKNOWN；商业chat topic已进入原C私人兴趣评价，短念可在当次结束不保存。对应111/115/153/113均为各批相关检查；最新e3ad独立CI148通过/clientSKIP，不能相加称全仓。详见本文末四条当前记录及09锚；以下较早“下一”均为继承历史，已被后继完成的项不重开发。
+**当前速读（2026-11-13，09 revision183，本批新业务源码）：**正常D、商业topic→C动机、短念非持久与内部/外部待办分离已有受控增量；原8待办不禁止私问、私人ASK/WAIT不新增执行任务，普通等待保持。最新153相关31.91s；旧e3ad独立CI148仅旧范围，不作本批/全仓。详见本文末及09锚，较早下一项由合法后继覆盖，不重开发。
 
 **仍未完成的下一主链：**商业决策前的相关内心/可选策略→C采纳的公开交流目的→原RENDER；明确反馈/反证→原Experience/S8后续迁移。短念fixture不证明真实自发性，topic修复不证明回复策略改变。新D ref旧reader安全回退、原A–H/统一匹配发行及真实模型/手机/生产/自然度/跨日资格仍待。今天北京时间17:00/23:00续办已设，不暂停当前工作。
 
@@ -106,3 +106,10 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 基线45e7432，原CognitiveProposal可选passing_thought，None省略旧wire；当前认知允许短暂联想自然结束，C仍可NO_ACTION，0强制Goal/PrivateActivity/Memory/evidence。普通trace删该字段与可能复制的interpretation，验证错误隐藏私文；无新循环/表/模型阶段。2旧extra_forbidden首错和“无支持replay不可读”夹具首错保留，113相关通过16.19s，见evidence/passing-thought-20261113，源码锚 `7e9910bacced954c0a9aab46bdddbc1029e987fb36f1ac65e5ebf938515f6919`。无真实provider/手机/生产/新安装，fixture不证明真实自发思想。
 
 精确下一点：LifeApplication._model当前INTERPRET/C后SOCIAL只传CommunicationPurpose等公开决策，CognitionSession._prepare未传subject_frame；商业C topic消费者已修，但不能直接把私人正文送RENDER。应在原C内部选择相关倾向/可选策略，再把C采纳且可公开的交流目的交原RENDER，保留无原文聊天语义、完整预算、接收者scope、来源撤回与UNKNOWN；明确反馈/反证再回原Record/Experience/S8，不从沉默推成功。不新造内心Agent/第二评判。原D新ref旧reader回退、其余十域高级因果及原A–H/最终匹配发行继续未完成。
+
+
+## 2026-11-13 现役：私人认知与任务容量分开
+
+原pending>=6无差别挡FULL，以及private ref的ASK/WAIT新增PENDING，均定位为内部/外部职责混用。仅私念形成不受执行槽数否决，原模型/并发/预算/quiet/权限不变；私念等待保持NO_ACTION/DEFER，不新增外向澄清/Goal，不放弃原计划。旧3fail/2pass→7目标，153相关31.91s含Precision/普通WAIT控制。原8任务逐行不变，原D同预算0→1fixture/1新私问；不是低成本不付代价，真实provider0。证据private-cognition-not-pending-work-20261113，源码锚 `9565f2a5c9ebc64be35e9627dc58dff4012fe9063ee4d1807e2da50b9b413b1c`。
+
+下一商业主链入口不变：LifeApplication._model / CognitionSession._prepare / SubjectLoop原C / ContextAssembler / CommunicationPurpose。当前正常chat只补topic动机，尚无决策前私念内容/可选交流策略的商业消费者。保留只在内部选择相关私念、原C自主采纳策略、仅公开目的进RENDER、明确反馈/反证接原Experience/S8的边界。原D新ref旧reader安全回退及全部A–H/最终匹配发行/真实资格继续；环境/tmp易失，所有本批源码/日志必须push后再续。

@@ -103,7 +103,10 @@ class CognitionCoordinator:
         if latest is not None and now-latest<self.config.cognition_cooldown_us:return 'LIGHT_COGNITION','COGNITION_COOLDOWN'
         count=self.store.db.execute('SELECT count(*) FROM runtime_cognition_calls WHERE started_at_us>=?',(now//DAY*DAY,)).fetchone()[0]
         if count>=self.config.max_calls_per_day:return 'LIGHT_COGNITION','COGNITION_BUDGET_EXHAUSTED'
-        if situation.pending_count>=6:return 'LIGHT_COGNITION','COGNITIVE_LOAD'
+        # A private formation completes in C and does not allocate an external
+        # work slot. Provider/concurrency/budget and foreground guards above
+        # still govern the method; pending tasks are not a ban on own thought.
+        if situation.pending_count>=6 and event.private_thought_ref is None:return 'LIGHT_COGNITION','COGNITIVE_LOAD'
         if self.config.living:
             from .resources import allocation_reason
             reason=allocation_reason(self.store,self.config,row)

@@ -1557,3 +1557,57 @@ def test_passing_private_thought_can_end_without_goal_or_persistent_body(tmp_pat
     with ContinuityStore(path,clock,schema_target=13) as store:
         assert store.identity['identity_id']==identity and not candidates(store,'own-scope',('PROJECT',))
         assert not store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0",(thought,)).fetchone()
+
+
+@pytest.mark.parametrize('operation',['ASK','WAIT'])
+@pytest.mark.parametrize('private',[True,False])
+def test_private_continuation_uncertainty_is_not_an_extra_pending_task(tmp_path,monkeypatch,private,operation):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+    with runtime as r:
+        class Uncertain:
+            descriptor='offline-private-uncertainty'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value['proposed_operations']=[operation]
+                return json.dumps(value)
+        monkeypatch.setattr(r.cognition,'port',lambda call:Uncertain())
+        if private:clock.advance(3*SECOND)
+        else:
+            event=SubjectInput(source_key='synthetic.ordinary-uncertain-source',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=plan.source_memory_ids,significance='HIGH',uncertainty='HIGH')
+            r.submit(RuntimeEvent(event_type='WORLD_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us()))
+        result=r.step()
+        assert len(calls)==1 and result['cycle'].intention.kind==('NO_ACTION' if private else 'WAIT')
+        assert len(r.subject.pending('own-scope'))==(0 if private else 1)
+        assert candidates(r.store,'own-scope',('PROJECT',))[0][1].activity_state=='ACTIVE'
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('subject_goal_candidates')
+
+
+def test_original_pending_work_does_not_prohibit_private_question_formation_in_normal_d(tmp_path,monkeypatch):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from nana_core.presence.contracts import SECOND
+    clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+    with runtime as r:
+        memory=MemoryService(r.store,r.authority)
+        for i in range(8):
+            key='full-pending-'+str(i)
+            cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=key,motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),resource_class='ORDINARY',urgency='HIGH')
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.private-d-full',source_reference=key,source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+            mid=memory.add(MemoryCandidate(entity_id='counterparty',scope='own-scope',memory_type=MemoryType.PROSPECTIVE,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=cue.model_dump_json(),predicate_key='concern.'+key))
+            r.subject.run(SubjectInput(source_key='synthetic.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,)))
+        before=r.subject.pending('own-scope');assert len(before)==8
+        class Question:
+            descriptor='offline-private-question-with-external-work-pending'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value['private_question']={'topic':plan.topic,'question':'SYNTHETIC private question remains possible while unrelated work waits.'}
+                return json.dumps(value)
+        monkeypatch.setattr(r.cognition,'port',lambda call:Question())
+        clock.advance(3*SECOND);r.refresh_attention()
+        for _ in range(16):r.step()
+        assert len(calls)==1 and any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'own-scope',('PROJECT',)))
+        assert {x['intention_id'] for x in r.subject.pending('own-scope')}=={x['intention_id'] for x in before}
+        assert all(r.store.one('subject_intentions',x['intention_id'])==x for x in before)

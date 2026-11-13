@@ -1,0 +1,107 @@
+FF..F                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_private_continuation_uncertainty_is_not_an_extra_pending_task[True-ASK] _
+
+tmp_path = PosixPath('/dev/shm/piprivatebusyold/test_private_continuation_unce0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe6c56b4b90>
+private = True, operation = 'ASK'
+
+    @pytest.mark.parametrize('operation',['ASK','WAIT'])
+    @pytest.mark.parametrize('private',[True,False])
+    def test_private_continuation_uncertainty_is_not_an_extra_pending_task(tmp_path,monkeypatch,private,operation):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+        with runtime as r:
+            class Uncertain:
+                descriptor='offline-private-uncertainty'
+                def propose(self,request):
+                    calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                    value['proposed_operations']=[operation]
+                    return json.dumps(value)
+            monkeypatch.setattr(r.cognition,'port',lambda call:Uncertain())
+            if private:clock.advance(3*SECOND)
+            else:
+                event=SubjectInput(source_key='synthetic.ordinary-uncertain-source',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=plan.source_memory_ids,significance='HIGH',uncertainty='HIGH')
+                r.submit(RuntimeEvent(event_type='WORLD_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us()))
+            result=r.step()
+>           assert len(calls)==1 and result['cycle'].intention.kind==('NO_ACTION' if private else 'WAIT')
+E           assert (1 == 1 and 'WAIT' == 'NO_ACTION'
+E            +  where 1 = len([FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"...716d90544300040c0623fec638a7aec"}', context_digest='a75c6083b19d0078561abf2a38df953b3716d90544300040c0623fec638a7aec')])
+E             
+E             - NO_ACTION
+E             + WAIT)
+
+tests/first_life_integration/test_private_intent.py:1570: AssertionError
+_ test_private_continuation_uncertainty_is_not_an_extra_pending_task[True-WAIT] _
+
+tmp_path = PosixPath('/dev/shm/piprivatebusyold/test_private_continuation_unce1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe6c56b85f0>
+private = True, operation = 'WAIT'
+
+    @pytest.mark.parametrize('operation',['ASK','WAIT'])
+    @pytest.mark.parametrize('private',[True,False])
+    def test_private_continuation_uncertainty_is_not_an_extra_pending_task(tmp_path,monkeypatch,private,operation):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.presence.contracts import RuntimeEvent,Cause,SECOND
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+        with runtime as r:
+            class Uncertain:
+                descriptor='offline-private-uncertainty'
+                def propose(self,request):
+                    calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                    value['proposed_operations']=[operation]
+                    return json.dumps(value)
+            monkeypatch.setattr(r.cognition,'port',lambda call:Uncertain())
+            if private:clock.advance(3*SECOND)
+            else:
+                event=SubjectInput(source_key='synthetic.ordinary-uncertain-source',kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=plan.source_memory_ids,significance='HIGH',uncertainty='HIGH')
+                r.submit(RuntimeEvent(event_type='WORLD_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us()))
+            result=r.step()
+>           assert len(calls)==1 and result['cycle'].intention.kind==('NO_ACTION' if private else 'WAIT')
+E           assert (1 == 1 and 'WAIT' == 'NO_ACTION'
+E            +  where 1 = len([FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"...ff4ec1340997bc46417c52a27666316"}', context_digest='004beaf215e14d15290ee2159546b07b1ff4ec1340997bc46417c52a27666316')])
+E             
+E             - NO_ACTION
+E             + WAIT)
+
+tests/first_life_integration/test_private_intent.py:1570: AssertionError
+_ test_original_pending_work_does_not_prohibit_private_question_formation_in_normal_d _
+
+tmp_path = PosixPath('/dev/shm/piprivatebusyold/test_original_pending_work_doe0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe6c58082c0>
+
+    def test_original_pending_work_does_not_prohibit_private_question_formation_in_normal_d(tmp_path,monkeypatch):
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.presence.contracts import SECOND
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);calls=[]
+        with runtime as r:
+            memory=MemoryService(r.store,r.authority)
+            for i in range(8):
+                key='full-pending-'+str(i)
+                cue=ConcernCue(cue_kind='OPPORTUNITY',topic_key=key,motivation_source='CURIOSITY',possible_behaviors=('EXPLORE',),resource_class='ORDINARY',urgency='HIGH')
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.private-d-full',source_reference=key,source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+                mid=memory.add(MemoryCandidate(entity_id='counterparty',scope='own-scope',memory_type=MemoryType.PROSPECTIVE,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=cue.model_dump_json(),predicate_key='concern.'+key))
+                r.subject.run(SubjectInput(source_key='synthetic.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='counterparty',scope='own-scope',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,)))
+            before=r.subject.pending('own-scope');assert len(before)==8
+            class Question:
+                descriptor='offline-private-question-with-external-work-pending'
+                def propose(self,request):
+                    calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                    value['private_question']={'topic':plan.topic,'question':'SYNTHETIC private question remains possible while unrelated work waits.'}
+                    return json.dumps(value)
+            monkeypatch.setattr(r.cognition,'port',lambda call:Question())
+            clock.advance(3*SECOND);r.refresh_attention()
+            for _ in range(16):r.step()
+>           assert len(calls)==1 and any(v.category=='PRIVATE_QUESTION' for _,v in candidates(r.store,'own-scope',('PROJECT',)))
+E           assert (0 == 1)
+E            +  where 0 = len([])
+
+tests/first_life_integration/test_private_intent.py:1600: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_continuation_uncertainty_is_not_an_extra_pending_task[True-ASK]
+FAILED tests/first_life_integration/test_private_intent.py::test_private_continuation_uncertainty_is_not_an_extra_pending_task[True-WAIT]
+FAILED tests/first_life_integration/test_private_intent.py::test_original_pending_work_does_not_prohibit_private_question_formation_in_normal_d
+3 failed, 2 passed, 87 deselected in 1.20s

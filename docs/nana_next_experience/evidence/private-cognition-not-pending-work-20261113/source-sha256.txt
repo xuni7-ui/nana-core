@@ -1,0 +1,3 @@
+f80e8972afa5c42977412ba9cc001eee1d08bfd8a8de573b3d54e9b1403a3ad0  src/nana_core/presence/cognition.py
+313adf0d2d0e27ef16c0b62ed1ba90a09ba3fde0f435e20efbf473dbe21fb036  src/nana_core/continuity/subject/loop.py
+aea1149362b56afa936e9f0bc0b6765d25dad77ab6a1ecfbaa4ee1c359a69c18  tests/first_life_integration/test_private_intent.py
