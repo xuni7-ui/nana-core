@@ -28,7 +28,7 @@ def bind(runtime,transport,*,blocked=None,budget=None,previews=None):
     budget=budget or CognitionBudget(input_tokens=32768)
     def preview(event,frame):
         if blocked and blocked[0]:raise CoreError('COGNITION_COST_BUDGET')
-        if frame is None:return  # Coarse readiness before original source ingress.
+        if frame is None or not (frame.source_memory_ids or frame.source_record_ids):return  # No imaginary source in read-only preview.
         if previews is not None:previews.append(frame.subject_event_id)
         return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
             subject_frame=frame,role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':event.privacy_class}},budget=budget)

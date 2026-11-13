@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 190,
-  "as_of_us": 1794586602400775,
+  "revision": 191,
+  "as_of_us": 1794588271322384,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_NORMAL_D_PROVIDER_OWNER_BINDING",
+  "status": "IN_PROGRESS_SEEDLESS_PROVIDER_COGNITION",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,25 +20,25 @@
     "原Record跨轮方法继承；明确评价绑定原C实际choice/消息/topic/recipient，原索引有界投影→C可改换/结束方法。重启/UNKNOWN/回读/隔离/撤回/过期受控通过；最终56相关，效果仍未知，不自动人格或技能改写。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原正常D/队列/quiet/前台/重启接显式provider宿主绑定，LifeApp复用路由及host预算，完整预览不写库/预留。旧槽资源2账项→新1（两者HTTP1，非账单节费）；内容投影消融改后续私问，316相关后补105/11，真实0。"
+    "原正常D显式provider单账本/只读预览已接；无旧Memory可由C真实考虑资源发生作极小来源→同C私问，短念不建Goal。212相关通过，预算等待不重复写/调用，重启/撤回有效；旧673独立CI629非本批，真实0。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "正常D显式宿主绑定已受控接线；公开客户端/持久startup选择未暴露，既有安装不自动新收费。无旧Memory首个商业请求真实自身追源、本地重复装配、情感/效果/广G长期及原A–H/旧reader回退和匹配发行继续。",
+    "无旧Memory自主Provider请求已受控接通；原冻结task焦点仍被world.self默认覆盖，需volatile绑定/完整wire计量/过期不重发。持久startup产品入口、装配精简、情感效果/广G长期及A–H/旧reader和匹配发行继续。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md",
     "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md",
     "docs/nana_next_experience/evidence/choice-constraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md",
     "docs/nana_next_experience/evidence/communication-strategy-continuity-20261113/README.md",
-    "docs/nana_next_experience/evidence/commercial-inner-communication-20261113/README.md",
-    "docs/nana_next_experience/evidence/private-cognition-not-pending-work-20261113/README.md"
+    "docs/nana_next_experience/evidence/commercial-inner-communication-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2800,3 +2800,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ## 2026-11-13 原正常D的provider宿主绑定
 
 [受控实测] 显式绑定LifeApp原route/预算/Session恢复；原D/private quiet/前台/重启/源撤回/单账本接真实owned HTTP，旧fixture槽2账项→新1且两者均HTTP1/同问题/0动作，不称提供方账单节费或支持的旧生产接线。完整preview只读/不预留，后续预算变化仍拒绝；内容投影消融保留ACTIVE计划但不产相同私问。316相关、优化后105、最终11分列。证据 docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md；source-sha256.txt锚 `393d50eb742721b01eab57a91846f64a8f8b2b540e3201157cb51609a9467465`。下一seedless商业自身请求来源/不保存短念、startup产品入口/本地装配优化与情感/G/原A–H，CURRENT266+409不变。
+
+[实测] revision191 seedless Provider→原C/原D资源等待证据provider-seedless-20261113；源码表SHA256 5171504f81a0e3c045af1bbb0f1b41c2b5f81798159fba8193e147fa74c9b87b（表不自指）。212相关通过；精确旧673源码285py同输入失败/当前成功，短念/不保留/撤回/重启与0重复资源请求分别实测。非全仓/真实模型/最终发行。

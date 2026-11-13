@@ -96,3 +96,4 @@ PENDING_LOCAL_RECEIPT = "Local conversation receipt metadata; semantic interpret
 
 
 SELF_COGNITION_OCCURRENCE_TEXT = "Original Subject validated a private cognition candidate; no world fact or external action is asserted."
+SELF_PROVIDER_CONSIDERATION_TEXT = "Original C considered a bounded provider cognition request; this records a program occurrence, not an executed request, external evidence or retained thought."

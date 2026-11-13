@@ -100,6 +100,13 @@ class CognitionCoordinator:
         unknown+=self.store.db.execute("SELECT count(*) FROM runtime_cognition_calls WHERE state='UNKNOWN' AND started_at_us>=?",(day,)).fetchone()[0]
         if row['event_type']!='USER_EVENT' and self.config.provider_unknown_calls_per_day and unknown>=self.config.provider_unknown_calls_per_day:
             return 'LIGHT_COGNITION','UNKNOWN_BILLING_BACKGROUND_PAUSED'
+        if not situation.memory_ids and not situation.support_record_ids:
+            from ..continuity.autonomy.private_intent import provider_consideration_memory
+            from ..continuity.subject.policy import appraise
+            root=provider_consideration_memory(self.store,event)
+            if root:
+                situation=situation.model_copy(update={'memory_ids':(root,)})
+                appraisal=appraise(event,situation)
         # Admission already previewed the complete request. Dispatch constructs
         # and rechecks it, so do not assemble a duplicate preview after claim.
         if not preview:return 'FULL_COGNITION','IMPORTANT_UNCERTAIN_SOURCE'

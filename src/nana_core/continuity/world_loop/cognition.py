@@ -852,6 +852,8 @@ class SubjectCognitionPort:
     Original C receives only an immutable candidate. No additional scheduler,
     fixture reservation, executor or automatic retry belongs to this resource.
     """
+    requires_request_anchor=True
+
     def __init__(self,session,*,privacy_class,budget=None):
         if privacy_class not in {'PUBLIC','PROJECT','PERSONAL','SECRET'}:raise CoreError('SUBJECT_CONTEXT_PRIVACY_INVALID')
         self.session,self.privacy_class,self.budget=session,privacy_class,budget

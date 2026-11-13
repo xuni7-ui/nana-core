@@ -84,9 +84,11 @@ class MemoryService:
         own=p.domain=='SELF_COGNITION'
         if own:
             from ..actions import OperatorAuthority
-            from .contracts import SELF_COGNITION_OCCURRENCE_TEXT
-            root=(p.source_namespace=='recorded.subject.cognition-occurrence' and p.source_kind=='SYSTEM_VERIFICATION'
-                and candidate.text==SELF_COGNITION_OCCURRENCE_TEXT and re.fullmatch(r'self\.[a-f0-9]{64}',p.source_reference)
+            from .contracts import SELF_COGNITION_OCCURRENCE_TEXT,SELF_PROVIDER_CONSIDERATION_TEXT
+            expected={'recorded.subject.cognition-occurrence':(SELF_COGNITION_OCCURRENCE_TEXT,r'self\.[a-f0-9]{64}'),
+                'recorded.subject.provider-consideration':(SELF_PROVIDER_CONSIDERATION_TEXT,r'self\.request\.[a-f0-9]{64}')}.get(p.source_namespace)
+            root=(expected is not None and p.source_kind=='SYSTEM_VERIFICATION'
+                and candidate.text==expected[0] and re.fullmatch(expected[1],p.source_reference)
                 and type(self._authority) is OperatorAuthority)
             derived=p.source_namespace=='recorded.subject.concern' and p.source_kind=='MODEL_DERIVATION'
             if derived:
@@ -165,7 +167,7 @@ class MemoryService:
         source = self.evidence(candidate.source_evidence_id)
         provenance=json.loads(source['provenance_json'])
         if provenance['domain']=='SELF_COGNITION':
-            if provenance['source_namespace']=='recorded.subject.cognition-occurrence':
+            if provenance['source_namespace'] in {'recorded.subject.cognition-occurrence','recorded.subject.provider-consideration'}:
                 if (candidate.entity_id!=self.store.identity['identity_id'] or candidate.memory_type!=MemoryType.EPISODIC
                         or candidate.epistemic_kind!='OBSERVATION' or candidate.predicate_key or candidate.correction_of or candidate.derived_from):
                     raise CoreError('SELF_COGNITION_IS_OCCURRENCE_NOT_WORLD_CLAIM')

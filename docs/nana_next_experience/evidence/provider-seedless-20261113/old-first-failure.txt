@@ -1,0 +1,129 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_seedless_provider_can_form_a_private_question_from_its_own_real_consideration _
+
+tmp_path = PosixPath('/dev/shm/pseedold/test_seedless_provider_can_for0')
+
+    def test_seedless_provider_can_form_a_private_question_from_its_own_real_consideration(tmp_path):
+        clock=VirtualClock();runtime=bare(tmp_path,clock);received=[]
+        def propose(request):
+            received.append(request);identity=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC internal candidate',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='PRIVATE_SEEDLESS_REASON',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-seedless-interest','question':'PRIVATE_SEEDLESS_QUESTION'}))
+        with provider_harness(proposer=propose) as (transport,state),runtime as r:
+            assert not r.store.all('memories') and not r.store.all('continuity_records')
+            policy=ContextPolicy(policy_id='seedless-provider',allowed_scopes=('own-scope',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy);source=event(r);identity=r.identity_id
+>           cycle=r.subject.cognize(source,model=session.subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768)),authority=r.authority,policy=policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_provider_subject_seedless.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/dev/shm/nana-seedless-673/src/nana_core/continuity/subject/loop.py:644: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-seedless-673/src/nana_core/continuity/cognition.py:127: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-seedless-673/src/nana_core/continuity/world_loop/cognition.py:869: in propose
+    request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+/dev/shm/nana-seedless-673/src/nana_core/continuity/world_loop/cognition.py:409: in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f4ce93f95e0>
+key = 'subject-cognition.60caf2d7-0552-475c-98e2-3b1867b395da', role = 'SELF'
+source_ids = ()
+budget = CognitionBudget(input_tokens=32768, output_tokens=2048, timeout_ms=120000, cost_ceiling_micro=0)
+goal_id = None, capabilities = ()
+role_input = {'subject_cognition': {'subject_event_id': '60caf2d7-0552-475c-98e2-3b1867b395da', 'privacy_class': 'PROJECT'}}
+volatile_input = None, pinned_only = False, query_terms = ()
+subject_frame = DeliberationFrame(derived=True, subject_event_id='60caf2d7-0552-475c-98e2-3b1867b395da', scope='own-scope', appraisal=...=(), inhibited_by=()),), attention='BACKGROUND_WATCH', source_memory_ids=(), source_record_ids=(), behavior_options=())
+_preview = False
+
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=(),subject_frame=None,_preview=False):
+        if subject_frame is not None and role!='SELF':raise CoreError('SUBJECT_CONTEXT_ROLE_DENIED')
+        if role_input and 'subject_cognition' in role_input:
+            from ..subject.contracts import DeliberationFrame
+            descriptor=role_input['subject_cognition']
+            if (role!='SELF' or type(subject_frame) is not DeliberationFrame or set(role_input)!={'subject_cognition'}
+                    or type(descriptor) is not dict or set(descriptor)!={'subject_event_id','privacy_class'}
+                    or descriptor['subject_event_id']!=subject_frame.subject_event_id
+                    or descriptor['privacy_class'] not in {'PUBLIC','PROJECT','PERSONAL','SECRET'}):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
+        elif subject_frame is not None:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        subject_source=self.store.one('subject_events',subject_frame.subject_event_id) if subject_frame is not None else None
+        if subject_frame is not None and (not subject_source or subject_source['scope']!=subject_frame.scope
+                or subject_frame.scope not in self.runtime.config.scopes):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
+        if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
+        old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
+        if old:
+            if _preview:return {'state':old['state'],'request_id':old['request_id'],'existing_request':True,'reservation_created':False,'execution_authority':False}
+            return old['request_id']
+        r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
+        if self.route_snapshot is not None:
+            snap=self.route_snapshot;limit=snap.effective
+            if budget is None:
+                # The selected route already intersects request/provider/host
+                # ceilings. A constructor default must not truncate that choice.
+                b=b.model_copy(update={'timeout_ms':limit.timeout_ms})
+            if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
+            if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
+            if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
+            b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
+        now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
+        if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
+        if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
+        role_input=role_input or {}
+        goal=self.store.one('goals',goal_id) if goal_id else None
+        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
+        request_id=uid()
+        current=[]
+        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
+            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
+            if head and head['scope'] in r.config.scopes and head['privacy_class'] in allowed_for_request(self.transport,self.policy,role_input) and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
+        current=tuple(current)
+        world_stamp=self._world_stamp(r.config.scopes,allowed_for_request(self.transport,self.policy,role_input))
+        def make_request(context_json):
+            package=json.loads(context_json)
+            source_refs=tuple(dict.fromkeys((*source_ids,*(m for block in package['blocks'] for m in block['source_memory_ids']))))
+            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and getattr(self.transport,'supports_json_stream',False) else 'JSON',
+                request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
+                source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
+                current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,
+                expected_schema=proposal_schema(bool(subject_frame)),role_input=role_input,budget=b,created_at_us=now,
+                deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        token_counter=getattr(self.transport,'token_counter',None)
+        if token_counter is not None:
+            from ..context import FramedContextCounter
+            def count_package(context_json):
+                candidate=make_request(context_json)
+                candidate._volatile_media=volatile_input
+                body=json.loads(self.transport.request_body(candidate))
+                return token_counter.count_request(body,provider_id=self.transport.provider_id,model_id=self.transport.model_id)
+            self.assembler.counter=FramedContextCounter(token_counter,count_package)
+        if token_counter is None:
+            from ..context import ConservativeCounter
+            self.assembler.counter=ConservativeCounter()
+        req=ContextRequest(entity_id=subject_source['entity_id'] if subject_source else r.config.entity_id,scopes=(subject_frame.scope,) if subject_frame is not None else r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input.get('dialogue') or role_input.get('subject_cognition') or {}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        private_refs=()
+        if role=='INTERPRET' and role_input.get('dialogue'):
+            dialogue_scope=self.records.memory.read(role_input['dialogue']['message_memory_id'])['scope']
+            private_refs=r.subject.dialogue_private_refs(scope=dialogue_scope,topic=role_input['dialogue']['topic'],
+                privacy_classes=allowed_for_request(self.transport,self.policy,role_input))
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None,private_record_ids=private_refs,subject_frame=subject_frame)
+        if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
+        history_support=[]
+        selected={m for block in context.blocks for m in block.source_memory_ids}
+        if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
+        refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))
+>       if not refs:raise CoreError('COGNITION_SOURCES_REQUIRED')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: COGNITION_SOURCES_REQUIRED
+
+/dev/shm/nana-seedless-673/src/nana_core/continuity/world_loop/cognition.py:499: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_seedless.py::test_seedless_provider_can_form_a_private_question_from_its_own_real_consideration
+1 failed in 0.21s

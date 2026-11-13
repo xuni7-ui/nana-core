@@ -293,6 +293,45 @@ def _complete_question_formation(store,tx,intention_id):
         tx.update('subject_intentions',intention_id,state='COMPLETED',revision=row['revision']+1)
 
 
+def provider_consideration_memory(store,event):
+    """Read an existing program occurrence; admission never invents a source."""
+    from ...storage import digest
+    from ..memory import MemoryService
+    reference='self.request.'+digest([store.identity['identity_id'],event.scope,event.source_key])
+    evidence=store.db.execute('SELECT * FROM continuity_evidence WHERE source_namespace=? AND source_reference=?',
+        ('recorded.subject.provider-consideration',reference)).fetchone()
+    if evidence is None:return None
+    if evidence['state']=='DELETED':raise CoreError('SOURCE_DELETED')
+    row=store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=? AND entity_id=? AND scope=?',
+        (evidence['evidence_id'],store.identity['identity_id'],event.scope)).fetchone()
+    if row is None:return None
+    memory=MemoryService(store).read(row['memory_id'])
+    if memory['privacy_class']!=event.privacy_class:raise CoreError('SOURCE_COLLISION')
+    return row['memory_id']
+
+
+def anchor_provider_consideration(store,event,*,authority):
+    """C's actual pre-inference consideration, not a validated model proposal.
+
+    Only a source-less provider resource needs this minimal audit root; no
+    thought/input/response body is copied into it. Forgotten roots cannot revive.
+    """
+    from ...storage import digest
+    from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType,SELF_PROVIDER_CONSIDERATION_TEXT
+    from ..memory import MemoryService
+    reference='self.request.'+digest([store.identity['identity_id'],event.scope,event.source_key])
+    previous=store.db.execute('SELECT * FROM continuity_evidence WHERE source_namespace=? AND source_reference=?',
+        ('recorded.subject.provider-consideration',reference)).fetchone()
+    if previous and previous['state']=='DELETED':raise CoreError('SOURCE_DELETED')
+    when=previous['observed_time_us'] if previous else store.clock.utc_now_us();memory=MemoryService(store,authority)
+    eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SELF_COGNITION',source_namespace='recorded.subject.provider-consideration',
+        source_reference=reference,source_kind='SYSTEM_VERIFICATION'),text=SELF_PROVIDER_CONSIDERATION_TEXT,
+        privacy_class=event.privacy_class,event_time_us=when,observed_time_us=when))
+    mid=memory.add(MemoryCandidate(entity_id=store.identity['identity_id'],scope=event.scope,memory_type=MemoryType.EPISODIC,
+        epistemic_kind='OBSERVATION',source_evidence_id=eid,text=SELF_PROVIDER_CONSIDERATION_TEXT,importance=0,significance=0))
+    return event.model_copy(update={'source_memory_ids':(mid,)})
+
+
 def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None,private_plan=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 

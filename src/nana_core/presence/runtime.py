@@ -275,10 +275,11 @@ class NanaRuntime:
         UNKNOWN handling instead of being hidden behind a resource pause.
         """
         try:
-            if json.loads(row['metadata_json']).get('private_thought_ref') is None:
+            provider_background=self.cognition.provider_factory is not None and row['event_type']!='USER_EVENT'
+            if not provider_background and json.loads(row['metadata_json']).get('private_thought_ref') is None:
                 return True
             event = self.queue.input(row)
-            if event.private_thought_ref is None:
+            if not provider_background and event.private_thought_ref is None:
                 return True
             if self.store.db.execute(
                 'SELECT 1 FROM runtime_cognition_calls WHERE queue_id=?', (row['queue_id'],)

@@ -132,17 +132,19 @@ def test_sparse_ranking_matches_independent_order_and_falls_back_without_index(c
     assert memory.query(**{**args,'privacy_classes':('PUBLIC',)},query_terms=('needle',)) == []
 
 
-@pytest.mark.parametrize('fault',['no-authority','statement','private-body','foreign-namespace','consent'])
-def test_self_cognition_provenance_cannot_mint_external_claim_or_private_transcript(tmp_path,fault):
+@pytest.mark.parametrize('namespace',['cognition-occurrence','provider-consideration'])
+@pytest.mark.parametrize('fault',['no-authority','statement','private-body','foreign-namespace','consent','wrong-root-kind'])
+def test_self_cognition_provenance_cannot_mint_external_claim_or_private_transcript(tmp_path,fault,namespace):
     from nana_core.actions import OperatorAuthority
-    from nana_core.continuity.contracts import SELF_COGNITION_OCCURRENCE_TEXT
+    from nana_core.continuity.contracts import SELF_COGNITION_OCCURRENCE_TEXT,SELF_PROVIDER_CONSIDERATION_TEXT
     from nana_core.continuity import IdentityService
     from nana_core.presence.authority import VirtualClock
     with ContinuityStore(tmp_path/'own.db',VirtualClock(),schema_target=13) as store:
         IdentityService(store,OperatorAuthority())
-        values=dict(domain='SELF_COGNITION',source_namespace='recorded.subject.cognition-occurrence',
-            source_reference='self.'+'a'*64,source_kind='SYSTEM_VERIFICATION')
-        body=SELF_COGNITION_OCCURRENCE_TEXT
+        values=dict(domain='SELF_COGNITION',source_namespace='recorded.subject.'+namespace,
+            source_reference=('self.request.' if namespace=='provider-consideration' else 'self.')+'a'*64,source_kind='SYSTEM_VERIFICATION')
+        body=SELF_PROVIDER_CONSIDERATION_TEXT if namespace=='provider-consideration' else SELF_COGNITION_OCCURRENCE_TEXT
+        if fault=='wrong-root-kind':body=SELF_COGNITION_OCCURRENCE_TEXT if namespace=='provider-consideration' else SELF_PROVIDER_CONSIDERATION_TEXT
         if fault=='statement':values['source_kind']='USER_STATEMENT'
         if fault=='private-body':body='Unverified private guess is not an observed world fact'
         if fault=='foreign-namespace':values['source_namespace']='recorded.external'

@@ -231,7 +231,7 @@ class LifeApplication:
             snapshot=self.router.inspect(request,self.policy)
             from .readiness import budget
             budget(self,snapshot)
-            if frame is None:return
+            if frame is None or not (frame.source_memory_ids or frame.source_record_ids):return
             # Constructing an estimator performs no recovery, reservation or
             # provider dispatch (configuration/credential binding remains local).
             # Dispatch uses _session again, including its original recovery gate.

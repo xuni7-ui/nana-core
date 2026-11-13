@@ -633,6 +633,12 @@ class SubjectLoop:
         attention = decide(event, situation, appraisal, motives)[0]
         if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
             return self.run(event, expected_revision=revision)
+        if (self.store.schema_target>=13 and getattr(model,'requires_request_anchor',False)
+                and not situation.memory_ids and not situation.support_record_ids):
+            from ..autonomy.private_intent import anchor_provider_consideration
+            event=anchor_provider_consideration(self.store,event,authority=authority)
+            situation=self.situation(event,source);appraisal=appraise(event,situation);motives=motivate(event,situation,appraisal)
+            attention=decide(event,situation,appraisal,motives)[0]
         from .policy import deliberation_frame
         frame=deliberation_frame(source['subject_event_id'],situation,appraisal,motives,attention)
         assembler = ContextAssembler(self.store, authority)
@@ -643,7 +649,7 @@ class SubjectLoop:
         context = assembler.assemble(request, policy, subject_frame=frame,capabilities=capabilities,limitations=limitations)
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
-        if self.store.schema_target>=13 and not situation.memory_ids and not situation.support_record_ids:
+        if self.store.schema_target>=13 and result.resource_record_id is None and not situation.memory_ids and not situation.support_record_ids:
             from ..autonomy.private_intent import consider_question,consider_plan,anchor_own_occurrence
             _,judgment,intention=decide(event,situation,appraisal,motives)
             if (consider_question(event,situation,judgment,intention,result.proposal.private_question) is not None
