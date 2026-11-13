@@ -413,7 +413,13 @@ class CognitionSession:
             # leave its closure as an assembler/long-lived plaintext cache.
             self.assembler.counter=previous
 
-    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=(),subject_frame=None):
+    def preview(self,key,role,source_ids,**options):
+        """Read-only complete-request admission; never a reservation or grant."""
+        previous=self.assembler.counter
+        try:return self._prepare(key,role,source_ids,**options,_preview=True)
+        finally:self.assembler.counter=previous
+
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=(),subject_frame=None,_preview=False):
         if subject_frame is not None and role!='SELF':raise CoreError('SUBJECT_CONTEXT_ROLE_DENIED')
         if role_input and 'subject_cognition' in role_input:
             from ..subject.contracts import DeliberationFrame
@@ -428,7 +434,9 @@ class CognitionSession:
                 or subject_frame.scope not in self.runtime.config.scopes):raise CoreError('SUBJECT_CONTEXT_BINDING_INVALID')
         if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
-        if old:return old['request_id']
+        if old:
+            if _preview:return {'state':old['state'],'request_id':old['request_id'],'existing_request':True,'reservation_created':False,'execution_authority':False}
+            return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
         if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
         if self.route_snapshot is not None:
@@ -585,6 +593,10 @@ class CognitionSession:
             if resource.admission_bytes+reserved_bytes>limits.max_model_bytes_per_day or (not role_input.get('dialogue') and (resource.background_admission_bytes+reserved_bytes)*100>limits.max_model_bytes_per_day*limits.background_fraction_percent):raise CoreError('COGNITION_BYTE_BUDGET')
             if resource.reserved_estimated_cost_micro+b.cost_ceiling_micro>limits.max_estimated_cost_micro_per_day:raise CoreError('COGNITION_COST_BUDGET')
         self.assembler.validate(context,req,self.policy)
+        if _preview:
+            return {'state':'WOULD_PREPARE','existing_request':False,'reserved_bytes':reserved_bytes,
+                'reserved_cost_micro':b.cost_ceiling_micro,'budget':b.model_dump(mode='json'),
+                'token_accounting':token_accounting,'reservation_created':False,'execution_authority':False}
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
             rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id,**({'token_accounting':token_accounting} if token_accounting else {})},memories=tuple(dict.fromkeys((*refs,*history_support))),records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))),privacy_floor=LocalWorldRegistry.payload_privacy(role_input) if role_input.get('dialogue') or role_input.get('subject_cognition') else None)
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})

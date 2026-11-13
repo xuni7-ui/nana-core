@@ -53,6 +53,7 @@ class CognitionCoordinator:
     def __init__(self,store,config,lease):
         self.store,self.config,self.lease=store,config,lease
         self.model_kind=config.model
+        self.provider_factory=None;self.provider_preview=None
         self._started={}
         self._restore_resource_state()
 
@@ -66,13 +67,57 @@ class CognitionCoordinator:
     def set_model(self,kind):
         if kind is not None and kind not in KINDS:raise CoreError('RUNTIME_MODEL_NOT_REGISTERED')
         if kind==self.model_kind:return
+        self.provider_factory=None;self.provider_preview=None
         self.model_kind=kind
         self._restore_resource_state()
 
-    def choose(self,row,event,loop):
+    def bind_provider(self,factory,preview):
+        """Explicit owner binding; callbacks reuse original provider admission.
+
+        This is not persisted model output or a new model loop. The host rebinds
+        it on startup; old fixture mode/defaults remain unchanged until requested.
+        Preview must be read-only and apply the host's route/hour/profile limits.
+        """
+        self.lease.assert_current()
+        if self.store.schema_target<13 or not callable(factory) or not callable(preview):raise CoreError('PROVIDER_RESOURCE_BINDING_REQUIRED')
+        self.provider_factory,self.provider_preview=factory,preview
+        self.model_kind='provider';self.availability='AVAILABLE';self.backoff_until=0
+
+    def _provider_choice(self,row,event,loop,source,situation,appraisal,*,preview=True):
+        if source and source.get('subject_event_id'):
+            key='subject-cognition.'+source['subject_event_id']
+            if self.store.db.execute('SELECT 1 FROM cognitive_requests WHERE request_key=?',(key,)).fetchone():
+                return 'NO_COGNITION','MODEL_ATTEMPT_ALREADY_RESERVED'
+        if self.store.db.execute("SELECT 1 FROM cognitive_requests WHERE state='CALLING' UNION ALL SELECT 1 FROM runtime_cognition_calls WHERE state='RESERVED' LIMIT 1").fetchone():
+            return 'LIGHT_COGNITION','UNRESOLVED_PROVIDER_CALL'
+        now=self.store.clock.utc_now_us();day=now//DAY*DAY
+        old=self.store.db.execute('SELECT count(*),max(started_at_us) FROM runtime_cognition_calls WHERE started_at_us>=?',(day,)).fetchone()
+        new=self.store.db.execute('SELECT count(*),max(created_at_us) FROM cognitive_requests WHERE created_at_us>=?',(day,)).fetchone()
+        if old[0]+new[0]>=self.config.max_calls_per_day:return 'LIGHT_COGNITION','COGNITION_BUDGET_EXHAUSTED'
+        latest=max(old[1] or 0,new[1] or 0)
+        if latest and now-latest<self.config.cognition_cooldown_us:return 'LIGHT_COGNITION','COGNITION_COOLDOWN'
+        unknown=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE state='UNKNOWN' AND created_at_us>=?",(day,)).fetchone()[0]
+        unknown+=self.store.db.execute("SELECT count(*) FROM runtime_cognition_calls WHERE state='UNKNOWN' AND started_at_us>=?",(day,)).fetchone()[0]
+        if row['event_type']!='USER_EVENT' and self.config.provider_unknown_calls_per_day and unknown>=self.config.provider_unknown_calls_per_day:
+            return 'LIGHT_COGNITION','UNKNOWN_BILLING_BACKGROUND_PAUSED'
+        # Admission already previewed the complete request. Dispatch constructs
+        # and rechecks it, so do not assemble a duplicate preview after claim.
+        if not preview:return 'FULL_COGNITION','IMPORTANT_UNCERTAIN_SOURCE'
+        from ..continuity.subject.policy import motivate,decide,deliberation_frame
+        frame=None
+        if source and source.get('subject_event_id'):
+            motives=motivate(event,situation,appraisal)
+            frame=deliberation_frame(source['subject_event_id'],situation,appraisal,motives,decide(event,situation,appraisal,motives)[0])
+        try:self.provider_preview(event,frame)
+        except CoreError as exc:
+            if exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
+            return 'LIGHT_COGNITION',exc.code
+        return 'FULL_COGNITION','IMPORTANT_UNCERTAIN_SOURCE'
+
+    def choose(self,row,event,loop,*,preview=True):
         if row['event_type']=='TIME_EVENT' and row['wake_trigger']=='TIME_TRIGGER':
             return 'NO_COGNITION','LOW_FREQUENCY_TIME_MAINTENANCE'
-        return self._choose(row,event,loop,self.store.one('subject_events',row['subject_event_id']))
+        return self._choose(row,event,loop,self.store.one('subject_events',row['subject_event_id']),preview=preview)
 
     def preview_private(self,event,loop):
         """Read-only C/resource assessment before recording a D opportunity."""
@@ -80,7 +125,7 @@ class CognitionCoordinator:
         row={'event_type':'SELF_EVENT','wake_trigger':'SELF_TRIGGER','queue_id':None}
         return self._choose(row,event,loop,{'record_id':None})
 
-    def _choose(self,row,event,loop,source):
+    def _choose(self,row,event,loop,source,*,preview=True):
         situation=loop.situation(event,source)
         from ..continuity.subject.policy import appraise
         appraisal=appraise(event,situation)
@@ -92,6 +137,7 @@ class CognitionCoordinator:
             _,judgment,intention=decide(event,situation,appraisal,motivate(event,situation,appraisal))
             need=bool(can_consider_private_formation(event,situation,judgment,intention))
         if not need:return 'LIGHT_COGNITION','C_POLICY_SUFFICIENT'
+        if self.provider_factory is not None:return self._provider_choice(row,event,loop,source,situation,appraisal,preview=preview)
         now=self.store.clock.utc_now_us()
         if self.model_kind is None or self.availability=='UNAVAILABLE':return 'LIGHT_COGNITION','MODEL_UNAVAILABLE_SELF_CONTINUES'
         if now<self.backoff_until:return 'LIGHT_COGNITION','MODEL_BACKOFF'

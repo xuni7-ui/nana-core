@@ -1,5 +1,11 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
+## 当前接续：正常D显式provider绑定，revision190
+
+原Runtime/D单队列接provider factory/read-only preview，LifeApplication.bind_provider_cognition显式owner启动绑定复用原router/host预算/_session恢复，绑定本身不请求模型，默认配置/fixture保持。实际私念→正常D→HTTP SELF→同C新私问；旧槽两账项→新1且HTTP都1/0动作，私念内容投影消融改变后续问题。ready资源等待同队列/0重复DB写；前台UNKNOWN重启不重发、源排队/工厂竞态撤回IGNORED；1.6s请求超过旧fixture默认1.5s且预算120000ms。316相关后仅优化claim重复完整预览→105，最后11消融/宿主通过，非全仓/真实模型。见 `evidence/provider-normal-d-20261113/README.md`。
+
+下一直接开发：零旧Memory/Record的首个商业SELF调用仍COGNITION_SOURCES_REQUIRED；原anchor_own_occurrence文本只用于已验证候选，不能移到调用前冒称发生。应由原C在真实“考虑provider请求”的阶段记录极小自身程序发生（新严格namespace/text/owner、无想法/推理正文），仅资源审计需要且无合法支持时使用；原DO_NOT_REMEMBER和不收费fixture短念0持久性不改，撤回/重启/无重派/单Store保护继承。随后继续本地重复装配优化、持久startup/客户端模型入口、情感/策略效果/G迁移和原A–H/匹配发行。宿主绑定不持久化，现客户端未暴露开关，不能称已替现有安装开启收费生活。旧dde CI498pass1warning205.99s/clientSKIP已实读，非当前后继；所有真实模型/手机/生产/自然度/长期差额及CURRENT266+409不动。下方189旧下一按本段/09优先。
+
 ## 当前接续：原SELF资源接同C，revision189
 
 基线af13后继：既有SELF角色支持原Frame/CognitiveProposal候选→同C，原provider账本/预算/usage/UNKNOWN/回执依赖，无第二Loop或fixture双计费。实际owned HTTP选择REST/新私问，短念/解释不落普通审计，源撤回贯穿；新源/前台仍阻断。own-audit stale首错、费用/隐私等夹具错均存 `evidence/provider-subject-resource-20261113/README.md`，176相关后补21，真实模型0。

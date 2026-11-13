@@ -48,6 +48,14 @@ class Situation(DTO):
     goal_review_id: str | None = None
 
 
+def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
+    """Same read-only C projection for deliberation and D resource admission."""
+    from .contracts import DeliberationFrame
+    return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,
+        attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
+        behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+
+
 def appraise(event: SubjectInput, situation: Situation):
     conflict = bool(event.proposed_method and situation.allowed_methods and event.proposed_method not in situation.allowed_methods)
     norm_conflict=bool(situation.cue and set(directions(situation.cue))&set(situation.prohibited_behaviors))

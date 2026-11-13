@@ -1,0 +1,45 @@
+{
+  "mode": "legacy-slot",
+  "provider_calls": 1,
+  "provider_ledger_rows": 1,
+  "fixture_ledger_rows": 1,
+  "same_c_question_formed": true,
+  "actions": 0,
+  "grants": 0,
+  "real_model_calls": 0,
+  "runtime_config": {
+    "schema_target": 13,
+    "living": null,
+    "domain": "SYNTHETIC_ONLY",
+    "scopes": [
+      "own-scope"
+    ],
+    "entity_id": "counterparty",
+    "privacy_classes": [
+      "PROJECT"
+    ],
+    "lease_us": 30000000,
+    "heartbeat_us": 5000000,
+    "review_interval_us": 10000000,
+    "idle_recall_us": 2000000,
+    "cognition_cooldown_us": 0,
+    "cognition_backoff_us": 1800000000,
+    "max_calls_per_day": 8,
+    "provider_unknown_calls_per_day": 8,
+    "model_timeout_seconds": 1.5,
+    "queue_capacity": 256,
+    "schedule_capacity": 128,
+    "poll_seconds": 0.1,
+    "model": "analytical",
+    "capability_snapshot": {
+      "revision": 1,
+      "capabilities": [],
+      "devices": [],
+      "platforms": [],
+      "provenance": "SYNTHETIC_OPERATOR_SNAPSHOT",
+      "execution_authority": false
+    }
+  },
+  "source_module": "/dev/shm/nana-provider-d-dde/src/nana_core/presence/runtime.py",
+  "limit": "Legacy slot injection is an isolated diagnostic, not a supported production integration. Fresh equivalent DEV stores; no binary migration/installation or real-model quality/cost comparison."
+}

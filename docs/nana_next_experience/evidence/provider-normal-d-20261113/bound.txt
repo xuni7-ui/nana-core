@@ -1,0 +1,1 @@
+{"mode": "bound", "provider_calls": 1, "provider_ledger_rows": 1, "fixture_ledger_rows": 0, "same_c_question_formed": true}

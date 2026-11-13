@@ -379,12 +379,33 @@ class NanaRuntime:
                     )
                     self._save_oper()
                     return {'queue_id': row['queue_id'], 'mode': 'NO_COGNITION', 'reason': reason, 'cycle': None}
-            mode, reason = self.cognition.choose(row, event, self.subject)
+            mode, reason = self.cognition.choose(row, event, self.subject,preview=False)
             result = None
             if mode == "NO_COGNITION":
                 maintenance = getattr(self.subject, "maintain", None)
                 if maintenance:
                     maintenance()
+            elif mode == 'FULL_COGNITION' and self.cognition.provider_factory is not None:
+                try:
+                    port=self.cognition.provider_factory(event)
+                    result=self.subject.cognize(event,model=port,authority=self.authority,policy=port.session.policy,
+                        capabilities=self.config.capability_snapshot.capabilities,limitations=('NO_EXTERNAL_EXECUTION_IN_C_D',))
+                except CoreError as exc:
+                    if exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
+                    key='subject-cognition.'+row['subject_event_id']
+                    attempted=self.store.db.execute('SELECT state FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
+                    if not attempted:
+                        # A source race is retirement, not resource pressure.
+                        self.queue.cause_memories(tuple(Cause.model_validate_json(canonical(x)) for x in json.loads(row['cause_json'])),event.scope)
+                        self.subject.situation(event,self.store.one('subject_events',row['subject_event_id']))
+                        self.queue.finish(row,'DEFERRED','PROVIDER_RESOURCE_WAIT')
+                    elif exc.code=='PREEMPTED_NO_AUTOMATIC_RETRY':
+                        self.queue.finish(row,'DEFERRED','PREEMPTED_PROVIDER_UNKNOWN_NO_RETRY')
+                    else:
+                        self.queue.finish(row,'DONE','PROVIDER_CANDIDATE_UNAVAILABLE_NO_REPLAY')
+                    self._save_oper()
+                    return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':exc.code,'cycle':None}
+                self.oper['last_cognition_us']=self.clock.utc_now_us()
             elif mode == "FULL_COGNITION":
                 call = self.cognition.reserve(row)
                 try:

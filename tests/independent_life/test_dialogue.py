@@ -11,20 +11,24 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None,meaning_builder=None,context_limit=8192):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None,meaning_builder=None,context_limit=8192,subject_builder=None):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def do_POST(self):
             body=json.loads(self.rfile.read(int(self.headers['Content-Length'])));request=json.loads(body['messages'][1]['content']);requests.append(request)
-            role=request['cognitive_role'];descriptor=request['role_input']['dialogue']
-            proposal={'interpretation':descriptor['text'],'source_refs':request['source_context_refs'],'uncertainty':'LOW','confidence':.9}
+            role=request['cognitive_role'];descriptor=request['role_input'].get('dialogue',{})
+            if role=='SELF':
+                assert subject_builder is not None,'SELF fixture must be explicitly configured'
+                proposal=subject_builder(request)
+            else:
+                proposal={'interpretation':descriptor['text'],'source_refs':request['source_context_refs'],'uncertainty':'LOW','confidence':.9}
             if role=='INTERPRET':
                 proposal['dialogue']={'kind':kind,'confidence':'HIGH'}
                 if recall_query_terms:proposal['dialogue']['recall_query_terms']=recall_query_terms
                 if conversation_proposal:proposal['dialogue']['conversation_proposal']=conversation_proposal
                 if meaning_builder:proposal['dialogue'].update(meaning_builder(request))
-            else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+            elif role=='SOCIAL':proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
             raw=json.dumps({'id':'synthetic-dialogue','model':body['model'],'usage':{'prompt_tokens':10,'completion_tokens':10},'choices':[{'finish_reason':'stop','message':{'content':json.dumps(proposal)}}]}).encode()
             if body.get('stream') and stream_fixture is not None:

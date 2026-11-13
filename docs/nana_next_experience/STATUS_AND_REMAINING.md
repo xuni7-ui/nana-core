@@ -1,5 +1,7 @@
 # 2026-11-13 当前机制深化增量（同一主任务）
 
+现役revision190：原正常D→provider已通过显式宿主绑定接线/单账本/只读完整预览，LifeApp实际route/预算、前台/quiet/UNKNOWN重启/撤回/内容消融受控验证；316后补105/11分列。首个seedless商业自身来源、startup产品入口/重复装配与情感/G/原A–H继续，非发布/上线/总完成。
+
 现役revision189：SELF typed商业资源已接同C/原账本与回执，176相关后补21通过；正常D provider factory/readiness/单账本/timeout/恢复及seedless自身追源继续开发，非自动商业自主生活或总工程完成。其余A–H继承，见当前ACTIVE及provider-subject-resource证据。
 
 现役revision188：原cognize方向偏好→同C当前重判断已受控验证，默认首项不再是唯一可能；商业D资源仍仅fixture，Provider/预算/usage/UNKNOWN原生融合是具体下一缺口。当前30相关/原始失败分列，非商业自主性/总工程完成；原A–H继承。

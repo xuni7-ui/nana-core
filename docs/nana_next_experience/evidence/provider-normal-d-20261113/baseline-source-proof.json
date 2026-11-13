@@ -1,0 +1,8 @@
+{
+  "baseline": "dde862bc1471d512f7fb6cb291f9bc28eae456c0",
+  "all_baseline_python_files_match_git": 285,
+  "legacy_source_module": "/dev/shm/nana-provider-d-dde/src/nana_core/presence/runtime.py",
+  "tool_sha256": "1da209f964e8f202d81b1ccb24b216643aa3abb854c7040d114d8a9c18580de0",
+  "current_source_anchor": "393d50eb742721b01eab57a91846f64a8f8b2b540e3201157cb51609a9467465",
+  "scope": "same controlled HTTP proposer/budget and equivalent fresh DEV stores; legacy-slot diagnostic, not real-model/billing/installation or same-store migration proof"
+}

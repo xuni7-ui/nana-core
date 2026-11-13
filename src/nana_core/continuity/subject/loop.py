@@ -633,11 +633,8 @@ class SubjectLoop:
         attention = decide(event, situation, appraisal, motives)[0]
         if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
             return self.run(event, expected_revision=revision)
-        from .contracts import DeliberationFrame
-        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
-            appraisal=appraisal,motivations=motives,attention=attention,
-            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
-            behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+        from .policy import deliberation_frame
+        frame=deliberation_frame(source['subject_event_id'],situation,appraisal,motives,attention)
         assembler = ContextAssembler(self.store, authority)
         request = ContextRequest(entity_id=event.entity_id, scopes=(event.scope,),
             task_class=event.task_class or 'subject_deliberation',

@@ -207,6 +207,39 @@ class LifeApplication:
         if resource_state(self.runtime.store,self.runtime.config).unresolved_live_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         self.session.draft_sink=self.response_sink
         return self.session
+
+    def bind_provider_cognition(self,enabled=True):
+        """Explicit owner/startup choice, using the configured route and budget.
+
+        Binding dispatches nothing. Existing applications keep their prior mode
+        until their host opts in, and rebind on restart without changing identity.
+        """
+        self.runtime.cadence.assert_owner()
+        if type(enabled) is not bool:raise CoreError('PROVIDER_RESOURCE_BINDING_REQUIRED')
+        if not enabled:
+            self.runtime.cognition.set_model(self.runtime.config.model)
+            return {'enabled':False,'dispatch_happened':False}
+        def limits():
+            return CognitionBudget(input_tokens=self.config.provider_context_tokens,output_tokens=self.config.provider_output_tokens,
+                timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro)
+        def factory(event):
+            return self._session(event.privacy_class).subject_port(privacy_class=event.privacy_class,budget=limits())
+        def preview(event,frame):
+            if self.router is None:raise CoreError('LIVE_PROVIDER_NOT_RUN_OFFLINE_MODE')
+            request=RouteRequest(operation='COGNITION',privacy_class=event.privacy_class,timeout_ms=self.config.provider_timeout_ms,
+                cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=self.config.provider_context_tokens,output_limit=self.config.provider_output_tokens)
+            snapshot=self.router.inspect(request,self.policy)
+            from .readiness import budget
+            budget(self,snapshot)
+            if frame is None:return
+            # Constructing an estimator performs no recovery, reservation or
+            # provider dispatch (configuration/credential binding remains local).
+            # Dispatch uses _session again, including its original recovery gate.
+            session=self.session if self.session and self.session.route_snapshot==snapshot else self.router.resolve(request,self.policy).cognition_session(self.runtime,project_state_source=self.current_project_state)
+            return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,subject_frame=frame,
+                role_input={'subject_cognition':{'subject_event_id':frame.subject_event_id,'privacy_class':event.privacy_class}},budget=limits())
+        self.runtime.cognition.bind_provider(factory,preview)
+        return {'enabled':True,'dispatch_happened':False,'owner_startup_rebind_required':True}
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=(),recipient_context=None):
         if cycle and cycle.record_id:
             from ..continuity.memory import PRIVACY_RANK
