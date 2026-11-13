@@ -157,11 +157,13 @@ class EventQueue:
                 return row
         return None
 
-    def finish(self,row,state,code,cycle_id=None):
+    def finish(self,row,state,code,cycle_id=None,*,defer_until_us=None):
         if state not in {'DONE','IGNORED','EXPIRED','DEFERRED'}:raise CoreError('INVALID_RUNTIME_QUEUE_TRANSITION')
+        if defer_until_us is not None and (state!='DEFERRED' or type(defer_until_us) is not int or defer_until_us<=self.store.clock.utc_now_us()):raise CoreError('INVALID_RUNTIME_DEFERRAL')
         if state!='DEFERRED':self._transient_interactions.pop(row['queue_id'],None)
         with self.store.transaction('runtime.event_finished') as tx:
             old=self.store.one('runtime_queue',row['queue_id'])
             if old['state']!='PROCESSING' or old['owner_epoch']!=self.lease.epoch:raise CoreError('RUNTIME_QUEUE_OWNER_LOST')
-            tx.update('runtime_queue',row['queue_id'],state=state,outcome_code=code,cycle_id=cycle_id,
-                owner_epoch=None,updated_at_us=self.store.clock.utc_now_us())
+            updates={'state':state,'outcome_code':code,'cycle_id':cycle_id,'owner_epoch':None,'updated_at_us':self.store.clock.utc_now_us()}
+            if defer_until_us is not None:updates['due_at_us']=defer_until_us
+            tx.update('runtime_queue',row['queue_id'],**updates)

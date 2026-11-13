@@ -334,6 +334,25 @@ class NanaRuntime:
             )
             if event.origin == "USER":
                 self.oper["last_interaction_us"] = event.observed_at_us
+            if event.private_thought_ref is not None:
+                from ..continuity.autonomy.private_intent import continuation_target
+
+                continuation_target(
+                    self.store, event.private_thought_ref,
+                    scope=event.scope, privacy_classes=self.config.privacy_classes,
+                )
+                quiet_until = max(
+                    self.oper['last_activity_us'], self.oper['last_interaction_us'] or 0
+                ) + self.config.idle_recall_us
+                if self.clock.utc_now_us() < quiet_until:
+                    expired = row['expires_at_us'] is not None and quiet_until >= row['expires_at_us']
+                    reason = 'PRIVATE_THOUGHT_WINDOW_EXPIRED' if expired else 'PRIVATE_THOUGHT_WAITING_FOR_QUIET'
+                    self.queue.finish(
+                        row, 'EXPIRED' if expired else 'DEFERRED', reason,
+                        defer_until_us=None if expired else quiet_until,
+                    )
+                    self._save_oper()
+                    return {'queue_id': row['queue_id'], 'mode': 'NO_COGNITION', 'reason': reason, 'cycle': None}
             mode, reason = self.cognition.choose(row, event, self.subject)
             result = None
             if mode == "NO_COGNITION":

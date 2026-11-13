@@ -76,3 +76,10 @@ private_plan→原cognize/独立C→已有PRIVATE_ACTIVITY_V2/PRIVATE_PLAN；无
 这是候选接线，不是正常D全验收：下一先补前台在预查后插入、静默延后/重启、模型/预算改变及陈旧ref/撤回排队，再相关回归。新private_thought_ref真实队列/模板的旧reader回退未资格；旧输入无ref从wire省略。商业持续策略/保留/明确反馈与原A–H不缩减。避免/tmp再丢：本批验证后立即提交push，再在该合法后继连续精修。
 
 新增续办工具已确认今天北京时间17:00与23:00两次一次性任务，继承届时最新进度且不暂停当前工作；未推断定时结果或总工程完成。CURRENT266+409/生产不变。
+
+
+## 2026-11-13 现役后继：前台竞争/恢复与十九节深化
+
+基线d291，原quiet窗口在worker模型前复核，延后原队列到静默结束，同时间扫描不重复claim。原版竞态1fail/1pass，首修nullable1fail/1pass均保留；最终2竞态/6恢复目标、111相关通过。停机重启换fixture仍同identity/计划/queue due，撤回排队0调用。源码锚 `9db8e7d83e993cee62e162d54ebc98cc52e6245b6cf0ba4cdffeccf0a5820ad9`，见evidence/private-d-foreground-recovery-20261113。不是商业模型/真实跨日或安装。
+
+十九节机制深化已归task_inputs/mission/AGENTS，按现役HEAD/Brain继续，不以参考176覆盖当前。下一立即修已入队后预算/模型变化不应消费机会，补当前ref修订淘汰，再商业内心→原C目的→RENDER及明确反馈/S8因果。原A–H、旧reader回退、最终匹配发行及真实资格继续未完成。
