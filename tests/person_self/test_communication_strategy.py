@@ -179,3 +179,129 @@ def test_public_boundary_does_not_downgrade_the_prior_private_method_revision(tm
         assert strategy_rows(app)[-1]['privacy_class']=='PROJECT'
         app.chat('先别分析这个话题',topic='own-curiosity',privacy='PUBLIC',message_id='stop-public')
         assert len(strategy_rows(app))==2 and strategy_rows(app)[-1]['privacy_class']=='PROJECT'
+
+
+def test_original_s8_expression_result_changes_later_method_and_unseen_topic_then_counterexample_reopens_choice(tmp_path):
+    from .test_learning import record,activate
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    def informed(request):
+        blocks=json.loads(request['context_json'])['blocks']
+        active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in blocks)
+        return {'communication_proposal':{'approach':'CHAT' if active else 'EXPLORE','detail':'BRIEF' if active else 'DEEP',
+            'follow_up':'NONE','strategy_duration_seconds':600}}
+    def wording(request):
+        choice=request['role_input']['dialogue']['communication_purpose'].get('choice')
+        return 'SYNTHETIC concise response' if choice and choice['detail']=='BRIEF' else 'SYNTHETIC expanded comparison'
+    with relay(home,'CHAT',meaning_builder=informed,renderer=wording,context_limit=32768) as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();root,rid=seed(app);identity=app.runtime.identity_id
+            before=app.chat('SYNTHETIC first comparison',topic='own-curiosity',privacy='PROJECT',message_id='before-learning')
+            assert before['text']=='SYNTHETIC expanded comparison'
+            record(app,1);_,eid=record(app,2);activate(app,eid)
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();assert app.runtime.identity_id==identity
+            changed=app.chat('SYNTHETIC a different later situation',topic='own-curiosity',privacy='PROJECT',message_id='after-learning')
+            assert changed['text']=='SYNTHETIC concise response'
+            assert methods(requests[-2])[0]['choice']['detail']=='DEEP'  # Prior private method is available, not binding.
+            assert requests[-1]['role_input']['dialogue']['communication_purpose']['choice']['detail']=='BRIEF'
+            transferred=app.chat('SYNTHETIC unseen conversation topic',topic='unseen-transfer',privacy='PROJECT',message_id='transfer')
+            assert transferred['text']=='SYNTHETIC concise response' and not methods(requests[-2])
+            record(app,3,tags=('TOO_TERSE',))
+            counter=app.chat('SYNTHETIC another independent context',topic='after-counterexample',privacy='PROJECT',message_id='counterexample')
+            assert counter['text']=='SYNTHETIC expanded comparison'
+            assert len(requests)==8 and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+
+
+def reviews(request):
+    return [json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK']
+
+
+def test_bound_method_review_changes_next_choice_without_claiming_effect_then_withdraws(tmp_path):
+    from nana_core.continuity.lived_language import LanguageSample,LanguageService
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    def informed(request):
+        if reviews(request):
+            return {'communication_proposal':{'approach':'CHAT','detail':'BRIEF','follow_up':'NONE','end_previous_strategy':True}}
+        return meaning(request)
+    with relay(home,'CHAT',meaning_builder=informed,renderer=render,context_limit=32768) as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();seed(app);identity=app.runtime.identity_id
+            turn=app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',retain_shared_life=True,message_id='reviewed-turn')
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='method-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                context='SYNTHETIC explicit method opinion',candidate_response=turn['text'],human_judgment='REJECTED',
+                exact_feedback='SYNTHETIC_PRIVATE_REVIEW_DO_NOT_REPLAY',reason_tags=('TOO_FORMAL',),
+                provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+            rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,
+                exchange_record_id=turn['exchange_record_id'])
+            assert service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,
+                exchange_record_id=turn['exchange_record_id'])==rid
+            from nana_core.continuity.lived_language import communication_feedback
+            for changes in ({'scope':'other-scope'},{'entity_id':'another-contact'},{'topic':'another-topic'},
+                    {'recipient_context':{'platform':'qq.onebot','binding_id':'qq.primary','conversation_id':'qq.private.43'}},
+                    {'privacy':('PUBLIC',)}):
+                assert communication_feedback(app.runtime.store,**(dict(scope='project-work',entity_id='project-user',topic='own-curiosity',recipient_context=None,privacy=('PROJECT',))|changes)) is None
+            eid=service.experience(rid,app.runtime.authority)
+            assert eid and not app.runtime.store.all('lessons')  # An opinion is not an adopted method.
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();assert app.runtime.identity_id==identity
+            later=app.chat('SYNTHETIC related later message',topic='own-curiosity',privacy='PROJECT',message_id='review-later')
+            assert later['text']=='SYNTHETIC: hello.'
+            projected=reviews(requests[-2]);assert len(projected)==1
+            assert projected[0]['reviewed_choice']['approach']=='LISTEN'
+            assert projected[0]['human_judgment']=='REJECTED' and projected[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert projected[0]['delivery_state']=='NOT_PROVEN' and projected[0]['human_read_proven'] is False
+            assert 'SYNTHETIC_PRIVATE_REVIEW_DO_NOT_REPLAY' not in json.dumps(projected)
+            assert not reviews(requests[-1])  # Public RENDER receives only C's current choice.
+            assert communication_feedback(app.runtime.store,scope='project-work',entity_id='project-user',topic='own-curiosity',recipient_context=None,privacy=('PROJECT',)) is None
+            app.chat('SYNTHETIC different topic',topic='unrelated-review-topic',privacy='PROJECT',message_id='review-other')
+            assert not reviews(requests[-2])
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            report=next(mid for mid in service.records.support(rid) if service.records.memory.read(mid)['source_provenance']['source_reference']=='method-review')
+            app.forget(report)
+            app.chat('SYNTHETIC related after withdrawal',topic='own-curiosity',privacy='PROJECT',message_id='review-withdrawn')
+            assert not reviews(requests[-2]) and not service.records.current_support(rid)
+            assert len(requests)==8 and not app.runtime.store.all('actions')
+
+
+def test_unreviewed_does_not_update_method_and_withdrawn_latest_opinion_does_not_resurrect_older_one(tmp_path):
+    from nana_core.continuity.lived_language import LanguageSample,LanguageService,communication_feedback
+    home=tmp_path/'home';initialize(home)
+    with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=32768) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause();seed(app)
+        turn=app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',retain_shared_life=True)
+        service=LanguageService(app.runtime.store,app.runtime.authority)
+        args=dict(scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+        projection=dict(scope='project-work',entity_id='project-user',topic='own-curiosity',recipient_context=None,privacy=('PROJECT',))
+        sample=LanguageSample(sample_id='unreviewed-method',review_target=turn['exchange_record_id'],mode='CASUAL',context='SYNTHETIC',
+            candidate_response=turn['text'],human_judgment='UNREVIEWED',provenance='USER_PROVIDED_REVIEW',observed_at_us=app.clock.utc_now_us())
+        unreviewed=service.record(sample,**args)
+        assert 'communication_attribution' not in service.records.read(unreviewed)['payload']
+        assert communication_feedback(app.runtime.store,**projection) is None
+        older=service.record(sample.model_copy(update={'sample_id':'older-method','human_judgment':'PARTIAL'}),**args)
+        latest=service.record(sample.model_copy(update={'sample_id':'latest-method','human_judgment':'REJECTED'}),**args)
+        assert communication_feedback(app.runtime.store,**projection)['review_record_id']==latest
+        source=next(mid for mid in service.records.support(latest) if service.records.memory.read(mid)['source_provenance']['source_reference']=='latest-method')
+        app.forget(source)
+        assert service.records.current_support(older) and communication_feedback(app.runtime.store,**projection) is None
+        assert len(requests)==2
+
+
+def test_method_opinion_expires_with_own_review_window_without_erasing_review_or_calling_model(tmp_path):
+    from nana_core.continuity.lived_language import LanguageSample,LanguageService,communication_feedback
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    args=dict(scope='project-work',entity_id='project-user',topic='own-curiosity',recipient_context=None,privacy=('PROJECT',))
+    with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=32768) as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();seed(app)
+            turn=app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',retain_shared_life=True)
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='expiring-method-opinion',review_target=turn['exchange_record_id'],mode='CASUAL',context='SYNTHETIC',
+                candidate_response=turn['text'],human_judgment='PARTIAL',provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+            rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+            assert communication_feedback(app.runtime.store,**args)
+        clock.advance(601*SECOND)
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();service=LanguageService(app.runtime.store,app.runtime.authority)
+            assert communication_feedback(app.runtime.store,**args) is None
+            assert service.records.current_support(rid) and len(requests)==2

@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_bound_method_review_changes_next_choice_without_claiming_effect_then_withdraws _
+
+tmp_path = PosixPath('/dev/shm/methodfeedbackold/test_bound_method_review_chang0')
+
+    def test_bound_method_review_changes_next_choice_without_claiming_effect_then_withdraws(tmp_path):
+        from nana_core.continuity.lived_language import LanguageSample,LanguageService
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        def informed(request):
+            if reviews(request):
+                return {'communication_proposal':{'approach':'CHAT','detail':'BRIEF','follow_up':'NONE','end_previous_strategy':True}}
+            return meaning(request)
+        with relay(home,'CHAT',meaning_builder=informed,renderer=render,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();seed(app);identity=app.runtime.identity_id
+                turn=app.chat('SYNTHETIC begin-listening',topic='own-curiosity',privacy='PROJECT',retain_shared_life=True,message_id='reviewed-turn')
+                service=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='method-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                    context='SYNTHETIC explicit method opinion',candidate_response=turn['text'],human_judgment='REJECTED',
+                    exact_feedback='SYNTHETIC_PRIVATE_REVIEW_DO_NOT_REPLAY',reason_tags=('TOO_FORMAL',),
+                    provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+                rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,
+                    exchange_record_id=turn['exchange_record_id'])
+                eid=service.experience(rid,app.runtime.authority)
+                assert eid and not app.runtime.store.all('lessons')  # An opinion is not an adopted method.
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity
+                later=app.chat('SYNTHETIC related later message',topic='own-curiosity',privacy='PROJECT',message_id='review-later')
+>               assert later['text']=='SYNTHETIC: hello.'
+E               AssertionError: assert 'SYNTHETIC: k...to a project.' == 'SYNTHETIC: hello.'
+E                 
+E                 - SYNTHETIC: hello.
+E                 + SYNTHETIC: keep listening without turning this into a project.
+
+tests/person_self/test_communication_strategy.py:242: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_communication_strategy.py::test_bound_method_review_changes_next_choice_without_claiming_effect_then_withdraws
+1 failed, 13 deselected in 1.02s

@@ -3668,3 +3668,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：可选持续交流方法落原Record scoped target，非任务/第二脑；重启不重放原话仍续用，同方法不写新快照/续期，拒绝/新方向/撤回/到期可停但不删兴趣。精确旧c43首轮正常/重启丢方法对照失败→新11目标及194相关通过；租约夹具首错与拒绝未停实际首错保留，原lease/永久边界保护未放宽。491-byte单例快照/原索引查找/各轮2fixture、效果NOT_EVALUATED；旧c43独立483另记。证据communication-strategy-continuity-20261113/09锚，下一确切反馈/结果→Experience/原S8及A–H/旧reader回退/匹配发行，真实0。
 
 - 本批补充：公开接收者停止请求修订原私有方法时保留原privacy floor，新增2相关检查通过；原194/11范围不混为重跑全仓，源码锚随当前代码更新。
+
+- 2026-11-13｜NEXT_EXPERIENCE S2/S3/S6/S7/S8：明确反馈绑定原C实际方法与原INTERPRET精确消息/topic/recipient，复用原LanguageSample/Experience及索引引用，有界意见投影使C可改变/停止旧方法；不推断投递/被读/情绪效果，不把单次意见变永久偏好或技能。旧源及TEMPORARY输入首错保留，窗口前247与最终56相关分列；原G独立策略→重启/新topic C方法/反例接线通过。单例527-byte投影/2话轮4fixture/0action，旧7479 CI474另记；证据communication-method-feedback-20261113/09锚。实际效果、情感多动机/广G迁移及原A–H/旧reader回退/匹配发行继续，真实0。

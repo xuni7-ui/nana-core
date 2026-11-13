@@ -222,6 +222,81 @@ def delivery_for_exchange(records, exchange, *, observed_at_us=None):
         return None
 
 
+def communication_feedback_key(store, scope, entity_id, topic, recipient):
+    if hasattr(recipient,'model_dump'):recipient=recipient.model_dump(mode='json')
+    return 'communication-feedback.'+digest([store.identity['identity_id'],scope,entity_id,topic,recipient])
+
+
+def communication_for_exchange(records, exchange):
+    """Bind an opinion to C's actual method, never to a model's proposed reason."""
+    from ..life.dialogue_contracts import CommunicationChoice
+    store=records.store;data=exchange['payload']
+    if not records.current_support(exchange['record_id']):return None
+    parents=store.db.execute("SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD' AND relation_kind='SUPPORT' LIMIT 3",
+        (exchange['record_id'],)).fetchall()
+    cycles=[]
+    for (rid,) in parents:
+        head=store.one('continuity_records',rid)
+        if (not head or head['scope']!=exchange['scope'] or head['lifecycle']!='ACTIVE'
+                or head['privacy_class']!=exchange['privacy_class'] or not records.current_support(rid)):continue
+        if head['record_kind']=='SUBJECT_CYCLE':cycles.append(records.read(rid))
+    if len(cycles)!=1:return None
+    cycle=cycles[0];decision=cycle['payload'];choice=decision.get('communication_choice')
+    if choice is None:return None
+    event=store.one('subject_events',decision['event_id'])
+    if not event:return None
+    if event['entity_id']!=data['entity_id'] or event['scope']!=exchange['scope']:return None
+    # Local interaction input may deliberately remain TEMPORARY. Its accepted
+    # INTERPRET request already binds the exact message/topic/recipient, without
+    # retaining a second copy of the input solely for this feedback feature.
+    proposals=[]
+    for rid in (decision.get('context_fit') or {}).get('source_record_ids',()):
+        head=store.one('continuity_records',rid)
+        if (not head or head['record_kind']!='COGNITION_PROPOSAL' or head['scope']!=exchange['scope']
+                or head['privacy_class']!=exchange['privacy_class'] or not records.current_support(rid)):continue
+        reply=records.read(rid)['payload']['reply'];request=store.one('cognitive_requests',reply['request_id'])
+        if not request or request['state']!='PROPOSED':continue
+        head=store.one('continuity_records',request['record_id'])
+        if (not head or head['scope']!=exchange['scope'] or head['privacy_class']!=exchange['privacy_class']
+                or not records.current_support(head['record_id'])):continue
+        body=records.read(head['record_id'])['payload']['request'];dialogue=body.get('role_input',{}).get('dialogue',{})
+        if (body['cognitive_role']=='INTERPRET' and dialogue.get('message_memory_id')==data['user_memory_id']
+                and dialogue.get('topic')==data['topic']):proposals.append(dialogue)
+    if len(proposals)!=1:return None
+    recipient=proposals[0].get('recipient_context')
+    return {'cycle_record_id':cycle['record_id'],'reviewed_choice':CommunicationChoice.model_validate_json(canonical(choice)).model_dump(mode='json'),
+        'entity_id':data['entity_id'],'topic':data['topic'],'recipient_context':recipient}
+
+
+def communication_feedback(store, *, scope, entity_id, topic, recipient_context, privacy):
+    """Latest exact-conversation explicit opinion; not an effectiveness verdict.
+
+    The existing target index avoids scanning general reviews. No fallback to an
+    older opinion after withdrawal/withholding, and no raw feedback/private text.
+    """
+    if not privacy or store.schema_target<13:return None
+    from .subject.context_fit import communication_strategy_projection
+    strategy=communication_strategy_projection(store,scope=scope,entity_id=entity_id,topic=topic,
+        recipient_context=recipient_context,privacy_classes=privacy)
+    if strategy is None:return None
+    key=communication_feedback_key(store,scope,entity_id,topic,recipient_context)
+    head=store.db.execute("SELECT * FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND target_id=? ORDER BY created_at_us DESC,rowid DESC LIMIT 1",(scope,key)).fetchone()
+    if not head or head['lifecycle']!='ACTIVE' or head['privacy_class'] not in privacy:return None
+    records=RecordService(store)
+    if not records.current_support(head['record_id']):return None
+    ref=records.read(head['record_id'])['payload'];rid=ref['review_record_id'];review=store.one('continuity_records',rid)
+    if not review or review['scope']!=scope or review['privacy_class'] not in privacy or not records.current_support(rid):return None
+    row=records.read(rid)['payload'];sample=row['sample'];binding=row['communication_attribution'];delivery=row.get('delivery_attribution')
+    if (binding['reviewed_choice']!=strategy['choice'] or sample['observed_at_us']<strategy['created_at_us']
+            or sample['observed_at_us']>=strategy['expires_at_us']):return None
+    return {'record_id':head['record_id'],'review_record_id':rid,'reviewed_choice':binding['reviewed_choice'],
+        'human_judgment':sample['human_judgment'],'reason_tags':sample['reason_tags'],'provenance':sample['provenance'],
+        'observed_at_us':sample['observed_at_us'],'delivery_state':delivery['state'] if delivery else 'NOT_PROVEN',
+        'delivery_origin':delivery['origin'] if delivery else None,'human_read_proven':False,
+        'effect_status':'NOT_EVALUATED_NO_EFFECT_INFERRED','semantics':'EXPLICIT_OPINION_RECONSIDER_NOT_A_COMMAND',
+        'execution_authority':False}
+
+
 class LanguageService:
     def __init__(self, store, authority):
         from ..actions import OperatorAuthority
@@ -258,7 +333,7 @@ class LanguageService:
             if not self.records.current_support(rid):
                 raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
             return rid
-        parents = ();delivery=None
+        parents = ();delivery=None;communication=None
         if exchange_record_id:
             exchange = self.records.read(exchange_record_id)
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or not response_matches(sample, exchange['payload']['assistant_utterance'], response_sha256):
@@ -267,6 +342,7 @@ class LanguageService:
                 raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
             parents = (exchange_record_id,)
             delivery=delivery_for_exchange(self.records,exchange,observed_at_us=sample.observed_at_us)
+            if sample.human_judgment!='UNREVIEWED':communication=communication_for_exchange(self.records,exchange)
             if delivery:
                 parents=(*parents,delivery['receipt_record_id'],delivery['verification_record_id'])
             if sample.memory_use is not None:
@@ -288,6 +364,7 @@ class LanguageService:
         with self.store.transaction('subject.language_review_recorded', data, source_namespace='language.review', source_key=sample.sample_id) as tx:
             payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
             if delivery:payload['delivery_attribution']=delivery
+            if communication:payload['communication_attribution']=communication
             if request_digest is not None:payload['request_digest']=request_digest
             if response_sha256 is not None:payload['response_sha256']=response_sha256
             if use:payload['memory_use_feedback']=use.model_dump(mode='json')
@@ -296,6 +373,10 @@ class LanguageService:
                 self.records.create(tx,kind='ASSERTION',scope=scope,target_id='memory-use.'+use.memory_id,
                     payload={'person_kind':'MEMORY_USE_FEEDBACK_REFERENCE','review_record_id':rid,
                              'execution_authority':False,'changes_fact_credibility':False},records=(rid,))
+            if communication:
+                self.records.create(tx,kind='ASSERTION',scope=scope,
+                    target_id=communication_feedback_key(self.store,scope,entity_id,communication['topic'],communication['recipient_context']),
+                    payload={'person_kind':'COMMUNICATION_FEEDBACK_REFERENCE','review_record_id':rid,'execution_authority':False},records=(rid,))
             data['record_id'] = rid
         return rid
 

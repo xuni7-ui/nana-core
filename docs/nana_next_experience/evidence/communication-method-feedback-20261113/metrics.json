@@ -1,0 +1,67 @@
+{
+  "baseline_source": "7479edfc4d82c7e0f04e8c52c218e79ceae1ad0e",
+  "same_identity": true,
+  "initial_text": "SYNTHETIC: keep listening without turning this into a project.",
+  "later_text": "SYNTHETIC: hello.",
+  "http_fixture_calls": 4,
+  "request_budgets": [
+    {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 16384,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    },
+    {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 16384,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    },
+    {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 16384,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    },
+    {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 16384,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    }
+  ],
+  "wire_bytes": [
+    16501,
+    14174,
+    20439,
+    16409
+  ],
+  "feedback_projection_bytes": [
+    527
+  ],
+  "render_feedback_projection_count": 0,
+  "attribution_payload_bytes": 210,
+  "reference_payload_bytes": 136,
+  "feedback_reference_records": 1,
+  "query_plan": [
+    [
+      5,
+      0,
+      61,
+      "SEARCH continuity_records USING INDEX autonomy_record_target (record_kind=? AND target_id=?)"
+    ],
+    [
+      41,
+      0,
+      0,
+      "USE TEMP B-TREE FOR LAST TERM OF ORDER BY"
+    ]
+  ],
+  "experience_count": 1,
+  "lesson_count": 0,
+  "action_count": 0,
+  "real_model_calls": 0,
+  "actual_provider_tokens": null,
+  "actual_provider_cost": null,
+  "measurement_limits": "single synthetic case; wire is bytes, not token count; logical payload bytes not physical disk; no latency/CPU claim during concurrent regression"
+}

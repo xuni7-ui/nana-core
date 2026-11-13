@@ -264,6 +264,40 @@ def test_retained_reply_feedback_uses_independent_readback_not_generated_wording
             assert not history(app,privacy=('PROJECT',))['items']
 
 
+@pytest.mark.parametrize('lost_ack',[False,True],ids=['readback','unknown'])
+def test_method_opinion_keeps_exact_recipient_and_delivery_evidence_separate(tmp_path,lost_ack):
+    from nana_core.continuity.lived_language import LanguageService,LanguageSample,communication_feedback
+    def meaning(request):
+        return {'communication_proposal':{'approach':'LISTEN','detail':'BRIEF','follow_up':'NONE','strategy_duration_seconds':600}}
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url)
+        with relay(home,'CHAT',meaning_builder=meaning,context_limit=32768) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                thread_id='qq.private.43',text='SYNTHETIC retained method reply',privacy_class='PROJECT',
+                origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+            platform['lose_ack']=lost_ack
+            result=flow._reply(turn,'1')
+            assert result['delivery']==('UNKNOWN' if lost_ack else 'SUCCEEDED')
+            io=len(platform['calls']);service=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='method-delivery-opinion',review_target=turn['exchange_record_id'],mode='CASUAL',
+                context='SYNTHETIC explicit opinion, not a claim of recovery',candidate_response=turn['text'],
+                human_judgment='PARTIAL',reason_tags=('TOO_FORMAL',),provenance='USER_PROVIDED_REVIEW',observed_at_us=app.clock.utc_now_us())
+            rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,
+                exchange_record_id=turn['exchange_record_id'])
+            binding=service.records.read(rid)['payload']['communication_attribution']
+            recipient={'platform':'qq.onebot','binding_id':'qq.primary','conversation_id':'qq.private.43'}
+            assert binding['recipient_context']==recipient and binding['reviewed_choice']['approach']=='LISTEN'
+            args=dict(scope='project-work',entity_id='project-user',topic=binding['topic'],recipient_context=recipient,privacy=('PROJECT',))
+            projected=communication_feedback(app.runtime.store,**args)
+            assert projected['delivery_state']==('NOT_PROVEN' if lost_ack else 'INDEPENDENT_PLATFORM_READBACK')
+            assert projected['delivery_origin']==(None if lost_ack else 'SYNTHETIC_LOOPBACK')
+            assert projected['human_read_proven'] is False and projected['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert communication_feedback(app.runtime.store,**(args|{'recipient_context':None})) is None
+            assert communication_feedback(app.runtime.store,**(args|{'recipient_context':recipient|{'conversation_id':'qq.private.44'}})) is None
+            assert len(platform['calls'])==io and len(requests)==2  # No verification retry or new cognition for an opinion.
+
+
 @pytest.mark.parametrize('failure', ['lost_ack', 'wrong_peer'])
 def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path, failure):
     from nana_core.life.conversation import history

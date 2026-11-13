@@ -298,7 +298,14 @@ class ContextAssembler:
             raise CoreError('PRIVATE_CONTEXT_ROLE_DENIED')
         if request.task_class=='world.interpret' and conversation_topic is not None and self.store.schema_target>=13:
             from .subject.context_fit import communication_strategy_projection
+            from .lived_language import communication_feedback
             for scope in request.scopes:
+                review=communication_feedback(self.store,scope=scope,entity_id=request.entity_id,topic=conversation_topic,
+                    recipient_context=recipient_context,privacy=privacy)
+                if review:
+                    rid=review['record_id']
+                    candidates.append((939.0,ContextBlock(block_id='communication-feedback:'+rid,kind='COMMUNICATION_FEEDBACK',
+                        data_json=canonical(review),source_record_ids=(rid,))))
                 strategy=communication_strategy_projection(self.store,scope=scope,entity_id=request.entity_id,
                     topic=conversation_topic,recipient_context=recipient_context,privacy_classes=privacy)
                 if strategy:
@@ -530,7 +537,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL','COMMUNICATION_STRATEGY'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL','COMMUNICATION_STRATEGY','COMMUNICATION_FEEDBACK'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.

@@ -1,0 +1,13 @@
+{
+  "baseline": "7479edfc4d82c7e0f04e8c52c218e79ceae1ad0e",
+  "baseline_run": "new bound_method_review test executed before production source edits; baseline-before.txt preserves actual assertion failure",
+  "source_blob_sha256": {
+    ".github/workflows/nana-next-qualification.yml": "e7722032444969038f448d869531dacbc87acc9a0a2104bf6164230f7e9ab3a8",
+    "src/nana_core/continuity/context.py": "4c66feb385605f1ca442d5aab1ad14af42f52acaf2385c2aa4129c31d36315ba",
+    "src/nana_core/continuity/lived_language.py": "05d04fbeb6c7f1f335812dc0946f3d4291174d6b1f6018c33bc6d508fa6ecb4b",
+    "src/nana_core/continuity/world_loop/cognition.py": "f419288cdc2659155c43275858d385ba1bbf0ccb4fb2981eacbba9b29d8d5608",
+    "tests/person_self/test_communication_strategy.py": "f31f721b351cac75df26f5f15a3a9669e98b16bf5db83b2b32b8e4070e934ace",
+    "tests/living_release_v4/test_platform_runtime.py": "0a00f3aded42193e42e2b5b9957d9cbb6fc539c3aa7853f6efed101a39b7c0ee"
+  },
+  "current_source_anchor": "93cda28296c6098fe893cd29e68d6cc36e541cd41176a9609b352737171d42d4"
+}

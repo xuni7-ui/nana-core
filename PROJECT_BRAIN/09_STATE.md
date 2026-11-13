@@ -7,38 +7,38 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 185,
-  "as_of_us": 1794566925611004,
+  "revision": 186,
+  "as_of_us": 1794567907462486,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_BOUNDED_COMMUNICATION_METHOD_CONTINUITY",
+  "status": "IN_PROGRESS_EXPLICIT_METHOD_FEEDBACK_AND_G_TRANSFER",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "商业私念→原C交流choice复用；原Record可选持久方法按联系人/topic/接收scope延续，重启不重放原话、同方法不扩写/续期。新方向/拒绝/撤回/过期停止投影且兴趣不删。194相关后补11及隐私2通过，效果仍NOT_EVALUATED。",
+    "原Record跨轮方法继承；明确评价绑定原C实际choice/消息/topic/recipient，原索引有界投影→C可改换/结束方法。重启/UNKNOWN/回读/隔离/撤回/过期受控通过；最终56相关，效果仍未知，不自动人格或技能改写。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "短念/内外待办分离/商业内心choice复用；旧c43独立CI483pass1warning211.39s/clientSKIP已实读，含HTTP/streaming/provider/检索，非新批全仓。当前方法始终无效果结论，没有自动习惯/人格/技能改写。"
+    "原G既有独立表达策略在同主体重启及未见topic改变C方法，独立反例暂停；4话轮8fixture，无新增阶段。旧7479独立CI474pass1warning242.63s/clientSKIP实读；非新批全仓/真实成长。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "有界跨轮方法已有受控资格；策略预期/确切投递和实际结果/独立反馈→Experience/G后续迁移仍待。更多情感/多动机/单topic64/真实模型/自然度/长期及A–H继续；strategy proposal/choice/private ref旧reader回退和匹配发行未资格。",
+    "有界方法及明确意见已接；可验证预期/最终实际效果、情感多动机与更广独立结果→Experience/G长期迁移仍待。更多真实模型/自然度/跨日及A–H继续；此前choice/private ref旧reader回退与匹配发行未资格。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md",
     "docs/nana_next_experience/evidence/communication-strategy-continuity-20261113/README.md",
     "docs/nana_next_experience/evidence/commercial-inner-communication-20261113/README.md",
     "docs/nana_next_experience/evidence/private-cognition-not-pending-work-20261113/README.md",
     "docs/nana_next_experience/evidence/passing-thought-20261113/README.md",
     "docs/nana_next_experience/evidence/private-commercial-topic-20261113/README.md",
     "docs/nana_next_experience/evidence/private-d-resource-resume-20261113/README.md",
-    "docs/nana_next_experience/evidence/private-d-foreground-recovery-20261113/README.md",
-    "docs/nana_next_experience/evidence/normal-d-private-continuation-20261113/README.md"
+    "docs/nana_next_experience/evidence/private-d-foreground-recovery-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2780,3 +2780,7 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ## 2026-11-13 原Record方法跨轮延续
 
 普通默认不建策略，C可选保存紧凑方法假设，经当前联系人/topic/recipient/privacy/来源/窗口重判；同方法不扩写不续期，停止/到期不删兴趣，不自评有效。精确旧c43重启失去方法→新关私念正文仍续用；194相关后补11通过，lease夹具首错与拒绝未停首错保留。见communication-strategy-continuity-20261113，源码表锚 `546ebc165e2d77957a1565b56ec4a96e8cf4e6e2dc5e033f03df869d5a613004`。旧c43独立483另记；下一实际结果/明确反馈→原S8与A–H/回退/匹配发行，真实0。
+
+## 2026-11-13 原C方法的明确反馈与原G后续迁移
+
+[实测/受控] 基线7479edf；精确原话轮choice/recipient归因、限定方法窗口的意见投影接原C，原Experience不自动变技能。原版/临时事件首错保留，窗口前247、最终56相关分列；合成回读与UNKNOWN不推断被读或情绪效果。原G既有合格方法→重启/未见topic C选择与独立反例已验证。证据 docs/nana_next_experience/evidence/communication-method-feedback-20261113/README.md；source-sha256.txt锚 `93cda28296c6098fe893cd29e68d6cc36e541cd41176a9609b352737171d42d4`。新真实模型/手机/生产0，原A–H及实际效果/情感/长期/匹配交付继续。
