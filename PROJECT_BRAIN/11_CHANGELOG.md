@@ -3653,6 +3653,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 
 - 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D私人机会worker前复核quiet/current ref，前台注册后插入也延后原队列，同条件不重复claim；nullable首修失败如实保留。6恢复目标/111相关通过，重启换fixture与原身份计划保持、撤回排队0模型。用户十九节机制深化归原task_inputs/mission/AGENTS，不改63标准。证据private-d-foreground-recovery-20261113/09锚；下一已入队资源变化/陈旧ref/商业策略与A–H，无安装/真实模型/手机/生产/长期新资格。
 
+- 2026-11-13｜NEXT_EXPERIENCE S1/S3/S4/S6：原D已入队资源暂缺不消耗私念机会；原队列read-only readiness无新增权威，无模型/零预算原版2fail→保留READY，同条件四次0写入/0模型，恢复同queue1fixture。陈旧ref/UNKNOWN恢复不重试，115相关通过，旧d291独立CI205另记。证据private-d-resource-resume-20261113/09锚；继续商业topic/内心策略/反馈/S8与原A–H，无新安装/真实模型/手机/生产资格。
+
 
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
 
@@ -3674,3 +3676,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 [源码/实测] S5-C03/S1-C04 Advanced，成功目录响应返回原共享节流剩余ms，模型中心显示倒计时并避免已知立即429，已读选择不阻塞，无自动重试/新限制/推理调用。19客户端、24目录HTTP及TS/Vite通过；相关四视口12通过，新场景测试时钟竞态修正后4通过，未放宽行为断言。证据catalog-wait-20261113，源码锚ff4a0b44cb5078728c16f6cf3850987c8459702540e770f5e82f841f3dbae61b。PR14更新候选，PR16实际已关闭且功能保留；非A合并/真实手机/Provider/生产。下一隔离验证重复Provider配置解析成本。
 
 [2026-11-13 B接续核对] A推进至b016e6c，前台/静默恢复修复正常合并至B候选；完整保留A CURRENT178及账本前缀、B追加。模型配置源码及catalog-wait指纹未变，无新接口重叠，复用刚完成的定向验证，不重复构建/发行。原C/continuity/presence相对A无B差额。
+
+[2026-11-13 B交接] PR14模型配置候选已含PR16（实际关闭），等待体验通过；正常继承最新A6655a28，模型6文件指纹不变且continuity/presence相对A无差额，复用定向验证。独立Provider解析复用draft PR17（6ebd6fd）已有同条件数值/冷miss反例/89+原媒体3路径验证，A按实际负载决定；B下一普通Web连接测试与凭据配置差额，不等待回复或扩大缓存层。

@@ -1,0 +1,60 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes[unconfigured] _
+
+tmp_path = PosixPath('/dev/shm/pidresbefore/test_private_d_already_queued_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f1a93171970>
+constraint = 'unconfigured'
+
+    @pytest.mark.parametrize('constraint',['unconfigured','budget'])
+    def test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes(tmp_path,monkeypatch,constraint):
+        from nana_core.presence import NanaRuntime
+        from nana_core.presence.contracts import SECOND
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config;calls=[]
+        path=tmp_path/'private'/'self.db';identity=runtime.identity_id
+        with runtime as r:
+            clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+            qid=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+            assert r.store.one('runtime_queue',qid)['state']=='READY'
+        limited=config.model_copy(update={'model':None} if constraint=='unconfigured' else {'max_calls_per_day':0})
+        with NanaRuntime(path,limited,clock=clock) as r:
+            r.step()
+>           assert r.store.one('runtime_queue',qid)['state']=='READY'
+E           AssertionError: assert 'DONE' == 'READY'
+E             
+E             - READY
+E             + DONE
+
+tests/first_life_integration/test_private_intent.py:1461: AssertionError
+_ test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes[budget] _
+
+tmp_path = PosixPath('/dev/shm/pidresbefore/test_private_d_already_queued_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f1a930281a0>
+constraint = 'budget'
+
+    @pytest.mark.parametrize('constraint',['unconfigured','budget'])
+    def test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes(tmp_path,monkeypatch,constraint):
+        from nana_core.presence import NanaRuntime
+        from nana_core.presence.contracts import SECOND
+        from nana_core.continuity.cognition import AnalyticalFixturePort
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config;calls=[]
+        path=tmp_path/'private'/'self.db';identity=runtime.identity_id
+        with runtime as r:
+            clock.advance(3*SECOND);r._watch_sources();r.scheduler.due()
+            qid=r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key=?",('private-thought.'+rid,)).fetchone()[0]
+            assert r.store.one('runtime_queue',qid)['state']=='READY'
+        limited=config.model_copy(update={'model':None} if constraint=='unconfigured' else {'max_calls_per_day':0})
+        with NanaRuntime(path,limited,clock=clock) as r:
+            r.step()
+>           assert r.store.one('runtime_queue',qid)['state']=='READY'
+E           AssertionError: assert 'DONE' == 'READY'
+E             
+E             - READY
+E             + DONE
+
+tests/first_life_integration/test_private_intent.py:1461: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_private_intent.py::test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes[unconfigured]
+FAILED tests/first_life_integration/test_private_intent.py::test_private_d_already_queued_resource_pause_preserves_opportunity_without_repeated_writes[budget]
+2 failed, 81 deselected in 0.63s

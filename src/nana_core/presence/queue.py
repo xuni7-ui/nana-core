@@ -133,16 +133,22 @@ class EventQueue:
                     cycle_id=cycle[0] if cycle else None,owner_epoch=None,updated_at_us=self.store.clock.utc_now_us(),
                     outcome_code='RECOVERED_COMMITTED_CYCLE' if cycle else 'SAFE_RESUME_NO_MODEL_RETRY')
 
-    def claim(self,*,user_only=False):
+    def claim(self,*,user_only=False,ready=None):
         self.lease.assert_current()
         now=self.store.clock.utc_now_us()
-        if not self.store.db.execute("SELECT 1 FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND (due_at_us<=? OR expires_at_us<=?) LIMIT 1",(now,now)).fetchone():
-            return None
+        candidates=self.store.db.execute("SELECT * FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND due_at_us<=? "
+            "AND (expires_at_us IS NULL OR expires_at_us>?) "
+            "ORDER BY CASE WHEN event_type='USER_EVENT' THEN 0 ELSE 1 END,priority DESC,due_at_us,sequence_no LIMIT ?",
+            (now,now,self.config.queue_capacity)).fetchall()
+        # A read-only resource offer can leave a source ready. Do not journal
+        # identical failed admissions on every normal D step.
+        candidates=[dict(row) for row in candidates if (not user_only or row['event_type']=='USER_EVENT')
+            and (ready is None or ready(dict(row)))]
+        expired=self.store.db.execute("SELECT 1 FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND expires_at_us<=? LIMIT 1",(now,)).fetchone()
+        if not candidates and not expired:return None
         with self.store.transaction('runtime.queue_checked') as tx:
             for row in self.store.db.execute("SELECT * FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND expires_at_us<=?",(now,)).fetchall():
                 tx.update('runtime_queue',row['queue_id'],state='EXPIRED',outcome_code='EXPIRED',updated_at_us=now)
-            candidates=self.store.db.execute("SELECT * FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND due_at_us<=? "
-                "ORDER BY CASE WHEN event_type='USER_EVENT' THEN 0 ELSE 1 END,priority DESC,due_at_us,sequence_no LIMIT ?",(now,self.config.queue_capacity)).fetchall()
             for raw in candidates:
                 row=dict(raw)
                 if user_only and row['event_type']!='USER_EVENT':continue
