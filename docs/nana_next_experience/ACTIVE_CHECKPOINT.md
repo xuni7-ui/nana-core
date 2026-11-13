@@ -1,5 +1,11 @@
 # NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT — active checkpoint
 
+## 当前接续：按实际选择约束，revision187
+
+已修原C中未选SOCIALIZE/LEARN的边界/学习风险成本连带否决CREATE；实际选社交/高风险学习仍守原限制，实际有限关系约定整行保留。精确269旧包5fail2pass→当前245相关33.55s，0新模型/动作。见 `evidence/choice-constraint-scope-20261113/README.md`。
+
+下一高收益：原C开放多动机选择仍落options[0]，已有cognize只把private formation/ASK/WAIT接回，尚不能明确比较并选取多个普通方向。先核对原DeliberationFrame/原CognitiveProposal/当前norm/load/资源与private producers，最小复用已有认知；不要另建权重表/Planner或直接以模型替代C。方法明确意见、G迁移及其余A–H继承；旧reader/匹配交付及真实模型/手机/生产/自然度/长期未资格。下方旧186下一项按本段/09后继接续。
+
 ## 当前接续：明确意见→原C方法，revision186
 
 基线7479edf后继：原C实际choice与已验证INTERPRET精确话轮/recipient绑定，原反馈/Experience及scoped引用投影到后续C。单次意见只在当前方法窗口参与；结束/变更/过期不永久固化。实际QQ owned回读与UNKNOWN分开，不补发/不推断被读或安慰成功。原G已合格表达方法跨重启/新topic影响C方法并由独立反例暂停。窗口前247、最终56相关通过，非全仓/真实成长。原始首错与资源证据见 `evidence/communication-method-feedback-20261113/README.md`。

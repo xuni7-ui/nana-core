@@ -172,7 +172,7 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='NO_ACTION',purpose='Rest or finish existing intentions before optional memory work',slot_key='quiet',source_ids=sources,self_generated=True,behavior='REST'))
     if situation.memory_review_id:
         return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
-    if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':
+    if situation.voluntary_restraints and options and options[0]=='SOCIALIZE' and event.urgency!='HIGH':
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.plan_step:
@@ -207,18 +207,21 @@ def decide(event, situation, appraisal, motives):
         assessment=cue.opportunity_assessment
         # Generic utility/novelty does not erase a current source-backed personal
         # interest. Enjoyment need not promise learning or task productivity.
-        interested_learning = (bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'})
+        interested_learning = (behavior in {'LEARN', 'SEEK_CAPABILITY'}
             and (personal_interest or (cue.learning_value is not None
                 and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
-        interested_activity = personal_interest and bool(set(options) & {'EXPLORE', 'CREATE'})
+        interested_activity = personal_interest and behavior in {'EXPLORE', 'CREATE'}
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
         # remains the existing separate DeliveryAdmission/Kernel consideration.
-        interested_social = bool(situation.separate_delivery and 'SOCIALIZE' in options
+        interested_social = bool(situation.separate_delivery and behavior=='SOCIALIZE'
             and situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
             and situation.social_appetite.source_record_ids)
-        demanding = cue.attention_demand=='HEAVY' or bool(cue.learning_value and cue.learning_value.time_compute_cost=='HEAVY')
+        # Costs/reception for an unchosen alternative are not properties of the
+        # selected direction. Shared current load and actual norms still apply.
+        demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}
+            and cue.learning_value and cue.learning_value.time_compute_cost=='HEAVY')
         supported_light_interest = not demanding and (interested_learning or interested_activity or interested_social)
         # Current load remains a sourced rest motive. It does not require the
         # Subject to stop every light, supported interest or private wish to
@@ -233,7 +236,7 @@ def decide(event, situation, appraisal, motives):
             return ('DEFER',Judgment(stance='DEFER',reason='A demanding optional activity has no current supported interest outweighing its demand; this is not evidence of fatigue',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Leave this costly optional activity for a later choice',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         value=cue.learning_value
-        if value and set(options)&{'LEARN','SEEK_CAPABILITY'}:
+        if value and behavior in {'LEARN','SEEK_CAPABILITY'}:
             low_value=value.goal_value=='LOW' and value.future_reuse=='LOW' and value.interest=='LOW' and value.relationship_relevance=='LOW'
             # A current own question/preference is an independent learning
             # motive, even when this opportunity has little instrumental value.
@@ -245,7 +248,7 @@ def decide(event, situation, appraisal, motives):
                 return ('DEFER',Judgment(stance='DEFER',reason='Learning value does not currently justify its cost or risk',source_ids=sources),
                     Intention(kind='NO_ACTION',purpose='Defer learning while retaining the original interest',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         share=cue.share_assessment
-        if share and 'SOCIALIZE' in options:
+        if share and behavior=='SOCIALIZE':
             low=share.relational_relevance=='LOW' and share.affect_relevance=='LOW' and share.urgency=='LOW'
             redundant=share.novelty=='REPEATED' and share.recent_delivery_frequency=='HIGH' and share.urgency!='HIGH'
             if share.user_preference=='DECLINED' or redundant or (low and not interested_social):

@@ -1,0 +1,140 @@
+FFFF..                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-declined-contact] _
+
+tmp_path = PosixPath('/dev/shm/choicescopeold/test_unchosen_social_or_learni0')
+options = ('CREATE', 'SOCIALIZE')
+share = ShareAssessment(relational_relevance='LOW', novelty='NEW', affect_relevance='LOW', urgency='LOW', interruption_cost='LIGHT', recent_delivery_frequency='UNKNOWN', user_preference='DECLINED', desire='PRESENT')
+value = None, load = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('options,share,value,load,expected',[
+        (('CREATE','SOCIALIZE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','CREATE'),
+        (('CREATE','SOCIALIZE'),ShareAssessment(relational_relevance='LOW',affect_relevance='LOW'),None,'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',time_compute_cost='HEAVY'),'HIGH','CREATE'),
+        (('SOCIALIZE','CREATE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','STAY_SILENT'),
+        (('LEARN','CREATE'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','REST'),
+    ],ids=['creative-not-declined-contact','creative-not-low-social-value','creative-not-learning-risk',
+           'light-creative-not-heavy-learning','chosen-contact-still-declined','chosen-learning-still-risk-reviewed'])
+    def test_unchosen_social_or_learning_constraints_do_not_veto_creation(tmp_path,options,share,value,load,expected):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=options,share_assessment=share,learning_value=value,cognitive_load=load)
+            mid=capture(r,'scope-choice',cue.model_dump(mode='json'),predicate='concern.scope-choice')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.scope-choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'STAY_SILENT' == 'CREATE'
+E             
+E             - CREATE
+E             + STAY_SILENT
+
+tests/person_self/test_choice_constraint_scope.py:32: AssertionError
+_ test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-low-social-value] _
+
+tmp_path = PosixPath('/dev/shm/choicescopeold/test_unchosen_social_or_learni1')
+options = ('CREATE', 'SOCIALIZE')
+share = ShareAssessment(relational_relevance='LOW', novelty='NEW', affect_relevance='LOW', urgency='LOW', interruption_cost='LIGHT', recent_delivery_frequency='UNKNOWN', user_preference='UNKNOWN', desire='PRESENT')
+value = None, load = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('options,share,value,load,expected',[
+        (('CREATE','SOCIALIZE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','CREATE'),
+        (('CREATE','SOCIALIZE'),ShareAssessment(relational_relevance='LOW',affect_relevance='LOW'),None,'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',time_compute_cost='HEAVY'),'HIGH','CREATE'),
+        (('SOCIALIZE','CREATE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','STAY_SILENT'),
+        (('LEARN','CREATE'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','REST'),
+    ],ids=['creative-not-declined-contact','creative-not-low-social-value','creative-not-learning-risk',
+           'light-creative-not-heavy-learning','chosen-contact-still-declined','chosen-learning-still-risk-reviewed'])
+    def test_unchosen_social_or_learning_constraints_do_not_veto_creation(tmp_path,options,share,value,load,expected):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=options,share_assessment=share,learning_value=value,cognitive_load=load)
+            mid=capture(r,'scope-choice',cue.model_dump(mode='json'),predicate='concern.scope-choice')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.scope-choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'STAY_SILENT' == 'CREATE'
+E             
+E             - CREATE
+E             + STAY_SILENT
+
+tests/person_self/test_choice_constraint_scope.py:32: AssertionError
+_ test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-learning-risk] _
+
+tmp_path = PosixPath('/dev/shm/choicescopeold/test_unchosen_social_or_learni2')
+options = ('CREATE', 'LEARN'), share = None
+value = LearningValue(goal_value='HIGH', future_reuse='HIGH', interest='LOW', relationship_relevance='LOW', alternative='UNKNOWN', time_compute_cost='LIGHT', risk='HIGH')
+load = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('options,share,value,load,expected',[
+        (('CREATE','SOCIALIZE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','CREATE'),
+        (('CREATE','SOCIALIZE'),ShareAssessment(relational_relevance='LOW',affect_relevance='LOW'),None,'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',time_compute_cost='HEAVY'),'HIGH','CREATE'),
+        (('SOCIALIZE','CREATE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','STAY_SILENT'),
+        (('LEARN','CREATE'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','REST'),
+    ],ids=['creative-not-declined-contact','creative-not-low-social-value','creative-not-learning-risk',
+           'light-creative-not-heavy-learning','chosen-contact-still-declined','chosen-learning-still-risk-reviewed'])
+    def test_unchosen_social_or_learning_constraints_do_not_veto_creation(tmp_path,options,share,value,load,expected):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=options,share_assessment=share,learning_value=value,cognitive_load=load)
+            mid=capture(r,'scope-choice',cue.model_dump(mode='json'),predicate='concern.scope-choice')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.scope-choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'REST' == 'CREATE'
+E             
+E             - CREATE
+E             + REST
+
+tests/person_self/test_choice_constraint_scope.py:32: AssertionError
+_ test_unchosen_social_or_learning_constraints_do_not_veto_creation[light-creative-not-heavy-learning] _
+
+tmp_path = PosixPath('/dev/shm/choicescopeold/test_unchosen_social_or_learni3')
+options = ('CREATE', 'LEARN'), share = None
+value = LearningValue(goal_value='HIGH', future_reuse='HIGH', interest='LOW', relationship_relevance='LOW', alternative='UNKNOWN', time_compute_cost='HEAVY', risk='LOW')
+load = 'HIGH', expected = 'CREATE'
+
+    @pytest.mark.parametrize('options,share,value,load,expected',[
+        (('CREATE','SOCIALIZE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','CREATE'),
+        (('CREATE','SOCIALIZE'),ShareAssessment(relational_relevance='LOW',affect_relevance='LOW'),None,'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','CREATE'),
+        (('CREATE','LEARN'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',time_compute_cost='HEAVY'),'HIGH','CREATE'),
+        (('SOCIALIZE','CREATE'),ShareAssessment(user_preference='DECLINED'),None,'LOW','STAY_SILENT'),
+        (('LEARN','CREATE'),None,LearningValue(goal_value='HIGH',future_reuse='HIGH',risk='HIGH'),'LOW','REST'),
+    ],ids=['creative-not-declined-contact','creative-not-low-social-value','creative-not-learning-risk',
+           'light-creative-not-heavy-learning','chosen-contact-still-declined','chosen-learning-still-risk-reviewed'])
+    def test_unchosen_social_or_learning_constraints_do_not_veto_creation(tmp_path,options,share,value,load,expected):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=options,share_assessment=share,learning_value=value,cognitive_load=load)
+            mid=capture(r,'scope-choice',cue.model_dump(mode='json'),predicate='concern.scope-choice')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.scope-choice',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+            cycle=r.subject.run(event)
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'REST' == 'CREATE'
+E             
+E             - CREATE
+E             + REST
+
+tests/person_self/test_choice_constraint_scope.py:32: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_choice_constraint_scope.py::test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-declined-contact]
+FAILED tests/person_self/test_choice_constraint_scope.py::test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-low-social-value]
+FAILED tests/person_self/test_choice_constraint_scope.py::test_unchosen_social_or_learning_constraints_do_not_veto_creation[creative-not-learning-risk]
+FAILED tests/person_self/test_choice_constraint_scope.py::test_unchosen_social_or_learning_constraints_do_not_veto_creation[light-creative-not-heavy-learning]
+4 failed, 2 passed in 0.56s

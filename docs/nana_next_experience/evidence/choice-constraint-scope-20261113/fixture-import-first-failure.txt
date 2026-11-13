@@ -1,0 +1,15 @@
+..........F                                                              [100%]
+=================================== FAILURES ===================================
+_ test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative _
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7fad6e111700>, <nana_core.actions.OperatorAuthority object at 0x7fad6e110f50>)
+
+    def test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative(subject):
+        from nana_core.continuity.relational.contracts import RelationalRequest,DAY
+>       from nana_core.continuity.relational.accommodation import AccommodationService
+E       ImportError: cannot import name 'AccommodationService' from 'nana_core.continuity.relational.accommodation' (/tmp/nana-inner-refinement-work/src/nana_core/continuity/relational/accommodation.py)
+
+tests/portable_subject/test_relational_reuse.py:80: ImportError
+=========================== short test summary info ============================
+FAILED tests/portable_subject/test_relational_reuse.py::test_bounded_social_accommodation_does_not_inhibit_unchosen_creative_alternative
+1 failed, 10 passed in 0.68s

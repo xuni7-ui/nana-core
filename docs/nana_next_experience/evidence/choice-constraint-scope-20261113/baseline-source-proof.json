@@ -1,0 +1,7 @@
+{
+  "baseline": "269ea2e4ecdf0c2f78e2b7f1c3fc46c1c8783ab5",
+  "all_python_files_matched_git_blobs": 285,
+  "test_pythonpath": "/dev/shm/nana-choice-scope-baseline",
+  "result": "5 failed, 2 passed, 4 deselected in 0.84s",
+  "current_source_anchor": "8ee1b271efcbb98aaebd1249f643f1a1ec5d6344c50212043d65422447cb170c"
+}

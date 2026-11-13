@@ -3670,3 +3670,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 本批补充：公开接收者停止请求修订原私有方法时保留原privacy floor，新增2相关检查通过；原194/11范围不混为重跑全仓，源码锚随当前代码更新。
 
 - 2026-11-13｜NEXT_EXPERIENCE S2/S3/S6/S7/S8：明确反馈绑定原C实际方法与原INTERPRET精确消息/topic/recipient，复用原LanguageSample/Experience及索引引用，有界意见投影使C可改变/停止旧方法；不推断投递/被读/情绪效果，不把单次意见变永久偏好或技能。旧源及TEMPORARY输入首错保留，窗口前247与最终56相关分列；原G独立策略→重启/新topic C方法/反例接线通过。单例527-byte投影/2话轮4fixture/0action，旧7479 CI474另记；证据communication-method-feedback-20261113/09锚。实际效果、情感多动机/广G迁移及原A–H/旧reader回退/匹配发行继续，真实0。
+
+- 2026-11-13｜NEXT_EXPERIENCE S3/S6/Shared Life A–E：原C已选CREATE却受未选SOCIALIZE/LEARN边界/风险成本连带否决，修为实际选择适用；真实社交拒绝/高风险学习/共同负荷/norm/有限自我承诺保留。精确旧269源码包全部285个py匹配，5fail2pass→新245相关33.55s，0模型/actions/grants；夹具服务名/独立谓词冲突/原ACTIVE终态首错保留且用真正旧行为重验。证据choice-constraint-scope-20261113/09锚；开放多动机/情感/实际效果与原A–H/匹配交付继续，不称高级自主性总完成。
