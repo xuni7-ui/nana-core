@@ -1,0 +1,32 @@
+{
+  "source_commit": "e3ad889c966d3978000a193cb5a3037f79574966",
+  "run_id": 43373281761,
+  "job_id": 131714021637,
+  "core_conclusion": "success",
+  "client_conclusion": "skipped",
+  "scope": "AFFECTED_CHECKS_NOT_FULL_REPOSITORY",
+  "log_excerpt": [
+    "2026-11-13T05:39:16.3552468Z TARGETED_CHECKS ['tests/affective_autonomy', 'tests/continuous_self/test_cognition.py', 'tests/continuous_self/test_context.py', 'tests/first_life_integration/test_private_intent.py', 'tests/person_self/test_dialogue_integration.py', 'tests/person_self/test_memory_use_feedback.py', 'tests/portable_subject/test_providers_frontend.py', 'tests/vision_first/test_context_fit.py']",
+    "2026-11-13T05:39:55.7101403Z 148 passed in 38.15s"
+  ],
+  "preceding_runs": [
+    {
+      "sha": "b016e6c79b29cc3e02848a8dbc9780a077846efc",
+      "run": 43371220782,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "sha": "6655a2826d3ef90fd3bfd6133a099569e27c79d8",
+      "run": 43372011987,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "sha": "45e7432761ab867f702c45c05f9b625ef9cdc82b",
+      "run": 43372462430,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}

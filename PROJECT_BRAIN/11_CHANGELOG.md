@@ -3658,3 +3658,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S2/S3/S6/S7：正常商业chat主题从现有interaction_signal回填原private decision_support，修相关兴趣未进入原C评价/动机的真实断点。首错→重启/当前匹配/无关/PUBLIC/撤回四话轮8HTTP合成通过，153相关39.53s，无新模型阶段/私文披露。证据private-commercial-topic-20261113/09锚；不称回复策略改变或商业内心闭环完成，下一短念非持久与策略/反馈/S8、原A–H。
 
 - 2026-11-13｜NEXT_EXPERIENCE S2/S3/S5/S6、场景A：原cognize允许可选passing_thought在当次结束，0强制任务/持久化，普通trace及异常显示不出私文，原身份/refs/strict/C判断保留。无用户/有无旧观察各1fixture；重启/重放不再调用，113相关通过，旧拒绝与首次replay夹具失败保留。证据passing-thought-20261113/09锚；非真实模型自发性/商业策略闭环，下一原C私念→可公开目的→RENDER/反馈/S8，原A–H继续。
+
+- 2026-11-13｜NEXT_EXPERIENCE独立回执：实读e3ad889 CI43373281761/job131714021637，148相关通过38.15s/clientSKIP；前三实现提交workflow均success，所选范围/摘要归passing-thought证据。仅更新CURRENT182/ACTIVE及原状态清单，不重复应用测试/构建，不称全仓/安装/生产。下一商业内部倾向→C可选交流策略/明确反馈/S8及原A–H，精确入口已存ACTIVE。

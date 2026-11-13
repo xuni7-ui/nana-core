@@ -1,6 +1,6 @@
 # 2026-11-13 当前机制深化增量（同一主任务）
 
-实际源码与09顶部CURRENT优先；现役revision181，证据见ACTIVE末段及09 refs。以下历史待办中已由本段覆盖的部分复用，不重复实施。
+实际源码与09顶部CURRENT优先；现役revision182（业务源码e3ad889，独立相关CI148通过；后继仅记录证据），证据见ACTIVE末段及09 refs。以下历史待办中已由本段覆盖的部分复用，不重复实施。
 
 - 原私人活动→正常D/SELF/C已接受控候选；前台quiet延后、同Store重启换fixture、入队前/后资源等待、当前版本淘汰/撤回、UNKNOWN不重试已补。单版本不反复调用，同资源条件不重复写入。新ref旧reader回退与真实长期生活尚未资格。
 - 正常商业chat的interaction_signal.topic进入原C private decision_support，相关且可读时参与Appraisal/Motivation，重启/无关/PUBLIC/撤回已测。尚未让私人内容与可选策略通过商业内部认知影响对外决策，不能称自然策略闭环完成。

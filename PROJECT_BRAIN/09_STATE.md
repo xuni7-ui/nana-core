@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 181,
-  "as_of_us": 1794548193798280,
+  "revision": 182,
+  "as_of_us": 1794548553805911,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_INNER_LIFE_PASSING_THOUGHT",
@@ -20,7 +20,7 @@
     "原私念→正常D资源等待/前台/重启/UNKNOWN有115相关资格；商业chat缺topic消费者已补，4话轮8合成HTTP仅相关可读私念进入原C Appraisal/Motivation，重启/低privacy/撤回通过。153相关通过；尚未证明回复策略改变。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原C可选passing_thought允许短念在当次结束：0强制Goal/私念/Memory/evidence，普通trace遮蔽、重启不重建/重放不再调用。113相关通过；非真实模型自发性/商业策略闭环。Anthropic目录既有32+8与TS/Vite资格继承。"
+    "原C可选passing_thought允许短念结束：0强制Goal/私念/Memory/evidence，普通trace遮蔽/重启不重建。113相关通过；e3ad889独立CI148通过38.15s/clientSKIP，非全仓/商业自发性。Anthropic既有目录资格继承。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
