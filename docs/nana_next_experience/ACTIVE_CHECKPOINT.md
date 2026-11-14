@@ -1,8 +1,8 @@
-## 现役revision215 — 20万复测差额与无收益原型收口
+## 现役revision216 — 模型目录可明确续读
 
-仅用原工具恢复20万这一种规模，48case/limit4/3reps/100ms与原spec一致；同新Store当前144/144、0false/0timeout、P9520.34ms，历史142/144两timeout保留，非旧DB/生产/OS cold。两原型NOT EXISTS/NOT IN在原两个超时样本虽6/6却P95约29/31ms、慢于原19/21ms，均弃而不增加Core改动。主DB实际分配约2.037GB、4,770,998terms，非物理回收/归档/DR。详见evidence/literal-200k-recovery-20261114/README.md，原next中150ms笔误改原100ms并修正确raw文件指针，没改测试/运行源。
+原Anthropic目录在8页/256ID/256KiB/10s原机会边界后，可从校验last_id由用户明确读取下一批。BFF/SDK/Web/Java有限映射，不改Vault/鉴权/CAS/限时；回显检查拒绝旧桥丢参数假翻页，Web等待原读取间隔，选模同步供应商真实协议/原生COGNITION草稿，只填草稿不自动注册/路由/付费。103后端45.05s、TS/Vite、93单测及四视口16浏览器20.8s通过；原缺口1fail保留，误路径0tests已纠正。见evidence/model-catalog-continuation-20261114/README.md。
 
-原理解→同C f93成果保留114相关，其他原四模式/G/私念/反馈/连续输入不重做。未新包/APK/CURRENT/真实模型/手机/生产/长期；2字符/大量未索引/更广检索与Core-Iris绑定仍待。接着回通用模型配置产品及情感/多动机主链，全部原A–H继续；不反复对已定位环境问题或本批大库刷验证。
+原生本轮仅源码/SDK映射，Java/Gradle/真实手机未资格；未新APK/匹配包/CURRENT/真实API或生产，旧409不自动升级。20万复测/原理解→同C成果不重做，下一回情感/多动机/实际结果与S8反向学习主链，其余存储/Token/多端最终发行及全部原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

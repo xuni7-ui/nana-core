@@ -131,6 +131,7 @@ const reasons: Record<string, string> = {
   LIFE_CONFIG_REVISION_CONFLICT: "运行配置已变化，请刷新核对后重新选择。",
   PROVIDER_RUNTIME_PROFILE_UNSUPPORTED: "请选择已启用且具有当前协议适配的远程服务商。",
   PROVIDER_CATALOG_MODEL_INVALID: "模型列表包含不兼容项目，已停止读取；可以手动填写模型名称。",
+  PROVIDER_CATALOG_CONTINUATION_UNSUPPORTED: "当前客户端暂不支持目录续页，请更新客户端或手动填写模型名称。",
   SECRET_UNAVAILABLE: "尚未绑定可用的服务商凭据。",
   MEMORY_SEARCH_NARROW_QUERY: "这次查找范围太大，请换一个更具体的词句。",
   MEMORY_NOTE_REJECTED:"这条备注未获核验；请检查来源、保存范围和当前版本。不要重复提交原请求。",
@@ -1820,15 +1821,20 @@ export function LiveSpace() {
                 busy={busy}
                 onApply={applyProvider}
                 credentialStatus={credentialStatus}
-                onDiscover={admin && healthy && bootstrap?.capabilities.provider_model_discovery === true ? async (id, revision) => {
+                onDiscover={admin && healthy && bootstrap?.capabilities.provider_model_discovery === true ? async (id, revision, afterId) => {
                   const version = sessionVersion.current;
                   try {
-                    const result = await client.current.providerModels(id, revision);
+                    const result = await client.current.providerModels(id, revision, afterId);
                     if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
-                    const models = object(result.data).models;
-                    if (!Array.isArray(models) || !models.every(x => typeof x === "string")) throw new V2Error("PROVIDER_CATALOG_FORMAT");
-                    if (object(result.data).truncated === true) setNotice("当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。");
-                    return models as string[];
+                    const data = object(result.data);
+                    const models = data.models;
+                    if (!Array.isArray(models) || models.length > 256 || !models.every(x => typeof x === "string" && /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(x)) || typeof data.truncated !== "boolean") throw new V2Error("PROVIDER_CATALOG_FORMAT");
+                    const next = data.next_after_id;
+                    const retry = data.retry_after_ms;
+                    if (next !== undefined && (typeof next !== "string" || !/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(next) || data.truncated !== true)) throw new V2Error("PROVIDER_CATALOG_FORMAT");
+                    if (retry !== undefined && (typeof retry !== "number" || !Number.isSafeInteger(retry) || retry < 0 || retry > 10000)) throw new V2Error("PROVIDER_CATALOG_FORMAT");
+                    if (data.truncated) setNotice(next ? "当前读取到一批模型，可以继续读取下一批。" : "当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。");
+                    return {models: models as string[], truncated: data.truncated === true, nextAfterId: next as string | undefined, retryAfterMs: retry as number | undefined};
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}

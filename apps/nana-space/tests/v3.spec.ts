@@ -106,6 +106,10 @@ interface MockState {
   biliHistory?: Record<string, unknown>;
   catalogEnabled?: boolean;
   catalogTruncated?: boolean;
+  catalogPaged?: boolean;
+  catalogNative?: boolean;
+  catalogAfterIds?: string[];
+  catalogMissingEcho?: boolean;
   memorySearchRows?: Record<string,unknown>[];
   lifeItems?: Record<string,unknown>[];
   noteRows?: Record<string,unknown>[];
@@ -180,7 +184,8 @@ function viewData(state: MockState, source: string) {
         : [],
     ...(source === "settings" ? { provider_settings: state.catalogEnabled ? {
       ...providerSettings,
-      providers: [{...providerSettings.providers[0], provider_profile_id:"provider.catalog", revision:1}],
+      providers: [{...providerSettings.providers[0], provider_profile_id:"provider.catalog", revision:1,
+        ...(state.catalogNative ? {protocol:"ANTHROPIC"} : {})}],
       models: [], routes: [],
     } : providerSettings } : {}),
     ...(source === "devices"
@@ -223,7 +228,14 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
     if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
-    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], truncated:state.catalogTruncated===true, qualification:"NOT_ESTABLISHED", inference_calls:0});
+    if (path === "providers/models" && state.catalogEnabled) {
+      const after=new URL(request.url()).searchParams.get("after_id");
+      (state.catalogAfterIds ??= []).push(after || "");
+      if (state.catalogPaged) return ok({models:[after && !state.catalogMissingEcho ? "native.second" : "native.first"],truncated:!after || state.catalogMissingEcho===true,
+        ...(after && !state.catalogMissingEcho ? {continued_after_id:after} : {next_after_id:"native.first"}), retry_after_ms:after ? 0 : 1000,
+        qualification:"NOT_ESTABLISHED",inference_calls:0});
+      return ok({models:["catalog.new"], truncated:state.catalogTruncated===true, qualification:"NOT_ESTABLISHED", inference_calls:0});
+    }
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
       if(state.noteReject)return route.fulfill({status:409,json:{code:"REVISION_CONFLICT"}});
@@ -1730,4 +1742,51 @@ test('SYNTHETIC concurrent continuation waits for admission and respects disable
   await finishRootStream(page,{receipt_id:root.client_request_id,client_request_id:root.client_request_id,
     operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC first result'}});
   await expect(page.getByText('SYNTHETIC early input received',{exact:true})).toBeVisible();
+});
+
+
+test("SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft", async ({page}) => {
+  await page.clock.install();
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogPaged=true;state.catalogNative=true;
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  await open(page,"models");
+  const catalog=page.getByLabel("读取服务商模型");
+  await catalog.getByRole("button",{name:/读取 .* 模型/}).click();
+  await expect(catalog.getByRole("combobox")).toContainText("native.first");
+  const next=catalog.getByRole("button",{name:/下一批模型/});
+  await expect(next).toBeDisabled();
+  expect(state.catalogAfterIds).toEqual([""]);
+  await page.clock.runFor(1100);
+  await expect(next).toBeEnabled();
+  expect(state.catalogAfterIds).toEqual([""]);
+  await next.click();
+  await expect(catalog.getByRole("combobox")).toContainText("native.second");
+  await expect(next).toHaveCount(0);
+  expect(state.catalogAfterIds).toEqual(["","native.first"]);
+  await catalog.getByRole("combobox").selectOption("native.second");
+  await expect(page.getByLabel("远端 Model ID",{exact:true})).toHaveValue("native.second");
+  await expect(page.getByText(/ANTHROPIC。草稿尚未验证/)).toBeVisible();
+  expect(state.requests.filter(r=>r.method!=="GET")).toEqual([]);
+  await noHorizontalOverflow(page);
+});
+
+
+test("SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch", async ({page}) => {
+  await page.clock.install();
+  const state=await installMock(page);
+  state.catalogEnabled=true;state.catalogPaged=true;state.catalogNative=true;state.catalogMissingEcho=true;
+  state.capabilities={provider_model_discovery:true,provider_configuration_write:true};
+  await open(page,"models");
+  const catalog=page.getByLabel("读取服务商模型");
+  await catalog.getByRole("button",{name:/读取 .* 模型/}).click();
+  await expect(catalog.getByRole("combobox")).toContainText("native.first");
+  await page.clock.runFor(1100);
+  await catalog.getByRole("button",{name:/下一批模型/}).click();
+  await expect(page.getByText("当前客户端暂不支持目录续页，请更新客户端或手动填写模型名称。",{exact:true})).toBeVisible();
+  await expect(catalog.getByRole("combobox")).toContainText("native.first");
+  await expect(catalog.getByRole("combobox")).not.toContainText("native.second");
+  expect(state.catalogAfterIds).toEqual(["","native.first"]);
+  expect(state.requests.filter(r=>r.method!=="GET")).toEqual([]);
+  await noHorizontalOverflow(page);
 });

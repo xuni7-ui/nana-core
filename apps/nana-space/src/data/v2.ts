@@ -430,10 +430,13 @@ export class V2Client {
       ? await this.nativeCall({operation:"providers.runtime.status",data:{}})
       : await this.request("providers/runtime"));
   }
-  async providerModels(providerId: string, revision: number): Promise<Envelope> {
-    return this.accept(isNative()
-      ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision}})
-      : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}`));
+  async providerModels(providerId: string, revision: number, afterId?: string): Promise<Envelope> {
+    const result = this.accept(isNative()
+      ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision, ...(afterId === undefined ? {} : {after_id:afterId})}})
+      : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}${afterId === undefined ? "" : `&after_id=${encodeURIComponent(afterId)}`}`));
+    if (afterId !== undefined && (typeof result.data !== "object" || result.data === null || (result.data as Record<string,unknown>).continued_after_id !== afterId))
+      throw new V2Error("PROVIDER_CATALOG_CONTINUATION_UNSUPPORTED");
+    return result;
   }
   async searchMemories(query: string): Promise<Envelope> {
     return this.accept(isNative()

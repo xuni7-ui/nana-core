@@ -278,7 +278,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(202,{'contract':'nana-space-live/v2',**result})
             return
         allowed_query = ({"cursor"} if route == "events" else
-                         {"provider_profile_id", "profile_revision"} if route == "providers/models" else set())
+                         {"provider_profile_id", "profile_revision", "after_id"} if route == "providers/models" else set())
         if set(query) - allowed_query:
             raise ApiError("QUERY_INVALID")
         if route == "session" and self.command == "POST":
@@ -400,13 +400,16 @@ class Handler(BaseHTTPRequestHandler):
                 from .provider_settings import credential_status
                 value = credential_status(service, principal)
             elif route == "providers/models":
-                from .provider_models import discover
-                if set(query)!={'provider_profile_id','profile_revision'} or any(len(v)!=1 for v in query.values()):
+                from .provider_models import discover,MODEL_ID
+                if not {'provider_profile_id','profile_revision'}<=set(query) or any(len(v)!=1 for v in query.values()):
                     raise ApiError('PROVIDER_CATALOG_QUERY_REQUIRED', 400)
                 pid, revision = query['provider_profile_id'][0], query['profile_revision'][0]
                 if not re.fullmatch(r'[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}',pid) or not re.fullmatch(r'[1-9][0-9]{0,8}',revision):
                     raise ApiError('PROVIDER_CATALOG_QUERY_REQUIRED', 400)
-                value = discover(service, principal, pid, int(revision))
+                after_id=query.get('after_id',[None])[0]
+                if after_id is not None and not MODEL_ID.fullmatch(after_id):
+                    raise ApiError('PROVIDER_CATALOG_QUERY_REQUIRED',400)
+                value = discover(service, principal, pid, int(revision),after_id)
             elif route == "notifications":
                 principal.require(Role.READER)
                 value = service.envelope(
