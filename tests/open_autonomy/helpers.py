@@ -14,11 +14,11 @@ from nana_core.presence import NanaRuntime,RuntimeConfig
 from nana_core.presence.contracts import LivingRuntimeConfig,RuntimeEvent,Cause,SECOND,HOUR
 from nana_core.presence.authority import VirtualClock
 
-def fresh(path,clock=None):
+def fresh(path,clock=None,*,schema_target=12):
     clock=clock or VirtualClock()
-    with ContinuityStore(path,clock,schema_target=12) as s:
+    with ContinuityStore(path,clock,schema_target=schema_target) as s:
         IdentityService(s,OperatorAuthority());MemoryService(s).entity('synthetic-person','PERSON')
-    return NanaRuntime(path,RuntimeConfig(schema_target=12,living=LivingRuntimeConfig(),scopes=('lab',),entity_id='synthetic-person',idle_recall_us=HOUR),clock=clock)
+    return NanaRuntime(path,RuntimeConfig(schema_target=schema_target,living=LivingRuntimeConfig(),scopes=('lab',),entity_id='synthetic-person',idle_recall_us=HOUR),clock=clock)
 
 def capture(r,key,text,*,predicate=None,entity='synthetic-person',privacy='PERSONAL',derived=()):
     m=MemoryService(r.store);eid=m.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-fixture',source_reference=key,source_kind='DIRECT_OBSERVATION'),text=text,privacy_class=privacy,observed_time_us=r.clock.utc_now_us()))

@@ -1,0 +1,78 @@
+........FF                                                               [100%]
+=================================== FAILURES ===================================
+_ test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CREATE] _
+
+tmp_path = PosixPath('/dev/shm/nplanhttp/test_actual_provider_sees_adop0')
+preference = 'CREATE'
+
+    @pytest.mark.parametrize('preference',['CREATE','CONTINUE_PROJECT'])
+    def test_actual_provider_sees_adopted_step_before_selecting_its_current_choice(tmp_path,preference):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC sourced plan competition',subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose between an adopted step and another current interest',preferred_behavior=preference,proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,state),fresh(tmp_path/'s.db') as r:
+            view,event=ready(r,tmp_path)
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+>           port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_plan_alternative.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f5130cc62a0>
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f5130cc4b60>
+transport = <nana_core.continuity.world_loop.cognition.OpenAIJSONTransport object at 0x7f5130cc6600>
+policy = ContextPolicy(policy_id='plan-alternative', allowed_scopes=('lab',), readable_privacy=('PERSONAL',), remote_privacy=())
+max_calls_per_day = 24, route_snapshot = None, route_guard = None
+project_state_source = None
+
+    def __init__(self,runtime,transport,policy,*,max_calls_per_day=24,route_snapshot=None,route_guard=None,project_state_source=None):
+>       if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: WORLD_SCHEMA_REQUIRED
+
+src/nana_core/continuity/world_loop/cognition.py:421: CoreError
+_ test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/dev/shm/nplanhttp/test_actual_provider_sees_adop1')
+preference = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('preference',['CREATE','CONTINUE_PROJECT'])
+    def test_actual_provider_sees_adopted_step_before_selecting_its_current_choice(tmp_path,preference):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC sourced plan competition',subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose between an adopted step and another current interest',preferred_behavior=preference,proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,state),fresh(tmp_path/'s.db') as r:
+            view,event=ready(r,tmp_path)
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+>           port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_plan_alternative.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f5130cc18b0>
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f5130cc1760>
+transport = <nana_core.continuity.world_loop.cognition.OpenAIJSONTransport object at 0x7f5130cc2e70>
+policy = ContextPolicy(policy_id='plan-alternative', allowed_scopes=('lab',), readable_privacy=('PERSONAL',), remote_privacy=())
+max_calls_per_day = 24, route_snapshot = None, route_guard = None
+project_state_source = None
+
+    def __init__(self,runtime,transport,policy,*,max_calls_per_day=24,route_snapshot=None,route_guard=None,project_state_source=None):
+>       if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: WORLD_SCHEMA_REQUIRED
+
+src/nana_core/continuity/world_loop/cognition.py:421: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CREATE]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CONTINUE_PROJECT]
+2 failed, 8 passed in 0.84s

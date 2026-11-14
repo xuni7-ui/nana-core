@@ -3702,3 +3702,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE现行契约复核：原全仓13失败全包含于41相关24.17s通过。测试only修超长README学习材料为完整真实有界guide；storage按c069与注意分离仍查pending/noREST和原磁盘停机；语义按8ae120s默认显式短超时且保留STALE/0HTTP/digest。Core不改，不删除/跳过/弱化原学习评价断言、不拼成全仓PASS。证据full-fixture-reconciliation-20261114；下一原C新兴趣/承诺竞争与原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S3/S6 A–E：原C明确当前新CREATE/LEARN可与到期承诺竞争，不改承诺整行/PRESSING/显式复查、规范/学习风险/原执行权限。精确d39同9场景5fail4pass→集成154相关18.79s，后补原HTTP SELF/原账本28相关3.77s；重启重放有效，每例仍1HTTP，旧新input49267/reserved61556bytes相同，非Token。CREATE多1原INTENTION；真实0。首错/隔离pythonpath保留，证据deliberated-due-promise-20261114，d39包不包含此后继，原情感/G因果与A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S3/S6/S7与Precision V2：同一只读Situation在cognize前投影实际计划步骤/动机/支持，原C可明确选其他当前活动并不继承步骤target，run重复投影移除；精确9b298文件匹配同11场景旧11fail→新11pass，199相关后补36通过。真实owned Grant下原执行消费者暂置不误动作，新来源复查同goal恢复未执行步；HTTP各1/wire+618bytes非Token，现有stale门保留/错target提前0模型。schema13夹具首错保留，证据deliberated-plan-alternative-20261114；d39包不含后继，真实0，情感/G及原A–H继续。

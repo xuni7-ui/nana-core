@@ -200,9 +200,15 @@ class SubjectLoop:
                     terms=VoluntaryTerms.model_validate_json(canonical(body['voluntary']))
                     if terms.operation=='REFRAIN' and terms.behavior_domain==cue.behavior_domain and terms.start_us<=now<min(terms.end_us,terms.review_at_us):voluntary.append(cid)
         from .context_fit import assess,plan_binding
+        plan_step=None
+        if event.goal_step:
+            from ..agency import step_view
+            plan_step=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
+            if event.realization_target!=plan_step.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
+            records.append(plan_step.record_id);memories.extend(plan_step.source_memory_ids)
         contextual_event=event
         if event.goal_step or event.goal_review:
-            binding=plan_binding(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes,goal_id=event.goal_review.goal_id if event.goal_review else None)
+            binding=plan_binding(self.store,None,scope=event.scope,privacy_classes=self.privacy_classes,goal_id=plan_step.goal_id if plan_step else event.goal_review.goal_id)
             if binding:contextual_event=event.model_copy(update={'topic':binding['topic_key'],'entity_id':binding['entity_id']})
         context_fit=assess(self.store,contextual_event,source,topic=contextual_event.topic or (cue.topic_key if cue else None),privacy_classes=self.privacy_classes)
         if context_fit:
@@ -219,7 +225,7 @@ class SubjectLoop:
         if event.problem_frame:
             from .framing import evaluate
             frame=evaluate(event.problem_frame,self.records,scope=event.scope,privacy_classes=self.privacy_classes)
-        return Situation(private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(plan_step=plan_step,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -314,12 +320,6 @@ class SubjectLoop:
                 situation=situation.model_copy(update={'memory_review_id':event.memory_review_id,
                     'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*body['memory_ids']))),
                     'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,event.memory_review_id)))})
-            if event.goal_step:
-                from ..agency import step_view
-                view=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
-                if event.realization_target!=view.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
-                situation=situation.model_copy(update={'plan_step':view,'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*view.source_memory_ids))),
-                    'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,view.record_id)))})
             if _deliberation is not None and _deliberation.proposal.preferred_behavior is not None:
                 situation=situation.model_copy(update={'preferred_behavior':_deliberation.proposal.preferred_behavior})
             appraisal = appraise(event, situation)
@@ -493,6 +493,8 @@ class SubjectLoop:
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
+            if event.goal_step and (intention.kind!='ACTION_PROPOSAL' or intention.behavior!='CONTINUE_PROJECT'):
+                target=None  # A different C choice does not inherit this step's execution target.
             if target and situation.cue and situation.cue.resource_ref and not situation.plan_step:
                 if target.resource!=situation.cue.resource_ref:raise CoreError('REALIZATION_SOURCE_TARGET_MISMATCH')
                 target=target.model_copy(update={'resource_class':situation.cue.resource_class})

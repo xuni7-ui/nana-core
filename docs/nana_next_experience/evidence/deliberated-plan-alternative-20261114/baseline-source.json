@@ -1,0 +1,7 @@
+{
+  "source_commit": "9b1ede23a889eabfca830f8a737b51b04deab1e1",
+  "source_files_matched": 298,
+  "baseline_root": "/dev/shm/nana-plan-9b",
+  "source_only_ablation": true,
+  "new_Store_or_subject_authority": false
+}

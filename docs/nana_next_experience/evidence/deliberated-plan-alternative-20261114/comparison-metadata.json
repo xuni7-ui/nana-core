@@ -1,0 +1,130 @@
+{
+  "old": [
+    {
+      "case": "test_actual_provider_sees_adop0",
+      "calls": [
+        {
+          "input_bytes": 26331,
+          "output_bytes": 701,
+          "reserved_bytes": 38620,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 5393,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "ADOPTED_GOAL": 1,
+        "AUTONOMOUS_PLAN": 1,
+        "COGNITION_PROPOSAL": 1,
+        "COGNITION_REQUEST": 1,
+        "GOAL_CANDIDATE": 1,
+        "INTENTION": 2,
+        "INTENTION_DISPOSITION": 2,
+        "SUBJECT_CYCLE": 2,
+        "SUBJECT_EVENT": 2
+      },
+      "calls_count": 1,
+      "fixture_ledger": 0,
+      "actions": 0,
+      "allocated_database_bytes": 778240
+    },
+    {
+      "case": "test_actual_provider_sees_adop1",
+      "calls": [
+        {
+          "input_bytes": 26331,
+          "output_bytes": 711,
+          "reserved_bytes": 38620,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 3343,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "ADOPTED_GOAL": 1,
+        "AUTONOMOUS_PLAN": 1,
+        "COGNITION_PROPOSAL": 1,
+        "COGNITION_REQUEST": 1,
+        "GOAL_CANDIDATE": 1,
+        "INTENTION": 2,
+        "INTENTION_DISPOSITION": 2,
+        "SUBJECT_CYCLE": 2,
+        "SUBJECT_EVENT": 2
+      },
+      "calls_count": 1,
+      "fixture_ledger": 0,
+      "actions": 0,
+      "allocated_database_bytes": 778240
+    }
+  ],
+  "new": [
+    {
+      "case": "test_actual_provider_sees_adop0",
+      "calls": [
+        {
+          "input_bytes": 26949,
+          "output_bytes": 701,
+          "reserved_bytes": 39238,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 18135,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "ADOPTED_GOAL": 1,
+        "AUTONOMOUS_PLAN": 1,
+        "COGNITION_PROPOSAL": 1,
+        "COGNITION_REQUEST": 1,
+        "GOAL_CANDIDATE": 2,
+        "INTENTION": 3,
+        "INTENTION_DISPOSITION": 2,
+        "SUBJECT_CYCLE": 2,
+        "SUBJECT_EVENT": 2
+      },
+      "calls_count": 1,
+      "fixture_ledger": 0,
+      "actions": 0,
+      "allocated_database_bytes": 778240
+    },
+    {
+      "case": "test_actual_provider_sees_adop1",
+      "calls": [
+        {
+          "input_bytes": 26949,
+          "output_bytes": 711,
+          "reserved_bytes": 39238,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 3247,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "ADOPTED_GOAL": 1,
+        "AUTONOMOUS_PLAN": 1,
+        "COGNITION_PROPOSAL": 1,
+        "COGNITION_REQUEST": 1,
+        "GOAL_CANDIDATE": 1,
+        "INTENTION": 2,
+        "INTENTION_DISPOSITION": 2,
+        "SUBJECT_CYCLE": 2,
+        "SUBJECT_EVENT": 2
+      },
+      "calls_count": 1,
+      "fixture_ledger": 0,
+      "actions": 0,
+      "allocated_database_bytes": 778240
+    }
+  ],
+  "limits": {
+    "actual_commercial_tokens": null,
+    "actual_commercial_cost": null,
+    "cpu": "NOT_SEPARATELY_MEASURED",
+    "latency": "Two loopback samples only; no P95/performance claim",
+    "disk": "Whole fixture allocation, not logical incremental growth or reclamation",
+    "token_count": "Actual wire bytes are not Token"
+  }
+}

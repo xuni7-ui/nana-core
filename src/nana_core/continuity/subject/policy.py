@@ -201,7 +201,7 @@ def decide(event, situation, appraisal, motives):
     if voluntary_restraint_applies(event,situation,options):
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
-    if situation.plan_step:
+    if situation.plan_step and not (considered_choice and situation.preferred_behavior!='CONTINUE_PROJECT'):
         # An adopted step remains a candidate, not compulsory work. A fresh
         # quiet choice or specific continuation norm can withhold it; sourced
         # urgency can compete with load without overriding actual execution

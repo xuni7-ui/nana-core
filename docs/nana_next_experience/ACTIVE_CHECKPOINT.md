@@ -1,8 +1,8 @@
-## 现役revision200 — 原C明确新兴趣与到期承诺竞争
+## 现役revision201 — 原计划步骤先参与C，仍是候选
 
-精确d39封签源码同9场景5fail4pass→当前真实选择新CREATE/LEARN，承诺PRESSING/整行/显式复查、norm/学习风险/重启重放保留；154相关后补28原HTTP/账本通过，1既有SELF/0新阶段。旧新input49267bytes/reserved61556相同，非商业Token；CREATE多1原INTENTION记录，原数据不删。首次夹具/错误pythonpath保留，见evidence/deliberated-due-promise-20261114。
+原step_view移到同一只读Situation并交cognize Frame，事务内再验，删除run重复投影，plan_binding复用goal_id。当前C明确选择别的合法活动时不强制续计划，也不继承旧步骤target。精确9b298源文件匹配，同11场景旧11fail→新11pass，199相关后补36通过；实际已有Grant仍不误动作，新来源原C复查后同goal才执行原未执行步骤，cursor不丢。HTTP各1/wire+618bytes，非真实Token。原schema12/13夹具首错保留，见evidence/deliberated-plan-alternative-20261114。
 
-下一继续Appraisal/情感/私人状态→实际结果→G独立后续迁移、未引用方法发现及原A–H。匹配d39包安装证据保留但不包含当前policy；原d39全仓2538pass/13fail/12skip，13已定向41通过，不称重新全仓通过。CURRENT266+409不变，最终收口再必要APK；真实模型/手机/自然度/跨日长期未资格。
+下一复用已有COMMUNICATION_STRATEGY/COMMUNICATION_FEEDBACK/LanguageService.review与原G表达学习，补持续情感评价/私人关注如何因果影响后续C及独立迁移，避免重复开发反馈；未引用方法发现及原A–H继续。d39匹配安装包不含9b及此后继；原全仓13失败已定向41通过，不称再全仓PASS。CURRENT266+409不变，无新APK/真实模型/手机/生产/长期资格。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

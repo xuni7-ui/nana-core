@@ -1,0 +1,319 @@
+FFFFFFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CREATE-prohibited0-CREATE] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_0')
+preference = 'CREATE', prohibited = (), expected = 'CREATE'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert chosen.intention.behavior==expected
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'CREATE'
+E             
+E             - CREATE
+E             + CONTINUE_PROJECT
+
+tests/person_self/test_deliberated_plan_alternative.py:47: AssertionError
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[LEARN-prohibited1-LEARN] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_1')
+preference = 'LEARN', prohibited = (), expected = 'LEARN'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert chosen.intention.behavior==expected
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'LEARN'
+E             
+E             - LEARN
+E             + CONTINUE_PROJECT
+
+tests/person_self/test_deliberated_plan_alternative.py:47: AssertionError
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[REST-prohibited2-REST] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_2')
+preference = 'REST', prohibited = (), expected = 'REST'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+            assert chosen.intention.behavior==expected
+            frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>           assert frame['appraisal']['goal_relevance']=='RELEVANT'
+E           AssertionError: assert 'NONE' == 'RELEVANT'
+E             
+E             - RELEVANT
+E             + NONE
+
+tests/person_self/test_deliberated_plan_alternative.py:49: AssertionError
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CONTINUE_PROJECT-prohibited3-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_3')
+preference = 'CONTINUE_PROJECT', prohibited = (), expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+            assert chosen.intention.behavior==expected
+            frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>           assert frame['appraisal']['goal_relevance']=='RELEVANT'
+E           AssertionError: assert 'NONE' == 'RELEVANT'
+E             
+E             - RELEVANT
+E             + NONE
+
+tests/person_self/test_deliberated_plan_alternative.py:49: AssertionError
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[None-prohibited4-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_4')
+preference = None, prohibited = (), expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+            assert chosen.intention.behavior==expected
+            frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>           assert frame['appraisal']['goal_relevance']=='RELEVANT'
+E           AssertionError: assert 'NONE' == 'RELEVANT'
+E             
+E             - RELEVANT
+E             + NONE
+
+tests/person_self/test_deliberated_plan_alternative.py:49: AssertionError
+_ test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CREATE-prohibited5-CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_c_considers_adopted_plan_5')
+preference = 'CREATE', prohibited = ('CREATE',), expected = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('preference,prohibited,expected',[
+        ('CREATE',(),'CREATE'),('LEARN',(),'LEARN'),('REST',(),'REST'),
+        ('CONTINUE_PROJECT',(),'CONTINUE_PROJECT'),(None,(),'CONTINUE_PROJECT'),
+        ('CREATE',('CREATE',),'CONTINUE_PROJECT'),
+    ])
+    def test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it(tmp_path,preference,prohibited,expected):
+        path=tmp_path/'s.db';seen=[]
+        class Choosing:
+            descriptor='synthetic-original-plan-alternative'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with fresh(path) as r:
+            view,event=ready(r,tmp_path,prohibited)
+            goal=dict(r.store.one('goals',view.goal_id));job=dict(r.store.one('jobs',view.reference.work_id));identity=r.identity_id
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+            assert chosen.intention.behavior==expected
+            frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>           assert frame['appraisal']['goal_relevance']=='RELEVANT'
+E           AssertionError: assert 'NONE' == 'RELEVANT'
+E             
+E             - RELEVANT
+E             + NONE
+
+tests/person_self/test_deliberated_plan_alternative.py:49: AssertionError
+_ test_stale_step_is_rejected_before_cognition_and_read_only_projection_keeps_original_target_binding _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_stale_step_is_rejected_be0')
+
+    def test_stale_step_is_rejected_before_cognition_and_read_only_projection_keeps_original_target_binding(tmp_path):
+        with fresh(tmp_path/'s.db') as r:
+            view,event=ready(r,tmp_path);policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',));calls=[]
+            class ShouldNotRun:
+                descriptor='synthetic-stale-plan-must-not-think'
+                def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+            stale=event.model_copy(update={'goal_step':view.reference.model_copy(update={'revision':view.reference.revision+1})})
+            with pytest.raises(CoreError,match='STALE_GOAL_STEP'):r.subject.cognize(stale,model=ShouldNotRun(),authority=r.authority,policy=policy)
+            assert calls==[]
+            source=r.subject.ingress.ingest(event.model_copy(update={'source_key':'synthetic.read-only-plan-projection'}))
+            snapshot=r.store.snapshot();writes=r.store.db.total_changes
+            situation=r.subject.situation(event,source)
+>           assert situation.plan_step==view
+E           AssertionError: assert None == PlanStepView(reference=GoalStepRef(work_id='f3a2b8ba-19e0-4174-8f04-ed9a6fbf6f8e', revision=1, cursor=0), goal_id='d67...0df017-5220-4fcd-a211-6b3d125d195b', source_memory_ids=('7b5fd910-7032-4339-b3a5-1b014cbd4a0f',), task_class='numbers')
+E            +  where None = Situation(preferred_behavior=None, private_interest_records=(), experience_need=None, problem_frame=None, context_fit=...raints=(), plan_step=None, memory_review_id=None, adopted_program_ids=(), separate_delivery=False, goal_review_id=None).plan_step
+
+tests/person_self/test_deliberated_plan_alternative.py:76: AssertionError
+_ test_other_choice_reaches_original_execution_consumer_without_using_step_grant_then_can_resume _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_other_choice_reaches_orig0')
+
+    def test_other_choice_reaches_original_execution_consumer_without_using_step_grant_then_can_resume(tmp_path):
+        from nana_core.continuity.agency_contracts import GoalReviewRef
+        class Creative:
+            descriptor='synthetic-current-creative-choice'
+            def propose(self,request):
+                value=json.loads(AnalyticalFixturePort().propose(request));value['preferred_behavior']='CREATE';return json.dumps(value)
+        with fresh(tmp_path/'s.db') as r:
+            view,event=ready(r,tmp_path,grant=True)
+            assert r.store.all('grants') and not r.store.all('actions')
+            original=dict(r.store.one('jobs',view.reference.work_id))
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            chosen=r.subject.cognize(event,model=Creative(),authority=r.authority,policy=policy)
+>           assert chosen.intention.behavior=='CREATE' and chosen.realization_target is None
+E           AssertionError: assert ('CONTINUE_PROJECT' == 'CREATE'
+E             
+E             - CREATE
+E             + CONTINUE_PROJECT)
+
+tests/person_self/test_deliberated_plan_alternative.py:95: AssertionError
+_ test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CREATE] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_actual_provider_sees_adop0')
+preference = 'CREATE'
+
+    @pytest.mark.parametrize('preference',['CREATE','CONTINUE_PROJECT'])
+    def test_actual_provider_sees_adopted_step_before_selecting_its_current_choice(tmp_path,preference):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC sourced plan competition',subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose between an adopted step and another current interest',preferred_behavior=preference,proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,state),fresh(tmp_path/'s.db',schema_target=13) as r:
+            view,event=ready(r,tmp_path)
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+            result=r.subject.cognize(event,model=port,authority=r.authority,policy=policy)
+>           assert result.intention.behavior==preference
+E           AssertionError: assert 'CONTINUE_PROJECT' == 'CREATE'
+E             
+E             - CREATE
+E             + CONTINUE_PROJECT
+
+tests/person_self/test_deliberated_plan_alternative.py:131: AssertionError
+_ test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CONTINUE_PROJECT] _
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_actual_provider_sees_adop1')
+preference = 'CONTINUE_PROJECT'
+
+    @pytest.mark.parametrize('preference',['CREATE','CONTINUE_PROJECT'])
+    def test_actual_provider_sees_adopted_step_before_selecting_its_current_choice(tmp_path,preference):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC sourced plan competition',subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose between an adopted step and another current interest',preferred_behavior=preference,proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,state),fresh(tmp_path/'s.db',schema_target=13) as r:
+            view,event=ready(r,tmp_path)
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+            result=r.subject.cognize(event,model=port,authority=r.authority,policy=policy)
+            assert result.intention.behavior==preference
+            frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>           assert any(m['source']=='ADOPTED_GOAL' and view.goal_id in m['source_ids'] for m in frame['motivations'])
+E           assert False
+E            +  where False = any(<generator object test_actual_provider_sees_adopted_step_before_selecting_its_current_choice.<locals>.<genexpr> at 0x7fb5956c6880>)
+
+tests/person_self/test_deliberated_plan_alternative.py:133: AssertionError
+____________ test_wrong_step_target_is_rejected_before_a_model_call ____________
+
+tmp_path = PosixPath('/dev/shm/nplanbase11/test_wrong_step_target_is_reje0')
+
+    def test_wrong_step_target_is_rejected_before_a_model_call(tmp_path):
+        with fresh(tmp_path/'s.db') as r:
+            view,event=ready(r,tmp_path);calls=[]
+            class Counting:
+                descriptor='synthetic-wrong-step-target'
+                def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+            wrong=event.model_copy(update={'realization_target':view.target.model_copy(update={'resource':'synthetic://wrong'})})
+            policy=ContextPolicy(policy_id='plan-alternative',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            with pytest.raises(CoreError,match='GOAL_STEP_TARGET_MISMATCH'):r.subject.cognize(wrong,model=Counting(),authority=r.authority,policy=policy)
+>           assert calls==[] and not r.store.all('actions') and not r.store.all('grants')
+E           assert ([FrozenModelI...0905f69bc2d')] == []
+E             
+E             Left contains one more item: FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"i...d84ee87e3a20fa6af6cae0905f69bc2d"}', context_digest='0d10920d0cfeea456a2bb10bb9a27ac8d84ee87e3a20fa6af6cae0905f69bc2d')
+E             Use -v to get more diff)
+
+tests/person_self/test_deliberated_plan_alternative.py:149: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CREATE-prohibited0-CREATE]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[LEARN-prohibited1-LEARN]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[REST-prohibited2-REST]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CONTINUE_PROJECT-prohibited3-CONTINUE_PROJECT]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[None-prohibited4-CONTINUE_PROJECT]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_c_considers_adopted_plan_and_can_choose_another_current_activity_without_advancing_it[CREATE-prohibited5-CONTINUE_PROJECT]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_stale_step_is_rejected_before_cognition_and_read_only_projection_keeps_original_target_binding
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_other_choice_reaches_original_execution_consumer_without_using_step_grant_then_can_resume
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CREATE]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_actual_provider_sees_adopted_step_before_selecting_its_current_choice[CONTINUE_PROJECT]
+FAILED tests/person_self/test_deliberated_plan_alternative.py::test_wrong_step_target_is_rejected_before_a_model_call
+11 failed in 0.87s
