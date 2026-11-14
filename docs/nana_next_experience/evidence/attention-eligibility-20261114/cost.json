@@ -1,0 +1,32 @@
+{
+  "scope": "SYNTHETIC_OWNED_LOOPBACK_HTTP",
+  "metrics": [
+    {
+      "log": "baseline-22a-first.txt",
+      "closed_thoughts": 64,
+      "collector_opportunities": 64,
+      "measurement": "synthetic_mixed_attention_eligibility",
+      "open_method_offered": false,
+      "self_http_calls": 0,
+      "total_http_calls": 2
+    },
+    {
+      "log": "cost-two.txt",
+      "closed_thoughts": 64,
+      "collector_opportunities": 1,
+      "configured_input_tokens": 32768,
+      "input_bytes": 52351,
+      "latency_us": 3408,
+      "measurement": "synthetic_mixed_attention_eligibility",
+      "open_method_offered": true,
+      "reserved_bytes": 64640,
+      "self_http_calls": 1,
+      "total_http_calls": 3
+    }
+  ],
+  "provider_tokens": null,
+  "commercial_cost": null,
+  "cpu_rss": "NOT_MEASURED",
+  "storage_change": "No new schema/index/table; processing boundaries and wishes already exist. Additional ordinary original cognition audit/request records not measured separately.",
+  "latency_scope": "One local HTTP sample, not a performance claim; byte counts are not tokens."
+}

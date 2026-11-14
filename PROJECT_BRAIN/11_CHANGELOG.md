@@ -3722,3 +3722,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6 A–E窄修复：原D按原C合法候选可行性提供认知机会，默认承诺不预先否决私念；WATCH/REFLECT/REST与轻量私人反思接回，6pending不当疲倦。规范/预算/UNKNOWN/原承诺不改。环境重建恢复87后重放并重跑250pass76.55s，精确87旧7场景3fail4pass；HIGH源负荷同1SELF/51325bytes非Token，REST/规范保留。87独立585pass实读仅归前继，临时包已丢不假称在场；证据private-choice-admission-20261114。下一64候选挤占/情感G迁移及原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S6：原D在64有效注意上限前应用既有处理资格，64关闭研究私念不再挤掉合法新方法；愿望/送达-only分离保持。旧Runtime0SELF→新1SELF/同条件不重复，216相关66.81s、成本补2pass，52351inputbytes非Token。22a独立CI488pass仅归前继；首次失败/误路径0tests保留，未新包/APK/CURRENT/生产。证据attention-eligibility-20261114；下一G→私人关注及原A–H继续。

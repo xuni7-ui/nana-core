@@ -56,7 +56,7 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 task_class='interaction.shared_discovery' if cue.cue_kind=='DISCOVERY' else None))
         if store.schema_target>=13:
             from ..autonomy.private_intent import candidates
-            for rid,item in candidates(store,scope,loop.privacy_classes,owner_identity_id=store.identity['identity_id'],for_decision=True,for_continuation=True):
+            for rid,item in candidates(store,scope,loop.privacy_classes,owner_identity_id=store.identity['identity_id'],for_decision=True,for_continuation=True,continuation_entity_id=entity_id):
                 due_at=max(item.updated_at_us+quiet_window_us,quiet_since_us+quiet_window_us)
                 if now_us<due_at:continue
                 formed=store.one('subject_intentions',item.intent_id)

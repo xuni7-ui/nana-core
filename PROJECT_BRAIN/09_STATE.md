@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 210,
-  "as_of_us": 1794658229342199,
+  "revision": 211,
+  "as_of_us": 1794660280639011,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_AUTONOMY_AND_ATTENTION_ELIGIBILITY",
+  "status": "IN_PROGRESS_GROWTH_TO_INNER_CAUSALITY",
   "progress": [
-    "原D资源预览按同C合法候选判断，不用默认承诺路线先否决私念；高负荷可选轻反思，REST/规范/原承诺保持。环境重建后恢复87重放，250相关76.55s，新旧7场景3fail4pass→通过；HIGH源负荷同1SELF/51325bytes非Token。",
+    "原D注意候选在64有效上限前按原COGNITION边界筛资格，64暂不处理私念不再挤掉合法新方法；愿望保留/送达拒绝不禁思考。实际Runtime旧0→新1SELF，216相关66.81s，1SELF52351bytes非Token；22a独立488pass仅归前继。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -29,17 +29,17 @@
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "原D默认承诺/轻量反思窄修复已实测，完整自主性A–E仍待。下一≥64混合当前不合资格私念可能占满最终64机会；用原C/collector/Runtime证明后修原分页资格，不增加第二调度或删除愿望。"
+    "当前G新能力growth cue仅SOCIALIZE/WATCH且private formation排除growth_assessment；需将独立成功经同C/有界Context影响私人疑问或未来兴趣，保留原G隔离/反例/撤回。完整自主性A–E与原A–H仍待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md",
     "docs/nana_next_experience/evidence/private-choice-admission-20261114/README.md",
     "docs/nana_next_experience/evidence/initial-method-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md",
     "docs/nana_next_experience/evidence/feedback-first-tendency-20261114/README.md",
-    "docs/nana_next_experience/evidence/selected-opinion-projection-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-feedback-continuation-20261114/README.md"
+    "docs/nana_next_experience/evidence/selected-opinion-projection-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2841,3 +2841,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [2026-11-14 revision209指纹锚点] initial-method-tendency-20261114/source.sha256 SHA256 `b559ad4390eea79397089296d3da29a8341081f1f7f0e836d645ad330a96d8e0`，不含自身。
 
 [2026-11-14 revision210指纹锚点] private-choice-admission-20261114/source.sha256 SHA256 `0b8c54b74692dcd97edd348ccfd885a26564d550660dd1421abaa0629b98c48f`，不含自身。
+
+- 2026-11-14 attention-eligibility原始证据指纹锚：`8470df1e62d3fdb1c9c2bb9ef518709407d4e007bd21292b8278259179495313`（不自含；非当前运行态证明）。

@@ -1,10 +1,8 @@
-## 现役revision210 — 原D按C可行方向提供机会，承诺不抢走比较权
+## 现役revision211 — 当前可处理资格先于注意上限
 
-原资源preview只读检查同C合法候选，不将模型前默认承诺路线当最终意志；当前私念可WATCH/REFLECT/REST，6条pending不伪造私人疲倦，真实HIGH负荷下轻量个人反思可竞争。原规范/预算/UNKNOWN/权限/承诺整行与PRESSING保留。精确87同7场景旧3fail4pass→通过；HIGH源负荷同1SELF/input51325/reserved63614bytes，原REST与规范对照保留。
+原collector沿原COGNITION边界过滤后再取64有效私念，不改愿望/送达权限/调度。原C实际64条私念暂不允许研究时，旧Runtime0SELF，新合法方法1SELF形成新问题，同条件不重复；64愿望ACTIVE、明确重开未消费原record可再入选，送达-only不禁内部。216相关66.81s，成本补2pass6.58s/52351inputbytes非Token，真实0。首次旧1fail1pass及一次错误测试路径0tests保留。见evidence/attention-eligibility-20261114/README.md。
 
-用户续办时环境被平台重建，已推87恢复后重放未提交补丁；旧临时安装/Store/原未提交日志丢失不假称存在。新环境250相关76.55s原始日志已入库，Python3.12.14/SQLite3.53.1开发venv；旧/workspace/nana-core18bc clean未改。87独立CI43578516053/job132398131899实读585pass2warning234.23s，仅归87，不贴本后继；原7ec安装证据保留历史范围，未再重包/APK/CURRENT或生产。见evidence/private-choice-admission-20261114/README.md。
-
-下一实测≥64当前不合资格的私人候选是否挤占新合法方法机会，修原分页/资格而非另建调度或删除私念；之后情感/多倾向/G未见迁移、检索存储/Token/产品及全部原A–H继续。真实模型/手机/自然度/生产/长期仍待，完整A–E不称完成。
+前继22a独立CI43593588977/job132443424308实际488pass1warning167.76s，full/client/portable SKIP，不能贴本后继。环境重建后的旧临时安装不在场；未重包/APK/CURRENT/生产。下一接原G独立成功→原C自主内部关注，解除“新能力只能分享或WATCH”的窄断点，同预算/消融/反例；其余A–H、情感、多动机、长期真实体验继续。
 
 ## 现役revision196
 

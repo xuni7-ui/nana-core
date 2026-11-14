@@ -1,0 +1,5 @@
+{
+  "commit": "22a6b6516ba8cc460a98f143f8a6c491ff0b3cb0",
+  "src_tree": "23d14925056d28e2962309d9046e07b75293f718",
+  "execution": "Original checkout before the two runtime edits, with the same new test file. Initial baseline first failure preserved; no assertion weakened. Final change to test adds read-only byte metrics only."
+}

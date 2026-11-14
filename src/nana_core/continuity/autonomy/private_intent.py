@@ -99,7 +99,7 @@ def payload_model(data):
         'PRIVATE_QUESTION_V3':PrivateQuestion,'PRIVATE_TENDENCY_V4':PrivateTendency}.get(data.get('contract'))
 
 
-def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False):
+def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False,continuation_entity_id=None):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
     # Scope/privacy/current headers precede the bounded payload window. The
@@ -153,6 +153,12 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
                 formed=store.one('subject_intentions',value.intent_id)
                 if (not isinstance(value,PrivateActivity) or value.activity_state!='ACTIVE'
                         or not formed or formed['kind']!='REFLECTION' or formed['state']!='COMPLETED'):continue
+                if continuation_entity_id is not None:
+                    from ..subject.context_fit import depth_boundary
+                    # This C/data permission already governs actual cognition.
+                    # Filter before the opportunity cap, without changing the
+                    # retained wish. Delivery-only boundaries leave cognition eligible.
+                    if depth_boundary(store,continuation_entity_id,scope,value.topic,privacy_classes,purpose='COGNITION')[0]:continue
             out.append((row[0],value))
             if len(out)==64:break
         if len(rows)<64:break
