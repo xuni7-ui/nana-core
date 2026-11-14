@@ -1,0 +1,15 @@
+{
+  "execution": "ACTUAL_INSTALLED_ACTIVE_PRIVATE_TENDENCY_OLD_BINARY_RETURN_THEN_WITHDRAWAL",
+  "source_commit": "a7815ce08d0664d9c6467b691fde5d7f2e11fd91",
+  "single_identity_and_lineage": true,
+  "active_v4_tendency_and_v3_question_after_old_return": true,
+  "source_withdrawal_closes_both": true,
+  "additional_model_calls": 0,
+  "actual_actions": 0,
+  "bundle_seal_after_all_probes": "PASS",
+  "legacy_partial_predicate_preserved": true,
+  "return_helper_scope_label": "Historical helper label AFTER_SOURCE_WITHDRAWAL is hardcoded; this probe validates the actual active-state fixture instead. No hot-plan or production qualification.",
+  "real_model_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "production_changed": false
+}

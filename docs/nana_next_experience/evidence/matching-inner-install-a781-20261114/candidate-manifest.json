@@ -1,0 +1,32 @@
+{
+  "source_commit": "a7815ce08d0664d9c6467b691fde5d7f2e11fd91",
+  "status": "MATCHED_INSTALLED_CANDIDATE_NOT_CURRENT_OR_PRODUCTION",
+  "bundle_files": 285,
+  "files": {
+    "web.tar.gz": {
+      "sha256": "c41032a10a88a596cb8b5df5664b9389bea85516d91c34a1092c85edef9e794d",
+      "bytes": 627740
+    },
+    "core.tar.gz": {
+      "sha256": "2125e65e0ee4a5ffb29282bbb4d671042922dc44a3c4ab1a8d0ac47226f0afad",
+      "bytes": 15079173
+    }
+  },
+  "web_source_tree": "ed0ed2468d70336b6a40e563d749460922baac95",
+  "web_reused_from_matching_unchanged_client": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "core_double_build": "IDENTICAL",
+  "actual_offline_install": true,
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "gateway_and_original_core": "PASS",
+  "active_tendency_old_binary_return_and_withdrawal": "PASS",
+  "original_runtime_self_continuation": "PASS_SYNTHETIC_HTTP_1",
+  "actual_remote_download": "NOT_QUALIFIED",
+  "new_full_regression": "NOT_RUN",
+  "prior_full": "d39 2538passed/13failed/12skipped; 13 stale fixtures reconciled and41 related passed; subsequent scope-specific regressions recorded separately",
+  "real_model_calls": 0,
+  "phone": "NOT_RUN",
+  "production": "NOT_CHANGED",
+  "apk": "NOT_REBUILT",
+  "current_selection": "UNCHANGED_SOURCE_CORE266_CLIENT409"
+}

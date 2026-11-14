@@ -1,0 +1,22 @@
+{
+  "source_commit": "a7815ce08d0664d9c6467b691fde5d7f2e11fd91",
+  "execution": "ACTUAL_INSTALLED_DEV_STARTUP_ORIGINAL_RUNTIME_LOOPBACK",
+  "same_identity": true,
+  "default_off": true,
+  "save_without_apply_or_model": true,
+  "restart_binds_original_provider": true,
+  "original_c_private_continuation": true,
+  "same_condition_no_repeat": true,
+  "disable_restart_and_legacy_field_omission": true,
+  "withdrawal_closes_private_projection": false,
+  "active_tendency_and_question_retained": true,
+  "root_source_memory_id": "1e1e4ee7-c441-47eb-b779-7aefc162cda0",
+  "subject_id": "3d04b815-9e08-49ad-9820-14123157df86",
+  "synthetic_http_calls": 1,
+  "real_provider_calls": 0,
+  "actions": 0,
+  "private_python_only": true,
+  "native_anthropic_module_import": "PASS",
+  "production_changed": false,
+  "lineage_binding": "e9589473c4489923a45aeff44cca32eab9191bbf05d8a586dd084e7c2a9b4408"
+}

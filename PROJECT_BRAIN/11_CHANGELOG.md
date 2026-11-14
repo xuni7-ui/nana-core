@@ -3706,3 +3706,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S3/S6/S7与Precision V2：同一只读Situation在cognize前投影实际计划步骤/动机/支持，原C可明确选其他当前活动并不继承步骤target，run重复投影移除；精确9b298文件匹配同11场景旧11fail→新11pass，199相关后补36通过。真实owned Grant下原执行消费者暂置不误动作，新来源复查同goal恢复未执行步；HTTP各1/wire+618bytes非Token，现有stale门保留/错target提前0模型。schema13夹具首错保留，证据deliberated-plan-alternative-20261114；d39包不含后继，真实0，情感/G及原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原PrivateActivity/C扩V4紧凑私人倾向，不造第二情感系统/Store，实际先影响后续C交流目的、原D无消息一次SELF→新疑问；暂停/放弃/同条件0、修订/撤回/关联/B8同主体迁移有效。精确40f298源文件/同12场景旧12fail→新12pass，184相关后补33通过。普通schema不变、SELF+804bytes；同StoreV4-only索引不复制旧条目/保留旧谓词，旧d39安装略过后源码返回保留。真实0，非完整情绪/长期成长；证据private-tendency-20261114，固定后必要匹配安装与原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE匹配a781累计内心/取舍发行候选：285文件双构建同2125e6…afad，实际离线安装原D/SELF/V4→V3、同DEV关闭新选项后a781→d39安装版→a781返回ACTIVE内容保持，后撤回整链失效/seal通过，另BFF/反馈/十视图/笔记纠错重启撤回通过。旧帮助器硬编码撤回标签与本ACTIVE场景不同，原样保留并补真实ACTIVE断言。Web源树未变复用c41032…794d，不新APK/Current；真实0。证据matching-inner-install-a781-20261114，下一商业情绪评价/明确反馈/G未见迁移与原A–H继续。

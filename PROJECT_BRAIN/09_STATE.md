@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 202,
-  "as_of_us": 1794638871266606,
+  "revision": 203,
+  "as_of_us": 1794639560772676,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PERSISTENT_TENDENCY_CAUSALITY",
+  "status": "IN_PROGRESS_AFFECT_FEEDBACK_AND_LIFELONG_TRANSFER",
   "progress": [
-    "原V4私人倾向沿PrivateActivity/C/原context/D接通，关切先改变后续C交流目的，非补写独白；无消息ACTIVE一次SELF→新疑问，暂停/放弃/同条件0，修订/撤回/B8有效。184相关后补12/33通过；真实0，非全情感/长期成长。",
+    "a781累计C取舍/V4已285文件双构建同2125e6…afad并实际离线安装：原D一次SELF由倾向形成疑问，同DEV新→旧d39→新返回ACTIVE内容保持/撤回闭包，BFF/反馈/十视图/笔记通过。Web源树未变复用c41032…794d，非发行/上线。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "下一固定V4及9b/40f累计后继做必要匹配Core离线安装；d39旧安装往返V4只读略过/源码返回已实测。继续实际经历/情绪不确定评价→多倾向/明确反馈→G独立迁移，普通商业初始情绪形成/多时间尺度/自然度仍待，S8表达资格不越界；其余A–H/最终发行继续。",
+    "下一普通商业初始情绪/新经历如何由原C形成并修订持续倾向，明确反馈→G独立评价→未见选择迁移。现SELF可选形成/原D/后续对话已接，不把结构当完整情感。a781候选安装已测但未远端下载/更新CURRENT；原A–H/最终APK/模型/手机/自然度/长期仍待。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/matching-inner-install-a781-20261114/README.md",
     "docs/nana_next_experience/evidence/private-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/deliberated-plan-alternative-20261114/README.md",
     "docs/nana_next_experience/evidence/deliberated-due-promise-20261114/README.md",
     "docs/nana_next_experience/evidence/full-fixture-reconciliation-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-install-d39-20261114/README.md",
     "docs/nana_next_experience/evidence/portable-closure-20261114/README.md",
-    "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md"
+    "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2824,3 +2824,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 原计划动机前投影/可选活动证据表锚：`683d66d28e32f320858cb571b51b372d0761bd3f93ed26dab0a4af3d450f48d7`。
 
 - 2026-11-14 原V4私人倾向因果/兼容证据表锚：`074a5b068e03dbb6f7d2eebcbad5e860c2f03294d5fc7ebe74724c49f5a24332`。
+
+- 2026-11-14 匹配a781原V4内心安装/返回/撤回证据表锚：`82746dd4f0fb6f442d6cab6fe56072e8c07d77006e46ebc4c3df27fdb324f0b0`。

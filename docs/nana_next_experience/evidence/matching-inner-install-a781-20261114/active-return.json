@@ -1,0 +1,33 @@
+{
+  "execution": "ACTUAL_STOPPED_INSTALLED_HOST_OPTION_ENABLE_THEN_DISABLE_OLD_READER_RETURN",
+  "stages": [
+    {
+      "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+      "same_subject_and_lineage": true,
+      "same_counts": {
+        "identities": 1,
+        "cognitive_requests": 1,
+        "subject_cycles": 2,
+        "actions": 0
+      },
+      "additional_calls_cycles_actions": 0,
+      "startup_option_omitted": true
+    },
+    {
+      "source_commit": "a7815ce08d0664d9c6467b691fde5d7f2e11fd91",
+      "same_subject_and_lineage": true,
+      "same_counts": {
+        "identities": 1,
+        "cognitive_requests": 1,
+        "subject_cycles": 2,
+        "actions": 0
+      },
+      "additional_calls_cycles_actions": 0,
+      "startup_option_omitted": true
+    }
+  ],
+  "database_rollback": false,
+  "production_changed": false,
+  "real_provider_calls": 0,
+  "scope": "STOPPED_SYNTHETIC_STARTUP_STORE_AFTER_SOURCE_WITHDRAWAL_NO_ACTIVE_PLAN_HOT_SWITCH"
+}

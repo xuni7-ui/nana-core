@@ -1,8 +1,8 @@
-## 现役revision202 — 原V4私人倾向，先参与判断再表达
+## 现役revision203 — a781匹配Core已实际离线安装
 
-可选private_tendency复用原PrivateActivity/CognitiveProposal/INTENTION及同C，真实自身来源/时间/owner/状态/关联/撤回；非情绪分数、事实、承诺或Goal。原INTERPRET/C/SOCIAL选LISTEN，私文不出回复/普通日志；消融回CHAT。原正常D/Provider无用户消息ACTIVE一次SELF→新私问、暂停/放弃/同条件0，重启修订/来源撤回/B8同主体迁移通过。精确40f同12场景旧12fail→新12pass，184相关后补33通过。普通schema不变，SELF schema+804bytes，真实Token未测。旧索引谓词保留/V4-only索引不复制旧条目；错绑定只读fallback，旧d39安装略过新格式后源码返回完整。见evidence/private-tendency-20261114。
+固定a7815ce08d0664d9c6467b691fde5d7f2e11fd91，原285文件Core双构建同2125e65e0ee4a5ffb29282bbb4d671042922dc44a3c4ab1a8d0ac47226f0afad，私有Python3.12.14/SQLite3.53.1离线安装/tmp/na781。原正常D一次SELF由V4倾向形成V3疑问，关闭宿主新选项后同DEV a781→d39实际安装版→a781返回，两种ACTIVE内容保持，才实际撤回source并整链失效，原seal通过；另fresh原BFF/反馈/十视图/笔记纠错重启撤回通过。旧帮助器硬编码AFTER_SOURCE_WITHDRAWAL标签不适本ACTIVE场景，原输出保留并补真实ACTIVE断言，未伪造label。Web源树ed0ed246与d39相同，复用c41032…794d，未重复编译或新APK。证据matching-inner-install-a781-20261114，候选/tmp/nana-a781-candidate临时易失，未远端发布/下载/更新CURRENT。
 
-下一固定后继做必要Core包/安装资格（d39不含9b/40f/V4），不重复APK/旧V4包；再补实际经历/不确定情绪评价→多倾向→明确反馈→原G独立迁移。普通商业初始情绪形成/多时间尺度/自然度与原A–H仍待；S8表达规则不能越界当全人格资格。原完整回归首次13失败已定向41通过，不称最新全仓PASS。CURRENT266+409，真实模型/手机/生产/长期未资格。
+下一实现缺口：当前private_tendency由原SELF自愿形成并已接原D、上下文与后续C交流；仍需将普通商业初始情绪情境/新经历中的可选主体评价接入同C，利用明确回应修订倾向，再经原G独立评价影响未见后续选择。已有COMMUNICATION_STRATEGY/FEEDBACK/LanguageService表达资格复用，不新内心Agent或将表达规则越界升为人格资格。严格区分真实来源/他人陈述/自己倾向；不保留选择不得通过内部来源绕过、不因沉默或送达推断安慰成功。原A–H/未引用方法发现/冷归档与物理隐私/全链Token/产品/最终APK与长期资格继续。全仓仍记d39首次2538pass/13fail/12skip、13已定向41pass，不拼最新全仓。真实模型/手机/生产0，CURRENT266+409不变。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
