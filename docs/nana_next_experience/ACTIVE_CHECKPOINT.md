@@ -1,8 +1,8 @@
-## 现役revision214 — 原理解有界复用到同C
+## 现役revision215 — 20万复测差额与无收益原型收口
 
-当前原方法及精确保留输入绑定此前INTERPRET的kind/confidence，经原ContextAssembler只给原C。历史MODEL_PROPOSAL不升级当前情绪/效果，普通INTERPRET/RENDER不带投影。旧1fail1pass→新2pass，投影消融同1SELF REST/无私念，启用形成关切且实际后续CHAT；114相关77.71s。+1092inputbytes非Token，无新阶段/表/权限。首次错误要求本地事件有持久正文失败保留，已改原C context_fit+原话源绑定，未强迫保留。见evidence/interpretation-reuse-20261114/README.md。
+仅用原工具恢复20万这一种规模，48case/limit4/3reps/100ms与原spec一致；同新Store当前144/144、0false/0timeout、P9520.34ms，历史142/144两timeout保留，非旧DB/生产/OS cold。两原型NOT EXISTS/NOT IN在原两个超时样本虽6/6却P95约29/31ms、慢于原19/21ms，均弃而不增加Core改动。主DB实际分配约2.037GB、4,770,998terms，非物理回收/归档/DR。详见evidence/literal-200k-recovery-20261114/README.md，原next中150ms笔误改原100ms并修正确raw文件指针，没改测试/运行源。
 
-9a独立CI43598348344/job132457710895实读374pass1warning168.52s，仅前继，full/client/portable SKIP。未新包/APK/CURRENT/真实模型/手机/生产/长期，旧临时包不在场。下一用原200k样本/原replay只定位2个超时SQL及索引，不放宽门限，不重复全规模审计；多时间尺度/多动机/S8/物理存储/Token/产品与全部原A–H仍需开发。
+原理解→同C f93成果保留114相关，其他原四模式/G/私念/反馈/连续输入不重做。未新包/APK/CURRENT/真实模型/手机/生产/长期；2字符/大量未索引/更广检索与Core-Iris绑定仍待。接着回通用模型配置产品及情感/多动机主链，全部原A–H继续；不反复对已定位环境问题或本批大库刷验证。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

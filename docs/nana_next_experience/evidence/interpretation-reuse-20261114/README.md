@@ -10,6 +10,6 @@
 
 前继9a独立CI43598348344/job132457710895实读374pass1warning168.52s，full/client/portable SKIP，仅前继。当前非全仓/匹配安装/真实模型/手机/生产/跨日资格；旧7ec历史安装仍按原范围且本地临时文件已丢，不新APK/CURRENT。
 
-下一读取原diverse-literal-20261109/initial-result-200000.json与原replay，只诊断2个超时查询的真实SQL/索引，不提高150ms门限或重跑全部规模。情感多时间尺度、多动机、S8广迁移、物理存储/Token/产品及全部原A–H仍需推进。
+下一读取原diverse-literal-20261109/memory-diverse-gram-covering-replay.json与原replay，只诊断2个超时查询的真实SQL/索引，不提高原100ms门限或重跑全部规模。情感多时间尺度、多动机、S8广迁移、物理存储/Token/产品及全部原A–H仍需推进。
 
 复跑tests/person_self/test_initial_method_tendency.py -k historical_hint；相关同目录communication_strategy/private_tendency/private_feedback_formation/private_feedback_continuation/private_choice/growth_inner_choice/attention_eligibility、continuous_self context/cognition、vision_first/context_fit、independent_life/dialogue。原pytest、TMPDIR=/dev/shm、PYTHONPATH=$PWD:$PWD/src，合成DEV/owned loopback，不读私人历史或真实账号。

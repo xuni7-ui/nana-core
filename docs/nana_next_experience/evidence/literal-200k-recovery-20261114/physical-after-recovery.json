@@ -1,0 +1,51 @@
+{
+  "scope": "OWNED_SYNTHETIC_NOT_PRODUCTION",
+  "memory_rows": 200000,
+  "sqlite": "3.53.1",
+  "source_namespaces": [
+    "recorded.conversation.input",
+    "synthetic.diverse"
+  ],
+  "memory_terms_rows": 4770998,
+  "disk": {
+    "self.db-shm": {
+      "bytes": 32768,
+      "allocated_bytes": 32768
+    },
+    "self.db-wal": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    },
+    "self.db.privacy.json": {
+      "bytes": 2495,
+      "allocated_bytes": 4096
+    },
+    "self.db.privacy.json.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    },
+    "self.db": {
+      "bytes": 2037067776,
+      "allocated_bytes": 2037063680
+    },
+    "self.db.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    }
+  },
+  "indexes": {
+    "memory_note_gram_coverage": {
+      "bytes": 6070272,
+      "pages": 1482
+    },
+    "memory_terms": {
+      "bytes": 305680384,
+      "pages": 74629
+    },
+    "memory_terms_term_lookup": {
+      "bytes": 341385216,
+      "pages": 83346
+    }
+  },
+  "source_query_qualification": "All original48case/source refs checked by original generator/compare; no live Core/Iris index mapping"
+}

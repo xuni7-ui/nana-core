@@ -3730,3 +3730,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6/S7：复用同一内部机会分类，原D方法/G短念WAIT或内部ASK保持NO_ACTION未决，不新增对外澄清待办；原反馈旧正确对照/普通USER ASK WAIT保留。精确1aee同6场景旧3fail3pass→6pass，148相关68.63s，同1SELF/同48136或55412inputbytes非Token；1aee独立408pass仅前继。未新包/APK/CURRENT/真实0，证据private-wait-scope-20261114；INTERPRET真实接线边界已核对，下一情感/多动机及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S5/S6/S7：原INTERPRET已计算kind/confidence沿原C采纳/精确输入绑定投影同C方法继续，历史推测非当前情绪/效果事实；旧1fail1pass→2pass，114相关77.71s，同1SELF/+1092bytes非Token。普通事件无正文首错保留，不强迫保存；9a独立374pass仅前继，未新包/APK/CURRENT/真实0。证据interpretation-reuse-20261114；下一原200k两超时与情感/G/原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S2/S8上下文：环境丢库后仅原工具恢复20万/同48case100ms，当前144/144、0false/timeout、P9520.34ms，旧142/144两timeout不抹除。两SQL原型更慢已弃，未改Core/限时；主DB实际约2.037GB/4,770,998terms非回收。原next150ms及初始文件指针订正为真实100ms/covering-replay，指纹更新有锚。证据literal-200k-recovery-20261114；未新包/APK/CURRENT/真实0，回产品/情感及原A–H。

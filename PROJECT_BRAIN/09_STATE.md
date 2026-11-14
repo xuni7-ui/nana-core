@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 214,
-  "as_of_us": 1794667498097076,
+  "revision": 215,
+  "as_of_us": 1794668382059133,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_CROSS_DOMAIN_CONTEXT_QUALITY",
+  "status": "IN_PROGRESS_PRODUCT_AND_AFFECTIVE_CAUSALITY",
   "progress": [
     "原G独立练习/实际未来Kernel Verify成功经同D/C可形成私人兴趣，新增有界GROWTH_CHANGE沿原上下文，默认分享/观察不改，可REFLECT/REST。精确1ca旧4fail1pass→新5pass，115相关；消融同1SELF后续REFLECT↔WATCH，+1565bytes非Token。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -19,27 +19,27 @@
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
     "原C明确新兴趣/到期承诺竞争已接；计划步骤投影前移C，可选其他活动且不携该步骤target。精确9b旧11fail→新11pass，199相关后补36通过，实际有Grant也不误执行，原复查后同goal继续；HTTP各1/wire+618bytes非Token，真实0。",
     "原INTERPRET有界kind/confidence经原C已采纳context_fit/精确保留输入→同C方法继续投影，历史推测不升级当前情绪/效果事实；关投影同1SELF无私念，新有私念并改变后续聊天。114相关77.71s，+1092inputbytes非Token，未加模型阶段。",
-    "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
+    "原literal1k/10k/100k144/144保留；20万仅恢复此规模/同48case100ms，新144/144无误召超时/P9520.34ms，历史142/144两超时保留。两个SQL原型更慢已弃，未改Core/限时。单safe-point字面miss及G16/32后续查询2→1原成果复用。",
     "原D私念/方法/G/反馈的WAIT或内部ASK沿同一分类保持NO_ACTION未决，不强制对外澄清待办；普通USER ASK/WAIT保留。精确1aee298文件旧3fail3pass→6pass，148相关68.63s；同1SELF/同48136或55412inputbytes非Token。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
-    "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
+    "原G WORDLIKE/TEXT仍独立16/32；20万新恢复库144/144仅有限literal本轮资格，旧2timeout不抹除；2字符/大量未索引/更广语义检索学习、真实Core-Iris绑定/长期迁移及最终匹配安装回退仍待，不把扩大范围等同成长。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "情境原理解有界复用已接，非完整情感/自主性A–E/长期G。下一按原200k证据只诊断2个超时查询，不扩大门限或全规模重跑；多时间尺度/多动机、物理存储/Token/模型产品及原A–H仍需开发，当前匹配安装/CI待。"
+    "原理解有界复用已接，非完整情感/自主性A–E/长期G。20万复测/两SQL原型诊断结束，无收益不改Core；回通用模型产品与情感/多动机主链，其余物理存储/真实Token/最终发行及原A–H仍需开发。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/literal-200k-recovery-20261114/README.md",
     "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md",
     "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md",
     "docs/nana_next_experience/evidence/growth-inner-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md",
     "docs/nana_next_experience/evidence/private-choice-admission-20261114/README.md",
     "docs/nana_next_experience/evidence/initial-method-tendency-20261114/README.md",
-    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json",
-    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md"
+    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2849,3 +2849,6 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 private-wait-scope证据指纹锚：`267c0c2d8445424790e31632aa83e2a3a276b9d2cfc4df88b8705f5971d01950`（不自含；非当前运行态证明）。
 
 - 2026-11-14 interpretation-reuse证据指纹锚：`525f05040f8525a9fce860d54bf82a21f783faa3b51f22d9b10bc67e826ac0dc`（不自含；非当前运行态证明）。
+
+- 2026-11-14 literal-200k-recovery证据指纹锚：`de30696d7b1adaec2fafb074947215a04829c2bca1f8e5df81e8d9b4bfb1dcbf`（不自含；非当前运行态证明）。
+- 2026-11-14 interpretation-reuse仅next门限/文件指针笔误订正；原源码/原始日志不变，当前指纹锚：`1b9ee6d69a7b4b68113ca958876f34e404bf28a1e7586149e4d7626a993466b6`；旧525f锚按f93采集时点保留。
