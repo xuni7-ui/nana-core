@@ -1,10 +1,8 @@
-## 当前接续：原G方法到同次SELF选择，revision194
+## 当前接续：无类别私人机会续用原C方法，revision195
 
-原C已选任务类别的原G合格Lesson由ContextAssembler进入同次SELF，world.self角色/隐私上限/原引用与整体预算保持；无Frame不得指定类别。精确旧fd同输入同预算REST→新EXPLORE，均HTTP1/0Goal与动作，暂停/异类/重启/撤回有效。189相关29.88s，wire单例+2450bytes，真实商业Token/成本null。证据provider-lesson-selection-20261113。
+原C最新私人选择中已明确引用且仍由原G合格的方法，可回到原ContextAssembler/正常D无task_class机会；同次SELF使同C形成后续私人问题，不新增目标/动作/模型往返。196相关33.54s，取消引用/暂停/撤回/消融/无关方法及重启反向通过；旧c126同预算DEFER→新REFLECT，wire单例+922bytes非Token。证据private-method-continuation-20261114。
 
-下一具体断点：正常D私人机会由watch生成的task_class仍为空，不能假称所有私人计划已能选择相关方法；先沿原PRIVATE_QUESTION/PRIVATE_PLAN来源与原C语义核对类别/证据消费者，不增加硬写topic→技能映射或第二学习器。原reading_card任务判断/候选保护未删除，初始私问探针失败保留；不要假称新私问已形成。持续情感/结果因果/G广迁移、startup产品、装配精简/其余A–H/旧reader与匹配发行保留。CURRENT266+409，无新增真实模型/手机/生产/自然度/长期资格。
-
-当前工作副本仍/tmp/nana-inner-refinement-work；Root f583+4WIP和18bc未动。已完成seedless、volatile原焦点及有限承诺按实际方向归因三个后继增量，直接复用。下文旧下一以本段/09优先。
+下一原LifeApplication正常宿主startup可持久后台provider资源入口，默认关闭、不自动开新费用；内部思想仍有原轻量路径。尚未引用的新方法发现、情感意义/可靠结果/G更广迁移、装配优化及全部原A–H/旧reader/匹配发行继续，CURRENT266+409。环境已重建，/tmp旧制品/日志/安装不沿用；现工作副本由远端c126新clone，Root f583+4WIP及18bc不动。下文旧下一以本段/09优先。
 
 ## 当前接续：承诺归因按实际方向，revision193
 

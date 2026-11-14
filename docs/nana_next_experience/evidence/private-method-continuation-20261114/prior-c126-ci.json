@@ -1,0 +1,10 @@
+{
+  "commit": "c126663dd596fb01d6fbd317ef9f53336cbcf33f",
+  "run": 43470586362,
+  "job": 132041465015,
+  "core_summary": [
+    "2026-11-13T17:18:20.8051304Z 386 passed, 1 warning in 220.47s (0:03:40)"
+  ],
+  "client": "SKIPPED",
+  "artifact_downloaded": false
+}

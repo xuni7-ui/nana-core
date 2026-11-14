@@ -1,0 +1,114 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_normal_taskless_d_uses_only_current_explicit_private_method_selection[active] _
+
+tmp_path = PosixPath('/dev/shm/npmold/test_normal_taskless_d_uses_on0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f876e10d640>
+condition = 'active'
+
+    @pytest.mark.parametrize('condition',['active','unrelated-lesson','no-ref','suspended','withdrawn','reselected-without-ref','ablated'])
+    def test_normal_taskless_d_uses_only_current_explicit_private_method_selection(tmp_path,monkeypatch,condition):
+        clock=VirtualClock();runtime,policy,rid,plan,lesson,result,source,Plan=prepared(tmp_path,clock,selected=condition!='no-ref');seen=[]
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            refs=[json.loads(b['data_json'])['lesson_id'] for b in context['blocks'] if b['kind']=='LESSON'];seen.append(refs)
+            assert request.media_input()['subject_cognition']['task_class']=='subject_deliberation'  # D did not assign a work goal.
+            return StructuredProposal(interpretation='SYNTHETIC bounded method continuation',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC reflect on a method' if refs else 'SYNTHETIC wait',
+                lesson_refs=tuple(refs),proposed_operations=('DRAFT',) if refs else ('WAIT',),
+                private_question={'topic':'own-method-play','question':'PRIVATE_METHOD_QUESTION_CANARY: could this checked method support a different private activity?'} if refs else None))
+        with provider_harness(proposer=propose) as (transport,state),runtime as r:
+            from tests.world_loop.test_model_framing import bind as bind_counter
+            bind_counter(transport)
+            if condition=='unrelated-lesson':
+                from tests.continuous_self.conftest import evidence
+                from tests.continuous_self.test_memory import add
+                memory=MemoryService(r.store,r.authority);learning=ExperienceService(r.store,r.authority)
+                context=add(memory,evidence(memory,'unrelated-context','SYNTHETIC a different reading project'),'SYNTHETIC a different reading project')
+                output=add(memory,evidence(memory,'unrelated-result','{"text":"SYNTHETIC another card"}'),'{"text":"SYNTHETIC another card"}')
+                proof=learning.verify_reading_result(output,r.authority)
+                experience=learning.record(ExperienceInput(context_memory_ids=(context,),scope='synthetic-home',task_class='reading_card',
+                    decision='SYNTHETIC different missing locator',result_memory_id=output,verification_memory_id=proof))
+                other=learning.derive_lesson(experience);assert all(learning.test_lesson(other).values());learning.activate(other,r.authority)
+                assert other!=lesson
+            if condition=='suspended':ExperienceService(r.store,r.authority).suspend(lesson,r.authority)
+            if condition=='withdrawn':MemoryService(r.store,r.authority).forget(result,r.authority)
+            if condition=='reselected-without-ref':
+                r.subject.cognize(source.model_copy(update={'source_key':'synthetic.drop-private-method'}),model=Plan([],rid),authority=r.authority,policy=policy)
+                rid,plan=private_intent.candidates(r.store,'synthetic-home',('PERSONAL',))[0]
+            if condition=='ablated':monkeypatch.setattr(private_intent,'deliberated_lesson_refs',lambda *args,**kwargs:())
+            ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),
+                task_class='ordinary',task='Ordinary permitted context',task_privacy_class='PERSONAL'),policy)
+            assert 'PRIVATE_METHOD_PLAN_CANARY' not in ordinary.model_dump_json() and not any(b.kind=='LESSON' for b in ordinary.blocks)
+            bind(r,transport,policy);clock.advance(3*SECOND);r.refresh_attention()
+            for _ in range(4):r.step()
+            # Original D first reviews the actual training failure; that activity
+            # starts its normal quiet window. Wait for it, without disabling D.
+            assert state['calls']==0
+            clock.advance(2*SECOND);r.refresh_attention()
+            for _ in range(4):r.step()
+            expected=condition in {'active','unrelated-lesson'};values=private_intent.candidates(r.store,'synthetic-home',('PERSONAL',))
+>           assert any(v.category=='PRIVATE_QUESTION' for _,v in values)==expected, (condition,seen)
+E           AssertionError: ('active', [[]])
+E           assert False == True
+E            +  where False = any(<generator object test_normal_taskless_d_uses_only_current_explicit_private_method_selection.<locals>.<genexpr> at 0x7f876dde2400>)
+
+tests/person_self/test_private_method_continuation.py:105: AssertionError
+_ test_normal_taskless_d_uses_only_current_explicit_private_method_selection[unrelated-lesson] _
+
+tmp_path = PosixPath('/dev/shm/npmold/test_normal_taskless_d_uses_on1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f876dc3e9f0>
+condition = 'unrelated-lesson'
+
+    @pytest.mark.parametrize('condition',['active','unrelated-lesson','no-ref','suspended','withdrawn','reselected-without-ref','ablated'])
+    def test_normal_taskless_d_uses_only_current_explicit_private_method_selection(tmp_path,monkeypatch,condition):
+        clock=VirtualClock();runtime,policy,rid,plan,lesson,result,source,Plan=prepared(tmp_path,clock,selected=condition!='no-ref');seen=[]
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            refs=[json.loads(b['data_json'])['lesson_id'] for b in context['blocks'] if b['kind']=='LESSON'];seen.append(refs)
+            assert request.media_input()['subject_cognition']['task_class']=='subject_deliberation'  # D did not assign a work goal.
+            return StructuredProposal(interpretation='SYNTHETIC bounded method continuation',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC reflect on a method' if refs else 'SYNTHETIC wait',
+                lesson_refs=tuple(refs),proposed_operations=('DRAFT',) if refs else ('WAIT',),
+                private_question={'topic':'own-method-play','question':'PRIVATE_METHOD_QUESTION_CANARY: could this checked method support a different private activity?'} if refs else None))
+        with provider_harness(proposer=propose) as (transport,state),runtime as r:
+            from tests.world_loop.test_model_framing import bind as bind_counter
+            bind_counter(transport)
+            if condition=='unrelated-lesson':
+                from tests.continuous_self.conftest import evidence
+                from tests.continuous_self.test_memory import add
+                memory=MemoryService(r.store,r.authority);learning=ExperienceService(r.store,r.authority)
+                context=add(memory,evidence(memory,'unrelated-context','SYNTHETIC a different reading project'),'SYNTHETIC a different reading project')
+                output=add(memory,evidence(memory,'unrelated-result','{"text":"SYNTHETIC another card"}'),'{"text":"SYNTHETIC another card"}')
+                proof=learning.verify_reading_result(output,r.authority)
+                experience=learning.record(ExperienceInput(context_memory_ids=(context,),scope='synthetic-home',task_class='reading_card',
+                    decision='SYNTHETIC different missing locator',result_memory_id=output,verification_memory_id=proof))
+                other=learning.derive_lesson(experience);assert all(learning.test_lesson(other).values());learning.activate(other,r.authority)
+                assert other!=lesson
+            if condition=='suspended':ExperienceService(r.store,r.authority).suspend(lesson,r.authority)
+            if condition=='withdrawn':MemoryService(r.store,r.authority).forget(result,r.authority)
+            if condition=='reselected-without-ref':
+                r.subject.cognize(source.model_copy(update={'source_key':'synthetic.drop-private-method'}),model=Plan([],rid),authority=r.authority,policy=policy)
+                rid,plan=private_intent.candidates(r.store,'synthetic-home',('PERSONAL',))[0]
+            if condition=='ablated':monkeypatch.setattr(private_intent,'deliberated_lesson_refs',lambda *args,**kwargs:())
+            ordinary=ContextAssembler(r.store,r.authority).assemble(ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),
+                task_class='ordinary',task='Ordinary permitted context',task_privacy_class='PERSONAL'),policy)
+            assert 'PRIVATE_METHOD_PLAN_CANARY' not in ordinary.model_dump_json() and not any(b.kind=='LESSON' for b in ordinary.blocks)
+            bind(r,transport,policy);clock.advance(3*SECOND);r.refresh_attention()
+            for _ in range(4):r.step()
+            # Original D first reviews the actual training failure; that activity
+            # starts its normal quiet window. Wait for it, without disabling D.
+            assert state['calls']==0
+            clock.advance(2*SECOND);r.refresh_attention()
+            for _ in range(4):r.step()
+            expected=condition in {'active','unrelated-lesson'};values=private_intent.candidates(r.store,'synthetic-home',('PERSONAL',))
+>           assert any(v.category=='PRIVATE_QUESTION' for _,v in values)==expected, (condition,seen)
+E           AssertionError: ('unrelated-lesson', [[]])
+E           assert False == True
+E            +  where False = any(<generator object test_normal_taskless_d_uses_only_current_explicit_private_method_selection.<locals>.<genexpr> at 0x7f876dd12810>)
+
+tests/person_self/test_private_method_continuation.py:105: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_method_continuation.py::test_normal_taskless_d_uses_only_current_explicit_private_method_selection[active]
+FAILED tests/person_self/test_private_method_continuation.py::test_normal_taskless_d_uses_only_current_explicit_private_method_selection[unrelated-lesson]
+2 failed, 5 deselected in 2.31s

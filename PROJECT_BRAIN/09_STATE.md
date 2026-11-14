@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 194,
-  "as_of_us": 1794589981908407,
+  "revision": 195,
+  "as_of_us": 1794632925831644,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_C_QUALIFIED_LESSON_PROJECTION",
+  "status": "IN_PROGRESS_PRIVATE_METHOD_CONTINUATION",
   "progress": [
     "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,25 +20,25 @@
     "原方法/明确意见→同C后续选择及G反例已有受控证据；有限社交承诺evaluation不再误标自主REST/DO_NOTHING为受约束，私计划可暂停/重启保留，真实SOCIALIZE仍克制/承诺整行不变。最终132相关，非情绪效果/自主进化。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原D/SELF/seedless/volatile focus已接；原C任务类别的原G合格Lesson现进入同次SELF，旧同预算REST→新EXPLORE，暂停/异类不误用/撤回退役。189相关通过，wire单例+2450bytes、调用仍1；真实0，非广泛迁移/长期成长。"
+    "原D无task_class私人机会可由原C最新认知引用重投仍合格原G方法→同C新私问；D不指定工作目标，暂停/撤回/取消引用/消融有效，无关方法不挤入。196相关，1HTTP/0Goal动作，wire单例+922bytes；真实0，非广泛成长。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "正常D无task_class的私念机会仍缺相关经验选择，需原C语义/有源支持，不硬写topic映射；情感意义→选择→可靠结果/G独立未来迁移继续。startup产品入口/三阶段装配/原A–H/旧reader及匹配发行待，丢失私文不重发。",
+    "正常D可续用当前私念已引用方法；尚未自主发现新关联方法，不从旧来源/修订链强推。下一原LifeApp正常startup持久后台provider资源入口（默认关闭）；情感结果因果/G广迁移、三阶段装配/原A–H/旧reader与匹配发行继续。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/provider-lesson-selection-20261113/README.md",
     "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-focus-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md",
-    "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md",
-    "docs/nana_next_experience/evidence/choice-constraint-scope-20261113/README.md"
+    "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2808,3 +2808,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [实测] revision193有限承诺原评价范围证据voluntary-restraint-scope-20261113；源码表SHA256 73bcbfff3eda823923c4abdcc217330c836d8c47bf29bfb7a18685f1a6d12f6a（表不自指）。132相关通过，精确旧d3/private原V1隐含ACTIVE首错保留；实际承诺整行/真实社交限制不改，合法私计划暂停跨重启。非自主进化/真实模型/完整发行。
 
 [实测] revision194原C任务Lesson到SELF证据provider-lesson-selection-20261113；源码表SHA256 e67cc971cf009c7fa4a082993a485c32b186f514df314276a3eadf3ec9458fb5（表不自指）。189相关通过，旧fd同预算REST→新EXPLORE，暂停/异类/撤回与无Frame反向有效，额外模型往返0。旧d3独立CI344/旧fd306另记，非本批CI/全仓/真实成长/发行。
+
+[实测] revision195无类别私念方法续用证据private-method-continuation-20261114；源码表SHA256 e1758f10342283654706f15ceef92d4721661b8a66425442d49e5ced94c9e850（表不自指）。196相关通过，原quiet首错与精确c126对照保留，原G暂停/取消引用/撤回/消融及同主体重启有效；尚非广泛成长/发行/真实模型。

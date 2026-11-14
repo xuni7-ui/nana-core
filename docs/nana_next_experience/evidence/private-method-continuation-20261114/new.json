@@ -1,0 +1,44 @@
+{
+  "active_continuation_assertion_failed": false,
+  "requests": [
+    {
+      "state": "PROPOSED",
+      "wire_input_bytes": 31385,
+      "wire_output_bytes": 870,
+      "reserved_bytes": 43674,
+      "lesson_blocks": 1,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 65536,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      },
+      "fixture_token_accounting": {
+        "context_limit": 65536,
+        "counter": "MODEL_REQUEST_FRAMING_V1:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "input_tokens": 31250,
+        "model": "harness-v1",
+        "output_reserve_tokens": 2048,
+        "provider": "synthetic.http",
+        "provider_reported_usage": false
+      }
+    }
+  ],
+  "cycles": [
+    {
+      "behavior": "REFLECT",
+      "stance": "REFLECT",
+      "wall_us": 220479,
+      "cpu_us": 220382,
+      "family_allocated_bytes_delta": 0,
+      "goals": 0,
+      "actions": 0,
+      "provider_ledger_rows": 1,
+      "fixture_ledger_rows": 0
+    }
+  ],
+  "real_model_calls": 0,
+  "commercial_tokens": null,
+  "commercial_cost": null,
+  "limits": "One owned HTTP fixture; character-framing tokenizer, not commercial tokens/P95/long-term growth or installation."
+}

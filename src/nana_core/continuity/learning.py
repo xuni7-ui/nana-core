@@ -358,10 +358,10 @@ class ExperienceService:
         kind=DispositionRule if row['task_class']=='disposition.review' else InteractionRule if row['task_class']=='interaction.shared_discovery' else StrategyRule
         return kind.model_validate_json(canonical(payload))
 
-    def context_blocks(self, request, privacy):
+    def context_blocks(self, request, privacy, *, selected_lesson_ids=None):
         from .context import ContextBlock
         blocks = []
-        for row in self.store.all("experiences")[-16:]:
+        for row in self.store.all("experiences")[-16:] if selected_lesson_ids is None else ():
             record = self.store.one("continuity_records", row["record_id"])
             if (row["task_class"] != request.task_class or record["scope"] not in request.scopes
                     or record["privacy_class"] not in privacy or record["lifecycle"] != "ACTIVE"
@@ -370,9 +370,12 @@ class ExperienceService:
             blocks.append((650.0, ContextBlock(block_id="experience:" + row["experience_id"], kind="EXPERIENCE",
                 data_json=self.get(row["experience_id"]).model_dump_json(),
                 source_memory_ids=self.records.support(row["record_id"]), source_record_ids=(row["record_id"],))))
-        for row in self.store.all("lessons"):
+        rows=(self.store.all("lessons") if selected_lesson_ids is None else
+            (self.store.one('lessons',lid) for lid in dict.fromkeys(selected_lesson_ids)))
+        for row in rows:
+            if row is None:continue
             record = self.store.one("continuity_records", row["record_id"])
-            if (row["state"] != "ACTIVE" or row["task_class"] != request.task_class or record["scope"] not in request.scopes
+            if (row["state"] != "ACTIVE" or (selected_lesson_ids is None and row["task_class"] != request.task_class) or record["scope"] not in request.scopes
                     or record["privacy_class"] not in privacy or record["lifecycle"] != "ACTIVE"
                     or not self.records.current_support(row["record_id"])):
                 continue

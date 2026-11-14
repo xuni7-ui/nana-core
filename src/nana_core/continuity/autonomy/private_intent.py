@@ -194,6 +194,36 @@ def internal_projection(store,record_ids,*,scope,privacy_classes,include_associa
     return tuple(out)
 
 
+def deliberated_lesson_refs(store,thoughts,*,scope,privacy_classes):
+    """Methods explicitly considered in these current thoughts' latest C choice.
+
+    No topic inference, revision-chain search or implicit authority from ancestry.
+    Original G still decides whether each referenced method remains qualified.
+    """
+    from ..cognition import CognitiveProposal
+    records=RecordService(store);selected=[]
+    for thought in thoughts:
+        head=store.one('continuity_records',thought['record_id'])
+        if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+                or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+                or head['lifecycle']!='ACTIVE' or not records.current_support(head['record_id'])):continue
+        data=records.read(head['record_id'])['payload'];model=payload_model(data)
+        if model is None:continue
+        item=model.model_validate_json(json.dumps(data))
+        if (item.owner_identity_id!=store.identity['identity_id'] or item.status=='WITHDRAWN'
+                or item.disclosure_policy=='WITHDRAWN' or getattr(item,'activity_state','ACTIVE')=='ABANDONED'):continue
+        cycle=store.one('subject_cycles',getattr(item,'last_choice_cycle_id',item.cycle_id))
+        parent=store.one('continuity_records',cycle['record_id']) if cycle and cycle['record_id'] else None
+        if (not parent or parent['record_kind']!='SUBJECT_CYCLE' or parent['scope']!=scope or parent['privacy_class'] not in privacy_classes
+                or parent['lifecycle']!='ACTIVE' or not records.current_support(parent['record_id'])):continue
+        choice=records.read(parent['record_id'])['payload'];trace=choice.get('deliberation')
+        if not trace or not choice['intention']['self_generated']:continue
+        proposal=CognitiveProposal.model_validate_json(trace['raw_proposal_json'])
+        if proposal.identity_id!=store.identity['identity_id']:continue
+        selected.extend(proposal.lesson_refs)
+    return tuple(dict.fromkeys(selected))
+
+
 def _association_record_ids(store,record_id,*,owner_intent_id,scope,privacy_classes):
     # These are the existing explicit private support edges, not a similarity
     # graph, a full history walk, or the previous revision of this same idea.

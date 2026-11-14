@@ -331,6 +331,7 @@ class ContextAssembler:
                 rid=thought['record_id']
                 candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
                     data_json=canonical(thought),source_record_ids=(rid,),source_memory_ids=RecordService(self.store).support(rid))))
+        subject_thoughts=()
         if subject_frame is not None:
             from .subject.contracts import DeliberationFrame
             if not isinstance(subject_frame, DeliberationFrame) or subject_frame.scope not in request.scopes:
@@ -357,8 +358,9 @@ class ContextAssembler:
                 # Ordinary reply/context calls have no subject_frame and cannot
                 # receive these contents. Each thought competes in the existing
                 # complete-package budget rather than a fixed thought-count cap.
-                for thought in internal_projection(self.store,subject_frame.source_record_ids,
-                        scope=subject_frame.scope,privacy_classes=privacy):
+                subject_thoughts=internal_projection(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,privacy_classes=privacy)
+                for thought in subject_thoughts:
                     rid=thought['record_id']
                     candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
                         data_json=canonical(thought),source_record_ids=(rid,),
@@ -536,6 +538,13 @@ class ContextAssembler:
                         source_memory_ids=tuple(sorted({mid for rid in refs for mid in RecordService(self.store).support(rid)})))))
         if not (pinned_only or source_only):
             candidates.extend(self._lessons(lesson_request, privacy))
+            if subject_thoughts:
+                from .autonomy.private_intent import deliberated_lesson_refs
+                from .learning import ExperienceService
+                lesson_ids=deliberated_lesson_refs(self.store,subject_thoughts,scope=subject_frame.scope,privacy_classes=privacy)
+                existing={block.block_id for _,block in candidates}
+                candidates.extend((score,block) for score,block in ExperienceService(self.store,self.authority).context_blocks(
+                    request,privacy,selected_lesson_ids=lesson_ids) if block.block_id not in existing)
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
             if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
