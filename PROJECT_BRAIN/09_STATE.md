@@ -2,7 +2,7 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测，2026-11-14 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`；现役A基线HEAD `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`（远端重核一致）。源码检查点 `8669d64df6edbb0a151c2faf2d6ccf116fba8afc`，继承审计2b5aaa3、实现c9c4e9d。原work@18bc736及A/B现役成果未覆盖，B PR14/17仍独立。本C状态为开发候选/总工程未完成；集成Draft PR待创建，不是生产切换。
+[实测，2026-11-14 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`；现役A基线HEAD `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`（远端重核一致）。源码检查点 `8669d64df6edbb0a151c2faf2d6ccf116fba8afc`，继承审计2b5aaa3、实现c9c4e9d。原work@18bc736及A/B现役成果未覆盖，B PR14/17仍独立。本C状态为开发候选/总工程未完成；集成候选：[Draft PR #18](https://github.com/xuni7-ui/nana-core/pull/18)，初始交付HEAD4c5719d；不是生产切换。
 
 - 已实现/已测试：v1 Adapter SDK/显式插件发现管理、统一Event/五态回执、限额/去重/顺序/背压；每账号OneBot HTTP/WS/reverse-WS及恢复；原QQ/Bili单主体动作；C.4通知→原worker→原owner→原C/Kernel；第三平台RSS/Atom真实HTTP读取及原Surface；媒体流式缓存/撤回；原手机账号配置准备、健康、能力、原安全凭据路径。
 - 验证：最终源码105相关Python通过51.08s；93客户端、12桌面及360/390/412浏览器通过；规范schema/C.4原函数快照/Ruff E9-F通过。299个已安装Python源码逐一匹配；wheel固定epoch双构建SHA81dd604d…211dbed并离线安装。容器a57ac3…344538实际UID999/0cap/只读rootfs/独立合成vault/loopback通过。没有新主体/Store/schema；Master/Matrix及原C/记忆/Grant核心无差额。
