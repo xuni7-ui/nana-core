@@ -254,11 +254,16 @@ def decide(event, situation, appraisal, motives):
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}
             and cue.learning_value and cue.learning_value.time_compute_cost=='HEAVY')
-        supported_light_interest = not demanding and (interested_learning or interested_activity or interested_social)
+        supported_interest = interested_learning or interested_activity or interested_social
+        supported_light_interest = not demanding and supported_interest
+        # Actual C may choose a demanding supported interest despite a current
+        # rest motive. A source's load estimate is not an execution capacity or
+        # permission boundary. Unconsidered defaults and real resource gates stay.
+        considered_interest = considered_choice and supported_interest
         # Current load remains a sourced rest motive. It does not require the
         # Subject to stop every light, supported interest or private wish to
         # connect. Actual execution and reception are admitted separately.
-        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH' and not supported_light_interest:
+        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH' and not (supported_light_interest or considered_interest):
             return ('DEFER',Judgment(stance='DEFER',reason='Current load outweighs this demanding or unsupported optional direction',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Keep the option while choosing rest for now',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity or interested_social):

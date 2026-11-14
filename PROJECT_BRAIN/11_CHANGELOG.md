@@ -3748,3 +3748,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE匹配交付：固定929双构建Core285/同源Web，既有delivery1d820c7候选，GitHub新克隆真实下载/两槽离线安装及原G因果/静止929→d141→929身份私念与G job保持；CI276仅929定向。首错保留，CURRENT/旧制品/生产不改，APK/手机/真实0。证据matched-portable-9291f1e-20261114，下一已修订origin解析及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G结果关联同一已修订私问当前版，精确旧Ref依旧拒绝；64前intent筛选/原索引只读，暂停不复活，撤回歧义私域等反例有效。c78旧2fail→36pass15.55s/192相关42.78s，各1SELF/55007bytes非Token。未重建929候选/APK/CURRENT/真实0；证据private-growth-current-origin-20261114，下一重型兴趣负荷动机及原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6：明确有据的重型兴趣可与原REST动机竞争，85旧3fail2pass→15pass/199相关52.93s，同1SELF/53288bytes非Token，默认/资源权限不改。0tests与OOM首错保留，20万合成库13文件哈希保全迁磁盘/旧路径指向，非删库或P95重跑。前继CI323仅85；未新包/APK/CURRENT/真实0。证据deliberated-heavy-interest-20261114，下一原情境意义/持续方法/明确反馈因果及原A–H。

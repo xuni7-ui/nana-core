@@ -1,0 +1,25 @@
+{
+  "qualification": "NOT_PASS",
+  "commands": [
+    "exact85 old five HEAVY",
+    "199 related initial valid path"
+  ],
+  "exit_codes": [
+    137,
+    137
+  ],
+  "captured_cgroup_memory_max": 8589934592,
+  "captured_events": {
+    "oom": 2,
+    "oom_kill": 2
+  },
+  "both_logs_before_pytest_output_empty": true,
+  "cause": "TMPFS_SHMEM_NEAR_8G_LIMIT; confirmed memory.events and no surviving pytest process",
+  "first_requested_related_path": "tests/precision_v2 nonexistent; 0 tests, not a regression failure",
+  "restored_paths": [
+    "tests/precision/test_planning.py",
+    "tests/precision/test_lifecycle.py"
+  ],
+  "after_preservation_oom_kill_count": 2,
+  "tests_after_preservation": "SERIAL_3FAIL_2PASS_OLD_AND_199PASS_NEW"
+}

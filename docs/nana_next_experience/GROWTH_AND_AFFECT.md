@@ -49,3 +49,7 @@ Retained-note lookup failures now have an original C→G practice/independent va
 | 通用低价值/重复压制匹配已采纳兴趣 | E已有58418b4修复，复用 | 不表示全部娱乐/社交分类已收口 |
 
 本表是现有入口的增量核对，不宣称A–E全覆盖、自然度、真实生活或长期成长完成。
+
+## 2026-11-14 · 明确考虑的重型兴趣与原REST动机共同竞争
+
+原C明确选择、有独立私人兴趣支持时，HIGH负荷/HEAVY投入不再在后续策略强制替换为REST；REST仍在原动机，未考虑的重型默认与实际资源/权限/接收者门保留。这是A/B/C不变、修E并归还D取舍的窄范围修正。正常Runtime/SELF旧3fail2pass→15pass、199相关52.93s，同1次53288wirebytes非Token；不是重型活动已执行或全自主性资格。证据evidence/deliberated-heavy-interest-20261114/README.md。

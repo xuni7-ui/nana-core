@@ -77,8 +77,9 @@ def test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserv
             assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('runtime_cognition_calls')
 
 
-@pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT'])
-def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice):
+@pytest.mark.parametrize('demand',['LIGHT','HEAVY'])
+@pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT','CREATE','LEARN'])
+def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice,demand):
     from nana_core.continuity.subject import SubjectInput
     from nana_core.presence.contracts import RuntimeEvent,Cause
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
@@ -90,13 +91,13 @@ def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_withou
         own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY'];assert len(own)==1
         proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
             'interpretation':'SYNTHETIC compare rest with a bounded personally meaningful reflection',
-            'preferred_behavior':'REST' if choice=='REST' else 'REFLECT','proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
-        if choice!='REST':proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
+            'preferred_behavior':'REFLECT' if choice=='BLOCKED_REFLECT' else choice,'proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
+        if choice in {'REFLECT','BLOCKED_REFLECT'}:proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
         return {'interpretation':'SYNTHETIC sourced load is a motive, not compulsory fatigue behavior','subject_cognition':proposal}
     with relay(home,'CHAT',subject_builder=inner,context_limit=65536) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
             app.pause();form(app);old=current(app)[0][1].content_summary;identity=app.runtime.identity_id
-            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT'),cognitive_load='HIGH')
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT','CREATE','LEARN'),cognitive_load='HIGH',attention_demand=demand)
             mid=capture(app.runtime,'sourced-load',cue.model_dump(mode='json'),predicate='concern.current-private-load')
             if choice=='BLOCKED_REFLECT':
                 norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key='own-concern',prohibited_behaviors=('REFLECT',))
@@ -108,8 +109,8 @@ def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_withou
             r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=clock.utc_now_us(),priority=3))
             result=r.step();assert len(seen)==len(requests)==1
             row=r.store.one('cognitive_requests',seen[0]['request_id'])
-            print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
-            assert result['cycle'].intention.behavior==('REFLECT' if choice=='REFLECT' else 'REST')
+            print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'attention_demand':demand,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
+            assert result['cycle'].intention.behavior==('REST' if choice=='BLOCKED_REFLECT' else choice)
             assert current(app)[0][1].content_summary==(revised if choice=='REFLECT' else old)
             assert len(r.store.all('cognitive_requests'))==1 and not r.store.all('runtime_cognition_calls')
             assert not r.store.all('goals') and not r.store.all('actions') and not r.store.all('grants')

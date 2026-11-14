@@ -1,8 +1,10 @@
-## 现役revision223 — 原G结果可改变同一个已修订私问，暂停不自动复活
+## 现役revision224 — 原C明确重型兴趣可与高负荷REST竞争
 
-原G后续独立结果只读关联同owner/intent/cycle/created time/category/topic的当前私人Record，先验历史精确ref/来源/范围隐私，再在64限额前筛选；无索引reader分页保正确。精确review/continuation仍拒绝旧版本，不自动重派发。正常D/C中旧2fail→新第2→3版、PAUSED第3→4仍PAUSED；36pass15.55s/192相关42.78s，70同题/撤回/歧义/owner/范围等反例通过。各仍1次后续SELF，55866→55007bytes非Token，原Growth token/schedule与G独立评价不变。见evidence/private-growth-current-origin-20261114/README.md。
+有独立兴趣支持且原C明确选择的REFLECT/CREATE/LEARN，不再被HIGH负荷/HEAVY估计一律替换成REST；原REST动机、未明确考虑的默认、规范/资源/预算/执行门保持。精确85旧3fail2pass3.58s→15pass10.20s，199相关52.93s；同1SELF/53288inputbytes/65577reservedbytes非Token。只扩大原意图选择/内部思考，非重型执行或全部A–E完成。见evidence/deliberated-heavy-interest-20261114/README.md。
 
-本批源码比929候选新，未再构建/安装/APK；固定929的双构建/真实GitHub下载/两槽离线安装和静止回退资格保留。无真实模型/手机/生产/自然度/长期，CURRENT266+409。下一原C明确重型兴趣与高负荷REST的A–E实际行为核对及原情感多动机/G/跨topic/存储/Token/产品/全部A–H，按影响分级验证。
+首次错误Precision路径0tests及两个OOM kill137分列；当时tmpfs总shmem近8GiB。实际根盘已有7.5GB，关闭的20万合成库13文件全SHA/字节一致迁/workspace/nana-preserved-200k-20261114，旧/dev/shm路径留symlink，所有DB/旁文件/证据保留，未删数据/未知文件。迁后串行旧对照/199相关完成，OOM计数仍2。原P95只归RAM旧样本，非迁移后性能或Core物理回收。后续测试可用实际磁盘路径，别再把旧ENOSPC当最新现场。
+
+前继85独立323pass1warning118.97s仅前继。当前新源码未重打包/APK；固定929交付候选/真实下载安装/静止回退资格保留，CURRENT266+409未变。无新真实模型/手机/生产/自然度/长期。下一原INTERPRET意义/同C私人倾向/持续交流方法与明确反馈→原Experience/S8反例，先复用现有接线/角色边界；情感多时间尺度/广G/跨topic/存储/Token/产品/原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
