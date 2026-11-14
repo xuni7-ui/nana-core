@@ -1,8 +1,10 @@
-## 现役revision218 — 失败响应消耗沿原账本计量
+## 现役revision219 — 私人疑问可自主选择原G并改变实际后续行为
 
-同request完整2xx报告的有效usage沿原数字receipt保存，失败/截断/拒绝仍FAILED，费用UNKNOWN/预留/不重发保持；无响应或坏usage不写0。原生Anthropic含cache，坏别名不可过滤成假有效值。精确3fe旧9fail20pass→新29pass7.25s，161相关36.70s；撤回/重启数字保留，UNKNOWN后新独立请求可继续。无新模型阶段，fixture非真实Token/费用。见evidence/failed-response-usage-20261114/README.md，首次夹具失败保留。
+原D精确私念可给C原G有界只读配置描述，C明确LEARN+当前digest才启动原练习/独立评价/迁移，WATCH/REFLECT/REST保留；无第二学习器/自动Grant。正常owned HTTP同预算各1SELF，旧717同3场景1fail2pass→新17pass3.35s，166相关46.09s及31资源28.10s。LEARN后同主体重启在新批准文件采用AST/三动作成功且goal COMPLETED；WATCH旧方法被独立检查判goal FAILED。来源撤回方法失效、明确停止原G暂停、原私人入口guard保留，见evidence/private-g-selection-20261114/README.md。
 
-前继3fe独立CI实际264pass96.25s，仅归前继，client/full/portable跳过。本批未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。下一原D私念到原G/Planner消费者的真实接线；目前无program私念仅WATCH/REFLECT/REST，扩大枚举不能证明新能力。情感/多动机/学习迁移、存储/Token/多端最终发行和全部原A–H继续。
+G实际数据观测与私人动因分类分离，原G工作/trial/lesson/计划/动作payload PERSONAL；工程评测及精确批准文件结果PROJECT，不披露私文，不开放任意私人输入。首次跨域失败与夹具误假设保留。完整wire+1075bytes非Token，本地学习/动作CPU及分配开销按单样本记录，不称免费或长期收益。前继717独立396pass1warning仅前继；未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。
+
+下一沿原ProjectWork.assess_later_use/EpisodeLearning→原D GROWTH_CHANGE→C私人关注检验正常宿主反向变化，复用前继数字域机制；情感/多动机/更广独立迁移、存储/Token/多端最终发行及原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

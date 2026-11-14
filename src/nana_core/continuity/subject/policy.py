@@ -1,7 +1,7 @@
 """Pure, inspectable initial C policy. No clock, storage, random or executor."""
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
-from .opportunities import Behavior,ConcernCue,directions
+from .opportunities import Behavior,ConcernCue,directions,LearningProgramOption
 from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
@@ -11,6 +11,7 @@ from .experience_need import ExperienceNeed
 
 
 class Situation(DTO):
+    learning_programs:tuple[LearningProgramOption,...]=()
     preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
@@ -51,7 +52,7 @@ class Situation(DTO):
 def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     """Same read-only C projection for deliberation and D resource admission."""
     from .contracts import DeliberationFrame
-    return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,
+    return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 

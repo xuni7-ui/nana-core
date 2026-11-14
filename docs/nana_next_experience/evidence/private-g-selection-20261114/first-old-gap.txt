@@ -1,0 +1,49 @@
+{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 0, "self_calls": 1, "wanted": "LEARN"}
+F{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 0, "self_calls": 1, "wanted": "WATCH"}
+.{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 0, "self_calls": 1, "wanted": "REST"}
+.
+=================================== FAILURES ===================================
+_ test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN] _
+
+tmp_path = PosixPath('/dev/shm/plgbase/test_normal_d_own_question_can0')
+wanted = 'LEARN'
+
+    @pytest.mark.parametrize('wanted',['LEARN','WATCH','REST'])
+    def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning(tmp_path,wanted):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='python-api',kind='private_question')
+            identity=app.runtime.identity_id;rid,thought=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def choose(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            programs=frame.get('learning_programs',[]);selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            assert 'expected' not in json.dumps(programs) and 'practice' not in json.dumps(programs)
+            seen.append((request,programs))
+            return {'interpretation':'SYNTHETIC optional original learning choice','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC decide whether to study this own question; no external effect claimed',
+                'preferred_behavior':wanted if selected or wanted!='LEARN' else 'WATCH','proposed_operations':['DRAFT'],
+                **({'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}} if selected and wanted=='LEARN' else {})}}
+        with relay(home,subject_builder=choose,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(8):app.tick()
+            learning=[r for r in app.runtime.store.all('jobs') if r['work_kind']=='LEARNING']
+            print(json.dumps({'measurement':'synthetic_private_g_selection','wanted':wanted,'programs_seen':len(seen[0][1]) if seen else 0,
+                'self_calls':len(requests),'learning_jobs':len(learning)},sort_keys=True))
+            assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+>           assert len(learning)==int(wanted=='LEARN')
+E           AssertionError: assert 0 == 1
+E            +  where 0 = len([])
+E            +  and   1 = int('LEARN' == 'LEARN'
+E               
+E                 LEARN)
+
+tests/person_self/test_private_learning_selection.py:42: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_learning_selection.py::test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN]
+1 failed, 2 passed in 2.23s

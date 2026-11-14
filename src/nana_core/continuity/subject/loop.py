@@ -19,6 +19,7 @@ class SubjectLoop:
         if not self.scopes or any(x not in PRIVACY_RANK for x in self.privacy_classes):
             raise CoreError('SUBJECT_SCOPE_POLICY_REQUIRED')
         self.records, self.ingress, self.growth = RecordService(store), SubjectIngress(store), Growth(store)
+        self.learning_program_catalog=None
 
     @property
     def revision(self):
@@ -118,13 +119,17 @@ class SubjectLoop:
         if method is not None:
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='OWN_METHOD_RECONSIDERATION',topic_key=method['topic'],possible_behaviors=('REFLECT','REST'))
+        learning_programs=()
         if continued is not None and cue is None:
             from .opportunities import ConcernCue
             # A retained own thought is already a real reason to reconsider.
             # WATCH stays the default; the model may choose reflection or rest.
             # This is not a lifecycle review and does not pause the whole idea.
+            if self.learning_program_catalog is not None:
+                private_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
+                learning_programs=self.learning_program_catalog(event.scope,private_privacy)
             cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key=continued[1].topic,
-                possible_behaviors=('WATCH','REFLECT','REST'))
+                possible_behaviors=('WATCH','REFLECT','REST','LEARN') if learning_programs else ('WATCH','REFLECT','REST'))
         if cue is not None and event.result_for_intention_id and event.novelty=='HIGH':
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
@@ -250,7 +255,7 @@ class SubjectLoop:
                 privacy_classes=self.privacy_classes,reference=event.private_thought_ref)
             if feedback is None or feedback['reference']!=event.private_thought_ref:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
             records.extend(feedback['record_ids']);memories.extend(feedback['memory_ids'])
-        return Situation(plan_step=plan_step,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(plan_step=plan_step,learning_programs=learning_programs,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -347,6 +352,9 @@ class SubjectLoop:
                     'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,event.memory_review_id)))})
             if _deliberation is not None and _deliberation.proposal.preferred_behavior is not None:
                 situation=situation.model_copy(update={'preferred_behavior':_deliberation.proposal.preferred_behavior})
+            learning_ref=_deliberation.proposal.learning_program_ref if _deliberation is not None else None
+            if learning_ref is not None and not any((p.learning_key,p.spec_digest)==(learning_ref.learning_key,learning_ref.spec_digest) for p in situation.learning_programs):
+                raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
@@ -555,7 +563,7 @@ class SubjectLoop:
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
                 realization_target=target,relational_decision=relational,
-                proposed_program_id=(situation.problem_frame.program_id if situation.problem_frame and judgment.stance=='ALTERNATIVE' and intention.purpose==situation.problem_frame.considered_problem else situation.cue.program_id if situation.cue else None) if candidate_id else None,
+                proposed_program_id=(learning_ref.learning_key if learning_ref is not None and intention.behavior=='LEARN' else situation.problem_frame.program_id if situation.problem_frame and judgment.stance=='ALTERNATIVE' and intention.purpose==situation.problem_frame.considered_problem else situation.cue.program_id if situation.cue else None) if candidate_id else None,
                 problem_frame=situation.problem_frame,
                 experience_need=situation.experience_need,
                 selected_memory_candidate_id=event.memory_review_id,

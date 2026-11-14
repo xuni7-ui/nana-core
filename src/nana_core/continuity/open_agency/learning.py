@@ -149,6 +149,24 @@ class LearningService:
         self.max_pending = max_pending
         self.ceiling = cost_ceiling_micro
 
+    def program_options(self,*,scope,privacy_classes):
+        """Read-only descriptors from this G; never practice or held-out data.
+
+        Reuse the existing sixteen-spec policy bound and current source checks.
+        """
+        if scope not in self.scopes:return ()
+        for mid in self.source_memory_ids:
+            row=self.store.one('memories',mid)
+            if (not row or row['scope']!=scope or row['privacy_class'] not in self.privacy
+                    or row['privacy_class'] not in privacy_classes):return ()
+            try:self.records.memory.read(mid)
+            except CoreError as exc:
+                if exc.code not in {'MEMORY_UNAVAILABLE','MEMORY_NOT_CURRENT'}:raise
+                return ()
+        from ..subject.opportunities import LearningProgramOption
+        return tuple(LearningProgramOption(learning_key=s.learning_key,domain=s.domain,spec_digest=digest(s.model_dump(mode='json')))
+            for s in self.specs.values())
+
     def after_cycle(self, runtime, cycle, event):
         if event.scope not in self.scopes:
             raise CoreError("LEARNING_SCOPE_DENIED")
@@ -451,10 +469,16 @@ class LearningService:
             text = canonical({"data": results["TRANSFER"]})
             from ..contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
 
+            # Dataset observations and the private reason for learning have
+            # different provenance. Memory backlinks remain below; the original
+            # G work/trial/lesson Records retain the private cause and its floor.
+            dataset_sources=self.source_memory_ids or self.records.support(rid)
             project = any(
                 memory.read(mid)["source_provenance"]["domain"] == "DEVELOPMENT_PROJECT"
-                for mid in self.records.support(rid)
+                for mid in dataset_sources
             )
+            from ..memory import PRIVACY_RANK
+            observation_privacy=max((memory.read(mid)['privacy_class'] for mid in dataset_sources),key=PRIVACY_RANK.get,default=head['privacy_class'])
             eid = memory.capture(
                 EvidenceInput(
                     provenance=Provenance(
@@ -466,7 +490,7 @@ class LearningService:
                         source_kind="SYSTEM_VERIFICATION",
                     ),
                     text=text,
-                    privacy_class=head["privacy_class"],
+                    privacy_class=observation_privacy,
                     observed_time_us=now,
                 )
             )

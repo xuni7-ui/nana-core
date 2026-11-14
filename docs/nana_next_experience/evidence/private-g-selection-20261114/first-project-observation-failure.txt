@@ -1,0 +1,102 @@
+{"learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "LEARN"}
+F{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "WATCH"}
+.{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "REST"}
+.
+=================================== FAILURES ===================================
+_ test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN] _
+
+tmp_path = PosixPath('/dev/shm/plgnew/test_normal_d_own_question_can0')
+wanted = 'LEARN'
+
+    @pytest.mark.parametrize('wanted',['LEARN','WATCH','REST'])
+    def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning(tmp_path,wanted):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='python-api',kind='private_question')
+            identity=app.runtime.identity_id;rid,thought=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def choose(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            programs=frame.get('learning_programs',[]);selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            assert 'expected' not in json.dumps(programs) and 'practice' not in json.dumps(programs)
+            seen.append((request,programs))
+            return {'interpretation':'SYNTHETIC optional original learning choice','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC decide whether to study this own question; no external effect claimed',
+                'preferred_behavior':wanted if selected or wanted!='LEARN' else 'WATCH','proposed_operations':['DRAFT'],
+                **({'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}} if selected and wanted=='LEARN' else {})}}
+        with relay(home,subject_builder=choose,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(8):app.tick()
+            learning=[r for r in app.runtime.store.all('jobs') if r['work_kind']=='LEARNING']
+            print(json.dumps({'measurement':'synthetic_private_g_selection','wanted':wanted,'programs_seen':len(seen[0][1]) if seen else 0,
+                'self_calls':len(requests),'learning_jobs':len(learning)},sort_keys=True))
+            assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+            assert len(learning)==int(wanted=='LEARN')
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+            current=next(v for _,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+            assert current.content_summary==private and current.activity_state=='ACTIVE'
+            if wanted=='LEARN':
+                work=learning[0];body=app.runtime.work.open_learning.records.read(work['record_id'])['payload']
+                assert body['spec']['learning_key']=='learn.python-api' and body['cause']=='SOURCED_INTEREST_OR_GAP'
+                for _ in range(24):
+                    if app.runtime.store.one('jobs',work['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+>                   app.runtime.work.open_learning.slice()
+
+tests/person_self/test_private_learning_selection.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/open_agency/learning.py:476: in slice
+    eid = memory.capture(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7fa6a0532b70>
+candidate = EvidenceInput(retention_consent_ref=None, schema_version=1, provenance=Provenance(domain='DEVELOPMENT_PROJECT', source...sed":true}],"checked":1,"passed":1}}', privacy_class='PERSONAL', event_time_us=None, observed_time_us=1791590402000000)
+
+    def capture(self, candidate: EvidenceInput):
+        self._fresh()
+        if not isinstance(candidate, EvidenceInput):
+            raise CoreError("INVALID_EVIDENCE_CONTRACT")
+        p = candidate.provenance
+        legacy = p.domain == 'LEGACY_ARCHIVE'
+        if legacy:
+            # Only the local, manifest/lineage-bound import controller can admit
+            # archived claims. A DTO, model output or a boolean is insufficient.
+            from ..migration.archive_ingress import ArchiveIngressAuthority
+            if type(self._authority) is not ArchiveIngressAuthority or not self._authority.permits(self.store, candidate):
+                raise CoreError('LEGACY_ARCHIVE_IMPORT_NOT_AUTHORIZED')
+        own=p.domain=='SELF_COGNITION'
+        if own:
+            from ..actions import OperatorAuthority
+            from .contracts import SELF_COGNITION_OCCURRENCE_TEXT,SELF_PROVIDER_CONSIDERATION_TEXT
+            expected={'recorded.subject.cognition-occurrence':(SELF_COGNITION_OCCURRENCE_TEXT,r'self\.[a-f0-9]{64}'),
+                'recorded.subject.provider-consideration':(SELF_PROVIDER_CONSIDERATION_TEXT,r'self\.request\.[a-f0-9]{64}')}.get(p.source_namespace)
+            root=(expected is not None and p.source_kind=='SYSTEM_VERIFICATION'
+                and candidate.text==expected[0] and re.fullmatch(expected[1],p.source_reference)
+                and type(self._authority) is OperatorAuthority)
+            derived=p.source_namespace=='recorded.subject.concern' and p.source_kind=='MODEL_DERIVATION'
+            if derived:
+                from .subject.opportunities import ConcernCue
+                ConcernCue.model_validate_json(candidate.text)
+            if self.store.schema_target<13 or not (root or derived) or candidate.retention_consent_ref is not None:
+                raise CoreError('SELF_COGNITION_OCCURRENCE_REQUIRED')
+        consented=p.domain=='CONSENTED_INTERACTION'
+        if consented and (self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or candidate.retention_consent_ref!=p.source_reference or (p.source_namespace,p.source_kind) not in {('recorded.conversation.input','USER_STATEMENT'),('recorded.conversation.feedback','USER_STATEMENT'),('recorded.conversation.feedback-check','SYSTEM_VERIFICATION'),('recorded.conversation.concern','MODEL_DERIVATION')}):raise CoreError('EXPLICIT_CONVERSATION_RETENTION_REQUIRED')
+        local=p.domain=='LOCAL_INTERACTION_METADATA'
+        if local:
+            from .contracts import PENDING_LOCAL_RECEIPT
+            legacy=p.source_kind=='USER_STATEMENT' and re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|DECLINE_DELIVERY|REOPEN|REOPEN_DELIVERY|FOCUS|UNCLEAR|IMPORTANT|PROJECT_STATUS)',candidate.text)
+            pending=p.source_kind=='DIRECT_OBSERVATION' and candidate.text==PENDING_LOCAL_RECEIPT
+            if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or not (legacy or pending):raise CoreError('LOCAL_METADATA_ONLY')
+        project=p.domain=="DEVELOPMENT_PROJECT" and candidate.privacy_class=="PROJECT" and self.store.schema_target>=13
+>       if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: PROJECT_DEVELOPMENT_INGRESS_ONLY
+
+src/nana_core/continuity/memory.py:108: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_learning_selection.py::test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN]
+1 failed, 2 passed in 2.22s

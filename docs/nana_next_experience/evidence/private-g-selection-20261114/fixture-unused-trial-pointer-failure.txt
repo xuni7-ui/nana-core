@@ -1,0 +1,67 @@
+{"learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "LEARN"}
+F{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "WATCH"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED"], "goal_state": "FAILED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_TOP_DEFS", "wanted": "WATCH"}
+.{"learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "self_calls": 1, "wanted": "REST"}
+.
+=================================== FAILURES ===================================
+_ test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN] _
+
+tmp_path = PosixPath('/dev/shm/plgfuture2/test_normal_d_own_question_can0')
+wanted = 'LEARN'
+
+    @pytest.mark.parametrize('wanted',['LEARN','WATCH','REST'])
+    def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning(tmp_path,wanted):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='python-api',kind='private_question')
+            identity=app.runtime.identity_id;rid,thought=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def choose(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            programs=frame.get('learning_programs',[]);selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            assert 'expected' not in json.dumps(programs) and 'practice' not in json.dumps(programs)
+            seen.append((request,programs))
+            return {'interpretation':'SYNTHETIC optional original learning choice','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC decide whether to study this own question; no external effect claimed',
+                'preferred_behavior':wanted if selected or wanted!='LEARN' else 'WATCH','proposed_operations':['DRAFT'],
+                **({'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}} if selected and wanted=='LEARN' else {})}}
+        with relay(home,subject_builder=choose,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(8):app.tick()
+            learning=[r for r in app.runtime.store.all('jobs') if r['work_kind']=='LEARNING']
+            print(json.dumps({'measurement':'synthetic_private_g_selection','wanted':wanted,'programs_seen':len(seen[0][1]) if seen else 0,
+                'self_calls':len(requests),'learning_jobs':len(learning)},sort_keys=True))
+            assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+            assert len(learning)==int(wanted=='LEARN')
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+            current=next(v for _,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+            assert current.content_summary==private and current.activity_state=='ACTIVE'
+            if wanted=='LEARN':
+                work=learning[0];body=app.runtime.work.open_learning.records.read(work['record_id'])['payload']
+                assert body['spec']['learning_key']=='learn.python-api' and body['cause']=='SOURCED_INTEREST_OR_GAP'
+                for _ in range(24):
+                    if app.runtime.store.one('jobs',work['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+                    app.runtime.work.open_learning.slice()
+                final=app.runtime.store.one('jobs',work['job_id'])
+                assert final['state']=='DONE'
+                strategy=app.runtime.work.open_learning.strategy('python-api','project-work')
+                assert strategy and strategy[1]=='PYTHON_AST_API'
+                learned=app.runtime.work.open_learning.records.read(final['record_id'])['payload']
+                assert learned['results']['BASELINE']['passed']==0
+                assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+                exp=app.runtime.store.one('experiences',app.runtime.store.one('lessons',learned['lesson_id'])['experience_id'])
+                lesson=app.runtime.store.one('lessons',learned['lesson_id'])
+                for record_id in (final['record_id'],lesson['record_id'],learned['trial_record_id']):
+>                   assert app.runtime.store.one('continuity_records',record_id)['privacy_class']=='PERSONAL'
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   TypeError: 'NoneType' object is not subscriptable
+
+tests/person_self/test_private_learning_selection.py:62: TypeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_learning_selection.py::test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning[LEARN]
+1 failed, 2 passed in 2.33s

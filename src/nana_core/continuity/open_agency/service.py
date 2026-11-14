@@ -262,7 +262,13 @@ class OpenAgencyService(AgencyService):
         existing=self.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace=? AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(namespace,aid)).fetchone()
         if existing:mid=existing[0]
         else:
-            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=max((head['privacy_class'],self.registry.payload_privacy(json.loads(result))),key=PRIVACY_RANK.get),observed_time_us=verified_at))
+            payload_privacy=self.registry.payload_privacy(json.loads(result))
+            # The approved-file port verifies exact source/data/output. Its
+            # PROJECT observation does not disclose the private reason or
+            # method provenance, which remain in the sealed plan/action records.
+            evidence_privacy=(payload_privacy if namespace=='recorded.project.local-action' and payload_privacy=='PROJECT'
+                else max((head['privacy_class'],payload_privacy),key=PRIVACY_RANK.get))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=evidence_privacy,observed_time_us=verified_at))
             mid=memory.add(MemoryCandidate(entity_id=source['entity_id'],scope=head['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=result,derived_from=tuple(dict.fromkeys((*view.source_memory_ids,*input_mids))),confidence=1.))
         quality=True;exp=None
         if op.get('expected_digest'):

@@ -1,0 +1,10 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"family_allocated_bytes": 1708032, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.4398135620000001, "wall_seconds": 0.897997555002803, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "WATCH"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED"], "goal_state": "FAILED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_TOP_DEFS", "wanted": "WATCH"}
+{"family_allocated_bytes": 1224704, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.23628646899999994, "wall_seconds": 0.7211021490002167, "wanted": "WATCH"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "REST"}
+{"family_allocated_bytes": 905216, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.1531894170000001, "wall_seconds": 0.6392610479997529, "wanted": "REST"}
+...............
+17 passed in 3.35s

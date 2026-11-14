@@ -3738,3 +3738,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6：原C明确修订私人思想生命周期，省略保持原状态，修正改文字隐式唤醒；同一Record/身份/撤回/原D，不新权威。精确d141旧6fail4pass→10pass3.51s/248相关79.12s，各1SELF/+960bytes非Token、非SELF schema不变。首次失败保留，前继d141独立192/93/3Node/160仅归前继。未新包/APK/CURRENT/真实0，证据private-lifecycle-choice-20261114；原D自主选项消费者与原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE 全局资源/S1/S2/S4/S7：原terminal同request完整2xx有效usage→原数字receipt，失败/UNKNOWN与预留不改；原生cache/坏alias保护，撤回重启保留数值且新请求独立。精确3fe旧9fail20pass→29pass7.25s/161相关36.70s，真实0；原始夹具失败保留，前继264仅归3fe。无新阶段/发行/CURRENT，证据failed-response-usage-20261114；回私人兴趣真实G/Planner消费者及原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：正常D私问→原C精确原G选择→独立练习评价迁移→同主体重启新文件原Planner/Kernel/Verify实际AST与COMPLETED，WATCH对照旧方法/FAILED。修正真实来源分类/私人步骤/工程checkpoint断点，原私人入站guard、G独立评价与授权边界保留。旧717同3例1fail2pass→17pass3.35s/166相关46.09s+31资源28.10s；各1SELF/+1075bytes非Token，单样本CPU存储成本有据。首次失败全留，前继396仅717，未新包/APK/CURRENT/真实0；证据private-g-selection-20261114，下一G实际后续→私人关注反向变化及原A–H。
