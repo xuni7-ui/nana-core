@@ -226,11 +226,11 @@ class SubjectLoop:
             from .framing import evaluate
             frame=evaluate(event.problem_frame,self.records,scope=event.scope,privacy_classes=self.privacy_classes)
         if event.task_class=='private.feedback.review':
-            if event.private_thought_ref is None or event.reflection_experience_id is None:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
+            if event.reflection_experience_id is None:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
             from ..autonomy.private_intent import feedback_continuation
             feedback=feedback_continuation(self.store,event.reflection_experience_id,scope=event.scope,entity_id=event.entity_id,
                 privacy_classes=self.privacy_classes,reference=event.private_thought_ref)
-            if feedback is None:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
+            if feedback is None or feedback['reference']!=event.private_thought_ref:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
             records.extend(feedback['record_ids']);memories.extend(feedback['memory_ids'])
         return Situation(plan_step=plan_step,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),

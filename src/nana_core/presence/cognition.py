@@ -128,7 +128,7 @@ class CognitionCoordinator:
 
     def preview_private(self,event,loop):
         """Read-only C/resource assessment before recording a D opportunity."""
-        if event.private_thought_ref is None:raise CoreError('PRIVATE_CONTINUATION_REFERENCE_REQUIRED')
+        if event.private_thought_ref is None and event.task_class!='private.feedback.review':raise CoreError('PRIVATE_CONTINUATION_REFERENCE_REQUIRED')
         row={'event_type':'SELF_EVENT','wake_trigger':'SELF_TRIGGER','queue_id':None}
         return self._choose(row,event,loop,{'record_id':None})
 
@@ -138,7 +138,8 @@ class CognitionCoordinator:
         appraisal=appraise(event,situation)
         if event.retention=='DO_NOT_REMEMBER':return 'LIGHT_COGNITION','NONRETENTION_NO_MODEL'
         need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
-        if event.private_thought_ref is not None:
+        private_opportunity=event.private_thought_ref is not None or event.task_class=='private.feedback.review'
+        if private_opportunity:
             from ..continuity.subject.policy import motivate,decide
             from ..continuity.autonomy.private_intent import can_consider_private_formation
             _,judgment,intention=decide(event,situation,appraisal,motivate(event,situation,appraisal))
@@ -159,7 +160,7 @@ class CognitionCoordinator:
         # A private formation completes in C and does not allocate an external
         # work slot. Provider/concurrency/budget and foreground guards above
         # still govern the method; pending tasks are not a ban on own thought.
-        if situation.pending_count>=6 and event.private_thought_ref is None:return 'LIGHT_COGNITION','COGNITIVE_LOAD'
+        if situation.pending_count>=6 and not private_opportunity:return 'LIGHT_COGNITION','COGNITIVE_LOAD'
         if self.config.living:
             from .resources import allocation_reason
             reason=allocation_reason(self.store,self.config,row)

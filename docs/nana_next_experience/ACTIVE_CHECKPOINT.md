@@ -1,8 +1,8 @@
-## 现役revision205 — 原C选中意见的有限内容投影
+## 现役revision206 — 真实方法反馈可形成首个持续倾向
 
-接续28d明确反馈→持续倾向，原ContextAssembler只投影C选中的当前意见元数据/≤384字节选，范围/实体/隐私/最新/撤回守原记录，预算内竞争。精确28d同最终夹具旧1fail1pass→8场景通过，97相关33.16s。新增SELF input+1584bytes、HTTP仍1，非Token收益；原已授权LANGUAGE_EXAMPLES保留，新增私人意见投影/倾向原文不进RENDER。首次过宽RENDER断言失败原样解释，见evidence/selected-opinion-projection-20261114/README.md。
+原D不再要求先有V4：实际C方法/保留话轮/当前绑定意见可给原C一次形成关切或REST的机会，暂停旧basis不伪装成新生，不新增SubjectInput/schema/模型阶段。精确13324同最终8场景旧3fail5pass→97相关46.38s。预算恢复后同主体继续、前台/静默/UNKNOWN及原隐私生效，同条件0重复，撤回使新倾向失效。PROJECT不得读PERSONAL形成的私心，授权PERSONAL后续交流才由LISTEN改CHAT。首个literal夹具和低隐私请求首错保留解释，见evidence/feedback-first-tendency-20261114/README.md。
 
-下一尚无V4时的真实绑定方法意见如何给原C可选形成倾向的机会，不要求先人为预置内心；再继续普通初始情绪/新经历、G独立未见迁移及全部原A–H。a781匹配安装保留，本后继未入包/未新APK；CURRENT266+409，真实模型/设备/生产0，自然度和长期仍待。
+新增0→1SELF是明确新经历带来的有据认知投入，不伪称减调用或实际情绪改善；53003input bytes非Token，真实0。下一无反馈的初始情境、多倾向/情感意义/G未见独立迁移与原A–H继续。a781匹配候选保留，后三批后继未新包/APK/CURRENT；真实模型/手机/生产/自然度/长期仍未资格，完整回归仍原d39及原定向修复口径。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

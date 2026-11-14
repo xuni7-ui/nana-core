@@ -3712,3 +3712,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：绑定实际原方法的明确意见经原Experience/D回当前V4原C，可修订持续关切并改变后续CHAT/LISTEN，也可REST不强制学。精确99同窗口旧1fail1pass→160相关39.26s；HTTP均1、revise wire54494→50744bytes非Token，别名去重/撤回竞态/只读有效。首次无效静默窗口基线及过宽撤回断言失败原样保留；不称真实情绪/成长，未新包或CURRENT。证据private-feedback-continuation-20261114；下一初始情境/G未见迁移及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S6/S7：原C显式选中当前意见由ContextAssembler投影安全元数据+384字有标节选，不让C只按Memory ID判断；原合法表达样例保留，新增私人投影不入RENDER，最新/范围/隐私/撤回只读有效。精确28d同最终旧1fail1pass→8pass，97相关33.16s，1SELF/+1584wirebytes非Token，无新模型阶段。首个过宽RENDER断言失败保留解释，证据selected-opinion-projection-20261114；a781包/CURRENT不变，下一无预置V4的反馈形成与原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：实际方法/明确意见可经原D/SELF形成首个V4或REST，无须预置倾向，失效旧basis不回退；原schema/阶段不增，沿原资源/前台/静默/UNKNOWN。精确13324同最终旧3fail5pass→97相关46.38s，预算恢复同主体继续，隐私与撤回有效，同条件不重复。旧0→新1SELF/53003inputbytes非Token。literal及低隐私夹具首错保留；未新包/CURRENT，证据feedback-first-tendency-20261114，下一初始情境/情感/G广迁移及原A–H。

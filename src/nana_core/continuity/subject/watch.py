@@ -94,7 +94,7 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 ref=feedback['reference']
                 # Enrich this scan's unqueued private candidate, rather than
                 # allocating both a routine revisit and the actual new cause.
-                result=[item for item in result if item.key!='private-thought.'+ref.record_id]
+                if ref is not None:result=[item for item in result if item.key!='private-thought.'+ref.record_id]
                 result.append(AttentionOpportunity(key=feedback['key'],source_kind='EXPERIENCE',source_id=row['experience_id'],
                     scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                     memory_ids=feedback['memory_ids'],event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',

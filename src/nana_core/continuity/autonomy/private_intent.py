@@ -281,7 +281,7 @@ def continuation_target(store,reference,*,scope,privacy_classes):
 
 
 def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,reference=None):
-    """One exact method opinion may reopen its current own tendency.
+    """One exact method opinion may inform an own tendency, including its birth.
 
     Read only: the existing Experience remains the queue cause. This is an
     opportunity to reconsider, never a verdict about emotion or a learned trait.
@@ -315,22 +315,29 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     strategy=communication_strategy_projection(store,**arguments,privacy_classes=privacy_classes)
     if strategy is None:return None
     method=CommunicationStrategy.model_validate_json(json.dumps(records.read(strategy['record_id'])['payload']))
+    target=None;support_id=strategy['record_id']
     for rid in method.basis_private_record_ids:
         if reference is not None and reference.record_id!=rid:continue
         selected=internal_projection(store,(rid,),scope=scope,privacy_classes=privacy_classes,include_associations=False)
         if not selected or selected[0]['category']!='PRIVATE_TENDENCY' or selected[0]['activity_state']!='ACTIVE':continue
         item=PrivateTendency.model_validate_json(json.dumps(records.read(rid)['payload']))
         from ..subject.opportunities import PrivateIntentRef
-        target=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)
-        if reference is not None and reference!=target:continue
-        continuation_target(store,target,scope=scope,privacy_classes=privacy_classes)
-        from ...storage import digest
-        # Aliases of the same exact opinion on the same turn are not new
-        # conditions. The record remains a dependency, not an identity key.
-        key='private-feedback.'+digest([store.identity['identity_id'],rid,*opinion_meaning(data)])
-        return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
-            'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(rid),*records.support(opinion['review_record_id']))))}
-    return None
+        candidate=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)
+        if reference is not None and reference!=candidate:continue
+        continuation_target(store,candidate,scope=scope,privacy_classes=privacy_classes)
+        target=candidate;support_id=rid
+        break
+    # An initial own method can matter before a lasting inner state exists.
+    # A paused/retired/unavailable prior basis is never treated as a new birth.
+    if method.basis_private_record_ids and target is None:return None
+    if reference is not None and target is None:return None
+    from ...storage import digest
+    # Aliases of the same exact opinion on the same turn are not new
+    # conditions. The record remains a dependency, not an identity key.
+    key='private-feedback.'+digest([store.identity['identity_id'],support_id,*opinion_meaning(data)])
+    return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
+        'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(support_id),*records.support(opinion['review_record_id']))))}
+
 
 
 def consider_question(event,situation,judgment,intention,proposal):
