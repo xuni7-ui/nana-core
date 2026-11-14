@@ -1,8 +1,8 @@
-## 现役revision216 — 模型目录可明确续读
+## 现役revision217 — 原C自主暂置、重激活与结束思想
 
-原Anthropic目录在8页/256ID/256KiB/10s原机会边界后，可从校验last_id由用户明确读取下一批。BFF/SDK/Web/Java有限映射，不改Vault/鉴权/CAS/限时；回显检查拒绝旧桥丢参数假翻页，Web等待原读取间隔，选模同步供应商真实协议/原生COGNITION草稿，只填草稿不自动注册/路由/付费。103后端45.05s、TS/Vite、93单测及四视口16浏览器20.8s通过；原缺口1fail保留，误路径0tests已纠正。见evidence/model-catalog-continuation-20261114/README.md。
+沿原PrivateThoughtEdit/原V2-V4记录，C可对已选现有思想明确ACTIVE/PAUSED/ABANDONED；单纯改文字保留状态，不再暗自唤醒。精确d141旧6fail4pass→最终10pass3.51s，248相关79.12s；正常owned HTTP各1SELF，新+960bytes非Token，非SELF schema与默认JSON不变。重启/撤回/同条件无重复/另一思想不受影响；PERSONAL隐私及精确引用保留。首次夹具/过滤失败和隐式唤醒反例均保存，见evidence/private-lifecycle-choice-20261114/README.md。
 
-原生本轮仅源码/SDK映射，Java/Gradle/真实手机未资格；未新APK/匹配包/CURRENT/真实API或生产，旧409不自动升级。20万复测/原理解→同C成果不重做，下一回情感/多动机/实际结果与S8反向学习主链，其余存储/Token/多端最终发行及全部原A–H继续。
+前继d141独立CI实际192后端/93前端/3Node/160浏览器通过，仅归前继；全仓/便携包跳过。本批未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409不变。下一沿原消费者核对D私念WATCH/REFLECT/REST对自主探索/创作/学习是否过窄，不把私念强制任务；情感/G/存储/Token/多端发行及全部A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

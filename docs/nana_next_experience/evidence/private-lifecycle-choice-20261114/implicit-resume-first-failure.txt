@@ -1,0 +1,31 @@
+{"measurement": "synthetic_paused_edit_attention", "model_calls": 0, "offered_target": true, "state": "ACTIVE"}
+F
+=================================== FAILURES ===================================
+_ test_editing_paused_contents_does_not_silently_reactivate_background_attention _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-edit-before/test_editing_paused_contents_d0')
+
+    def test_editing_paused_contents_does_not_silently_reactivate_background_attention(tmp_path):
+        from .test_private_tendency import change
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app)
+            change(app,'REST','pause-before-edit')
+            rid,idea=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            assert idea.activity_state=='PAUSED'
+            form(app,'edit-while-paused','SYNTHETIC the same private interest, now expressed more clearly.',revision=rid)
+            revised_rid,revised=next((rr,v) for rr,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==idea.intent_id)
+            clock.advance(2*SECOND);r=app.runtime
+            offered=r.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=0,quiet_window_us=SECOND)
+            offered_target=any(v.private_thought_ref and v.private_thought_ref.record_id==revised_rid for v in offered)
+            print(json.dumps({'measurement':'synthetic_paused_edit_attention','state':revised.activity_state,'offered_target':offered_target,'model_calls':0},sort_keys=True))
+>           assert revised.activity_state=='PAUSED' and not offered_target
+E           AssertionError: assert ('ACTIVE' == 'PAUSED'
+E             
+E             - PAUSED
+E             + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:148: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_editing_paused_contents_does_not_silently_reactivate_background_attention
+1 failed, 9 deselected in 0.30s

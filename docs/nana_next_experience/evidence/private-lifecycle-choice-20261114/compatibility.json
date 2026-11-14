@@ -1,0 +1,24 @@
+{
+  "old": {
+    "module": "/dev/shm/nana-lifecycle-d141/src/nana_core/continuity/autonomy/private_intent.py",
+    "ordinary_reply_schema_sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d",
+    "ordinary_reply_schema_bytes": 11491,
+    "self_reply_schema_sha256": "b09267126353e122a075c32067ccac8cc7e100bb7b60339edd23bfa475b4e3f7",
+    "self_reply_schema_bytes": 4414,
+    "default_edit_wire_sha256": "e42b2fe2b9c630b7d891d5018ef25ac6b2ebcff13d548886e871b4c3e3198167"
+  },
+  "new": {
+    "module": "/tmp/nana-inner-refinement-work/src/nana_core/continuity/autonomy/private_intent.py",
+    "ordinary_reply_schema_sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d",
+    "ordinary_reply_schema_bytes": 11491,
+    "self_reply_schema_sha256": "0c9f2282ec99f385d4a50d49d55f99cda40e4368b25a56bdd31a2312ffa4ba4b",
+    "self_reply_schema_bytes": 5284,
+    "default_edit_wire_sha256": "e42b2fe2b9c630b7d891d5018ef25ac6b2ebcff13d548886e871b4c3e3198167"
+  },
+  "base_commit": "d1419869c4bb0952cbad5c71622fa4da2d848e60",
+  "verified_old_runtime_files": 298,
+  "old_source_list_sha256": "110edd957b2fce26e04ade69eb62f2d036b836d9d410d17ee32f8e79fcd96f31",
+  "ordinary_schema_equal": true,
+  "default_edit_json_equal": true,
+  "new_self_schema_extra_bytes": 870
+}

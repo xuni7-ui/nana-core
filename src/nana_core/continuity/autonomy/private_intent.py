@@ -55,9 +55,13 @@ class PrivateThoughtEdit(DTO):
     related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
     clear_related_private_records:bool=False
     revises_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+    activity_state:Literal['ACTIVE','PAUSED','ABANDONED']|None=Field(default=None,
+        description='Explicit lifecycle choice for the revised own idea, requiring revises_record_id; never an action result or a disclosure permission.')
 
     @model_validator(mode='after')
     def unambiguous_association_choice(self):
+        if self.activity_state is not None and self.revises_record_id is None:
+            raise ValueError('a lifecycle choice requires one current private revision')
         if self.clear_related_private_records and (self.revises_record_id is None or self.related_private_record_ids):
             raise ValueError('clearing associations requires one current revision and no replacement links')
         return self
@@ -66,6 +70,7 @@ class PrivateThoughtEdit(DTO):
     def compatible_wire(self,handler):
         value=handler(self)
         if self.revises_record_id is None:value.pop('revises_record_id',None)
+        if self.activity_state is None:value.pop('activity_state',None)
         if not self.clear_related_private_records:value.pop('clear_related_private_records',None)
         return value
 
@@ -532,8 +537,11 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
             associations=() if formation.clear_related_private_records else (
                 tuple(dict.fromkeys(x for x in formation.related_private_record_ids if x!=rid)) or previous_associations)
             association_changed=set(associations)!=set(previous_associations)
-            if reframed or association_changed or item.activity_state!='ACTIVE':
-                changes={'content_summary':contents,'topic':formation.topic,'activity_state':'ACTIVE',
+            # Editing words/associations does not silently restart a paused idea.
+            # C's explicit lifecycle choice is separate from revising its content.
+            target_state=formation.activity_state or item.activity_state
+            if reframed or association_changed or item.activity_state!=target_state:
+                changes={'content_summary':contents,'topic':formation.topic,'activity_state':target_state,
                     'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
                     'source_memory_ids':result.intention.source_ids}
                 if reframed or association_changed:
