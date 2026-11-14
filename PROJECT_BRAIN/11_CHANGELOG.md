@@ -3710,3 +3710,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE匹配a781累计内心/取舍发行候选：285文件双构建同2125e6…afad，实际离线安装原D/SELF/V4→V3、同DEV关闭新选项后a781→d39安装版→a781返回ACTIVE内容保持，后撤回整链失效/seal通过，另BFF/反馈/十视图/笔记纠错重启撤回通过。旧帮助器硬编码撤回标签与本ACTIVE场景不同，原样保留并补真实ACTIVE断言。Web源树未变复用c41032…794d，不新APK/Current；真实0。证据matching-inner-install-a781-20261114，下一商业情绪评价/明确反馈/G未见迁移与原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：绑定实际原方法的明确意见经原Experience/D回当前V4原C，可修订持续关切并改变后续CHAT/LISTEN，也可REST不强制学。精确99同窗口旧1fail1pass→160相关39.26s；HTTP均1、revise wire54494→50744bytes非Token，别名去重/撤回竞态/只读有效。首次无效静默窗口基线及过宽撤回断言失败原样保留；不称真实情绪/成长，未新包或CURRENT。证据private-feedback-continuation-20261114；下一初始情境/G未见迁移及原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S2/S3/S6/S7：原C显式选中当前意见由ContextAssembler投影安全元数据+384字有标节选，不让C只按Memory ID判断；原合法表达样例保留，新增私人投影不入RENDER，最新/范围/隐私/撤回只读有效。精确28d同最终旧1fail1pass→8pass，97相关33.16s，1SELF/+1584wirebytes非Token，无新模型阶段。首个过宽RENDER断言失败保留解释，证据selected-opinion-projection-20261114；a781包/CURRENT不变，下一无预置V4的反馈形成与原A–H。

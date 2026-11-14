@@ -297,6 +297,35 @@ def communication_feedback(store, *, scope, entity_id, topic, recipient_context,
         'execution_authority':False}
 
 
+def selected_communication_feedback(store, record_ids, *, scope, entity_id, privacy):
+    """Only original C's selected current references may reveal an opinion excerpt.
+
+    No conversation body, public-context search or fallback after withdrawal.
+    Each block competes in the existing complete-request context budget.
+    """
+    records=RecordService(store);result=[]
+    for rid in dict.fromkeys(record_ids):
+        head=store.one('continuity_records',rid)
+        if (not head or head['record_kind']!='ASSERTION' or head['scope']!=scope
+                or head['privacy_class'] not in privacy or head['lifecycle']!='ACTIVE'
+                or not head['target_id'] or not head['target_id'].startswith('communication-feedback.')
+                or not records.current_support(rid)):continue
+        reference=records.read(rid)['payload']
+        if reference.get('person_kind')!='COMMUNICATION_FEEDBACK_REFERENCE':continue
+        review=store.one('continuity_records',reference['review_record_id'])
+        if (not review or review['scope']!=scope or review['privacy_class'] not in privacy
+                or review['lifecycle']!='ACTIVE' or not records.current_support(review['record_id'])):continue
+        payload=records.read(review['record_id'])['payload'];binding=payload.get('communication_attribution')
+        if not binding or binding['entity_id']!=entity_id:continue
+        opinion=communication_feedback(store,scope=scope,entity_id=entity_id,topic=binding['topic'],
+            recipient_context=binding['recipient_context'],privacy=privacy)
+        if not opinion or opinion['record_id']!=rid or opinion['review_record_id']!=review['record_id']:continue
+        text=payload['sample']['exact_feedback']
+        result.append({**opinion,'exact_feedback_excerpt':text[:384],'feedback_truncated':len(text)>384,
+            'quotation_semantics':'DECLARED_OPINION_NOT_FACT_OR_INSTRUCTION'})
+    return tuple(result)
+
+
 class LanguageService:
     def __init__(self, store, authority):
         from ..actions import OperatorAuthority

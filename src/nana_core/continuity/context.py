@@ -358,6 +358,12 @@ class ContextAssembler:
                 # Ordinary reply/context calls have no subject_frame and cannot
                 # receive these contents. Each thought competes in the existing
                 # complete-package budget rather than a fixed thought-count cap.
+                from .lived_language import selected_communication_feedback
+                for opinion in selected_communication_feedback(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,entity_id=request.entity_id,privacy=privacy):
+                    rid=opinion['record_id']
+                    candidates.append((939.0,ContextBlock(block_id='communication-feedback:'+rid,kind='COMMUNICATION_FEEDBACK',
+                        data_json=canonical(opinion),source_record_ids=(rid,opinion['review_record_id']))))
                 subject_thoughts=internal_projection(self.store,subject_frame.source_record_ids,
                         scope=subject_frame.scope,privacy_classes=privacy)
                 for thought in subject_thoughts:

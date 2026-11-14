@@ -34,7 +34,10 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
         self_requests.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
         frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
         own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
-        grounded=bool(own and feedback and feedback[0] in frame['source_memory_ids'])
+        opinions=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK']
+        grounded=bool(own and feedback and feedback[0] in frame['source_memory_ids'] and any(
+            v.get('human_judgment')=='REJECTED' and 'ordinary chat would suit' in v.get('exact_feedback_excerpt','')
+            and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' and not v['human_read_proven'] for v in opinions))
         if grounded and choice=='rest':
             return {'interpretation':'SYNTHETIC actual opinion considered; rest rather than compulsory learning','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC choose rest without declaring that the method worked','preferred_behavior':'REST','proposed_operations':['WAIT']}}
         return {'interpretation':'SYNTHETIC reconsider a bounded explicit opinion, not emotional effectiveness','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC own care can use a different method without claiming a changed mood','proposed_operations':['DRAFT'] if grounded else ['WAIT'],**({'private_tendency':{'topic':'own-concern','tendency':'SYNTHETIC I still care, but prefer ordinary-chat after this explicit opinion; the actual emotional effect is unknown.','revises_record_id':own[0]['record_id']}} if grounded else {})}}
@@ -97,6 +100,8 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             app.pause()
             after=app.chat('SYNTHETIC a different later conversation',topic='own-concern',privacy='PROJECT',message_id='after')
             assert after['text']==('SYNTHETIC ordinary-chat method' if choice=='revise' else 'SYNTHETIC listening method')
+            assert not any('exact_feedback_excerpt' in json.loads(b['data_json']) for b in json.loads(requests[-1]['context_json'])['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK')
+            assert tendency.content_summary not in requests[-1]['context_json']
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
             assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
             app.forget(feedback[0])
@@ -121,3 +126,35 @@ def test_only_a_current_attributed_opinion_can_reopen_its_tendency_read_only(tmp
         assert not any(o.private_thought_ref and o.reflection_experience_id==eid for o in opportunities)
         assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+
+
+def test_original_c_opinion_excerpt_is_explicit_current_scoped_bounded_and_read_only(tmp_path):
+    from nana_core.continuity.lived_language import communication_feedback,selected_communication_feedback
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,context_limit=65536) as (router,_),LifeApplication(home,clock=clock,router=router) as app:
+        app.pause();form(app)
+        turn=app.chat('SYNTHETIC retained occurrence',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='source')
+        language=LanguageService(app.runtime.store,app.runtime.authority)
+        sample=LanguageSample(sample_id='bounded-opinion',review_target=turn['exchange_record_id'],mode='CASUAL',context='SYNTHETIC context body need not be projected',candidate_response=turn['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC opinion '*40,reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
+        language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+        bound=dict(scope='project-work',entity_id='project-user',topic='own-concern',recipient_context=None,privacy=('PROJECT',))
+        original=communication_feedback(app.runtime.store,**bound);assert original
+        arguments=dict(scope='project-work',entity_id='project-user',privacy=('PROJECT',))
+        snapshot=app.runtime.store.snapshot();writes=app.runtime.store.db.total_changes
+        selected=selected_communication_feedback(app.runtime.store,(original['record_id'],),**arguments)
+        assert len(selected)==1 and selected[0]['exact_feedback_excerpt']==sample.exact_feedback[:384]
+        assert selected[0]['feedback_truncated'] and selected[0]['quotation_semantics']=='DECLARED_OPINION_NOT_FACT_OR_INSTRUCTION'
+        assert 'candidate_response' not in selected[0] and 'context' not in selected[0]
+        assert not selected_communication_feedback(app.runtime.store,(),**arguments)
+        for key,value in [('scope','another-scope'),('entity_id','another-person'),('privacy',('PUBLIC',))]:
+            assert not selected_communication_feedback(app.runtime.store,(original['record_id'],),**{**arguments,key:value})
+        assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes
+        newer=sample.model_copy(update={'sample_id':'changed-opinion','exact_feedback':'SYNTHETIC a genuinely different opinion'})
+        language.record(newer,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+        assert not selected_communication_feedback(app.runtime.store,(original['record_id'],),**arguments)
+        latest=communication_feedback(app.runtime.store,**bound)
+        assert selected_communication_feedback(app.runtime.store,(latest['record_id'],),**arguments)[0]['exact_feedback_excerpt']==newer.exact_feedback
+        from nana_core.continuity.records import RecordService
+        mid=next(m for m in RecordService(app.runtime.store).support(latest['review_record_id']) if RecordService(app.runtime.store).memory.read(m)['source_provenance']['source_reference']=='changed-opinion')
+        app.forget(mid)
+        assert not selected_communication_feedback(app.runtime.store,(original['record_id'],latest['record_id']),**arguments)

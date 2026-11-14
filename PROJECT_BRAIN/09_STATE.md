@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 204,
-  "as_of_us": 1794642836380670,
+  "revision": 205,
+  "as_of_us": 1794643323883703,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_PRIVATE_FEEDBACK_AND_LIFELONG_TRANSFER",
   "progress": [
-    "原明确方法反馈/Experience经原D回当前V4倾向，C可修订或REST；精确99旧同窗口1fail1pass→新160相关通过，HTTP均1，后续LISTEN→CHAT、撤回/别名不重复有效。a781已有匹配安装保留，本后继未进包。",
+    "原D明确方法意见→V4修订/REST→后续C已接160相关；新选中意见元数据+384字节选进同C，97相关通过，原样例保留，私心/新增投影不进RENDER。精确28d旧1fail1pass→新8pass，1SELF/+1584bytes非Token；未新包。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -31,14 +31,14 @@
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/selected-opinion-projection-20261114/README.md",
     "docs/nana_next_experience/evidence/private-feedback-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-inner-install-a781-20261114/README.md",
     "docs/nana_next_experience/evidence/private-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/deliberated-plan-alternative-20261114/README.md",
     "docs/nana_next_experience/evidence/deliberated-due-promise-20261114/README.md",
     "docs/nana_next_experience/evidence/full-fixture-reconciliation-20261114/README.md",
-    "docs/nana_next_experience/evidence/matching-install-d39-20261114/README.md",
-    "docs/nana_next_experience/evidence/portable-closure-20261114/README.md"
+    "docs/nana_next_experience/evidence/matching-install-d39-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2828,3 +2828,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 匹配a781原V4内心安装/返回/撤回证据表锚：`82746dd4f0fb6f442d6cab6fe56072e8c07d77006e46ebc4c3df27fdb324f0b0`。
 
 [2026-11-14 revision204指纹锚点] private-feedback-continuation-20261114/source.sha256 SHA256 `df55adbe0cac189aea938f7d6f6595beac9109f5af2d98c87f737d2ca886c1d2`，不含指纹自身。
+
+[2026-11-14 revision205指纹锚点] selected-opinion-projection-20261114/source.sha256 SHA256 `df227b37ef0a65507064c364f2fcce8063b901b9485dec31c2aa4790a866ee61`，不含自身。
