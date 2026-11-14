@@ -1,8 +1,8 @@
-## 现役revision211 — 当前可处理资格先于注意上限
+## 现役revision212 — 原G实际成长可影响自己的兴趣
 
-原collector沿原COGNITION边界过滤后再取64有效私念，不改愿望/送达权限/调度。原C实际64条私念暂不允许研究时，旧Runtime0SELF，新合法方法1SELF形成新问题，同条件不重复；64愿望ACTIVE、明确重开未消费原record可再入选，送达-only不禁内部。216相关66.81s，成本补2pass6.58s/52351inputbytes非Token，真实0。首次旧1fail1pass及一次错误测试路径0tests保留。见evidence/attention-eligibility-20261114/README.md。
+原G独立练习/未见实际Kernel Verify后的成功，沿原D/C/Context有界GROWTH_CHANGE可给私人兴趣机会；原默认不改，可REST/不保留，不造第二学习/情绪循环。精确1ca298文件旧最终4fail1pass→新5pass6.03s；115相关57.64s。投影消融同预算各1SELF、后续各1原fixture，私人倾向影响后续REFLECT/新问题，关闭投影则WATCH；wire+1565bytes非Token，主/WAL/SHM实际分配混合阶段159744/151552bytes，不声称长期存储收益。普通Context不暴露私文、只读/重启/独立反例/来源撤回有效，首次夹具失败保留。见evidence/growth-inner-choice-20261114/README.md。
 
-前继22a独立CI43593588977/job132443424308实际488pass1warning167.76s，full/client/portable SKIP，不能贴本后继。环境重建后的旧临时安装不在场；未重包/APK/CURRENT/生产。下一接原G独立成功→原C自主内部关注，解除“新能力只能分享或WATCH”的窄断点，同预算/消融/反例；其余A–H、情感、多动机、长期真实体验继续。
+前继1ca独立CI43596316182/job132451615823实读307pass121.97s，full/client/portable SKIP，不贴本后继。未新包/APK/CURRENT/真实模型/手机/生产；原7ec历史安装非当前在场。下一核对原INTERPRET可靠情境/情感线索如何复用于同C当前评价与私人状态，不把模型推测当事实或另付同源解释；完整A–E、多倾向/长期G、检索存储/Token/多端/原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

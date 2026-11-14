@@ -366,7 +366,7 @@ def can_consider_private_formation(event,situation,judgment,intention):
             or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
             or intention.behavior in {'REST','WITHDRAW','STAY_SILENT','IGNORE','DO_NOTHING','DEFER'}
             or any((event.realization_target,event.goal_step,event.goal_review,event.memory_review_id,
-                event.governance_review_id,event.disposition_reflection_id,event.growth_assessment_id))
+                event.governance_review_id,event.disposition_reflection_id))
             or 'REFLECT' in situation.prohibited_behaviors
             or (situation.context_fit and not situation.context_fit.allow_deepening)
             or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id))):

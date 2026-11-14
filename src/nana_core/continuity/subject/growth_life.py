@@ -61,6 +61,23 @@ def opportunities(store,*,scope,privacy_classes):
         if view and view.lesson_id not in lessons:result.append(view);lessons.add(view.lesson_id)
     return tuple(result)
 
+def context_projection(store,subject_event_id,*,scope,entity_id,privacy_classes,selected_record_ids):
+    """Only the actual C-selected, independently qualified growth occurrence.
+
+    No history scan and no inferred mood, interest, adopted goal or permission.
+    Ordinary expression contexts have no subject frame and never call this.
+    """
+    if store.schema_target<13:return None
+    source=store.one('subject_events',subject_event_id)
+    if not source or source['scope']!=scope or source['entity_id']!=entity_id or not source['record_id']:return None
+    head=store.one('continuity_records',source['record_id']);records=RecordService(store)
+    if not head or head['privacy_class'] not in privacy_classes or not records.current_support(head['record_id']):return None
+    event=records.read(head['record_id'])['payload']['input']
+    if event['origin']!='SELF_WAKE' or not event.get('growth_assessment_id'):return None
+    value=project(store,event['growth_assessment_id'],scope=scope,privacy_classes=privacy_classes)
+    if value and set(value.source_record_ids)<=set(selected_record_ids):return value
+    return None
+
 def availability(store,entity_id,*,scope,privacy_classes):
     """Use existing recipient observations. Silence is not low social appetite."""
     from ..open_agency.delivery import RecipientState

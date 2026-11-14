@@ -138,7 +138,7 @@ class CognitionCoordinator:
         appraisal=appraise(event,situation)
         if event.retention=='DO_NOT_REMEMBER':return 'LIGHT_COGNITION','NONRETENTION_NO_MODEL'
         need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
-        private_opportunity=event.private_thought_ref is not None or event.communication_method_record_id is not None or event.task_class=='private.feedback.review'
+        private_opportunity=event.private_thought_ref is not None or event.communication_method_record_id is not None or event.task_class=='private.feedback.review' or event.growth_assessment_id is not None
         if private_opportunity:
             from ..continuity.subject.policy import motivate,decide,current_directions
             from ..continuity.autonomy.private_intent import can_consider_private_formation

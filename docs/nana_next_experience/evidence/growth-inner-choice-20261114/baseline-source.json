@@ -1,0 +1,7 @@
+{
+  "commit": "1ca69e47184e3666f56674b2d69f3b20a9568f50",
+  "runtime_files": 298,
+  "all_bytes_match_git": true,
+  "source_list_sha256": "6d1428bcf66d2ac164cdfb8c843e17b7437927b96f25325c845480c1c87e3af1",
+  "execution": "Same final new test file, original pytest with -o pythonpath=/dev/shm/nana-growth-1ca/src, no original runtime file modified."
+}

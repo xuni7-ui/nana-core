@@ -354,6 +354,12 @@ class ContextAssembler:
                 source_record_ids=subject_frame.source_record_ids))
             if self.store.schema_target>=13:
                 from .autonomy.private_intent import internal_projection
+                from .subject.growth_life import context_projection
+                growth=context_projection(self.store,subject_frame.subject_event_id,scope=subject_frame.scope,
+                    entity_id=request.entity_id,privacy_classes=privacy,selected_record_ids=subject_frame.source_record_ids)
+                if growth:
+                    candidates.append((938.0,ContextBlock(block_id='growth-change:'+growth.assessment_id,kind='GROWTH_CHANGE',
+                        data_json=growth.model_dump_json(),source_record_ids=growth.source_record_ids,source_memory_ids=growth.source_memory_ids)))
                 # Only original C's selected references, never all private history.
                 # Ordinary reply/context calls have no subject_frame and cannot
                 # receive these contents. Each thought competes in the existing

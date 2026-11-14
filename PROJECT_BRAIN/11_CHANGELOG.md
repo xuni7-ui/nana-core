@@ -3724,3 +3724,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6 A–E窄修复：原D按原C合法候选可行性提供认知机会，默认承诺不预先否决私念；WATCH/REFLECT/REST与轻量私人反思接回，6pending不当疲倦。规范/预算/UNKNOWN/原承诺不改。环境重建恢复87后重放并重跑250pass76.55s，精确87旧7场景3fail4pass；HIGH源负荷同1SELF/51325bytes非Token，REST/规范保留。87独立585pass实读仅归前继，临时包已丢不假称在场；证据private-choice-admission-20261114。下一64候选挤占/情感G迁移及原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S6：原D在64有效注意上限前应用既有处理资格，64关闭研究私念不再挤掉合法新方法；愿望/送达-only分离保持。旧Runtime0SELF→新1SELF/同条件不重复，216相关66.81s、成本补2pass，52351inputbytes非Token。22a独立CI488pass仅归前继；首次失败/误路径0tests保留，未新包/APK/CURRENT/生产。证据attention-eligibility-20261114；下一G→私人关注及原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G独立未见实际Verify成功可经原D/C形成私人兴趣并影响后续REFLECT/新疑问；投影消融同1SELF后续WATCH，可REST/不绑定0调用，普通Context隐藏、重启/反例/撤回有效。精确1ca旧最终4fail1pass→5pass，115相关57.64s；+1565inputbytes非Token、分配空间/CPU单样本原样。1ca独立307pass仅归前继，未新包/APK/CURRENT/真实0；证据growth-inner-choice-20261114，下一INTERPRET情境复用/情感与原A–H继续。

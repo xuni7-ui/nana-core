@@ -138,7 +138,9 @@ class SubjectLoop:
             records.extend(growth_change.source_record_ids);memories.extend(growth_change.source_memory_ids)
             available,availability_refs=availability(self.store,event.entity_id,scope=event.scope,privacy_classes=self.privacy_classes)
             memories.extend(availability_refs)
-            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='COMPETENCE',topic_key=growth_change.topic,possible_behaviors=('SOCIALIZE','WATCH') if available=='AVAILABLE' else ('WATCH',),availability=available)
+            # A checked new capability can matter privately as well as socially.
+            # Preserve the old default; C may instead reflect or rest.
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='COMPETENCE',topic_key=growth_change.topic,possible_behaviors=('SOCIALIZE','WATCH','REFLECT','REST') if available=='AVAILABLE' else ('WATCH','REFLECT','REST'),availability=available)
         if cue is None and event.kind=='WAKE':
             from .opportunities import ConcernCue
             for pid in projects:
@@ -148,7 +150,7 @@ class SubjectLoop:
                     break
         if cue is not None and cue.required_preference_id and cue.required_preference_id not in {a['assertion_id'] for a in assertions}:
             cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
-        if cue is not None and len(pending)>=6 and not due and continued is None and method is None:
+        if cue is not None and len(pending)>=6 and not due and continued is None and method is None and growth_change is None:
             cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         private_interests=()
         if self.store.schema_target>=13 and event.retention!='DO_NOT_REMEMBER':
