@@ -3698,3 +3698,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE H发行闭包：d60构建器发现已接原生Anthropic模块漏portable清单，仅补原文件，不改校验器；静态闭包/19相关通过。d60全仓166pass/2满盘fail后中断，原日志保留，后继TMPDIR改有空间设备再固定验证。证据portable-closure-20261114，安装/生产未资格，原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE匹配d39候选：Core285双构建同8ab9a3…e85f/Web同c41032…794d，原离线安装/BFF/反馈/笔记/G后续RENDER/梦境虚拟72h/启停后台选项及旧d2停机返回通过。完整回归2538pass/13fail/12skip/7warnings739.64s，11材料过长、storage注意语义/120s旧夹具待修，保留首次原始结果。真实0，未发行/生产。证据matching-install-d39-20261114，原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE现行契约复核：原全仓13失败全包含于41相关24.17s通过。测试only修超长README学习材料为完整真实有界guide；storage按c069与注意分离仍查pending/noREST和原磁盘停机；语义按8ae120s默认显式短超时且保留STALE/0HTTP/digest。Core不改，不删除/跳过/弱化原学习评价断言、不拼成全仓PASS。证据full-fixture-reconciliation-20261114；下一原C新兴趣/承诺竞争与原A–H。

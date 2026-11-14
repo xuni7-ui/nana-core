@@ -1,6 +1,6 @@
-## 现役revision198 — 安装已验证，完整回归未通过
+## 现役revision199 — 原13失败已定向复核
 
-d39候选Core285文件双构建同8ab9a3…e85f、Web同c41032…794d，真实离线安装及原BFF/反馈/十视图/笔记/G后续RENDER/梦境虚拟72h/新宿主设置启停/旧d2停机返回通过；真实0，不更新CURRENT。原完整回归2538pass/13fail/12skip/7warnings739.64s，原日志evidence/matching-install-d39-20261114，不能称全仓通过。下一修11项README超6144的原学习材料夹具、storage非注意负荷和默认120s的旧假设，再相关复核；不降低原限制/断言。隔离明确新兴趣竞争到期承诺候选7pass/41相关，尚未主线集成。继续原A–H。
+原d39全仓2538pass/13fail/12skip保留；只修旧夹具：完整真实有界practice文档替换已超6144的README，storage非疲劳按c069、显式短超时按8ae120s现行默认。原工作/学习/撤回结果断言不减，41相关24.17s通过，应用源码不改；未再重跑全仓，不拼称全仓PASS。证据full-fixture-reconciliation-20261114。下一集成原C明确新兴趣/到期承诺竞争候选（旧3fail4pass→隔离7pass，41相关），再继续情感/G与原A–H；匹配d39安装证据保留，CURRENT266+409不动。
 
 ## 现役revision196
 

@@ -20,12 +20,15 @@ def test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission(
         costly=judge(r,q,first)
         # External admission is not fatigue. The cheap option already created
         # the SAME topic's pending intention, so original C deduplicates it.
-        # Real compute/time/storage/interruption pressure must still REST.
-        if 'external' in cost:
+        # Storage volume is also separate from cognitive demand (c06902e7).
+        # It still ranks the cheap option first; disk admission is exercised
+        # by the original StorageGuard/capacity tests, not invented fatigue.
+        if 'external' in cost or 'storage' in cost:
             assert costly['behavior'] is None
             cycle=r.subject.result(r.store.one('subject_cycles',costly['cycle_id']))
             assert cycle.intention.kind=='NO_ACTION' and cycle.judgment.stance=='DEFER'
             assert 'pending' in cycle.judgment.reason
+            assert not any(m.source=='REST' for m in cycle.motivations)
             assert any(i['slot_key']=='concern-world.question' for i in r.subject.pending('world'))
         else:
             assert costly['behavior']=='REST'

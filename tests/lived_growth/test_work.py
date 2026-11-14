@@ -9,7 +9,10 @@ from nana_core.presence.authority import VirtualClock
 REPO=Path(__file__).resolve().parents[2]
 SOURCES=('src/nana_core/continuity/recurrence.py','src/nana_core/continuity/extensions.py','docs/nana_h2_perception_ingress_v1_frontend_contract.md','docs/nana_h2_live_real_screen_v1_frontend_contract.md')
 TRAIN=('src/nana_core/continuity/identity.py','src/nana_core/continuity/autonomy/requests.py','src/nana_core/continuity/subject/social.py')
-DOCS=('README.md','docs/nana_provider_capability_routing_v1_frontend_contract.md','docs/bridge_node_rebuild.md')
+# Separate real repository documents for practice, held-out and transfer.
+# The evolving top-level README now exceeds the original 6144-byte material
+# contract; keep that bound and use a complete, bounded real guide instead.
+DOCS=('docs/nana_persistent_person_self_v1_quickstart.md','docs/nana_provider_capability_routing_v1_frontend_contract.md','docs/bridge_node_rebuild.md')
 
 def initialize(home,*,skills=True):
     config=LifeConfig(project_root=str(REPO),materials=tuple(material_for(REPO,p) for p in SOURCES),practice=material_for(REPO,TRAIN[0]),heldout=material_for(REPO,TRAIN[1]),transfer=material_for(REPO,TRAIN[2]),document_learning=tuple(material_for(REPO,p) for p in DOCS),max_autonomous_materials=4,allow_local_skills=skills,activity_interval_seconds=.5)

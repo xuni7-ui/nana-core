@@ -1,0 +1,11 @@
+# 现行契约与旧夹具对齐
+
+原d39完整回归2538pass/13fail/12skip已原样存matching-install-d39-20261114，不能改称全仓PASS。本批只修3个测试输入/预期，不改任何Core/产品源码、原材料边界、实际存储准入或模型默认值。
+
+11项原lived_growth在初始化先被当前README7257bytes拒绝，尚未走到原G。以完整真实docs/nana_persistent_person_self_v1_quickstart.md（4434bytes）替换practice材料，heldout/transfer保持原不同真实文档，不截断/改原文/扩大6144边界。原两领域工作、2次失败、独立评价/迁移、生成技能及撤回等所有结果断言原封保留并通过；并非删测试/跳过或以样例绕过准入。
+
+cost4的storage=LARGE仍应先排便宜候选，但c06902e7a16354f91ccfd90b23ff5b9ca9e3f106已经把磁盘需求从注意疲劳分离。旧测试尚要求REST。本批与external同样严格验证原C已存在同主题pending而DEFER/NO_ACTION、原pending保留，并追加无REST动机断言；实际StorageGuard空间不足/锁存停机原测试一同通过，磁盘准入不移除。compute/time/interruption原REST断言继续。
+
+语义stale测试仍按退休的3s默认推进4s，8ae12dae8cd328465e6fc7808ac96e8f4494a9d1已改完整120s默认。本批明确断言120000默认，且为该过期场景显式给1000ms请求，断言实际deadline差1000000us，再按原4s验证STALE/HTTP0，原隐私/损坏digest断言保留；不缩短产品超时，不放大有效期。
+
+命令覆盖tests/lived_growth、h1_semantics/test_grounding、controlled_world/test_resource_choice及first_life/test_capacity_planning，共41passed24.17s；13项原失败均在其中。没有重跑全仓，不拼接成一次全仓通过；应用仍匹配已安装d39，真实模型/设备/生产0。下一集成原C已明确考虑的新兴趣与到期承诺竞争候选及原A–H。

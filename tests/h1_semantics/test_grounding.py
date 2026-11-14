@@ -64,8 +64,13 @@ def test_semantic_privacy_isolated_context_stale_and_digest(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,state):
         capture(r,'unrelated',{'data':'UNRELATED_PUBLIC_CANARY'})
         capture(r,'secret',{'data':'SECRET_CONTEXT_CANARY'},privacy='SECRET')
-        data=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',data);s=setup(r,t);cid=s.prepare('scope',mid,data)
+        data=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',data);s=setup(r,t)
+        # Default cognition is 120s; this expiry case explicitly requests a
+        # short budget rather than assuming the retired three-second default.
+        assert CognitionBudget().timeout_ms==120000
+        cid=s.prepare('scope',mid,data,budget=CognitionBudget(timeout_ms=1000))
         req=s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']
+        assert req['deadline_us']-req['created_at_us']==1_000_000
         assert 'UNRELATED_PUBLIC_CANARY' not in req['context_json'] and 'SECRET_CONTEXT_CANARY' not in canonical(req)
         r.clock.source.advance(4_000_000);assert s.execute(cid)['state']=='STALE' and state['calls']==0
         with pytest.raises(CoreError,match='DIGEST'):s.prepare('wrong',mid,b'wrong bytes')

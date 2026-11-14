@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 198,
-  "as_of_us": 1794635999939761,
+  "revision": 199,
+  "as_of_us": 1794636118930313,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_FULL_REGRESSION_FIXTURE_RECONCILIATION",
+  "status": "IN_PROGRESS_DELIBERATED_PROMISE_COMPETITION",
   "progress": [
-    "d39原285文件双构建同8ab9a3…e85f并实际离线安装，BFF/反馈/笔记/G后续RENDER/梦境虚拟72h/宿主启停与旧d2返回通过；Web双归档同c41032…794d。全仓2538pass/13fail/12skip，未发行合格。",
+    "d39全仓2538pass/13fail/12skip后，13项旧夹具按现行材料6144边界/存储非疲劳/120s默认修正，41相关24.17s通过，Core源码不改。原d39双构建/实际离线安装与同主体停机返回保留，不拼称全仓PASS。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "当前13失败：11项README已超原6144材料边界；1项仍假设storage=fatigue（c069已分离）；1项stale夹具仍按旧3s（8ae已默认120s）。需保持原数据/安全断言修夹具并定向回归，明确新兴趣/到期承诺候选待集成。原A–H/最终发行继续。",
+    "下一集成原C明确新兴趣与到期承诺竞争：精确d39旧3fail4pass，隔离7pass/41相关；保留原承诺整行/PRESSING/显式复查/规范/学习风险/重启重放，尚未主线。更广情感/G迁移/未引用方法发现与原A–H继续。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/full-fixture-reconciliation-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-install-d39-20261114/README.md",
     "docs/nana_next_experience/evidence/portable-closure-20261114/README.md",
     "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md",
     "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/provider-lesson-selection-20261113/README.md",
     "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-focus-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md"
+    "docs/nana_next_experience/evidence/provider-focus-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2816,3 +2816,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 portable闭包指纹锚：`f3e2841868a2e3ba68675a46ac0ba66c3510bc3e8eb962e4b427f608c05b9d55`（不含自身）。
 
 - 2026-11-14 d39匹配安装/首次完整回归证据表锚：`7f07b7890a578018c4d21d7a54c5457874c03d1daee4186d557940edae66e4b6`。
+
+- 2026-11-14 原夹具现行契约修复表锚：`d07a0d5c4be1b7ae161ae02bb28e7b099551c4cc7bca9559c3b10e3ac7996595`。
