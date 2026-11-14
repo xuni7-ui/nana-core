@@ -80,7 +80,23 @@ def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path)
         result=bridge.receive(event)
         assert not result['external_delivery'] and app.runtime.identity_id==identity
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('cognitive_requests')
-        assert bridge.receive(event)['state']=='ALREADY_REVIEWED_NO_REPLAY'
+        app.runtime.clock.advance(1000)
+        repeated=bridge.receive(event)
+        assert repeated['queue_id']==result['queue_id']
+        row=app.runtime.store.db.execute('SELECT * FROM runtime_queue WHERE queue_id=?',(result['queue_id'],)).fetchone()
+        assert row['event_type']=='WORLD_EVENT'
+        from nana_core.continuity.records import RecordService
+        source=RecordService(app.runtime.store).read(row['record_id'])
+        assert source['payload']['input']['origin']=='SELF_WAKE'
+        assert source['payload']['input']['interaction_signal'] is None
+        assert source['payload']['input']['text'] is None
+        app.runtime.step()
+        assert not app.runtime.store.all('subject_cycles')  # Paused original C is not forced awake.
+        from nana_core.continuity.memory import MemoryService
+        MemoryService(app.runtime.store).forget(result['source_memory_id'], app.runtime.authority)
+        import pytest
+        with pytest.raises(CoreError):bridge.receive(event)
+        assert not app.runtime.store.all('actions')
 
 
 def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(tmp_path):

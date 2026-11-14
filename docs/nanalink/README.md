@@ -2,7 +2,7 @@
 
 当前任务/分支/下一项以 [PROJECT_BRAIN/09_STATE](../../PROJECT_BRAIN/09_STATE.md#c-workstream--nana-link-01) 为准；[继承与取舍](INHERITANCE.md) 保留旧QQ Gateway、A/B及SnowLuma许可边界。本目录不是第二本项目账本。
 
-NanaLink是原Core周围的通信基础设施：QQ与B站复用同一`Event`/`OperationReceipt`契约，仍由原`LifeApplication → SubjectLoop → Manager/Grant → ActionKernel → Verify`决定、执行并保存。RSS/Atom证明新增源不改Core。未定义另一个Subject/Store/Memory/认知调度器。
+NanaLink是原Core周围的通信基础设施：QQ与B站复用同一`Event`/`OperationReceipt`契约，仍由原`LifeApplication → SubjectLoop → Manager/Grant → ActionKernel → Verify`决定、执行并保存。RSS/Atom证明新增源不改Core；网页出版物经原记忆来源成为WORLD_EVENT机会，不能作为用户指令。未定义另一个Subject/Store/Memory/认知调度器。
 
 | 层 | 当前源码/可运行范围 |
 |---|---|
@@ -10,7 +10,7 @@ NanaLink是原Core周围的通信基础设施：QQ与B站复用同一`Event`/`Op
 | L1 | `sdk`：v1 manifest、显式安装/发现/启停、离线替换/回退、逐账号故障隔离、异步订阅；`adapters`包装原QQ/Bili工作流 |
 | L2 | `contracts`、`transport`：来源/时间/关系/引用/扩展段、队列限额/背压/顺序/优先级/短期去重。跨重启去重和发送回执仍查原Core |
 | L3 | `media`：分块传入、按哈希复用、限额/范围读取、来源撤回。B站元数据/字幕/帧/原兴趣驱动阅读沿用现役服务 |
-| L4 | `core_bridge`：原QQ/Bili工作流，原Kernel回执只读查询；`feed.FeedCoreBridge`：原PUBLIC SurfaceSession，不生成命令或Grant |
+| L4 | `core_bridge`：原QQ/Bili工作流，原Kernel回执只读查询；`feed.FeedCoreBridge`：原PUBLIC记忆来源/WORLD_EVENT机会，不当用户命令、不强制认知或Grant |
 | L5 | Nana Space原“设备与连接”页：连接准备、账号尾号/会话、连接与收件健康、能力、暂停/凭据原接口、UNKNOWN说明 |
 
 ## 开发安装
