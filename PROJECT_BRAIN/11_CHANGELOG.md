@@ -3748,3 +3748,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 ### 2026-11-14 · NanaLink RSS观察与用户指令分离
 
 后续源码复查发现Feed曾走原chat Surface路径，虽无真实发送仍可能把网页标题当对话。改为原MemoryService来源+SOURCED_LIFE/WORLD_EVENT机会，原C可忽略/推迟，暂停不强制唤醒；不改Core契约或另建记忆。10定向通过（含实际HTTP/原单主体/时钟推进去重/暂停/来源删除拒绝），初始source_key绑定失败已依原surface source_key修正。前105资格保留原8669范围，后继源码/匹配wheel/image另记，不虚称新全仓通过。
+
+
+### 2026-11-14 · Feed来源重投与撤回后继
+
+原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均10定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。

@@ -72,7 +72,8 @@ def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path)
     home=tmp_path/'home';initialize(home);cfg=load_config(home)
     binding=SurfaceBinding(binding_id='public.feed',platform='web.feed',surface='web.feed',adapter='web.feed',permitted_privacy=('PUBLIC',))
     update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,)}),expected_revision=cfg.revision)
-    with LifeApplication(home,clock=VirtualClock()) as app:
+    clock=VirtualClock()
+    with LifeApplication(home,clock=clock) as app:
         app.pause();adapter=FeedAdapter('https://example.org/rss',authorized=True)
         event=adapter.parse(b'<rss><channel><item><guid>x</guid><title>A sourced public observation</title></item></channel></rss>')[0]
         bridge=FeedCoreBridge(app,adapter,binding.binding_id)
@@ -80,8 +81,8 @@ def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path)
         result=bridge.receive(event)
         assert not result['external_delivery'] and app.runtime.identity_id==identity
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('cognitive_requests')
-        app.runtime.clock.advance(1000)
-        repeated=bridge.receive(event)
+        clock.advance(1000)
+        repeated=bridge.receive(event.model_copy(update={'observed_at_us':event.observed_at_us+1000}))
         assert repeated['queue_id']==result['queue_id']
         row=app.runtime.store.db.execute('SELECT * FROM runtime_queue WHERE queue_id=?',(result['queue_id'],)).fetchone()
         assert row['event_type']=='WORLD_EVENT'
@@ -92,8 +93,7 @@ def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path)
         assert source['payload']['input']['text'] is None
         app.runtime.step()
         assert not app.runtime.store.all('subject_cycles')  # Paused original C is not forced awake.
-        from nana_core.continuity.memory import MemoryService
-        MemoryService(app.runtime.store).forget(result['source_memory_id'], app.runtime.authority)
+        app.forget(result['source_memory_id'])
         import pytest
         with pytest.raises(CoreError):bridge.receive(event)
         assert not app.runtime.store.all('actions')

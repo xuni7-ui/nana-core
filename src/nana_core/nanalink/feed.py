@@ -163,13 +163,12 @@ class FeedCoreBridge:
         # original C sees a source-backed opportunity and may ignore/defer it.
         body = {'platform': 'web.feed', 'account_key': event.account.key,
                 'event_id': event.event_id, 'source_digest': event.raw_sha256,
-                'origin': event.origin, 'source_observed_at_us': event.observed_at_us,
+                'origin': event.origin,
                 'title': '\n'.join(s.text for s in event.segments if s.text)[:512],
                 'references': [s.reference for s in event.segments if s.reference][:8],
                 'publication_is_not_authority': True}
         memory_id = remember(runtime, 'nanalink.feed.' + event.key, body,
                              scope=binding.scope, privacy='PUBLIC')
-        key = 'local.nanalink.feed.' + event.key
         surface = SurfaceEnvelope(domain='LOCAL_INTERACTION', subject_id=runtime.identity_id,
                 platform='web.feed', surface=binding.surface, adapter=binding.adapter,
                 entity_id=binding.entity_id, conversation_id=event.conversation_id,
@@ -182,7 +181,7 @@ class FeedCoreBridge:
         key = source_key(surface)
         previous = runtime.store.db.execute('SELECT queue_id FROM runtime_queue WHERE source_key=?', (key,)).fetchone()
         if previous:
-            return {'state': 'SOURCE_QUEUED_NOT_JUDGED', 'queue_id': previous[0],
+            return {'state': 'ALREADY_ADMITTED_NO_REPLAY', 'queue_id': previous[0],
                     'source_key': key, 'source_memory_id': memory_id,
                     'external_delivery': False, 'execution_authority': False}
         inp = SubjectInput(domain='SOURCED_LIFE', source_key=key, kind='WAKE', origin='SELF_WAKE',
