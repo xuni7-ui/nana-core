@@ -1,0 +1,26 @@
+[
+  {
+    "file": "tests/person_self/conftest.py",
+    "function": "initialize",
+    "source_sha256": "9855208d7afcd2425676d4a5fce28af6bed15c7153e9158c2049671f8548d9a3",
+    "function_text_sha256": "a2ee5aee8363074c0bd9a0d74f08753292a9a3974491c0117dc9182c47f7eebb"
+  },
+  {
+    "file": "tests/independent_life/test_dialogue.py",
+    "function": "relay",
+    "source_sha256": "57473f00881ebdd52e7a1588a57d41ceb234ff11d7f1a501b2ca3e9100528ab4",
+    "function_text_sha256": "508bb47350b3055f63f8b7c248aef748285a3aafdf676ed0e1848d7975d818b6"
+  },
+  {
+    "file": "tests/person_self/test_private_tendency.py",
+    "function": "form",
+    "source_sha256": "3cf20e07e1517ea92f9fce2ef6f0a78307ef691bd118da9deb758523d5cd3855",
+    "function_text_sha256": "09ba40ffb3b1026f1e3b7c484d130d4b3f7f2cc5691a7d70e735c508f56745cd"
+  },
+  {
+    "file": "tests/person_self/test_private_learning_selection.py",
+    "function": "_run_private_g_episode",
+    "source_sha256": "ca7ffa85e684db25b4a7e304d1eed9d3ae1d4ce550867354e4ad9253447e9737",
+    "function_text_sha256": "adc36b771aebe2015d1602ec5cb68afbb6818e18bd3f4d4106faf42d676cc3f0"
+  }
+]

@@ -1,0 +1,20 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2068480, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.81123991, "wall_seconds": 1.7215432209995924, "wanted": "LEARN"}
+{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "WATCH"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED"], "goal_state": "FAILED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_TOP_DEFS", "wanted": "WATCH"}
+{"family_allocated_bytes": 1236992, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.22692702600000003, "wall_seconds": 0.7138583419982751, "wanted": "WATCH"}
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": false, "growth_self_calls": 1, "input_bytes": 55866, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1, "retired": false}
+{"family_allocated_bytes": 2084864, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.660070175, "wall_seconds": 1.5761344349994033, "wanted": "LEARN"}
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"growth_queue_states": [], "measurement": "synthetic_unconfigured_growth_gap", "stored_provider_calls": 1}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2068480, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.6275895140000003, "wall_seconds": 1.5477342800004408, "wanted": "LEARN"}
+{"execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD", "source_commit": "9291f1e5f76f799b8b4bda056418dd390d1a57ea", "cases": [{"case": "learn-return", "PASS": true}, {"case": "watch-ablation", "PASS": true}, {"case": "return-ablation", "PASS": true}, {"case": "resource-recovery", "PASS": true}], "repository_pythonpath": false, "fixture_source": "EXTRACTED_UNMODIFIED_EXISTING_TEST_FUNCTIONS", "qualification_dependencies": "PYTEST_ONLY_EXTERNAL_DIRECTORY", "real_provider_calls": 0, "sqlite": "3.53.1", "physical_phone": "NOT_RUN", "production_changed": false}

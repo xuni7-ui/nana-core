@@ -1,0 +1,11 @@
+{
+  "phase": "prepare",
+  "source_commit": "9291f1e5f76f799b8b4bda056418dd390d1a57ea",
+  "same_identity_lineage_and_private_state": true,
+  "no_new_cognitive_requests_or_cycles_or_actions_after_prepare": false,
+  "request_count": 2,
+  "cycle_count": 16,
+  "learning_jobs": 1,
+  "owner": "STOPPED_BETWEEN_EACH_PROCESS",
+  "real_provider_calls": 0
+}
