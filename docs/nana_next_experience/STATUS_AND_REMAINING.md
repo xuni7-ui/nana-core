@@ -1,6 +1,8 @@
-## 现役revision199 — 原13失败已定向复核
+## 现役revision200 — 原C明确新兴趣与到期承诺竞争
 
-原d39全仓2538pass/13fail/12skip保留；只修旧夹具：完整真实有界practice文档替换已超6144的README，storage非疲劳按c069、显式短超时按8ae120s现行默认。原工作/学习/撤回结果断言不减，41相关24.17s通过，应用源码不改；未再重跑全仓，不拼称全仓PASS。证据full-fixture-reconciliation-20261114。下一集成原C明确新兴趣/到期承诺竞争候选（旧3fail4pass→隔离7pass，41相关），再继续情感/G与原A–H；匹配d39安装证据保留，CURRENT266+409不动。
+精确d39封签源码同9场景5fail4pass→当前真实选择新CREATE/LEARN，承诺PRESSING/整行/显式复查、norm/学习风险/重启重放保留；154相关后补28原HTTP/账本通过，1既有SELF/0新阶段。旧新input49267bytes/reserved61556相同，非商业Token；CREATE多1原INTENTION记录，原数据不删。首次夹具/错误pythonpath保留，见evidence/deliberated-due-promise-20261114。
+
+下一继续Appraisal/情感/私人状态→实际结果→G独立后续迁移、未引用方法发现及原A–H。匹配d39包安装证据保留但不包含当前policy；原d39全仓2538pass/13fail/12skip，13已定向41通过，不称重新全仓通过。CURRENT266+409不变，最终收口再必要APK；真实模型/手机/自然度/跨日长期未资格。
 
 ## 现役revision196
 

@@ -1,0 +1,49 @@
+.....F.                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_original_c_can_choose_new_interest_without_erasing_due_promise[current-norm] _
+
+tmp_path = PosixPath('/dev/shm/nduecandidate2/test_original_c_can_choose_new5')
+preference = 'CREATE', explicit_review = False, prohibited = ('CREATE',)
+risk = 'LOW', expected = None
+
+    @pytest.mark.parametrize('preference,explicit_review,prohibited,risk,expected',[
+        ('CREATE',False,(),'LOW','CREATE'),
+        ('LEARN',False,(),'LOW','LEARN'),
+        ('REST',False,(),'LOW','REST'),
+        (None,False,(),'LOW',None),
+        ('CREATE',True,(),'LOW',None),
+        ('CREATE',False,('CREATE',),'LOW',None),
+        ('LEARN',False,(),'HIGH','REST'),
+    ],ids=['new-creative-choice','new-learning-choice','quiet-still-available','legacy-no-choice','explicit-promise-review','current-norm','learning-risk'])
+    def test_original_c_can_choose_new_interest_without_erasing_due_promise(tmp_path,preference,explicit_review,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();requests=[]
+        class Choosing:
+            descriptor='synthetic-due-promise-motivational-choice'
+            def propose(self,request):
+                requests.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;identity=r.identity_id
+            source=capture(r,'due-promise-evidence',{'source':'SYNTHETIC independently adopted promise'})
+            service=CommitmentService(r.store,r.authority)
+            cid=service.propose(CommitmentCandidate(entity_id='project-user',scope='project-work',description='SYNTHETIC real adopted due promise',support_memory_ids=(source,),due_at_us=clock.utc_now_us()-1))
+            service.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+            original=dict(r.store.one('commitments',cid))
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='new-independent-interest',possible_behaviors=('CREATE','LEARN','REST'),learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'new-interest-with-due-promise',cue.model_dump(mode='json'),predicate='concern.new-independent-interest')
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=prohibited)
+                capture(r,'current-choice-norm',norm.model_dump(mode='json'),predicate='concern.current-choice-norm')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.new-interest-with-due-promise',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,),commitment_check_id=cid if explicit_review else None)
+            chosen=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>           assert chosen.intention.behavior==expected
+E           AssertionError: assert 'CREATE' == None
+E            +  where 'CREATE' = Intention(kind='GOAL_CANDIDATE', purpose='Consider create for the unresolved topic new-independent-interest', slot_key...010ad36a-4bb2-404a-82bb-d42576826d7e', '2334bd3f-3ca1-433b-875b-20923ea946fb'), self_generated=True, behavior='CREATE').behavior
+E            +    where Intention(kind='GOAL_CANDIDATE', purpose='Consider create for the unresolved topic new-independent-interest', slot_key...010ad36a-4bb2-404a-82bb-d42576826d7e', '2334bd3f-3ca1-433b-875b-20923ea946fb'), self_generated=True, behavior='CREATE') = CycleResult(communication_choice=None, conversation_decision=None, experience_need=None, problem_frame=None, context_f...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/person_self/test_deliberated_due_promise.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_due_promise.py::test_original_c_can_choose_new_interest_without_erasing_due_promise[current-norm]
+1 failed, 6 passed in 0.67s

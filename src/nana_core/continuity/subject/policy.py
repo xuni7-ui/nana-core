@@ -162,7 +162,12 @@ def decide(event, situation, appraisal, motives):
     # A due promise remains visible/pressing without making rest or silence
     # unavailable. An explicit promise review still takes its original route;
     # quiet choices later pass the same norm/privacy/resource admission.
-    if situation.due_commitment_ids and (event.commitment_check_id or not (personal_interest or quiet_choice)):
+    # A current, explicitly considered alternative can compete with a due
+    # promise even before it has become a retained interest. Preserve the
+    # promise motive and explicit review; the selected option still passes
+    # the original current norm, learning/resource and execution checks.
+    considered_choice=bool(situation.preferred_behavior in options)
+    if situation.due_commitment_ids and (event.commitment_check_id or not (personal_interest or quiet_choice or considered_choice)):
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))
     if situation.reflection_experience_id:

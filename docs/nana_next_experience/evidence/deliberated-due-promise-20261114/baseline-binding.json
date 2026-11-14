@@ -1,0 +1,8 @@
+{
+  "source": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "baseline_policy_sha256": "289de9862b4554ad5954bf588b6d206d3c492d09af64300c88210b33dc8f994e",
+  "installed_seal_verified": true,
+  "baseline_pytest_pythonpath": "/tmp/nd39/src explicitly set with -o pythonpath",
+  "current_policy_sha256": "6a8905d2a15158b5e559c5d94f84d9abe82c60f6d646da16c470d251d550b6a0",
+  "test_source_sha256": "02e75ddca3c9802009fa3cf84130c29a1712dc8f483c71a5051f3b4847f1d2fd"
+}

@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 199,
-  "as_of_us": 1794636118930313,
+  "revision": 200,
+  "as_of_us": 1794636394513408,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_DELIBERATED_PROMISE_COMPETITION",
+  "status": "IN_PROGRESS_MOTIVATIONAL_CAUSAL_TRANSFER",
   "progress": [
     "d39全仓2538pass/13fail/12skip后，13项旧夹具按现行材料6144边界/存储非疲劳/120s默认修正，41相关24.17s通过，Core源码不改。原d39双构建/实际离线安装与同主体停机返回保留，不拼称全仓PASS。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原方法/明确意见→同C后续选择及G反例已有受控证据；有限社交承诺evaluation不再误标自主REST/DO_NOTHING为受约束，私计划可暂停/重启保留，真实SOCIALIZE仍克制/承诺整行不变。最终132相关，非情绪效果/自主进化。",
+    "原C当前明确新兴趣可与到期承诺竞争；承诺PRESSING/整行、显式复查、原规范/风险/恢复不改。精确d39同场景5fail4pass→集成154相关+后补28通过，HTTP各1/旧新wire49267bytes，不是Token/收费或自主性总完成。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "原D无task_class私人机会可由原C最新认知引用重投仍合格原G方法→同C新私问；D不指定工作目标，暂停/撤回/取消引用/消融有效，无关方法不挤入。196相关，1HTTP/0Goal动作，wire单例+922bytes；真实0，非广泛成长。"
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "下一集成原C明确新兴趣与到期承诺竞争：精确d39旧3fail4pass，隔离7pass/41相关；保留原承诺整行/PRESSING/显式复查/规范/学习风险/重启重放，尚未主线。更广情感/G迁移/未引用方法发现与原A–H继续。",
+    "继续情感意义/可靠结果→G独立后续迁移、未引用方法发现/关联与三阶段装配，以及原A–H；当前C取舍后继未新安装。d39首次全仓2538pass/13fail/12skip后13已定向41通过，非重跑全仓PASS。最终匹配发行/真实模型/设备/长期独立差额保留。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/deliberated-due-promise-20261114/README.md",
     "docs/nana_next_experience/evidence/full-fixture-reconciliation-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-install-d39-20261114/README.md",
     "docs/nana_next_experience/evidence/portable-closure-20261114/README.md",
     "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md",
     "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/provider-lesson-selection-20261113/README.md",
-    "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-focus-20261113/README.md"
+    "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2818,3 +2818,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 d39匹配安装/首次完整回归证据表锚：`7f07b7890a578018c4d21d7a54c5457874c03d1daee4186d557940edae66e4b6`。
 
 - 2026-11-14 原夹具现行契约修复表锚：`d07a0d5c4be1b7ae161ae02bb28e7b099551c4cc7bca9559c3b10e3ac7996595`。
+
+- 2026-11-14 原C明确新兴趣/到期承诺竞争证据表锚：`fa5f28c9b5c18409364143157f9fc1b5623f87b48b77cdd426555ea7108bdb2f`。

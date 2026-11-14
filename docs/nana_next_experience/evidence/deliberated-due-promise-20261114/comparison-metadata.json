@@ -1,0 +1,103 @@
+{
+  "old": [
+    {
+      "case": "test_same_choice_uses_original0",
+      "calls": [
+        {
+          "input_bytes": 49267,
+          "output_bytes": 712,
+          "reserved_bytes": 61556,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 6935,
+          "state": "PROPOSED"
+        }
+      ],
+      "rows": {
+        "cognitive_requests": 1,
+        "runtime_cognition_calls": 0,
+        "continuity_records": 8,
+        "subject_cycles": 1,
+        "actions": 0,
+        "goals": 0,
+        "commitments": 1
+      },
+      "database_allocated_bytes": 868352
+    },
+    {
+      "case": "test_same_choice_uses_original1",
+      "calls": [
+        {
+          "input_bytes": 49267,
+          "output_bytes": 711,
+          "reserved_bytes": 61556,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 3161,
+          "state": "PROPOSED"
+        }
+      ],
+      "rows": {
+        "cognitive_requests": 1,
+        "runtime_cognition_calls": 0,
+        "continuity_records": 8,
+        "subject_cycles": 1,
+        "actions": 0,
+        "goals": 0,
+        "commitments": 1
+      },
+      "database_allocated_bytes": 872448
+    }
+  ],
+  "new": [
+    {
+      "case": "test_same_choice_uses_original0",
+      "calls": [
+        {
+          "input_bytes": 49267,
+          "output_bytes": 712,
+          "reserved_bytes": 61556,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 6402,
+          "state": "PROPOSED"
+        }
+      ],
+      "rows": {
+        "cognitive_requests": 1,
+        "runtime_cognition_calls": 0,
+        "continuity_records": 9,
+        "subject_cycles": 1,
+        "actions": 0,
+        "goals": 0,
+        "commitments": 1
+      },
+      "database_allocated_bytes": 876544
+    },
+    {
+      "case": "test_same_choice_uses_original1",
+      "calls": [
+        {
+          "input_bytes": 49267,
+          "output_bytes": 711,
+          "reserved_bytes": 61556,
+          "reserved_cost_micro": 0,
+          "actual_cost_micro": 0,
+          "latency_us": 4356,
+          "state": "PROPOSED"
+        }
+      ],
+      "rows": {
+        "cognitive_requests": 1,
+        "runtime_cognition_calls": 0,
+        "continuity_records": 8,
+        "subject_cycles": 1,
+        "actions": 0,
+        "goals": 0,
+        "commitments": 1
+      },
+      "database_allocated_bytes": 868352
+    }
+  ],
+  "limits": "Two deterministic synthetic loopback samples; bytes are not Token. Actual commercial Token/cost and CPU not measured. File allocation includes whole fixture, not incremental growth or reclamation."
+}
