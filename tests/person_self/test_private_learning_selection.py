@@ -16,7 +16,7 @@ def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_withou
     _run_private_g_episode(tmp_path,wanted)
 
 
-def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=False,retire_origin=False,resource_gap=False):
+def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=False,retire_origin=False,resource_gap=False,revise_origin=False):
     started=time.perf_counter();cpu_started=time.process_time()
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
     private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
@@ -131,6 +131,19 @@ def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=Fa
                             return json.dumps(value)
                     later.runtime.subject.cognize(SubjectInput(source_key='synthetic.private-g-abandon-origin',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
                         privacy_class='PROJECT',topic='python-api',observed_at_us=clock.utc_now_us()),model=Retire(),authority=later.runtime.authority,policy=later.policy)
+                if revise_origin:
+                    private='SYNTHETIC I have refined the original Python question while awaiting independent later use.'
+                    form(later,'interim-before-growth',private,topic='python-api',revision=rid,kind='private_question')
+                    if revise_origin=='pause':
+                        from nana_core.continuity.cognition import AnalyticalFixturePort
+                        from nana_core.continuity.subject import SubjectInput
+                        current_rid,current_q=next((r,v) for r,v in candidates(later.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+                        class Pause:
+                            descriptor='synthetic-pause-own-question-before-new-outcome'
+                            def propose(self,request):
+                                value=json.loads(AnalyticalFixturePort().propose(request));value['private_question']={'topic':current_q.topic,'question':current_q.content_summary,'revises_record_id':current_rid,'activity_state':'PAUSED'}
+                                return json.dumps(value)
+                        later.runtime.subject.cognize(SubjectInput(source_key='synthetic.private-g-pause-current',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PROJECT',topic='python-api',observed_at_us=clock.utc_now_us()),model=Pause(),authority=later.runtime.authority,policy=later.policy)
                 before_return=next(v for _,v in candidates(later.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
                 from nana_core.continuity.subject.growth_life import project as growth_projection
                 view=growth_projection(later.runtime.store,assessment_id,scope='project-work',privacy_classes=later.runtime.config.privacy_classes)
@@ -181,7 +194,7 @@ def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=Fa
                     'original_interest_projected':bool(reflected and reflected[0][1]),'question_revision':q.revision,'question_changed':q.content_summary==revised_text},sort_keys=True))
                 assert len(requests)==1 and q.revision==before_return.revision+int(changed)
                 assert q.created_at_us==thought.created_at_us and q.content_summary==(revised_text if changed else private)
-                assert q.activity_state==('ABANDONED' if retire_origin else 'ACTIVE')
+                assert q.activity_state==before_return.activity_state
                 after=growth_projection(final.runtime.store,assessment_id,scope='project-work',privacy_classes=final.runtime.config.privacy_classes)
                 assert after and after.state_token==view.state_token
                 assert len(list(final.runtime.store.db.execute("SELECT schedule_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'")))==1
@@ -318,3 +331,8 @@ def test_checked_learning_does_not_reopen_a_closed_context_or_revive_an_abandone
 
 def test_growth_reconsideration_survives_unconfigured_resources_and_later_normal_startup(tmp_path):
     _run_private_g_episode(tmp_path,'LEARN',reverse_growth=True,resource_gap=True)
+
+
+@pytest.mark.parametrize('revision',['rewrite','pause'])
+def test_independent_later_g_use_reaches_the_same_question_after_its_own_revision(tmp_path,revision):
+    _run_private_g_episode(tmp_path,'LEARN',reverse_growth=True,revise_origin=revision)

@@ -104,7 +104,7 @@ def payload_model(data):
         'PRIVATE_QUESTION_V3':PrivateQuestion,'PRIVATE_TENDENCY_V4':PrivateTendency}.get(data.get('contract'))
 
 
-def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False,continuation_entity_id=None):
+def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,intent_id=None,for_decision=False,for_continuation=False,continuation_entity_id=None):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
     # Scope/privacy/current headers precede the bounded payload window. The
@@ -125,12 +125,13 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
         queries=[]
         for index,predicate in (('private_intent_topic_lookup_v1',PRIVATE_INTENT_JSON_FILTER),('private_intent_tendency_topic_v4',PRIVATE_TENDENCY_JSON_FILTER)):
             query="SELECT r.record_id,r.scope,r.privacy_class,r.lifecycle,r.created_at_us,r.rowid AS ordering_row FROM artifacts a INDEXED BY "+index+" JOIN continuity_records r INDEXED BY private_intent_payload_lookup ON r.payload_artifact_id=a.artifact_id WHERE "+predicate.replace('payload','a.payload')+" AND json_extract(CAST(a.payload AS TEXT),'$.owner_identity_id')=? AND json_extract(CAST(a.payload AS TEXT),'$.topic')=? AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' AND r.scope=? AND r.privacy_class IN ("+marks+")"
+            if intent_id is not None:query+=" AND json_extract(CAST(a.payload AS TEXT),'$.intent_id')=?"
             if for_continuation:query+=" AND NOT EXISTS (SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='private-thought.'||r.record_id)"
             queries.append(query)
         # Disjoint format indexes: do not duplicate legacy entries or change
         # the partial predicate an older installed reader explicitly selects.
         sql=' UNION ALL '.join(queries)+' ORDER BY created_at_us DESC,ordering_row DESC LIMIT 64 OFFSET ?'
-        args=(owner_identity_id,topic,scope,*privacy_classes)*2
+        args=(owner_identity_id,topic,scope,*privacy_classes,*((intent_id,) if intent_id is not None else ()))*2
     else:
         # Legacy/read-only/JSON-less engines retain correctness by paging
         # current permitted headers. They never install a cache on inspection.
@@ -150,6 +151,7 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
             data=records.read(row[0])['payload'];model=payload_model(data)
             if model is None:continue
             value=model.model_validate_json(json.dumps(data))
+            if intent_id is not None and value.intent_id!=intent_id:continue
             if topic is not None and value.topic!=topic:continue
             if owner_identity_id is not None and value.owner_identity_id!=owner_identity_id:continue
             if for_decision and (value.status=='WITHDRAWN' or value.disclosure_policy=='WITHDRAWN'
@@ -281,6 +283,33 @@ def review_target(store,reference,*,scope,privacy_classes,topic=None):
             or item.disclosure_policy=='WITHDRAWN'):
         raise CoreError('PRIVATE_INTENT_REVIEW_STALE_OR_UNBOUND')
     return reference.record_id,item
+
+
+
+def growth_origin_target(store,reference,*,scope,privacy_classes,topic):
+    """Current same-topic thought for an independently verified G outcome only.
+
+    Historical origin is authenticated first. This is a read-only context
+    association, never a replacement for exact review/continuation references.
+    """
+    head=store.one('continuity_records',reference.record_id);records=RecordService(store)
+    if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+            or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+            or head['lifecycle'] not in {'ACTIVE','SUPERSEDED'}
+            or not records.current_support(reference.record_id)):return None
+    data=records.read(reference.record_id,include_history=True)['payload'];model=payload_model(data)
+    if model is None:return None
+    origin=model.model_validate_json(json.dumps(data))
+    if (origin.owner_identity_id!=store.identity['identity_id'] or origin.intent_id!=reference.intent_id
+            or origin.revision!=reference.revision or origin.topic!=topic):return None
+    current=candidates(store,scope,privacy_classes,topic=topic,owner_identity_id=origin.owner_identity_id,
+        intent_id=origin.intent_id,for_decision=True)
+    if len(current)!=1:return None
+    rid,item=current[0]
+    if (item.cycle_id!=origin.cycle_id or item.category!=origin.category
+            or item.revision<origin.revision or (rid!=reference.record_id and item.revision==origin.revision)
+            or getattr(item,'created_at_us',None)!=getattr(origin,'created_at_us',None)):return None
+    return rid,item
 
 
 def continuation_target(store,reference,*,scope,privacy_classes):

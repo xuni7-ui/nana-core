@@ -1,8 +1,8 @@
-## 现役revision222 — 匹配929候选已真实下载/独立离线安装，继续Core缺口
+## 现役revision223 — 原G结果可改变同一个已修订私问，暂停不自动复活
 
-固定9291f1e/Brain221的Core285文件双构建同SHA1b71be7c7527f30d5458e9e2bf8605740122ea7887c22665f51df815d70937ef；同源Web双归档cf6a1916709531f7dee909ad3c139f88f623d1588b96d1d03e977565297fd8e6。现有delivery分支1d820c7新增候选、不动CURRENT/旧交付。GitHub新克隆实际重新下载后摘要一致，第二独立槽离线安装/BFF/反馈/十视图/重启撤回通过，非Actions artifact。第一槽原G因果/两消融/资源恢复、SSE/G笔记RENDER/梦境虚拟72h及冷回读通过。静止929→d141→929身份谱系/私问计划倾向/暂停与G job保持，新增请求周期动作0。pytest外部依赖漏py.py、tuple/list夹具首错原日志保留。见evidence/matched-portable-9291f1e-20261114/README.md。
+原G后续独立结果只读关联同owner/intent/cycle/created time/category/topic的当前私人Record，先验历史精确ref/来源/范围隐私，再在64限额前筛选；无索引reader分页保正确。精确review/continuation仍拒绝旧版本，不自动重派发。正常D/C中旧2fail→新第2→3版、PAUSED第3→4仍PAUSED；36pass15.55s/192相关42.78s，70同题/撤回/歧义/owner/范围等反例通过。各仍1次后续SELF，55866→55007bytes非Token，原Growth token/schedule与G独立评价不变。见evidence/private-growth-current-origin-20261114/README.md。
 
-实际CPython3.12.14/SQLite3.53.1，非云端3.51.3；真实模型/手机/生产/自然度/长期未新增，未新APK，CURRENT266+409。929独立CI276pass1warning147.33s仅定向，full/client/portable SKIP。后继源码不冒充此候选匹配；下一已修订origin当前版本的真实行为对照及原情感多动机/G/存储/Token/产品/全部A–H，继续实现不重走已资格构建。
+本批源码比929候选新，未再构建/安装/APK；固定929的双构建/真实GitHub下载/两槽离线安装和静止回退资格保留。无真实模型/手机/生产/自然度/长期，CURRENT266+409。下一原C明确重型兴趣与高负荷REST的A–E实际行为核对及原情感多动机/G/跨topic/存储/Token/产品/全部A–H，按影响分级验证。
 
 ## 现役revision196
 

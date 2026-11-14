@@ -3746,3 +3746,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S3/S4/S6/S8：Growth统一原private分类/原Record水合，无模型等待不由LIGHT替代C，恢复仅1次、前台继续/撤回0次。精确13bf旧3fail→3pass2.84s/116相关57.75s，首错保留；原冷却/预算/schema不变。前继412仅13bf，无新匹配包/APK/CURRENT/真实0；证据growth-resource-recovery-20261114，下一匹配安装回退及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE匹配交付：固定929双构建Core285/同源Web，既有delivery1d820c7候选，GitHub新克隆真实下载/两槽离线安装及原G因果/静止929→d141→929身份私念与G job保持；CI276仅929定向。首错保留，CURRENT/旧制品/生产不改，APK/手机/真实0。证据matched-portable-9291f1e-20261114，下一已修订origin解析及原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G结果关联同一已修订私问当前版，精确旧Ref依旧拒绝；64前intent筛选/原索引只读，暂停不复活，撤回歧义私域等反例有效。c78旧2fail→36pass15.55s/192相关42.78s，各1SELF/55007bytes非Token。未重建929候选/APK/CURRENT/真实0；证据private-growth-current-origin-20261114，下一重型兴趣负荷动机及原A–H。

@@ -67,15 +67,14 @@ def project(store,assessment_id,*,scope,privacy_classes):
             if (body.get('lesson_id')==lesson['lesson_id'] and type(origin) is dict and type(binding) is dict
                     and type(binding.get('entity_id')) is str and type(binding.get('topic')) is str):
                 from .opportunities import PrivateIntentRef
-                from ..autonomy.private_intent import internal_projection
+                from ..autonomy.private_intent import internal_projection,growth_origin_target
                 from .context_fit import depth_boundary
                 try:reference=PrivateIntentRef.model_validate_json(json.dumps(origin))
                 except ValueError:reference=None
-                selected=internal_projection(store,(reference.record_id,),scope=scope,privacy_classes=privacy_classes,include_associations=False) if reference else ()
-                if (selected and selected[0]['intent_id']==reference.intent_id and selected[0]['revision']==reference.revision
-                        and selected[0]['topic']==binding['topic']
-                        and not depth_boundary(store,binding['entity_id'],scope,binding['topic'],privacy_classes,purpose='COGNITION')[0]):
-                    basis=(reference.record_id,)
+                current=growth_origin_target(store,reference,scope=scope,privacy_classes=privacy_classes,topic=binding['topic']) if reference else None
+                selected=internal_projection(store,(current[0],),scope=scope,privacy_classes=privacy_classes,include_associations=False) if current else ()
+                if (selected and not depth_boundary(store,binding['entity_id'],scope,binding['topic'],privacy_classes,purpose='COGNITION')[0]):
+                    basis=(current[0],)
     # Opportunity identity follows the checked outcome, never its current
     # private projection; revising the thought must not repeat this same wake.
     state_token=digest([refs,lesson['revision']])
