@@ -1,5 +1,9 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## C WORKSTREAM — NANA-LINK-01
+
+[实测/用户持续授权，2026-11-15 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`，基线87c32b3290687c4e2ab8dc674dcc36ff4653ac3c；A/B及原CURRENT contract保持。继承映射：[NanaLink](../docs/nanalink/INHERITANCE.md)。P0源码/分支/PR/许可可达性已核对；P1–P7连续实施中。已有QQ/Bili/手机/Core工作流复用；旧QQ Gateway由统一会话承接，未提供的旧回执仍未知。当前最高收益：独立SDK/OneBot到原Core工作流，随后第三源、原手机面板和故障验证。SnowLuma许可/源码404只阻塞native研究。真实账号授权/发送/手机实机/生产NOT_RUN。
+
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->
 {

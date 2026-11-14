@@ -3720,3 +3720,6 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE独立CI43574742202/job132386586263实际396pass/1fail/1warning155.73s，原PUBLIC视频边界因源路径猜测漏装ffmpeg失败。仅原workflow按实际选中测试补原apt依赖，workflow变化加原边界，不改C/测试断言或新框架；本地11pass1.91s/7嵌入块compile，新远端待回执。7ec匹配安装保留不当独立CI绿，证据ci-native-boundary-20261114，原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。
+
+
+### 2026-11-15 · NanaLink P0：核对87c32b3远端基线及PR继承，建立独立worktree/feature分支和C状态入口。为避免重复开发记录QQ/Bili/手机/权限源码映射及SnowLuma许可原文404。验证：git ls-remote/HEAD、GitHub PR元数据与实际源码；无生产/账号/模型调用。

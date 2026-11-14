@@ -1938,3 +1938,6 @@ Runtime4205f31 adds explicit stopped-owner recovery through original exclusive S
 ### 2026-11-11 · 用户创新优先与分级验证
 
 同一A/B主任务采纳[用户实施补充](../docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)。能力、自主性、体验和可验证成长优先；探索定向对照、集成受影响回归、发行/迁移才完整验证。SUPERSEDES普通源码小改自动重复全仓/双构建/安装的执行习惯，不改变必要身份/数据/授权/投递保证、原十域和生产边界。已定位artifact403单列，不重复耗时。下一能力开发继续原C自主性/自然交流/学习迁移，不能把精简流程本身当总任务。
+
+
+### C-NANALINK-001 · 2026-11-15 · 独立C/六层适配，不修改A/B权威契约。用户本轮持续授权覆盖分支、提交、依赖、推送和Draft PR，优先于旧逐项审批条款；真实账号/发送/生产仍另批。复用原PlatformRuntime/Kernel/Store/Surface/手机，不复制SnowLuma/NapCat受限代码。见docs/nanalink/INHERITANCE.md。
