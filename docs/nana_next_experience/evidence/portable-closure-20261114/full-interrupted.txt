@@ -1,0 +1,99 @@
+........................................................................ [  2%]
+........F............................................................... [  5%]
+....................F...
+=================================== FAILURES ===================================
+__ test_sparse_ranking_matches_independent_order_and_falls_back_without_index __
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f8fb378c5f0>, <nana_core.continuity.memory.MemoryService object at 0x7f8fb378eff0>, <nana_core.actions.OperatorAuthority object at 0x7f8fb378fc80>)
+
+    def test_sparse_ranking_matches_independent_order_and_falls_back_without_index(cognitive):
+        import re
+        store, memory, _ = cognitive
+        expected = []
+        for i in range(700):
+            text = f'entry {i} ' + ('needle anchor' if i%17 == 0 else 'ordinary unrelated')
+            src = evidence(memory, f'rank-{i}', text)
+>           mid = add(memory, src, text, importance=(i%10)/10)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_self/test_memory.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/continuous_self/test_memory.py:16: in add
+    return memory.add(MemoryCandidate(entity_id=entity_id, scope="synthetic-home",
+src/nana_core/continuity/memory.py:226: in add
+    tx.put("memories", {"memory_id": memory_id, "entity_id": candidate.entity_id,
+src/nana_core/storage/sqlite_store.py:51: in put
+    self.store._put(table, row)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f8fb378c5f0>
+table = 'memories'
+row = {'memory_id': '2d5cf2cc-2b74-471f-97e8-7e95fcd8550f', 'entity_id': 'synthetic-sister', 'scope': 'synthetic-home', 'memory_type': 'SEMANTIC', ...}
+
+    def _put(self, table, row):
+        if table not in self.keys:
+            raise ValueError(table)
+        allowed = {r["name"] for r in self.db.execute(f"PRAGMA table_info({table})")}
+        if set(row) != allowed:
+            raise ValueError(f"invalid projection row for {table}")
+        columns = list(row)
+        key = self.keys[table]
+        assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != key)
+>       self.db.execute(
+            f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
+            f"ON CONFLICT({key}) DO UPDATE SET {assignments}",
+            list(row.values()),
+        )
+E       sqlite3.OperationalError: database or disk is full
+
+src/nana_core/storage/sqlite_store.py:219: OperationalError
+______ test_bounded_context_important_old_corrected_withdrawn_and_corrupt ______
+
+owned_root = PosixPath('/tmp/nana-cw-93tejpy2')
+
+    def test_bounded_context_important_old_corrected_withdrawn_and_corrupt(owned_root):
+>       result=run(owned_root/'scale',count=600)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/controlled_world/test_memory_scale.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_controlled_world/memory_scale.py:27: in run
+    for i in range(count):put('noise-'+str(i),'trivial tick '+str(i)+' irrelevant noise')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_controlled_world/memory_scale.py:21: in put
+    return m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text,importance=importance,significance=significance,predicate_key=predicate,correction_of=correction,derived_from=derived))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/memory.py:226: in add
+    tx.put("memories", {"memory_id": memory_id, "entity_id": candidate.entity_id,
+src/nana_core/storage/sqlite_store.py:51: in put
+    self.store._put(table, row)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f8fb375aae0>
+table = 'memories'
+row = {'memory_id': '0860429c-57a1-4e18-a693-05488c98468b', 'entity_id': 'observer', 'scope': 'world', 'memory_type': 'EPISODIC', ...}
+
+    def _put(self, table, row):
+        if table not in self.keys:
+            raise ValueError(table)
+        allowed = {r["name"] for r in self.db.execute(f"PRAGMA table_info({table})")}
+        if set(row) != allowed:
+            raise ValueError(f"invalid projection row for {table}")
+        columns = list(row)
+        key = self.keys[table]
+        assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != key)
+>       self.db.execute(
+            f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
+            f"ON CONFLICT({key}) DO UPDATE SET {assignments}",
+            list(row.values()),
+        )
+E       sqlite3.OperationalError: database or disk is full
+
+src/nana_core/storage/sqlite_store.py:219: OperationalError
+=========================== short test summary info ============================
+FAILED tests/continuous_self/test_memory.py::test_sparse_ranking_matches_independent_order_and_falls_back_without_index
+FAILED tests/controlled_world/test_memory_scale.py::test_bounded_context_important_old_corrected_withdrawn_and_corrupt
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/tmp/nana-inner-refinement-work/src/nana_core/continuity/autonomy/relationships.py:66: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+2 failed, 166 passed in 193.88s (0:03:13)

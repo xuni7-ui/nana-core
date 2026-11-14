@@ -1,3 +1,7 @@
+## 现役revision197 — 匹配发行闭包
+
+固定d60首次构建发现原生Anthropic缺运行白名单，已仅补真实模块，原完整性校验不变，19相关通过。d60全仓166pass/2临时库满盘失败后中断；不是全仓PASS，原日志见evidence/portable-closure-20261114。下一固定后继以TMPDIR=/dev/shm双构建/离线安装及同主体安全返回；CURRENT266+409不变。startup/Web与原G方法延续证据保留，原A–H和情感/G广迁移继续。
+
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
 新宿主后台模型资源选项沿原模型预算设置保存，默认关闭；CAS/幂等/同意/CSRF/总量限制保留，旧客户端省略保留已有选项。正常LifeApp在明确重启后绑定原路由/资源，原同身份私问继续；缺router保持未绑定、迁移不带宿主选择。76相关+2针对、TS/Vite/93单测、20四视口及4实际TLS/BFF/Core通过。实际保存后运行仍false/配置true、DB认知请求0，非安装/上线。 证据background-provider-startup-20261114。

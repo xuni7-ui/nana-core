@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/nana-inner-refinement-work/tools/nana_portable_cloud/build.py", line 232, in <module>
+    main()
+  File "/tmp/nana-inner-refinement-work/tools/nana_portable_cloud/build.py", line 228, in main
+    print(json.dumps(build(a.output, a.wheels, a.revision, features=a.feature), indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/tools/nana_portable_cloud/build.py", line 105, in build
+    verify_runtime_closure(selected, files, lambda name: sources[name].decode())
+  File "/tmp/nana-inner-refinement-work/tools/nana_portable_cloud/build.py", line 74, in verify_runtime_closure
+    raise ValueError("RUNTIME_IMPORT_MISSING: " + dep)
+ValueError: RUNTIME_IMPORT_MISSING: src/nana_core/continuity/world_loop/anthropic.py

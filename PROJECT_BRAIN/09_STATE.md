@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 196,
-  "as_of_us": 1794634703148274,
+  "revision": 197,
+  "as_of_us": 1794635041610746,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_BACKGROUND_PROVIDER_STARTUP_PRODUCT",
+  "status": "IN_PROGRESS_MATCHING_PORTABLE_CLOSURE",
   "progress": [
-    "Web后台模型资源选择接原预算/CSRF/CAS/幂等，默认关闭、保存0调用、明确重启后原LifeApp绑定，旧客户端省略保留。TS/Vite/93单测/20四视口与4实际TLS/BFF/Core通过，未新APK/手机/生产。",
+    "原生Anthropic实际模块补原portable白名单；原校验器不改，19打包相关通过。d60全仓166通过/2临时库满盘后中断，未资格；下一TMPDIR=/dev/shm固定后继双构建/离线安装。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -31,14 +31,14 @@
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/portable-closure-20261114/README.md",
     "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md",
     "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/provider-lesson-selection-20261113/README.md",
     "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-focus-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md"
+    "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2812,3 +2812,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [实测] revision195无类别私念方法续用证据private-method-continuation-20261114；源码表SHA256 e1758f10342283654706f15ceef92d4721661b8a66425442d49e5ced94c9e850（表不自指）。196相关通过，原quiet首错与精确c126对照保留，原G暂停/取消引用/撤回/消融及同主体重启有效；尚非广泛成长/发行/真实模型。
 
 [实测] revision196正常后台模型startup/产品证据background-provider-startup-20261114；源码表SHA256 6c0d70128de154daa62b135a538c188eb0d6516440384bc35bef49c884278efa（表不自指）。76相关+2针对、93前端/20合成浏览器/4实际TLS/Core通过；保存0模型调用，迁移不带宿主选择。未全仓/匹配安装/真实模型/手机/生产。
+
+- 2026-11-14 portable闭包指纹锚：`f3e2841868a2e3ba68675a46ac0ba66c3510bc3e8eb962e4b427f608c05b9d55`（不含自身）。
