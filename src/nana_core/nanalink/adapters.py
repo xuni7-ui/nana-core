@@ -43,8 +43,9 @@ class CoreWorkflowAdapter:
                                      if self.account.platform == 'bilibili' else {'message.created'})):
             raise CoreError('NANALINK_ORIGINAL_WORKFLOW_EVENT_REQUIRED')
         result = self.workflow.receive(event.message_id)
-        self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'login': 'AUTHENTICATED',
-                                                       'receive': 'HEALTHY', 'last_event_us': event.observed_at_us})
+        # A prior Core receipt may return without connector I/O. Do not infer
+        # current login/connection health from a successful historical action.
+        self._health = self._health.model_copy(update={'receive': 'HEALTHY', 'last_event_us': event.observed_at_us})
         return receipt_from_core(event.key, result)
 
     async def send(self, invocation):

@@ -3728,3 +3728,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 ### 2026-11-15 · NanaLink C 源码候选
 
 [实测] 独立SDK/五态回执/有界传输、OneBot HTTP/WS/reverse-WS隔离桥、原QQ/Bili工作流包装、原owner C.4通知接线、RSS/Atom与媒体缓存、原手机连接准备/健康已实现。为扩大生活感知且不复制主体，复用原C/Store/Kernel/Grant/原worker；仅增加metadata操作/两个C.4只读路径/停用配置setup及负QQ消息ID兼容，不改主体判断。103相关Python、93既有客户端、12四视口浏览器通过；原主体重启/UNKNOWN无重发、离线wheel安装/插件工厂及UID999/无cap/只读容器运行通过。初始鉴权错误包502、缺开发依赖、Feed结果字段、TLS CA及构建backend缺失均保留并修复。SnowLuma原文404、官方QQ统一Core/完整QR及账号/实机/生产资格未完成；不宣称P0–P7全部完成。证据与精确源指纹随后记录docs/nanalink/evidence。
+
+
+### 2026-11-15 · NanaLink 回执/资源复查修复
+
+[实测] 清除已排空账号计数，历史Core回执不升级当前连接/登录健康；原Verify的NOT_APPLIED/FAILED_EFFECT映射确认失败，C静默映射取消，真实不确定保留UNKNOWN。为修正资源长期有界和五态语义差额，追加反例并对最终源码105相关测试通过51.08s。wheel固定epoch双构建同SHA81dd604d…211dbed，最终离线安装/UID999无cap只读容器status通过；不是实际账号或生产资格。

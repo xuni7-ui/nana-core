@@ -64,6 +64,8 @@ class EventTransport:
             del self.queues[key]
         self.size -= 1
         self.counts[event.account.key] -= 1
+        if self.counts[event.account.key] == 0:
+            del self.counts[event.account.key]
         try:
             result = await handler(event)
             receipt = OperationReceipt.model_validate(result.model_dump())

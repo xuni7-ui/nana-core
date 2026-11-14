@@ -109,3 +109,22 @@ def test_negative_onebot_id_crosses_existing_owner_metadata_contract(tmp_path):
                         platforms=SimpleNamespace(qq=lambda channel,mid:calls.append((channel,mid))))
     dispatch(app,{'operation':'qq-message','channel_id':'primary','message_id':'-7'})
     assert calls==[('primary','-7')]
+
+
+def test_account_churn_does_not_leave_unbounded_empty_queue_counters():
+    async def run():
+        queue=EventTransport(capacity=8,per_account=2,dedupe=8)
+        async def accept(e):return OperationReceipt(operation_id=e.key,outcome=Outcome.UNKNOWN,reason='TEST')
+        for i in range(100):
+            queue.offer(event(str(i),account=str(i+1)))
+            await queue.drain_once(accept)
+        assert queue.counts=={} and len(queue.seen)==8
+    asyncio.run(run())
+
+
+def test_independent_negative_effect_and_silence_do_not_become_unknown_send():
+    from nana_core.nanalink.core_bridge import receipt_from_core
+    assert receipt_from_core('x',{'delivery':'FAILED_EFFECT','action_id':'a'}).outcome==Outcome.CONFIRMED_FAILURE
+    assert receipt_from_core('y',{'delivery':'NOT_APPLIED','action_id':'b'}).outcome==Outcome.CONFIRMED_FAILURE
+    assert receipt_from_core('z',{'delivery':'C_SILENCE_OR_REPLY_UNAVAILABLE'}).outcome==Outcome.CANCELLED
+    assert receipt_from_core('u',{'delivery':'UNKNOWN','action_id':'c'}).outcome==Outcome.UNKNOWN

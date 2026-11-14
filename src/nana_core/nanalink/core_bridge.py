@@ -21,9 +21,10 @@ def receipt_from_core(operation_id, value):
     action = value.get('action_id')
     if state == 'SUCCEEDED' and value.get('external_delivery') is True:
         outcome, reason = Outcome.CONFIRMED_SUCCESS, 'ORIGINAL_KERNEL_VERIFIED'
-    elif state in {'FAILED', 'REJECTED', 'BLOCKED_MANAGER'}:
+    elif state in {'FAILED', 'FAILED_EFFECT', 'NOT_APPLIED', 'REJECTED', 'BLOCKED_MANAGER'}:
         outcome, reason = Outcome.CONFIRMED_FAILURE, state
-    elif state == 'CANCELLED':
+    elif state in {'CANCELLED', 'NO_SOCIAL_DISPATCH_REPLY_NOT_REPLAYED', 'C_SILENCE_OR_REPLY_UNAVAILABLE',
+                   'NOT_AUTHORIZED_OR_NO_MODEL_WORDING'}:
         outcome, reason = Outcome.CANCELLED, 'ORIGINAL_ACTION_CANCELLED'
     else:
         # C silence/source review is not a successful SEND. Preserve an honest
