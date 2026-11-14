@@ -1,0 +1,12 @@
+{
+  "source_commit": "d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf",
+  "same_subject_and_lineage": true,
+  "same_counts": {
+    "identities": 1,
+    "cognitive_requests": 1,
+    "subject_cycles": 2,
+    "actions": 0
+  },
+  "additional_calls_cycles_actions": 0,
+  "startup_option_omitted": true
+}

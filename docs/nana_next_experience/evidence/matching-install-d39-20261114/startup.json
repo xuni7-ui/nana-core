@@ -1,0 +1,18 @@
+{
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "execution": "ACTUAL_INSTALLED_DEV_STARTUP_ORIGINAL_RUNTIME_LOOPBACK",
+  "same_identity": true,
+  "default_off": true,
+  "save_without_apply_or_model": true,
+  "restart_binds_original_provider": true,
+  "original_c_private_continuation": true,
+  "same_condition_no_repeat": true,
+  "disable_restart_and_legacy_field_omission": true,
+  "withdrawal_closes_private_projection": true,
+  "synthetic_http_calls": 1,
+  "real_provider_calls": 0,
+  "actions": 0,
+  "private_python_only": true,
+  "native_anthropic_module_import": "PASS",
+  "production_changed": false
+}

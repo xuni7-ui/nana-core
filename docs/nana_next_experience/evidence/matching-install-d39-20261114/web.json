@@ -1,0 +1,19 @@
+{
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "build_validation": "Prior d60 TS/Vite/93 tests; apps unchanged in d39",
+  "archive_helper": "tools/nana_living_release_v4/build_artifacts.py:web_archive",
+  "outputs": [
+    {
+      "file": "/tmp/nana-d39-web-a.tar.gz",
+      "sha256": "c41032a10a88a596cb8b5df5664b9389bea85516d91c34a1092c85edef9e794d",
+      "bytes": 627740
+    },
+    {
+      "file": "/tmp/nana-d39-web-b.tar.gz",
+      "sha256": "c41032a10a88a596cb8b5df5664b9389bea85516d91c34a1092c85edef9e794d",
+      "bytes": 627740
+    }
+  ],
+  "apk_rebuilt": false,
+  "published_current": false
+}

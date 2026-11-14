@@ -1,0 +1,116 @@
+{
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "tests": 2563,
+  "passed": 2538,
+  "failed": 13,
+  "skipped": 12,
+  "warnings": 7,
+  "seconds": 739.64,
+  "full_pass": false,
+  "failures": [
+    {
+      "test": "tests.controlled_world.test_resource_choice.test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission[cost4]",
+      "message": "AssertionError: assert None == 'REST'"
+    },
+    {
+      "test": "tests.h1_semantics.test_grounding.test_semantic_privacy_isolated_context_stale_and_digest",
+      "message": "AssertionError: assert ('PROPOSED' == 'STALE'\n  \n  - STALE\n  + PROPOSED)"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_board_erasure_source_and_skill_support_close_together",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_volatile_multi_turn_uses_same_context_and_disappears_on_delete",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_provider_tool_is_offline_cas_no_authorization_no_secret_projection",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_missing_grant_and_pause_do_not_become_motivation_erasure",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_explicit_refusal_prevents_model_research_and_future_render",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_partial_document_publish_stays_unknown_no_retry",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_skill_tests_are_sliced_and_foreground_preempts_without_losing_case_cursor",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_legacy_fast_review_is_reconciled_without_timer_reset_or_permission",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_boundaries.test_deleted_fact_cannot_return_through_replayed_model_wording",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_work.test_two_real_task_domains_failure_learning_generated_skill_unseen_use",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    },
+    {
+      "test": "tests.lived_growth.test_work.test_unseen_document_counterexample_retires_bad_transfer_before_another_use",
+      "message": "nana_core.contracts.CoreError: PROJECT_SOURCE_BOUND"
+    }
+  ],
+  "skips": [
+    {
+      "test": "tests.h2_live_screen.test_live.test_ten_real_os_scenes_h1_world_concern_c",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_real_source_b8_transfer_new_display_and_forget",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live.test_visual_injection_payload_cannot_propose_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.offline_continuity.test_experiment.test_E12_real_model_migration",
+      "reason": "E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls"
+    }
+  ],
+  "source_and_packaging_unchanged_during_run": true,
+  "uncollected_owned_WIP_test": "tests/person_self/test_deliberated_due_promise.py added after collection; separately controlled only"
+}

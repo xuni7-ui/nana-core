@@ -1,0 +1,29 @@
+{
+  "bundle_version": 1,
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "schema_version": 13,
+  "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=2.34",
+  "build_timestamp": "2026-11-14T05:44:12+00:00",
+  "timestamp_policy": "SOURCE_COMMIT_TIMESTAMP_REPRODUCIBLE",
+  "dependencies": {
+    "pydantic": "2.13.4",
+    "pydantic-core": "2.46.4",
+    "annotated-types": "0.8.0",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.3",
+    "cryptography": "50.0.0",
+    "cffi": "2.1.1",
+    "pycparser": "3.0",
+    "pillow": "12.3.0"
+  },
+  "features": [
+    "HOST_VAULT",
+    "PUBLIC_VIDEO_FRAMES"
+  ],
+  "secret_binding_contract": 2,
+  "archive_ingress_contract": 1,
+  "bilibili_life_contract": 1,
+  "platform_runtime_contract": 1,
+  "private_context_contract": 1,
+  "real_provider_calls": 0
+}

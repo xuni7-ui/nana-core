@@ -1,0 +1,26 @@
+{
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "status": "CANDIDATE_NOT_SELECTED_OR_PUBLISHED",
+  "files": {
+    "web.tar.gz": {
+      "bytes": 627740,
+      "sha256": "c41032a10a88a596cb8b5df5664b9389bea85516d91c34a1092c85edef9e794d"
+    },
+    "core.tar.gz": {
+      "bytes": 15077920,
+      "sha256": "8ab9a36b90066d1bf0b0b7272d9a4a64dfb8f4efa74f6a89f7e46004c04ee85f"
+    }
+  },
+  "core_double_build_equal": true,
+  "web_double_archive_equal": true,
+  "offline_install": true,
+  "full_regression": "FAILED_13_PASSED_2538_SKIPPED_12",
+  "actual_remote_download": "NOT_QUALIFIED",
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "real_model_calls": 0,
+  "phone": "NOT_RUN",
+  "production": "NOT_CHANGED",
+  "apk": "NOT_REBUILT",
+  "current_selection": "UNCHANGED_CORE266_CLIENT409"
+}

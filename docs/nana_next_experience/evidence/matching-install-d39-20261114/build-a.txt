@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-d39-build-a/nana-first-life-portable-v1.tar.gz",
+  "sha256": "8ab9a36b90066d1bf0b0b7272d9a4a64dfb8f4efa74f6a89f7e46004c04ee85f",
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "bundle_files": 285,
+  "new_provider_calls": 0
+}

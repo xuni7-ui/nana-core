@@ -1,0 +1,10 @@
+{
+  "source_commit": "d39c4e171fb162e30964d29e0b68cf0840499ea7",
+  "run_id": 43562961068,
+  "job_id": 132350633208,
+  "core": "19 passed in 5.69s",
+  "client": "SKIPPED",
+  "full_regression": "SKIPPED",
+  "candidate_install": "SKIPPED",
+  "source": "GitHub connector actual job log read"
+}
