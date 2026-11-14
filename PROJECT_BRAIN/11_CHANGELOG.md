@@ -3736,3 +3736,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S7/多端产品：Anthropic目录沿原有界GET支持用户显式续页，BFF/SDK/Web/Java映射及回显防旧桥假翻页，选模同步原生草稿，原Vault/鉴权/CAS/预算边界不改。旧缺口1fail→103相关/TS-Vite/93单测/四视口16浏览器；误路径0tests及首轮原日志保留。Java/手机未资格，未新APK/匹配包/CURRENT/真实API/生产；证据model-catalog-continuation-20261114，回原C情感/G因果及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6：原C明确修订私人思想生命周期，省略保持原状态，修正改文字隐式唤醒；同一Record/身份/撤回/原D，不新权威。精确d141旧6fail4pass→10pass3.51s/248相关79.12s，各1SELF/+960bytes非Token、非SELF schema不变。首次失败保留，前继d141独立192/93/3Node/160仅归前继。未新包/APK/CURRENT/真实0，证据private-lifecycle-choice-20261114；原D自主选项消费者与原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE 全局资源/S1/S2/S4/S7：原terminal同request完整2xx有效usage→原数字receipt，失败/UNKNOWN与预留不改；原生cache/坏alias保护，撤回重启保留数值且新请求独立。精确3fe旧9fail20pass→29pass7.25s/161相关36.70s，真实0；原始夹具失败保留，前继264仅归3fe。无新阶段/发行/CURRENT，证据failed-response-usage-20261114；回私人兴趣真实G/Planner消费者及原A–H。

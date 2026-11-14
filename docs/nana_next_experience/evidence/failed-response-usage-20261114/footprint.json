@@ -1,0 +1,56 @@
+[
+  {
+    "fixture": "test_rejected_provider_wording3",
+    "receipt_payload_bytes": [],
+    "requests": [
+      [
+        "FAILED",
+        37046,
+        0,
+        null
+      ]
+    ]
+  },
+  {
+    "fixture": "test_rejected_provider_wording2",
+    "receipt_payload_bytes": [
+      123
+    ],
+    "requests": [
+      [
+        "FAILED",
+        37046,
+        0,
+        null
+      ]
+    ]
+  },
+  {
+    "fixture": "test_rejected_provider_wording1",
+    "receipt_payload_bytes": [
+      123
+    ],
+    "requests": [
+      [
+        "FAILED",
+        37046,
+        0,
+        null
+      ]
+    ]
+  },
+  {
+    "fixture": "test_rejected_provider_wording0",
+    "receipt_payload_bytes": [
+      123
+    ],
+    "requests": [
+      [
+        "FAILED",
+        37046,
+        0,
+        null
+      ]
+    ]
+  }
+]

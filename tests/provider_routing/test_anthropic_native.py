@@ -77,14 +77,26 @@ def test_native_wire_original_cognition_usage_and_no_automatic_replay(tmp_path,m
         cid=session.prepare('native-'+mode,'INTERPRET',(mid,));assert session.execute(cid)['state']==expected
         assert len(calls)==1 and not r.store.all('actions') and not r.store.all('grants')
         assert session.execute(cid)['replayed'] and len(calls)==1
-        if mode in {'ok','thinking'}:
-            receipt=json.loads(r.store.one('core_meta','cognition.usage.'+cid)['value_json'])
+        saved=r.store.one('core_meta','cognition.usage.'+cid)
+        if mode!='bad-usage':
+            receipt=json.loads(saved['value_json'])
             assert receipt['input_tokens']==15 and receipt['output_tokens']==4 and receipt['origin']=='SYNTHETIC'
-            assert port.last_response_metadata['finish_reason']=='end_turn'
+            from nana_core.presence.resources import resource_state
+            state=resource_state(r.store,r.config)
+            assert state.fixture_reported_input_tokens==15 and state.fixture_reported_output_tokens==4
+            assert state.provider_reported_input_tokens is None and state.real_usage_reported_calls==0
+            assert port.last_response_metadata['usage']['cache_creation_input_tokens']==3
             assert port.last_response_metadata['usage']['cache_read_input_tokens']==2
+            print(json.dumps({'measurement':'synthetic_native_response_usage','mode':mode,'state':expected,
+                'input_tokens':receipt['input_tokens'],'output_tokens':receipt['output_tokens'],'http_calls':len(calls)},sort_keys=True))
+        else:assert saved is None
+        if mode in {'ok','thinking'}:
+            assert port.last_response_metadata['finish_reason']=='end_turn'
             assert port.last_parse_diagnostic.openai_shape_valid is None
             assert 'SYNTHETIC transient private model reasoning' not in json.dumps(session.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload'])
-        else:assert not r.store.one('core_meta','cognition.usage.'+cid)
+        else:
+            assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL' AND target_id=?",(cid,)).fetchone()
+            assert r.store.one('cognitive_requests',cid)['actual_cost_micro'] is None
 
 
 def test_native_social_does_not_request_an_openai_sse_stream(tmp_path):

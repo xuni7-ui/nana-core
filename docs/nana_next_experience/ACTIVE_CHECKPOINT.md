@@ -1,8 +1,8 @@
-## 现役revision217 — 原C自主暂置、重激活与结束思想
+## 现役revision218 — 失败响应消耗沿原账本计量
 
-沿原PrivateThoughtEdit/原V2-V4记录，C可对已选现有思想明确ACTIVE/PAUSED/ABANDONED；单纯改文字保留状态，不再暗自唤醒。精确d141旧6fail4pass→最终10pass3.51s，248相关79.12s；正常owned HTTP各1SELF，新+960bytes非Token，非SELF schema与默认JSON不变。重启/撤回/同条件无重复/另一思想不受影响；PERSONAL隐私及精确引用保留。首次夹具/过滤失败和隐式唤醒反例均保存，见evidence/private-lifecycle-choice-20261114/README.md。
+同request完整2xx报告的有效usage沿原数字receipt保存，失败/截断/拒绝仍FAILED，费用UNKNOWN/预留/不重发保持；无响应或坏usage不写0。原生Anthropic含cache，坏别名不可过滤成假有效值。精确3fe旧9fail20pass→新29pass7.25s，161相关36.70s；撤回/重启数字保留，UNKNOWN后新独立请求可继续。无新模型阶段，fixture非真实Token/费用。见evidence/failed-response-usage-20261114/README.md，首次夹具失败保留。
 
-前继d141独立CI实际192后端/93前端/3Node/160浏览器通过，仅归前继；全仓/便携包跳过。本批未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409不变。下一沿原消费者核对D私念WATCH/REFLECT/REST对自主探索/创作/学习是否过窄，不把私念强制任务；情感/G/存储/Token/多端发行及全部A–H继续。
+前继3fe独立CI实际264pass96.25s，仅归前继，client/full/portable跳过。本批未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。下一原D私念到原G/Planner消费者的真实接线；目前无program私念仅WATCH/REFLECT/REST，扩大枚举不能证明新能力。情感/多动机/学习迁移、存储/Token/多端最终发行和全部原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

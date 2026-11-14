@@ -1,0 +1,11 @@
+.............{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "partial", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "refusal", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "malformed", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "rate_limit", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+.....{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "ok", "output_tokens": 4, "state": "PROPOSED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "thinking", "output_tokens": 4, "state": "PROPOSED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "truncated", "output_tokens": 4, "state": "FAILED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "tool", "output_tokens": 4, "state": "FAILED"}
+..{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "refusal", "output_tokens": 4, "state": "FAILED"}
+...
+29 passed in 7.25s

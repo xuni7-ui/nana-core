@@ -7,14 +7,14 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 217,
-  "as_of_us": 1794675463784532,
+  "revision": 218,
+  "as_of_us": 1794676173709383,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G独立练习/实际未来Kernel Verify成功经同D/C可形成私人兴趣，新增有界GROWTH_CHANGE沿原上下文，默认分享/观察不改，可REFLECT/REST。精确1ca旧4fail1pass→新5pass，115相关；消融同1SELF后续REFLECT↔WATCH，+1565bytes非Token。",
-    "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
+    "失败/截断/拒绝响应已报告Token沿原数字receipt计量，不接受正文或退款；无响应/坏usage保持未知，原生含cache。精确3fe旧9fail20pass→29pass7.25s，161相关36.70s，来源撤回/重启/UNKNOWN后新请求有效；fixture非真实Token/费用。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "原Anthropic目录可显式续页，保留每批8页/256ID/256KiB/10s与原Vault/CAS/鉴权；BFF/SDK/Web/Java分支传cursor，回显校验拒旧桥假翻页，选模同步原生草稿。103后端/TS-Vite/93单测/四视口16浏览器通过，Java/手机未资格，未新APK。",
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
@@ -26,20 +26,20 @@
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
     "原G WORDLIKE/TEXT仍独立16/32；20万新恢复库144/144仅有限literal本轮资格，旧2timeout不抹除；2字符/大量未索引/更广语义检索学习、真实Core-Iris绑定/长期迁移及最终匹配安装回退仍待，不把扩大范围等同成长。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
-    "完整模型特定Token/费用/超时、更多原生协议/模型产品及Gateway/仓库闭包待。Anthropic文字/有界目录+显式续页已有受控资格，原生媒体/真实API/Java编译/手机/最终匹配安装未资格；保留原未完边界。",
+    "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "本批仅私人生命周期正常C接线/受控资格，原D私念候选仍需核对探索/创作/学习的真实消费者与机会限制；情感/多动机/G未见迁移、物理存储/真实Token/产品发行及原A–H仍需开发，非总完成。"
+    "下一原D私人兴趣→原G/Planner实际消费者接线；无program私念目前仅WATCH/REFLECT/REST，扩大选项不等于可执行能力。情感/多动机/G未见迁移、物理存储/真实Token/产品发行及原A–H仍需开发，非总完成。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/failed-response-usage-20261114/README.md",
     "docs/nana_next_experience/evidence/private-lifecycle-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/model-catalog-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/literal-200k-recovery-20261114/README.md",
     "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md",
     "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md",
     "docs/nana_next_experience/evidence/growth-inner-choice-20261114/README.md",
-    "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-choice-admission-20261114/README.md"
+    "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2856,3 +2856,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 model-catalog-continuation证据指纹锚：`9f829f0f5b3587ba4833d94ccbe8b2c563b4ca4061762a6fffe6f785e61a9ab4`（不自含；非当前运行态证明）。
 
 - 2026-11-14 私人生命周期证据source.sha256锚：`7827d6a700fbf449ad71a83794061c8bb2cc3436706525926e8e94f3d500216c`（仅采集状态，非运行证明）。
+
+- 2026-11-14 失败响应usage证据source.sha256锚：`8fd8a73884674285b35d61c82b6cce9b7289dd69773b97720aa0d174f07c6e9c`（仅采集状态）。

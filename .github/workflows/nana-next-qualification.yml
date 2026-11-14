@@ -84,6 +84,9 @@ on:
       - tests/person_self/test_private_method_continuation.py
       - tests/person_self/test_private_tendency.py
       - tests/person_self/test_private_lifecycle_choice.py
+      - tests/person_self/test_reported_usage.py
+      - src/nana_core/continuity/accounting.py
+      - src/nana_core/presence/resources.py
       - tests/person_self/test_private_feedback_continuation.py
       - tests/person_self/test_private_feedback_formation.py
       - tests/person_self/test_initial_method_tendency.py
@@ -306,6 +309,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('continuity/accounting.py','presence/resources.py','test_reported_usage.py'), ['tests/person_self/test_reported_usage.py','tests/provider_routing/test_anthropic_native.py','tests/portable_subject/test_package.py','tests/continuous_self/test_privacy.py']),
             (('life/config.py','life/application.py','live_api/provider_settings.py','test_background_provider_startup.py','cloud_life/test_operations.py'), ['tests/person_self/test_background_provider_startup.py','tests/cloud_life/test_operations.py','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),
             (('life/dialogue_contracts.py','life/application.py','world_loop/cognition.py','subject/context_fit.py','subject/loop.py','test_inner_communication.py','test_communication_strategy.py','qualification/inner_communication_v1.py'), ['tests/person_self/test_inner_communication.py','tests/person_self/test_communication_strategy.py']),
             (('presence/runtime.py','presence/cognition.py','subject/contracts.py','subject/ingress.py','subject/watch.py'), ['tests/continuous_runtime','tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_context.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
