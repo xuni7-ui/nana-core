@@ -1,8 +1,8 @@
-## 现役revision212 — 原G实际成长可影响自己的兴趣
+## 现役revision213 — 内部WAIT/ASK不被强制任务化
 
-原G独立练习/未见实际Kernel Verify后的成功，沿原D/C/Context有界GROWTH_CHANGE可给私人兴趣机会；原默认不改，可REST/不保留，不造第二学习/情绪循环。精确1ca298文件旧最终4fail1pass→新5pass6.03s；115相关57.64s。投影消融同预算各1SELF、后续各1原fixture，私人倾向影响后续REFLECT/新问题，关闭投影则WATCH；wire+1565bytes非Token，主/WAL/SHM实际分配混合阶段159744/151552bytes，不声称长期存储收益。普通Context不暴露私文、只读/重启/独立反例/来源撤回有效，首次夹具失败保留。见evidence/growth-inner-choice-20261114/README.md。
+复用同一原内部机会分类，初始方法/G/反馈的短念犹豫与原private_ref一样保持NO_ACTION，不新增对外澄清WAIT待办。原普通USER ASK/WAIT/原合法分享保留，不删容量或改执行权限。精确1aee298文件同6场景旧3fail3pass→6pass4.33s，148相关68.63s；两类输入原48136/55412bytes均相同、各1SELF，非Token。私文/撤回/后续聊天/同条件不重复沿原夹具保护。见evidence/private-wait-scope-20261114/README.md。
 
-前继1ca独立CI43596316182/job132451615823实读307pass121.97s，full/client/portable SKIP，不贴本后继。未新包/APK/CURRENT/真实模型/手机/生产；原7ec历史安装非当前在场。下一核对原INTERPRET可靠情境/情感线索如何复用于同C当前评价与私人状态，不把模型推测当事实或另付同源解释；完整A–E、多倾向/长期G、检索存储/Token/多端/原A–H继续。
+1aee独立CI43597477200/job132455167842实读408pass2warning206.15s，full/client/portable SKIP，只归前继。未新包/APK/CURRENT/真实模型/手机/生产，历史7ec临时安装已丢不假称在场。原INTERPRET→原C→RENDER已有方法提案消费与原请求/epoch/范围核验；subject_cognition仅SELF、自由解释不持久化，不能直接塞SELF字段或把情绪猜测变事实。下一沿现有链复用可靠情境/情感理解及多动机/长期G、存储检索/Token/产品/全部A–H；精确状态与证据已入库，非总工程完成。
 
 ## 现役revision196
 

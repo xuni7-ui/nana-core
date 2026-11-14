@@ -358,6 +358,13 @@ def consider_tendency(event,situation,judgment,intention,proposal):
     return _consider_formation(event,situation,judgment,intention,proposal)
 
 
+def is_private_consideration(event):
+    """Existing internal opportunities, not public questions or work requests."""
+    return event.origin=='SELF_WAKE' and (event.private_thought_ref is not None
+        or event.communication_method_record_id is not None or event.growth_assessment_id is not None
+        or event.task_class=='private.feedback.review')
+
+
 def can_consider_private_formation(event,situation,judgment,intention):
     """The original C's pre-choice, reused by D only to allocate its method."""
     if (event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'

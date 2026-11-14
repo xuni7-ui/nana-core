@@ -1,0 +1,6 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "transient", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3080, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1543176}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "private-ask", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 2882, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1547272}
+...{"condition": "ablated", "input_bytes": 55412, "latency_us": 3057, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 0, "reserved_bytes": 67701, "runtime_cpu_seconds": 0.8922738740000002, "self_calls": 1, "sqlite_family_allocated_after": 3993600, "sqlite_family_allocated_before": 3846144}
+{"chosen_behavior": "WATCH", "condition": "ablated", "extra_provider_calls": 0, "later_fixture_calls": 1, "measurement": "synthetic_growth_later_choice"}
+.
+5 passed, 13 deselected in 3.51s

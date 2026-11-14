@@ -3726,3 +3726,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S6：原D在64有效注意上限前应用既有处理资格，64关闭研究私念不再挤掉合法新方法；愿望/送达-only分离保持。旧Runtime0SELF→新1SELF/同条件不重复，216相关66.81s、成本补2pass，52351inputbytes非Token。22a独立CI488pass仅归前继；首次失败/误路径0tests保留，未新包/APK/CURRENT/生产。证据attention-eligibility-20261114；下一G→私人关注及原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G独立未见实际Verify成功可经原D/C形成私人兴趣并影响后续REFLECT/新疑问；投影消融同1SELF后续WATCH，可REST/不绑定0调用，普通Context隐藏、重启/反例/撤回有效。精确1ca旧最终4fail1pass→5pass，115相关57.64s；+1565inputbytes非Token、分配空间/CPU单样本原样。1ca独立307pass仅归前继，未新包/APK/CURRENT/真实0；证据growth-inner-choice-20261114，下一INTERPRET情境复用/情感与原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6/S7：复用同一内部机会分类，原D方法/G短念WAIT或内部ASK保持NO_ACTION未决，不新增对外澄清待办；原反馈旧正确对照/普通USER ASK WAIT保留。精确1aee同6场景旧3fail3pass→6pass，148相关68.63s，同1SELF/同48136或55412inputbytes非Token；1aee独立408pass仅前继。未新包/APK/CURRENT/真实0，证据private-wait-scope-20261114；INTERPRET真实接线边界已核对，下一情感/多动机及原A–H。

@@ -1,0 +1,200 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "transient", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3373, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1551392}
+F{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "private-ask", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3424, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1555488}
+F{"condition": "ablated", "input_bytes": 55412, "latency_us": 3352, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 0, "reserved_bytes": 67701, "runtime_cpu_seconds": 0.9398327690000001, "self_calls": 1, "sqlite_family_allocated_after": 3973120, "sqlite_family_allocated_before": 3821568}
+F
+=================================== FAILURES ===================================
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[transient] _
+
+tmp_path = PosixPath('/dev/shm/pwait-old/test_original_method_and_actua0')
+condition = 'transient'
+
+    @pytest.mark.parametrize('condition',['form','pending-restart','rest','transient','private-ask','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition in {'form','pending-restart'} else ['ASK'] if condition=='private-ask' else ['WAIT']}
+            if condition in {'form','pending-restart'}:proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition in {'transient','private-ask'}:proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            if condition=='pending-restart':
+                with LifeApplication(home,clock=clock,router=router) as staging:
+                    staging.pause(False);staging.runtime.refresh_attention();staging.runtime._watch_sources()
+                    assert len(requests)==2
+                    assert any('communication_method_record_id' in row['template_json'] for row in staging.runtime.store.all('runtime_schedules'))
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw(event):
+                        if getattr(event,'communication_method_record_id',None):app.forget(turn['message_memory_id'])
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_initial_method','condition':condition,'self_http_calls':len(seen),
+                    'configured_input_tokens':load_config(home).provider_context_tokens,'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
+                    'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
+                assert len(seen)==(1 if condition in {'form','pending-restart','rest','transient','private-ask'} else 0)
+                if condition in {'transient','private-ask'}:
+>                   assert not app.runtime.store.db.execute("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()
+E                   assert not <sqlite3.Row object at 0x7fae5e43d780>
+E                    +  where <sqlite3.Row object at 0x7fae5e43d780> = <built-in method fetchone of sqlite3.Cursor object at 0x7fae5e0797c0>()
+E                    +    where <built-in method fetchone of sqlite3.Cursor object at 0x7fae5e0797c0> = <sqlite3.Cursor object at 0x7fae5e0797c0>.fetchone
+E                    +      where <sqlite3.Cursor object at 0x7fae5e0797c0> = <built-in method execute of sqlite3.Connection object at 0x7fae5e1af880>("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'")
+E                    +        where <built-in method execute of sqlite3.Connection object at 0x7fae5e1af880> = <sqlite3.Connection object at 0x7fae5e1af880>.execute
+E                    +          where <sqlite3.Connection object at 0x7fae5e1af880> = <nana_core.continuity.store.ContinuityStore object at 0x7fae5e311700>.db
+E                    +            where <nana_core.continuity.store.ContinuityStore object at 0x7fae5e311700> = <nana_core.presence.runtime.NanaRuntime object at 0x7fae5e72ac60>.store
+E                    +              where <nana_core.presence.runtime.NanaRuntime object at 0x7fae5e72ac60> = <nana_core.life.application.LifeApplication object at 0x7fae5e6749e0>.runtime
+
+tests/person_self/test_initial_method_tendency.py:71: AssertionError
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[private-ask] _
+
+tmp_path = PosixPath('/dev/shm/pwait-old/test_original_method_and_actua1')
+condition = 'private-ask'
+
+    @pytest.mark.parametrize('condition',['form','pending-restart','rest','transient','private-ask','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition in {'form','pending-restart'} else ['ASK'] if condition=='private-ask' else ['WAIT']}
+            if condition in {'form','pending-restart'}:proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition in {'transient','private-ask'}:proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            if condition=='pending-restart':
+                with LifeApplication(home,clock=clock,router=router) as staging:
+                    staging.pause(False);staging.runtime.refresh_attention();staging.runtime._watch_sources()
+                    assert len(requests)==2
+                    assert any('communication_method_record_id' in row['template_json'] for row in staging.runtime.store.all('runtime_schedules'))
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw(event):
+                        if getattr(event,'communication_method_record_id',None):app.forget(turn['message_memory_id'])
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_initial_method','condition':condition,'self_http_calls':len(seen),
+                    'configured_input_tokens':load_config(home).provider_context_tokens,'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
+                    'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
+                assert len(seen)==(1 if condition in {'form','pending-restart','rest','transient','private-ask'} else 0)
+                if condition in {'transient','private-ask'}:
+>                   assert not app.runtime.store.db.execute("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()
+E                   assert not <sqlite3.Row object at 0x7fae5e442530>
+E                    +  where <sqlite3.Row object at 0x7fae5e442530> = <built-in method fetchone of sqlite3.Cursor object at 0x7fae5dfc0cc0>()
+E                    +    where <built-in method fetchone of sqlite3.Cursor object at 0x7fae5dfc0cc0> = <sqlite3.Cursor object at 0x7fae5dfc0cc0>.fetchone
+E                    +      where <sqlite3.Cursor object at 0x7fae5dfc0cc0> = <built-in method execute of sqlite3.Connection object at 0x7fae5df60b80>("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'")
+E                    +        where <built-in method execute of sqlite3.Connection object at 0x7fae5df60b80> = <sqlite3.Connection object at 0x7fae5df60b80>.execute
+E                    +          where <sqlite3.Connection object at 0x7fae5df60b80> = <nana_core.continuity.store.ContinuityStore object at 0x7fae5e436900>.db
+E                    +            where <nana_core.continuity.store.ContinuityStore object at 0x7fae5e436900> = <nana_core.presence.runtime.NanaRuntime object at 0x7fae5e437ef0>.store
+E                    +              where <nana_core.presence.runtime.NanaRuntime object at 0x7fae5e437ef0> = <nana_core.life.application.LifeApplication object at 0x7fae5e9f0440>.runtime
+
+tests/person_self/test_initial_method_tendency.py:71: AssertionError
+_ test_original_g_success_can_inform_own_interest_without_mandatory_sharing[ablated] _
+
+tmp_path = PosixPath('/dev/shm/pwait-old/test_original_g_success_can_in0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fae5e19d2b0>
+condition = 'ablated'
+
+    @pytest.mark.parametrize('condition',['active','rest','available-rest','ablated','no-provider'])
+    def test_original_g_success_can_inform_own_interest_without_mandatory_sharing(tmp_path,monkeypatch,condition):
+        clock=VirtualClock();seen=[]
+        def propose(request):
+            package=json.loads(request.context_json);blocks=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='GROWTH_CHANGE']
+            frame=next(json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert 'PRIVATE_GROWTH_INTEREST_CANARY' not in request.context_json
+            seen.append((request,blocks,frame))
+            use=bool(blocks) and condition not in {'rest','available-rest'}
+            return StructuredProposal(interpretation='SYNTHETIC choose privately after actual checked growth',subject_cognition=CognitiveProposal(
+                identity_id=package['manifest']['identity_id'],identity_revision=package['manifest']['identity_revision'],
+                interpretation='SYNTHETIC current skill may inspire play; no external emotion or benefit is inferred',
+                preferred_behavior='REFLECT' if use else 'REST' if condition in {'rest','available-rest'} else 'WATCH',
+                proposed_operations=('DRAFT',) if use else ('WAIT',),
+                private_tendency={'topic':'own-growth-play','tendency':'PRIVATE_GROWTH_INTEREST_CANARY: I would like to try playful measurement in my own creative time.'} if use else None))
+        with grown(tmp_path/condition,clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            from tests.world_loop.test_model_framing import bind as bind_counter
+            bind_counter(transport)
+            if condition=='available-rest':presence(r,'growth-recipient-available','AVAILABLE')
+            if condition=='ablated':monkeypatch.setattr(growth_life,'context_projection',lambda *args,**kwargs:None,raising=False)
+            if condition!='no-provider':bind(r,transport,context_policy())
+            before={table:len(r.store.all(table)) for table in ('goals','actions','grants')}
+            waiting_before=r.store.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()[0]
+            def allocated():
+                return sum(p.stat().st_blocks*512 for p in (Path(str(r.store.path)+suffix) for suffix in ('','-wal','-shm')) if p.exists())
+            disk_before=allocated();cpu_before=time.process_time()
+            clock.advance(3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            for _ in range(12):r.step()
+            for _ in range(3):r.refresh_attention();r.step()
+            values=private_intent.candidates(r.store,'world',('PUBLIC','PROJECT','PERSONAL'))
+            own=[(rid,v) for rid,v in values if v.category=='PRIVATE_TENDENCY' and v.topic=='own-growth-play']
+            measure=r.store.one('cognitive_requests',seen[0][0].request_id) if seen else None
+            print(json.dumps({'measurement':'synthetic_independent_growth_to_private_choice','condition':condition,'self_calls':state['calls'],'private_tendencies':len(own),'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,'sqlite_family_allocated_before':disk_before,'sqlite_family_allocated_after':allocated(),'runtime_cpu_seconds':time.process_time()-cpu_before},sort_keys=True))
+            assert state['calls']==(0 if condition=='no-provider' else 1)
+            assert bool(own)==(condition=='active')
+            assert before=={table:len(r.store.all(table)) for table in before}
+>           assert waiting_before==r.store.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()[0]
+E           assert 0 == 1
+
+tests/person_self/test_growth_inner_choice.py:90: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[transient]
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[private-ask]
+FAILED tests/person_self/test_growth_inner_choice.py::test_original_g_success_can_inform_own_interest_without_mandatory_sharing[ablated]
+3 failed, 13 deselected in 3.19s

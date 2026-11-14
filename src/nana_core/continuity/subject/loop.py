@@ -444,7 +444,7 @@ class SubjectLoop:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
-                from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency
+                from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency,is_private_consideration
                 private_question=(consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
                     if self.store.schema_target>=13 else None)
                 private_plan=(consider_plan(event,situation,judgment,intention,_deliberation.proposal.private_plan)
@@ -466,7 +466,7 @@ class SubjectLoop:
                     judgment = Judgment(stance='ASK' if 'ASK' in operations else 'DEFER',
                         reason='Cognitive proposal requests clarification or waiting; no unsupported truth is adopted',
                         source_ids=situation.memory_ids)
-                    if event.private_thought_ref is not None:
+                    if is_private_consideration(event):
                         # An unresolved private thought is not another external
                         # task or an outward request for clarification.
                         intention = Intention(kind='NO_ACTION', purpose='Keep the private concern open without allocating a task or asking outwardly',

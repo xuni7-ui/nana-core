@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 212,
-  "as_of_us": 1794661161566733,
+  "revision": 213,
+  "as_of_us": 1794661772263145,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_INTERPRET_REUSE",
@@ -20,7 +20,7 @@
     "原C明确新兴趣/到期承诺竞争已接；计划步骤投影前移C，可选其他活动且不携该步骤target。精确9b旧11fail→新11pass，199相关后补36通过，实际有Grant也不误执行，原复查后同goal继续；HTTP各1/wire+618bytes非Token，真实0。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "原D64有效上限前按COGNITION筛处理资格，64暂不处理私念不挤新方法；愿望/送达-only分开。216相关66.81s/1SELF52351bytes非Token；前继1ca独立307pass已实读，非本后继CI。"
+    "原D私念/方法/G/反馈的WAIT或内部ASK沿同一分类保持NO_ACTION未决，不强制对外澄清待办；普通USER ASK/WAIT保留。精确1aee298文件旧3fail3pass→6pass，148相关68.63s；同1SELF/同48136或55412inputbytes非Token。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -29,17 +29,17 @@
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "原G→内部关注窄闭环已受控，未证明真实情感/广泛成长。下一核对原INTERPRET情境/情感理解复用同C评价/私人状态，避免重复付费；自主性完整A–E、多时间尺度/私人状态与普通表达因果仍需开发，全部原A–H继续。"
+    "原INTERPRET→原C已有communication_proposal且SELF候选按角色隔离，不能直接塞字段绕过。下一复用可靠情境/情感理解于C评价/私人状态；完整A–E、多时间尺度/多动机/广G迁移及全部原A–H仍需开发。1aee独立408pass仅前继，当前匹配安装/CI待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md",
     "docs/nana_next_experience/evidence/growth-inner-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md",
     "docs/nana_next_experience/evidence/private-choice-admission-20261114/README.md",
     "docs/nana_next_experience/evidence/initial-method-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md",
-    "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md",
-    "docs/nana_next_experience/evidence/feedback-first-tendency-20261114/README.md"
+    "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2845,3 +2845,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 attention-eligibility原始证据指纹锚：`8470df1e62d3fdb1c9c2bb9ef518709407d4e007bd21292b8278259179495313`（不自含；非当前运行态证明）。
 
 - 2026-11-14 growth-inner-choice证据指纹锚：`fdec203d7e5f7e5cc6d2ab97f979fbd74584033067fc1f1e220449bc2d326fe3`（不自含；非当前运行态证明）。
+
+- 2026-11-14 private-wait-scope证据指纹锚：`267c0c2d8445424790e31632aa83e2a3a276b9d2cfc4df88b8705f5971d01950`（不自含；非当前运行态证明）。

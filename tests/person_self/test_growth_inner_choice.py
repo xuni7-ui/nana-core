@@ -73,6 +73,7 @@ def test_original_g_success_can_inform_own_interest_without_mandatory_sharing(tm
         if condition=='ablated':monkeypatch.setattr(growth_life,'context_projection',lambda *args,**kwargs:None,raising=False)
         if condition!='no-provider':bind(r,transport,context_policy())
         before={table:len(r.store.all(table)) for table in ('goals','actions','grants')}
+        waiting_before=r.store.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()[0]
         def allocated():
             return sum(p.stat().st_blocks*512 for p in (Path(str(r.store.path)+suffix) for suffix in ('','-wal','-shm')) if p.exists())
         disk_before=allocated();cpu_before=time.process_time()
@@ -86,6 +87,7 @@ def test_original_g_success_can_inform_own_interest_without_mandatory_sharing(tm
         assert state['calls']==(0 if condition=='no-provider' else 1)
         assert bool(own)==(condition=='active')
         assert before=={table:len(r.store.all(table)) for table in before}
+        assert waiting_before==r.store.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()[0]
         if seen:
             assert {'REFLECT','REST'}<=set(seen[0][2]['behavior_options'])
             if condition!='ablated':assert seen[0][1][0]['lesson_id']==lesson and seen[0][1][0]['method']=='NUMERIC_SUM'

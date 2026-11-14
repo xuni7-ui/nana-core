@@ -12,7 +12,7 @@ from .test_private_tendency import current
 from .test_private_feedback_continuation import wording
 
 
-@pytest.mark.parametrize('condition',['form','pending-restart','rest','transient','no-method','no-retention','disabled','withdrawn','source-race'])
+@pytest.mark.parametrize('condition',['form','pending-restart','rest','transient','private-ask','no-method','no-retention','disabled','withdrawn','source-race'])
 def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
     statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
@@ -30,9 +30,9 @@ def test_original_method_and_actual_statement_can_offer_first_c_thought_without_
         assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
         assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
         proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
-            'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition in {'form','pending-restart'} else ['WAIT']}
+            'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition in {'form','pending-restart'} else ['ASK'] if condition=='private-ask' else ['WAIT']}
         if condition in {'form','pending-restart'}:proposal['private_tendency']={'topic':'initial-care','tendency':private}
-        if condition=='transient':proposal['passing_thought']=passing
+        if condition in {'transient','private-ask'}:proposal['passing_thought']=passing
         return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
     with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
@@ -66,7 +66,9 @@ def test_original_method_and_actual_statement_can_offer_first_c_thought_without_
                 'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
                 'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
                 'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
-            assert len(seen)==(1 if condition in {'form','pending-restart','rest','transient'} else 0)
+            assert len(seen)==(1 if condition in {'form','pending-restart','rest','transient','private-ask'} else 0)
+            if condition in {'transient','private-ask'}:
+                assert not app.runtime.store.db.execute("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()
             formed=current(app);assert bool(formed)==(condition in {'form','pending-restart'})
             if formed:
                 assert formed[0][1].content_summary==private and turn['message_memory_id'] in formed[0][1].source_memory_ids
@@ -77,11 +79,31 @@ def test_original_method_and_actual_statement_can_offer_first_c_thought_without_
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants') and not app.runtime.store.all('world_beliefs')
             assert not app.runtime.store.db.execute('SELECT 1 FROM events WHERE instr(data_json,?)>0 OR instr(data_json,?)>0',(private,passing)).fetchone()
             app.pause()
-            if condition in {'form','pending-restart','rest','transient'}:
+            if condition in {'form','pending-restart','rest','transient','private-ask'}:
                 later=app.chat('SYNTHETIC a different later conversation',topic='initial-care',privacy='PERSONAL',message_id='later')
                 assert later['text']==('SYNTHETIC ordinary-chat method' if condition in {'form','pending-restart'} else 'SYNTHETIC listening method')
                 assert private not in requests[-1]['context_json'] and passing not in requests[-1]['context_json']
                 app.forget(turn['message_memory_id']);assert not current(app)
+
+
+@pytest.mark.parametrize('operation',['ASK','WAIT'])
+def test_ordinary_user_clarification_keeps_original_wait_intention(tmp_path,operation):
+    from nana_core.continuity.subject import SubjectInput
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    class Ordinary:
+        descriptor='synthetic-ordinary-clarification-control'
+        def propose(self,request):
+            value=json.loads(AnalyticalFixturePort().propose(request));value['proposed_operations']=[operation]
+            return json.dumps(value)
+    with LifeApplication(home,clock=clock) as app:
+        app.pause();r=app.runtime
+        result=r.subject.cognize(SubjectInput(source_key='synthetic.ordinary-clarification',kind='INTERACTION',origin='USER',
+            entity_id='project-user',scope='project-work',privacy_class='PROJECT',text='SYNTHETIC ordinary ambiguous request',
+            significance='RELEVANT',observed_at_us=clock.utc_now_us()),model=Ordinary(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind=='WAIT' and result.judgment.stance==('ASK' if operation=='ASK' else 'DEFER')
+        assert r.store.one('subject_intentions',result.intention_id)['state']=='PENDING'
+        assert not r.store.all('goals') and not r.store.all('actions')
 
 
 def test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model(tmp_path):
