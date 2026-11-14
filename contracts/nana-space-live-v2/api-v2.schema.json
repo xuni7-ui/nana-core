@@ -1632,6 +1632,95 @@
       "title": "PlatformCredentialRequest",
       "type": "object"
     },
+    "PlatformSetupRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "method": {
+          "enum": [
+            "qq.onebot",
+            "bilibili.account"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "account_id": {
+          "pattern": "^[0-9]{1,20}$",
+          "title": "Account Id",
+          "type": "string"
+        },
+        "peer_id": {
+          "pattern": "^[0-9]{1,20}$",
+          "title": "Peer Id",
+          "type": "string"
+        },
+        "sender_id": {
+          "pattern": "^[0-9]{1,20}$",
+          "title": "Sender Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "private",
+            "group",
+            "dm",
+            "comment"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "endpoint": {
+          "default": "http://127.0.0.1:18790",
+          "maxLength": 256,
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "configuration_revision": {
+          "minimum": 1,
+          "title": "Configuration Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "method",
+        "account_id",
+        "peer_id",
+        "sender_id",
+        "kind",
+        "configuration_revision"
+      ],
+      "title": "PlatformSetupRequest",
+      "type": "object"
+    },
     "ProviderCommand": {
       "additionalProperties": false,
       "properties": {

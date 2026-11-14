@@ -1,3 +1,5 @@
+import { NanaLinkSetup } from "./NanaLinkSetup";
+import { linkHealth, healthWords } from "../../data/nanalink";
 import { useEffect, useState } from "react";
 import { V2Client, object, writeBase, isNative } from "../../data/v2";
 import type { Envelope } from "../../data/v2.generated";
@@ -52,12 +54,18 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
     } catch { setMessage("未确认凭据变更。请刷新核对；需要支持此功能的 Android 版本及管理权限。"); }
     finally { setBusy(false); }
   };
-  return <V3Card title="连接生活入口" eyebrow="ONE CORE · LIVE CHANNELS">
+  return <V3Card title="NanaLink · 平台连接" eyebrow="ONE CORE · LIVE CHANNELS">
     <p className="v3-muted">每个入口都回到同一个主体。连接设置、读取许可与发送授权分别核验。</p>
-    {!rows.length && <p className="v3-muted">还没有绑定可用的 QQ / B站账号通道。云端完成账号与联系人绑定后会显示在这里。</p>}
+    <NanaLinkSetup client={client} status={status} canManage={canManage} onSaved={refresh}/>
+    {!rows.length && <p className="v3-muted">还没有平台连接。可以先保存账号与会话配置，再完成对应平台授权。</p>}
     {rows.map(row => <article className="v3-card" key={`${row.platform}.${row.channel_id}`}>
-      <h3>{row.platform === "qq" ? "QQ" : "哔哩哔哩"} · {String(row.channel_id)}</h3>
+      <h3>{row.platform === "qq" ? "QQ" : "哔哩哔哩"} · {row.account_label || String(row.channel_id)}{row.conversation_kind ? " · " + (({private:"私聊",group:"群聊",dm:"私信",comment:"评论"} as Record<string,string>)[row.conversation_kind] || "") : ""}</h3>
       <p>{row.enabled ? "通道已启用" : "通道已暂停"} · {row.secret_state === "AVAILABLE" ? "凭据已绑定" : "等待宿主安全凭据"}</p>
+      <p>{healthWords(linkHealth(data,row.platform,row.channel_id))}</p>
+      {linkHealth(data,row.platform,row.channel_id)?.capabilities.length ? <details><summary>此连接支持的能力</summary><ul>
+        {linkHealth(data,row.platform,row.channel_id)!.capabilities.map(c=><li key={c.name}>{c.name} · {c.available?"可用":"暂不支持或未授权"}</li>)}
+      </ul></details> : null}
+      {!row.read_authorized && <p className="v3-muted">等待账号与读取范围授权。请在对应平台完成登录，并由宿主绑定授权；保存配置不会自动读取。</p>}
       <p className="v3-muted">{row.state === "SUCCEEDED" ? "最近一次投递已核实" : row.state === "UNKNOWN" ? "最近投递待核实，不会重发"
         : row.state === "NOT_OBSERVED" ? "尚无本次运行的投递记录" : "最近状态待核对"}</p>
       <button className="v3-button soft" disabled={busy || !canManage || row.read_authorized !== true}

@@ -1,0 +1,25 @@
+# Development template only. No automatic deployment, account login or Core restart.
+services:
+  nanalink:
+    build:
+      context: ../..
+      dockerfile: deployment/nanalink/Dockerfile
+    image: nana-link:1.0.0-dev
+    user: "999:999"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    # Share ONLY the explicitly selected existing Core network namespace so its
+    # unmodified loopback-only transport can reach the sidecar. No host PID,
+    # ptrace, Docker socket, Core DB or Core provider vault is mounted.
+    network_mode: "container:${NANA_CORE_CONTAINER:?set existing authorized Core container}"
+    pids_limit: 64
+    mem_limit: 192m
+    cpus: 0.5
+    restart: "no"
+    tmpfs:
+      - /tmp:size=8m,mode=1777
+    volumes:
+      - ${NANALINK_CONFIG:?set private session config}:/run/nanalink/config.json:ro
+      - ${NANALINK_ADAPTER_VAULT:?set isolated adapter-only vault}:/run/nanalink/vault:ro
+    command: [--config, /run/nanalink/config.json, --adapter-vault, /run/nanalink/vault]

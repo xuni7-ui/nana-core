@@ -1,0 +1,73 @@
+name: NanaLink source qualification
+on:
+  pull_request:
+    branches: [dev/nana-core-next-experience-codex]
+    paths:
+      - .github/workflows/nanalink-source.yml
+      - src/nana_core/nanalink/**
+      - src/nana_core/life/platform*.py
+      - src/nana_core/life/bilibili*.py
+      - src/nana_core/life/control.py
+      - src/nana_core/life/live_api/**
+      - tests/nanalink/**
+      - requirements-nanalink.lock
+      - pyproject.toml
+      - apps/nana-space/**
+      - tools/nanalink*.py
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nanalink-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/artifacts/
+            !/CLOUD_DEPLOY_HANDOFF/
+            !/NANA_CORE_LIVING_V4_RELEASE/
+      - uses: astral-sh/setup-uv@v6
+      - name: Private pinned interpreter and optional sidecar dependencies
+        run: |
+          umask 077
+          mkdir -p work
+          uv python install 3.12.14
+          uv venv --python 3.12.14 work/venv
+          uv pip install --python work/venv/bin/python -r requirements-core-dev.lock -r requirements-nanalink.lock
+          work/venv/bin/python -c 'import sqlite3; assert sqlite3.sqlite_version_info >= (3,51,3)'
+      - name: Original owner and owned HTTP/WS qualification
+        env:
+          PYTHONPATH: src:.
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          work/venv/bin/python tools/nanalink_sync_c4.py --check
+          work/venv/bin/python -m tools.nana_first_life_android_v2.schema
+          git diff --exit-code -- contracts/nana-space-live-v2 apps/nana-space/src/data/v2.generated.ts
+          work/venv/bin/python -m pytest -q tests/nanalink tests/living_release_v4/test_platform_bridge.py tests/living_release_v4/test_platform_runtime.py tests/living_release_v4/test_platform_joint.py tests/living_release_v4/test_platform_settings.py tests/living_release_v4/test_platform_events.py tests/living_release_v4/test_platform_credentials.py tests/living_release_v4/test_bilibili_runtime.py tests/living_release_v4/test_bilibili_account.py --junitxml=work/nanalink.xml
+          work/venv/bin/python tools/nanalink_benchmark.py > work/benchmark.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - name: Existing Nana Space client checks
+        working-directory: apps/nana-space
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+          npm run build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nanalink-source-results
+          path: |
+            work/nanalink.xml
+            work/benchmark.json
+          if-no-files-found: ignore

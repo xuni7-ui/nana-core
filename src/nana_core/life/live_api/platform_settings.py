@@ -27,7 +27,25 @@ def status(service, principal):
         if result.get("ok") is not True:
             raise ApiError("PLATFORM_OWNER_UNAVAILABLE", 503)
         value = result["result"]
+        current = load_config(service.supervisor.home)
+        value['configuration_revision'] = current.revision
+        existing = {(r['platform'], r['channel_id']) for r in value['channels']}
+        for platform, channels in (('qq', current.qq_channels), ('bilibili', current.bilibili_channels)):
+            for channel in channels:
+                if (platform, channel.channel_id) not in existing:
+                    value['channels'].append({'platform': platform, 'channel_id': channel.channel_id,
+                        'enabled': False, 'read_authorized': False, 'send_configured': False,
+                        'secret_state': 'MISSING', 'state': 'PENDING_OWNER_RESTART', 'grants_created': False})
+        for row in value['channels']:
+            items = current.qq_channels if row['platform'] == 'qq' else current.bilibili_channels
+            channel = next((c for c in items if c.channel_id == row['channel_id']), None)
+            if channel is not None:
+                row['account_label'] = '账号尾号 ' + str(channel.account_id)[-4:]
+                row['conversation_kind'] = channel.target_kind if row['platform'] == 'qq' else channel.kind
         value["event_ingress"] = service.platform_events.view()
+        observer = getattr(service, "nanalink_observer", None)
+        if observer is not None and observer.bindings:
+            value["nanalink"] = observer.view()
         if Role.HOST_ADMIN in principal.roles and service.credential_resolver is not None:
             meta=service.credential_resolver.metadata()
             value['vault_revision']=meta.get('revision')

@@ -45,3 +45,6 @@ build/
 dist/
 .nana-experiment/
 *.db.lock
+
+# NanaLink isolated build/test scratch; commits still use an explicit whitelist.
+/work/

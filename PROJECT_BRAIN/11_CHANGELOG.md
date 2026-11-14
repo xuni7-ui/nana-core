@@ -3720,3 +3720,41 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE独立CI43574742202/job132386586263实际396pass/1fail/1warning155.73s，原PUBLIC视频边界因源路径猜测漏装ffmpeg失败。仅原workflow按实际选中测试补原apt依赖，workflow变化加原边界，不改C/测试断言或新框架；本地11pass1.91s/7嵌入块compile，新远端待回执。7ec匹配安装保留不当独立CI绿，证据ci-native-boundary-20261114，原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。
+
+
+### 2026-11-14 · NanaLink P0：核对87c32b3远端基线及PR继承，建立独立worktree/feature分支和C状态入口。为避免重复开发记录QQ/Bili/手机/权限源码映射及SnowLuma许可原文404。验证：git ls-remote/HEAD、GitHub PR元数据与实际源码；无生产/账号/模型调用。
+
+
+### 2026-11-14 · NanaLink C 源码候选
+
+[实测] 独立SDK/五态回执/有界传输、OneBot HTTP/WS/reverse-WS隔离桥、原QQ/Bili工作流包装、原owner C.4通知接线、RSS/Atom与媒体缓存、原手机连接准备/健康已实现。为扩大生活感知且不复制主体，复用原C/Store/Kernel/Grant/原worker；仅增加metadata操作/两个C.4只读路径/停用配置setup及负QQ消息ID兼容，不改主体判断。103相关Python、93既有客户端、12四视口浏览器通过；原主体重启/UNKNOWN无重发、离线wheel安装/插件工厂及UID999/无cap/只读容器运行通过。初始鉴权错误包502、缺开发依赖、Feed结果字段、TLS CA及构建backend缺失均保留并修复。SnowLuma原文404、官方QQ统一Core/完整QR及账号/实机/生产资格未完成；不宣称P0–P7全部完成。证据与精确源指纹随后记录docs/nanalink/evidence。
+
+
+### 2026-11-14 · NanaLink 回执/资源复查修复
+
+[实测] 清除已排空账号计数，历史Core回执不升级当前连接/登录健康；原Verify的NOT_APPLIED/FAILED_EFFECT映射确认失败，C静默映射取消，真实不确定保留UNKNOWN。为修正资源长期有界和五态语义差额，追加反例并对最终源码105相关测试通过51.08s。wheel固定epoch双构建同SHA81dd604d…211dbed，最终离线安装/UID999无cap只读容器status通过；不是实际账号或生产资格。
+
+
+### 2026-11-14 · NanaLink 开发交付证据与继承状态
+
+[实测] 落盘精简验收/合成测量/回执测试与源码指纹，更新09唯一C入口及未完成能力；修正本C先前把本机显示时间当UTC导致的日期，已按时钟10:56UTC=18:56北京时间核对为11月14日。299已安装源码逐一匹配，wheel双构建/离线安装、无特权只读容器及原Core不变性检查通过；manifest自指排除、锚点记09。未启动真实账号/外发/生产，不把受控测试宣称全任务完成。
+
+
+### 2026-11-14 · NanaLink Draft PR回执
+
+隔离分支已正常push、Draft PR #18已创建，base87c32b3/head4c5719d；未force/merge/部署。105相关源码资格保持，PROJECT_BRAIN入口回填链接，GitHub CI以实际状态另记。
+
+
+### 2026-11-14 · NanaLink RSS观察与用户指令分离
+
+后续源码复查发现Feed曾走原chat Surface路径，虽无真实发送仍可能把网页标题当对话。改为原MemoryService来源+SOURCED_LIFE/WORLD_EVENT机会，原C可忽略/推迟，暂停不强制唤醒；不改Core契约或另建记忆。10定向通过（含实际HTTP/原单主体/时钟推进去重/暂停/来源删除拒绝），初始source_key绑定失败已依原surface source_key修正。前105资格保留原8669范围，后继源码/匹配wheel/image另记，不虚称新全仓通过。
+
+
+### 2026-11-14 · Feed来源重投与撤回后继
+
+原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均10定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。
+
+
+### 2026-11-14 · Feed后继匹配交付与CI继承
+
+ae567f9后继10定向及匹配wheel双构建SHA34286fe4…4f03c/299安装源码逐一相同、镜像d1a967…67d136的UID999零cap只读运行通过。指纹97b893…b295已回填09；8669的105、旧wheel/image及已通过CI43588127662按原范围保留。PR #18继续Draft，后继CI跟随新HEAD；未登录账号/对外发送/生产。

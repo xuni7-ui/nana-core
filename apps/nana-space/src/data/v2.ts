@@ -470,6 +470,11 @@ export class V2Client {
     if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
     return this.accept(await this.nativeCall({operation: "platform.credential.revoke", data: {...data, action: "REVOKE"}}));
   }
+  async setupPlatform(data: Record<string, unknown>): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation: "platform.setup", data})
+      : await this.request("platform/setup", "POST", data));
+  }
   async configurePlatform(data: Record<string, unknown>): Promise<Envelope> {
     return this.accept(isNative()
       ? await this.nativeCall({operation: "platform.command", data})

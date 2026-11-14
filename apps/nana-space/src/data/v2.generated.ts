@@ -233,6 +233,21 @@ export type PlatformCredentialRequest = {
   "credential"?: (string | null);
 };
 
+export type PlatformSetupRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "method": "qq.onebot" | "bilibili.account";
+  "account_id": string;
+  "peer_id": string;
+  "sender_id": string;
+  "kind": "private" | "group" | "dm" | "comment";
+  "endpoint"?: string;
+  "configuration_revision": number;
+};
+
 export type ProviderCommand = {
   "operation": "UPSERT_PROVIDER" | "REMOVE_PROVIDER" | "UPSERT_MODEL" | "REMOVE_MODEL" | "SET_CAPABILITY_ROUTE" | "REMOVE_CAPABILITY_ROUTE" | "ENABLE_PROVIDER" | "DISABLE_PROVIDER";
   "expected_revision": number;

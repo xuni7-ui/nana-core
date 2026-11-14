@@ -1,0 +1,71 @@
+{
+  "baseline": "87c32b3290687c4e2ab8dc674dcc36ff4653ac3c",
+  "runtime_source": "ae567f980011ebcd408d12dbe8314953b57f2171",
+  "observed_at": "2026-11-14T18:56:47+08:00",
+  "timezone": "Asia/Shanghai",
+  "qualification": {
+    "source": "IMPLEMENTED_WITH_DOCUMENTED_GAPS",
+    "python_related": {
+      "passed": 105,
+      "seconds": 51.08,
+      "runtime_source": "8669d64df6edbb0a151c2faf2d6ccf116fba8afc"
+    },
+    "client_unit": {
+      "passed": 93
+    },
+    "browser": {
+      "passed": 12,
+      "viewports": [
+        360,
+        390,
+        412,
+        1440
+      ],
+      "scope": "SYNTHETIC_HTTP_FIXTURE"
+    },
+    "wheel": "TWO_EQUAL_BUILDS_AND_OFFLINE_INSTALL",
+    "container": "NONROOT_READONLY_ZERO_CAPABILITIES_LOOPBACK_SMOKE",
+    "real_qq_account": "NOT_RUN",
+    "real_bilibili_account": "NOT_RUN",
+    "real_social_send": 0,
+    "physical_android": "NOT_RUN",
+    "production": "NOT_RUN",
+    "effective_cognition_cost": "NOT_QUALIFIED",
+    "feed_world_followup": {
+      "passed": 10,
+      "runtime_source": "ae567f980011ebcd408d12dbe8314953b57f2171",
+      "scope": "SOURCED_WORLD_EVENT_NOT_USER_COMMAND; delayed duplicate/pause/withdrawal"
+    }
+  },
+  "container_image_id": "sha256:d1a96782d4dc6de5d0cd87b0641d992f792db5d8d211265e1a7bfa6e5a67d136",
+  "remaining_source_work": [
+    "official QQ backend to original Core (existing AstrBot path retained)",
+    "in-console account login/QR lifecycle and installed-package management",
+    "governed QQ media sends/unsupported event actions",
+    "broader Bilibili dynamic source coverage"
+  ],
+  "external_gates": [
+    "real account login/authorization",
+    "approved real outbound recipients/actions",
+    "physical phone",
+    "production deployment"
+  ],
+  "first_failures_preserved": [
+    "auth HTTPException was mapped to 502, fixed to retain 403",
+    "Feed result lacked explicit external_delivery false, added",
+    "test environment cryptography/setuptools absent, installed pinned existing versions",
+    "Docker proxy CA absent, fixed with BuildKit secret while preserving TLS",
+    "initial browser invocation used wrong cwd and collected no tests, corrected, actual 12 scenarios passed"
+  ],
+  "core_authority": "Original LifeApplication/SubjectLoop/Store/Manager/Grant/ActionKernel; no new subject/schema/database",
+  "installed_python_files_exact_match": 299,
+  "protected_core_framework_unchanged": true,
+  "prior_runtime_source": "8669d64df6edbb0a151c2faf2d6ccf116fba8afc",
+  "ci_prior_source": {
+    "head": "a2a9f4dc5631ba6b5dc8f03c323153601d2dafcf",
+    "run": 43588127662,
+    "conclusion": "success",
+    "runtime_source": "8669d64"
+  },
+  "current_wheel_sha256": "34286fe41209c635fcbeeb9862afc6039eccdd85948651fd1af1bdf15b24f03c"
+}

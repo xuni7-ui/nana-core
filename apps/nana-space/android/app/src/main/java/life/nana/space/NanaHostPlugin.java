@@ -355,6 +355,7 @@ public class NanaHostPlugin extends Plugin {
                 else if ("conversation.history".equals(op)) route = "conversation/history";
                 else if ("bilibili.history".equals(op)) route = "platform/bilibili";
                 else if ("platform.status".equals(op)) route = "platform/status";
+                else if ("platform.setup".equals(op)) { route = "platform/setup";method = "POST"; }
                 else if ("platform.command".equals(op)) { route = "platform/commands";method = "POST"; }
                 else if ("platform.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "platform/credential";method = "POST"; }
                 else if ("life.shares".equals(op)) route = "life/shares";

@@ -440,6 +440,9 @@ class Handler(BaseHTTPRequestHandler):
         if route=='platform/credential':
             from .platform_credentials import PlatformCredentialRequest,bind
             value=bind(service,principal,self._model(PlatformCredentialRequest,body))
+        elif route=='platform/setup':
+            from .platform_setup import PlatformSetupRequest,setup
+            value=setup(service,principal,self._model(PlatformSetupRequest,body))
         elif route=='platform/commands':
             from .platform_settings import PlatformConfigurationRequest,configure
             value=configure(service,principal,self._model(PlatformConfigurationRequest,body))
