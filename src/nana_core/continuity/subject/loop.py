@@ -118,6 +118,13 @@ class SubjectLoop:
         if method is not None:
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='OWN_METHOD_RECONSIDERATION',topic_key=method['topic'],possible_behaviors=('REFLECT','REST'))
+        if continued is not None and cue is None:
+            from .opportunities import ConcernCue
+            # A retained own thought is already a real reason to reconsider.
+            # WATCH stays the default; the model may choose reflection or rest.
+            # This is not a lifecycle review and does not pause the whole idea.
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key=continued[1].topic,
+                possible_behaviors=('WATCH','REFLECT','REST'))
         if cue is not None and event.result_for_intention_id and event.novelty=='HIGH':
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
@@ -141,7 +148,7 @@ class SubjectLoop:
                     break
         if cue is not None and cue.required_preference_id and cue.required_preference_id not in {a['assertion_id'] for a in assertions}:
             cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
-        if cue is not None and len(pending)>=6 and not due:
+        if cue is not None and len(pending)>=6 and not due and continued is None and method is None:
             cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         private_interests=()
         if self.store.schema_target>=13 and event.retention!='DO_NOT_REMEMBER':

@@ -1,0 +1,23 @@
+{
+  "reason": "PLATFORM_ENVIRONMENT_REPLACED_DURING_USER_STEERING",
+  "restored_from": "87c32b3290687c4e2ab8dc674dcc36ff4653ac3c",
+  "source_branch": "dev/nana-core-next-experience-codex",
+  "protected_old_snapshot": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "protected_snapshot_dirty": false,
+  "prior_tmp_artifacts_and_raw_uncommitted_logs": "MISSING_NOT_CLAIMED_CURRENT",
+  "restored_runtime_changes": "REPLAYED_AND_REQUALIFIED_NOT_ASSUMED_BYTE_IDENTICAL",
+  "old_runtime_store": "NOT_RESTORED_NO_PRODUCTION_GENESIS",
+  "test_python": "3.12.14",
+  "test_sqlite": "3.53.1",
+  "developer_venv": "system-site-packages with provided fixed Core dependencies; pytest added, not a sealed offline installation",
+  "packages": {
+    "pydantic": "2.13.4",
+    "pytest": "9.1.1",
+    "cryptography": "50.0.0",
+    "pillow": "12.3.0"
+  },
+  "new_full_regression": "NOT_RUN",
+  "new_package_or_APK": "NOT_BUILT",
+  "new_real_model_calls": 0,
+  "production_changed": false
+}

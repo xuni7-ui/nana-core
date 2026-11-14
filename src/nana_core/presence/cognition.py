@@ -140,12 +140,21 @@ class CognitionCoordinator:
         need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
         private_opportunity=event.private_thought_ref is not None or event.communication_method_record_id is not None or event.task_class=='private.feedback.review'
         if private_opportunity:
-            from ..continuity.subject.policy import motivate,decide
+            from ..continuity.subject.policy import motivate,decide,current_directions
             from ..continuity.autonomy.private_intent import can_consider_private_formation
-            _,judgment,intention=decide(event,situation,appraisal,motivate(event,situation,appraisal))
-            need=bool(can_consider_private_formation(event,situation,judgment,intention))
+            motives=motivate(event,situation,appraisal);need=False
+            # Admission asks whether original C has a lawful optional direction,
+            # not whether its pre-model default has already chosen that direction.
+            # No candidate is adopted here; actual C rejudges after deliberation.
+            for offered in (None,*current_directions(situation)):
+                candidate=situation if offered is None else situation.model_copy(update={'preferred_behavior':offered})
+                _,judgment,intention=decide(event,candidate,appraisal,motives)
+                if can_consider_private_formation(event,candidate,judgment,intention):
+                    need=True;break
         if not need:return 'LIGHT_COGNITION','C_POLICY_SUFFICIENT'
-        if self.provider_factory is not None:return self._provider_choice(row,event,loop,source,situation,appraisal,preview=preview)
+        if self.provider_factory is not None:
+            mode,reason=self._provider_choice(row,event,loop,source,situation,appraisal,preview=preview)
+            return mode,'PRIVATE_CONSIDERATION_AVAILABLE' if mode=='FULL_COGNITION' and private_opportunity else reason
         now=self.store.clock.utc_now_us()
         if self.model_kind is None or self.availability=='UNAVAILABLE':return 'LIGHT_COGNITION','MODEL_UNAVAILABLE_SELF_CONTINUES'
         if now<self.backoff_until:return 'LIGHT_COGNITION','MODEL_BACKOFF'
@@ -165,7 +174,7 @@ class CognitionCoordinator:
             from .resources import allocation_reason
             reason=allocation_reason(self.store,self.config,row)
             if reason:return 'LIGHT_COGNITION',reason
-        return 'FULL_COGNITION','IMPORTANT_UNCERTAIN_SOURCE'
+        return 'FULL_COGNITION','PRIVATE_CONSIDERATION_AVAILABLE' if private_opportunity else 'IMPORTANT_UNCERTAIN_SOURCE'
 
     def reserve(self,row):
         now=self.store.clock.utc_now_us()

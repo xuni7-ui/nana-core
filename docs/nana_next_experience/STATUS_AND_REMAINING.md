@@ -1,8 +1,10 @@
-## 现役revision209 — 初始方法/经历可形成首个持续倾向，无须反馈
+## 现役revision210 — 原D按C可行方向提供机会，承诺不抢走比较权
 
-原C已采纳的当前有界方法+精确保留输入经同D/SELF可形成倾向、REST或短念；不预置私心、不强迫每聊保存/思考。新可选method_ref默认None的JSON/普通及SELF模型schema与精确649一致，原Store/Scheduler/C复用；新pending旧reader仍未资格。资格后才截32机会，40个未保留来源方法不挤掉有效旧来源，原索引实用/只读/替换/源撤回有效。精确649原8场景旧3fail5pass→202相关57.49s，后补原持久template停机重启1pass1.10s；1SELF48136bytes、物理family约0.99→1.58MB，不假称只有512字存储。首错均原样解释，见evidence/initial-method-tendency-20261114/README.md。
+原资源preview只读检查同C合法候选，不将模型前默认承诺路线当最终意志；当前私念可WATCH/REFLECT/REST，6条pending不伪造私人疲倦，真实HIGH负荷下轻量个人反思可竞争。原规范/预算/UNKNOWN/权限/承诺整行与PRESSING保留。精确87同7场景旧3fail4pass→通过；HIGH源负荷同1SELF/input51325/reserved63614bytes，原REST与规范对照保留。
 
-独立649 CI43575944398/job132390224233实际装ffmpeg/HTTP边界23pass28.22s，旧7ec396pass1fail保留，不是新初始源码独立PASS。7ec匹配候选仍真实有效但不含本批，未重包/APK/CURRENT；真实模型/手机/生产/自然度/长期待。下一先实测原D资源预览默认承诺路线是否提前否决合法私人候选，及≥64混合不合资格候选挤占；复用原C/规范/资源，不简单删条件。多倾向情感/G未见迁移及全部原A–H继续。
+用户续办时环境被平台重建，已推87恢复后重放未提交补丁；旧临时安装/Store/原未提交日志丢失不假称存在。新环境250相关76.55s原始日志已入库，Python3.12.14/SQLite3.53.1开发venv；旧/workspace/nana-core18bc clean未改。87独立CI43578516053/job132398131899实读585pass2warning234.23s，仅归87，不贴本后继；原7ec安装证据保留历史范围，未再重包/APK/CURRENT或生产。见evidence/private-choice-admission-20261114/README.md。
+
+下一实测≥64当前不合资格的私人候选是否挤占新合法方法机会，修原分页/资格而非另建调度或删除私念；之后情感/多倾向/G未见迁移、检索存储/Token/产品及全部原A–H继续。真实模型/手机/自然度/生产/长期仍待，完整A–E不称完成。
 
 ## 现役revision196
 
