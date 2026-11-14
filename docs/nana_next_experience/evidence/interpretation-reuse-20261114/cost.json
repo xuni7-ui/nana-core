@@ -1,0 +1,50 @@
+{
+  "scope": "SYNTHETIC_OWNED_HTTP_ONLY",
+  "metrics": {
+    "old": [
+      {
+        "ablated": false,
+        "formed": false,
+        "input_bytes": 48109,
+        "latency_us": 3113,
+        "measurement": "synthetic_interpretation_reuse",
+        "reserved_bytes": 60398,
+        "self_calls": 1
+      },
+      {
+        "ablated": true,
+        "formed": false,
+        "input_bytes": 48109,
+        "latency_us": 2875,
+        "measurement": "synthetic_interpretation_reuse",
+        "reserved_bytes": 60398,
+        "self_calls": 1
+      }
+    ],
+    "new": [
+      {
+        "ablated": false,
+        "formed": true,
+        "input_bytes": 49201,
+        "latency_us": 3336,
+        "measurement": "synthetic_interpretation_reuse",
+        "reserved_bytes": 61490,
+        "self_calls": 1
+      },
+      {
+        "ablated": true,
+        "formed": false,
+        "input_bytes": 48109,
+        "latency_us": 2938,
+        "measurement": "synthetic_interpretation_reuse",
+        "reserved_bytes": 60398,
+        "self_calls": 1
+      }
+    ]
+  },
+  "provider_tokens": null,
+  "commercial_cost": null,
+  "CPU_RSS": "NOT_MEASURED",
+  "storage": "No schema/index/table or independent memory copy. Added derived metadata lives in the original cognition request/audit; incremental physical growth not separately measured.",
+  "comparison": "Old and new/ablation each1SELF; new49201input bytes versus old/ablation48109 (+1092 bytes). No removed stage or claim of reduced paid calls. The extra information is the already-computed typed interpretation, not a new affect classifier."
+}

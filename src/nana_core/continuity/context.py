@@ -376,6 +376,10 @@ class ContextAssembler:
                     if method:
                         candidates.append((938.0,ContextBlock(block_id='communication-method:'+rid,kind='COMMUNICATION_STRATEGY',
                             data_json=canonical(method['strategy']),source_record_ids=method['record_ids'])))
+                        meaning=method.get('formation_meaning')
+                        if meaning:
+                            candidates.append((938.0,ContextBlock(block_id='interaction-meaning:'+rid,kind='INTERACTION_MEANING',
+                                data_json=canonical(meaning['data']),source_record_ids=meaning['record_ids'],source_memory_ids=meaning['memory_ids'])))
                 subject_thoughts=internal_projection(self.store,subject_frame.source_record_ids,
                         scope=subject_frame.scope,privacy_classes=privacy)
                 for thought in subject_thoughts:

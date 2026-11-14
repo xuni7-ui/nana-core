@@ -7,18 +7,18 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 213,
-  "as_of_us": 1794661772263145,
+  "revision": 214,
+  "as_of_us": 1794667498097076,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_AFFECTIVE_INTERPRET_REUSE",
+  "status": "IN_PROGRESS_CROSS_DOMAIN_CONTEXT_QUALITY",
   "progress": [
     "原G独立练习/实际未来Kernel Verify成功经同D/C可形成私人兴趣，新增有界GROWTH_CHANGE沿原上下文，默认分享/观察不改，可REFLECT/REST。精确1ca旧4fail1pass→新5pass，115相关；消融同1SELF后续REFLECT↔WATCH，+1565bytes非Token。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
     "原C明确新兴趣/到期承诺竞争已接；计划步骤投影前移C，可选其他活动且不携该步骤target。精确9b旧11fail→新11pass，199相关后补36通过，实际有Grant也不误执行，原复查后同goal继续；HTTP各1/wire+618bytes非Token，真实0。",
-    "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
+    "原INTERPRET有界kind/confidence经原C已采纳context_fit/精确保留输入→同C方法继续投影，历史推测不升级当前情绪/效果事实；关投影同1SELF无私念，新有私念并改变后续聊天。114相关77.71s，+1092inputbytes非Token，未加模型阶段。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
     "原D私念/方法/G/反馈的WAIT或内部ASK沿同一分类保持NO_ACTION未决，不强制对外澄清待办；普通USER ASK/WAIT保留。精确1aee298文件旧3fail3pass→6pass，148相关68.63s；同1SELF/同48136或55412inputbytes非Token。"
   ],
@@ -29,17 +29,17 @@
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "原INTERPRET→原C已有communication_proposal且SELF候选按角色隔离，不能直接塞字段绕过。下一复用可靠情境/情感理解于C评价/私人状态；完整A–E、多时间尺度/多动机/广G迁移及全部原A–H仍需开发。1aee独立408pass仅前继，当前匹配安装/CI待。"
+    "情境原理解有界复用已接，非完整情感/自主性A–E/长期G。下一按原200k证据只诊断2个超时查询，不扩大门限或全规模重跑；多时间尺度/多动机、物理存储/Token/模型产品及原A–H仍需开发，当前匹配安装/CI待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md",
     "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md",
     "docs/nana_next_experience/evidence/growth-inner-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/attention-eligibility-20261114/README.md",
     "docs/nana_next_experience/evidence/private-choice-admission-20261114/README.md",
     "docs/nana_next_experience/evidence/initial-method-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json",
-    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md",
-    "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md"
+    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2847,3 +2847,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 growth-inner-choice证据指纹锚：`fdec203d7e5f7e5cc6d2ab97f979fbd74584033067fc1f1e220449bc2d326fe3`（不自含；非当前运行态证明）。
 
 - 2026-11-14 private-wait-scope证据指纹锚：`267c0c2d8445424790e31632aa83e2a3a276b9d2cfc4df88b8705f5971d01950`（不自含；非当前运行态证明）。
+
+- 2026-11-14 interpretation-reuse证据指纹锚：`525f05040f8525a9fce860d54bf82a21f783faa3b51f22d9b10bc67e826ac0dc`（不自含；非当前运行态证明）。

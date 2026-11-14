@@ -1,8 +1,8 @@
-## 现役revision213 — 内部WAIT/ASK不被强制任务化
+## 现役revision214 — 原理解有界复用到同C
 
-复用同一原内部机会分类，初始方法/G/反馈的短念犹豫与原private_ref一样保持NO_ACTION，不新增对外澄清WAIT待办。原普通USER ASK/WAIT/原合法分享保留，不删容量或改执行权限。精确1aee298文件同6场景旧3fail3pass→6pass4.33s，148相关68.63s；两类输入原48136/55412bytes均相同、各1SELF，非Token。私文/撤回/后续聊天/同条件不重复沿原夹具保护。见evidence/private-wait-scope-20261114/README.md。
+当前原方法及精确保留输入绑定此前INTERPRET的kind/confidence，经原ContextAssembler只给原C。历史MODEL_PROPOSAL不升级当前情绪/效果，普通INTERPRET/RENDER不带投影。旧1fail1pass→新2pass，投影消融同1SELF REST/无私念，启用形成关切且实际后续CHAT；114相关77.71s。+1092inputbytes非Token，无新阶段/表/权限。首次错误要求本地事件有持久正文失败保留，已改原C context_fit+原话源绑定，未强迫保留。见evidence/interpretation-reuse-20261114/README.md。
 
-1aee独立CI43597477200/job132455167842实读408pass2warning206.15s，full/client/portable SKIP，只归前继。未新包/APK/CURRENT/真实模型/手机/生产，历史7ec临时安装已丢不假称在场。原INTERPRET→原C→RENDER已有方法提案消费与原请求/epoch/范围核验；subject_cognition仅SELF、自由解释不持久化，不能直接塞SELF字段或把情绪猜测变事实。下一沿现有链复用可靠情境/情感理解及多动机/长期G、存储检索/Token/产品/全部A–H；精确状态与证据已入库，非总工程完成。
+9a独立CI43598348344/job132457710895实读374pass1warning168.52s，仅前继，full/client/portable SKIP。未新包/APK/CURRENT/真实模型/手机/生产/长期，旧临时包不在场。下一用原200k样本/原replay只定位2个超时SQL及索引，不放宽门限，不重复全规模审计；多时间尺度/多动机/S8/物理存储/Token/产品与全部原A–H仍需开发。
 
 ## 现役revision196
 

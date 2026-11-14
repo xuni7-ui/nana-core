@@ -1,0 +1,5 @@
+{
+  "commit": "9a917baa5c2852416e636a05dafe38e9e8abbc95",
+  "source_tree": "4976fe09b4408675e0992ab36f1be58d1948cccb",
+  "execution": "Original working checkout before edits to context_fit/context, same historical_hint tests; first1fail1pass retained. No baseline source mutation, no weakened assertions."
+}
