@@ -261,6 +261,8 @@ class LearningService:
                     "selected_method": None,
                     "trial_record_id": None,
                     "lesson_id": None,
+                    **({"origin_private_thought_ref":event.private_thought_ref.model_dump(mode='json')}
+                        if event.private_thought_ref is not None and cycle.intention.behavior=='LEARN' else {}),
                     **({"previous_work_id": previous["job_id"],
                         "reconsidered_experience_id": experience["experience_id"]} if reconsider else {}),
                 },

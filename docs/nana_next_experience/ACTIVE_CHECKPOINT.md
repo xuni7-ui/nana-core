@@ -1,10 +1,10 @@
-## 现役revision219 — 私人疑问可自主选择原G并改变实际后续行为
+## 现役revision220 — 原G后续实际结果反向改变原私问
 
-原D精确私念可给C原G有界只读配置描述，C明确LEARN+当前digest才启动原练习/独立评价/迁移，WATCH/REFLECT/REST保留；无第二学习器/自动Grant。正常owned HTTP同预算各1SELF，旧717同3场景1fail2pass→新17pass3.35s，166相关46.09s及31资源28.10s。LEARN后同主体重启在新批准文件采用AST/三动作成功且goal COMPLETED；WATCH旧方法被独立检查判goal FAILED。来源撤回方法失效、明确停止原G暂停、原私人入口guard保留，见evidence/private-g-selection-20261114/README.md。
+原G保留真正发起学习的private_ref，经原独立trial/新文件Kernel Verify/宿主Portfolio评估→D GROWTH_CHANGE→同C有限投影原私问，C可修订新的探索问题；未重建G或内心系统。旧d06同两场景1fail1pass→新21pass9.66s/107相关51.27s。消融保留G事实/动作/评估及各1次后续SELF，原私问保持；新修订无新增动作或第二学习job。明确停止或主动放弃不复活旧题，Growth token不因修订改变且同结果仅1 schedule，撤回有效。见evidence/private-g-interest-return-20261114/README.md。
 
-G实际数据观测与私人动因分类分离，原G工作/trial/lesson/计划/动作payload PERSONAL；工程评测及精确批准文件结果PROJECT，不披露私文，不开放任意私人输入。首次跨域失败与夹具误假设保留。完整wire+1075bytes非Token，本地学习/动作CPU及分配开销按单样本记录，不称免费或长期收益。前继717独立396pass1warning仅前继；未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。
+600秒冷却/30秒lease夹具首错保留后改为停owner期间虚拟等待，未关闭门。原G无origin的JSON与普通/SELF schema字节不变，单例后续wire旧/消融55866→新55027非Token/账单收益。前继d06独立554pass1warning仅归前继；未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。
 
-下一沿原ProjectWork.assess_later_use/EpisodeLearning→原D GROWTH_CHANGE→C私人关注检验正常宿主反向变化，复用前继数字域机制；情感/多动机/更广独立迁移、存储/Token/多端最终发行及原A–H继续。
+下一核对正常宿主Growth资源缺失/恢复与统一private分类差异、已改版origin解析；只修实际被资源替代的C选择，不简单删除冷却/预算。按持久化/集成影响收匹配Core/Web候选与静止升级回退，情感/多动机/更广迁移/存储/Token/多端及原A–H全部继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

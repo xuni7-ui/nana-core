@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 219,
-  "as_of_us": 1794678264396468,
+  "revision": 220,
+  "as_of_us": 1794680537617374,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "正常D私人疑问→同C精确选择原G→独立练习/评价/迁移→重启后新文件原Kernel/Verify：LEARN组AST/COMPLETED，WATCH组旧方法/FAILED。精确717旧1fail2pass→17pass，166相关及31资源；各1SELF/+1075bytes非Token，原G/授权保留。",
+    "正常D私问→同C选原G→独立评价/新文件实际KernelVerify→原宿主后续评估/D/C→原私问修订；消融同1次后续SELF保持旧私问，无新动作/学习job。精确d06旧1fail1pass→21pass9.66s/107相关51.27s；新后续55027bytes非Token，旧G投影/schema不变。",
     "失败/截断/拒绝响应已报告Token沿原数字receipt计量，不接受正文或退款；无响应/坏usage保持未知，原生含cache。精确3fe旧9fail20pass→29pass7.25s，161相关36.70s，来源撤回/重启/UNKNOWN后新请求有效；fixture非真实Token/费用。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "原Anthropic目录可显式续页，保留每批8页/256ID/256KiB/10s与原Vault/CAS/鉴权；BFF/SDK/Web/Java分支传cursor，回显校验拒旧桥假翻页，选模同步原生草稿。103后端/TS-Vite/93单测/四视口16浏览器通过，Java/手机未资格，未新APK。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "正常私问→原G有限配置→未来实际方法已受控接通，下一原独立后续使用→D GROWTH_CHANGE→C私人关注反向变化；情感/多动机/更广G迁移、物理存储/真实Token/产品匹配发行及原A–H仍需开发，不是总完成。"
+    "下一核对GROWTH正常资源缺失/恢复与统一private分类差异、已改版origin引用解析，不删冷却或绕预算；按影响收匹配Core/Web静止升级回退。情感多动机/更广G/物理存储/真实Token/产品及原A–H仍未完成，不以局部闭环当总验收。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/private-g-interest-return-20261114/README.md",
     "docs/nana_next_experience/evidence/private-g-selection-20261114/README.md",
     "docs/nana_next_experience/evidence/failed-response-usage-20261114/README.md",
     "docs/nana_next_experience/evidence/private-lifecycle-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/model-catalog-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/literal-200k-recovery-20261114/README.md",
     "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md",
-    "docs/nana_next_experience/evidence/growth-inner-choice-20261114/README.md"
+    "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2860,3 +2860,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-14 失败响应usage证据source.sha256锚：`8fd8a73884674285b35d61c82b6cce9b7289dd69773b97720aa0d174f07c6e9c`（仅采集状态）。
 
 - 2026-11-14 私问选择原G证据source.sha256锚：`ed9a1a24b3207cfedfba13085cc5ed6e4fb38832483d9bd45955fa394b0b444b`（仅采集状态）。
+
+- 2026-11-14 原G返回私人关注证据source.sha256锚：`a87cb29fa3e63f6a3a0421abf489607aa15623741733d4723e6fe4e7d2358437`（仅采集状态）。

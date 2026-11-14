@@ -93,6 +93,7 @@ on:
       - tests/person_self/test_initial_method_tendency.py
       - tests/person_self/test_private_choice_admission.py
       - tests/person_self/test_attention_eligibility.py
+      - src/nana_core/continuity/subject/growth_life.py
       - tests/person_self/test_growth_inner_choice.py
       - tests/living_release_v4/test_platform_runtime.py
       - tools/nana_next_experience/qualification/inner_communication_v1.py

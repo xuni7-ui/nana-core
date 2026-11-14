@@ -166,6 +166,8 @@ class SubjectLoop:
             )
             private_interests=decision_support(self.store,event.scope,private_privacy,topic=private_topic)
             if continued is not None and continued[0] not in private_interests:private_interests=(*private_interests,continued[0])
+            if growth_change is not None:
+                private_interests=tuple(dict.fromkeys((*private_interests,*growth_change.basis_private_record_ids)))
             records.extend(private_interests)
             for rid in private_interests:memories.extend(self.records.support(rid))
             if cue and cue.private_intent_ref:

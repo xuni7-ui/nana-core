@@ -13,6 +13,10 @@ from .test_private_tendency import form
 
 @pytest.mark.parametrize('wanted',['LEARN','WATCH','REST'])
 def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_without_learning(tmp_path,wanted):
+    _run_private_g_episode(tmp_path,wanted)
+
+
+def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=False,retire_origin=False):
     started=time.perf_counter();cpu_started=time.process_time()
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
     private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
@@ -100,9 +104,85 @@ def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_withou
             if wanted=='LEARN':
                 assert actions and all(a['state']=='SUCCEEDED' for a in actions)
                 assert later.work.artifacts()
-            later.forget(thought.source_memory_ids[0])
-            assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
-            assert not later.runtime.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(private,)).fetchone()
+            if reverse_growth is None:
+                later.forget(thought.source_memory_ids[0])
+                assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+                assert not later.runtime.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(private,)).fetchone()
+            else:
+                # Original host portfolio observer and Runtime.step own the
+                # later-use assessment; no manually inserted growth verdict.
+                clock.advance(int(later.config.activity_interval_seconds+1)*SECOND)
+                for _ in range(12):
+                    later.tick()
+                    if later.runtime.store.all('strategy_assessments'):break
+                assessments=later.runtime.store.all('strategy_assessments')
+                assert len(assessments)==1 and assessments[0]['verdict']=='SUCCESS'
+                assessment_id=assessments[0]['assessment_id']
+                if close_origin:
+                    assert later.chat('不要研究这个话题',topic='python-api',privacy='PROJECT',message_id='close-origin-before-growth')['mode']=='RESPECT_BOUNDARY'
+                if retire_origin:
+                    from nana_core.continuity.cognition import AnalyticalFixturePort
+                    from nana_core.continuity.subject import SubjectInput
+                    class Retire:
+                        descriptor='synthetic-own-interest-abandonment-before-outcome'
+                        def propose(self,request):
+                            value=json.loads(AnalyticalFixturePort().propose(request));value.update(proposed_operations=['DRAFT'],
+                                private_question={'topic':'python-api','question':private,'revises_record_id':rid,'activity_state':'ABANDONED'})
+                            return json.dumps(value)
+                    later.runtime.subject.cognize(SubjectInput(source_key='synthetic.private-g-abandon-origin',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                        privacy_class='PROJECT',topic='python-api',observed_at_us=clock.utc_now_us()),model=Retire(),authority=later.runtime.authority,policy=later.policy)
+                before_return=next(v for _,v in candidates(later.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+                from nana_core.continuity.subject.growth_life import project as growth_projection
+                view=growth_projection(later.runtime.store,assessment_id,scope='project-work',privacy_classes=later.runtime.config.privacy_classes)
+                offered=later.runtime.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=0,quiet_window_us=SECOND)
+                print(json.dumps({'measurement':'synthetic_private_g_growth_offer','view_available':view is not None,
+                    'matching_opportunities':sum(v.growth_assessment_id==assessment_id for v in offered),
+                    'origin_basis_count':len(getattr(view,'basis_private_record_ids',()))},sort_keys=True))
+    if reverse_growth is not None:
+        from nana_core.continuity.autonomy import private_intent
+        reflected=[];revised_text='SYNTHETIC Now I wonder what creative tools I could build with the independently checked Python API method.'
+        def reconsider(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            growth=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='GROWTH_CHANGE']
+            assert len(growth)==1 and growth[0]['assessment_id']==assessment_id and growth[0]['method']=='PYTHON_AST_API'
+            own=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['intent_id']==thought.intent_id]
+            reflected.append((request,own))
+            return {'interpretation':'SYNTHETIC checked later use can change my original private question','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC independently verified capability changes what I want to explore next',
+                'preferred_behavior':'REFLECT' if own else 'WATCH','proposed_operations':['DRAFT'],
+                **({'private_question':{'topic':own[0]['topic'],'question':revised_text,'revises_record_id':own[0]['record_id']}} if own else {})}}
+        project=private_intent.internal_projection
+        def without_original_interest(*args,**kwargs):
+            return tuple(v for v in project(*args,**kwargs) if v['intent_id']!=thought.intent_id)
+        with pytest.MonkeyPatch.context() as patch:
+            if not reverse_growth:patch.setattr(private_intent,'internal_projection',without_original_interest)
+            # Respect the existing resource cooldown while the old owner is
+            # closed; do not jump beyond a live owner's thirty-second lease.
+            clock.advance(later.runtime.config.cognition_cooldown_us+SECOND)
+            with relay(home,subject_builder=reconsider,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as final:
+                assert final.runtime.identity_id==identity
+                actions_before=len(final.runtime.store.all('actions'));final.pause(False)
+                final.runtime.refresh_attention()
+                for _ in range(12):final.tick()
+                q=next(v for _,v in candidates(final.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+                changed=bool(reverse_growth and not close_origin and not retire_origin)
+                measured=final.runtime.store.one('cognitive_requests',requests[0]['request_id']) if requests else None
+                print(json.dumps({'measurement':'synthetic_private_g_interest_return','enabled':reverse_growth,'growth_self_calls':len(requests),
+                    'closed':close_origin,'retired':retire_origin,'input_bytes':measured['input_bytes'] if measured else None,
+                    'original_interest_projected':bool(reflected and reflected[0][1]),'question_revision':q.revision,'question_changed':q.content_summary==revised_text},sort_keys=True))
+                assert len(requests)==1 and q.revision==before_return.revision+int(changed)
+                assert q.created_at_us==thought.created_at_us and q.content_summary==(revised_text if changed else private)
+                assert q.activity_state==('ABANDONED' if retire_origin else 'ACTIVE')
+                after=growth_projection(final.runtime.store,assessment_id,scope='project-work',privacy_classes=final.runtime.config.privacy_classes)
+                assert after and after.state_token==view.state_token
+                assert len(list(final.runtime.store.db.execute("SELECT schedule_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'")))==1
+                assert len(final.runtime.store.all('actions'))==actions_before
+                assert len([j for j in final.runtime.store.all('jobs') if j['work_kind']=='LEARNING'])==1
+                assert not final.runtime.store.db.execute('SELECT 1 FROM events WHERE instr(data_json,?)>0',(revised_text,)).fetchone()
+                final.forget(thought.source_memory_ids[0])
+                assert final.runtime.work.open_learning.strategy('python-api','project-work') is None
+                assert not final.runtime.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(revised_text,)).fetchone()
 
     family=[home/'subject'/name for name in ('self.db','self.db-wal','self.db-shm')]
     print(json.dumps({'measurement':'synthetic_private_g_episode_resources','wanted':wanted,
@@ -216,3 +296,13 @@ def test_private_learning_does_not_open_arbitrary_project_private_ingress(tmp_pa
         with pytest.raises(ValueError,match='development sources require explicit nonprivate namespace'):
             SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.untrusted-private-input',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
         assert not r.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'PRIVATE_UNTRUSTED_PROJECT_INPUT')>0").fetchone()
+
+
+@pytest.mark.parametrize('enabled',[True,False])
+def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning(tmp_path,enabled):
+    _run_private_g_episode(tmp_path,'LEARN',reverse_growth=enabled)
+
+
+@pytest.mark.parametrize('condition',['closed','abandoned'])
+def test_checked_learning_does_not_reopen_a_closed_context_or_revive_an_abandoned_interest(tmp_path,condition):
+    _run_private_g_episode(tmp_path,'LEARN',reverse_growth=True,close_origin=condition=='closed',retire_origin=condition=='abandoned')
