@@ -1,6 +1,6 @@
 # NanaLink C · 继承与实施差额
 
-[实测] 2026-11-15 Asia/Shanghai；现役基线 `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`，从远端现役分支创建独立 worktree/`feature/nanalink-unified-platform`。原 `work@18bc736` 保留，未提交变更为零。PR14/17 为 B 候选 d409a55/30459c5，均未合入；base45e7432不是当前A。PR5–13已合入治理成果继承，PR16由14替代。未查到NanaLink或独立QQ Gateway的现役PR；未提供的旧聊天回执为未知。
+[实测] 2026-11-14 Asia/Shanghai；现役基线 `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`，从远端现役分支创建独立 worktree/`feature/nanalink-unified-platform`。原 `work@18bc736` 保留，未提交变更为零。PR14/17 为 B 候选 d409a55/30459c5，均未合入；base45e7432不是当前A。PR5–13已合入治理成果继承，PR16由14替代。未查到NanaLink或独立QQ Gateway的现役PR；未提供的旧聊天回执为未知。
 
 权威任务入口是 PROJECT_BRAIN/09_STATE.md 的C段。本文件只说明源码映射。归属Platform横轴及S1-C03/S2-C01,C02,C04/S4-C04,C05/S5-C01/S7；Advanced接口扩展，不修改冻结Master/Matrix或A主体机制。
 

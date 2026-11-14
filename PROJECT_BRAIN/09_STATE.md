@@ -2,7 +2,16 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测/用户持续授权，2026-11-15 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`，基线87c32b3290687c4e2ab8dc674dcc36ff4653ac3c；A/B及原CURRENT contract保持。继承映射：[NanaLink](../docs/nanalink/INHERITANCE.md)。P0源码/分支/PR/许可可达性已核对；P1–P7连续实施中。已有QQ/Bili/手机/Core工作流复用；旧QQ Gateway由统一会话承接，未提供的旧回执仍未知。当前最高收益：独立SDK/OneBot到原Core工作流，随后第三源、原手机面板和故障验证。SnowLuma许可/源码404只阻塞native研究。真实账号授权/发送/手机实机/生产NOT_RUN。
+[实测，2026-11-14 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`；现役A基线HEAD `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`（远端重核一致）。源码检查点 `8669d64df6edbb0a151c2faf2d6ccf116fba8afc`，继承审计2b5aaa3、实现c9c4e9d。原work@18bc736及A/B现役成果未覆盖，B PR14/17仍独立。本C状态为开发候选/总工程未完成；集成Draft PR待创建，不是生产切换。
+
+- 已实现/已测试：v1 Adapter SDK/显式插件发现管理、统一Event/五态回执、限额/去重/顺序/背压；每账号OneBot HTTP/WS/reverse-WS及恢复；原QQ/Bili单主体动作；C.4通知→原worker→原owner→原C/Kernel；第三平台RSS/Atom真实HTTP读取及原Surface；媒体流式缓存/撤回；原手机账号配置准备、健康、能力、原安全凭据路径。
+- 验证：最终源码105相关Python通过51.08s；93客户端、12桌面及360/390/412浏览器通过；规范schema/C.4原函数快照/Ruff E9-F通过。299个已安装Python源码逐一匹配；wheel固定epoch双构建SHA81dd604d…211dbed并离线安装。容器a57ac3…344538实际UID999/0cap/只读rootfs/独立合成vault/loopback通过。没有新主体/Store/schema；Master/Matrix及原C/记忆/Grant核心无差额。
+- 阶段继承：P0核对完成；P1/P4受控开发验证；P2 OneBot已测试而官方Bot统一Core未实现、native仅研究；P3现役账号/视频链保留并补通知；P5配置/健康已测试，完整登录/包管理未完；P6仅限定故障与合成成本资格；P7开发安装/构建/回退及PR准备完成，不升级全任务资格。
+- 旧事项：旧独立QQ Gateway方案由统一侧车+原签名转发承接；旧Bili Agent/pump的独立认知发送路径不再新增，不删除历史源码/证据。未提供的旧聊天回执仍未知，不能冒充已完成。
+- 真正阻塞：真实账号登录/读取范围/对外收件人待用户按本命令§十一单独授权；手机实机/生产未运行；SnowLuma/NapCat原许可/源码404阻塞native分发评估。没有用这些阻塞替代未实现项。
+- 下一最高收益源码：补QQ官方Bot到同一Core的实际兼容（原AstrBot路径保留，核对opaque身份/权限/独立Verify）；随后完整手机登录状态及包管理、原QQ媒体行动、更广B站动态源。现阶段不宣称账号已上线或全部P0–P7完成。
+
+证据：[验收](../docs/nanalink/evidence/README.md)；使用/回退：[NanaLink](../docs/nanalink/README.md)；[继承](../docs/nanalink/INHERITANCE.md)。源码输入指纹：[manifest](../manifests/nanalink-01.sha256)，自身锚点SHA256 `49007a52a39808e2492e7ea63248fcc56b5a3aa4af91de50aa4a2c39ccc23b2e`；不含其自身或可变PROJECT_BRAIN账本。成本：2000入队+2000重复约0.207s/CPU0.103ms每入队，8MiB重复媒体只保留一份；真实模型/Token/外发0，不能据此推断有效认知成本收益。
 
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->

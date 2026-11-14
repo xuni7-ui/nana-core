@@ -3722,14 +3722,19 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。
 
 
-### 2026-11-15 · NanaLink P0：核对87c32b3远端基线及PR继承，建立独立worktree/feature分支和C状态入口。为避免重复开发记录QQ/Bili/手机/权限源码映射及SnowLuma许可原文404。验证：git ls-remote/HEAD、GitHub PR元数据与实际源码；无生产/账号/模型调用。
+### 2026-11-14 · NanaLink P0：核对87c32b3远端基线及PR继承，建立独立worktree/feature分支和C状态入口。为避免重复开发记录QQ/Bili/手机/权限源码映射及SnowLuma许可原文404。验证：git ls-remote/HEAD、GitHub PR元数据与实际源码；无生产/账号/模型调用。
 
 
-### 2026-11-15 · NanaLink C 源码候选
+### 2026-11-14 · NanaLink C 源码候选
 
 [实测] 独立SDK/五态回执/有界传输、OneBot HTTP/WS/reverse-WS隔离桥、原QQ/Bili工作流包装、原owner C.4通知接线、RSS/Atom与媒体缓存、原手机连接准备/健康已实现。为扩大生活感知且不复制主体，复用原C/Store/Kernel/Grant/原worker；仅增加metadata操作/两个C.4只读路径/停用配置setup及负QQ消息ID兼容，不改主体判断。103相关Python、93既有客户端、12四视口浏览器通过；原主体重启/UNKNOWN无重发、离线wheel安装/插件工厂及UID999/无cap/只读容器运行通过。初始鉴权错误包502、缺开发依赖、Feed结果字段、TLS CA及构建backend缺失均保留并修复。SnowLuma原文404、官方QQ统一Core/完整QR及账号/实机/生产资格未完成；不宣称P0–P7全部完成。证据与精确源指纹随后记录docs/nanalink/evidence。
 
 
-### 2026-11-15 · NanaLink 回执/资源复查修复
+### 2026-11-14 · NanaLink 回执/资源复查修复
 
 [实测] 清除已排空账号计数，历史Core回执不升级当前连接/登录健康；原Verify的NOT_APPLIED/FAILED_EFFECT映射确认失败，C静默映射取消，真实不确定保留UNKNOWN。为修正资源长期有界和五态语义差额，追加反例并对最终源码105相关测试通过51.08s。wheel固定epoch双构建同SHA81dd604d…211dbed，最终离线安装/UID999无cap只读容器status通过；不是实际账号或生产资格。
+
+
+### 2026-11-14 · NanaLink 开发交付证据与继承状态
+
+[实测] 落盘精简验收/合成测量/回执测试与源码指纹，更新09唯一C入口及未完成能力；修正本C先前把本机显示时间当UTC导致的日期，已按时钟10:56UTC=18:56北京时间核对为11月14日。299已安装源码逐一匹配，wheel双构建/离线安装、无特权只读容器及原Core不变性检查通过；manifest自指排除、锚点记09。未启动真实账号/外发/生产，不把受控测试宣称全任务完成。
