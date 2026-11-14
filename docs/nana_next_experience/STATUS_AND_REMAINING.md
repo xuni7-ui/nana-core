@@ -1,8 +1,8 @@
-## 现役revision207 — 7ec反馈因果已实际匹配安装
+## 现役revision208 — 先处理独立CI明确失败，原研发继续
 
-固定7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0，285文件单匹配构建Core SHA8bb2d40b9f8271e79c493a88459f5a85b485e496c92bb4c7eee3cb241b69152d，原hash锁离线安装/tmp/n7ec，Python3.12.14/SQLite3.53.1。仅安装树的原正常链无预置V4→原D首倾向→同intent修订→不同后续LISTEN/CHAT/EXPLAIN，最终8loopback/2SELF真实0，同条件不重复。停用/重启/撤回后同DEV实际7ec→a781旧安装版→7ec返回，1身份/8请求/6周期/0动作保持、封签通过；不是活动计划/未处理队列回退。首次strict Python DTO与三字段identity夹具错误均保留，不改Core凑通过。证据evidence/matching-feedback-install-7ec-20261114/README.md。
+实际读7ec run43574742202/job132386586263：396pass/1fail/1warning155.73s。原C集成选中PUBLIC视频边界，但源路径猜测跳过ffmpeg安装，首错FileNotFoundError(ffmpeg)保留。只改原workflow，按实际selected检查/必要时apt安装ffmpeg，workflow改动加跑原11边界；7嵌入Python块compile、本地11pass1.91s，原Core/runtime/测试/断言未改。新远端CI待真实结果，不能贴旧/本地PASS，证据evidence/ci-native-boundary-20261114/README.md。
 
-Web源树未变复用c41032…794d，未重复编译/BFF全景或APK，候选/tmp/nana-7ec-candidate易失且未远端发布/下载/CURRENT。下一无反馈初始情境到原C持续倾向，优先复用已有有界COMMUNICATION_STRATEGY/实际保留输入的选择机会而非新增情绪脚本或每聊必存；再深化多倾向/情感意义/G独立迁移及原A–H。剩余实现未被外部资格取消；真实模型/手机/生产/自然度/长期尚待，原全仓与分批回归口径保留。
+7ec匹配实际安装8loopback/原C/D首倾向与修订、同DEV停机旧a781返回资格保留；新CI未确认前不称独立通过或发行。读取回执时继续原无反馈初始情境/多倾向情感/G独立迁移等A–H，不重复全仓/Artifact403/打APK；CURRENT266+409、真实模型/手机/生产未动。
 
 ## 现役revision196
 

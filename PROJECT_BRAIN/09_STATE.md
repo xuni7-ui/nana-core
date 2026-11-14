@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 207,
-  "as_of_us": 1794644581245236,
+  "revision": 208,
+  "as_of_us": 1794644835766619,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_INITIAL_AFFECT_AND_LIFELONG_TRANSFER",
+  "status": "IN_PROGRESS_INITIAL_AFFECT_AND_CI_DEPENDENCY_RECHECK",
   "progress": [
-    "7ec三批反馈因果已285文件单构建8bb2d4…152d实际离线安装：无预置V4→首个倾向→同intent修订→后续LISTEN/CHAT/EXPLAIN；8loopback/2SELF真实0。同DEV关闭选项/撤回后7ec→a781安装版→7ec，1身份/8请求/6周期保持；未发行。",
+    "7ec反馈因果实际安装/停机旧a781返回保留；独立CI43574742202实读396pass/1fail/1warning，原边界缺ffmpeg。workflow现按实际选中测试补原依赖，Core/断言未改；本地11pass/7嵌入块compile，远端修复待回执。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -31,14 +31,14 @@
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md",
     "docs/nana_next_experience/evidence/feedback-first-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/selected-opinion-projection-20261114/README.md",
     "docs/nana_next_experience/evidence/private-feedback-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-inner-install-a781-20261114/README.md",
     "docs/nana_next_experience/evidence/private-tendency-20261114/README.md",
-    "docs/nana_next_experience/evidence/deliberated-plan-alternative-20261114/README.md",
-    "docs/nana_next_experience/evidence/deliberated-due-promise-20261114/README.md"
+    "docs/nana_next_experience/evidence/deliberated-plan-alternative-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2834,3 +2834,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [2026-11-14 revision206指纹锚点] feedback-first-tendency-20261114/source.sha256 SHA256 `588ae08eca815cf5e1b30d3669426f9875ed8d8b331efe59191cc60c7604a780`，不含自身。
 
 [2026-11-14 revision207指纹锚点] matching-feedback-install-7ec-20261114/source.sha256 SHA256 `8ff25bc6a609cb3498bcbcf6a7655c378b421c3f4bf152919f8c9be7524a5290`，不含自身。
+
+[2026-11-14 revision208指纹锚点] ci-native-boundary-20261114/source.sha256 SHA256 `2903747b897801e85acc8cfddc99d04b3789a16e2de2066930f91c6e7f1d050e`，不含自身。

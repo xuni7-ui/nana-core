@@ -1,0 +1,7 @@
+# 独立CI原边界的原生依赖修复
+
+实际读取固定7ec的run43574742202/job132386586263完整日志，原Affected source integration为396passed/1failed/1warning155.73s；未装ffmpeg使原test_budgeted_source_selection_and_public_recorded_domain无法生成PUBLIC视频。Native codecs步骤被native_world源路径猜测跳过，但原subject/loop关联组实际选中了world_loop/test_boundaries.py。不是artifact403，也不能用本地回归/安装或旧CI替代这次失败。
+
+只改既有workflow：对最终实际selected测试需要的ffmpeg做shutil.which检查，缺少才在可丢弃GitHub runner安装原apt ffmpeg，始终验证ffmpeg -version；不启用真实平台/模型，不绕沙箱或执行门。workflow自身变化时加跑这份原边界测试，以实际覆盖依赖路径，不新建框架或每次全仓/重打包。原C/runtime/测试与所有断言不改，source runtime tree与7ec一致。
+
+本地原11边界通过1.91s，7个嵌入Python块compile通过。不是远端修复已绿：本提交新CI结果待读取，原失败日志原样保留，原包与CURRENT不动。下一读取修复CI准确结果，同时继续原普通初始情境/情感/G广迁移与A–H；不用重复全仓/Artifact403或把依赖差额当所有研发阻塞。

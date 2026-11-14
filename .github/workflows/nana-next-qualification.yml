@@ -293,7 +293,7 @@ jobs:
           echo targeted > qualification-level.txt
           export PYTHONPATH="$GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE"
           .qualification-venv/bin/python - <<'PYTARGET'
-          import os, pathlib, subprocess, sys
+          import os, pathlib, shutil, subprocess, sys
           base=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'
           if set(base)=={'0'}: base='HEAD^'
           changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
@@ -334,8 +334,19 @@ jobs:
             (('continuity/person_self.py',), ['tests/person_self'])]
           selected=sorted({test for markers, tests in groups if any(any(marker in path for marker in markers) for path in changed) for test in tests})
           if not selected: selected=['tests/first_life_android_v2/test_http_integration.py']
+          if '.github/workflows/nana-next-qualification.yml' in changed:
+              # Exercise the host dependency path when changing this workflow;
+              # this original boundary includes real PUBLIC frame decoding.
+              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py'})
           print('TARGETED_CHECKS',selected,flush=True)
           assert all(pathlib.Path(test).exists() for test in selected)
+          if any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):
+              # Select dependencies from actual tests, not only source-path
+              # guesses: original C integration can select media boundaries.
+              if shutil.which('ffmpeg') is None:
+                  subprocess.run(['sudo','apt-get','update'],check=True)
+                  subprocess.run(['sudo','apt-get','install','--yes','--no-install-recommends','ffmpeg'],check=True)
+              subprocess.run(['ffmpeg','-version'],check=True)
           if any(test in selected for test in ('tests/provider_routing','tests/world_loop')):
               from nana_core.continuity.open_agency.code_skills import IsolatedSkillRunner
               probe=IsolatedSkillRunner().qualify()

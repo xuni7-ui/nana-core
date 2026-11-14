@@ -1,0 +1,16 @@
+{
+  "source_commit": "7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0",
+  "run_id": 43574742202,
+  "job_id": 132386586263,
+  "conclusion": "failure",
+  "passed": 396,
+  "failed": 1,
+  "warnings": 1,
+  "elapsed_seconds": 155.73,
+  "first_failure": "tests/world_loop/test_boundaries.py::test_budgeted_source_selection_and_public_recorded_domain",
+  "exception": "FileNotFoundError: ffmpeg",
+  "native_setup": "SKIPPED_BY_SOURCE_MARKER",
+  "client": "SKIPPED",
+  "candidate_build": "SKIPPED",
+  "runtime_tree": "ab2512db589445ff4493b96bb9ccd14109d637e8"
+}
