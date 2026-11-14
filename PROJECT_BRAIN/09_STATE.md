@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 208,
-  "as_of_us": 1794644835766619,
+  "revision": 209,
+  "as_of_us": 1794646773092721,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_INITIAL_AFFECT_AND_CI_DEPENDENCY_RECHECK",
+  "status": "IN_PROGRESS_INITIAL_AFFECT_AND_AUTONOMOUS_CHOICE",
   "progress": [
-    "7ec反馈因果实际安装/停机旧a781返回保留；独立CI43574742202实读396pass/1fail/1warning，原边界缺ffmpeg。workflow现按实际选中测试补原依赖，Core/断言未改；本地11pass/7嵌入块compile，远端修复待回执。",
+    "原已采纳有界方法+实际保留输入→原D/SELF→首倾向/REST/短念已接，无需反馈或预置内心；精确649旧3fail5pass→202相关57.49s，后补pending重启1pass。40未保留方法不挤占、只读/撤回/替换/隐私有效；1SELF48136bytes非Token，未入7ec包。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,18 +27,19 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "无反馈初始情境/多个倾向与情感意义、G独立未见迁移仍待。7ec反馈→首倾向/修订/后续交流已实际安装，仅受控合成；新BFF未重跑、包未双构建/远端下载/CURRENT；原A–H/APK/模型/手机/自然度/长期继承。",
-    "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
+    "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
+    "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
+    "源码线索待实际Runtime对照：资源预览可能用默认承诺路线提前否决私人可选方向；≥64混合不合资格私心可能挤占最终64机会。先测C候选/原规范与显式复查、原承诺整行/资源预算，不简单删守卫。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/initial-method-tendency-20261114/README.md",
+    "docs/nana_next_experience/evidence/ci-native-boundary-20261114/fixed-result.json",
     "docs/nana_next_experience/evidence/ci-native-boundary-20261114/README.md",
     "docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/README.md",
     "docs/nana_next_experience/evidence/feedback-first-tendency-20261114/README.md",
     "docs/nana_next_experience/evidence/selected-opinion-projection-20261114/README.md",
     "docs/nana_next_experience/evidence/private-feedback-continuation-20261114/README.md",
-    "docs/nana_next_experience/evidence/matching-inner-install-a781-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-tendency-20261114/README.md",
-    "docs/nana_next_experience/evidence/deliberated-plan-alternative-20261114/README.md"
+    "docs/nana_next_experience/evidence/matching-inner-install-a781-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2836,3 +2837,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [2026-11-14 revision207指纹锚点] matching-feedback-install-7ec-20261114/source.sha256 SHA256 `8ff25bc6a609cb3498bcbcf6a7655c378b421c3f4bf152919f8c9be7524a5290`，不含自身。
 
 [2026-11-14 revision208指纹锚点] ci-native-boundary-20261114/source.sha256 SHA256 `2903747b897801e85acc8cfddc99d04b3789a16e2de2066930f91c6e7f1d050e`，不含自身。
+
+[2026-11-14 revision209指纹锚点] initial-method-tendency-20261114/source.sha256 SHA256 `b559ad4390eea79397089296d3da29a8341081f1f7f0e836d645ad330a96d8e0`，不含自身。

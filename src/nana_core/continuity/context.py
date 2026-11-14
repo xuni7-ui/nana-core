@@ -364,6 +364,12 @@ class ContextAssembler:
                     rid=opinion['record_id']
                     candidates.append((939.0,ContextBlock(block_id='communication-feedback:'+rid,kind='COMMUNICATION_FEEDBACK',
                         data_json=canonical(opinion),source_record_ids=(rid,opinion['review_record_id']))))
+                from .subject.context_fit import method_consideration
+                for rid in subject_frame.source_record_ids:
+                    method=method_consideration(self.store,rid,scope=subject_frame.scope,entity_id=request.entity_id,privacy_classes=privacy)
+                    if method:
+                        candidates.append((938.0,ContextBlock(block_id='communication-method:'+rid,kind='COMMUNICATION_STRATEGY',
+                            data_json=canonical(method['strategy']),source_record_ids=method['record_ids'])))
                 subject_thoughts=internal_projection(self.store,subject_frame.source_record_ids,
                         scope=subject_frame.scope,privacy_classes=privacy)
                 for thought in subject_thoughts:

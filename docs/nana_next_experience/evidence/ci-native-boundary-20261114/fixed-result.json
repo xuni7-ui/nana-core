@@ -1,0 +1,17 @@
+{
+  "source_commit": "649d50c8afda017b5f2e720810ce1508f65c8a23",
+  "run_id": 43575944398,
+  "job_id": 132390224233,
+  "conclusion": "success",
+  "passed": 23,
+  "elapsed_seconds": 28.22,
+  "selected": [
+    "tests/first_life_android_v2/test_http_integration.py",
+    "tests/world_loop/test_boundaries.py"
+  ],
+  "ffmpeg": "6.1.1-3ubuntu5 ACTUALLY_INSTALLED_IN_TARGETED_STEP",
+  "full": "SKIPPED",
+  "client": "SKIPPED",
+  "candidate_build": "SKIPPED",
+  "new_initial_method_source_included": false
+}

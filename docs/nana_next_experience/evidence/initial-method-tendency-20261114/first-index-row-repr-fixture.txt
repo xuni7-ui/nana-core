@@ -1,0 +1,53 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "form", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3375, "measurement": "synthetic_initial_method", "record_count": 17, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1571968}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "rest", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3144, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1551368}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "transient", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3260, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1551392}
+.{"budget": null, "condition": "no-method", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 999816}
+.{"budget": null, "condition": "no-retention", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 983384}
+.{"budget": null, "condition": "disabled", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.{"budget": null, "condition": "withdrawn", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.{"budget": null, "condition": "source-race", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 11, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 1061520}
+.F{"bound_feedback_self_http_calls": 1, "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "form", "continuity_records": 22, "fixture_cost_micro": 0, "formed": true, "http_calls_so_far": 3, "independent_method_self_http_calls": 0, "input_bytes": 53976, "latency_us": 2892, "measurement": "synthetic_first_tendency", "reserved_bytes": 66265, "self_http_calls": 1}
+.{"bound_feedback_self_http_calls": 1, "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "rest", "continuity_records": 18, "fixture_cost_micro": 0, "formed": false, "http_calls_so_far": 3, "independent_method_self_http_calls": 0, "input_bytes": 53976, "latency_us": 2910, "measurement": "synthetic_first_tendency", "reserved_bytes": 66265, "self_http_calls": 1}
+.{"bound_feedback_self_http_calls": 0, "budget": null, "condition": "no-method", "continuity_records": 18, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "independent_method_self_http_calls": 0, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"bound_feedback_self_http_calls": 0, "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "withdrawn", "continuity_records": 19, "fixture_cost_micro": 0, "formed": false, "http_calls_so_far": 3, "independent_method_self_http_calls": 1, "input_bytes": 48086, "latency_us": 3061, "measurement": "synthetic_first_tendency", "reserved_bytes": 60375, "self_http_calls": 1}
+.{"bound_feedback_self_http_calls": 0, "budget": null, "condition": "disabled", "continuity_records": 13, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "independent_method_self_http_calls": 0, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"bound_feedback_self_http_calls": 0, "budget": null, "condition": "budget", "continuity_records": 13, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "independent_method_self_http_calls": 0, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"bound_feedback_self_http_calls": 0, "budget": null, "condition": "declined", "continuity_records": 23, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "independent_method_self_http_calls": 0, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"bound_feedback_self_http_calls": 0, "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "source-race", "continuity_records": 20, "fixture_cost_micro": 0, "formed": false, "http_calls_so_far": 3, "independent_method_self_http_calls": 1, "input_bytes": 48086, "latency_us": 3097, "measurement": "synthetic_first_tendency", "reserved_bytes": 60375, "self_http_calls": 1}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "feedback_in_frame": true, "fixture_cost_micro": 0, "http_calls_so_far": 3, "input_bytes": 52328, "latency_us": 3219, "measurement": "synthetic_private_feedback", "output_bytes": 788, "record_count": 26, "reserved_bytes": 64617, "self_http_calls": 1, "sqlite_allocated_bytes": 1826928, "tendency_revised": true, "variant": "revise"}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "feedback_in_frame": true, "fixture_cost_micro": 0, "http_calls_so_far": 3, "input_bytes": 43269, "latency_us": 2885, "measurement": "synthetic_private_feedback", "output_bytes": 549, "record_count": 22, "reserved_bytes": 55558, "self_http_calls": 1, "sqlite_allocated_bytes": 1616904, "tendency_revised": false, "variant": "rest"}
+.......
+=================================== FAILURES ===================================
+_ test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model _
+
+tmp_path = PosixPath('/dev/shm/nmethodfix/test_initial_method_selection_0')
+
+    def test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model(tmp_path):
+        from nana_core.contracts import CoreError
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity.subject.context_fit import method_consideration
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();style=['LISTEN']
+        config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_calls_per_day':128,'provider_calls_per_hour':128,'per_provider_calls_per_day':128}),expected_revision=config.revision)
+        def meaning(request):return {'communication_proposal':{'approach':style[0],'detail':'BRIEF','follow_up':'NONE','strategy_duration_seconds':3600}}
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();turn=app.chat('SYNTHETIC first retained source',topic='initial-care',privacy='PERSONAL',retain_shared_life=True,message_id='one')
+            store=app.runtime.store;rid=store.db.execute("SELECT record_id FROM continuity_records WHERE target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' ORDER BY rowid DESC LIMIT 1").fetchone()[0]
+            args=dict(scope='project-work',entity_id='project-user',privacy_classes=('PERSONAL',))
+            for index in range(40):
+                app.chat('SYNTHETIC a transient unrelated interaction',topic='transient-'+str(index),privacy='PERSONAL',message_id='transient-'+str(index))
+            # More than one header page of real methods lacks retained input. They
+            # cannot displace the older, still current and consented occurrence.
+            opportunities=app.runtime.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=clock.utc_now_us(),quiet_window_us=SECOND)
+            assert any(v.communication_method_record_id==rid for v in opportunities)
+            snapshot=store.snapshot();writes=store.db.total_changes
+            selected=method_consideration(store,rid,**args);assert selected['input_memory_id']==turn['message_memory_id']
+            for key,value in [('scope','another-scope'),('entity_id','another-person'),('privacy_classes',('PUBLIC',))]:assert method_consideration(store,rid,**{**args,key:value}) is None
+            query="SELECT record_id FROM continuity_records WHERE scope=? AND record_kind='INTENTION' AND target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' AND created_at_us>? ORDER BY created_at_us DESC,record_id"
+>           assert any('communication_method_live_lookup' in str(row) for row in store.db.execute('EXPLAIN QUERY PLAN '+query,('project-work',clock.utc_now_us()-86400*SECOND)))
+E           assert False
+E            +  where False = any(<generator object test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model.<locals>.<genexpr> at 0x7f2680828f20>)
+
+tests/person_self/test_initial_method_tendency.py:103: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model
+1 failed, 24 passed in 22.95s

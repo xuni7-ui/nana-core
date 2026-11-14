@@ -1,8 +1,8 @@
-## 现役revision208 — 先处理独立CI明确失败，原研发继续
+## 现役revision209 — 初始方法/经历可形成首个持续倾向，无须反馈
 
-实际读7ec run43574742202/job132386586263：396pass/1fail/1warning155.73s。原C集成选中PUBLIC视频边界，但源路径猜测跳过ffmpeg安装，首错FileNotFoundError(ffmpeg)保留。只改原workflow，按实际selected检查/必要时apt安装ffmpeg，workflow改动加跑原11边界；7嵌入Python块compile、本地11pass1.91s，原Core/runtime/测试/断言未改。新远端CI待真实结果，不能贴旧/本地PASS，证据evidence/ci-native-boundary-20261114/README.md。
+原C已采纳的当前有界方法+精确保留输入经同D/SELF可形成倾向、REST或短念；不预置私心、不强迫每聊保存/思考。新可选method_ref默认None的JSON/普通及SELF模型schema与精确649一致，原Store/Scheduler/C复用；新pending旧reader仍未资格。资格后才截32机会，40个未保留来源方法不挤掉有效旧来源，原索引实用/只读/替换/源撤回有效。精确649原8场景旧3fail5pass→202相关57.49s，后补原持久template停机重启1pass1.10s；1SELF48136bytes、物理family约0.99→1.58MB，不假称只有512字存储。首错均原样解释，见evidence/initial-method-tendency-20261114/README.md。
 
-7ec匹配实际安装8loopback/原C/D首倾向与修订、同DEV停机旧a781返回资格保留；新CI未确认前不称独立通过或发行。读取回执时继续原无反馈初始情境/多倾向情感/G独立迁移等A–H，不重复全仓/Artifact403/打APK；CURRENT266+409、真实模型/手机/生产未动。
+独立649 CI43575944398/job132390224233实际装ffmpeg/HTTP边界23pass28.22s，旧7ec396pass1fail保留，不是新初始源码独立PASS。7ec匹配候选仍真实有效但不含本批，未重包/APK/CURRENT；真实模型/手机/生产/自然度/长期待。下一先实测原D资源预览默认承诺路线是否提前否决合法私人候选，及≥64混合不合资格候选挤占；复用原C/规范/资源，不简单删条件。多倾向情感/G未见迁移及全部原A–H继续。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

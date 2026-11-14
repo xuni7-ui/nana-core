@@ -1,0 +1,58 @@
+F
+=================================== FAILURES ===================================
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[pending-restart] _
+
+tmp_path = PosixPath('/dev/shm/nmethodpending/test_original_method_and_actua0')
+condition = 'pending-restart'
+
+    @pytest.mark.parametrize('condition',['form','pending-restart','rest','transient','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition in {'form','pending-restart'} else ['WAIT']}
+            if condition in {'form','pending-restart'}:proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition=='transient':proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            if condition=='pending-restart':
+                with LifeApplication(home,clock=clock,router=router) as staging:
+                    staging.pause(False);staging.runtime.refresh_attention();staging.runtime._watch_sources()
+                    assert len(requests)==2
+>                   assert any('communication_method_record_id' in row['payload_json'] for row in staging.runtime.store.all('runtime_schedules'))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_initial_method_tendency.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x7f68283e3820>
+
+>   assert any('communication_method_record_id' in row['payload_json'] for row in staging.runtime.store.all('runtime_schedules'))
+                                                   ^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'payload_json'
+
+tests/person_self/test_initial_method_tendency.py:50: KeyError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[pending-restart]
+1 failed, 9 deselected in 0.86s

@@ -1,0 +1,192 @@
+{"budget": null, "condition": "form", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+F{"budget": null, "condition": "rest", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+F{"budget": null, "condition": "transient", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 987480}
+F{"budget": null, "condition": "no-method", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 995720}
+.{"budget": null, "condition": "no-retention", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 979288}
+.{"budget": null, "condition": "disabled", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 987480}
+.{"budget": null, "condition": "withdrawn", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.{"budget": null, "condition": "source-race", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.
+=================================== FAILURES ===================================
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[form] _
+
+tmp_path = PosixPath('/dev/shm/nmethodoldfinal/test_original_method_and_actua0')
+condition = 'form'
+
+    @pytest.mark.parametrize('condition',['form','rest','transient','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition=='form' else ['WAIT']}
+            if condition=='form':proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition=='transient':proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw(event):
+                        if getattr(event,'communication_method_record_id',None):app.forget(turn['message_memory_id'])
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_initial_method','condition':condition,'self_http_calls':len(seen),
+                    'configured_input_tokens':load_config(home).provider_context_tokens,'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
+                    'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
+>               assert len(seen)==(1 if condition in {'form','rest','transient'} else 0)
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+tests/person_self/test_initial_method_tendency.py:64: AssertionError
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[rest] _
+
+tmp_path = PosixPath('/dev/shm/nmethodoldfinal/test_original_method_and_actua1')
+condition = 'rest'
+
+    @pytest.mark.parametrize('condition',['form','rest','transient','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition=='form' else ['WAIT']}
+            if condition=='form':proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition=='transient':proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw(event):
+                        if getattr(event,'communication_method_record_id',None):app.forget(turn['message_memory_id'])
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_initial_method','condition':condition,'self_http_calls':len(seen),
+                    'configured_input_tokens':load_config(home).provider_context_tokens,'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
+                    'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
+>               assert len(seen)==(1 if condition in {'form','rest','transient'} else 0)
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+tests/person_self/test_initial_method_tendency.py:64: AssertionError
+_ test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[transient] _
+
+tmp_path = PosixPath('/dev/shm/nmethodoldfinal/test_original_method_and_actua2')
+condition = 'transient'
+
+    @pytest.mark.parametrize('condition',['form','rest','transient','no-method','no-retention','disabled','withdrawn','source-race'])
+    def test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        statement='SYNTHETIC user reports a difficult day; this is a statement, not an independently verified mood.'
+        private='PRIVATE_INITIAL_CARE: I feel tentative concern and would like a calm ordinary conversation; I do not know whether the person needs comfort.'
+        passing='PRIVATE_PASSING_CARE: perhaps a quieter rhythm would suit this moment; no lasting plan is necessary.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in own]}
+            if condition!='no-method' and not own:proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            methods=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_STRATEGY']
+            assert len(methods)==1 and methods[0]['choice']['approach']=='LISTEN' and methods[0]['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED'
+            assert not any(b['kind']=='COMMUNICATION_FEEDBACK' for b in context['blocks'])
+            assert any(statement in json.loads(b['data_json']).get('text','') for b in context['blocks'] if b['kind']=='MEMORY')
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own possible concern, not a mood fact or an instruction',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['DRAFT'] if condition=='form' else ['WAIT']}
+            if condition=='form':proposal['private_tendency']={'topic':'initial-care','tendency':private}
+            if condition=='transient':proposal['passing_thought']=passing
+            return {'interpretation':'SYNTHETIC original C considers the meaning of its own current method','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                turn=app.chat(statement,topic='initial-care',privacy='PERSONAL',retain_shared_life=condition!='no-retention',message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2 and not current(app)
+                assert not app.runtime.store.all('experiences')
+                if condition=='withdrawn':app.forget(turn['message_memory_id'])
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw(event):
+                        if getattr(event,'communication_method_record_id',None):app.forget(turn['message_memory_id'])
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_initial_method','condition':condition,'self_http_calls':len(seen),
+                    'configured_input_tokens':load_config(home).provider_context_tokens,'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'budget':seen[0]['budget'] if seen else None,'record_count':len(app.runtime.store.all('continuity_records')),
+                    'sqlite_family_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists())},sort_keys=True))
+>               assert len(seen)==(1 if condition in {'form','rest','transient'} else 0)
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+tests/person_self/test_initial_method_tendency.py:64: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[form]
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[rest]
+FAILED tests/person_self/test_initial_method_tendency.py::test_original_method_and_actual_statement_can_offer_first_c_thought_without_feedback[transient]
+3 failed, 5 passed, 1 deselected in 5.29s

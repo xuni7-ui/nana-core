@@ -4,6 +4,8 @@ from pydantic import Field, StringConstraints, model_serializer, model_validator
 from ..contracts import DTO
 from ..continuity.person_self import ConversationProposal, ConversationDecision
 
+MAX_COMMUNICATION_STRATEGY_SECONDS=86400
+
 MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
 
 class CommunicationChoice(DTO):
@@ -14,7 +16,7 @@ class CommunicationChoice(DTO):
 
 class CommunicationProposal(CommunicationChoice):
     basis_private_record_ids:tuple[Annotated[str,StringConstraints(min_length=1,max_length=128)],...]=Field(default=(),max_length=8)
-    strategy_duration_seconds:int|None=Field(default=None,ge=1,le=86400)
+    strategy_duration_seconds:int|None=Field(default=None,ge=1,le=MAX_COMMUNICATION_STRATEGY_SECONDS)
     end_previous_strategy:bool=False
 
     @model_validator(mode='after')

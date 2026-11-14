@@ -37,6 +37,7 @@ from ..person_self import ConversationProposal, ConversationDecision
 from ...life.dialogue_contracts import CommunicationChoice
 
 class SubjectInput(DTO):
+    communication_method_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
     private_thought_ref:PrivateIntentRef|None=None
     conversation_proposal: ConversationProposal | None = None
     problem_frame: ProblemFrame | None = None
@@ -87,10 +88,16 @@ class SubjectInput(DTO):
     def preserve_legacy_input(self,handler):
         value=handler(self)
         if self.private_thought_ref is None:value.pop('private_thought_ref',None)
+        if self.communication_method_record_id is None:value.pop('communication_method_record_id',None)
         return value
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.communication_method_record_id is not None:
+            if (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.retention=='DO_NOT_REMEMBER'
+                    or self.task_class!='interaction.method.consider' or any((self.private_thought_ref,self.world_concern_id,
+                        self.goal_step,self.goal_review,self.memory_review_id,self.reflection_experience_id,self.growth_assessment_id))):
+                raise ValueError('an own method consideration requires one retained self wake')
         if self.private_thought_ref is not None and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.retention=='DO_NOT_REMEMBER'):
             raise ValueError('private continuation requires a retained self wake, not a user command')
         if self.domain=='SOURCED_LIFE' and (self.origin!='SELF_WAKE' or self.kind!='WAKE' or not self.source_key.startswith('local.') or not self.source_memory_ids or self.text is not None):raise ValueError('sourced life wake requires retained sources, not a new user instruction')

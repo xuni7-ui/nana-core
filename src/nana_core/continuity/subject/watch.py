@@ -8,6 +8,7 @@ from ..recurrence import RecurrenceSpec
 
 
 class AttentionOpportunity(DTO):
+    communication_method_record_id:str|None=None
     private_thought_ref:PrivateIntentRef|None=None
     key: str
     source_kind: str
@@ -63,6 +64,24 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                     source_revision=formed['revision'],scope=scope,entity_id=entity_id,due_at_us=now_us,
                     memory_ids=records.support(rid),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
                     private_thought_ref=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)))
+        if store.schema_target>=13 and loop.privacy_classes:
+            from .context_fit import method_consideration
+            from ...life.dialogue_contracts import MAX_COMMUNICATION_STRATEGY_SECONDS
+            # Every adopted method already has this maximum review window.
+            # Bound old history by it; apply the 32-opportunity cap only after
+            # exact retained-source eligibility, never to unqualified headers.
+            floor=now_us-MAX_COMMUNICATION_STRATEGY_SECONDS*1_000_000;method_count=0
+            marks=','.join('?' for _ in loop.privacy_classes)
+            query="SELECT record_id FROM continuity_records WHERE scope=? AND record_kind='INTENTION' AND target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' AND created_at_us>? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC,record_id"
+            for head in store.db.execute(query,(scope,floor,*loop.privacy_classes)):
+                method=method_consideration(store,head['record_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
+                if method is None or not method['memory_ids'] or len(method['memory_ids'])>32:continue
+                result.append(AttentionOpportunity(key='communication-method.'+head['record_id'],source_kind='MEMORY',source_id=method['input_memory_id'],
+                    scope=scope,entity_id=entity_id,due_at_us=max(method['strategy']['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
+                    memory_ids=method['memory_ids'],event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',task_class='interaction.method.consider',
+                    communication_method_record_id=head['record_id']))
+                method_count+=1
+                if method_count==32:break
         for row in store.db.execute("SELECT * FROM commitments WHERE scope=? AND state IN ('ADOPTED','ACTIVE') ORDER BY due_at_us,updated_at_us LIMIT 64",(scope,)):
             if store.schema_target>=9 and row['state'] in {'ADOPTED','ACTIVE'} and loop.visible(row['record_id'],scope):
                 body=records.read(row['record_id'])['payload']
@@ -92,6 +111,9 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
             feedback=feedback_continuation(store,row['experience_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
             if feedback and len(feedback['memory_ids'])<=32:
                 ref=feedback['reference']
+                # Prefer the actual newer opinion to an initial consideration
+                # of the same method; never allocate both for this scan.
+                result=[item for item in result if item.communication_method_record_id not in feedback['record_ids']]
                 # Enrich this scan's unqueued private candidate, rather than
                 # allocating both a routine revisit and the actual new cause.
                 if ref is not None:result=[item for item in result if item.key!='private-thought.'+ref.record_id]

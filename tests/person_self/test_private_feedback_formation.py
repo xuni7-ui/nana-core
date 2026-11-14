@@ -14,7 +14,7 @@ from .test_private_feedback_continuation import wording
 
 @pytest.mark.parametrize('condition',['form','rest','no-method','withdrawn','disabled','budget','declined','source-race'])
 def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop(tmp_path,condition):
-    home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+    home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[];independent=[]
     private='PRIVATE_FIRST_CARE: I want to keep a tentative concern, while preferring ordinary conversation; I do not know whether their mood improved.'
     def meaning(request):
         states=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
@@ -23,8 +23,20 @@ def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_an
         elif condition!='no-method':proposal['strategy_duration_seconds']=3600
         return {'communication_proposal':proposal}
     def inner(request):
-        seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+        context=json.loads(request['context_json']);manifest=context['manifest']
         opinions=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK']
+        if not opinions:
+            # The withdrawn opinion cannot drive C, while the independently
+            # retained original method may still offer its own consideration.
+            assert condition in {'withdrawn','source-race'}
+            assert any(b['kind']=='COMMUNICATION_STRATEGY' for b in context['blocks'])
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert feedback not in frame['source_memory_ids'] and sample.exact_feedback not in request['context_json']
+            independent.append(request)
+            return {'interpretation':'SYNTHETIC independent method remains available; withdrawn opinion is not used',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC rest without inventing an opinion','preferred_behavior':'REST','proposed_operations':['WAIT']}}
+        seen.append(request)
         assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
         assert not any(b['kind']=='PRIVATE_INTERNAL_STATE' for b in context['blocks'])
         proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC consider a new own orientation, not a verified mood or compulsory task',
@@ -61,11 +73,12 @@ def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_an
             clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
             for _ in range(8):app.tick()
             formed=current(app)
-            measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
-            print(json.dumps({'measurement':'synthetic_first_tendency','condition':condition,'self_http_calls':len(seen),
+            observed=seen+independent
+            measure=app.runtime.store.one('cognitive_requests',observed[0]['request_id']) if observed else None
+            print(json.dumps({'measurement':'synthetic_first_tendency','condition':condition,'self_http_calls':len(observed),'bound_feedback_self_http_calls':len(seen),'independent_method_self_http_calls':len(independent),
                 'http_calls_so_far':len(requests),'input_bytes':measure['input_bytes'] if measure else None,
                 'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
-                'fixture_cost_micro':measure['actual_cost_micro'] if measure else None,'budget':seen[0]['budget'] if seen else None,
+                'fixture_cost_micro':measure['actual_cost_micro'] if measure else None,'budget':observed[0]['budget'] if observed else None,
                 'formed':bool(formed),'continuity_records':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
             assert len(seen)==(1 if condition in {'form','rest'} else 0)
             assert bool(formed)==(condition=='form')

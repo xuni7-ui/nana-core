@@ -128,7 +128,7 @@ class CognitionCoordinator:
 
     def preview_private(self,event,loop):
         """Read-only C/resource assessment before recording a D opportunity."""
-        if event.private_thought_ref is None and event.task_class!='private.feedback.review':raise CoreError('PRIVATE_CONTINUATION_REFERENCE_REQUIRED')
+        if event.private_thought_ref is None and event.communication_method_record_id is None and event.task_class!='private.feedback.review':raise CoreError('PRIVATE_CONTINUATION_REFERENCE_REQUIRED')
         row={'event_type':'SELF_EVENT','wake_trigger':'SELF_TRIGGER','queue_id':None}
         return self._choose(row,event,loop,{'record_id':None})
 
@@ -138,7 +138,7 @@ class CognitionCoordinator:
         appraisal=appraise(event,situation)
         if event.retention=='DO_NOT_REMEMBER':return 'LIGHT_COGNITION','NONRETENTION_NO_MODEL'
         need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
-        private_opportunity=event.private_thought_ref is not None or event.task_class=='private.feedback.review'
+        private_opportunity=event.private_thought_ref is not None or event.communication_method_record_id is not None or event.task_class=='private.feedback.review'
         if private_opportunity:
             from ..continuity.subject.policy import motivate,decide
             from ..continuity.autonomy.private_intent import can_consider_private_formation

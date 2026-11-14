@@ -1,0 +1,228 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "form", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3286, "measurement": "synthetic_initial_method", "record_count": 17, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1576064}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "rest", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 2900, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1551368}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "transient", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 3484, "measurement": "synthetic_initial_method", "record_count": 16, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1555488}
+.{"budget": null, "condition": "no-method", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 999816}
+.{"budget": null, "condition": "no-retention", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 9, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 983384}
+.{"budget": null, "condition": "disabled", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.{"budget": null, "condition": "withdrawn", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 10, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 991576}
+.{"budget": null, "condition": "source-race", "configured_input_tokens": 32768, "input_bytes": null, "latency_us": null, "measurement": "synthetic_initial_method", "record_count": 11, "reserved_bytes": null, "self_http_calls": 0, "sqlite_family_allocated_bytes": 1065616}
+.F{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "form", "continuity_records": 22, "fixture_cost_micro": 0, "formed": true, "http_calls_so_far": 3, "input_bytes": 53976, "latency_us": 3059, "measurement": "synthetic_first_tendency", "reserved_bytes": 66265, "self_http_calls": 1}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "rest", "continuity_records": 18, "fixture_cost_micro": 0, "formed": false, "http_calls_so_far": 3, "input_bytes": 53976, "latency_us": 3228, "measurement": "synthetic_first_tendency", "reserved_bytes": 66265, "self_http_calls": 1}
+.{"budget": null, "condition": "no-method", "continuity_records": 18, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 53318)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/tmp/nana-inner-refinement-work/tests/independent_life/test_dialogue.py", line 23, in do_POST
+    proposal=subject_builder(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/tests/person_self/test_private_feedback_formation.py", line 28, in inner
+    assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
+AssertionError: assert False
+ +  where False = any(<generator object test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop.<locals>.inner.<locals>.<genexpr> at 0x7f91e1c2d000>)
+----------------------------------------
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "withdrawn", "continuity_records": 15, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 3, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": 60375, "self_http_calls": 1}
+F{"budget": null, "condition": "disabled", "continuity_records": 13, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"budget": null, "condition": "budget", "continuity_records": 13, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.{"budget": null, "condition": "declined", "continuity_records": 23, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 2, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": null, "self_http_calls": 0}
+.----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 48806)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/tmp/nana-inner-refinement-work/tests/independent_life/test_dialogue.py", line 23, in do_POST
+    proposal=subject_builder(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/tests/person_self/test_private_feedback_formation.py", line 28, in inner
+    assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
+AssertionError: assert False
+ +  where False = any(<generator object test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop.<locals>.inner.<locals>.<genexpr> at 0x7f91e31f5a80>)
+----------------------------------------
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "source-race", "continuity_records": 16, "fixture_cost_micro": null, "formed": false, "http_calls_so_far": 3, "input_bytes": null, "latency_us": null, "measurement": "synthetic_first_tendency", "reserved_bytes": 60375, "self_http_calls": 1}
+F{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "feedback_in_frame": true, "fixture_cost_micro": 0, "http_calls_so_far": 3, "input_bytes": 43269, "latency_us": 3205, "measurement": "synthetic_private_feedback", "output_bytes": 788, "record_count": 26, "reserved_bytes": 55558, "self_http_calls": 1, "sqlite_allocated_bytes": 1814616, "tendency_revised": true, "variant": "revise"}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "feedback_in_frame": true, "fixture_cost_micro": 0, "http_calls_so_far": 3, "input_bytes": 43269, "latency_us": 2856, "measurement": "synthetic_private_feedback", "output_bytes": 549, "record_count": 22, "reserved_bytes": 55558, "self_http_calls": 1, "sqlite_allocated_bytes": 1625096, "tendency_revised": false, "variant": "rest"}
+.....................................................................................................PRIVATE_INTERNAL_MEASURE active fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 28218 input_limit 61440
+.PRIVATE_INTERNAL_MEASURE paused fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 29874 input_limit 61440
+.PRIVATE_INTERNAL_MEASURE abandoned fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 27772 input_limit 61440
+.PRIVATE_INTERNAL_MEASURE unrelated fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 26940 input_limit 61440
+.PRIVATE_INTERNAL_MEASURE withdrawn fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 25111 input_limit 61440
+.PRIVATE_INTERNAL_MEASURE disabled fixture_calls 1 context_counter UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER context_units 27351 input_limit 61440
+.PRIVATE_INTERNAL_SAME_STATE_BUDGET UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER enabled 28173 disabled 27306 limit 61440 minimum_package_limit 4200
+.......................................PRIVATE_ASSOCIATION_ABLATION {"before_kind": "NO_ACTION", "after_kind": "WAIT", "input_limit": [61440, 61440], "input_units": [26858, 27963], "counter": "UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER", "fixture_calls_per_choice": 1, "real_provider_calls": 0}
+......................................
+=================================== FAILURES ===================================
+_ test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model _
+
+tmp_path = PosixPath('/dev/shm/nmethodrelated/test_initial_method_selection_0')
+
+    def test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model(tmp_path):
+        from nana_core.contracts import CoreError
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity.subject.context_fit import method_consideration
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();style=['LISTEN']
+        def meaning(request):return {'communication_proposal':{'approach':style[0],'detail':'BRIEF','follow_up':'NONE','strategy_duration_seconds':3600}}
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();turn=app.chat('SYNTHETIC first retained source',topic='initial-care',privacy='PERSONAL',retain_shared_life=True,message_id='one')
+            store=app.runtime.store;rid=store.db.execute("SELECT record_id FROM continuity_records WHERE target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' ORDER BY rowid DESC LIMIT 1").fetchone()[0]
+            args=dict(scope='project-work',entity_id='project-user',privacy_classes=('PERSONAL',))
+            snapshot=store.snapshot();writes=store.db.total_changes
+            selected=method_consideration(store,rid,**args);assert selected['input_memory_id']==turn['message_memory_id']
+            for key,value in [('scope','another-scope'),('entity_id','another-person'),('privacy_classes',('PUBLIC',))]:assert method_consideration(store,rid,**{**args,key:value}) is None
+            query="SELECT record_id FROM continuity_records WHERE scope=? AND record_kind='INTENTION' AND target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' ORDER BY rowid DESC LIMIT 32"
+>           assert any('communication_method_live_lookup' in str(row) for row in store.db.execute('EXPLAIN QUERY PLAN '+query,('project-work',)))
+E           assert False
+E            +  where False = any(<generator object test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model.<locals>.<genexpr> at 0x7f91e321dee0>)
+
+tests/person_self/test_initial_method_tendency.py:96: AssertionError
+_ test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop[withdrawn] _
+
+tmp_path = PosixPath('/dev/shm/nmethodrelated/test_bound_method_opinion_can_3')
+condition = 'withdrawn'
+
+    @pytest.mark.parametrize('condition',['form','rest','no-method','withdrawn','disabled','budget','declined','source-race'])
+    def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_FIRST_CARE: I want to keep a tentative concern, while preferring ordinary conversation; I do not know whether their mood improved.'
+        def meaning(request):
+            states=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if states else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in states]}
+            if states:proposal['end_previous_strategy']=True
+            elif condition!='no-method':proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            opinions=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK']
+            assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
+            assert not any(b['kind']=='PRIVATE_INTERNAL_STATE' for b in context['blocks'])
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC consider a new own orientation, not a verified mood or compulsory task',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['WAIT'] if condition=='rest' else ['DRAFT']}
+            if condition in {'form','budget'}:proposal['private_tendency']={'topic':'fresh-care','tendency':private}
+            return {'interpretation':'SYNTHETIC actual feedback can matter without an already formed private tendency','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert not current(app);identity=app.runtime.identity_id
+                turn=app.chat('SYNTHETIC user statement about a difficult day',topic='fresh-care',privacy='PROJECT',retain_shared_life=True,message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2
+                language=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='first-method-opinion',review_target=turn['exchange_record_id'],mode='CASUAL',context='SYNTHETIC retained actual local turn',candidate_response=turn['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC ordinary conversation suits me better; please do not keep asking.',reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
+                rid=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                eid=language.experience(rid,app.runtime.authority);feedback=app.runtime.store.one('experiences',eid)['result_memory_id']
+                if condition=='withdrawn':app.forget(feedback)
+                if condition=='declined':
+                    boundary=app.chat('不要研究这个话题',topic='fresh-care',privacy='PROJECT',message_id='decline')
+                    assert boundary['mode']=='RESPECT_BOUNDARY'
+            clock.advance(601*SECOND);config=load_config(home)
+            changes={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}
+            if condition=='budget':changes['provider_calls_per_day']=2
+            update_config(home,config.model_copy(update=changes),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw_before_dispatch(event):
+                        if event.task_class=='private.feedback.review':app.forget(feedback)
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw_before_dispatch
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                formed=current(app)
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_first_tendency','condition':condition,'self_http_calls':len(seen),
+                    'http_calls_so_far':len(requests),'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'fixture_cost_micro':measure['actual_cost_micro'] if measure else None,'budget':seen[0]['budget'] if seen else None,
+                    'formed':bool(formed),'continuity_records':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
+>               assert len(seen)==(1 if condition in {'form','rest'} else 0)
+E               assert 1 == 0
+E                +  where 1 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 32768, 'output_tokens': 2048, 'tim...4045-8758-c6b2cc35713f"]}],"content_digest":"d3a29c1f6af460a3826028df9c64a96eb40e5b2e2c680523c5e53687daedc747"}', ...}])
+
+tests/person_self/test_private_feedback_formation.py:70: AssertionError
+_ test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop[source-race] _
+
+tmp_path = PosixPath('/dev/shm/nmethodrelated/test_bound_method_opinion_can_7')
+condition = 'source-race'
+
+    @pytest.mark.parametrize('condition',['form','rest','no-method','withdrawn','disabled','budget','declined','source-race'])
+    def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop(tmp_path,condition):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_FIRST_CARE: I want to keep a tentative concern, while preferring ordinary conversation; I do not know whether their mood improved.'
+        def meaning(request):
+            states=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            proposal={'approach':'CHAT' if states else 'LISTEN','detail':'BRIEF','follow_up':'NONE','basis_private_record_ids':[v['record_id'] for v in states]}
+            if states:proposal['end_previous_strategy']=True
+            elif condition!='no-method':proposal['strategy_duration_seconds']=3600
+            return {'communication_proposal':proposal}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            opinions=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK']
+            assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
+            assert not any(b['kind']=='PRIVATE_INTERNAL_STATE' for b in context['blocks'])
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC consider a new own orientation, not a verified mood or compulsory task',
+                'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['WAIT'] if condition=='rest' else ['DRAFT']}
+            if condition in {'form','budget'}:proposal['private_tendency']={'topic':'fresh-care','tendency':private}
+            return {'interpretation':'SYNTHETIC actual feedback can matter without an already formed private tendency','subject_cognition':proposal}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert not current(app);identity=app.runtime.identity_id
+                turn=app.chat('SYNTHETIC user statement about a difficult day',topic='fresh-care',privacy='PROJECT',retain_shared_life=True,message_id='initial')
+                assert turn['text']=='SYNTHETIC listening method' and len(requests)==2
+                language=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='first-method-opinion',review_target=turn['exchange_record_id'],mode='CASUAL',context='SYNTHETIC retained actual local turn',candidate_response=turn['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC ordinary conversation suits me better; please do not keep asking.',reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
+                rid=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                eid=language.experience(rid,app.runtime.authority);feedback=app.runtime.store.one('experiences',eid)['result_memory_id']
+                if condition=='withdrawn':app.forget(feedback)
+                if condition=='declined':
+                    boundary=app.chat('不要研究这个话题',topic='fresh-care',privacy='PROJECT',message_id='decline')
+                    assert boundary['mode']=='RESPECT_BOUNDARY'
+            clock.advance(601*SECOND);config=load_config(home)
+            changes={'revision':config.revision+1,'provider_background_cognition':condition!='disabled','provider_context_tokens':32768}
+            if condition=='budget':changes['provider_calls_per_day']=2
+            update_config(home,config.model_copy(update=changes),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if condition=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw_before_dispatch(event):
+                        if event.task_class=='private.feedback.review':app.forget(feedback)
+                        return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw_before_dispatch
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                formed=current(app)
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_first_tendency','condition':condition,'self_http_calls':len(seen),
+                    'http_calls_so_far':len(requests),'input_bytes':measure['input_bytes'] if measure else None,
+                    'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
+                    'fixture_cost_micro':measure['actual_cost_micro'] if measure else None,'budget':seen[0]['budget'] if seen else None,
+                    'formed':bool(formed),'continuity_records':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
+>               assert len(seen)==(1 if condition in {'form','rest'} else 0)
+E               assert 1 == 0
+E                +  where 1 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 32768, 'output_tokens': 2048, 'tim...4c5b-b385-fcdec70e5681"]}],"content_digest":"f600c3fe781096d054f3ba3103bc9abb2c6cfba2880e0eed61f3cf2c414b1190"}', ...}])
+
+tests/person_self/test_private_feedback_formation.py:70: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_initial_method_selection_is_read_only_scoped_indexed_and_rejects_replaced_method_before_model
+FAILED tests/person_self/test_private_feedback_formation.py::test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop[withdrawn]
+FAILED tests/person_self/test_private_feedback_formation.py::test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop[source-race]
+3 failed, 199 passed in 53.73s

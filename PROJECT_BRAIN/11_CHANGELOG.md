@@ -3718,3 +3718,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE匹配7ec安装：原285文件单构建8bb2d4…152d实际离线安装，独立安装树原D/C/反馈8loopback/2SELF，无预置V4→形成→同intent修订→后续LISTEN/CHAT/EXPLAIN。停用/重启/撤回后同DEV7ec→a781安装版→7ec返回，1身份/8请求/6周期/0动作保持、封签通过；strict DTO/identity API夹具首错保留，不当带未处理队列/活动计划或生产回退。Web未变复用/未新APK/CURRENT，证据matching-feedback-install-7ec-20261114；下一无反馈初始情境/情感/G迁移与原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE独立CI43574742202/job132386586263实际396pass/1fail/1warning155.73s，原PUBLIC视频边界因源路径猜测漏装ffmpeg失败。仅原workflow按实际选中测试补原apt依赖，workflow变化加原边界，不改C/测试断言或新框架；本地11pass1.91s/7嵌入块compile，新远端待回执。7ec匹配安装保留不当独立CI绿，证据ci-native-boundary-20261114，原A–H继续。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。

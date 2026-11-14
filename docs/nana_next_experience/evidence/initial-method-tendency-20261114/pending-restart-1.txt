@@ -1,0 +1,3 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "condition": "pending-restart", "configured_input_tokens": 32768, "input_bytes": 48136, "latency_us": 4322, "measurement": "synthetic_initial_method", "record_count": 17, "reserved_bytes": 60425, "self_http_calls": 1, "sqlite_family_allocated_bytes": 1571968}
+.
+1 passed, 9 deselected in 1.10s

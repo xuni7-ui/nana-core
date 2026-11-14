@@ -14,6 +14,10 @@ PRIVATE_TENDENCY_JSON_FILTER = PRIVATE_INTENT_JSON_CONTRACT+"='PRIVATE_TENDENCY_
 
 
 REBUILDABLE_LOOKUP_INDEXES = {
+    "communication_method_live_lookup": (
+        "CREATE INDEX communication_method_live_lookup ON continuity_records(scope,created_at_us DESC,record_id) "
+        "WHERE record_kind='INTENTION' AND target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE'"
+    ),
     "private_intent_tendency_topic_v4": (
         "CREATE INDEX private_intent_tendency_topic_v4 ON artifacts("
         "json_extract(CAST(payload AS TEXT),'$.owner_identity_id'),json_extract(CAST(payload AS TEXT),'$.topic'),artifact_id) WHERE "+PRIVATE_TENDENCY_JSON_FILTER
@@ -92,7 +96,7 @@ class ContinuityStore(Store):
             try:self.db.execute("SELECT json_valid('{}')").fetchone();has_json=True
             except sqlite3.OperationalError:has_json=False
             for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
-                if name.startswith('private_intent_') and schema_target<13:continue
+                if (name.startswith('private_intent_') or name=='communication_method_live_lookup') and schema_target<13:continue
                 if name in {'private_intent_topic_lookup_v1','private_intent_tendency_topic_v4'} and not has_json:continue
                 self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
             for suffix in ("", "-wal", "-shm", ".lock"):

@@ -194,6 +194,46 @@ def communication_strategy_projection(store,*,scope,entity_id,topic,recipient_co
         'execution_authority':False}
 
 
+def method_consideration(store, record_id, *, scope, entity_id, privacy_classes):
+    """An adopted own method and its exact retained statement, not a mood fact.
+
+    No new opinion, automatic goal or model call. A current private basis has its
+    own continuation; this opportunity covers the missing initial consideration.
+    """
+    if store.schema_target<13:return None
+    records=RecordService(store);head=store.one('continuity_records',record_id)
+    if (not head or head['record_kind']!='INTENTION' or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+            or head['lifecycle']!='ACTIVE' or not head['target_id'] or not head['target_id'].startswith('communication-strategy.')
+            or not records.current_support(record_id)):return None
+    from ...life.dialogue_contracts import CommunicationStrategy
+    value=CommunicationStrategy.model_validate_json(canonical(records.read(record_id)['payload']))
+    if value.basis_private_record_ids or value.entity_id!=entity_id:return None
+    current=communication_strategy_projection(store,scope=scope,entity_id=entity_id,topic=value.topic,
+        recipient_context=value.recipient_context,privacy_classes=privacy_classes)
+    if not current or current['record_id']!=record_id:return None
+    cycle=store.one('subject_cycles',value.source_cycle_id)
+    source=store.one('subject_events',cycle['subject_event_id']) if cycle else None
+    if not source or source['entity_id']!=entity_id or source['scope']!=scope:return None
+    data=records.read(cycle['record_id'])['payload'];roots=[]
+    for rid in (data.get('context_fit') or {}).get('source_record_ids',()):
+        h=store.one('continuity_records',rid)
+        if not h or h['record_kind']!='COGNITION_PROPOSAL' or h['scope']!=scope or h['privacy_class'] not in privacy_classes or h['lifecycle']!='ACTIVE' or not records.current_support(rid):continue
+        reply=records.read(rid)['payload']['reply'];request=store.one('cognitive_requests',reply['request_id'])
+        if not request or request['state']!='PROPOSED':continue
+        request_head=store.one('continuity_records',request['record_id'])
+        if not request_head or request_head['scope']!=scope or request_head['privacy_class'] not in privacy_classes or request_head['lifecycle']!='ACTIVE' or not records.current_support(request['record_id']):continue
+        body=records.read(request['record_id'])['payload']['request'];dialogue=body.get('role_input',{}).get('dialogue',{})
+        if body['cognitive_role']!='INTERPRET' or dialogue.get('topic')!=value.topic:continue
+        mid=dialogue.get('message_memory_id');header=store.one('memories',mid) if mid else None
+        if not header or header['scope']!=scope or header['privacy_class'] not in privacy_classes or header['entity_id']!=entity_id:continue
+        memory=records.memory.read(mid);provenance=memory['source_provenance']
+        if (provenance['source_namespace']=='recorded.conversation.input' and provenance['source_kind']=='USER_STATEMENT'
+                and provenance['source_reference']==source['source_key']):roots.append(mid)
+    if len(set(roots))!=1:return None
+    return {'strategy':current,'topic':value.topic,'input_memory_id':roots[0],
+        'record_ids':(record_id,cycle['record_id']),'memory_ids':records.support(record_id)}
+
+
 def record_communication_strategy(store,tx,event,result,proposal,*,privacy_classes):
     if not result.record_id or event.retention=='DO_NOT_REMEMBER' or not event.interaction_signal:return
     from ...life.dialogue_contracts import CommunicationStrategy

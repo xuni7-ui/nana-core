@@ -40,12 +40,18 @@ class SubjectLoop:
     def situation(self, event, source):
         now = self.store.clock.utc_now_us()
         records, memories, projects, commitments, due, methods = [], [], [], [], [], []
-        continued=None
+        continued=None;method=None
         if event.private_thought_ref is not None:
             if self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
             from ..autonomy.private_intent import continuation_target
             continued=continuation_target(self.store,event.private_thought_ref,scope=event.scope,privacy_classes=self.privacy_classes)
             event=event.model_copy(update={'topic':continued[1].topic})
+        if event.communication_method_record_id is not None:
+            from .context_fit import method_consideration
+            method=method_consideration(self.store,event.communication_method_record_id,scope=event.scope,entity_id=event.entity_id,privacy_classes=self.privacy_classes)
+            if method is None:raise CoreError('COMMUNICATION_METHOD_CONSIDERATION_UNAVAILABLE')
+            event=event.model_copy(update={'topic':method['topic']})
+            records.extend(method['record_ids']);memories.extend(method['memory_ids'])
         if source['record_id']:
             if not self.visible(source['record_id'], event.scope):
                 raise CoreError('SUBJECT_SOURCE_UNAVAILABLE')
@@ -109,6 +115,9 @@ class SubjectLoop:
         norm_ids=tuple(r['memory_id'] for r in norm_rows)
         candidates=cues_from(self.store,(*event.source_memory_ids,*norm_ids),scope=event.scope,privacy_classes=self.privacy_classes)
         cue=next((c for _,c in candidates if c.cue_kind!='CONSTRAINT'),None)
+        if method is not None:
+            from .opportunities import ConcernCue
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='OWN_METHOD_RECONSIDERATION',topic_key=method['topic'],possible_behaviors=('REFLECT','REST'))
         if cue is not None and event.result_for_intention_id and event.novelty=='HIGH':
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
