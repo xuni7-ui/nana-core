@@ -1,0 +1,29 @@
+{
+  "execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD",
+  "source_commit": "9291f1e5f76f799b8b4bda056418dd390d1a57ea",
+  "cases": [
+    {
+      "case": "learn-return",
+      "PASS": true
+    },
+    {
+      "case": "watch-ablation",
+      "PASS": true
+    },
+    {
+      "case": "return-ablation",
+      "PASS": true
+    },
+    {
+      "case": "resource-recovery",
+      "PASS": true
+    }
+  ],
+  "repository_pythonpath": false,
+  "fixture_source": "EXTRACTED_UNMODIFIED_EXISTING_TEST_FUNCTIONS",
+  "qualification_dependencies": "PYTEST_ONLY_EXTERNAL_DIRECTORY",
+  "real_provider_calls": 0,
+  "sqlite": "3.53.1",
+  "physical_phone": "NOT_RUN",
+  "production_changed": false
+}

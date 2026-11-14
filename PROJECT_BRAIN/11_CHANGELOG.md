@@ -2889,3 +2889,5 @@ Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria 
 
 ### Next Experience · safe model setup ordering
 The quick setup now binds credentials before switching the cognition route. If native credential binding is unavailable, it preserves the current route and reports the remaining step. Web build and 56 frontend tests passed; real provider/phone and deployment remain unverified.
+
+- 2026-11-14｜交付归档：新增server-9291f1e-candidate，精确Core/Web源码9291f1e/Brain221、285文件双构建与实际离线安装/原G私人兴趣因果/静止929→d141→929通过。仅受控候选非完整发行，不改CURRENT266+409/旧制品，不动生产；dev当前Brain/证据为继续任务入口，独立仓库下载资格后补，不把本地构建称远端下载。
