@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 195,
-  "as_of_us": 1794632925831644,
+  "revision": 196,
+  "as_of_us": 1794634703148274,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRIVATE_METHOD_CONTINUATION",
+  "status": "IN_PROGRESS_BACKGROUND_PROVIDER_STARTUP_PRODUCT",
   "progress": [
-    "Web生成中接续→实际TLS/BFF/原C双源继承；公开live客户端移除写死实例私人称呼，保留产品品牌与原身份关系。TS/Vite/93单测及既有聊天/UNKNOWN/模型草稿四视口12通过，无新APK/native/真实模型/手机/生产资格。",
+    "Web后台模型资源选择接原预算/CSRF/CAS/幂等，默认关闭、保存0调用、明确重启后原LifeApp绑定，旧客户端省略保留。TS/Vite/93单测/20四视口与4实际TLS/BFF/Core通过，未新APK/手机/生产。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,18 +27,18 @@
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定Token/费用/超时、更多原生协议/目录显式续页/模型产品及Gateway/宿主/仓库闭包待。Anthropic文字+有界目录已有受控资格，真实API/原生媒体/最终安装未资格。",
-    "正常D可续用当前私念已引用方法；尚未自主发现新关联方法，不从旧来源/修订链强推。下一原LifeApp正常startup持久后台provider资源入口（默认关闭）；情感结果因果/G广迁移、三阶段装配/原A–H/旧reader与匹配发行继续。",
+    "正常宿主持久后台provider资源入口已接；下一固定提交匹配Core/Web候选/离线安装/同主体停机返回资格。尚未引用方法的自主发现、情感结果因果/G广迁移、三阶段装配及全部原A–H/旧reader/最终发行继续，真实模型和设备仍独立授权。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/background-provider-startup-20261114/README.md",
     "docs/nana_next_experience/evidence/private-method-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/provider-lesson-selection-20261113/README.md",
     "docs/nana_next_experience/evidence/voluntary-restraint-scope-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-focus-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-seedless-20261113/README.md",
     "docs/nana_next_experience/evidence/provider-normal-d-20261113/README.md",
-    "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md",
-    "docs/nana_next_experience/evidence/deliberated-direction-20261113/README.md"
+    "docs/nana_next_experience/evidence/provider-subject-resource-20261113/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2810,3 +2810,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [实测] revision194原C任务Lesson到SELF证据provider-lesson-selection-20261113；源码表SHA256 e67cc971cf009c7fa4a082993a485c32b186f514df314276a3eadf3ec9458fb5（表不自指）。189相关通过，旧fd同预算REST→新EXPLORE，暂停/异类/撤回与无Frame反向有效，额外模型往返0。旧d3独立CI344/旧fd306另记，非本批CI/全仓/真实成长/发行。
 
 [实测] revision195无类别私念方法续用证据private-method-continuation-20261114；源码表SHA256 e1758f10342283654706f15ceef92d4721661b8a66425442d49e5ced94c9e850（表不自指）。196相关通过，原quiet首错与精确c126对照保留，原G暂停/取消引用/撤回/消融及同主体重启有效；尚非广泛成长/发行/真实模型。
+
+[实测] revision196正常后台模型startup/产品证据background-provider-startup-20261114；源码表SHA256 6c0d70128de154daa62b135a538c188eb0d6516440384bc35bef49c884278efa（表不自指）。76相关+2针对、93前端/20合成浏览器/4实际TLS/Core通过；保存0模型调用，迁移不带宿主选择。未全仓/匹配安装/真实模型/手机/生产。

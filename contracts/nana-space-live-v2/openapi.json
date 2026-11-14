@@ -3100,6 +3100,18 @@
             "title": "Owner Epoch",
             "type": "integer"
           },
+          "background_cognition_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Background Cognition Enabled"
+          },
           "provider_profile_id": {
             "maxLength": 128,
             "minLength": 1,

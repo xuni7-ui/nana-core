@@ -85,3 +85,12 @@ with verified official source archives in a fresh user-owned prefix. SQLite is
 linked through that Python's private RUNPATH, not LD_PRELOAD, sqlite3 monkeypatch,
 system Python replacement or an alternate Store. Rebuild the host dependency on
 a new machine; it is not Subject identity or part of SubjectPackage.
+
+
+## 开发版后台模型资源
+
+新版本的模型运行预算页可显式选择“后台按需使用模型”。默认关闭；开启后，在下一次明确重启时才绑定原有路由和预算。保存配置本身不调用模型，后台请求与聊天共用原额度，不提供额外费用授权。缺少已授权的模型路由时保持未绑定；主体的原轻量生活机制继续运行。
+
+这是宿主 life.json 的 provider_background_cognition 资源选项，不是主体人格或思想许可；主体包不携带它。旧客户端只改预算时保留当前选项。改变后台选项会重置本页的计费同意，需要明确选择后再保存；重启前仍使用原运行设置。
+
+返回不识别此选项的旧软件前，先在当前版本关闭该选项并保存（关闭值从 life.json 中省略），再停机并按原回退流程返回旧包。不要把仍含开启字段的配置直接交给旧的严格配置读取器。该开发入口不表示 CURRENT 或生产已经升级，实际安装、手机及真实模型资格分别核对。

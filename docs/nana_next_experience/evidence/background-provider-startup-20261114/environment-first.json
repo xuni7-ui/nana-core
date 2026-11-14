@@ -1,0 +1,17 @@
+{
+  "source": "Observed tool return in this conversation; first temporary build logs were overwritten by the successful retry",
+  "failures": [
+    {
+      "kind": "wrong_python_working_directory",
+      "error": "FileNotFoundError: apps/nana-space/tests/v3.spec.ts",
+      "files_changed": false
+    },
+    {
+      "kind": "npm_default_cache_on_full_root",
+      "error": "ENOSPC before scripts ran",
+      "recovery": "npm_config_cache=/tmp/nana-npm-cache"
+    }
+  ],
+  "dependencies": "Copied unchanged installed node_modules after exact package-lock comparison; no install or dependency changes",
+  "current_root_preserved": true
+}

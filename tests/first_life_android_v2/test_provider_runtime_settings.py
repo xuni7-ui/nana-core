@@ -77,10 +77,11 @@ def test_runtime_settings_lost_result_after_commit_remains_unknown_without_rewri
         calls.append(1);original(*args,**kwargs)
         raise OSError('SYNTHETIC lost local completion after settings replacement')
     monkeypatch.setattr(provider_settings,'update_config',lost)
-    body=request_body(service);before=load_config(service.supervisor.home)
+    body={**request_body(service),'background_cognition_enabled':True};before=load_config(service.supervisor.home)
     code,response,_=http(server,'providers/runtime','POST',body,headers)
     assert code==200 and response['data']['state']=='UNKNOWN',response
     assert load_config(service.supervisor.home).revision==before.revision+1 and len(calls)==1
+    assert load_config(service.supervisor.home).provider_background_cognition is True
     checked=http(server,'receipts/'+body['client_request_id'],headers=headers)[1]['data']
     assert checked['state']=='UNKNOWN'
     assert http(server,'providers/runtime','POST',body,headers)[1]['data']['state']=='UNKNOWN'
@@ -112,3 +113,33 @@ def test_host_runtime_budget_flag_defaults_off_and_is_absent_from_legacy_seriali
     assert config.allow_provider_runtime_budget is False
     assert 'allow_provider_runtime_budget' not in config.model_dump(mode='json')
     assert config.model_copy(update={'allow_provider_runtime_budget':True}).model_dump(mode='json')['allow_provider_runtime_budget'] is True
+
+
+def test_background_resource_choice_is_explicit_persistent_and_legacy_budget_writes_preserve_it(running):
+    server,service=running;configure_profile(service);headers=login(server,service)
+    service.allow_provider_configuration=True;service.allow_provider_runtime_budget=True
+    before=load_config(service.supervisor.home)
+    assert before.provider_background_cognition is False
+    body={**request_body(service,'background-on'),'background_cognition_enabled':True}
+    code,response,_=http(server,'providers/runtime','POST',body,headers)
+    assert code==200 and response['data']['state']=='VERIFIED'
+    assert response['data']['result']['background_cognition_enabled'] is True
+    assert response['data']['result']['runtime_applied'] is False and response['data']['result']['network_calls']==0
+    enabled=load_config(service.supervisor.home);assert enabled.provider_background_cognition is True
+    repeated=http(server,'providers/runtime','POST',body,headers)[1]
+    assert repeated['data']['state']=='VERIFIED' and load_config(service.supervisor.home)==enabled
+    status=http(server,'providers/runtime',headers=headers)[1]['data'];assert status['background_cognition_enabled'] is True
+    legacy=request_body(service,'legacy-background-preserved')
+    parsed=provider_settings.ProviderRuntimeBudgetRequest.model_validate_json(__import__('json').dumps(legacy))
+    assert 'background_cognition_enabled' not in parsed.model_dump(mode='json')
+    assert http(server,'providers/runtime','POST',legacy,headers)[1]['data']['state']=='VERIFIED'
+    assert load_config(service.supervisor.home).provider_background_cognition is True
+    off={**request_body(service,'background-off'),'background_cognition_enabled':False}
+    assert http(server,'providers/runtime','POST',off,headers)[1]['data']['state']=='VERIFIED'
+    disabled=load_config(service.supervisor.home)
+    assert disabled.provider_background_cognition is False and 'provider_background_cognition' not in disabled.model_dump(mode='json')
+    invalid={**request_body(service,'background-invalid'),'background_cognition_enabled':1}
+    assert http(server,'providers/runtime','POST',invalid,headers)[0]==400
+    assert load_config(service.supervisor.home)==disabled
+    assert disabled.provider_total_calls_limit==before.provider_total_calls_limit
+    assert disabled.provider_total_reserved_cost_micro==before.provider_total_reserved_cost_micro

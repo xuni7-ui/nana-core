@@ -179,6 +179,7 @@ test("V4 real Core runtime budget saves through TLS Web without a model call or 
   await panel.getByLabel('每日请求上限',{exact:true}).fill(String(day));
   const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
   await expect(save).toBeDisabled();
+  await panel.getByRole('checkbox',{name:'后台按需使用模型',exact:true}).check();
   await panel.getByRole('checkbox',{name:/我允许向 api.deepseek.com/}).check();
   const changed=page.waitForResponse(response=>response.url().endsWith('/providers/runtime') && response.request().method()==='POST');
   await save.click();
@@ -188,13 +189,15 @@ test("V4 real Core runtime budget saves through TLS Web without a model call or 
   expect(value.data.state).toBe('VERIFIED');
   expect(value.owner_epoch).toBe(before.owner_epoch);
   expect(value.data.result).toMatchObject({provider_profile_id:pid,provider_host:'api.deepseek.com',
-    runtime_applied:false,restart_required:true,network_calls:0,credential_resolved:false,subject_history_changed:false,
+    runtime_applied:false,restart_required:true,network_calls:0,credential_resolved:false,subject_history_changed:false,background_cognition_enabled:true,
     existing_mission_caps_preserved:true,live_model_test:'NOT_RUN'});
-  await expect(page.getByText('运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。',{exact:true})).toBeVisible();
+  await expect(page.getByText('运行预算、连接与后台模型设置已保存。请明确重启以应用；重启前仍使用原设置，尚未因保存调用模型。',{exact:true})).toBeVisible();
   await page.reload();
   await expect(page.getByLabel('模型运行预算',{exact:true}).getByLabel('每日请求上限',{exact:true})).toHaveValue(String(day));
   const current=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
   expect(current.subject_id).toBe(target.subject_id);expect(current.lineage_binding).toBe(target.lineage_binding);
+  expect(current.data.background_cognition_enabled).toBe(true);
+  await expect(page.getByLabel('模型运行预算',{exact:true}).getByRole('checkbox',{name:'后台按需使用模型',exact:true})).toBeChecked();
   expect(current.data.provider_hosts).toContain('api.deepseek.com');
   expect(current.data.limits.total_calls).toBe(before.data.limits.total_calls);
   expect(current.data.limits.total_reserved_cost_micro).toBe(before.data.limits.total_reserved_cost_micro);

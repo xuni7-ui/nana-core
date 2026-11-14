@@ -1,8 +1,8 @@
-## 现役revision195
+## 现役revision196
 
-原C最新私人选择中已明确引用且仍由原G合格的方法，可回到原ContextAssembler/正常D无task_class机会；同次SELF使同C形成后续私人问题，不新增目标/动作/模型往返。196相关33.54s，取消引用/暂停/撤回/消融/无关方法及重启反向通过；旧c126同预算DEFER→新REFLECT，wire单例+922bytes非Token。证据private-method-continuation-20261114。
+新宿主后台模型资源选项沿原模型预算设置保存，默认关闭；CAS/幂等/同意/CSRF/总量限制保留，旧客户端省略保留已有选项。正常LifeApp在明确重启后绑定原路由/资源，原同身份私问继续；缺router保持未绑定、迁移不带宿主选择。76相关+2针对、TS/Vite/93单测、20四视口及4实际TLS/BFF/Core通过。实际保存后运行仍false/配置true、DB认知请求0，非安装/上线。 证据background-provider-startup-20261114。
 
-下一原LifeApplication正常宿主startup可持久后台provider资源入口，默认关闭、不自动开新费用；内部思想仍有原轻量路径。尚未引用的新方法发现、情感意义/可靠结果/G更广迁移、装配优化及全部原A–H/旧reader/匹配发行继续，CURRENT266+409。环境已重建，/tmp旧制品/日志/安装不沿用；现工作副本由远端c126新clone，Root f583+4WIP及18bc不动。下文旧下一以本段/09优先。
+下一固定本批源码，复用现有portable构建器/已封签wheelhouse做一次匹配Core/Web候选、实际离线安装和同主体启动选择/反馈/撤回/停机回退资格；旧reader返回前先关闭新宿主选项（False省略字段），不得假称开启字段可给旧reader。无新模型阶段/依赖，缺实际授权的模型/手机/生产只暂停对应资格；其余情感/G广迁移/存储/原A–H继续。CURRENT266+409未动，APK最后统一必要构建。
 
 ## 现役revision193
 

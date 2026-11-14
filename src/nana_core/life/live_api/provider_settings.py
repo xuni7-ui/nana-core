@@ -8,7 +8,7 @@ or identity. Credential values never enter Subject data or receipt payloads.
 from ...continuity.provider_config import ProviderCommand, ProviderConfigService, ProviderConfigurationAuthority
 from ...contracts import CoreError
 from .contracts import WriteRequest, Role, ApiError
-from pydantic import Field, model_validator, field_validator
+from pydantic import Field, model_validator, field_validator, model_serializer
 from typing import Literal
 from urllib.parse import urlsplit
 from ..config import load_config, update_config
@@ -165,6 +165,7 @@ def projection(home):
 
 
 class ProviderRuntimeBudgetRequest(WriteRequest):
+    background_cognition_enabled:bool|None=Field(default=None,strict=True)
     provider_profile_id: str = Field(min_length=1,max_length=128)
     profile_revision: int = Field(ge=1)
     configuration_revision: int = Field(ge=1)
@@ -175,6 +176,12 @@ class ProviderRuntimeBudgetRequest(WriteRequest):
     context_tokens: int = Field(ge=1024,le=65536)
     per_call_reserved_cost_micro: int = Field(ge=1,le=100000)
     consent: Literal[True]
+
+    @model_serializer(mode='wrap')
+    def compatible_background_setting(self,handler):
+        value=handler(self)
+        if self.background_cognition_enabled is None:value.pop('background_cognition_enabled',None)
+        return value
 
     @field_validator('consent',mode='before')
     @classmethod
@@ -201,6 +208,7 @@ def runtime_status(service,principal):
     from ..readiness import budget_limits
     return service.envelope({'configuration_revision':config.revision,
         'can_configure':runtime_configuration_allowed(service),
+        'background_cognition_enabled':config.provider_background_cognition,
         'provider_hosts':list(config.provider_hosts),'remote_privacy':list(config.remote_privacy),
         'limits':budget_limits(config),'output_tokens':config.provider_output_tokens,'context_tokens':config.provider_context_tokens,
         'profiles':[{'provider_profile_id':p.provider_profile_id,'profile_revision':p.revision,
@@ -241,10 +249,13 @@ def configure_runtime(service,principal,body):
             'per_provider_calls_per_day':body.per_provider_calls_per_day,
             'provider_output_tokens':body.output_tokens,'provider_context_tokens':body.context_tokens,
             'provider_cost_ceiling_micro':body.per_call_reserved_cost_micro})
+        if body.background_cognition_enabled is not None:
+            updated=updated.model_copy(update={'provider_background_cognition':body.background_cognition_enabled})
         # Only original host settings CAS; no Store write, key lookup, network
         # operation or new live launch. Existing total mission caps stay intact.
         update_config(service.supervisor.home,updated,expected_revision=body.configuration_revision)
         return {'configuration_revision':updated.revision,'provider_profile_id':profile.provider_profile_id,
+            'background_cognition_enabled':updated.provider_background_cognition,
             'profile_revision':profile.revision,'provider_host':host,'network_calls':0,'credential_resolved':False,
             'runtime_applied':False,'restart_required':True,'subject_history_changed':False,
             'existing_mission_caps_preserved':True,'live_model_test':'NOT_RUN',

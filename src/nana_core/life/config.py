@@ -53,6 +53,7 @@ class LifeConfig(DTO):
         if not self.qq_channels:value.pop('qq_channels',None)
         if not self.bilibili_channels:value.pop('bilibili_channels',None)
         if self.note_retrieval_notes_limit == 16:value.pop('note_retrieval_notes_limit',None)
+        if not self.provider_background_cognition:value.pop('provider_background_cognition',None)
         return value
     record_research_outcomes:bool=False
     world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)
@@ -91,6 +92,8 @@ class LifeConfig(DTO):
     provider_hosts:tuple[str,...]=()
     remote_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=()
     provider_timeout_ms:int=Field(default=120000,ge=100,le=600000)
+    # Host resource choice, never thought permission or a portable Subject trait.
+    provider_background_cognition:bool=Field(default=False,strict=True)
     # Existing production contract: zero disables this background-only cap.
     provider_unknown_calls_per_day:int=Field(default=8,ge=0,le=128)
     provider_output_tokens:int=Field(default=1024,ge=64,le=4096)

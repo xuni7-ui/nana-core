@@ -30,8 +30,9 @@ def test_live_backup_is_consistent_quarantined_and_source_delete_propagates(tmp_
  assert not health(home)['process_ready']
 
 def test_runtime_subject_transfer_preserves_history_and_excludes_host_config(tmp_path):
- home=tmp_path/'a';initialize(home,max_autonomous_materials=0)
+ home=tmp_path/'a';initialize(home,max_autonomous_materials=0,provider_background_cognition=True)
  with LifeApplication(home) as app:
+  assert app.config.provider_background_cognition is True and app.runtime.cognition.provider_factory is None
   identity=app.runtime.identity_id;app.pause();app.chat('这个话题先不要深入了',topic='shared',privacy='PROJECT',message_id='decline')
  target_id=str(uuid4());package=tmp_path/'subject.zip';result=transfer(home,package,destination_id=target_id,source_commit=BASE)
  with pytest.raises(CoreError,match='PORTABLE_SOURCE_RETIRED'):
@@ -40,6 +41,7 @@ def test_runtime_subject_transfer_preserves_history_and_excludes_host_config(tmp
  assert out['identity_id']==identity and not out['provider_config_transferred']
  with LifeApplication(tmp_path/'b') as app:
   assert app.runtime.identity_id==identity
+  assert app.config.provider_background_cognition is False and app.runtime.cognition.provider_factory is None
   from nana_core.continuity.subject.context_fit import depth_boundary
   assert depth_boundary(app.runtime.store,'project-user','project-work','shared',app.policy.readable_privacy)[0]
   assert all(x['revoked'] for x in app.runtime.store.all('grants'))

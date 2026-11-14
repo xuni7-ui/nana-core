@@ -120,6 +120,8 @@ class LifeApplication:
             self._legacy_review_at = 0
             from .platform_runtime import PlatformRuntime
             self.platforms=PlatformRuntime(self,platform_resolver)
+            if self.config.provider_background_cognition and self.router is not None:
+                self.bind_provider_cognition()
         except BaseException:self.runtime.stop();raise
 
     def _save_control(self):
@@ -160,6 +162,9 @@ class LifeApplication:
             'conversation_continuation':{'schema_version':1,'max_pending':1,'retained_coalescing':False,
                 'enabled':callable(getattr(self,'dialogue_continuation_pending',None))},
             'provider_readiness':self.provider_readiness(),
+            'background_cognition':{'startup_enabled':self.config.provider_background_cognition,
+                'provider_resource_bound':self.runtime.cognition.provider_factory is not None,
+                'provider_configured':self.router is not None,'configuration_scope':'HOST_ONLY'},
             'view':runtime_projection(r,'LIVING_RUNTIME',self.policy,scopes=('project-work',),entity_id='project-user'),
             'learning':[{'state':x['state'],'cursor':x['cursor']} for x in r.store.db.execute("SELECT state,cursor FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 4")],
             'reports':[p.name for p in (self.home/'reports').glob('*.md')], 'pending_authorization':['REAL_PROVIDER_BUDGET_AND_EXPLICIT_SECRET_RESOLVER'] if self.router is None else [],'external_social_delivery':'DISABLED'}

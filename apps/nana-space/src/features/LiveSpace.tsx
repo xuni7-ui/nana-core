@@ -1189,7 +1189,7 @@ export function LiveSpace() {
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       const result=object(response.data);setReceipt(result);
       if(result.state!=="VERIFIED")throw new V2Error(typeof result.error==="string"?result.error:"UNKNOWN_VERIFY_ONLY");
-      setNotice("运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。");
+      setNotice("运行预算、连接与后台模型设置已保存。请明确重启以应用；重启前仍使用原设置，尚未因保存调用模型。");
       await refresh();
     } catch(error) {
       if(version===sessionVersion.current){

@@ -3692,3 +3692,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-13｜NEXT_EXPERIENCE S2/S5/S6/S8：原C任务类别沿volatile focus选择原ExperienceService合格方法，进入同次world.self上下文；角色/隐私/原引用/整体预算不变，默认路径不变，无Frame拒绝。精确旧fd的285py匹配，同输入同预算REST→新EXPLORE，皆1HTTP/0Goal和动作；暂停/异类/重启/撤回反向通过，最终189相关29.88s。初始私问探针触及原任务/候选保护原样保留，未为测试删条件。wire单例+2450bytes、实际商业Token/费用null；证据provider-lesson-selection-20261113。正常D无类别私念的语义选择、情感/G广迁移与原A–H/发行仍待。
 
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S6/S8 Advanced：原C当前私念最新认知的明确方法引用回到同一Context/G，D保持无task_class、不替主体定义工作。精确c126同预算缺方法→DEFER，新→原C私问REFLECT，1HTTP/0Goal动作；196相关33.54s，原quiet首错保留，取消引用/暂停/撤回/消融/无关方法/重启有效。只读主键查原方法，无新Store/表/思想字段。证据private-method-continuation-20261114；尚非新方法发现/广泛成长，下一正常宿主持久资源入口及原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S4/S5/S6/Surface：原后台Provider显式绑定补宿主持久选项和正常LifeApp startup消费者，默认关闭/无router不绑定；原预算接口新可选bool保持旧客户端省略语义/请求digest，CSRF/CAS/幂等/计费同意/旧总量上限不改。原同身份启动延续及关闭、transfer不带宿主选择通过；76相关+2针对、TS/Vite/93单测、20合成四视口及4实际TLS/Core通过，保存后IPC运行false/文件true/模型请求0。真实0，无新依赖/APK/生产；证据background-provider-startup-20261114，下一匹配候选/安装与安全停机返回及原A–H。

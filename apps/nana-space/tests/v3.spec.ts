@@ -1499,8 +1499,8 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
   const outcome=variant==='ANTHROPIC'?'VERIFIED':variant;
   const state=await installMock(page);
   state.capabilities={provider_configuration_write:true,provider_runtime_configuration:true};
-  let configRevision=3,day=6,posts=0,receiptReads=0,requestId='',profileRevision=1;
-  const runtime=()=>({configuration_revision:configRevision,can_configure:true,provider_hosts:[],remote_privacy:['PUBLIC','PROJECT'],
+  let configRevision=3,day=6,posts=0,receiptReads=0,requestId='',profileRevision=1,background=false;
+  const runtime=()=>({configuration_revision:configRevision,can_configure:true,background_cognition_enabled:background,provider_hosts:[],remote_privacy:['PUBLIC','PROJECT'],
     limits:{calls_per_day:day,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500,total_calls:20,total_reserved_cost_micro:10000},
     output_tokens:1024,context_tokens:8192,profiles:[{provider_profile_id:'provider-a',profile_revision:profileRevision,
       display_name:'SYNTHETIC Text Resource',host:profileRevision===1?'provider-a.example':'changed.example',enabled:true,locality:'REMOTE',
@@ -1509,9 +1509,9 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
     if(route.request().method()==='GET')return route.fulfill({status:200,json:envelope(state,runtime())});
     const body=route.request().postDataJSON();posts++;requestId=body.client_request_id;
     expect(body).toMatchObject({provider_profile_id:'provider-a',profile_revision:1,configuration_revision:3,
-      consent:true,calls_per_day:7,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500});
+      consent:true,background_cognition_enabled:true,calls_per_day:7,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500});
     expect(JSON.stringify(body)).not.toMatch(/api_key|credential|secret|password/);
-    if(outcome!=='REJECTED'){configRevision++;day=7;state.revision++;}
+    if(outcome!=='REJECTED'){configRevision++;day=7;background=true;state.revision++;}
     if(outcome==='UNKNOWN')return route.abort('failed');
     return route.fulfill({status:200,json:envelope(state,{receipt_id:requestId,state:outcome,
       dispatch_happened:outcome==='VERIFIED',...(outcome==='REJECTED'?{error:'LIFE_CONFIG_REVISION_CONFLICT'}:
@@ -1528,6 +1528,10 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
   await panel.getByLabel('每日请求上限',{exact:true}).fill('7');
   const consent=panel.getByRole('checkbox',{name:/我允许向/});
   await consent.check();
+  const backgroundChoice=panel.getByRole('checkbox',{name:'后台按需使用模型',exact:true});
+  await expect(backgroundChoice).not.toBeChecked();await backgroundChoice.check();
+  await expect(consent).not.toBeChecked();await expect(save).toBeDisabled();
+  await consent.check();
   if(outcome==='PROFILE_CHANGED'){
     profileRevision=2;
     await page.getByRole('button',{name:'刷新真实状态',exact:true}).click();
@@ -1538,7 +1542,8 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
   await save.click();
   if(outcome==='VERIFIED'){
     await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
-    await expect(page.getByText('运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。',{exact:true})).toBeVisible();
+    await expect(panel.getByRole('checkbox',{name:'后台按需使用模型',exact:true})).toBeChecked();
+    await expect(page.getByText('运行预算、连接与后台模型设置已保存。请明确重启以应用；重启前仍使用原设置，尚未因保存调用模型。',{exact:true})).toBeVisible();
     await expect(panel.getByRole('checkbox',{name:/我允许向/})).not.toBeChecked();
   }else if(outcome==='UNKNOWN'){
     await expect(page.getByText('最近操作 · 待确认',{exact:true})).toBeVisible();
@@ -1546,7 +1551,7 @@ for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROP
     await page.getByRole('button',{name:'核验当前回执',exact:true}).click();
     await expect.poll(()=>receiptReads).toBe(1);
     await expect(page.getByText('最近操作 · 待确认',{exact:true})).toBeVisible();
-    await expect(page.getByText(/运行预算与连接域名已保存/)).toHaveCount(0);
+    await expect(page.getByText(/运行预算、连接与后台模型设置已保存/)).toHaveCount(0);
   }else{
     await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();expect(configRevision).toBe(3);
   }

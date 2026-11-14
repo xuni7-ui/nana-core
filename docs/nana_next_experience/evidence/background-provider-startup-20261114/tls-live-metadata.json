@@ -1,0 +1,12 @@
+{
+  "configured_startup_enabled": true,
+  "running_background": {
+    "startup_enabled": false,
+    "provider_resource_bound": false,
+    "provider_configured": false,
+    "configuration_scope": "HOST_ONLY"
+  },
+  "cognitive_requests": 0,
+  "actions": 0,
+  "grants": 0
+}

@@ -273,6 +273,7 @@ export type ProviderRuntimeBudgetRequest = {
   "expected_revision": number;
   "run_generation": string;
   "owner_epoch": number;
+  "background_cognition_enabled"?: (boolean | null);
   "provider_profile_id": string;
   "profile_revision": number;
   "configuration_revision": number;

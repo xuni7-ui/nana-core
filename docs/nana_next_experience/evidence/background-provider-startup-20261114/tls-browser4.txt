@@ -1,0 +1,17 @@
+
+Running 4 tests using 1 worker
+
+(node:3674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/unified.spec.ts:151:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart (4.1s)
+(node:3813) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [phone-360] › tests/unified.spec.ts:151:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart (3.4s)
+(node:3955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone-390] › tests/unified.spec.ts:151:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart (3.4s)
+(node:4098) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [phone-412] › tests/unified.spec.ts:151:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart (3.4s)
+
+  4 passed (18.6s)

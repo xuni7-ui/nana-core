@@ -22,6 +22,7 @@ export function ProviderRuntimeSettings({data,disabled,onSave}:{data:unknown;dis
   const [context,setContext]=useState(positive(settings.context_tokens,8192));
   const [reserve,setReserve]=useState(positive(limits.per_call_reserved_cost_micro,positive(profile?.per_call_reserved_cost_micro,1000)));
   const [consent,setConsent]=useState(false);
+  const [background,setBackground]=useState(settings.background_cognition_enabled===true);
   const ready=settings.can_configure===true && typeof settings.configuration_revision==="number" && Boolean(profile);
   const privacy=Array.isArray(settings.remote_privacy) ? [...new Set([...settings.remote_privacy,"PUBLIC","PROJECT"])] : ["PUBLIC","PROJECT"];
   const privacyLabels:Record<string,string>={PUBLIC:"公开",PROJECT:"项目",PERSONAL:"已有私人授权"};
@@ -35,7 +36,7 @@ export function ProviderRuntimeSettings({data,disabled,onSave}:{data:unknown;dis
       void onSave({provider_profile_id:providerId,profile_revision:Number(profile.profile_revision),
         configuration_revision:Number(settings.configuration_revision),calls_per_day:day,calls_per_hour:hour,
         per_provider_calls_per_day:perProvider,output_tokens:output,context_tokens:context,
-        per_call_reserved_cost_micro:reserve,consent:true}).catch(()=>{});
+        per_call_reserved_cost_micro:reserve,background_cognition_enabled:background,consent:true}).catch(()=>{});
     }}>
       <div className="v3-form-grid">
         <label>连接服务商<select aria-label="连接服务商" disabled={disabled || !ready} value={providerId} onChange={event=>{
@@ -49,6 +50,9 @@ export function ProviderRuntimeSettings({data,disabled,onSave}:{data:unknown;dis
         <label>每次输出 Token 上限<input required type="number" min={64} max={4096} disabled={disabled} value={output} onChange={e=>setOutput(Number(e.target.value))}/></label>
         <label>上下文 Token 上限<input required type="number" min={1024} max={65536} disabled={disabled} value={context} onChange={e=>setContext(Number(e.target.value))}/></label>
       </div>
+      <label className="v3-check"><input type="checkbox" checked={background} disabled={disabled || !ready}
+        onChange={event=>{setBackground(event.target.checked);setConsent(false);}}/>后台按需使用模型</label>
+      <p className="v3-muted">在没有新消息时，也可按需继续关注的问题与计划。后台请求与聊天共用以上预算。保存后须重启生效；重启前仍使用原设置。</p>
       <details className="v3-technical"><summary>高级资源预留</summary><label>单次预留上限（内部单位）<input required type="number" min={1} max={100000} disabled={disabled} value={reserve} onChange={e=>setReserve(Number(e.target.value))}/></label><p>用于服务器资源预算核算，实际账单由服务商提供。</p></details>
       <label className="v3-check"><input type="checkbox" checked={consent} disabled={disabled || !ready} onChange={e=>setConsent(e.target.checked)}/>我允许向 {String(profile?.host || "所选服务商")} 及其他已授权模型发起计费请求，接受服务商实际计费。</label>
       <button className="v3-button primary" type="submit" disabled={disabled || !ready || !consent}>保存运行预算</button>
