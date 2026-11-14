@@ -1,0 +1,31 @@
+{
+  "source_commit": "7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0",
+  "status": "MATCHED_INSTALLED_FEEDBACK_CANDIDATE_NOT_CURRENT_OR_PRODUCTION",
+  "bundle_files": 285,
+  "artifacts": {
+    "web.tar.gz": {
+      "sha256": "c41032a10a88a596cb8b5df5664b9389bea85516d91c34a1092c85edef9e794d",
+      "bytes": 627740
+    },
+    "core.tar.gz": {
+      "sha256": "8bb2d40b9f8271e79c493a88459f5a85b485e496c92bb4c7eee3cb241b69152d",
+      "bytes": 15081572
+    }
+  },
+  "core_build": "SINGLE_MATCHING_BUILD_NOT_A_NEW_DOUBLE_REPRO_QUALIFICATION",
+  "web_source_tree": "ed0ed2468d70336b6a40e563d749460922baac95",
+  "web_reused_from_unchanged_matching_client": "d39/a781",
+  "actual_offline_install": true,
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "original_c_d_feedback_causality": "PASS_SYNTHETIC_INSTALLED_HTTP_8",
+  "stopped_a781_binary_return_after_withdrawal": "PASS_NO_PENDING_QUEUE_NO_ACTIVE_PLAN",
+  "actual_remote_download": "NOT_QUALIFIED",
+  "gateway_new_source": "NOT_RERUN_PREVIOUS_A781_GATEWAY_SCOPE_RETAINED",
+  "full_regression_new_source": "NOT_RUN_SCOPE_SPECIFIC_ONLY",
+  "real_model_calls": 0,
+  "phone": "NOT_RUN",
+  "production": "NOT_CHANGED",
+  "apk": "NOT_REBUILT",
+  "selection_current": "UNCHANGED_CORE266_CLIENT409"
+}

@@ -1,0 +1,13 @@
+{
+  "source_commit": "a7815ce08d0664d9c6467b691fde5d7f2e11fd91",
+  "same_identity_and_lineage": true,
+  "counts": {
+    "identities": 1,
+    "cognitive_requests": 8,
+    "subject_cycles": 6,
+    "actions": 0
+  },
+  "additional_calls_cycles_actions": 0,
+  "withdrawn_tendency_not_revived": true,
+  "all_core_imports_from_target": true
+}

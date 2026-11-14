@@ -1,8 +1,8 @@
-## 现役revision206 — 真实方法反馈可形成首个持续倾向
+## 现役revision207 — 7ec反馈因果已实际匹配安装
 
-原D不再要求先有V4：实际C方法/保留话轮/当前绑定意见可给原C一次形成关切或REST的机会，暂停旧basis不伪装成新生，不新增SubjectInput/schema/模型阶段。精确13324同最终8场景旧3fail5pass→97相关46.38s。预算恢复后同主体继续、前台/静默/UNKNOWN及原隐私生效，同条件0重复，撤回使新倾向失效。PROJECT不得读PERSONAL形成的私心，授权PERSONAL后续交流才由LISTEN改CHAT。首个literal夹具和低隐私请求首错保留解释，见evidence/feedback-first-tendency-20261114/README.md。
+固定7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0，285文件单匹配构建Core SHA8bb2d40b9f8271e79c493a88459f5a85b485e496c92bb4c7eee3cb241b69152d，原hash锁离线安装/tmp/n7ec，Python3.12.14/SQLite3.53.1。仅安装树的原正常链无预置V4→原D首倾向→同intent修订→不同后续LISTEN/CHAT/EXPLAIN，最终8loopback/2SELF真实0，同条件不重复。停用/重启/撤回后同DEV实际7ec→a781旧安装版→7ec返回，1身份/8请求/6周期/0动作保持、封签通过；不是活动计划/未处理队列回退。首次strict Python DTO与三字段identity夹具错误均保留，不改Core凑通过。证据evidence/matching-feedback-install-7ec-20261114/README.md。
 
-新增0→1SELF是明确新经历带来的有据认知投入，不伪称减调用或实际情绪改善；53003input bytes非Token，真实0。下一无反馈的初始情境、多倾向/情感意义/G未见独立迁移与原A–H继续。a781匹配候选保留，后三批后继未新包/APK/CURRENT；真实模型/手机/生产/自然度/长期仍未资格，完整回归仍原d39及原定向修复口径。
+Web源树未变复用c41032…794d，未重复编译/BFF全景或APK，候选/tmp/nana-7ec-candidate易失且未远端发布/下载/CURRENT。下一无反馈初始情境到原C持续倾向，优先复用已有有界COMMUNICATION_STRATEGY/实际保留输入的选择机会而非新增情绪脚本或每聊必存；再深化多倾向/情感意义/G独立迁移及原A–H。剩余实现未被外部资格取消；真实模型/手机/生产/自然度/长期尚待，原全仓与分批回归口径保留。
 
 ## 现役revision196
 

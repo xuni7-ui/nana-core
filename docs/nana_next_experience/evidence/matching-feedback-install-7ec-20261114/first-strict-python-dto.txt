@@ -1,0 +1,32 @@
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 49370)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/tmp/n7ec/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-inner-refinement-work/docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/installed-feedback.py", line 29, in proposer
+    return StructuredProposal(interpretation='SYNTHETIC semantic interpretation, not an objective mood',source_refs=request.source_context_refs,uncertainty='LOW',confidence=.9,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/n7ec/.venv/lib/python3.12/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for StructuredProposal
+dialogue.communication_proposal.basis_private_record_ids
+  Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+----------------------------------------
+Traceback (most recent call last):
+  File "/tmp/nana-inner-refinement-work/docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/installed-feedback.py", line 65, in <module>
+    assert initial['text']=='SYNTHETIC LISTEN method' and state['calls']==2
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

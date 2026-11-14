@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/tmp/nana-inner-refinement-work/docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/stopped-return.py", line 16, in <module>
+    assert before==(prior['identity_id'],prior['lineage_binding'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+Traceback (most recent call last):
+  File "/tmp/nana-inner-refinement-work/docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/stopped-return.py", line 33, in <module>
+    subprocess.run([str(target/'.venv/bin/python'),'-I','-B',str(Path(__file__).resolve()),'--single','--bundle',str(target),'--work',str(home),'--prior',str(a.prior),'--output',str(output)],check=True,timeout=60)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/na781/.venv/bin/python', '-I', '-B', '/tmp/nana-inner-refinement-work/docs/nana_next_experience/evidence/matching-feedback-install-7ec-20261114/stopped-return.py', '--single', '--bundle', '/tmp/na781', '--work', '/tmp/nsp7ecb', '--prior', '/tmp/nana-7ec-installed-feedback-final.json', '--output', '/tmp/nana-7ec-stopped-return-rollback.json']' returned non-zero exit status 1.

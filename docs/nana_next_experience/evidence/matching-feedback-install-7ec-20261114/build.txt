@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-7ec-feedback-build/nana-first-life-portable-v1.tar.gz",
+  "sha256": "8bb2d40b9f8271e79c493a88459f5a85b485e496c92bb4c7eee3cb241b69152d",
+  "source_commit": "7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0",
+  "bundle_files": 285,
+  "new_provider_calls": 0
+}

@@ -1,0 +1,125 @@
+{
+  "source_commit": "7ecfb98f7215f370206d2f2b8a4fb9899d8b38b0",
+  "scope": "ACTUAL_INSTALLED_CORE_OWNED_DEV_SYNTHETIC_HTTP",
+  "identity_id": "0123f6f3-516f-46a6-a42d-caa63d50749d",
+  "lineage_binding": "cfca94ae9bbe89be495d0860997bffd71d4b396895f40cb2e8c9c67dbfd56391",
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "synthetic_http_calls": 8,
+  "calls_by_role": {
+    "INTERPRET": 3,
+    "SOCIAL": 3,
+    "SELF": 2
+  },
+  "real_provider_calls": 0,
+  "initial_without_private_seed": true,
+  "original_d_first_tendency": true,
+  "same_identity_restarts": true,
+  "same_intent_revision": true,
+  "later_choices": [
+    "LISTEN",
+    "CHAT",
+    "EXPLAIN"
+  ],
+  "same_condition_no_duplicate": true,
+  "private_not_in_render_or_events": true,
+  "disable_restart": true,
+  "source_withdrawal_closes_current_without_old_fallback": true,
+  "runtime_fixture_ledger_rows": 0,
+  "goals": 0,
+  "actions": 0,
+  "active_lessons": 0,
+  "store_counts": {
+    "identities": 1,
+    "cognitive_requests": 8,
+    "subject_cycles": 6,
+    "actions": 0
+  },
+  "queue_outcomes": [
+    [
+      "REFLECTION_EVENT",
+      "DONE",
+      2
+    ],
+    [
+      "SELF_EVENT",
+      "DONE",
+      1
+    ],
+    [
+      "USER_EVENT",
+      "DONE",
+      3
+    ]
+  ],
+  "request_measurements": [
+    {
+      "state": "PROPOSED",
+      "input_bytes": 23450,
+      "output_bytes": 684,
+      "latency_us": 9073,
+      "reserved_bytes": 35739,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 20410,
+      "output_bytes": 502,
+      "latency_us": 2893,
+      "reserved_bytes": 32699,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 52958,
+      "output_bytes": 930,
+      "latency_us": 3678,
+      "reserved_bytes": 65247,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 30623,
+      "output_bytes": 1009,
+      "latency_us": 3677,
+      "reserved_bytes": 42912,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 24295,
+      "output_bytes": 787,
+      "latency_us": 3652,
+      "reserved_bytes": 36584,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 54639,
+      "output_bytes": 996,
+      "latency_us": 4019,
+      "reserved_bytes": 66928,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 31065,
+      "output_bytes": 1134,
+      "latency_us": 3607,
+      "reserved_bytes": 43354,
+      "actual_cost_micro": 0
+    },
+    {
+      "state": "PROPOSED",
+      "input_bytes": 26761,
+      "output_bytes": 913,
+      "latency_us": 3590,
+      "reserved_bytes": 39050,
+      "actual_cost_micro": 0
+    }
+  ],
+  "commercial_tokens": null,
+  "commercial_cost": null,
+  "production_changed": false,
+  "all_core_imports_from_sealed_install": true
+}
