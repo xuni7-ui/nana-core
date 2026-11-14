@@ -1,6 +1,6 @@
 # NanaLink · 受控开发验收
 
-[实测，2026-11-14 Asia/Shanghai] 基线87c32b3；最终业务源码8669d64。阶段/下一项仍以PROJECT_BRAIN/09_STATE C段为准。[机器可读口径](qualification.json)。
+[实测，2026-11-14 Asia/Shanghai] 基线87c32b3；基础候选8669d64；Feed后继ae567f9。阶段/下一项仍以PROJECT_BRAIN/09_STATE C段为准。[机器可读口径](qualification.json)。
 
 - [105项Python相关测试](python-tests.txt)，51.08s；含真实owned HTTP/WS/reverse-WS、原单主体QQ+Bili组合、重启去重/UNKNOWN不重发、C.4原owner接线与权限拒绝、真正RSS/Atom HTTP条件读取、原手机CAS/CSRF/回执。
 - [93项原客户端测试](client-tests.txt)、[TS/Vite构建](client-build.txt)、[12项四视口浏览器场景](browser-tests.txt)、[390px截图](phone-390.png)。浏览器是合成HTTP fixture，不是真实Android账号登录/实机投递。
@@ -19,3 +19,9 @@
 先建立了独立WS→原HTTP兼容侧车，不修改A的主体选择。原owner仅新增metadata `bilibili-notifications(channel_id)`；复用原worker/Store预算/原Bili工作流，channel/private-read/activation默认拒绝。Bili传输只增加两个已从锁定17.4.2 SDK核对的C.4只读路径。QQ入站metadata允许标准负消息ID，与既有get_msg/send回读一致。
 
 BFF新增`platform/setup`只写暂停配置（原CAS/ledger），不授予读/发/Grant；host `nanalink_observers`及`nanalink_bilibili_sources`默认空且序列化省略。新配置给旧BFF回退时恢复原host配置；保留原Core所有UNKNOWN/预算/来源，不能通过回滚重派。Master/Matrix、SubjectLoop/认知/记忆/Manager/Grant的权威语义未改。
+
+## Feed后继 ae567f9
+
+[10定向](feed-world-tests.txt)通过：复用原来源记忆/WORLD_EVENT，网页标题不作为用户指令；观察时钟推进仍去重，暂停不强制C唤醒，原app.forget使来源重投拒绝。首次探针错误使用被封装时钟/未绑定forget实例，已改用原注入时钟和app接口，未修改Core权限。旧105资格只属于8669；当前后继测试不拼接成新全仓通过。
+
+当前[匹配wheel双构建](wheel-world.json) SHA `34286fe41209c635fcbeeb9862afc6039eccdd85948651fd1af1bdf15b24f03c`，真实离线重装后299Python文件逐一匹配；新镜像d1a967…67d136的[无权限loopback探针](container-world.json)通过。旧wheel/container文件按原8669范围保留。GitHub run43588127662已对a2a9f4d（同8669业务源）通过；Feed后继新CI以PR当前HEAD实际结果为准。

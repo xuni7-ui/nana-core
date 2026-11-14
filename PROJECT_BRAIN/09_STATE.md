@@ -2,16 +2,16 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测，2026-11-14 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`；现役A基线HEAD `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`（远端重核一致）。源码检查点 `8669d64df6edbb0a151c2faf2d6ccf116fba8afc`，继承审计2b5aaa3、实现c9c4e9d。原work@18bc736及A/B现役成果未覆盖，B PR14/17仍独立。本C状态为开发候选/总工程未完成；集成候选：[Draft PR #18](https://github.com/xuni7-ui/nana-core/pull/18)，初始交付HEAD4c5719d；不是生产切换。
+[实测，2026-11-14 Asia/Shanghai] C独立分支 `feature/nanalink-unified-platform`；现役A基线HEAD `87c32b3290687c4e2ab8dc674dcc36ff4653ac3c`（远端重核一致）。源码检查点 `ae567f980011ebcd408d12dbe8314953b57f2171`（继承8669d64，Feed后继10定向），继承审计2b5aaa3、实现c9c4e9d。原work@18bc736及A/B现役成果未覆盖，B PR14/17仍独立。本C状态为开发候选/总工程未完成；集成候选：[Draft PR #18](https://github.com/xuni7-ui/nana-core/pull/18)，初始交付HEAD4c5719d；不是生产切换。
 
-- 已实现/已测试：v1 Adapter SDK/显式插件发现管理、统一Event/五态回执、限额/去重/顺序/背压；每账号OneBot HTTP/WS/reverse-WS及恢复；原QQ/Bili单主体动作；C.4通知→原worker→原owner→原C/Kernel；第三平台RSS/Atom真实HTTP读取及原Surface；媒体流式缓存/撤回；原手机账号配置准备、健康、能力、原安全凭据路径。
-- 验证：最终源码105相关Python通过51.08s；93客户端、12桌面及360/390/412浏览器通过；规范schema/C.4原函数快照/Ruff E9-F通过。299个已安装Python源码逐一匹配；wheel固定epoch双构建SHA81dd604d…211dbed并离线安装。容器a57ac3…344538实际UID999/0cap/只读rootfs/独立合成vault/loopback通过。没有新主体/Store/schema；Master/Matrix及原C/记忆/Grant核心无差额。
+- 已实现/已测试：v1 Adapter SDK/显式插件发现管理、统一Event/五态回执、限额/去重/顺序/背压；每账号OneBot HTTP/WS/reverse-WS及恢复；原QQ/Bili单主体动作；C.4通知→原worker→原owner→原C/Kernel；第三平台RSS/Atom真实HTTP读取及原来源记忆/WORLD_EVENT机会（出版物不当用户指令）；媒体流式缓存/撤回；原手机账号配置准备、健康、能力、原安全凭据路径。
+- 验证：8669基础候选105相关Python通过51.08s，Feed后继10定向通过（原WORLD_EVENT/去重/暂停/撤回）；93客户端、12桌面及360/390/412浏览器通过；规范schema/C.4原函数快照/Ruff E9-F通过。299个已安装Python源码逐一匹配；wheel固定epoch双构建SHA34286fe41209c635fcbeeb9862afc6039eccdd85948651fd1af1bdf15b24f03c并离线安装。容器d1a967…67d136实际UID999/0cap/只读rootfs/独立合成vault/loopback通过。没有新主体/Store/schema；Master/Matrix及原C/记忆/Grant核心无差额。
 - 阶段继承：P0核对完成；P1/P4受控开发验证；P2 OneBot已测试而官方Bot统一Core未实现、native仅研究；P3现役账号/视频链保留并补通知；P5配置/健康已测试，完整登录/包管理未完；P6仅限定故障与合成成本资格；P7开发安装/构建/回退及PR准备完成，不升级全任务资格。
 - 旧事项：旧独立QQ Gateway方案由统一侧车+原签名转发承接；旧Bili Agent/pump的独立认知发送路径不再新增，不删除历史源码/证据。未提供的旧聊天回执仍未知，不能冒充已完成。
 - 真正阻塞：真实账号登录/读取范围/对外收件人待用户按本命令§十一单独授权；手机实机/生产未运行；SnowLuma/NapCat原许可/源码404阻塞native分发评估。没有用这些阻塞替代未实现项。
 - 下一最高收益源码：补QQ官方Bot到同一Core的实际兼容（原AstrBot路径保留，核对opaque身份/权限/独立Verify）；随后完整手机登录状态及包管理、原QQ媒体行动、更广B站动态源。现阶段不宣称账号已上线或全部P0–P7完成。
 
-证据：[验收](../docs/nanalink/evidence/README.md)；使用/回退：[NanaLink](../docs/nanalink/README.md)；[继承](../docs/nanalink/INHERITANCE.md)。源码输入指纹：[manifest](../manifests/nanalink-01.sha256)，自身锚点SHA256 `49007a52a39808e2492e7ea63248fcc56b5a3aa4af91de50aa4a2c39ccc23b2e`；不含其自身或可变PROJECT_BRAIN账本。成本：2000入队+2000重复约0.207s/CPU0.103ms每入队，8MiB重复媒体只保留一份；真实模型/Token/外发0，不能据此推断有效认知成本收益。
+证据：[验收](../docs/nanalink/evidence/README.md)；使用/回退：[NanaLink](../docs/nanalink/README.md)；[继承](../docs/nanalink/INHERITANCE.md)。源码输入指纹：[manifest](../manifests/nanalink-01.sha256)，自身锚点SHA256 `097b893986b82a338c9405bc454e27ddab0b2d51dc107d4424b7f8cc056ab295`；不含其自身或可变PROJECT_BRAIN账本。成本：2000入队+2000重复约0.207s/CPU0.103ms每入队，8MiB重复媒体只保留一份；真实模型/Token/外发0，不能据此推断有效认知成本收益。
 
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->

@@ -3753,3 +3753,8 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 ### 2026-11-14 · Feed来源重投与撤回后继
 
 原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均10定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。
+
+
+### 2026-11-14 · Feed后继匹配交付与CI继承
+
+ae567f9后继10定向及匹配wheel双构建SHA34286fe4…4f03c/299安装源码逐一相同、镜像d1a967…67d136的UID999零cap只读运行通过。指纹97b893…b295已回填09；8669的105、旧wheel/image及已通过CI43588127662按原范围保留。PR #18继续Draft，后继CI跟随新HEAD；未登录账号/对外发送/生产。
