@@ -1,0 +1,36 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"family_allocated_bytes": 1699840, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.39858468700000005, "wall_seconds": 0.8546940559972427, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "WATCH"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED"], "goal_state": "FAILED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_TOP_DEFS", "wanted": "WATCH"}
+{"family_allocated_bytes": 1249280, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.23408765499999995, "wall_seconds": 0.7212337970013323, "wanted": "WATCH"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "REST"}
+{"family_allocated_bytes": 905216, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.1608457190000001, "wall_seconds": 0.6476194030001352, "wanted": "REST"}
+...............{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2056192, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.6702923200000002, "wall_seconds": 1.5826561789981497, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": false, "growth_self_calls": 1, "input_bytes": 55866, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1, "retired": false}
+{"family_allocated_bytes": 2068480, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.7074919850000003, "wall_seconds": 1.6207536959991558, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 0, "view_available": true}
+{"closed": true, "enabled": true, "growth_self_calls": 1, "input_bytes": 55970, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1, "retired": false}
+{"family_allocated_bytes": 2146304, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8010803080000004, "wall_seconds": 1.7002921349994722, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 0, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55392, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 2, "retired": true}
+{"family_allocated_bytes": 2076672, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.7956051200000003, "wall_seconds": 1.6954342480021296, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"growth_queue_states": [], "measurement": "synthetic_unconfigured_growth_gap", "stored_provider_calls": 1}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2076672, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.6336303169999997, "wall_seconds": 1.5488883459984208, "wanted": "LEARN"}
+.
+22 passed in 11.47s

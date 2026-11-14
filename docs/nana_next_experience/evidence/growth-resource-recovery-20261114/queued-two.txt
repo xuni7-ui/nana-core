@@ -1,0 +1,4 @@
+{"http_calls": 1, "measurement": "synthetic_queued_growth_resource_recovery", "state": "DONE", "withdrawn": false}
+.{"http_calls": 0, "measurement": "synthetic_queued_growth_resource_recovery", "state": "IGNORED", "withdrawn": true}
+.
+2 passed, 5 deselected in 1.20s

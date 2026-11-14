@@ -16,7 +16,7 @@ def test_normal_d_own_question_can_choose_original_g_or_keep_the_interest_withou
     _run_private_g_episode(tmp_path,wanted)
 
 
-def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=False,retire_origin=False):
+def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=False,retire_origin=False,resource_gap=False):
     started=time.perf_counter();cpu_started=time.process_time()
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
     private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
@@ -138,6 +138,14 @@ def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None,close_origin=Fa
                 print(json.dumps({'measurement':'synthetic_private_g_growth_offer','view_available':view is not None,
                     'matching_opportunities':sum(v.growth_assessment_id==assessment_id for v in offered),
                     'origin_basis_count':len(getattr(view,'basis_private_record_ids',()))},sort_keys=True))
+                if resource_gap:
+                    assert later.runtime.cognition.provider_factory is None
+                    for _ in range(8):
+                        clock.advance(SECOND);later.tick()
+                    scheduled=list(later.runtime.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'"))
+                    states=[later.runtime.store.one('runtime_queue',v[0])['state'] for v in scheduled if v[0]]
+                    print(json.dumps({'measurement':'synthetic_unconfigured_growth_gap','growth_queue_states':states,
+                        'stored_provider_calls':len(later.runtime.store.all('cognitive_requests'))},sort_keys=True))
     if reverse_growth is not None:
         from nana_core.continuity.autonomy import private_intent
         reflected=[];revised_text='SYNTHETIC Now I wonder what creative tools I could build with the independently checked Python API method.'
@@ -306,3 +314,7 @@ def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning
 @pytest.mark.parametrize('condition',['closed','abandoned'])
 def test_checked_learning_does_not_reopen_a_closed_context_or_revive_an_abandoned_interest(tmp_path,condition):
     _run_private_g_episode(tmp_path,'LEARN',reverse_growth=True,close_origin=condition=='closed',retire_origin=condition=='abandoned')
+
+
+def test_growth_reconsideration_survives_unconfigured_resources_and_later_normal_startup(tmp_path):
+    _run_private_g_episode(tmp_path,'LEARN',reverse_growth=True,resource_gap=True)

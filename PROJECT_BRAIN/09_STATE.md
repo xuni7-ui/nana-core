@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 220,
-  "as_of_us": 1794680537617374,
+  "revision": 221,
+  "as_of_us": 1794682341082050,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -20,7 +20,7 @@
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "原INTERPRET有界kind/confidence经原C已采纳context_fit/精确保留输入→同C方法继续投影，历史推测不升级当前情绪/效果事实；关投影同1SELF无私念，新有私念并改变后续聊天。114相关77.71s，+1092inputbytes非Token，未加模型阶段。",
     "原literal1k/10k/100k144/144保留；20万仅恢复此规模/同48case100ms，新144/144无误召超时/P9520.34ms，历史142/144两超时保留。两个SQL原型更慢已弃，未改Core/限时。单safe-point字面miss及G16/32后续查询2→1原成果复用。",
-    "原D私念/方法/G/反馈的WAIT或内部ASK沿同一分类保持NO_ACTION未决，不强制对外澄清待办；普通USER ASK/WAIT保留。精确1aee298文件旧3fail3pass→6pass，148相关68.63s；同1SELF/同48136或55412inputbytes非Token。"
+    "原D Growth与私念统一分类；模型缺失不以LIGHT消费关注，排队后水合原Record等资源，前台仍可处理，撤回则IGNORED/0HTTP。精确13bf旧3fail→3pass2.84s，116相关57.75s；无新Prompt/阶段/配置，原冷却预算不变。私有WAIT/ASK非外向澄清成果继承。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "用户2026-11-13十九节机制深化已逐节归原mission/task_inputs，最高优先内心情感/C动机/S8/自然生活，短念非任务/非必入库。Root f583+4WIP及18bc保护；根盘满，/tmp易失及时push。无新真实模型/手机/生产。",
-    "下一核对GROWTH正常资源缺失/恢复与统一private分类差异、已改版origin引用解析，不删冷却或绕预算；按影响收匹配Core/Web静止升级回退。情感多动机/更广G/物理存储/真实Token/产品及原A–H仍未完成，不以局部闭环当总验收。"
+    "下一匹配当前Core/Web候选、实际离线安装/静止升级回退，复用原构建器；已改版origin引用解析仍待，当前不猜测重绑。情感多动机/更广G/物理存储/真实Token/产品与原A–H继续，资源恢复局部闭环非总验收。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/growth-resource-recovery-20261114/README.md",
     "docs/nana_next_experience/evidence/private-g-interest-return-20261114/README.md",
     "docs/nana_next_experience/evidence/private-g-selection-20261114/README.md",
     "docs/nana_next_experience/evidence/failed-response-usage-20261114/README.md",
     "docs/nana_next_experience/evidence/private-lifecycle-choice-20261114/README.md",
     "docs/nana_next_experience/evidence/model-catalog-continuation-20261114/README.md",
     "docs/nana_next_experience/evidence/literal-200k-recovery-20261114/README.md",
-    "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-wait-scope-20261114/README.md"
+    "docs/nana_next_experience/evidence/interpretation-reuse-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

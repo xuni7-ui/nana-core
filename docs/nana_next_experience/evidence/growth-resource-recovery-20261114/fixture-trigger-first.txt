@@ -1,0 +1,80 @@
+FF
+=================================== FAILURES ===================================
+_ test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life[False] _
+
+tmp_path = PosixPath('/dev/shm/grqr/test_already_queued_growth_wai0')
+withdrawn = False
+
+    @pytest.mark.parametrize('withdrawn',[False,True])
+    def test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life(tmp_path,withdrawn):
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        clock=VirtualClock()
+        def rest(request):
+            package=json.loads(request.context_json);identity=package['manifest']
+            assert any(b['kind']=='GROWTH_CHANGE' for b in package['blocks'])
+            return StructuredProposal(interpretation='SYNTHETIC choose rest after a recovered checked-growth opportunity',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC the capability remains available; no need to start another task',
+                preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        with grown(tmp_path,clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=rest) as (transport,state):
+            bind(r,transport,context_policy())
+            clock.advance(r.config.cognition_cooldown_us+3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            r._watch_sources();r.scheduler.due()
+            scheduled=list(r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'"))
+            assert len(scheduled)==1 and scheduled[0][0]
+            qid=scheduled[0][0];queued=r.store.one('runtime_queue',qid)
+            assert r.queue.input(queued).growth_assessment_id==view.assessment_id
+            assert state['calls']==0
+            # Real admission race: D has durably queued the exact qualified source,
+            # then the owner loses its model before queue claim.
+            r.cognition.set_model(None)
+            event=SubjectInput(source_key='synthetic.other-life-during-growth-resource-gap',kind='INTERACTION',origin='USER',entity_id='observer',scope='world',
+                privacy_class='PUBLIC',text='SYNTHETIC ordinary input while private consideration waits',observed_at_us=clock.utc_now_us())
+>           other=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='USER_TRIGGER',input=event,causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=clock.utc_now_us()))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for RuntimeEvent
+E           trigger
+E             Input should be 'INCOMING_EVENT', 'TIME_TRIGGER', 'GOAL_TRIGGER', 'ANOMALY', 'RELATIONSHIP_TRIGGER', 'SELF_TRIGGER', 'REFLECTION_TRIGGER', 'DEVICE_TRIGGER' or 'ENVIRONMENT_CHANGE' [type=literal_error, input_value='USER_TRIGGER', input_type=str]
+E               For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_growth_inner_choice.py:164: ValidationError
+_ test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life[True] _
+
+tmp_path = PosixPath('/dev/shm/grqr/test_already_queued_growth_wai1')
+withdrawn = True
+
+    @pytest.mark.parametrize('withdrawn',[False,True])
+    def test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life(tmp_path,withdrawn):
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        clock=VirtualClock()
+        def rest(request):
+            package=json.loads(request.context_json);identity=package['manifest']
+            assert any(b['kind']=='GROWTH_CHANGE' for b in package['blocks'])
+            return StructuredProposal(interpretation='SYNTHETIC choose rest after a recovered checked-growth opportunity',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC the capability remains available; no need to start another task',
+                preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        with grown(tmp_path,clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=rest) as (transport,state):
+            bind(r,transport,context_policy())
+            clock.advance(r.config.cognition_cooldown_us+3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            r._watch_sources();r.scheduler.due()
+            scheduled=list(r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'"))
+            assert len(scheduled)==1 and scheduled[0][0]
+            qid=scheduled[0][0];queued=r.store.one('runtime_queue',qid)
+            assert r.queue.input(queued).growth_assessment_id==view.assessment_id
+            assert state['calls']==0
+            # Real admission race: D has durably queued the exact qualified source,
+            # then the owner loses its model before queue claim.
+            r.cognition.set_model(None)
+            event=SubjectInput(source_key='synthetic.other-life-during-growth-resource-gap',kind='INTERACTION',origin='USER',entity_id='observer',scope='world',
+                privacy_class='PUBLIC',text='SYNTHETIC ordinary input while private consideration waits',observed_at_us=clock.utc_now_us())
+>           other=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='USER_TRIGGER',input=event,causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=clock.utc_now_us()))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for RuntimeEvent
+E           trigger
+E             Input should be 'INCOMING_EVENT', 'TIME_TRIGGER', 'GOAL_TRIGGER', 'ANOMALY', 'RELATIONSHIP_TRIGGER', 'SELF_TRIGGER', 'REFLECTION_TRIGGER', 'DEVICE_TRIGGER' or 'ENVIRONMENT_CHANGE' [type=literal_error, input_value='USER_TRIGGER', input_type=str]
+E               For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_growth_inner_choice.py:164: ValidationError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_inner_choice.py::test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life[False]
+FAILED tests/person_self/test_growth_inner_choice.py::test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life[True]
+2 failed, 5 deselected in 0.96s

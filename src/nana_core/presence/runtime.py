@@ -210,6 +210,7 @@ class NanaRuntime:
         # useful independently; it is not a hidden second judgment engine.
         collector = getattr(self.subject, "background_opportunities", None)
         if collector:
+            from ..continuity.autonomy.private_intent import is_private_consideration
             opportunities = collector(
                 entity_id=self.config.entity_id,
                 now_us=now,
@@ -233,7 +234,7 @@ class NanaRuntime:
                     growth_assessment_id=opportunity.growth_assessment_id,
                     commitment_check_id=opportunity.commitment_check_id,
                 )
-                if inp.private_thought_ref is not None or inp.communication_method_record_id is not None or inp.task_class=="private.feedback.review":
+                if is_private_consideration(inp):
                     if self.queue.has_reactive() or now<max(self.oper['last_activity_us'],(self.oper['last_interaction_us'] or 0))+self.config.idle_recall_us:continue
                     if self.cognition.preview_private(inp,self.subject)[0]!='FULL_COGNITION':continue
                 event = RuntimeEvent(
@@ -277,10 +278,11 @@ class NanaRuntime:
         """
         try:
             provider_background=self.cognition.provider_factory is not None and row['event_type']!='USER_EVENT'
-            if not provider_background and json.loads(row['metadata_json']).get('private_thought_ref') is None:
-                return True
+            # Growth/feedback semantics deliberately live in the deletable
+            # input record, not the queue's immutable metadata projection.
             event = self.queue.input(row)
-            if not provider_background and event.private_thought_ref is None:
+            from ..continuity.autonomy.private_intent import is_private_consideration
+            if not provider_background and not is_private_consideration(event):
                 return True
             if self.store.db.execute(
                 'SELECT 1 FROM runtime_cognition_calls WHERE queue_id=?', (row['queue_id'],)

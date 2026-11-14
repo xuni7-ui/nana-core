@@ -1,10 +1,8 @@
-## 现役revision220 — 原G后续实际结果反向改变原私问
+## 现役revision221 — 原G关注等待资源恢复，保持交回原C的机会
 
-原G保留真正发起学习的private_ref，经原独立trial/新文件Kernel Verify/宿主Portfolio评估→D GROWTH_CHANGE→同C有限投影原私问，C可修订新的探索问题；未重建G或内心系统。旧d06同两场景1fail1pass→新21pass9.66s/107相关51.27s。消融保留G事实/动作/评估及各1次后续SELF，原私问保持；新修订无新增动作或第二学习job。明确停止或主动放弃不复活旧题，Growth token不因修订改变且同结果仅1 schedule，撤回有效。见evidence/private-g-interest-return-20261114/README.md。
+原Runtime/preview统一既有is_private_consideration；Growth入队前原只读预览，排队后从原可删除Record水合属性。缺模型不再被LIGHT/default WATCH提前消费；恢复后原D/C一次考虑，期间普通USER继续，撤回来源IGNORED/0HTTP。精确13bf旧3fail→新3pass2.84s，116相关57.75s。原600秒冷却/预算/lease/UNKNOWN不改，无新Prompt/阶段/配置。首个未推进时钟的无效基线与USER_TRIGGER夹具错误均留原日志。见evidence/growth-resource-recovery-20261114/README.md。
 
-600秒冷却/30秒lease夹具首错保留后改为停owner期间虚拟等待，未关闭门。原G无origin的JSON与普通/SELF schema字节不变，单例后续wire旧/消融55866→新55027非Token/账单收益。前继d06独立554pass1warning仅归前继；未新包/APK/安装/真实模型/手机/生产/长期，CURRENT266+409保持。
-
-下一核对正常宿主Growth资源缺失/恢复与统一private分类差异、已改版origin解析；只修实际被资源替代的C选择，不简单删除冷却/预算。按持久化/集成影响收匹配Core/Web候选与静止升级回退，情感/多动机/更广迁移/存储/Token/多端及原A–H全部继续。
+前继13bf独立412pass1warning174.87s仅归前继，client/full/portable/install SKIP。恢复场景从丢失0次变应有1次SELF，不宣称节省Token；正常活跃路径仍1次，真实模型0。下一一次匹配Core/Web候选/实际离线安装与静止升级回退，再接已修订origin解析及原情感多动机/G/其余A–H；当前未新安装/APK/手机/生产/长期，CURRENT266+409保持。
 
 ## 现役revision196
 

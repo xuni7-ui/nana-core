@@ -3742,3 +3742,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：正常D私问→原C精确原G选择→独立练习评价迁移→同主体重启新文件原Planner/Kernel/Verify实际AST与COMPLETED，WATCH对照旧方法/FAILED。修正真实来源分类/私人步骤/工程checkpoint断点，原私人入站guard、G独立评价与授权边界保留。旧717同3例1fail2pass→17pass3.35s/166相关46.09s+31资源28.10s；各1SELF/+1075bytes非Token，单样本CPU存储成本有据。首次失败全留，前继396仅717，未新包/APK/CURRENT/真实0；证据private-g-selection-20261114，下一G实际后续→私人关注反向变化及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G发起私问ref→实际后续Kernel/Verify及原宿主评估→原D/C重新投影并修订原私问；原独立事实/各1后续SELF消融私问不变。旧d06 1fail1pass→21pass9.66s/107相关51.27s，停止/放弃/撤回及单Growth调度有效；旧G/schema字节不变、55027wire非Token，冷却/lease夹具首错保留。前继554仅d06，未新包/APK/CURRENT/真实0；证据private-g-interest-return-20261114，下一正常资源恢复/旧ref解析及匹配候选与原A–H。
+
+- 2026-11-14｜NEXT_EXPERIENCE S1/S3/S4/S6/S8：Growth统一原private分类/原Record水合，无模型等待不由LIGHT替代C，恢复仅1次、前台继续/撤回0次。精确13bf旧3fail→3pass2.84s/116相关57.75s，首错保留；原冷却/预算/schema不变。前继412仅13bf，无新匹配包/APK/CURRENT/真实0；证据growth-resource-recovery-20261114，下一匹配安装回退及原A–H。

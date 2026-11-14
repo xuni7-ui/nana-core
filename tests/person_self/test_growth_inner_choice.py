@@ -135,3 +135,41 @@ def test_original_g_success_can_inform_own_interest_without_mandatory_sharing(tm
             assert not any(v.intent_id==item.intent_id for _,v in private_intent.candidates(r.store,'world',('PUBLIC','PROJECT','PERSONAL')))
             assert not r.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'PRIVATE_GROWTH_INTEREST_CANARY')>0").fetchone()
             assert r.identity_id==identity
+
+
+@pytest.mark.parametrize('withdrawn',[False,True])
+def test_already_queued_growth_waits_for_resource_recovery_without_blocking_other_life(tmp_path,withdrawn):
+    from nana_core.presence.contracts import RuntimeEvent,Cause
+    clock=VirtualClock()
+    def rest(request):
+        package=json.loads(request.context_json);identity=package['manifest']
+        assert any(b['kind']=='GROWTH_CHANGE' for b in package['blocks'])
+        return StructuredProposal(interpretation='SYNTHETIC choose rest after a recovered checked-growth opportunity',subject_cognition=CognitiveProposal(
+            identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],interpretation='SYNTHETIC the capability remains available; no need to start another task',
+            preferred_behavior='REST',proposed_operations=('DRAFT',)))
+    with grown(tmp_path,clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=rest) as (transport,state):
+        bind(r,transport,context_policy())
+        clock.advance(r.config.cognition_cooldown_us+3*SECOND);r.lease.heartbeat();r.refresh_attention()
+        r._watch_sources();r.scheduler.due()
+        scheduled=list(r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'"))
+        assert len(scheduled)==1 and scheduled[0][0]
+        qid=scheduled[0][0];queued=r.store.one('runtime_queue',qid)
+        assert r.queue.input(queued).growth_assessment_id==view.assessment_id
+        assert state['calls']==0
+        # Real admission race: D has durably queued the exact qualified source,
+        # then the owner loses its model before queue claim.
+        r.cognition.set_model(None)
+        event=SubjectInput(source_key='synthetic.other-life-during-growth-resource-gap',kind='INTERACTION',origin='USER',entity_id='observer',scope='world',
+            privacy_class='PUBLIC',text='SYNTHETIC ordinary input while private consideration waits',observed_at_us=clock.utc_now_us())
+        other=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=clock.utc_now_us()))
+        for _ in range(4):clock.advance(SECOND);r.step()
+        assert r.store.one('runtime_queue',other)['state']=='DONE'
+        assert r.store.one('runtime_queue',qid)['state']=='READY' and state['calls']==0
+        if withdrawn:MemoryService(r.store,r.authority).forget(reuse,r.authority)
+        bind(r,transport,context_policy());r.refresh_attention()
+        for _ in range(8):clock.advance(SECOND);r.step()
+        final=r.store.one('runtime_queue',qid)
+        print(json.dumps({'measurement':'synthetic_queued_growth_resource_recovery','withdrawn':withdrawn,'state':final['state'],'http_calls':state['calls']},sort_keys=True))
+        assert state['calls']==int(not withdrawn)
+        assert final['state']==('IGNORED' if withdrawn else 'DONE')
+        assert len(scheduled)==len(list(r.store.db.execute("SELECT last_queue_id FROM runtime_schedules WHERE dedupe_key LIKE 'growth-%'")))
