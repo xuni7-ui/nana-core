@@ -280,6 +280,59 @@ def continuation_target(store,reference,*,scope,privacy_classes):
     return rid,item
 
 
+def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,reference=None):
+    """One exact method opinion may reopen its current own tendency.
+
+    Read only: the existing Experience remains the queue cause. This is an
+    opportunity to reconsider, never a verdict about emotion or a learned trait.
+    """
+    if store.schema_target<13:return None
+    row=store.one('experiences',experience_id);records=RecordService(store)
+    if not row or row['task_class']!='interaction.expression':return None
+    head=store.one('continuity_records',row['record_id'])
+    if not head or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE' or not records.current_support(head['record_id']):return None
+    verification=store.one('memories',row['verification_memory_id'])
+    if not verification or verification['scope']!=scope or verification['privacy_class'] not in privacy_classes:return None
+    from ..lived_language import ExpressionFeedbackCheck,communication_feedback
+    try:check=ExpressionFeedbackCheck.model_validate_json(records.memory.read(row['verification_memory_id'])['text'])
+    except ValueError:return None
+    if check.result_memory_id!=row['result_memory_id']:return None
+    review=store.one('continuity_records',check.sample_record_id)
+    if not review or review['scope']!=scope or review['privacy_class'] not in privacy_classes or review['lifecycle']!='ACTIVE' or not records.current_support(review['record_id']):return None
+    data=records.read(review['record_id'])['payload'];binding=data.get('communication_attribution')
+    if data.get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or not binding or binding['entity_id']!=entity_id:return None
+    arguments=dict(scope=scope,entity_id=entity_id,topic=binding['topic'],recipient_context=binding['recipient_context'])
+    opinion=communication_feedback(store,**arguments,privacy=privacy_classes)
+    if not opinion:return None
+    def opinion_meaning(payload):
+        sample=payload['sample'];attribution=payload.get('communication_attribution')
+        return [sample['review_target'],attribution['reviewed_choice'] if attribution else None,
+            sample['human_judgment'],sample['reason_tags'],sample['exact_feedback'],sample['provenance']]
+    latest=records.read(opinion['review_record_id'])['payload']
+    if opinion_meaning(latest)!=opinion_meaning(data):return None
+    from ..subject.context_fit import communication_strategy_projection
+    from ...life.dialogue_contracts import CommunicationStrategy
+    strategy=communication_strategy_projection(store,**arguments,privacy_classes=privacy_classes)
+    if strategy is None:return None
+    method=CommunicationStrategy.model_validate_json(json.dumps(records.read(strategy['record_id'])['payload']))
+    for rid in method.basis_private_record_ids:
+        if reference is not None and reference.record_id!=rid:continue
+        selected=internal_projection(store,(rid,),scope=scope,privacy_classes=privacy_classes,include_associations=False)
+        if not selected or selected[0]['category']!='PRIVATE_TENDENCY' or selected[0]['activity_state']!='ACTIVE':continue
+        item=PrivateTendency.model_validate_json(json.dumps(records.read(rid)['payload']))
+        from ..subject.opportunities import PrivateIntentRef
+        target=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)
+        if reference is not None and reference!=target:continue
+        continuation_target(store,target,scope=scope,privacy_classes=privacy_classes)
+        from ...storage import digest
+        # Aliases of the same exact opinion on the same turn are not new
+        # conditions. The record remains a dependency, not an identity key.
+        key='private-feedback.'+digest([store.identity['identity_id'],rid,*opinion_meaning(data)])
+        return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
+            'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(rid),*records.support(opinion['review_record_id']))))}
+    return None
+
+
 def consider_question(event,situation,judgment,intention,proposal):
     return _consider_formation(event,situation,judgment,intention,proposal)
 

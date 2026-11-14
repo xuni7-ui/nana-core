@@ -88,6 +88,18 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
         for row in store.db.execute("SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id WHERE r.scope=? AND r.lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) ORDER BY e.created_at_us LIMIT 32",(scope,)):
             if not loop.visible(row['record_id'],scope):continue
             if store.db.execute('SELECT 1 FROM subject_reflections WHERE experience_id=?',(row['experience_id'],)).fetchone():continue
+            from ..autonomy.private_intent import feedback_continuation
+            feedback=feedback_continuation(store,row['experience_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
+            if feedback and len(feedback['memory_ids'])<=32:
+                ref=feedback['reference']
+                # Enrich this scan's unqueued private candidate, rather than
+                # allocating both a routine revisit and the actual new cause.
+                result=[item for item in result if item.key!='private-thought.'+ref.record_id]
+                result.append(AttentionOpportunity(key=feedback['key'],source_kind='EXPERIENCE',source_id=row['experience_id'],
+                    scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
+                    memory_ids=feedback['memory_ids'],event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
+                    task_class='private.feedback.review',reflection_experience_id=row['experience_id'],private_thought_ref=ref,priority=2))
+                continue
             result.append(AttentionOpportunity(key='reflection-'+row['experience_id'],source_kind='EXPERIENCE',source_id=row['experience_id'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',

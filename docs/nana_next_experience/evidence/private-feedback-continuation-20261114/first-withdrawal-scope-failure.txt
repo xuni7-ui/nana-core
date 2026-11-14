@@ -1,0 +1,53 @@
+..F....                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice[source-race] _
+
+tmp_path = PosixPath('/dev/shm/nfbwindow/test_attributed_review_reaches2')
+choice = 'source-race'
+
+    @pytest.mark.parametrize('choice',['revise','rest','source-race'])
+    def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice(tmp_path,choice):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();feedback=[];self_requests=[]
+        def inner(request):
+            self_requests.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            grounded=bool(own and feedback and feedback[0] in frame['source_memory_ids'])
+            if grounded and choice=='rest':
+                return {'interpretation':'SYNTHETIC actual opinion considered; rest rather than compulsory learning','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC choose rest without declaring that the method worked','preferred_behavior':'REST','proposed_operations':['WAIT']}}
+            return {'interpretation':'SYNTHETIC reconsider a bounded explicit opinion, not emotional effectiveness','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC own care can use a different method without claiming a changed mood','proposed_operations':['DRAFT'] if grounded else ['WAIT'],**({'private_tendency':{'topic':'own-concern','tendency':'SYNTHETIC I still care, but prefer ordinary-chat after this explicit opinion; the actual emotional effect is unknown.','revises_record_id':own[0]['record_id']}} if grounded else {})}}
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();form(app);identity=app.runtime.identity_id;first_id,first=current(app)[0]
+                before=app.chat('SYNTHETIC initial related situation',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='before')
+                assert before['text']=='SYNTHETIC listening method'
+                service=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='explicit-own-method-opinion',review_target=before['exchange_record_id'],mode='CASUAL',context='SYNTHETIC exact retained local conversation',candidate_response=before['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC ordinary chat would suit this conversation better.',reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
+                review=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=before['exchange_record_id'])
+                eid=service.experience(review,app.runtime.authority);feedback.append(app.runtime.store.one('experiences',eid)['result_memory_id'])
+                assert len(requests)==2 and not app.runtime.store.all('lessons')
+            # Keep the original shared cooldown and method window, not a test-only
+            # lowered threshold. A stopped writer is not a surviving 601s lease.
+            clock.advance(601*SECOND)
+            config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                if choice=='source-race':
+                    factory=app.runtime.cognition.provider_factory
+                    def withdraw_before_dispatch(event):
+                        app.forget(feedback[0]);return factory(event)
+                    app.runtime.cognition.provider_factory=withdraw_before_dispatch
+                for _ in range(8):app.tick()
+                # A light experience review may consume the first quiet window.
+                # Let the original queue reach its real next due time as well.
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                if choice=='source-race':
+>                   assert not self_requests and current(app)[0][0]==first_id
+E                   assert (not [{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 32768, 'output_tokens': 2048, 'tim...4e76-b149-ab3f8da0657a"]}],"content_digest":"dc777b03e51c94403ce7860a8eeaf708932c7925491b567e78061c403670e5c7"}', ...}])
+
+tests/person_self/test_private_feedback_continuation.py:69: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_feedback_continuation.py::test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice[source-race]
+1 failed, 6 passed in 5.34s

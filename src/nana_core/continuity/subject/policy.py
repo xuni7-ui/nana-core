@@ -53,7 +53,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     from .contracts import DeliberationFrame
     return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
-        behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ())
+        behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -116,7 +116,8 @@ def motivate(event, situation, appraisal):
 
 
 def current_directions(situation):
-    options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
+    offered=directions(situation.cue) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ()
+    options=[x for x in offered if x not in situation.prohibited_behaviors]
     if situation.preferred_behavior in options:
         options=[situation.preferred_behavior,*[x for x in options if x!=situation.preferred_behavior]]
     return options
@@ -170,7 +171,10 @@ def decide(event, situation, appraisal, motives):
     if situation.due_commitment_ids and (event.commitment_check_id or not (personal_interest or quiet_choice or considered_choice)):
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))
-    if situation.reflection_experience_id:
+    if situation.reflection_experience_id and considered_choice and situation.preferred_behavior=='REST':
+        return ('DEFER',Judgment(stance='DEFER',reason='Choose rest after considering a recorded experience; its outcome is not erased and learning is optional',source_ids=sources),
+            Intention(kind='NO_ACTION',purpose='Leave this experience available without forcing reflection or learning',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+    if situation.reflection_experience_id and not (considered_choice and situation.preferred_behavior!='REFLECT'):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))

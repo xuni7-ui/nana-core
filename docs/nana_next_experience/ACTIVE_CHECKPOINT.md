@@ -1,8 +1,8 @@
-## 现役revision203 — a781匹配Core已实际离线安装
+## 现役revision204 — 明确反馈回到原C持续私人倾向
 
-固定a7815ce08d0664d9c6467b691fde5d7f2e11fd91，原285文件Core双构建同2125e65e0ee4a5ffb29282bbb4d671042922dc44a3c4ab1a8d0ac47226f0afad，私有Python3.12.14/SQLite3.53.1离线安装/tmp/na781。原正常D一次SELF由V4倾向形成V3疑问，关闭宿主新选项后同DEV a781→d39实际安装版→a781返回，两种ACTIVE内容保持，才实际撤回source并整链失效，原seal通过；另fresh原BFF/反馈/十视图/笔记纠错重启撤回通过。旧帮助器硬编码AFTER_SOURCE_WITHDRAWAL标签不适本ACTIVE场景，原输出保留并补真实ACTIVE断言，未伪造label。Web源树ed0ed246与d39相同，复用c41032…794d，未重复编译或新APK。证据matching-inner-install-a781-20261114，候选/tmp/nana-a781-candidate临时易失，未远端发布/下载/更新CURRENT。
+原Experience/原D/当前V4精确绑定已接：原C能根据明确方法意见修改自己的持续关切，之后不同对话由LISTEN改CHAT，也可REST不强制学习。精确99同窗口旧1fail1pass→160相关39.26s通过；HTTP均1，revise wire54494→50744bytes非Token。重复意见别名不重复唤醒，撤回竞态0派发/0新增账项，只读/范围/版本保留。首次窗口不足的旧对照、误禁止无关私念的撤回检查失败都原样保留并解释；不伪造真人效果、人格或长期成长。证据evidence/private-feedback-continuation-20261114/README.md。
 
-下一实现缺口：当前private_tendency由原SELF自愿形成并已接原D、上下文与后续C交流；仍需将普通商业初始情绪情境/新经历中的可选主体评价接入同C，利用明确回应修订倾向，再经原G独立评价影响未见后续选择。已有COMMUNICATION_STRATEGY/FEEDBACK/LanguageService表达资格复用，不新内心Agent或将表达规则越界升为人格资格。严格区分真实来源/他人陈述/自己倾向；不保留选择不得通过内部来源绕过、不因沉默或送达推断安慰成功。原A–H/未引用方法发现/冷归档与物理隐私/全链Token/产品/最终APK与长期资格继续。全仓仍记d39首次2538pass/13fail/12skip、13已定向41pass，不拼最新全仓。真实模型/手机/生产0，CURRENT266+409不变。
+下一普通商业初始情绪/新经历如何由原C形成可选持久倾向，再接原G独立评价及未见迁移；复用已有私人/D/C/交流契约，不因内心功能绕不保留或用户明确边界。a781安装成果保留，本后继未进候选；CURRENT266+409，真实模型/手机/生产0。原A–H、存储/Token/产品/最终匹配发行及自然度/长期资格继续；全仓仍d39首次2538pass/13fail/12skip及13定向修复41pass，不拼最新全仓。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

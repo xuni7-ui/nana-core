@@ -1,0 +1,76 @@
+{
+  "scope": "SYNTHETIC_LOOPBACK_ONLY",
+  "real_model_calls": 0,
+  "commercial_provider_tokens": null,
+  "commercial_cost": null,
+  "CPU_peak_memory": "NOT_MEASURED",
+  "metrics": {
+    "old": [
+      {
+        "budget": {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 32768,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        "feedback_in_frame": false,
+        "fixture_cost_micro": 0,
+        "http_calls_so_far": 3,
+        "input_bytes": 54494,
+        "latency_us": 2832,
+        "measurement": "synthetic_private_feedback",
+        "output_bytes": 533,
+        "record_count": 28,
+        "reserved_bytes": 66783,
+        "self_http_calls": 1,
+        "sqlite_allocated_bytes": 1806136,
+        "tendency_revised": false,
+        "variant": "revise"
+      }
+    ],
+    "new": [
+      {
+        "budget": {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 32768,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        "feedback_in_frame": true,
+        "fixture_cost_micro": 0,
+        "http_calls_so_far": 3,
+        "input_bytes": 50744,
+        "latency_us": 2922,
+        "measurement": "synthetic_private_feedback",
+        "output_bytes": 788,
+        "record_count": 26,
+        "reserved_bytes": 63033,
+        "self_http_calls": 1,
+        "sqlite_allocated_bytes": 1818736,
+        "tendency_revised": true,
+        "variant": "revise"
+      },
+      {
+        "budget": {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 32768,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        "feedback_in_frame": true,
+        "fixture_cost_micro": 0,
+        "http_calls_so_far": 3,
+        "input_bytes": 51361,
+        "latency_us": 2873,
+        "measurement": "synthetic_private_feedback",
+        "output_bytes": 549,
+        "record_count": 22,
+        "reserved_bytes": 63650,
+        "self_http_calls": 1,
+        "sqlite_allocated_bytes": 1633360,
+        "tendency_revised": false,
+        "variant": "rest"
+      }
+    ]
+  }
+}
