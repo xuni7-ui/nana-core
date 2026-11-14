@@ -1,0 +1,250 @@
+FFFFFFFFFFFF                                                             [100%]
+=================================== FAILURES ===================================
+_ test_own_tendency_changes_next_original_dialogue_choice_before_render_without_public_inner_text _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_own_tendency_changes_next0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff60af505c0>
+
+    def test_own_tendency_changes_next_original_dialogue_choice_before_render_without_public_inner_text(tmp_path,monkeypatch):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=65536) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();formed=form(app);identity=app.runtime.identity_id
+            with monkeypatch.context() as off:
+                off.setattr(app.runtime.subject,'dialogue_private_refs',lambda **kw:())
+                baseline=app.chat('SYNTHETIC ordinary followup',topic='own-concern',privacy='PROJECT',message_id='off')
+            later=app.chat('SYNTHETIC ordinary followup',topic='own-concern',privacy='PROJECT',message_id='on')
+            assert baseline['text']=='SYNTHETIC: ordinary brief chat.'
+>           assert later['text']=='SYNTHETIC: stay with the topic without pressing for details.'
+E           AssertionError: assert 'SYNTHETIC: o...y brief chat.' == 'SYNTHETIC: s... for details.'
+E             
+E             - SYNTHETIC: stay with the topic without pressing for details.
+E             + SYNTHETIC: ordinary brief chat.
+
+tests/person_self/test_private_tendency.py:62: AssertionError
+_ test_tendency_restarts_revises_and_withdraws_without_turning_into_a_plan_or_world_fact _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_tendency_restarts_revises0')
+
+    def test_tendency_restarts_revises_and_withdraws_without_turning_into_a_plan_or_world_fact(tmp_path):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+>           app.pause();form(app);rid,item=current(app)[0];identity=app.runtime.identity_id;root=item.source_memory_ids[0]
+                                           ^^^^^^^^^^^^^^^
+E           IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:79: IndexError
+_ test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents[REST-PAUSED] _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_original_c_can_pause_or_e0')
+behavior = 'REST', state = 'PAUSED'
+
+    @pytest.mark.parametrize('behavior,state',[('REST','PAUSED'),('WITHDRAW','ABANDONED')])
+    def test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents(tmp_path,behavior,state):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+>           app.pause();form(app);rid,item=current(app)[0]
+                                           ^^^^^^^^^^^^^^^
+E           IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:96: IndexError
+_ test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents[WITHDRAW-ABANDONED] _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_original_c_can_pause_or_e1')
+behavior = 'WITHDRAW', state = 'ABANDONED'
+
+    @pytest.mark.parametrize('behavior,state',[('REST','PAUSED'),('WITHDRAW','ABANDONED')])
+    def test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents(tmp_path,behavior,state):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+>           app.pause();form(app);rid,item=current(app)[0]
+                                           ^^^^^^^^^^^^^^^
+E           IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:96: IndexError
+_ test_question_plan_and_tendency_coexist_and_links_are_tentative_not_fact_causation _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_question_plan_and_tendenc0')
+
+    def test_question_plan_and_tendency_coexist_and_links_are_tentative_not_fact_causation(tmp_path):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();form(app,'question','SYNTHETIC Could color change a composition?',topic='own-color',kind='private_question')
+            form(app,'plan','SYNTHETIC A private sketch I might make.',topic='own-sketch',kind='private_plan')
+            question=next(r for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.category=='PRIVATE_QUESTION')
+            # The existing association projection must actually select the source,
+            # rather than accepting a model-named arbitrary private record.
+            form(app,'curiosity','SYNTHETIC I feel drawn to this unresolved color question.',topic='own-color',related=(question,))
+>           assert {v.category for _,v in candidates(app.runtime.store,'project-work',('PROJECT',))}=={'PRIVATE_QUESTION','PRIVATE_PLAN','PRIVATE_TENDENCY'}
+E           AssertionError: assert {'PRIVATE_PLA...ATE_QUESTION'} == {'PRIVATE_PLA...ATE_TENDENCY'}
+E             
+E             Extra items in the right set:
+E             'PRIVATE_TENDENCY'
+E             Use -v to get more diff
+
+tests/person_self/test_private_tendency.py:115: AssertionError
+_ test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[ACTIVE] _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_tendency_uses_normal_back0')
+state = 'ACTIVE'
+
+    @pytest.mark.parametrize('state',['ACTIVE','PAUSED','ABANDONED'])
+    def test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input(tmp_path,state):
+        from nana_core.life.config import load_config,update_config
+        from nana_core.presence.contracts import SECOND
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app);identity=app.runtime.identity_id
+            if state!='ACTIVE':change(app,'REST' if state=='PAUSED' else 'WITHDRAW','before-background-'+state.lower())
+        config=load_config(home)
+        update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=config.revision)
+        def inner(request):
+            context=json.loads(request['context_json']);manifest=context['manifest']
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            return {'interpretation':'SYNTHETIC current tendency reconsideration','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own question, not a claim of the other person\'s mood','proposed_operations':['DRAFT'] if own else ['WAIT'],**({'private_question':{'topic':'own-concern','question':'SYNTHETIC Could giving space be more suitable than asking another question?'}} if own else {})}}
+        with relay(home,subject_builder=inner,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity and not requests
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(5):app.tick()
+            if state!='ACTIVE':
+                assert not requests and not app.runtime.store.all('cognitive_requests')
+                return
+>           assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+E           assert (0 == 1)
+E            +  where 0 = len([])
+
+tests/person_self/test_private_tendency.py:143: AssertionError
+_ test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[PAUSED] _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_tendency_uses_normal_back1')
+state = 'PAUSED'
+
+    @pytest.mark.parametrize('state',['ACTIVE','PAUSED','ABANDONED'])
+    def test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input(tmp_path,state):
+        from nana_core.life.config import load_config,update_config
+        from nana_core.presence.contracts import SECOND
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app);identity=app.runtime.identity_id
+>           if state!='ACTIVE':change(app,'REST' if state=='PAUSED' else 'WITHDRAW','before-background-'+state.lower())
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_private_tendency.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff60adff800>
+behavior = 'REST', key = 'before-background-paused'
+
+    def change(app,behavior,key):
+>       rid,item=current(app)[0];r=app.runtime
+                 ^^^^^^^^^^^^^^^
+E       IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:37: IndexError
+_ test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[ABANDONED] _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_tendency_uses_normal_back2')
+state = 'ABANDONED'
+
+    @pytest.mark.parametrize('state',['ACTIVE','PAUSED','ABANDONED'])
+    def test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input(tmp_path,state):
+        from nana_core.life.config import load_config,update_config
+        from nana_core.presence.contracts import SECOND
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app);identity=app.runtime.identity_id
+>           if state!='ACTIVE':change(app,'REST' if state=='PAUSED' else 'WITHDRAW','before-background-'+state.lower())
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_private_tendency.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff60adfc140>
+behavior = 'WITHDRAW', key = 'before-background-abandoned'
+
+    def change(app,behavior,key):
+>       rid,item=current(app)[0];r=app.runtime
+                 ^^^^^^^^^^^^^^^
+E       IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:37: IndexError
+_ test_boundary_and_unrelated_topic_do_not_disclose_or_erase_a_private_tendency _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_boundary_and_unrelated_to0')
+
+    def test_boundary_and_unrelated_topic_do_not_disclose_or_erase_a_private_tendency(tmp_path):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=render,context_limit=65536) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();form(app)
+            other=app.chat('SYNTHETIC separate topic',topic='unrelated',privacy='PROJECT',message_id='unrelated')
+            assert other['text']=='SYNTHETIC: ordinary brief chat.' and PRIVATE not in requests[0]['context_json']
+            before=len(requests)
+            stopped=app.chat('先别分析这个话题',topic='own-concern',privacy='PROJECT',message_id='explicit-boundary')
+>           assert len(requests)==before and stopped['text'] and current(app)[0][1].content_summary==PRIVATE
+                                                                 ^^^^^^^^^^^^^^^
+E           IndexError: list index out of range
+
+tests/person_self/test_private_tendency.py:158: IndexError
+_ test_nonretention_and_role_schema_do_not_turn_every_thought_into_a_retained_tendency _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_nonretention_and_role_sch0')
+
+    def test_nonretention_and_role_schema_do_not_turn_every_thought_into_a_retained_tendency(tmp_path):
+        from nana_core.continuity.world_loop.cognition import proposal_schema
+        home=tmp_path/'home';initialize(home);calls=[]
+        class NoRetention:
+            descriptor='synthetic-nonretention-tendency'
+            def propose(self,request):calls.append(request);return AnalyticalFixturePort().propose(request)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();r=app.runtime
+            r.subject.cognize(SubjectInput(source_key='synthetic.nonretained-tendency',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),retention='DO_NOT_REMEMBER'),model=NoRetention(),authority=r.authority,policy=app.policy)
+            assert not current(app) and not calls and not r.store.all('actions')
+        ordinary=proposal_schema();own=proposal_schema(internal=True)
+        assert 'PrivateTendencyProposal' not in ordinary.get('$defs',{})
+>       assert 'PrivateTendencyProposal' in own['$defs']
+E       AssertionError: assert 'PrivateTendencyProposal' in {'CognitiveProposal': {'additionalProperties': False, 'properties': {'passing_thought': {'anyOf': [{'maxLength': 512, ...fault': None, 'title': 'Revises Record Id'}, ...}, 'required': ['topic', 'plan'], 'title': 'PrivatePlanProposal', ...}}
+
+tests/person_self/test_private_tendency.py:174: AssertionError
+_ test_disjoint_legacy_and_tendency_indexes_preserve_old_predicate_and_wrong_binding_falls_back_read_only _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_disjoint_legacy_and_tende0')
+
+    def test_disjoint_legacy_and_tendency_indexes_preserve_old_predicate_and_wrong_binding_falls_back_read_only(tmp_path):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();form(app,'question','SYNTHETIC An unresolved related question.',topic='own-concern',kind='private_question');form(app)
+            store=app.runtime.store
+            sql=dict(store.db.execute("SELECT name,sql FROM sqlite_master WHERE type='index' AND name LIKE 'private_intent_%'"))
+            assert 'PRIVATE_TENDENCY_V4' not in sql['private_intent_topic_lookup_v1']
+>           assert 'PRIVATE_TENDENCY_V4' in sql['private_intent_tendency_topic_v4']
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'private_intent_tendency_topic_v4'
+
+tests/person_self/test_private_tendency.py:187: KeyError
+_ test_tendency_revision_cannot_retype_a_plan_and_private_validation_does_not_echo_content _
+
+tmp_path = PosixPath('/dev/shm/ntendbaseline/test_tendency_revision_cannot_0')
+
+    def test_tendency_revision_cannot_retype_a_plan_and_private_validation_does_not_echo_content(tmp_path):
+        home=tmp_path/'home';initialize(home)
+        with LifeApplication(home,clock=VirtualClock()) as app:
+            app.pause();form(app,'plan','SYNTHETIC independently retained private plan.',topic='own-concern',kind='private_plan')
+            rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.category=='PRIVATE_PLAN')
+>           with pytest.raises(CoreError,match='UNSUPPORTED_PRIVATE_TENDENCY_REVISION'):form(app,'bad-retyping',revision=rid)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+tests/person_self/test_private_tendency.py:203: Failed
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_tendency.py::test_own_tendency_changes_next_original_dialogue_choice_before_render_without_public_inner_text
+FAILED tests/person_self/test_private_tendency.py::test_tendency_restarts_revises_and_withdraws_without_turning_into_a_plan_or_world_fact
+FAILED tests/person_self/test_private_tendency.py::test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents[REST-PAUSED]
+FAILED tests/person_self/test_private_tendency.py::test_original_c_can_pause_or_end_a_tendency_without_overwriting_its_contents[WITHDRAW-ABANDONED]
+FAILED tests/person_self/test_private_tendency.py::test_question_plan_and_tendency_coexist_and_links_are_tentative_not_fact_causation
+FAILED tests/person_self/test_private_tendency.py::test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[ACTIVE]
+FAILED tests/person_self/test_private_tendency.py::test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[PAUSED]
+FAILED tests/person_self/test_private_tendency.py::test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input[ABANDONED]
+FAILED tests/person_self/test_private_tendency.py::test_boundary_and_unrelated_topic_do_not_disclose_or_erase_a_private_tendency
+FAILED tests/person_self/test_private_tendency.py::test_nonretention_and_role_schema_do_not_turn_every_thought_into_a_retained_tendency
+FAILED tests/person_self/test_private_tendency.py::test_disjoint_legacy_and_tendency_indexes_preserve_old_predicate_and_wrong_binding_falls_back_read_only
+FAILED tests/person_self/test_private_tendency.py::test_tendency_revision_cannot_retype_a_plan_and_private_validation_does_not_echo_content
+12 failed in 3.03s

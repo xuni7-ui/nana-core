@@ -10,9 +10,14 @@ import sqlite3
 
 PRIVATE_INTENT_JSON_CONTRACT = "CASE WHEN json_valid(CAST(payload AS TEXT)) THEN json_extract(CAST(payload AS TEXT),'$.contract') END"
 PRIVATE_INTENT_JSON_FILTER = PRIVATE_INTENT_JSON_CONTRACT+" IN ('PRIVATE_INTENT_V1','PRIVATE_ACTIVITY_V2','PRIVATE_QUESTION_V3')"
+PRIVATE_TENDENCY_JSON_FILTER = PRIVATE_INTENT_JSON_CONTRACT+"='PRIVATE_TENDENCY_V4'"
 
 
 REBUILDABLE_LOOKUP_INDEXES = {
+    "private_intent_tendency_topic_v4": (
+        "CREATE INDEX private_intent_tendency_topic_v4 ON artifacts("
+        "json_extract(CAST(payload AS TEXT),'$.owner_identity_id'),json_extract(CAST(payload AS TEXT),'$.topic'),artifact_id) WHERE "+PRIVATE_TENDENCY_JSON_FILTER
+    ),
     "private_intent_topic_lookup_v1": (
         "CREATE INDEX private_intent_topic_lookup_v1 ON artifacts("
         "json_extract(CAST(payload AS TEXT),'$.owner_identity_id'),json_extract(CAST(payload AS TEXT),'$.topic'),artifact_id) WHERE "+PRIVATE_INTENT_JSON_FILTER
@@ -88,7 +93,7 @@ class ContinuityStore(Store):
             except sqlite3.OperationalError:has_json=False
             for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
                 if name.startswith('private_intent_') and schema_target<13:continue
-                if name=='private_intent_topic_lookup_v1' and not has_json:continue
+                if name in {'private_intent_topic_lookup_v1','private_intent_tendency_topic_v4'} and not has_json:continue
                 self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
             for suffix in ("", "-wal", "-shm", ".lock"):
                 owned = Path(str(self.path) + suffix)

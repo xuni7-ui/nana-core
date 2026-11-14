@@ -10,7 +10,7 @@ from typing import Literal, Protocol
 from pydantic import Field,model_serializer,model_validator
 
 from ..contracts import CoreError, DTO
-from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal
+from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal,PrivateTendencyProposal
 from .subject.opportunities import Behavior
 
 
@@ -30,6 +30,7 @@ class CognitiveProposal(DTO):
     preferred_behavior:Behavior|None=None
     private_question:PrivateQuestionProposal|None=None
     private_plan:PrivatePlanProposal|None=None
+    private_tendency:PrivateTendencyProposal|None=None
     schema_version: Literal[2] = 2
     identity_id: str
     identity_revision: int = Field(ge=1)
@@ -40,7 +41,7 @@ class CognitiveProposal(DTO):
 
     @model_validator(mode='after')
     def one_private_edit(self):
-        if self.private_question is not None and self.private_plan is not None:
+        if sum(v is not None for v in (self.private_question,self.private_plan,self.private_tendency))>1:
             raise ValueError('one private edit per formation intention; existing thoughts coexist')
         return self
 
@@ -51,6 +52,7 @@ class CognitiveProposal(DTO):
         if self.preferred_behavior is None:value.pop('preferred_behavior',None)
         if self.private_question is None:value.pop('private_question',None)
         if self.private_plan is None:value.pop('private_plan',None)
+        if self.private_tendency is None:value.pop('private_tendency',None)
         return value
 
 
@@ -106,7 +108,7 @@ def validate_cognitive_proposal(proposal, context):
     if proposal.preferred_behavior is not None:
         choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
         if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
-    for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN')):
+    for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN'),(proposal.private_tendency,'PRIVATE_TENDENCY')):
         if candidate is None:continue
         private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}
         if not set(candidate.related_private_record_ids)<=private_refs:raise CoreError('UNSUPPORTED_'+category+'_REFERENCE')

@@ -1,8 +1,8 @@
-## 现役revision201 — 原计划步骤先参与C，仍是候选
+## 现役revision202 — 原V4私人倾向，先参与判断再表达
 
-原step_view移到同一只读Situation并交cognize Frame，事务内再验，删除run重复投影，plan_binding复用goal_id。当前C明确选择别的合法活动时不强制续计划，也不继承旧步骤target。精确9b298源文件匹配，同11场景旧11fail→新11pass，199相关后补36通过；实际已有Grant仍不误动作，新来源原C复查后同goal才执行原未执行步骤，cursor不丢。HTTP各1/wire+618bytes，非真实Token。原schema12/13夹具首错保留，见evidence/deliberated-plan-alternative-20261114。
+可选private_tendency复用原PrivateActivity/CognitiveProposal/INTENTION及同C，真实自身来源/时间/owner/状态/关联/撤回；非情绪分数、事实、承诺或Goal。原INTERPRET/C/SOCIAL选LISTEN，私文不出回复/普通日志；消融回CHAT。原正常D/Provider无用户消息ACTIVE一次SELF→新私问、暂停/放弃/同条件0，重启修订/来源撤回/B8同主体迁移通过。精确40f同12场景旧12fail→新12pass，184相关后补33通过。普通schema不变，SELF schema+804bytes，真实Token未测。旧索引谓词保留/V4-only索引不复制旧条目；错绑定只读fallback，旧d39安装略过新格式后源码返回完整。见evidence/private-tendency-20261114。
 
-下一复用已有COMMUNICATION_STRATEGY/COMMUNICATION_FEEDBACK/LanguageService.review与原G表达学习，补持续情感评价/私人关注如何因果影响后续C及独立迁移，避免重复开发反馈；未引用方法发现及原A–H继续。d39匹配安装包不含9b及此后继；原全仓13失败已定向41通过，不称再全仓PASS。CURRENT266+409不变，无新APK/真实模型/手机/生产/长期资格。
+下一固定后继做必要Core包/安装资格（d39不含9b/40f/V4），不重复APK/旧V4包；再补实际经历/不确定情绪评价→多倾向→明确反馈→原G独立迁移。普通商业初始情绪形成/多时间尺度/自然度与原A–H仍待；S8表达规则不能越界当全人格资格。原完整回归首次13失败已定向41通过，不称最新全仓PASS。CURRENT266+409，真实模型/手机/生产/长期未资格。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

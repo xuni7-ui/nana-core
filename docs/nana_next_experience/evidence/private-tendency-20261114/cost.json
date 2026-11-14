@@ -1,0 +1,148 @@
+{
+  "old": [
+    {
+      "wire": [
+        {
+          "input_bytes": 23493,
+          "output_bytes": 540,
+          "reserved_bytes": 35782,
+          "latency_us": 8661,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 20461,
+          "output_bytes": 457,
+          "reserved_bytes": 32750,
+          "latency_us": 3287,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 25108,
+          "output_bytes": 582,
+          "reserved_bytes": 37397,
+          "latency_us": 3422,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 22162,
+          "output_bytes": 499,
+          "reserved_bytes": 34451,
+          "latency_us": 3286,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "COGNITION_PROPOSAL": 4,
+        "COGNITION_REQUEST": 4,
+        "INTENTION": 2,
+        "INTENTION_DISPOSITION": 2,
+        "SUBJECT_CYCLE": 2,
+        "SUBJECT_EVENT": 2
+      },
+      "allocated_database_bytes": 987136,
+      "indexes": [
+        {
+          "name": "private_intent_live_lookup",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 0
+        },
+        {
+          "name": "private_intent_payload_lookup",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 0
+        },
+        {
+          "name": "private_intent_topic_lookup_v1",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 0
+        }
+      ]
+    }
+  ],
+  "new": [
+    {
+      "wire": [
+        {
+          "input_bytes": 24490,
+          "output_bytes": 582,
+          "reserved_bytes": 36779,
+          "latency_us": 6512,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 21544,
+          "output_bytes": 499,
+          "reserved_bytes": 33833,
+          "latency_us": 2798,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 27413,
+          "output_bytes": 666,
+          "reserved_bytes": 39702,
+          "latency_us": 3458,
+          "state": "PROPOSED"
+        },
+        {
+          "input_bytes": 23289,
+          "output_bytes": 570,
+          "reserved_bytes": 35578,
+          "latency_us": 2869,
+          "state": "PROPOSED"
+        }
+      ],
+      "record_kinds": {
+        "COGNITION_PROPOSAL": 4,
+        "COGNITION_REQUEST": 4,
+        "INTENTION": 4,
+        "INTENTION_DISPOSITION": 3,
+        "SUBJECT_CYCLE": 3,
+        "SUBJECT_EVENT": 2
+      },
+      "allocated_database_bytes": 1032192,
+      "indexes": [
+        {
+          "name": "private_intent_live_lookup",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 33
+        },
+        {
+          "name": "private_intent_payload_lookup",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 61
+        },
+        {
+          "name": "private_intent_tendency_topic_v4",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 89
+        },
+        {
+          "name": "private_intent_topic_lookup_v1",
+          "allocated_index_bytes": 4096,
+          "payload_bytes": 0
+        }
+      ]
+    }
+  ],
+  "schema_old": {
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 3610,
+      "sha256": "2068af613ceb82e35e1b4f7dde229d68811aaa5583e8044618024e2973d5cea7"
+    }
+  },
+  "schema_new": {
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 4414,
+      "sha256": "b09267126353e122a075c32067ccac8cc7e100bb7b60339edd23bfa475b4e3f7"
+    }
+  },
+  "limits": "Actual wire/index allocation; bytes are not Token; loopback latency single samples; actual commercial Token/cost and separate CPU not measured."
+}

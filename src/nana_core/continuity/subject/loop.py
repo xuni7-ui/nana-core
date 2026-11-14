@@ -414,19 +414,21 @@ class SubjectLoop:
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)
-            private_question=None;private_plan=None
+            private_question=None;private_plan=None;private_tendency=None;formation=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
-                from ..autonomy.private_intent import consider_question,consider_plan
+                from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency
                 private_question=(consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
                     if self.store.schema_target>=13 else None)
                 private_plan=(consider_plan(event,situation,judgment,intention,_deliberation.proposal.private_plan)
                     if self.store.schema_target>=13 else None)
-                formation=private_question or private_plan
+                private_tendency=(consider_tendency(event,situation,judgment,intention,_deliberation.proposal.private_tendency)
+                    if self.store.schema_target>=13 else None)
+                formation=private_question or private_plan or private_tendency
                 if formation is not None:
-                    label='question' if private_question is not None else 'plan'
+                    label='question' if private_question is not None else 'plan' if private_plan is not None else 'tendency'
                     from .contracts import Intention,Judgment
                     judgment=judgment.model_copy(update={'stance':'REFLECT',
                         'reason':f'Consider an own private {label}, without treating it as an observation or a permission',
@@ -456,7 +458,7 @@ class SubjectLoop:
             # An accepted own question/plan has no pending execution binding. Its
             # formation is completed in this same transaction after recording;
             # it does not consume the asynchronous intention queue's capacity.
-            if private_question is None and private_plan is None and intention.kind!='NO_ACTION' and (global_pending >= MAX_PENDING or duplicate_slot):
+            if formation is None and intention.kind!='NO_ACTION' and (global_pending >= MAX_PENDING or duplicate_slot):
                 from .contracts import Intention, Judgment
                 attention = 'DEFER'
                 judgment = Judgment(stance='DEFER', reason='A matching concern is already pending or attention is full', source_ids=situation.memory_ids)
@@ -535,9 +537,9 @@ class SubjectLoop:
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json':
-                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,'passing_thought':None,
+                        canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,'private_tendency':None,'passing_thought':None,
                             'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
-                        if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan
+                        if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan or _deliberation.proposal.private_tendency
                             or _deliberation.proposal.preferred_behavior is not None or situation.private_interest_records else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
@@ -559,7 +561,7 @@ class SubjectLoop:
                 from ..autonomy.private_intent import after_choice
                 after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes,
                     selected_topic=situation.cue.topic_key if situation.cue else event.topic,
-                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question,private_plan=private_plan)
+                    private_intent_ref=situation.cue.private_intent_ref if situation.cue else None,private_question=private_question,private_plan=private_plan,private_tendency=private_tendency)
                 from .context_fit import record_communication_strategy
                 record_communication_strategy(self.store,tx,event,result.model_copy(update={'record_id':record}),communication_proposal,
                     privacy_classes=self.privacy_classes)
@@ -652,10 +654,11 @@ class SubjectLoop:
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
         if self.store.schema_target>=13 and result.resource_record_id is None and not situation.memory_ids and not situation.support_record_ids:
-            from ..autonomy.private_intent import consider_question,consider_plan,anchor_own_occurrence
+            from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency,anchor_own_occurrence
             _,judgment,intention=decide(event,situation,appraisal,motives)
             if (consider_question(event,situation,judgment,intention,result.proposal.private_question) is not None
-                    or consider_plan(event,situation,judgment,intention,result.proposal.private_plan) is not None):
+                    or consider_plan(event,situation,judgment,intention,result.proposal.private_plan) is not None
+                    or consider_tendency(event,situation,judgment,intention,result.proposal.private_tendency) is not None):
                 # The recorded fact is this validated candidate occurrence. It
                 # is not a new external observation or an adopted world belief.
                 event=anchor_own_occurrence(self.store,event,authority=authority)

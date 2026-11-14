@@ -34,6 +34,8 @@ def test_runtime_subject_transfer_preserves_history_and_excludes_host_config(tmp
  with LifeApplication(home) as app:
   assert app.config.provider_background_cognition is True and app.runtime.cognition.provider_factory is None
   identity=app.runtime.identity_id;app.pause();app.chat('这个话题先不要深入了',topic='shared',privacy='PROJECT',message_id='decline')
+  from tests.person_self.test_private_tendency import form,current,PRIVATE
+  form(app);rid,tendency=current(app)[0];root=tendency.source_memory_ids[0]
  target_id=str(uuid4());package=tmp_path/'subject.zip';result=transfer(home,package,destination_id=target_id,source_commit=BASE)
  with pytest.raises(CoreError,match='PORTABLE_SOURCE_RETIRED'):
   LifeApplication(home)
@@ -45,6 +47,8 @@ def test_runtime_subject_transfer_preserves_history_and_excludes_host_config(tmp
   from nana_core.continuity.subject.context_fit import depth_boundary
   assert depth_boundary(app.runtime.store,'project-user','project-work','shared',app.policy.readable_privacy)[0]
   assert all(x['revoked'] for x in app.runtime.store.all('grants'))
+  assert current(app)[0][1].content_summary==PRIVATE and current(app)[0][1].owner_identity_id==identity
+  app.forget(root);assert not current(app)
   assert not list(app.runtime.store.db.execute('pragma foreign_key_check'))
  # The package contains only the original B8 three files, no life/provider paths.
  import zipfile

@@ -78,15 +78,25 @@ class PrivatePlanProposal(PrivateThoughtEdit):
     plan:str=Field(min_length=1,max_length=512)
 
 
+class PrivateTendencyProposal(PrivateThoughtEdit):
+    tendency:str=Field(min_length=1,max_length=512)
+
+
 class PrivateQuestion(PrivateActivity):
     contract:Literal['PRIVATE_QUESTION_V3']='PRIVATE_QUESTION_V3'
     category:Literal['PRIVATE_QUESTION']='PRIVATE_QUESTION'
     epistemic_status:Literal['OWN_QUESTION_NOT_WORLD_FACT']='OWN_QUESTION_NOT_WORLD_FACT'
 
 
+class PrivateTendency(PrivateActivity):
+    """A retained own orientation, not necessarily a question, plan or emotion."""
+    contract:Literal['PRIVATE_TENDENCY_V4']='PRIVATE_TENDENCY_V4'
+    category:Literal['PRIVATE_TENDENCY']='PRIVATE_TENDENCY'
+
+
 def payload_model(data):
     return {'PRIVATE_INTENT_V1':PrivateIntent,'PRIVATE_ACTIVITY_V2':PrivateActivity,
-        'PRIVATE_QUESTION_V3':PrivateQuestion}.get(data.get('contract'))
+        'PRIVATE_QUESTION_V3':PrivateQuestion,'PRIVATE_TENDENCY_V4':PrivateTendency}.get(data.get('contract'))
 
 
 def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False):
@@ -97,21 +107,32 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
     # idea must not displace another current idea behind retired headers.
     # A read-only Inspector may inspect a legacy DB before the new owner has
     # installed the lookup. It never creates an index or acquires writer power.
-    installed={row[0] for row in store.db.execute("SELECT name FROM sqlite_master WHERE type='index' AND name IN ('private_intent_live_lookup','private_intent_topic_lookup_v1','private_intent_payload_lookup')")}
-    if topic is not None and owner_identity_id is not None and {'private_intent_topic_lookup_v1','private_intent_payload_lookup'}<=installed:
-        from ..store import PRIVATE_INTENT_JSON_FILTER
+    from ..store import REBUILDABLE_LOOKUP_INDEXES
+    index_rows=store.db.execute("SELECT name,sql FROM sqlite_master WHERE type='index' AND name IN ('private_intent_live_lookup','private_intent_topic_lookup_v1','private_intent_payload_lookup','private_intent_tendency_topic_v4')")
+    normalize=lambda sql:' '.join((sql or '').replace(' IF NOT EXISTS','').split())
+    installed={name for name,sql in index_rows if normalize(sql)==normalize(REBUILDABLE_LOOKUP_INDEXES[name])}
+    indexed=topic is not None and owner_identity_id is not None and {'private_intent_topic_lookup_v1','private_intent_payload_lookup','private_intent_tendency_topic_v4'}<=installed
+    if indexed:
+        from ..store import PRIVATE_INTENT_JSON_FILTER,PRIVATE_TENDENCY_JSON_FILTER
         # The small purpose-specific artifact index narrows owner/topic, then
         # the original current header enforces scope/privacy/lifecycle. It is
         # a rebuildable lookup, never a second memory authority.
-        sql="SELECT r.record_id,r.scope,r.privacy_class,r.lifecycle FROM artifacts a INDEXED BY private_intent_topic_lookup_v1 JOIN continuity_records r INDEXED BY private_intent_payload_lookup ON r.payload_artifact_id=a.artifact_id WHERE "+PRIVATE_INTENT_JSON_FILTER.replace('payload','a.payload')+" AND json_extract(CAST(a.payload AS TEXT),'$.owner_identity_id')=? AND json_extract(CAST(a.payload AS TEXT),'$.topic')=? AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' AND r.scope=? AND r.privacy_class IN ("+marks+") ORDER BY r.created_at_us DESC LIMIT 64 OFFSET ?"
-        args=(owner_identity_id,topic,scope,*privacy_classes)
+        queries=[]
+        for index,predicate in (('private_intent_topic_lookup_v1',PRIVATE_INTENT_JSON_FILTER),('private_intent_tendency_topic_v4',PRIVATE_TENDENCY_JSON_FILTER)):
+            query="SELECT r.record_id,r.scope,r.privacy_class,r.lifecycle,r.created_at_us,r.rowid AS ordering_row FROM artifacts a INDEXED BY "+index+" JOIN continuity_records r INDEXED BY private_intent_payload_lookup ON r.payload_artifact_id=a.artifact_id WHERE "+predicate.replace('payload','a.payload')+" AND json_extract(CAST(a.payload AS TEXT),'$.owner_identity_id')=? AND json_extract(CAST(a.payload AS TEXT),'$.topic')=? AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' AND r.scope=? AND r.privacy_class IN ("+marks+")"
+            if for_continuation:query+=" AND NOT EXISTS (SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='private-thought.'||r.record_id)"
+            queries.append(query)
+        # Disjoint format indexes: do not duplicate legacy entries or change
+        # the partial predicate an older installed reader explicitly selects.
+        sql=' UNION ALL '.join(queries)+' ORDER BY created_at_us DESC,ordering_row DESC LIMIT 64 OFFSET ?'
+        args=(owner_identity_id,topic,scope,*privacy_classes)*2
     else:
         # Legacy/read-only/JSON-less engines retain correctness by paging
         # current permitted headers. They never install a cache on inspection.
         lookup=' INDEXED BY private_intent_live_lookup' if 'private_intent_live_lookup' in installed else ''
         sql="SELECT record_id,scope,privacy_class,lifecycle FROM continuity_records"+lookup+" WHERE record_kind='INTENTION' AND target_id='private-intent.v1' AND lifecycle='ACTIVE' AND scope=? AND privacy_class IN ("+marks+") ORDER BY created_at_us DESC LIMIT 64 OFFSET ?"
         args=(scope,*privacy_classes)
-    if for_continuation:
+    if for_continuation and not indexed:
         alias='r' if 'FROM artifacts a ' in sql else 'continuity_records'
         sql=sql.replace(' ORDER BY '," AND NOT EXISTS (SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='private-thought.'||"+alias+".record_id) ORDER BY ",1)
     records=RecordService(store);out=[]
@@ -267,6 +288,10 @@ def consider_plan(event,situation,judgment,intention,proposal):
     return _consider_formation(event,situation,judgment,intention,proposal)
 
 
+def consider_tendency(event,situation,judgment,intention,proposal):
+    return _consider_formation(event,situation,judgment,intention,proposal)
+
+
 def can_consider_private_formation(event,situation,judgment,intention):
     """The original C's pre-choice, reused by D only to allocate its method."""
     if (event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
@@ -362,14 +387,14 @@ def anchor_provider_consideration(store,event,*,authority):
     return event.model_copy(update={'source_memory_ids':(mid,)})
 
 
-def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None,private_plan=None):
+def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,private_intent_ref=None,private_question=None,private_plan=None,private_tendency=None):
     """Called only by original SubjectLoop after its independent judgment commit data.
 
     A wall clock only permits reconsideration in another ordinary C cycle. Even a
     DISCLOSED state is eligibility, never an assertion of delivery or of an effect.
     """
     records=RecordService(store)
-    formation=private_question or private_plan
+    formation=private_question or private_plan or private_tendency
     continued=continuation_target(store,event.private_thought_ref,scope=event.scope,privacy_classes=privacy_classes) if event.private_thought_ref else None
     current=candidates(store,event.scope,privacy_classes)
     if continued and not any(rid==continued[0] for rid,_ in current):current=(*current,continued)
@@ -400,16 +425,17 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
         if review and rid==owned[0][0]:
             if getattr(item,'activity_state','ACTIVE')!=desired:
                 changes['activity_state']=desired
-            if desired=='ACTIVE' and not isinstance(item,PrivateQuestion) and item.category!='PRIVATE_PLAN' and item.content_summary!=result.intention.purpose[:512]:
+            if desired=='ACTIVE' and item.category not in {'PRIVATE_QUESTION','PRIVATE_PLAN','PRIVATE_TENDENCY'} and item.content_summary!=result.intention.purpose[:512]:
                 changes['content_summary']=result.intention.purpose[:512]
         if changes:
             data={**item.model_dump(mode='json'),**changes,'revision':item.revision+1}
             if 'activity_state' in changes or isinstance(item,PrivateActivity):
-                data.update(contract='PRIVATE_QUESTION_V3' if isinstance(item,PrivateQuestion) else 'PRIVATE_ACTIVITY_V2',
+                model=type(item) if isinstance(item,PrivateActivity) else PrivateActivity
+                data.update(contract=model.model_fields['contract'].default,
                     activity_state=changes.get('activity_state',getattr(item,'activity_state','ACTIVE')),
                     created_at_us=getattr(item,'created_at_us',store.one('continuity_records',rid)['created_at_us']),
                     updated_at_us=store.clock.utc_now_us(),last_choice_cycle_id=result.cycle_id)
-                revised=(PrivateQuestion if isinstance(item,PrivateQuestion) else PrivateActivity).model_validate_json(json.dumps(data))
+                revised=model.model_validate_json(json.dumps(data))
             else:revised=PrivateIntent.model_validate_json(json.dumps(data))
             associations=_association_record_ids(store,rid,owner_intent_id=item.intent_id,scope=event.scope,privacy_classes=privacy_classes)
             parents=(rid,result.record_id,*associations) if 'activity_state' in changes or 'content_summary' in changes else (rid,*associations)
@@ -417,9 +443,9 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
                 supersedes=rid,target_id='private-intent.v1')
     if (formation is not None and result.intention_id and result.record_id
             and result.intention.behavior=='REFLECT' and result.evaluation and result.evaluation.normative=='ENDORSED'):
-        category='PRIVATE_QUESTION' if private_question is not None else 'PRIVATE_PLAN'
-        model=PrivateQuestion if private_question is not None else PrivateActivity
-        contents=formation.question if private_question is not None else formation.plan
+        category='PRIVATE_QUESTION' if private_question is not None else 'PRIVATE_PLAN' if private_plan is not None else 'PRIVATE_TENDENCY'
+        model=PrivateQuestion if private_question is not None else PrivateActivity if private_plan is not None else PrivateTendency
+        contents=formation.question if private_question is not None else formation.plan if private_plan is not None else formation.tendency
         if formation.revises_record_id is not None:
             old=next(((rid,item) for rid,item in current if rid==formation.revises_record_id),None)
             if (old is None or not isinstance(old[1],model) or old[1].category!=category or old[1].owner_identity_id!=store.identity['identity_id']

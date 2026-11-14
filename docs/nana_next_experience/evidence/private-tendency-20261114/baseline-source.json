@@ -1,0 +1,7 @@
+{
+  "source_commit": "40f92e3466edbbc57ab93b8c65b042d013f1801d",
+  "matched_source_files": 298,
+  "source_root": "/dev/shm/nana-tendency-40f",
+  "old_protocol_has_no_private_tendency_field": true,
+  "comparison": "same final fixture; conditional field follows actual original supported candidate schema"
+}
