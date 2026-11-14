@@ -258,7 +258,7 @@ export function bilibiliReadings(value: unknown): BilibiliReading[] {
 export interface PlatformChannel {
   platform: "qq" | "bilibili"; channel_id: string; enabled: boolean;
   read_authorized: boolean; send_configured: boolean; secret_state: "AVAILABLE" | "MISSING";
-  state: string;
+  state: string; account_label?: string; conversation_kind?: string;
 }
 /** Configuration availability is not social authorization or a delivery proof. */
 export function platformChannels(value: unknown): PlatformChannel[] {
@@ -272,6 +272,8 @@ export function platformChannels(value: unknown): PlatformChannel[] {
       || (row.secret_state !== "AVAILABLE" && row.secret_state !== "MISSING")
       || typeof row.state !== "string" || !/^[A-Z_]{1,96}$/.test(row.state)) return [];
     return [{platform: row.platform, channel_id: row.channel_id, enabled: row.enabled,
-      read_authorized: row.read_authorized, send_configured: row.send_configured, secret_state: row.secret_state, state: row.state}];
+      read_authorized: row.read_authorized, send_configured: row.send_configured, secret_state: row.secret_state, state: row.state,
+      account_label:typeof row.account_label === "string" && row.account_label.length <= 32?row.account_label:undefined,
+      conversation_kind:typeof row.conversation_kind === "string" && ["private","group","dm","comment"].includes(row.conversation_kind)?row.conversation_kind:undefined}];
   });
 }

@@ -1731,3 +1731,47 @@ test('SYNTHETIC concurrent continuation waits for admission and respects disable
     operation:'MESSAGE',no_retry:true,state:'VERIFIED',dispatch_happened:true,result:{text:'SYNTHETIC first result'}});
   await expect(page.getByText('SYNTHETIC early input received',{exact:true})).toBeVisible();
 });
+
+for (const outcome of ['VERIFIED','UNKNOWN'] as const) test(`NanaLink phone setup: ${outcome} keeps account authorization separate`,async({page},info)=>{
+  const state=await installMock(page);
+  state.capabilities={platform_configuration_write:true};state.roles=['READER','HOST_ADMIN'];
+  let rows:Record<string,unknown>[]=[];
+  const writes:Record<string,unknown>[]=[];
+  await page.route(`**${API}platform/status`,route=>route.fulfill({status:200,json:envelope(state,{
+    configuration_revision:4+rows.length,channels:rows,nanalink:{schema_version:1,sessions:[]}})}));
+  await page.route(`**${API}platform/setup`,async route=>{
+    const body=route.request().postDataJSON() as Record<string,unknown>;writes.push(body);
+    rows=[{platform:'qq',channel_id:'link.fixture',account_label:'账号尾号 0042',conversation_kind:'private',enabled:false,read_authorized:false,send_configured:false,
+      secret_state:'MISSING',state:'PENDING_OWNER_RESTART'}];state.revision++;
+    await route.fulfill({status:200,json:envelope(state,{state:outcome,receipt_id:body.idempotency_key,
+      result:outcome==='VERIFIED'?{enabled:false,read_authorized:false,send_authorized:false}: {}})});
+  });
+  await open(page,'devices');await page.getByRole('button',{name:'添加平台连接'}).click();
+  await expect(page.getByLabel('连接平台')).toBeVisible();
+  await page.getByLabel('QQ连接方式').selectOption('official');
+  await expect(page.getByText('官方Bot沿用现有AstrBot适配和补丁。',{exact:false})).toBeVisible();
+  await expect(page.getByRole('button',{name:'保存连接配置'})).toHaveCount(0);
+  await page.getByLabel('QQ连接方式').selectOption('onebot');
+  await page.getByLabel('平台账号',{exact:true}).fill('42');await page.getByLabel('会话对象',{exact:true}).fill('43');
+  await expect(page.getByLabel('OneBot服务地址')).not.toBeVisible();
+  await page.getByRole('button',{name:'保存连接配置'}).click();
+  await expect(page.getByText(outcome==='VERIFIED'?'连接配置已保存并保持暂停。下一步由已授权宿主绑定账号会话与读取范围，再启动入口。':'保存结果待核对，请刷新查看，勿重复提交。',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'启用已授权入口'})).toBeDisabled();
+  expect(writes).toHaveLength(1);expect(writes[0].method).toBe('qq.onebot');expect(writes[0]).not.toHaveProperty('send_authorized');
+  await noHorizontalOverflow(page);
+  if(info.project.name==='phone-390')await page.screenshot({path:`test-results/nanalink-${outcome}.png`,fullPage:true});
+});
+
+test('NanaLink health: connected session does not invent received events or delivery',async({page})=>{
+  const state=await installMock(page);state.capabilities={platform_configuration_write:true};
+  await page.route(`**${API}platform/status`,route=>route.fulfill({status:200,json:envelope(state,{
+    configuration_revision:4,channels:[{platform:'qq',channel_id:'primary',account_label:'账号尾号 0042',conversation_kind:'private',enabled:true,read_authorized:true,send_configured:false,
+      secret_state:'AVAILABLE',state:'NOT_OBSERVED'}],nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
+      health:{connection:'CONNECTED',login:'AUTHENTICATED',receive:'NOT_OBSERVED',reconnects:1},
+      capabilities:[{name:'message.receive',available:true},{name:'message.edit',available:false}]}]}})}));
+  await open(page,'devices');await expect(page.getByRole('heading',{name:'QQ · 账号尾号 0042 · 私聊'})).toBeVisible();
+  await expect(page.getByText('会话已连接 · 还未收到事件',{exact:true})).toBeVisible();
+  await expect(page.getByText('尚无本次运行的投递记录',{exact:true})).toBeVisible();
+  await page.getByText('此连接支持的能力',{exact:true}).click();
+  await expect(page.getByText('message.edit · 暂不支持或未授权',{exact:true})).toBeVisible();await noHorizontalOverflow(page);
+});

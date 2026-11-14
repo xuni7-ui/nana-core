@@ -223,6 +223,7 @@ class PlatformRuntime:
     def __init__(self, app, resolver=None):
         self.app, self.resolver = app, resolver
         self.health = {}
+        self._nanalink_bili_sources = {}
 
     def qq(self, channel_id, message_id):
         channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
@@ -284,6 +285,7 @@ class PlatformRuntime:
         from .config import load_config
 
         current = load_config(self.app.home)
+        self._nanalink_bili_sources.clear()
         self.app.config = self.app.config.model_copy(
             update={
                 "revision": current.revision,
@@ -292,6 +294,38 @@ class PlatformRuntime:
             }
         )
         return self.view()
+
+    def bilibili_notifications(self, channel_id):
+        """Explicit infrastructure poll on the ORIGINAL owner; defaults deny.
+
+        Reuses original account policy/credentials, C.4 normalization and the
+        same reply workflow. No new Runtime, timer, Store, model or Grant.
+        """
+        import asyncio
+        from .bilibili_runtime import account_workflow
+        from ..nanalink.adapters import BilibiliEventsAdapter
+        workflow = account_workflow(self.app, self.resolver, channel_id)
+        revision = digest(workflow.channel.model_dump(mode='json'))
+        previous = self._nanalink_bili_sources.get(channel_id)
+        if previous is None or previous[0] != revision:
+            adapter = BilibiliEventsAdapter(workflow)
+            asyncio.run(adapter.connect())
+            self._nanalink_bili_sources[channel_id] = (revision, adapter)
+        else:
+            adapter = previous[1]
+            # Use the current resolver/channel/activation, never stale rights.
+            adapter.workflow = workflow
+        event = asyncio.run(adapter.receive())
+        if event is None:
+            return {'platform': 'bilibili', 'delivery': 'NO_NEW_BOUND_NOTIFICATION',
+                    'external_delivery': False, 'pending_notifications': 0}
+        receipt = adapter.receive_event(event)
+        delivery = 'SUCCEEDED' if receipt.external_delivery else receipt.reason
+        self.health['bilibili.' + channel_id] = delivery
+        return {'platform': 'bilibili', 'delivery': delivery,
+                'outcome': receipt.outcome.value, 'action_id': receipt.action_id,
+                'external_delivery': receipt.external_delivery, 'no_retry': True,
+                'pending_notifications': len(adapter.pending)}
 
     def bilibili(self, channel_id, message_id):
         from .bilibili_runtime import account_message

@@ -42,6 +42,8 @@ class GatewayService:
         allow_provider_runtime_budget=False,
         credential_resolver=None,
         platform_event_secret_refs=None,
+        nanalink_observers=(),
+        nanalink_bilibili_sources=(),
     ):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
@@ -66,7 +68,12 @@ class GatewayService:
         self.inflight_messages = {}  # Parent bindings only; no message bodies/history.
         from .platform_events import PlatformEvents
 
+        self.nanalink_bilibili_sources = tuple(nanalink_bilibili_sources)
+        if len(self.nanalink_bilibili_sources) > 16 or any(not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}", v) for v in self.nanalink_bilibili_sources):
+            raise ApiError("NANALINK_SOURCE_BINDING_INVALID")
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
+        from ...nanalink.console import NanaLinkObserver
+        self.nanalink_observer = NanaLinkObserver(nanalink_observers, credential_resolver)
 
     def _prune_receipt_cache(self):
         # Warm body visibility follows the bounded host ledger, never an

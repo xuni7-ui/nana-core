@@ -49,7 +49,7 @@ def forward(base, platform, channel, message_id, resolver, reference):
     if (
         platform not in {"qq", "bilibili"}
         or not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}", channel)
-        or not re.fullmatch(r"[0-9]{1,20}" if platform == "qq" else r"[A-Za-z0-9._:-]{1,128}", message_id)
+        or not re.fullmatch(r"-?[0-9]{1,20}" if platform == "qq" else r"[A-Za-z0-9._:-]{1,128}", message_id)
     ):
         raise CoreError("PLATFORM_FORWARD_METADATA_INVALID")
     raw = json.dumps({"post_type": "message", "message_id": message_id}, separators=(",", ":")).encode()

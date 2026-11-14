@@ -41,6 +41,7 @@ class PlatformEvents:
         self.last = {"state": "NOT_OBSERVED", "external_delivery": False}
         self.stopped = threading.Event()
         self.worker = None
+        self.source_after = {}
 
     def _authenticate(self, channel, raw, signature, platform):
         full = platform + "." + channel
@@ -80,7 +81,7 @@ class PlatformEvents:
             body = json.loads(raw, object_pairs_hook=_json_object)
             message = str(body["message_id"])
             valid = (
-                re.fullmatch(r"[0-9]{1,20}", message)
+                re.fullmatch(r"-?[0-9]{1,20}", message)
                 if platform == "qq"
                 else re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", message)
             )
@@ -138,6 +139,29 @@ class PlatformEvents:
             self.queue.task_done()
         return self.last
 
+    def poll_notification_once(self):
+        sources = getattr(self.service, 'nanalink_bilibili_sources', ())
+        now = time.monotonic()
+        for channel in sources:
+            if now < self.source_after.get(channel, 0):
+                continue
+            # Admission precedes I/O; a lost result never immediately polls
+            # again. Core's original journal also fences the bucket on restart.
+            self.source_after[channel] = now + 300
+            try:
+                result = request(self.service.supervisor.home,
+                    {'operation': 'bilibili-notifications', 'channel_id': channel}, timeout=None)
+                value = result.get('result', {}) if result.get('ok') is True else {}
+                if value.get('pending_notifications', 0) > 0:
+                    self.source_after[channel] = now  # Drain already admitted RAM metadata, no new API poll.
+                state = value.get('delivery', result.get('error', result.get('code', 'UNKNOWN_NOTIFICATION_POLL')))
+                self.last = {'state': state if type(state) is str and re.fullmatch(r'[A-Z_]{1,96}', state) else 'UNKNOWN',
+                             'external_delivery': value.get('external_delivery') is True, 'no_retry': True}
+            except (CoreError, OSError, ValueError, TypeError):
+                self.last = {'state': 'UNKNOWN_NOTIFICATION_POLL_NO_RETRY', 'external_delivery': False, 'no_retry': True}
+            return self.last
+        return None
+
     def start(self):
         if self.worker is not None:
             raise ApiError("PLATFORM_EVENT_FORWARDER_ALREADY_STARTED")
@@ -145,6 +169,7 @@ class PlatformEvents:
         def forward():
             while not self.stopped.wait(0.25):
                 self.drain_once()
+                self.poll_notification_once()
 
         self.worker = threading.Thread(target=forward, name="nana-platform-metadata", daemon=True)
         self.worker.start()
