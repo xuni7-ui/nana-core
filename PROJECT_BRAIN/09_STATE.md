@@ -2,7 +2,7 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测 2026-11-16] PR #18 已由 A 在 `486ed546` 合入现役主线；#14、#17也已合入。C 独立后继基线 A `cfd11be158a3f0fa36abf93f42d5e4fde1f55bf0`，不覆盖 A/B 工作树。当前增量修正B站视频历史筛选顺序、视频能力状态及OneBot畸形事件隔离，候选待 A 集成；B 的 [PR #19](https://github.com/xuni7-ui/nana-core/pull/19) 固定原型 `86d1edb` 已可见，C 只提供现有视频来源样本投影候选，不视为现役视觉算法已接线。
+[实测 2026-11-16] PR #18 已由 A 在 `486ed546` 合入现役主线；#14、#17也已合入。C 独立后继初始基线 A `cfd11be158a3f0fa36abf93f42d5e4fde1f55bf0`，增量继承 A `46fa16b1a5f302b3fa8d32a97d1bed35342f2eb6`，不覆盖 A/B 工作树。当前增量修正B站视频历史筛选顺序、视频能力状态及OneBot畸形事件隔离，候选待 A 集成；B 的 [PR #19](https://github.com/xuni7-ui/nana-core/pull/19) 固定原型 `86d1edb` 已可见，C 只提供现有视频来源样本投影候选，不视为现役视觉算法已接线。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
 - 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；BFF 只读投影在配置变化时先通过原 IPC 同步 owner 隐私安全点，owner 不可用则安全失败；事务安全点和实际HTTP反例通过。无第二记忆库。
@@ -21,15 +21,15 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 251,
-  "as_of_us": 1794784318013169,
+  "revision": 252,
+  "as_of_us": 1794785339396016,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原REPLAN可由C明确REST/CREATE而不强制修订；原源/版本前置Frame、LEARN规范/旧消费者按方向有效。cc8旧4fail4pass→9过.75s/116相关22.69s；同身份重开/重放/目标-job-旧Grant保持/stale模型0。精确322文件旧131实际模块各1SELF，request23366→23585bytes非Token。",
+    "原C新社交选择不再须先存私念/SEEKING，旧quiet倾向保留，规范/拒绝/近期重复投递/权限不改。cfd旧3fail6pass→10过.81s/前85相关16.94s；旧纯C消融IGNORE→SOCIALIZE，各1SELF/42992requestbytes同预算；原BUSY准入延后、同身份重开保留pending/模型不增，真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
-    "9a/Brain243候选302文件Core cda06320…/Web9c593456…，delivery efc固定11件，GitHub下载/双槽离线安装/撤回回退通过。独立9c8 CI746/3warn346.75s为targeted，full/portable/client SKIP；候选不含245–251，CURRENT266+409。",
+    "9a/Brain243候选302文件Core cda06320…/Web9c593456…，delivery efc固定11件，GitHub下载/双槽离线安装/撤回回退通过。独立9c8 CI746/3warn346.75s为targeted，full/portable/client SKIP；候选不含245–252，CURRENT266+409。",
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
@@ -43,17 +43,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR14/17/18已集成，9a候选不含245–251。新CI待实读；普通REPLAN局部已接，不等于全自主性。继续原C情感/多动机/持续策略/G未见迁移；BiliLife首帧/覆盖预算待B固定交接；物理隐私/Token/原A–H与Android最终匹配发行仍待。"
+    "PR14/17/18已集成，9a候选不含245–252。新CI待实读；新社交欲望不是实际发送/关系成长。继续原C情感/持续策略/G未见迁移；Bili首帧/覆盖预算待B固定交接；物理隐私/Token/原A–H与Android最终匹配发行仍待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/frame-semantic-source-locator-20261116/README.md",
     "docs/nana_next_experience/evidence/memory-review-condition-cohort-20261116/README.md",
     "docs/nana_next_experience/evidence/memory-review-current-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-goal-review-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-plan-load-20261116/README.md",
-    "docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/README.md",
-    "docs/nana_next_experience/evidence/matched-integration-9a31e15-20261116/README.md"
+    "docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

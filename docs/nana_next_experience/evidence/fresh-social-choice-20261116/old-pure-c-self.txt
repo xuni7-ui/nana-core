@@ -1,0 +1,41 @@
+{"fixed_baseline": "cfd11be158a3f0fa36abf93f42d5e4fde1f55bf0", "old_decide_sha256": "24f488f09d4d0329a8f9bbaa151ccb2dfef9f0b442ae8b2c6194d99023cd0940", "scope": "only original pure decide; other Core source matches cfd11be except this decision change", "runtime_store_copied": false}
+{"measurement": "fresh-social-self", "http_calls": 1, "request_json_bytes": 42992, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "behavior": "IGNORE", "real_model_calls": 0}
+F
+=================================== FAILURES ===================================
+___ test_normal_self_new_wish_still_obeys_original_busy_recipient_admission ____
+
+app = <nana_core.life.application.LifeApplication object at 0x7fd114bca0c0>
+
+    def test_normal_self_new_wish_still_obeys_original_busy_recipient_admission(app):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.autonomy.contracts import RealizationTarget
+        from nana_core.continuity.open_agency.delivery import DeliveryAdmission,DeliveryPolicy,RecipientState
+        from nana_core.storage import digest
+        r=app.runtime;event=opportunity(app,'quiet');resource='synthetic://contact/friend';seen=[]
+        event=event.model_copy(update={'realization_target':RealizationTarget(capability='world.contact',operation='CONTACT',
+            resource=resource,resource_class='ORDINARY')})
+        recipient=RecipientState(resource=resource,entity_id='project-user',availability='BUSY',observed_at_us=r.clock.utc_now_us(),
+            expires_at_us=r.clock.utc_now_us()+3600_000_000,permitted_privacy=('PERSONAL',))
+        capture(r,'fresh-social-busy',recipient.model_dump(mode='json'),predicate='recipient.'+digest(resource)[:32])
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC an optional current ordinary social wish',
+                subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                    interpretation='SYNTHETIC consider contact while keeping the older quiet tendency',preferred_behavior='SOCIALIZE',proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,metrics):
+            port=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+            cycle=r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+            print(json.dumps({'measurement':'fresh-social-self','http_calls':metrics['calls'],
+                'request_json_bytes':len(seen[0].model_dump_json().encode()),'budget':seen[0].budget.model_dump(),
+                'behavior':cycle.intention.behavior,'real_model_calls':0}))
+>           assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.intention.behavior=='SOCIALIZE'
+E           AssertionError: assert ('NO_ACTION' == 'SOCIAL_INTERACTION'
+E             
+E             - SOCIAL_INTERACTION
+E             + NO_ACTION)
+
+tests/person_self/test_fresh_social_choice.py:91: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_fresh_social_choice.py::test_normal_self_new_wish_still_obeys_original_busy_recipient_admission
+1 failed in 0.23s

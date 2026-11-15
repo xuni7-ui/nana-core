@@ -1,0 +1,194 @@
+...................FF......................                              [100%]
+=================================== FAILURES ===================================
+_ test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-SOCIALIZE-social_recovery_needed-RECOVERING] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7fc7fc37f6b0>
+tendency = 'social_recovery_needed', state = 'RECOVERING', choice = 'SOCIALIZE'
+guard = 'withdrawn', expected = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','SOCIALIZE'),('EXPLORE','research','EXPLORE'),('SOCIALIZE','repeated-delivery','STAY_SILENT')])
+    def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):
+        r=app.runtime;seen=[];topic='own-connection'
+        for i in range(2):
+            r.subject.run(SubjectInput(source_key='synthetic.quiet-tendency.'+str(i),kind='PLAY',origin='ENVIRONMENT',
+                entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                text='SYNTHETIC independent observed preference for a quieter interval '+str(i),
+                preference_signal=PreferenceSignal(topic=tendency,direction='SUPPORT',interpretation='SYNTHETIC a sourced quieter tendency, not permanent incapacity')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==state and before.source_record_ids
+        form(app,'connection','SYNTHETIC I currently wish to share a small ordinary moment while still valuing quiet.',topic=topic)
+        thought=current(app)[0][1]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=topic,resource_class='ORDINARY',
+            possible_behaviors=('EXPLORE','REST') if guard=='research' else ('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),share_assessment=ShareAssessment(user_preference='DECLINED' if guard=='declined' else 'ALLOW',novelty='REPEATED' if guard=='repeated-delivery' else 'NEW',recent_delivery_frequency='HIGH' if guard=='repeated-delivery' else 'LOW'))
+        mid=capture(r,'quiet-and-connection',cue.model_dump(mode='json'),predicate='concern.quiet-and-connection')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('SOCIALIZE',))
+            capture(r,'quiet-social-norm',norm.model_dump(mode='json'),predicate='concern.constraint.quiet-social')
+        if guard=='withdrawn':app.forget(thought.source_memory_ids[0])
+        # Existing support can be shared: erasing a root may retire both the thought
+        # and its old quiet tendency. C must not resurrect either from stale state.
+        retained=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        if guard=='withdrawn':assert retained.state not in {'RECOVERING','QUIET','SATURATED'}
+        class Choosing:
+            descriptor='synthetic-own-current-choice-among-conflicting-tendencies'
+            def propose(self,request):
+                seen.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=choice,proposed_operations=['DRAFT'])
+                return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.private-connection-current-choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert len(seen)==1 and result.intention.behavior==expected
+        assert any(m.source=='PRIVATE_INTEREST' for m in result.motivations)==(guard!='withdrawn')
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        quiet=[m for m in frame['motivations'] if m['source']=='SOCIAL_QUIET']
+        quiet_expected=guard!='research' and retained.state in {'RECOVERING','QUIET','SATURATED'} and bool(retained.source_record_ids)
+        assert len(quiet)==int(quiet_expected)
+        if quiet:assert quiet[0]['source_ids'] and quiet[0]['strength']=='RELEVANT'
+        assert any(m.source=='SOCIAL_QUIET' for m in result.motivations)==quiet_expected
+        assert social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',)).state==retained.state
+        if guard!='withdrawn':assert retained.state==state
+        assert (not current(app)) if guard=='withdrawn' else current(app)[0][1]==thought
+        if guard=='withdrawn':
+            # Old content stays withdrawn. A newly considered wish can arise from
+            # this independent, still-current cue without resurrecting that content.
+>           assert thought.private_text not in seen[0].context_json
+                   ^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_social_tendency_competition.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PrivateTendency(contract='PRIVATE_TENDENCY_V4', intent_id='e842ba20-cd2c-4c04-b0db-e626e41c6f8d', owner_identity_id='7...b453-8924fec9c130', epistemic_status='OWN_TENDENCY_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE')
+item = 'private_text'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'PrivateTendency' object has no attribute 'private_text'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+_ test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-SOCIALIZE-social_quiet_preference-QUIET] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7fc7fc47fc50>
+tendency = 'social_quiet_preference', state = 'QUIET', choice = 'SOCIALIZE'
+guard = 'withdrawn', expected = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','SOCIALIZE'),('EXPLORE','research','EXPLORE'),('SOCIALIZE','repeated-delivery','STAY_SILENT')])
+    def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):
+        r=app.runtime;seen=[];topic='own-connection'
+        for i in range(2):
+            r.subject.run(SubjectInput(source_key='synthetic.quiet-tendency.'+str(i),kind='PLAY',origin='ENVIRONMENT',
+                entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                text='SYNTHETIC independent observed preference for a quieter interval '+str(i),
+                preference_signal=PreferenceSignal(topic=tendency,direction='SUPPORT',interpretation='SYNTHETIC a sourced quieter tendency, not permanent incapacity')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==state and before.source_record_ids
+        form(app,'connection','SYNTHETIC I currently wish to share a small ordinary moment while still valuing quiet.',topic=topic)
+        thought=current(app)[0][1]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=topic,resource_class='ORDINARY',
+            possible_behaviors=('EXPLORE','REST') if guard=='research' else ('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),share_assessment=ShareAssessment(user_preference='DECLINED' if guard=='declined' else 'ALLOW',novelty='REPEATED' if guard=='repeated-delivery' else 'NEW',recent_delivery_frequency='HIGH' if guard=='repeated-delivery' else 'LOW'))
+        mid=capture(r,'quiet-and-connection',cue.model_dump(mode='json'),predicate='concern.quiet-and-connection')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('SOCIALIZE',))
+            capture(r,'quiet-social-norm',norm.model_dump(mode='json'),predicate='concern.constraint.quiet-social')
+        if guard=='withdrawn':app.forget(thought.source_memory_ids[0])
+        # Existing support can be shared: erasing a root may retire both the thought
+        # and its old quiet tendency. C must not resurrect either from stale state.
+        retained=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        if guard=='withdrawn':assert retained.state not in {'RECOVERING','QUIET','SATURATED'}
+        class Choosing:
+            descriptor='synthetic-own-current-choice-among-conflicting-tendencies'
+            def propose(self,request):
+                seen.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=choice,proposed_operations=['DRAFT'])
+                return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.private-connection-current-choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert len(seen)==1 and result.intention.behavior==expected
+        assert any(m.source=='PRIVATE_INTEREST' for m in result.motivations)==(guard!='withdrawn')
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        quiet=[m for m in frame['motivations'] if m['source']=='SOCIAL_QUIET']
+        quiet_expected=guard!='research' and retained.state in {'RECOVERING','QUIET','SATURATED'} and bool(retained.source_record_ids)
+        assert len(quiet)==int(quiet_expected)
+        if quiet:assert quiet[0]['source_ids'] and quiet[0]['strength']=='RELEVANT'
+        assert any(m.source=='SOCIAL_QUIET' for m in result.motivations)==quiet_expected
+        assert social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',)).state==retained.state
+        if guard!='withdrawn':assert retained.state==state
+        assert (not current(app)) if guard=='withdrawn' else current(app)[0][1]==thought
+        if guard=='withdrawn':
+            # Old content stays withdrawn. A newly considered wish can arise from
+            # this independent, still-current cue without resurrecting that content.
+>           assert thought.private_text not in seen[0].context_json
+                   ^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_social_tendency_competition.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PrivateTendency(contract='PRIVATE_TENDENCY_V4', intent_id='52dd84e6-4678-4ed2-89f6-4a78b76cfab1', owner_identity_id='e...8f08-bd2e85d72e28', epistemic_status='OWN_TENDENCY_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE')
+item = 'private_text'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'PrivateTendency' object has no attribute 'private_text'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_social_tendency_competition.py::test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-SOCIALIZE-social_recovery_needed-RECOVERING]
+FAILED tests/person_self/test_social_tendency_competition.py::test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-SOCIALIZE-social_quiet_preference-QUIET]
+2 failed, 41 passed in 4.73s

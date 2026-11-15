@@ -1,0 +1,5 @@
+.........{"measurement": "fresh-social-self", "http_calls": 1, "request_json_bytes": 42992, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "behavior": "SOCIALIZE", "real_model_calls": 0}
+.................{"measurement": "synthetic_cross_time_social_choice", "behavior": "SOCIALIZE", "self_calls": 1, "input_bytes": 56428, "reserved_bytes": 68717, "quiet_motive_before_model": true, "virtual_hours": 49, "real_social_sends": 0, "real_provider_calls": 0}
+.................{"measurement": "synthetic_coexisting_social_restart", "behavior": "SOCIALIZE", "self_calls": 1, "input_bytes": 52533, "reserved_bytes": 64822, "pre_model_motive_sources": ["EXPLORATION", "SOCIAL_CONNECTION", "RELATIONSHIP", "SOCIAL_QUIET"], "virtual_hours": 49, "private_thoughts": 0, "real_social_sends": 0, "real_provider_calls": 0}
+.
+44 passed in 5.00s
