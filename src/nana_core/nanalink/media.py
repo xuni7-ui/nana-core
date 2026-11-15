@@ -86,6 +86,15 @@ class MediaCache:
             if name is not None:
                 Path(name).unlink(missing_ok=True)
 
+    def resolve(self, *, source_ref, sha256):
+        """Resolve only a source/content pair already admitted to this session."""
+        if not self.current(source_ref):
+            raise CoreError('MEDIA_SOURCE_RETIRED')
+        value = self.items.get(sha256)
+        if not value or source_ref not in self.sources.get(sha256, set()):
+            raise CoreError('MEDIA_CACHE_MISS')
+        return MediaHandle(sha256, value[1], source_ref, 'application/octet-stream')
+
     def read(self, handle, *, offset=0, length=65536):
         if not self.current(handle.source_ref):
             raise CoreError('MEDIA_SOURCE_RETIRED')

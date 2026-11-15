@@ -144,3 +144,44 @@ def test_unverified_media_descriptor_cannot_be_offered(app):
         session = CognitionSession(r, transport, app.policy)
         r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC'), authority=r.authority, policy=app.policy)
     assert state['calls'] == 1 and not r.store.all('actions')
+
+
+def test_host_cannot_impose_attachment_without_original_c(tmp_path):
+    from nana_core.continuity.autonomy.contracts import MediaSelection
+    from tests.living_release_v4.test_platform_bridge import TARGET, candidate
+    from nana_core.continuity import ContinuityStore
+    from nana_core.actions import OperatorAuthority
+    from nana_core.presence.authority import VirtualClock
+    media = MediaSelection(kind='image', source_memory_id='forged', content_sha256='a' * 64, reference='forged')
+    with ContinuityStore(tmp_path/'state.db', VirtualClock(), schema_target=13) as store:
+        with pytest.raises(CoreError, match='SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED'):
+            candidate(store, OperatorAuthority(), target=TARGET.model_copy(update={'media': media}))
+
+
+def test_cached_image_must_match_current_original_observation(app, tmp_path):
+    from nana_core.nanalink.media import MediaCache
+    from nana_core.nanalink.media_candidates import candidate, resolve_image
+    r = app.runtime
+    now = r.clock.utc_now_us()
+    source = PublicMediaSource(source_id='cached-picture', modality='IMAGE', origin='SYNTHETIC',
+                               event_time_us=now, observed_time_us=now)
+    data = picture()
+    mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+        data, source, entity_id='project-user', scope='project-work')
+    selection = candidate(MemoryService(r.store).read(mid))
+    cache = MediaCache(tmp_path/'cache', source_current=lambda _: True)
+    with pytest.raises(CoreError, match='MEDIA_CACHE_MISS'):
+        resolve_image(r.store, cache, selection)
+    cache.put([data], source_ref=mid)
+    assert resolve_image(r.store, cache, selection) == data
+    path, _ = cache.items[selection.content_sha256]
+    path.write_bytes(b'x' * len(data))
+    with pytest.raises(CoreError, match='MEDIA_CACHE_CONTENT_MISMATCH'):
+        resolve_image(r.store, cache, selection)
+    path.write_bytes(data)
+    with pytest.raises(CoreError, match='MEDIA_SEND_BYTE_BOUND'):
+        resolve_image(r.store, cache, selection, max_bytes=1)
+    MemoryService(r.store, r.authority).forget(mid, r.authority)
+    with pytest.raises(CoreError):
+        resolve_image(r.store, cache, selection)
+    cache.close()

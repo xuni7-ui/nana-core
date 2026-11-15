@@ -537,6 +537,8 @@ class SubjectLoop:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
             selected_media=_deliberation.proposal.selected_media if _deliberation is not None else None
+            if target is not None and target.media is not None and selected_media is None:
+                raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
             if selected_media is not None and target is not None:
                 # Original C accepts at most one already-advertised source. A
                 # provider answer or host target alone is never a Grant.
