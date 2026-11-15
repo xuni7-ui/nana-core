@@ -4029,3 +4029,8 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 - 2026-11-16 CST｜revision250：原H1帧语义补原source_locator，publisher视频时间10秒与图内span0分开，模型标签仍推测。旧精确f5缺字段→最终6过3.15s/前59相关过（2夹具首错保留）及2边界过；后续正常INTERPRET确读→原Concern/C EXPLORE，重复VISION复用/来源撤回有效。每新语义+262bytes、VISION1/INTERPRET1不增阶段，非真实Token/模型质量或新成长。 后续C选择并非旧版差异证明，不宣称视频质量提升；来源/资源夹具错误分列且原守卫未改。指纹锚2e8cf9321ac8f7ff6d9f133231a5c46067bc16bca829965581711bc92fb45699。
 
 - 2026-11-16 CST｜revision251：原REPLAN复查现前模型验证目标/版本/来源，原Frame可选LEARN/REST与当前兴趣，C明确REST/CREATE不被强制复查；LEARN规范生效，原consumer按实际方向防止CREATE候选误修旧目标。旧4fail4pass→9过.75s、116相关22.69s；同身份/重放/stale前模型拒绝/Goal-job-旧Grant保持通过。精确cc8源322文件/131实际模块旧SELF拒REST→新REST，各1HTTP/同预算/request JSON+219bytes非Token，真实0。 高负荷明确LEARN旧已通过，不重计为新修复；基线导入路径/旧schema/Grant夹具错误单列。指纹锚c0298a17f6189b8007f2564cd0fd355e924b1b8343e33916f5d86e2314f0f53e。
+
+
+### 2026-11-16 · B 视频时间覆盖隔离候选
+
+[源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。

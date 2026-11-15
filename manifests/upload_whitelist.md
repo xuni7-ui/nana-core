@@ -209,3 +209,8 @@ world_loop/semantics.py原H1来源元数据、test_bilibili_frames.py原场景�
 ## 2026-11-16 A原REPLAN当前选择
 
 subject/{policy,loop}.py及presence/living.py原consumer局部、test_deliberated_replan_choice.py、现有CI组、09/11/ACTIVE/STATUS与evidence/deliberated-replan-choice-20261116/原受控日志/独立基线脚本/指纹、本白名单。无运行Store/配置/私史/账户/凭据/第三方复制/二进制/新执行权限或收费。
+
+
+## 2026-11-16 B视频覆盖隔离候选
+
+持续授权：tools/nana_next_experience/experiments/video_coverage.py、tests/nana_next_experience/test_video_coverage_prototype.py、docs/nana_next_experience/evidence/video-coverage-prototype-20261116/README.md、09/11追加及本清单；原创代码，引用上游思想和许可证，无第三方源码/真实视频/凭证。

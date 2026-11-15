@@ -2927,3 +2927,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision247 source evidence anchor: `be49d44640c9daafa18d61f98c1098dec4f3777ed2d4248e2c19b1e2c0023f0f` → `docs/nana_next_experience/evidence/deliberated-goal-review-20261116/source.sha256`; original GoalReview/C consumer, no matching9a artifact rewrite.
 
 - revision248 source evidence anchor: `0473ec9faf065460796616acf351f20ccfda908d11e6d206b492793b2e929608` → `docs/nana_next_experience/evidence/memory-review-current-choice-20261116/source.sha256`; original bounded consolidation/SubjectLoop/SELF, matched9a artifact unchanged.
+
+
+### 2026-11-16 · B 视频时间覆盖隔离候选
+
+[源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。
