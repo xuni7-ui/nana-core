@@ -1,8 +1,8 @@
-## 现役revision238 — 同源候选已实际下载/独立安装，未更新CURRENT
+## 现役revision239 — 旧库由原扫描分片逐步补索引，不新建后台循环
 
-固定fee8/Brain237：原285文件Core双构建3b7e2d9e…，同源Web TS/Vite/93单测/双归档251bb84b…。现delivery4cb88e1归档；实际GitHub新克隆13文件/全SHA一致、下载件第二槽离线安装BFF/重启/撤回通过。第一槽BFF/G/流式/原C巩固/虚拟72h/隔离冷回读、原新16高级场景61.34s/152模块来自安装槽，以及停机fee8→929→fee8同身份私倾向G作业/0新增认知请求周期动作通过。实读fee8独立CI291/109.17s仅targeted；不是全仓/云端/手机/生产/真实自然度长期。首次symlink材料及已停宿主profile探针失败完整保留，未绕过守卫。见evidence/matched-portable-fee8f42-20261115/README.md。
+原MaintenanceService同一SCAN分片/周回看现同时认Gram完成与End尾键；旧Gram完整只补1键/笔记，真正缺Gram仍原完整修复。精确fee8旧最终2fail2pass→4通过，64相关27.24s含原G16/32/TEXT、note recall/撤回/隐私副本/维护；正常Runtime.step用户优先后自动补键1pass0.12s。每片2来源、重启cursor保持、3种隔离不碰、0认知账项/动作、笔记头整行不变；无新scanner/启动全库重建/模型。首夹具来源前缀未对齐导致3!=2及61pass1fail保留，未放宽断言/改cursor，补公开普通前缀后精确旧新再测。见evidence/note-end-bounded-maintenance-20261115/README.md。
 
-下一复用原MaintenanceService bounded slice/周回看的索引修复：旧NOTE_GRAM_COMPLETE存在、仅缺新NOTE_END_PREFIX会跳过，先基线再最小修条件；不另建scanner/启动全表回填/模型循环，不重打本候选或APK。fee8精确候选不含后继。全部原A–H及情感/可靠交流/广G/物理语义/Token模型产品继续，仓库CURRENT仍266+409，未更新生产。临时槽真实路径/tmp/nfee8与/tmp/nfee8d、公开数据fixture/tmp/f8*，随环境可能丢失，Git候选与dev证据可重新取得。
+下一读B d409a55的B_QUEUE及integration证据：实际GitHub比较相对前A3eeb ahead13/behind59，增量在预设/目录分页冷却/Web-Java/两个catalog后端，C/D/G无B独立变更。先影响/回退、逐块集成，保护A当前09/原新cursor与CSRF-权限-预算；不重复开发。Fee8匹配候选已交付4cb88e1/下载双离线安装，但不含239维护补丁，不重打APK/CURRENT。原A–H/情感S8/物理语义/Token模型产品/最终发行继续。
 
 ## 现役revision196
 
