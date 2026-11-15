@@ -251,6 +251,7 @@ class PlatformRuntime:
         self.app, self.resolver = app, resolver
         self.health = {}
         self._qq_media_caches = {}
+        self._owned_qq_media_caches = {}
         self._nanalink_bili_sources = {}
         from ..nanalink.private_source import reconcile_revoked_sources
         reconcile_revoked_sources(app,app.config)
@@ -286,6 +287,15 @@ class PlatformRuntime:
         finally:
             self._source_guard_busy = False
 
+    def _discard_qq_media_cache(self, channel_id):
+        self._qq_media_caches.pop(channel_id, None)
+        owned = self._owned_qq_media_caches.pop(channel_id, None)
+        if owned is not None:
+            try:
+                owned[0].close()
+            finally:
+                owned[1].cleanup()
+
     def bind_qq_media_cache(self, channel_id, cache):
         """Bind a caller-owned volatile cache to one exact configured account.
 
@@ -298,8 +308,11 @@ class PlatformRuntime:
         if len(channels) != 1 or channels[0].backend != 'onebot':
             raise CoreError('QQ_CHANNEL_UNBOUND')
         if cache is None:
-            self._qq_media_caches.pop(channel_id, None)
+            self._discard_qq_media_cache(channel_id)
             return
+        owned = self._owned_qq_media_caches.get(channel_id)
+        if owned is not None and owned[0] is not cache:
+            raise CoreError('QQ_MEDIA_CACHE_ALREADY_BOUND')
         if type(cache) is not MediaCache or any(k != channel_id and v[1] is cache for k, v in self._qq_media_caches.items()):
             raise CoreError('QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED')
         channel = channels[0]
@@ -309,6 +322,37 @@ class PlatformRuntime:
             raise CoreError('QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED')
         cache._nanalink_qq_owner = owner
         self._qq_media_caches[channel_id] = (binding, cache)
+
+    def open_qq_media_cache(self, channel_id):
+        """Create an explicitly requested, session-scoped private cache."""
+        import tempfile
+        from ..continuity.memory import MemoryService
+        from ..nanalink.media import MediaCache
+        self.app.runtime.cadence.assert_owner()
+        if channel_id in self._qq_media_caches or channel_id in self._owned_qq_media_caches:
+            raise CoreError('QQ_MEDIA_CACHE_ALREADY_BOUND')
+        directory = tempfile.TemporaryDirectory(prefix='nanalink-media-')
+        def current(memory_id):
+            try:
+                MemoryService(self.app.runtime.store).read(memory_id)
+                return True
+            except CoreError:
+                return False
+        try:
+            cache = MediaCache(directory.name, source_current=current,
+                               max_bytes=8 * 1024 * 1024, item_bytes=8192, max_items=64)
+            self.bind_qq_media_cache(channel_id, cache)
+        except BaseException:
+            directory.cleanup()
+            raise
+        self._owned_qq_media_caches[channel_id] = (cache, directory)
+        return {'state': 'CACHE_BOUND_NO_AUTHORITY', 'persistent': False}
+
+    def close(self):
+        """Dispose only caches this owner created; external caches stay caller-owned."""
+        for channel_id in tuple(self._owned_qq_media_caches):
+            self._discard_qq_media_cache(channel_id)
+        self._qq_media_caches.clear()
 
     def cache_qq_observed_image(self, channel_id, source_memory_id, data):
         """Cache bytes of an existing original public perception; no fetch or Grant."""
@@ -324,7 +368,7 @@ class PlatformRuntime:
         entry = self._qq_media_caches.get(channel_id)
         binding = (channel.binding_id, channel.backend, channel.account_id, channel.endpoint)
         if not entry or entry[0] != binding:
-            self._qq_media_caches.pop(channel_id, None)
+            self._discard_qq_media_cache(channel_id)
             raise CoreError('QQ_MEDIA_CACHE_UNBOUND')
         surface = self.app.surfaces._binding(channel.binding_id)
         row = MemoryService(self.app.runtime.store).read(source_memory_id)
@@ -368,7 +412,7 @@ class PlatformRuntime:
             binding = (channel.binding_id, channel.backend, channel.account_id, channel.endpoint)
             entry = self._qq_media_caches.get(channel_id)
             if entry and entry[0] != binding:
-                self._qq_media_caches.pop(channel_id, None)
+                self._discard_qq_media_cache(channel_id)
                 entry = None
             result = QQReplyWorkflow(self.app, channel, transport, media_cache=entry[1] if entry else None).receive(message_id)
             self.health["qq." + channel_id] = result.get("delivery", result.get("state", "UNKNOWN"))

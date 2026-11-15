@@ -434,10 +434,13 @@ class LifeApplication:
     def close(self):
         if not self.closed:
             self.closed=True;self._recent.clear();self.ingress.close()
-            if self.session:
-                self.session._volatile_inputs.clear();self.session._volatile_dialogue.clear()
-                self.session._volatile_recall.clear()
-                if hasattr(self.session.transport,'_credential'):self.session.transport._credential=None
-            self.runtime.stop()
+            try:
+                self.platforms.close()
+            finally:
+                if self.session:
+                    self.session._volatile_inputs.clear();self.session._volatile_dialogue.clear()
+                    self.session._volatile_recall.clear()
+                    if hasattr(self.session.transport,'_credential'):self.session.transport._credential=None
+                self.runtime.stop()
     def __enter__(self):return self
     def __exit__(self,*unused):self.close()

@@ -539,3 +539,27 @@ def test_actual_qq_ingress_can_use_light_cognition_without_selecting_image(tmp_p
             assert [request['cognitive_role'] for request in requests] == ['INTERPRET', 'SOCIAL']
             assert flow.receive('1')['delivery'] == 'SUCCEEDED' and len(platform['sent']) == 1
             cache.close()
+
+
+def test_owner_managed_media_cache_closes_with_application(tmp_path):
+    from pathlib import Path
+    with counterpart() as (url, _):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            assert app.platforms.open_qq_media_cache('primary') == {'state':'CACHE_BOUND_NO_AUTHORITY','persistent':False}
+            cache, directory = app.platforms._owned_qq_media_caches['primary']
+            path = Path(directory.name)
+            assert path.is_dir() and cache.total == 0
+            with pytest.raises(CoreError, match='QQ_MEDIA_CACHE_ALREADY_BOUND'):
+                app.platforms.open_qq_media_cache('primary')
+            app.platforms.bind_qq_media_cache('primary', None)
+            assert not path.exists()
+            app.platforms.open_qq_media_cache('primary')
+            _, directory = app.platforms._owned_qq_media_caches['primary']
+            path = Path(directory.name)
+            assert path.is_dir()
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert not path.exists()
