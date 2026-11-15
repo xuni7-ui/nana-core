@@ -1,0 +1,18 @@
+{
+  "old": {
+    "request_sha256": "b7b4e290215386099a79d7484cf1a5192aa2a7c070ab6baa16711a0c26a60304",
+    "allocated_file_bytes": 851968,
+    "records": 6,
+    "artifacts": 15,
+    "artifact_payload_bytes": 49925
+  },
+  "new": {
+    "request_sha256": "b7b4e290215386099a79d7484cf1a5192aa2a7c070ab6baa16711a0c26a60304",
+    "allocated_file_bytes": 856064,
+    "records": 8,
+    "artifacts": 17,
+    "artifact_payload_bytes": 50953
+  },
+  "complete_retained_request_equal": true,
+  "differing_request_keys": []
+}

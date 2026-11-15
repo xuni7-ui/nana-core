@@ -61,3 +61,7 @@ Retained-note lookup failures now have an original C→G practice/independent va
 ## 2026-11-15 · 原长期社交倾向共存
 
 原Growth已采纳的联系/安静/恢复/满足可以在同一派生投影并存，原C同时考虑有源方向，不再要求另造private记录才能明确选择联系。只在共存时携带至多四类原状态/分来源，不建权重或新Store；关系请求/有限约定复查保留联系偏好。旧四行为2fail2pass→新34pass，142相关35.89s；同身份虚拟49h重启结构化旧IGNORE→新SOCIALIZE，各1SELF/0发送。来源撤回/作用域/候选资格/休息与接收者边界保持，真实0。证据evidence/coexisting-social-tendencies-20261115/README.md。
+
+## 2026-11-15 · 首次明确活动选择无需先保存兴趣
+
+原C已核验的当前EXPLORE/CREATE/REFLECT选择可与LOW/REPEATED及负荷动机竞争，保留无选择/休息/规范/风险/真实预算；不强制存private、不造偏好或正式Goal。精确41d7旧7fail17pass→24pass3.19s；相关222通过、2个路径启动失败换短目录原2通过。完整SELF请求逐字段同、各1次/input26757bytes，旧IGNORE→CREATE；新增原候选记账一页4KiB，真实0。见evidence/first-considered-interest-20261115。

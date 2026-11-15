@@ -249,7 +249,10 @@ def decide(event, situation, appraisal, motives):
         interested_learning = (behavior in {'LEARN', 'SEEK_CAPABILITY'}
             and (personal_interest or (cue.learning_value is not None
                 and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
-        interested_activity = personal_interest and behavior in {'EXPLORE', 'CREATE', 'REFLECT'}
+        # A present considered wish may be new: neither prior adoption nor
+        # storing a private thought is the admission price for optional thought,
+        # exploration or creation. Source/norm/resource and delivery gates stay.
+        interested_activity = (personal_interest or considered_choice) and behavior in {'EXPLORE', 'CREATE', 'REFLECT'}
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority

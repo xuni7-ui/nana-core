@@ -1,10 +1,10 @@
-## 现役revision229 — 有源长期社交倾向共存，同C选择不需另造私念
+## 现役revision230 — 首次当前取舍不用先保存兴趣
 
-原Growth已采纳的SEEKING/QUIET/RECOVERING/SATURATED在原SocialAppetiteView有限分来源共存，兼容state标签保持、单状态wire不增加字段。同C明确选择联系可与quiet竞争，无选择/REST/接收者/规范/重复仍有效；原关系请求与有限约定复查保留仍有源的联系偏好。旧四行为2fail2pass→34pass5.53s，142相关35.89s；虚拟49h同身份重启、无新私念、原SELF实际owned HTTP旧IGNORE→新SOCIALIZE，各1调用/0动作。来源撤回独立退役、PUBLIC/scope隔离、纯投影0写通过，见evidence/coexisting-social-tendencies-20261115/README.md。
+原C当前明确EXPLORE/CREATE/REFLECT不再以“尚无adopted/private兴趣”被LOW/REPEATED直接改IGNORE；无明确选择、REST、当前规范、高风险澄清与实际预算保持。只改原policy一处条件，不新字段/阶段/Store，未自动形成长期偏好或正式Goal。精确41d7旧7fail17pass→24pass3.19s；222相关通过/2个Unix路径启动失败保留，仅短目录原2项3.18s通过。完整受控SELF request逐字段相同、各1调用/input26757bytes/reserve39046，旧IGNORE→新CREATE；原候选记账+1页4KiB，见evidence/first-considered-interest-20261115/README.md。
 
-固定UID/同budget/schema完整input55773→51456bytes是含派生历史/预算选块的单样本，不能称Token/费用收益；新增Appraisal/relational语义块594bytes，实际DB分配均1122304bytes、46Record/71artifact。前继cfbc CI原461pass127.51s，client/full/portable SKIP；当前非全仓/真实模型/手机/生产/自然度/长期，未匹配新包或APK，CURRENT266+409不动。
+此前联系/quiet四种有源倾向共存、同身份虚拟49h/142相关资格继承；原CI疑似重叠实collect102/102唯一、与仅folder同，故未另建流程。当前非全仓/真实模型/手机/生产/真人自然度/跨日成长；无新包/APK/匹配安装，CURRENT266+409，929候选只对自己源码。
 
-下一原情感评价/多时间尺度与不同情境的经历→倾向→选择/S8反例。CI folder+子文件可能重复，先collect实证，仅有实效才精简；正常D所有联系、存储隐私/Token费用超时/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，不暂停现工作。
+下一原情感意义/多时间尺度及可靠反馈如何修订倾向并影响不同后续C选择/G独立反例；首次兴趣不等于长期成长。正常D全部自主机会、真实投递、广检索/物理隐私/Token费用超时/模型多端/最终发行与全部A–H继续。今晚22:25/明早05:00北京时间续办已设，当前未冻结。
 
 ## 现役revision196
 

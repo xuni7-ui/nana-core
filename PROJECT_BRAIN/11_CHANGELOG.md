@@ -3760,3 +3760,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原安静倾向投影有源SOCIAL_QUIET，与当前C私愿竞争，愿望/发送分离、休息规范接收边界保留。5337旧13fail4pass→17pass/110相关31.79s；49虚拟小时重启实际SELF1/+271bytes非Token/发送0。共享根夹具首错保留，前继CI370仅5337；无新包/APK/CURRENT/真实0，证据social-quiet-current-choice-20261115，下一长期倾向共存与原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原Growth多社交倾向共存投影及同C/关系约定消费者，不另造私念/Store/权威；旧四行为2fail2pass→34pass/142相关35.89s；虚拟49h同主体重启旧IGNORE→SOCIALIZE，各1SELF/0真实发送。来源/隐私/无额外投影写保持；前继cfbc CI461仅targeted，真实0/无新包APK/CURRENT。证据coexisting-social-tendencies-20261115，原A–H继续。
+
+- 2026-11-15｜NEXT_EXPERIENCE S3/S6自主性：原C首次当前探索/创作/思考不必先存兴趣，一条件修正、规范/风险/休息/实际权限保持。精确41d7旧7fail17pass→24pass；相关222过/2个socket路径错换短目录原2过；完整SELF请求逐字段相同/各1次，旧IGNORE→CREATE，原候选+4KiB/真实0。collect实证无重叠，不改工作流；证据first-considered-interest-20261115，CURRENT266+409与原A–H继承。
