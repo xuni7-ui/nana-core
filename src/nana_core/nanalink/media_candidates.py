@@ -11,7 +11,7 @@ def candidate(row):
     provenance=row.get('source_provenance') or {}
     if type(provenance) is not dict:
         return None
-    if (row.get('authority')!='DIRECT' or row.get('epistemic_kind')!='OBSERVATION'
+    if (row.get('privacy_class')!='PUBLIC' or row.get('authority')!='DIRECT' or row.get('epistemic_kind')!='OBSERVATION'
             or provenance.get('source_namespace') not in {'synthetic.public-media','recorded.public-media'}):
         return None
     try:

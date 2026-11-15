@@ -222,7 +222,9 @@ def test_cached_image_must_match_current_original_observation(app, tmp_path):
     data = picture()
     mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
         data, source, entity_id='project-user', scope='project-work')
-    selection = candidate(MemoryService(r.store).read(mid))
+    source_row = MemoryService(r.store).read(mid)
+    selection = candidate(source_row)
+    assert candidate({**source_row, 'privacy_class': 'PERSONAL'}) is None
     cache = MediaCache(tmp_path/'cache', source_current=lambda _: True)
     with pytest.raises(CoreError, match='MEDIA_CACHE_MISS'):
         resolve_image(r.store, cache, selection)
