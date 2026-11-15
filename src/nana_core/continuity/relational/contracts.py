@@ -70,6 +70,11 @@ class PersonalityTendencyView(DTO):
     as_of_us: int
     state_token: str
 
+class RetainedSocialTendency(DTO):
+    state: Literal['SEEKING','QUIET','SATURATED','RECOVERING']
+    source_record_ids: tuple[str,...] = Field(min_length=1)
+
+
 class SocialAppetiteView(DTO):
     derived: Literal[True] = True
     state: Literal['QUIET','OPEN','SEEKING','SATURATED','RECOVERING','UNKNOWN']
@@ -78,6 +83,22 @@ class SocialAppetiteView(DTO):
     available: bool = True
     as_of_us: int
     state_token: str
+    # A compact derived conflict projection, not another stored mood or policy.
+    # Single-state payloads retain their original wire shape.
+    retained_tendencies: tuple[RetainedSocialTendency,...] = Field(default=(),max_length=4,exclude_if=lambda v:not v)
+
+    @model_validator(mode='after')
+    def sourced_tendencies(self):
+        if self.retained_tendencies and (len(self.retained_tendencies)<2
+                or len({t.state for t in self.retained_tendencies})!=len(self.retained_tendencies)
+                or any(not set(t.source_record_ids)<=set(self.source_record_ids) for t in self.retained_tendencies)):
+            raise ValueError('coexisting tendencies require distinct sourced states')
+        return self
+
+    def sources_for(self,*states):
+        if self.retained_tendencies:
+            return tuple(dict.fromkeys(r for t in self.retained_tendencies if t.state in states for r in t.source_record_ids))
+        return self.source_record_ids if self.state in states else ()
 
 class RelationalRequest(DTO):
     request_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,96}$')

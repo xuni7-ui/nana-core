@@ -6,7 +6,7 @@ from ..revision import state_token
 from ..subject.growth import Growth
 from ..autonomy.relationships import relationship_influence
 from .bootstrap import read_current
-from .contracts import SubjectPersonalitySeed,TendencyFacet,PersonalityTendencyView,SocialAppetiteView,SelfNarrativeItem,SelfNarrativeView
+from .contracts import SubjectPersonalitySeed,TendencyFacet,PersonalityTendencyView,SocialAppetiteView,RetainedSocialTendency,SelfNarrativeItem,SelfNarrativeView
 
 
 def personality_tendencies(store,*,scope,privacy_classes,entity_id=None):
@@ -48,6 +48,7 @@ def social_appetite(store,*,scope,privacy_classes):
     assertions=Growth(store).assertions(scope,privacy_classes=privacy_classes)
     adopted=[a for a in assertions if a['state']=='ADOPTED' and a['topic'] in {'social_exploration','social_connection','social_play'}]
     refs=[r for a in adopted for r in a['source_record_ids']];mids=[]
+    tendencies={'SEEKING':tuple(dict.fromkeys(refs))} if adopted else {}
     state='SEEKING' if adopted else 'UNKNOWN'
     from ..subject.opportunities import cues_from,directions
     rows=store.db.execute("SELECT memory_id FROM memories WHERE scope=? AND predicate_key LIKE 'concern.%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC LIMIT 64",(scope,)).fetchall()
@@ -66,8 +67,10 @@ def social_appetite(store,*,scope,privacy_classes):
     for a in assertions:
         if a['state']=='ADOPTED' and a['topic'] in {'social_recovery_needed','social_satiation','social_quiet_preference'}:
             state='RECOVERING' if a['topic']=='social_recovery_needed' else 'QUIET' if a['topic']=='social_quiet_preference' else 'SATURATED';refs.extend(a['source_record_ids'])
+            tendencies[state]=tuple(dict.fromkeys((*tendencies.get(state,()),*a['source_record_ids'])))
     if state_token(store)!=token:raise CoreError('STATE_CHANGED_DURING_APPETITE_PROJECTION')
-    return SocialAppetiteView(state=state,source_record_ids=tuple(dict.fromkeys(refs)),source_memory_ids=tuple(mids),available=available,as_of_us=now,state_token=token)
+    return SocialAppetiteView(state=state,source_record_ids=tuple(dict.fromkeys(refs)),source_memory_ids=tuple(mids),available=available,as_of_us=now,state_token=token,
+        retained_tendencies=tuple(RetainedSocialTendency(state=k,source_record_ids=v) for k,v in sorted(tendencies.items())) if len(tendencies)>1 else ())
 
 
 def self_narrative(store,*,scope,privacy_classes,entity_id=None):

@@ -1,0 +1,19 @@
+# 同一主体内有源社交倾向共存，而非单一标签否决
+
+基线cfbc4c073b005b7e7eb46b6cb0f5c8d0ae5191a2/revision228。原Growth可同时有ADOPTED social_connection与social_quiet_preference/recovery/satiation，但原social_appetite最后一个quiet状态覆盖SEEKING。没有新私人想法、cue不是已采纳偏好原topic时，即便C明确选SOCIALIZE，仍被LOW/REPEATED改成IGNORE。精确原四个行为场景2fail2pass0.81s；REST正常。原有限关系考虑也把仍有来源的联系偏好变为UNSPECIFIED，首次失败保留。
+
+最小实现：原SocialAppetiteView只在两个以上独立已采纳状态共存时，携带至多四种原有类型的retained_tendencies及各自Record来源；不是新情绪分数、权重、私念库、Agent或Planner。不新增Store表/索引。原state作为兼容显示标签保持，单状态/未知的wire不增加字段。未达到原独立经历资格的CANDIDATE和来源不可见群不进入共存投影。数据来自原Growth/Records，纯读取，重复投影0DB写入/0模型。
+
+同一个C在生成候选前同时看到SOCIAL_CONNECTION与SOCIAL_QUIET，两个来源分开；明确当前选择可让有源长期兴趣参与SOCIALIZE，而不是要求先另造private thought。无明确选择仍IGNORE，REST仍REST；接收者DECLINED/当前规范/重复投递仍拦截。不把愿望当实际联系/阅读/效果。原关系请求及自愿约定复查消费者也保留仍有源的联系偏好，原权限/有限约定/Manager/Grant/Kernel不变。本批不添加D机会或常驻模型循环。
+
+最终34pass5.53s；142相关35.89s含完整portable_subject、原关系/投递/休息/自主性/预算预览。另在相同输入情景下用固定合成UID消除随机同分记忆排序差异，仅重跑受影响结构化1项：精确旧1fail0.50s，新1pass0.47s。最初普通随机UID的受控结构化首次失败也保留。新的关系测试原断言字段写作willing_deference，后续未执行；查原DTO改为既有deference，首次真实失败仍是retained_preference=UNSPECIFIED，没有改旧断言逃过行为差异。
+
+跨时间正常资源链：八次独立合成经历（四类各两次）→原Growth资格→正常关闭→VirtualClock49h→同home/identity重启、无新private记录→CognitionSession原SELF/实际owned HTTP一次→同C选择SOCIALIZE。新旧相同输入情景/模型返回/完整budget（32768input/2048output/120000ms）与expected_schema；原版IGNORE，新SOCIALIZE。重复同source返回同cycle/不再调用；动作/Grant/真实社交0。
+
+固定UID样本完整wire输入旧55773、新51456bytes；reserved68062→63745，均一SELF，不把减少4317bytes称Token或缓存收益。派生历史和预算选取的记忆不同：context30516→29572bytes，source_context_refs10→11；原Appraisal block3049→3136、RELATIONAL_SUBJECT2113→2620，所以单独新增共存语义并非免费，局部594bytes。详见request-parts.json，不把派生历史payload/选块差额归成算法Token节省。当前fixture无实际Provider usage/费用。
+
+同固定样本实际文件分配两者1122304bytes、46条continuity_records/71个artifact；artifact payload116230→115742bytes。只是一例完整场景存储观测，不是长期增长率、物理回收/归档或隐私DR资格。来源撤回验证独立一方退役且其他三方保留；PUBLIC/另一scope均不见来源；单一状态旧wire可读，CANDIDATE不冒充长期偏好。共存新字段的旧reader回退仍须最终匹配安装验证，未宣称新包兼容资格。
+
+前继cfbc独立CI43705589455/job132786053945实际461pass1warning127.51s，client/full/portable SKIP；是前继原targeted输出，含folder+子文件的可能重复收集，不称461独立产品场景或当前全仓。当前新共存测试复用原入口，relational目录变化也命中同测试，不增加框架。
+
+真实Provider0、付费0、账号发送0、手机0、生产0、真人自然度0、真实跨日长期成长0；虚拟49h不是实跑两天。未新APK/包/安装，CURRENT266+409不动，929候选保留自己的下载/双槽/回退历史资格。未改冻结总纲/63标准、G独立评价或Precision V2。尚未完成自主D全部社交/多域情感衰减/不同情境迁移；内心、S8、自然交流和所有A–H继续。

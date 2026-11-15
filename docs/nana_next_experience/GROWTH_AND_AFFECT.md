@@ -57,3 +57,7 @@ Retained-note lookup failures now have an original C→G practice/independent va
 ## 2026-11-15 · 安静与当前联系愿望的原C竞争
 
 原RECOVERING/QUIET在社交候选中成为有源SOCIAL_QUIET动机，当前C明确选择且有自身兴趣时可考虑SOCIALIZE，不再被泛化低价值/重复直接改IGNORE。旧状态/私念保留，REST与接收者/规范/重复投递仍有效；不是全域疲劳，不授发送权限。旧5337同17场景13fail4pass→17pass/110相关31.79s；虚拟49h同主体重启实际SELF1次、+271wirebytes非Token，无真实社交或长期资格。证据evidence/social-quiet-current-choice-20261115/README.md。
+
+## 2026-11-15 · 原长期社交倾向共存
+
+原Growth已采纳的联系/安静/恢复/满足可以在同一派生投影并存，原C同时考虑有源方向，不再要求另造private记录才能明确选择联系。只在共存时携带至多四类原状态/分来源，不建权重或新Store；关系请求/有限约定复查保留联系偏好。旧四行为2fail2pass→新34pass，142相关35.89s；同身份虚拟49h重启结构化旧IGNORE→新SOCIALIZE，各1SELF/0发送。来源撤回/作用域/候选资格/休息与接收者边界保持，真实0。证据evidence/coexisting-social-tendencies-20261115/README.md。

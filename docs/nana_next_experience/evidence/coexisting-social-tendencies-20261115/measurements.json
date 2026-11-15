@@ -1,0 +1,39 @@
+{
+  "old-structured-fixed-ids.txt": [
+    {
+      "measurement": "synthetic_coexisting_social_restart",
+      "behavior": "IGNORE",
+      "self_calls": 1,
+      "input_bytes": 55773,
+      "reserved_bytes": 68062,
+      "pre_model_motive_sources": [
+        "EXPLORATION",
+        "RELATIONSHIP",
+        "SOCIAL_QUIET"
+      ],
+      "virtual_hours": 49,
+      "private_thoughts": 0,
+      "real_social_sends": 0,
+      "real_provider_calls": 0
+    }
+  ],
+  "new-structured-fixed-ids.txt": [
+    {
+      "measurement": "synthetic_coexisting_social_restart",
+      "behavior": "SOCIALIZE",
+      "self_calls": 1,
+      "input_bytes": 51456,
+      "reserved_bytes": 63745,
+      "pre_model_motive_sources": [
+        "EXPLORATION",
+        "SOCIAL_CONNECTION",
+        "RELATIONSHIP",
+        "SOCIAL_QUIET"
+      ],
+      "virtual_hours": 49,
+      "private_thoughts": 0,
+      "real_social_sends": 0,
+      "real_provider_calls": 0
+    }
+  ]
+}

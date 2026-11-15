@@ -101,8 +101,10 @@ def motivate(event, situation, appraisal):
         motives.append(Motivation(source='EXPLORATION', strength='RELEVANT', source_ids=situation.memory_ids))
     if event.novelty == 'HIGH':
         motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids))
-    if (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
-        motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=situation.memory_ids))
+    if (situation.social_appetite and (situation.social_appetite.state in {'OPEN','SEEKING'}
+            or situation.social_appetite.sources_for('SEEKING'))) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
+        connection_sources=situation.social_appetite.sources_for('SEEKING') if situation.social_appetite else ()
+        motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=connection_sources or situation.memory_ids))
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
     if situation.cue:
@@ -110,11 +112,10 @@ def motivate(event, situation, appraisal):
         if situation.cue.cognitive_load=='HIGH' and situation.cue.motivation_source!='REST':
             motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=situation.memory_ids))
     if (situation.cue and 'SOCIALIZE' in directions(situation.cue) and situation.social_appetite
-            and situation.social_appetite.state in {'RECOVERING','QUIET','SATURATED'}
-            and situation.social_appetite.source_record_ids):
+            and situation.social_appetite.sources_for('RECOVERING','QUIET','SATURATED')):
         # A social quiet tendency is neither global fatigue nor an instruction
         # to avoid all company. Preserve it as a sourced competing motive.
-        motives.append(Motivation(source='SOCIAL_QUIET',strength='RELEVANT',source_ids=situation.social_appetite.source_record_ids))
+        motives.append(Motivation(source='SOCIAL_QUIET',strength='RELEVANT',source_ids=situation.social_appetite.sources_for('RECOVERING','QUIET','SATURATED')))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
@@ -258,7 +259,8 @@ def decide(event, situation, appraisal, motives):
         interested_social = bool(situation.separate_delivery and behavior=='SOCIALIZE'
             and ((situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
                 and situation.social_appetite.source_record_ids)
-                or (considered_choice and personal_interest)))
+                or (considered_choice and (personal_interest or (situation.social_appetite
+                    and situation.social_appetite.sources_for('SEEKING'))))))
         # Costs/reception for an unchosen alternative are not properties of the
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}

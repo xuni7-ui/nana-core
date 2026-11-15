@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_relational_consideration_keeps_desire_while_quiet_is_also_retained ____
+
+app = <nana_core.life.application.LifeApplication object at 0x7f1b39ac7620>
+
+    def test_relational_consideration_keeps_desire_while_quiet_is_also_retained(app):
+        from nana_core.continuity.relational.contracts import RelationalRequest,DAY
+        r=app.runtime;retain_social_tendencies(app)
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.sources_for('SEEKING') and before.sources_for('QUIET')
+        result=r.subject.run(SubjectInput(source_key='synthetic.coexisting.bounded-request',kind='INTERACTION',origin='USER',
+            entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+            text='SYNTHETIC consider a bounded social accommodation, not indefinite obedience',relational_request=RelationalRequest(
+                request_id='coexisting-bounded',requesting_entity='project-user',operation='REFRAIN',behavior_domain='SOCIAL_NEW_CONTACTS',duration_us=DAY)))
+>       assert result.relational_decision.response.retained_preference=='SOCIALIZE'
+E       AssertionError: assert 'UNSPECIFIED' == 'SOCIALIZE'
+E         
+E         - SOCIALIZE
+E         + UNSPECIFIED
+
+tests/person_self/test_social_tendency_competition.py:210: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_social_tendency_competition.py::test_relational_consideration_keeps_desire_while_quiet_is_also_retained
+1 failed, 32 deselected in 0.36s

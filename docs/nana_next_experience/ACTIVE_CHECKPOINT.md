@@ -1,10 +1,10 @@
-## 现役revision228 — 安静与当前联系愿望在原C竞争，愿望不等于发送
+## 现役revision229 — 有源长期社交倾向共存，同C选择不需另造私念
 
-原RECOVERING/QUIET在社交候选中投影有源SOCIAL_QUIET动机；当前C明确选择且有自身兴趣时，可考虑SOCIALIZE而不被LOW/REPEATED泛化覆盖。旧倾向/私念保留，REST、接收者DECLINED、规范/重复仍有效；研究不被当成社交疲劳。5337旧13fail4pass→17pass2.93s/110相关31.79s，虚拟49h同home身份重启实际SELF1次，完整input55038→55309bytes/+271非Token，重复同source不重调、发送/grant/action0。共享来源撤回会退役相关quiet/私念，首个夹具误假设保留，强化撤回2pass。见evidence/social-quiet-current-choice-20261115/README.md。
+原Growth已采纳的SEEKING/QUIET/RECOVERING/SATURATED在原SocialAppetiteView有限分来源共存，兼容state标签保持、单状态wire不增加字段。同C明确选择联系可与quiet竞争，无选择/REST/接收者/规范/重复仍有效；原关系请求与有限约定复查保留仍有源的联系偏好。旧四行为2fail2pass→34pass5.53s，142相关35.89s；虚拟49h同身份重启、无新私念、原SELF实际owned HTTP旧IGNORE→新SOCIALIZE，各1调用/0动作。来源撤回独立退役、PUBLIC/scope隔离、纯投影0写通过，见evidence/coexisting-social-tendencies-20261115/README.md。
 
-仅原C/资源消费者资格，不称正常D已能自发安排所有联系；虚拟时间/fixture非真实跨日/商业模型或人的情绪。前继5337 CI原输出370pass184.66s仅前继targeted；未新包/APK/手机/生产/自然度/长期，CURRENT266+409保持，真实Provider0。
+固定UID/同budget/schema完整input55773→51456bytes是含派生历史/预算选块的单样本，不能称Token/费用收益；新增Appraisal/relational语义块594bytes，实际DB分配均1122304bytes、46Record/71artifact。前继cfbc CI原461pass127.51s，client/full/portable SKIP；当前非全仓/真实模型/手机/生产/自然度/长期，未匹配新包或APK，CURRENT266+409不动。
 
-下一原social_appetite同时有独立SEEKING与QUIET/RECOVERING、无新private记录时的单state/动机投影基线；复用Growth/Records/原投影，不建新系统。情感短长/多情境/S8迁移、同群采样/跨topic/存储隐私/Token费用超时/模型多端/原A–H继承。今日22:25/明日05:00北京时间续办仍启用，当前任务未冻结。
+下一原情感评价/多时间尺度与不同情境的经历→倾向→选择/S8反例。CI folder+子文件可能重复，先collect实证，仅有实效才精简；正常D所有联系、存储隐私/Token费用超时/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，不暂停现工作。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
