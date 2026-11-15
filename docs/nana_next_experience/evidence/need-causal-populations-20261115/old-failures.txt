@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_same_domain_independent_failures_do_not_crowd_current_gap ________
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7fc4f925dfa0>, 'ce2727c7-b66b-490a-b907-45e3cd5b7377', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+
+    def test_same_domain_independent_failures_do_not_crowd_current_gap(settled):
+        app,mid,cue=settled;r=app.runtime
+        def need(bound=True):
+            return project_need(r.store,'owned-document',scope='project-work',privacy_classes=r.config.privacy_classes,
+                **({'source_memory_ids':(mid,)} if bound else {}))
+        before=need();assert before.state=='SETTLED'
+        service=ExperienceService(r.store,r.authority)
+        for i in range(40):
+            result=capture(r,'unrelated-checked-gap-'+str(i),{'data':{'SYNTHETIC_actual':i}},kind='SYSTEM_VERIFICATION')
+            verification=service.verify_structured_result(result,digest({'SYNTHETIC_expected':i}),r.authority)
+            eid=service.record(ExperienceInput(context_memory_ids=(result,),scope='project-work',task_class='owned-document',
+                decision='Synthetic independent result differs from its expected digest',result_memory_id=result,verification_memory_id=verification))
+            assert r.store.one('experiences',eid)['outcome']=='FAILURE'
+        assert need(False).state=='UNKNOWN'  # original broad horizon is still32
+        count=r.store.db.execute('SELECT count(*) FROM events').fetchone()[0]
+>       after=need();assert after.state=='SETTLED' and after.source_record_ids==before.source_record_ids
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('UNKNOWN' == 'SETTLED'
+E         
+E         - SETTLED
+E         + UNKNOWN)
+
+tests/person_self/test_need_causal_population.py:25: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_need_causal_population.py::test_same_domain_independent_failures_do_not_crowd_current_gap
+1 failed in 4.25s

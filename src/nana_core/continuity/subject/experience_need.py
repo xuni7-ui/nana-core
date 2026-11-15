@@ -41,27 +41,53 @@ def project_need(store, domain, *, scope, privacy_classes, source_memory_ids=Non
     allowed = tuple(privacy_classes)
     if not allowed:
         return ExperienceNeed(domain=domain,state='UNKNOWN',reason='No readable experience privacy class')
+    causal_filter='';causal_args=()
+    if source_memory_ids is not None:
+        # Establish this concern's permitted causal population before applying
+        # the history bound. Unrelated failures in the same domain do not make
+        # a previously checked gap unknown or reopen its completed course.
+        seen,truncated=readable_ancestry(store,source_memory_ids,scope,privacy_classes)
+        if truncated:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Gap ancestry requires bounded review')
+        if not seen:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='This concern does not descend from a checked gap')
+        causal_args=tuple(sorted(seen))
+        causal_filter=' AND e.result_memory_id IN ('+','.join('?' for _ in causal_args)+')'
     slots = ','.join('?' for _ in allowed)
     rows=store.db.execute(
         "SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id "
         f"WHERE e.task_class=? AND e.outcome='FAILURE' AND r.scope=? AND r.privacy_class IN ({slots}) "
-        "AND r.lifecycle='ACTIVE' ORDER BY e.created_at_us DESC,e.rowid DESC LIMIT 33",
-        (domain,scope,*allowed)).fetchall()
+        "AND r.lifecycle='ACTIVE'"+causal_filter+" ORDER BY e.created_at_us DESC,e.rowid DESC LIMIT 33",
+        (domain,scope,*allowed,*causal_args)).fetchall()
     if len(rows)>32:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Experience horizon requires review')
     failures=[r for r in rows if r['outcome']=='FAILURE' and visible(r['record_id'])]
     if not failures:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='No current verified gap experience')
-    if source_memory_ids is not None:
-        # Bind modulation to the gap's actual ancestry, not merely a domain name.
-        seen,truncated=readable_ancestry(store,source_memory_ids,scope,privacy_classes)
-        if truncated:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Gap ancestry requires bounded review')
-        failures=[r for r in failures if r['result_memory_id'] in seen]
-        if not failures:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='This concern does not descend from a checked gap')
     latest=failures[0]
+    # Qualify causal metadata before the assessment horizon too. A review may
+    # concern this failure through its lesson or independent episode support.
+    # Traverse the existing support graph, then the same readable memory
+    # ancestry. Ambiguous/truncated candidates stay in the window for the
+    # original Python validation below; metadata never qualifies a result.
+    causal_check=f"""CASE WHEN l.experience_id=? THEN 1 ELSE (
+        WITH RECURSIVE record_support(record_id) AS MATERIALIZED (
+            SELECT a.record_id
+            UNION
+            SELECT d.parent_id FROM record_support s CROSS JOIN record_dependencies d ON s.record_id=d.record_id
+            WHERE d.relation_kind='SUPPORT' AND d.parent_kind='RECORD'
+        ), memory_ancestry(memory_id) AS MATERIALIZED (
+            SELECT d.parent_id FROM record_support s CROSS JOIN record_dependencies d ON s.record_id=d.record_id
+            CROSS JOIN memories m ON m.memory_id=d.parent_id
+            WHERE d.relation_kind='SUPPORT' AND d.parent_kind='MEMORY' AND m.scope=? AND m.privacy_class IN ({slots})
+            UNION
+            SELECT d.parent_id FROM memory_dependencies d JOIN memory_ancestry s ON s.memory_id=d.memory_id
+            JOIN memories m ON m.memory_id=d.parent_id WHERE m.scope=? AND m.privacy_class IN ({slots})
+            LIMIT 129
+        ) SELECT CASE WHEN max(memory_id=?) THEN 1 WHEN count(*)>=128 THEN 2 ELSE 0 END FROM memory_ancestry
+        ) END"""
     checks=store.db.execute(
         "SELECT a.*,l.experience_id AS lesson_experience_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
         "JOIN continuity_records r ON r.record_id=a.record_id "
         f"WHERE l.task_class=? AND r.scope=? AND r.privacy_class IN ({slots}) AND r.lifecycle='ACTIVE' "
-        "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 33", (domain,scope,*allowed)).fetchall()
+        f"AND ({causal_check})!=0 ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 33",
+        (domain,scope,*allowed,latest['experience_id'],scope,*allowed,scope,*allowed,latest['result_memory_id'])).fetchall()
     if len(checks)>32:return ExperienceNeed(domain=domain,state='UNKNOWN',reason='Assessment horizon requires review')
     refs=(latest['record_id'],)
     for check in checks:

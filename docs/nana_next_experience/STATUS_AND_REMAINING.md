@@ -1,8 +1,8 @@
-## 现役revision234 — 已解决能力缺口与自主兴趣分开
+## 现役revision235 — 无关同域历史不遮住当前能力经历
 
-原S3独立复用SETTLED不再把全部C选项覆盖WATCH；原cue/原Need状态保留，C frame按需加现有Need，默认WATCH/明确LEARN-REST-REFLECT共存，原G拒重复课程。旧b27实际fixture/HTTP各3fail1pass，现8同链/209相关46.05s；原Foundation/续学13保留，norm与完整8选项不放宽。每1SELF，完整wire54832→57457(+2625)bytes非Token。前继b27独立123pass1warning48.65s仅targeted，完整/portable/client SKIP。见evidence/settled-capability-current-choice-20261115/README.md。
+原S3 project_need在关切可读因果绑定后取原32失败/评价窗口；其他40同域失败或另G课程40评价不再遮住已SETTLED关切，真实反例OPEN/130链歧义UNKNOWN/撤回恢复/33相关仍UNKNOWN。旧两个真实首败，新57相关86.00s，精确旧1d函数同只读库UNKNOWN→新SETTLED。首SQL功能通过但0.9s被拒，支持边优先/单次聚合后3.86–5.33ms；无模型/写/新表索引，未做大评价史资格。见evidence/need-causal-populations-20261115/README.md。前继1d独立672/1warn185.88s仅targeted，非本批全仓/安装。
 
-下一先真实复现project_need全域32窗口先于关切因果绑定的挤占，再定向修复，不调大常量；情感/可靠反证/G迁移与原A–H继续。CURRENT266+409未动，无新包/安装/APK/真实模型/手机/生产/自然度/跨日资格。
+下一原motivate仍把已SETTLED历史CAPABILITY_GAP描述为当前相关缺口，先实证后按真实能力结果修正，不自动推断情绪/人格；情感/通信可靠反证/G广迁移及全部A–H继续。CURRENT266+409，无新包/APK/安装/真实模型/手机/生产/自然度/跨日资格。
 
 ## 现役revision196
 

@@ -1,0 +1,50 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_other_same_domain_lesson_reviews_do_not_hide_checked_current_need ____
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7f56ae57bef0>, 'df9b7ab4-8508-4fa9-b39d-f4940f3e3966', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+
+    def test_other_same_domain_lesson_reviews_do_not_hide_checked_current_need(settled):
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        from nana_core.continuity.world_loop.learning import EpisodeLearning
+        app,mid,cue=settled;r=app.runtime
+        def need():
+            return project_need(r.store,'owned-document',scope='project-work',privacy_classes=r.config.privacy_classes,source_memory_ids=(mid,))
+        before=need();assert before.state=='SETTLED'
+        service=r.work.open_learning
+        old=next(s for s in service.specs.values() if s.domain=='owned-document')
+        key='learn.unrelated-document-research'
+        spec=old.model_copy(update={'learning_key':key});service.specs[key]=spec
+        independent=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CURIOSITY',topic_key='unrelated-document-study',program_id=key,possible_behaviors=('LEARN',))
+        other=capture(r,'unrelated-document-study',independent.model_dump(mode='json'),predicate='concern.unrelated-document-study')
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.unrelated-document-study',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(other,))
+        cycle=r.subject.run(event);assert cycle.intention.behavior=='LEARN'
+        r.work.after_cycle(cycle,event)
+        job=r.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records c ON j.record_id=c.record_id WHERE c.target_id=?",(key,)).fetchone()
+        assert job
+        for _ in range(20):
+            if r.store.one('jobs',job['job_id'])['state']=='DONE':break
+            service.slice()
+        completed=r.store.one('jobs',job['job_id']);assert completed['state']=='DONE'
+        lesson=r.subject.records.read(completed['record_id'])['payload']['lesson_id']
+        reviewer=EpisodeLearning(r.store,r.authority,scopes=r.config.scopes,privacy_classes=r.config.privacy_classes)
+        # Repeated independently evaluated episodes are crowding, not a claim of
+        # forty novel capabilities or additional learning qualification.
+        for i in range(40):
+            case=spec.transfer[0].model_copy(update={'case_id':'unrelated-review-'+str(i),'context':'unrelated-context-'+str(i)})
+            source=capture(r,'unrelated-checked-review-'+str(i),{'strategy_episode':{'episode_key':'unrelated-review-'+str(i),
+                'lesson_id':lesson,'case':case.model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+            aid=reviewer.assess(lesson,source,authority=r.authority)
+            assert r.store.one('strategy_assessments',aid)['verdict']=='SUCCESS'
+>       after=need();assert after.state=='SETTLED' and after.source_record_ids==before.source_record_ids
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ('UNKNOWN' == 'SETTLED'
+E         
+E         - SETTLED
+E         + UNKNOWN)
+
+tests/person_self/test_need_causal_population.py:73: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_need_causal_population.py::test_other_same_domain_lesson_reviews_do_not_hide_checked_current_need
+1 failed in 4.32s

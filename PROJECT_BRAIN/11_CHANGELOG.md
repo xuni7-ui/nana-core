@@ -3770,3 +3770,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE S2/S5/S8上下文：原L3+每笔记一End键，两码点授权计划/CASE后正文，Source事实/旧回退保持。Native同100ms 1k/10k各48/48，100k6/48-42timeout→48/48、P9546.68ms，74相关；真实缓存+15.47MiB非回收，原20万库不动。首错/拒绝原型全存，真实0/无包APK/CURRENT；证据literal-two-prefix-20261115，下一情感/可靠反证、旧有界补项及全部A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：SETTLED不再删除C备选，现有Need入原Frame；默认WATCH/显式兴趣/规范与G重复保护共存。精确b27旧fixture/HTTP各3fail1pass→新8通过，209相关46.05s及原Foundation13；每1SELF/+2625wirebytes非Token。前继CI123仅targeted，当前真实0/无新安装/CURRENT不动。证据settled-capability-current-choice-20261115，下一同域因果窗口挤占及原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S8：原需态失败/评价先因果后32窗口，40无关失败/40其他G评价不压当前SETTLED；反例/撤回/128边界/33相关保护保留。两个原首败，新57相关86.00s；只读旧UNKNOWN→新SETTLED，拒0.9s慢原型，最终3.86–5.33ms/0调用0写。前继1d CI672仅targeted，真实0/无新包/CURRENT不动；证据need-causal-populations-20261115，下一旧缺口动机与实际能力结果一致及原A–H。
