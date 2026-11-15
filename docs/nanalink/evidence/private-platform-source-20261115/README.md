@@ -27,3 +27,9 @@ BFF 后继：当宿主配置版本变化且原 Store 有平台来源，Nana Spac
 源码 `dadb4f695d3d9d9122fc56df96576cb14df5600b` 的 GitHub Actions `43729822645` source job 全部步骤通过。受控原 C、原 Manager/Grant/Kernel、独立 owned OneBot WS 侧车与假平台覆盖图片一次尝试、ACK 与丢 ACK 保持 UNKNOWN、重复调度不重发、撤回（含账号检查期间）和缺 Grant 不发送；这不是实际 QQ 账号联调。后继额外使用新端口实例调用原 Kernel recovery，UNKNOWN 不产生第二次请求；该测试不等同跨进程重启。
 
 对 `dadb4f6` Git 归档使用该提交时间作为 `SOURCE_DATE_EPOCH`，在既有独立构建环境 `--no-build-isolation --no-index --no-deps` 构建两次 wheel，SHA256 均 `a013236207c2a71a27a8e5de42aebc8f264731aed41f984a9feb44f48c559097`。`--no-index --no-deps` 安装至隔离 target 后，309 个 Python 文件与归档逐一一致；从 `/tmp` 指向该安装运行配置 `--check`，返回 `NANALINK_CONFIG_VALID; no account or network accessed`。构建依赖来自已准备环境；并非全依赖离线封装或生产安装资格。APK/Web 输入相对 `80e1145` 无差异，已有 debug APK 仍按原输入标识。
+
+### 固定 31fcbc3 源码的离线构建和基础设施测量
+
+源码 `31fcbc3ed351c53e259ff7290a26b9a7d773d3cb` 的匹配 CI `43731486644` 通过；定向运行时、主体图片、OneBot网络及私人来源 45 项通过。按提交时间固定 `SOURCE_DATE_EPOCH`，在已准备的隔离构建环境用 `--no-index --no-deps --no-build-isolation` 双构建 wheel，SHA256 均为 `e44c1a18fbf6d39a35c3faa57cd700c9670165441d4533ddcf57fa646e50d779`。隔离 target 离线安装后 309 个 Python 源文件与该 Git 归档逐一一致；从 `/tmp` 指向安装目录运行无账号配置检查通过。这不是全部依赖的离线打包或生产安装资格。APK/Web 输入与 `80e1145` 一致，测试 APK 按实际输入标识。
+
+`infrastructure-31fcbc3.json` 是该 wheel 安装环境的合成测量：2000 入队、2000 重复，0.185 秒墙钟、0.183 秒 CPU、峰值 RSS 26560 KiB，容量64；不含网络、真实平台、模型或有效认知的 Token/费用。数字是该次样本，不推断长期运行成本。
