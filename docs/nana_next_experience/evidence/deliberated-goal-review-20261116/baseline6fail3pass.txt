@@ -1,0 +1,235 @@
+FFF..F.F{"measurement": "original_provider_lifecycle", "behavior": "WITHDRAW", "state": "ABANDONED", "http_calls": 1, "request_json_bytes": 22757, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+F
+=================================== FAILURES ===================================
+_ test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[CONTINUE_PROJECT-HIGH-options0-prohibited0-CONTINUE_PROJECT-ACTIVE] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_current_original_c_choose0')
+preference = 'CONTINUE_PROJECT', load = 'HIGH'
+options = ('CONTINUE_PROJECT', 'REST', 'WITHDRAW'), prohibited = ()
+expected = 'CONTINUE_PROJECT', state = 'ACTIVE'
+
+    @pytest.mark.parametrize('preference,load,options,prohibited,expected,state',[
+        ('CONTINUE_PROJECT','HIGH',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('REST','LOW',ALL,(),'REST','SUSPENDED'),
+        ('CONTINUE_PROJECT','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,(),'WITHDRAW','ABANDONED'),
+        (None,'HIGH',('CONTINUE_PROJECT','REST'),(),'REST','SUSPENDED'),
+        (None,'LOW',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,('WITHDRAW',),'REST','SUSPENDED'),
+        ('REST','LOW',ALL,('REST',),'CONTINUE_PROJECT','ACTIVE'),
+    ])
+    def test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load(tmp_path,preference,load,options,prohibited,expected,state):
+        calls=[]
+        class Choosing:
+            descriptor='synthetic-current-goal-lifecycle'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            obj,goal=adopted(r,tmp_path);identity=r.identity_id;plan=json.loads(goal['body_json'])['plan_record_id']
+            event=review(r,goal,load=load,options=options,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants={row['grant_id'] for row in r.store.all('grants')}
+            result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'WITHDRAW' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + WITHDRAW
+
+tests/person_self/test_deliberated_goal_review.py:59: AssertionError
+_ test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[REST-LOW-options1-prohibited1-REST-SUSPENDED] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_current_original_c_choose1')
+preference = 'REST', load = 'LOW'
+options = ('CONTINUE_PROJECT', 'REST', 'WITHDRAW'), prohibited = ()
+expected = 'REST', state = 'SUSPENDED'
+
+    @pytest.mark.parametrize('preference,load,options,prohibited,expected,state',[
+        ('CONTINUE_PROJECT','HIGH',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('REST','LOW',ALL,(),'REST','SUSPENDED'),
+        ('CONTINUE_PROJECT','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,(),'WITHDRAW','ABANDONED'),
+        (None,'HIGH',('CONTINUE_PROJECT','REST'),(),'REST','SUSPENDED'),
+        (None,'LOW',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,('WITHDRAW',),'REST','SUSPENDED'),
+        ('REST','LOW',ALL,('REST',),'CONTINUE_PROJECT','ACTIVE'),
+    ])
+    def test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load(tmp_path,preference,load,options,prohibited,expected,state):
+        calls=[]
+        class Choosing:
+            descriptor='synthetic-current-goal-lifecycle'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            obj,goal=adopted(r,tmp_path);identity=r.identity_id;plan=json.loads(goal['body_json'])['plan_record_id']
+            event=review(r,goal,load=load,options=options,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants={row['grant_id'] for row in r.store.all('grants')}
+            result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'WITHDRAW' == 'REST'
+E             
+E             - REST
+E             + WITHDRAW
+
+tests/person_self/test_deliberated_goal_review.py:59: AssertionError
+_ test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[CONTINUE_PROJECT-HIGH-options2-prohibited2-CONTINUE_PROJECT-ACTIVE] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_current_original_c_choose2')
+preference = 'CONTINUE_PROJECT', load = 'HIGH'
+options = ('CONTINUE_PROJECT', 'REST'), prohibited = ()
+expected = 'CONTINUE_PROJECT', state = 'ACTIVE'
+
+    @pytest.mark.parametrize('preference,load,options,prohibited,expected,state',[
+        ('CONTINUE_PROJECT','HIGH',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('REST','LOW',ALL,(),'REST','SUSPENDED'),
+        ('CONTINUE_PROJECT','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,(),'WITHDRAW','ABANDONED'),
+        (None,'HIGH',('CONTINUE_PROJECT','REST'),(),'REST','SUSPENDED'),
+        (None,'LOW',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,('WITHDRAW',),'REST','SUSPENDED'),
+        ('REST','LOW',ALL,('REST',),'CONTINUE_PROJECT','ACTIVE'),
+    ])
+    def test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load(tmp_path,preference,load,options,prohibited,expected,state):
+        calls=[]
+        class Choosing:
+            descriptor='synthetic-current-goal-lifecycle'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            obj,goal=adopted(r,tmp_path);identity=r.identity_id;plan=json.loads(goal['body_json'])['plan_record_id']
+            event=review(r,goal,load=load,options=options,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants={row['grant_id'] for row in r.store.all('grants')}
+            result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'REST' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + REST
+
+tests/person_self/test_deliberated_goal_review.py:59: AssertionError
+_ test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[None-LOW-options5-prohibited5-CONTINUE_PROJECT-ACTIVE] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_current_original_c_choose5')
+preference = None, load = 'LOW'
+options = ('CONTINUE_PROJECT', 'REST', 'WITHDRAW'), prohibited = ()
+expected = 'CONTINUE_PROJECT', state = 'ACTIVE'
+
+    @pytest.mark.parametrize('preference,load,options,prohibited,expected,state',[
+        ('CONTINUE_PROJECT','HIGH',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('REST','LOW',ALL,(),'REST','SUSPENDED'),
+        ('CONTINUE_PROJECT','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,(),'WITHDRAW','ABANDONED'),
+        (None,'HIGH',('CONTINUE_PROJECT','REST'),(),'REST','SUSPENDED'),
+        (None,'LOW',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,('WITHDRAW',),'REST','SUSPENDED'),
+        ('REST','LOW',ALL,('REST',),'CONTINUE_PROJECT','ACTIVE'),
+    ])
+    def test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load(tmp_path,preference,load,options,prohibited,expected,state):
+        calls=[]
+        class Choosing:
+            descriptor='synthetic-current-goal-lifecycle'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            obj,goal=adopted(r,tmp_path);identity=r.identity_id;plan=json.loads(goal['body_json'])['plan_record_id']
+            event=review(r,goal,load=load,options=options,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants={row['grant_id'] for row in r.store.all('grants')}
+            result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'WITHDRAW' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + WITHDRAW
+
+tests/person_self/test_deliberated_goal_review.py:59: AssertionError
+_ test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[REST-LOW-options7-prohibited7-CONTINUE_PROJECT-ACTIVE] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_current_original_c_choose7')
+preference = 'REST', load = 'LOW'
+options = ('CONTINUE_PROJECT', 'REST', 'WITHDRAW'), prohibited = ('REST',)
+expected = 'CONTINUE_PROJECT', state = 'ACTIVE'
+
+    @pytest.mark.parametrize('preference,load,options,prohibited,expected,state',[
+        ('CONTINUE_PROJECT','HIGH',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('REST','LOW',ALL,(),'REST','SUSPENDED'),
+        ('CONTINUE_PROJECT','HIGH',('CONTINUE_PROJECT','REST'),(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,(),'WITHDRAW','ABANDONED'),
+        (None,'HIGH',('CONTINUE_PROJECT','REST'),(),'REST','SUSPENDED'),
+        (None,'LOW',ALL,(),'CONTINUE_PROJECT','ACTIVE'),
+        ('WITHDRAW','HIGH',ALL,('WITHDRAW',),'REST','SUSPENDED'),
+        ('REST','LOW',ALL,('REST',),'CONTINUE_PROJECT','ACTIVE'),
+    ])
+    def test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load(tmp_path,preference,load,options,prohibited,expected,state):
+        calls=[]
+        class Choosing:
+            descriptor='synthetic-current-goal-lifecycle'
+            def propose(self,request):
+                calls.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            obj,goal=adopted(r,tmp_path);identity=r.identity_id;plan=json.loads(goal['body_json'])['plan_record_id']
+            event=review(r,goal,load=load,options=options,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants={row['grant_id'] for row in r.store.all('grants')}
+            result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'WITHDRAW' == 'CONTINUE_PROJECT'
+E             
+E             - CONTINUE_PROJECT
+E             + WITHDRAW
+
+tests/person_self/test_deliberated_goal_review.py:59: AssertionError
+________ test_actual_self_proposal_to_pause_does_not_become_abandonment ________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-23/test_actual_self_proposal_to_p0')
+
+    def test_actual_self_proposal_to_pause_does_not_become_abandonment(tmp_path):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC pause a continuing interest, do not abandon it',
+                subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                    interpretation='SYNTHETIC choose rest from the currently offered lifecycle menu',preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,metrics),fresh(tmp_path/'self.db',schema_target=13) as r:
+            _,goal=adopted(r,tmp_path);event=review(r,goal,load='LOW',options=ALL)
+            policy=ContextPolicy(policy_id='current-lifecycle',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+            result=r.subject.cognize(event,model=port,authority=r.authority,policy=policy)
+            r.work.after_cycle(result,event)
+            print(json.dumps({'measurement':'original_provider_lifecycle','behavior':result.intention.behavior,
+                'state':r.store.one('goals',goal['goal_id'])['state'],'http_calls':metrics['calls'],
+                'request_json_bytes':len(seen[0].model_dump_json().encode()),'budget':seen[0].budget.model_dump(),'real_model_calls':0}))
+>           assert result.intention.behavior=='REST' and r.store.one('goals',goal['goal_id'])['state']=='SUSPENDED'
+E           AssertionError: assert ('WITHDRAW' == 'REST'
+E             
+E             - REST
+E             + WITHDRAW)
+
+tests/person_self/test_deliberated_goal_review.py:93: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_goal_review.py::test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[CONTINUE_PROJECT-HIGH-options0-prohibited0-CONTINUE_PROJECT-ACTIVE]
+FAILED tests/person_self/test_deliberated_goal_review.py::test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[REST-LOW-options1-prohibited1-REST-SUSPENDED]
+FAILED tests/person_self/test_deliberated_goal_review.py::test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[CONTINUE_PROJECT-HIGH-options2-prohibited2-CONTINUE_PROJECT-ACTIVE]
+FAILED tests/person_self/test_deliberated_goal_review.py::test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[None-LOW-options5-prohibited5-CONTINUE_PROJECT-ACTIVE]
+FAILED tests/person_self/test_deliberated_goal_review.py::test_current_original_c_chooses_lifecycle_instead_of_menu_membership_or_load[REST-LOW-options7-prohibited7-CONTINUE_PROJECT-ACTIVE]
+FAILED tests/person_self/test_deliberated_goal_review.py::test_actual_self_proposal_to_pause_does_not_become_abandonment
+6 failed, 3 passed in 0.79s

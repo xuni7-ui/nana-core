@@ -4019,3 +4019,5 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 - 2026-11-16 CST｜revision245：原BiliFrameService两处改用既有unresolved_live_calls：旧UNKNOWN保留原账项/预留且不重发，其他独立帧可在原预算内继续；实际b977旧2fail1pass→新3pass2.08s，32相关14.00s。跨正常重开、总额度2拒第三帧、真正CALLING仍互斥、撤回不再调模型均受控通过，真实0/无新增阶段。原9a匹配包/efc交付不含245，CURRENT266+409不动；另9a独立CI290/1warn129.55s为targeted，非245CI/全仓/安装。 指纹锚c1e468fc3912f43690c6939ad6bbc426ed4ee6386de31abd4e998bd18116cc78。
 
 - 2026-11-16 CST｜revision246：原已采纳plan_step不再仅因HIGH负荷覆盖C当前明确CONTINUE；保持REST动机/默认休息/其他兴趣/规范与风险/Goal-target/Manager-Grant。精确5fd旧3fail4pass→7pass.66s、211相关37.24s；原Goal/job仅判断时不改/重开保持，已有fixture Grant经原Kernel执行一步且不新Goal。原Provider两侧1SELF/25851request JSON bytes/同预算，非真实Token或模型成长；9a候选不含245/246，不重包/APK/CURRENT。 指纹锚7c30ca8fa1c677fdb5a3715ef909380cb6a3c018b57ad2f2b93185a44bed7f7d。
+
+- 2026-11-16 CST｜revision247：原GoalReview LIFECYCLE不再把候选菜单包含WITHDRAW当作实际放弃；沿原当前排序选择REST/WITHDRAW，明确CONTINUE可与负荷竞争。28f旧6fail3pass→9pass.78s/58相关16.53s；原消费者真实Goal ACTIVE/SUSPENDED/ABANDONED按选择变化、同身份重开/原plan/Grant保持，无动作/不新Goal/不重写过去ABANDONED。owned SELF两侧1HTTP/22757request JSON bytes同预算，真实0。 指纹锚be49d44640c9daafa18d61f98c1098dec4f3777ed2d4248e2c19b1e2c0023f0f。

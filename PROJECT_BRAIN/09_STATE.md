@@ -19,8 +19,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 246,
-  "as_of_us": 1794779244364934,
+  "revision": 247,
+  "as_of_us": 1794779634516816,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -29,7 +29,7 @@
     "原失败usage数字计量资格保留；现Bili视觉两处沿原live互斥，不把终态UNKNOWN锁住不同帧。b977旧2fail1pass→3通过/32相关14s；同主体重开、旧UNKNOWN整行/预留不变且不重发、总额度2拒第三帧/活跃CALLING阻断/撤回0新增调用，真实0。",
     "9a/Brain243集成候选302文件Core双构建cda06320…/Web9c593456…，delivery efc归档11件；GitHub新克隆全SHA/两槽离线BFF/安装2及撤回后9a-fee8-9a通过。486 CI1073、9a CI290均targeted非全仓；候选不含245，CURRENT266+409不动。",
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
-    "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
+    "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "原笔记维护/检索资格保留；现原平台namespace在通用限额前SQL筛选，65其他源不再挤掉授权B站观察。精确486旧2失败→新2通过1.81s/72相关24.02s；49虚拟h同身份/短摘录清空后私念LISTEN、消融CHAT、源撤回知识失效，原64/4与两HTTP不变。",
     "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
@@ -41,17 +41,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR14/17/18已吸收，9a受控匹配候选下载安装通过但不含245/246。下一核对GoalReview LIFECYCLE的明确选择/loaded/候选WITHDRAW是否误覆盖，先原测试真实基线；原S5→C/S3/S8/视觉B固定交接、更多情感/学习/自然交流/物理隐私/真实Token/全部原A–H与最终Android继续。"
+    "PR14/17/18已吸收，9a受控匹配候选不含245–247；新源码CI待实际。下一原memory_review的pending>=6/HIGH负荷是否覆盖C明确MAINTAIN，先原维护/巩固真实基线；S5→C/S3/S8/B视觉固定交接、情感/自然交流/长期学习/物理隐私/Token/全部A–H及最终Android仍待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/deliberated-goal-review-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-plan-load-20261116/README.md",
     "docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-9a31e15-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/nanalink-core-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/provider-parse-integration-20261115/README.md",
-    "docs/nana_next_experience/evidence/product-branch-integration-20261115/README.md",
-    "docs/nana_next_experience/evidence/note-end-bounded-maintenance-20261115/README.md"
+    "docs/nana_next_experience/evidence/product-branch-integration-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2923,3 +2923,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision245 source evidence anchor: `c1e468fc3912f43690c6939ad6bbc426ed4ee6386de31abd4e998bd18116cc78` → `docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/source.sha256`; matched9a candidate remains immutable and does not contain this later visual guard fix.
 
 - revision246 source evidence anchor: `7c30ca8fa1c677fdb5a3715ef909380cb6a3c018b57ad2f2b93185a44bed7f7d` → `docs/nana_next_experience/evidence/deliberated-plan-load-20261116/source.sha256`; original C/Goal/Grant/Precision V2, no new matching artifact or production selection.
+
+- revision247 source evidence anchor: `be49d44640c9daafa18d61f98c1098dec4f3777ed2d4248e2c19b1e2c0023f0f` → `docs/nana_next_experience/evidence/deliberated-goal-review-20261116/source.sha256`; original GoalReview/C consumer, no matching9a artifact rewrite.

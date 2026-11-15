@@ -212,8 +212,14 @@ def decide(event, situation, appraisal, motives):
             and (situation.cue is None or 'CONTINUE_PROJECT' in options))
         loaded=bool(situation.cue and situation.cue.cognitive_load=='HIGH')
         urgent=bool(situation.cue and situation.cue.urgency=='HIGH')
-        if 'WITHDRAW' in options:behavior='WITHDRAW'
-        elif not can_continue or (loaded and not urgent):
+        # Current sorted choices carry a preference, not an order to adopt
+        # every menu item. In particular an offered exit must not end a goal
+        # when C has currently chosen to pause or continue it.
+        selected=options[0] if options else None
+        considered_continuation=considered_choice and situation.preferred_behavior=='CONTINUE_PROJECT'
+        if selected=='WITHDRAW':behavior='WITHDRAW'
+        elif selected=='REST':behavior='REST'
+        elif not can_continue or (loaded and not urgent and not considered_continuation):
             behavior='REST' if 'REST' not in situation.prohibited_behaviors else None
         else:behavior='CONTINUE_PROJECT'
         quiet=behavior in {'REST',None}

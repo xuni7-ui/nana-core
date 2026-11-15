@@ -1,0 +1,7 @@
+# 原Goal生命周期选项不等于实际选择
+
+基线28f3831dccc67d2afc53dd19053351f02113cfce/Brain246，已推，dirty仅本批原创测试。复用原test_long_goals/GoalReviewRef/原C/Agency after_cycle，不新建状态机。
+
+实际旧6fail3pass/.79s：LIFECYCLE分支只要WITHDRAW在options任意位置就选择WITHDRAW，能把原C明确REST变ABANDONED；明确CONTINUE也被菜单/非紧急高负荷覆盖。原规范禁止WITHDRAW、明确WITHDRAW与无明确选择高负荷休息3个控制保留通过。owned SELF真实一次HTTP选择REST，原Goal实际ABANDONED。
+
+拟限于当前三种生命周期方向，按原current_directions已校验并排序的首项判断WITHDRAW/REST，明确且合法CONTINUE可与负荷竞争。保留原低层许可/目标版本/已放弃不自动恢复/无明确选择高负荷默认休息/规范。原plan_record_id/主体/权限不重建；回退本基线policy.py，无批量修复过去Goal或数据迁移。

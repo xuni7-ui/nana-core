@@ -1,8 +1,8 @@
-## 现役revision246 — 已采纳计划不强迫继续也不强迫休息
+## 现役revision247 — 原C休息不再被转换为目标放弃
 
-原已采纳plan_step不再仅因HIGH负荷覆盖C当前明确CONTINUE；保持REST动机/默认休息/其他兴趣/规范与风险/Goal-target/Manager-Grant。精确5fd旧3fail4pass→7pass.66s、211相关37.24s；原Goal/job仅判断时不改/重开保持，已有fixture Grant经原Kernel执行一步且不新Goal。原Provider两侧1SELF/25851request JSON bytes/同预算，非真实Token或模型成长；9a候选不含245/246，不重包/APK/CURRENT。
+原GoalReview LIFECYCLE不再把候选菜单包含WITHDRAW当作实际放弃；沿原当前排序选择REST/WITHDRAW，明确CONTINUE可与负荷竞争。28f旧6fail3pass→9pass.78s/58相关16.53s；原消费者真实Goal ACTIVE/SUSPENDED/ABANDONED按选择变化、同身份重开/原plan/Grant保持，无动作/不新Goal/不重写过去ABANDONED。owned SELF两侧1HTTP/22757request JSON bytes同预算，真实0。
 
-下一GoalReview LIFECYCLE分支按实际C输入核对loaded/urgent及候选WITHDRAW，先真实基线不删条件；S5→C/S3/S8、B视觉固定候选及全部原A–H继续。新CI待实际，真实模型/手机/生产/自然度/实际长期未新资格。证据evidence/deliberated-plan-load-20261116/README.md。
+下一原memory_review的pending>=6/HIGH负荷是否覆盖C明确MAINTAIN，先复用原维护/巩固与C调用验证，不删资源保护；S5/C/S3/S8、B视觉固定候选与全部原A–H继续。新CI待实际，9a匹配候选不含245–247，不重包/APK/CURRENT。证据evidence/deliberated-goal-review-20261116/README.md。
 
 ## 现役revision196
 
