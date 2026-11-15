@@ -19,15 +19,15 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 244,
-  "as_of_us": 1794778266346268,
+  "revision": 245,
+  "as_of_us": 1794778737832356,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G16/32保留；首次可选学习/目录79联调153相关；现无旧private origin的G后来实际成功→宿主/正常D→同C新私问，重启后新cue LEARN/投影消融IGNORE，后一步0模型/不新Gjob；57项及新增闭包2过，其他私活动保留、撤回失效，仅受控。",
-    "失败/截断/拒绝响应已报告Token沿原数字receipt计量，不接受正文或退款；无响应/坏usage保持未知，原生含cache。精确3fe旧9fail20pass→29pass7.25s，161相关36.70s，来源撤回/重启/UNKNOWN后新请求有效；fixture非真实Token/费用。",
-    "9a/Brain243集成候选302文件Core双构建cda06320…/Web9c593456…，delivery efc归档11件；实际GitHub新克隆下载全SHA一致、两槽离线BFF/反馈/十页/笔记撤回、安装连续性2/144模块及撤回后停机9a-fee8-9a通过。486独立CI1073仅targeted，CURRENT266+409不动。",
+    "原失败usage数字计量资格保留；现Bili视觉两处沿原live互斥，不把终态UNKNOWN锁住不同帧。b977旧2fail1pass→3通过/32相关14s；同主体重开、旧UNKNOWN整行/预留不变且不重发、总额度2拒第三帧/活跃CALLING阻断/撤回0新增调用，真实0。",
+    "9a/Brain243集成候选302文件Core双构建cda06320…/Web9c593456…，delivery efc归档11件；GitHub新克隆全SHA/两槽离线BFF/安装2及撤回后9a-fee8-9a通过。486 CI1073、9a CI290均targeted非全仓；候选不含245，CURRENT266+409不动。",
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
@@ -41,17 +41,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "固定9a Core/BFF/Web已受控构建下载安装，非最终匹配Android/全仓/生产。下一原BiliFrame两处unresolved_calls仍把UNKNOWN混作活跃锁，先实际同输入基线，沿原live互斥/账本/预算修正；原情感/S8/自然交流/两仓视觉候选/原A–H继续。"
+    "PR14/17/18已吸收、9a匹配Core/BFF/Web受控候选已下载安装；245视觉UNKNOWN修复未新包/新CI。下一A原S5观察→C/S3/S8因果与采样覆盖/共享预算接B固定算法候选，不猜其WIP/不重写两仓算法；更多情感/S8/自然交流/原A–H/最终Android/实际资格继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-9a31e15-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/nanalink-core-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/provider-parse-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/product-branch-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/note-end-bounded-maintenance-20261115/README.md",
-    "docs/nana_next_experience/evidence/matched-portable-fee8f42-20261115/README.md",
-    "docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/README.md"
+    "docs/nana_next_experience/evidence/matched-portable-fee8f42-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2919,3 +2919,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision243 source evidence anchor: `84c1589f6b45e39901a99b9a61520d2112c780394c1324efe1ea1b064ed73f13` → `docs/nana_next_experience/evidence/platform-context-population-20261116/source.sha256`; exact486 original selected263 Git blobs, no CURRENT/production change.
 
 - revision244 qualification anchor: `3d7034517a9f8b91bc480a8aa977e7bb9abe02ebaea5f43f4533128a9d519992` → `docs/nana_next_experience/evidence/matched-integration-9a31e15-20261116/source.sha256`; immutable business source9a, delivery efc11files, CURRENT unchanged.
+
+- revision245 source evidence anchor: `c1e468fc3912f43690c6939ad6bbc426ed4ee6386de31abd4e998bd18116cc78` → `docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/source.sha256`; matched9a candidate remains immutable and does not contain this later visual guard fix.

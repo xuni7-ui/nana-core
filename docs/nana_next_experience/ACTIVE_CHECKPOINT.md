@@ -1,8 +1,8 @@
-## 当前接续：9a集成匹配候选与实际下载，revision244
+## 当前接续：终态UNKNOWN不锁住独立视觉，revision245
 
-固定9a/Brain243 Core302文件双构建cda06320…、同源Web70输入核对/双归档9c593456…，现有delivery efc710d归档。真实GitHub新克隆11件全SHA、两槽实际离线安装BFF/反馈/十视图/原Store纠错重启撤回通过；安装2连续性/144 Core模块、撤回新来源后停机9a-fee8-9a保持同身份/私念/0新认知动作。486独立CI1073/3warn628.64s只是targeted；全仓/portable CI SKIP，9a CI待实际。非新APK/手机/真实模型/平台/生产/实际长期，CURRENT266+409不变。
+原BiliFrameService两处改用既有unresolved_live_calls：旧UNKNOWN保留原账项/预留且不重发，其他独立帧可在原预算内继续；实际b977旧2fail1pass→新3pass2.08s，32相关14.00s。跨正常重开、总额度2拒第三帧、真正CALLING仍互斥、撤回不再调模型均受控通过，真实0/无新增阶段。原9a匹配包/efc交付不含245，CURRENT266+409不动；另9a独立CI290/1warn129.55s为targeted，非245CI/全仓/安装。
 
-下一先复现原BiliFrame把终态UNKNOWN当活跃互斥的两处guard，沿原账本/预算/同请求不重放修正；原情感/S8/自然交流/两仓视觉固定成果与全部原A–H继续。证据evidence/matched-integration-9a31e15-20261116/README.md。不重复打包本候选/APK，下批新源码不能冒充包含于9a。
+下一原S5观察→C/S3/S8因果消费者，按B固定算法I/O补共享预算/覆盖/时间戳；原BiliLife只有首故事板帧语义解释，不能冒充全片理解。B两仓算法/NanaLink平台不重复开发，情感/长期学习/自然交流/全A–H与最终多端发行继续。新CI待实际，证据evidence/visual-unknown-independent-request-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

@@ -1,0 +1,9 @@
+# 原B站视觉UNKNOWN范围修复前影响/回退
+
+基线b9778afdebfe9e4b87718af44e1dd41156009813/Brain244，已推，唯一dirty为本批原创测试。固定9a候选已交付/下载/安装，不在本批重打包。
+
+实际旧源：正常原Router→H1视觉请求对一帧owned HTTP超时，原账本保留UNKNOWN。不同帧随后被BilibiliFrameService两处unresolved_calls挡住，实际同输入2fail1pass；同Store重开也失败。原CognitionSession/普通LifeApplication已有unresolved_live_calls区分，原Runtime未知账单上限/总量/字节/费用账本不改。
+
+拟两处改为现有unresolved_live_calls，保留活跃CALLING/旧fixture RESERVED互斥；终态UNKNOWN本身不再成为所有独立视觉请求的永久锁。旧source_key/请求ID不重发、不退款，正常route/预算/来源/撤回仍有效。没有新增模型阶段/协议/依赖/授权，真实平台/模型0。回退本锚bilibili_frames.py，无数据迁移。
+
+先前在Provider worker线程内读取同owner Store做并发夹具不成立，首轮3fail保留；改在真实owner accept前CALLING阶段探测嵌套请求，保留原并发断言，明确旧版是2fail1pass而非3个行为缺陷。

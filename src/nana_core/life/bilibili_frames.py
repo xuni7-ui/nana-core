@@ -204,7 +204,7 @@ class BilibiliFrameService:
             raise CoreError("LIVE_PROVIDER_NOT_RUN_OFFLINE_MODE")
         from ..presence.resources import resource_state
 
-        if resource_state(self.runtime.store, self.runtime.config).unresolved_calls:
+        if resource_state(self.runtime.store, self.runtime.config).unresolved_live_calls:
             raise CoreError("UNRESOLVED_PROVIDER_CALL_NO_RETRY")
         cfg = self.app.config
         target = self.app.router.resolve(
@@ -222,7 +222,7 @@ class BilibiliFrameService:
         budget(self.app, target.snapshot)
         session = target.cognition_session(self.runtime)
         session.recover()
-        if resource_state(self.runtime.store, self.runtime.config).unresolved_calls:
+        if resource_state(self.runtime.store, self.runtime.config).unresolved_live_calls:
             raise CoreError("UNRESOLVED_PROVIDER_CALL_NO_RETRY")
         semantic = MediaSemanticService(session)
         data = base64.b64decode(json.loads(source["text"])["png_b64"], validate=True)

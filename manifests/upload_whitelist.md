@@ -181,3 +181,7 @@ memory.py/context.py、tests/nanalink/test_platform_context_population.py、原0
 ## 2026-11-16 A匹配9a候选回执
 
 09/11/ACTIVE/STATUS、本白名单及evidence/matched-integration-9a31e15-20261116/原公开合成安装/下载/回退/CI摘录/脚本和指纹。二进制仅原delivery固定efc候选，不重复放dev；无DB/私史/真实账号/密钥/新授权。
+
+## 2026-11-16 A原视觉UNKNOWN范围
+
+life/bilibili_frames.py两处field差额、新test_bilibili_frame_unknown.py、现有CI选择路径、09/11/ACTIVE/STATUS及evidence/visual-unknown-independent-request-20261116/原合成日志/指纹和本白名单。无Store/配置/真实账号/密钥/二进制/新收费授权，不重打9a包/APK。

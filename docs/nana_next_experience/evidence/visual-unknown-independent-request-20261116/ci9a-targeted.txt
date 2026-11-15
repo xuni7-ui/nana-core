@@ -1,0 +1,4 @@
+run=43763081801 job=132962199511 head=9a31e15ff490559fda95c89f5cf379f67d8c0f8e
+Source: GitHub connector decoded job logs; targeted integration, not full repository or portable installation.
+2026-11-15T21:21:32.2216818Z [36;1mecho targeted > qualification-level.txt[0m
+2026-11-15T21:23:43.1848066Z 290 passed, 1 warning in 129.55s (0:02:09)
