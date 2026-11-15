@@ -1,7 +1,7 @@
 import { AdapterManagement } from "./AdapterManagement";
 import { PlatformLogin } from "./PlatformLogin";
 import { NanaLinkSetup } from "./NanaLinkSetup";
-import { linkHealth, healthWords } from "../../data/nanalink";
+import { linkHealth, healthWords, capabilityWords } from "../../data/nanalink";
 import { useEffect, useState } from "react";
 import { V2Client, object, writeBase, isNative } from "../../data/v2";
 import type { Envelope } from "../../data/v2.generated";
@@ -68,7 +68,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       <p>{row.enabled ? "通道已启用" : "通道已暂停"} · {row.secret_state === "AVAILABLE" ? "凭据已绑定" : "等待宿主安全凭据"}</p>
       <p>{healthWords(linkHealth(data,row.platform,row.channel_id))}</p>
       {linkHealth(data,row.platform,row.channel_id)?.capabilities.length ? <details><summary>此连接支持的能力</summary><ul>
-        {linkHealth(data,row.platform,row.channel_id)!.capabilities.map(c=><li key={c.name}>{c.name} · {c.available?"可用":"暂不支持或未授权"}</li>)}
+        {linkHealth(data,row.platform,row.channel_id)!.capabilities.map(c=><li key={c.name}>{capabilityWords(c.name)} · {c.available?"可用":"暂不支持或未授权"}</li>)}
       </ul></details> : null}
       {!row.read_authorized && <p className="v3-muted">等待账号与读取范围授权。请在对应平台完成登录，并由宿主绑定授权；保存配置不会自动读取。</p>}
       <p className="v3-muted">{row.state === "SUCCEEDED" ? "最近一次投递已核实" : row.state === "UNKNOWN" ? "最近投递待核实，不会重发"

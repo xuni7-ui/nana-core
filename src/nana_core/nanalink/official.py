@@ -82,12 +82,23 @@ class OfficialQQAdapter(OneBotAdapter):
                                                      'compatibility': 'QQ_OFFICIAL_V2', 'error': None})
         return {'user_id': self.account.account_id}
 
+    def health(self):
+        value = super().health()
+        if value.connection in {'CONNECTED','DEGRADED'}:
+            try:
+                self._headers()  # Local host session snapshot, never a network/login call.
+            except CoreError:
+                return value.model_copy(update={'connection':'DEGRADED','login':'REQUIRED','error':'HOST_SESSION_EXPIRED'})
+        return value
+
     def capabilities(self):
-        ready = self._health.login == 'AUTHENTICATED'
+        ready = self.health().login == 'AUTHENTICATED'
         return (Capability(name='message.receive', available=ready),
                 Capability(name='message.text.send.via_core', available=ready and self.allow_send),
                 Capability(name='delivery.independent_readback', available=False, reason='C2C_GROUP_API_NOT_AVAILABLE'),
                 Capability(name='media.reference', available=True),
+                Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
+                Capability(name='message.face.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
                 Capability(name='login.external_session', available=True),
                 Capability(name='message.edit', available=False, reason='PLATFORM_UNSUPPORTED'))
 

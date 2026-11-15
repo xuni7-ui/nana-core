@@ -157,6 +157,8 @@ class OneBotAdapter:
                            reason='' if self.allow_send else 'HOST_SEND_DISABLED'),
                 Capability(name='message.readback', available=ready),
                 Capability(name='media.reference', available=True),
+                Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
+                Capability(name='message.face.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
                 Capability(name='login.qr', available=False, reason='EXTERNAL_CLIENT_LOGIN'),
                 Capability(name='message.edit', available=False, reason='NOT_IN_MINIMUM_PROTOCOL'))
 

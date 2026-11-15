@@ -1785,7 +1785,7 @@ test('NanaLink health: connected session does not invent received events or deli
   await expect(page.getByText('会话已连接 · 还未收到事件',{exact:true})).toBeVisible();
   await expect(page.getByText('尚无本次运行的投递记录',{exact:true})).toBeVisible();
   await page.getByText('此连接支持的能力',{exact:true}).click();
-  await expect(page.getByText('message.edit · 暂不支持或未授权',{exact:true})).toBeVisible();await noHorizontalOverflow(page);
+  await expect(page.getByText('编辑消息 · 暂不支持或未授权',{exact:true})).toBeVisible();await noHorizontalOverflow(page);
 
 });
 

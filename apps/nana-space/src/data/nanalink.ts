@@ -21,5 +21,16 @@ export function healthWords(health:LinkHealth|null):string {
   if(!health)return '连接状态尚未观测';
   const connection:Record<string,string>={DISABLED:'连接已暂停',DISCONNECTED:'连接已断开',CONNECTING:'正在恢复连接',CONNECTED:'会话已连接',DEGRADED:'连接需要检查'};
   const receive:Record<string,string>={NOT_OBSERVED:'还未收到事件',HEALTHY:'事件接收正常',STALE:'心跳过期，请检查客户端',BACKPRESSURE:'接收繁忙，部分事件未入队'};
-  return `${connection[health.connection]} · ${receive[health.receive]}`;
+  return `${connection[health.connection]}${health.login==='REQUIRED'?' · 需要重新登录或更新授权':''} · ${receive[health.receive]}`;
+}
+
+export function capabilityWords(name:string):string {
+  const labels:Record<string,string>={
+    'message.receive':'接收消息','message.text.send.via_core':'经奈奈发送文字',
+    'message.readback':'独立核实送达','delivery.independent_readback':'独立核实送达',
+    'media.reference':'接收媒体引用','message.image.send.via_core':'经奈奈发送图片',
+    'message.face.send.via_core':'经奈奈发送表情','login.qr':'二维码登录',
+    'login.external_session':'使用已有授权会话','message.edit':'编辑消息',
+  };
+  return labels[name] || name;
 }

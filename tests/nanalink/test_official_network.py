@@ -185,3 +185,13 @@ def test_host_native_scalar_extraction_and_default_onebot_wire():
     channel=QQChannelBinding(channel_id='old',binding_id='old',account_id='42',endpoint='http://127.0.0.1:18790',sender_id='43',target_id='43')
     assert 'backend' not in channel.model_dump()
     with pytest.raises(ValueError):QQChannelBinding.model_validate({**channel.model_dump(),'sender_id':'opaque'})
+
+
+def test_expired_host_session_reports_reauthorization_without_network():
+    with network() as (net,state,resolver,loop):
+        before=state['logins']
+        net['sidecar'].official_sessions['official']=(TOKEN,int(time.time())-1)
+        health=net['adapter'].health()
+        assert health.connection=='DEGRADED' and health.login=='REQUIRED'
+        assert not next(c.available for c in net['adapter'].capabilities() if c.name=='message.text.send.via_core')
+        assert state['logins']==before and not state['sent']

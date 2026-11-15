@@ -73,6 +73,8 @@ def qq_adapter(workflow):
         Capability(name='message.readback', available=workflow.channel.backend != 'official',
                    reason='C2C_GROUP_API_NOT_AVAILABLE' if workflow.channel.backend == 'official' else ''),
         Capability(name='media.reference', available=True),
+        Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
+        Capability(name='message.face.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
     ))
 
 
