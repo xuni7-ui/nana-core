@@ -450,3 +450,46 @@ def test_owner_media_cache_binding_is_volatile_and_account_isolated(tmp_path, mo
             with pytest.raises(CoreError, match='QQ_CHANNEL_UNBOUND'):
                 app.platforms.bind_qq_media_cache('unknown', cache)
             cache.close()
+
+
+def test_owner_caches_only_exact_current_original_image(tmp_path):
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.world_loop.perception import PerceptionService, PublicMediaSource
+    from nana_core.nanalink.media import MediaCache
+    from nana_core.nanalink.media_candidates import candidate, resolve_image
+    from tests.person_self.test_nanalink_media_choice import picture
+    from tests.world_loop.helpers import providers
+    with counterpart() as (url, _):
+        home = tmp_path / 'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            r = app.runtime
+            now = r.clock.utc_now_us()
+            source = PublicMediaSource(source_id='owned-original', modality='IMAGE', origin='SYNTHETIC',
+                                       event_time_us=now, observed_time_us=now)
+            data = picture()
+            mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, source, entity_id='project-user', scope='project-work')
+            cache = MediaCache(tmp_path/'image-cache', source_current=lambda _: True)
+            with pytest.raises(CoreError, match='QQ_MEDIA_CACHE_UNBOUND'):
+                app.platforms.cache_qq_observed_image('primary', mid, data)
+            app.platforms.bind_qq_media_cache('primary', cache)
+            MemoryService(r.store).entity('other-person', 'PERSON')
+            other_source = source.model_copy(update={'source_id': 'other-person-picture'})
+            other_mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, other_source, entity_id='other-person', scope='project-work')
+            with pytest.raises(CoreError, match='QQ_MEDIA_ORIGINAL_SOURCE_REQUIRED'):
+                app.platforms.cache_qq_observed_image('primary', other_mid, data)
+            with pytest.raises(CoreError, match='QQ_MEDIA_SOURCE_BYTES_MISMATCH'):
+                app.platforms.cache_qq_observed_image('primary', mid, b'wrong')
+            result = app.platforms.cache_qq_observed_image('primary', mid, data)
+            assert result['execution_authority'] is False and result['bytes_cached'] == len(data)
+            selected = candidate(MemoryService(r.store).read(mid))
+            assert resolve_image(r.store, cache, selected) == data
+            MemoryService(r.store, r.authority).forget(mid, r.authority)
+            with pytest.raises(CoreError):
+                app.platforms.cache_qq_observed_image('primary', mid, data)
+            assert not r.store.all('actions') and not r.store.all('grants')
+            cache.close()

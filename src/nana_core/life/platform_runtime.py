@@ -310,6 +310,38 @@ class PlatformRuntime:
         cache._nanalink_qq_owner = owner
         self._qq_media_caches[channel_id] = (binding, cache)
 
+    def cache_qq_observed_image(self, channel_id, source_memory_id, data):
+        """Cache bytes of an existing original public perception; no fetch or Grant."""
+        import hashlib
+        from ..continuity.memory import MemoryService
+        from ..continuity.records import RecordService
+        from ..nanalink.media_candidates import candidate, resolve_image
+        self.app.runtime.cadence.assert_owner()
+        channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
+        if len(channels) != 1:
+            raise CoreError('QQ_CHANNEL_UNBOUND')
+        channel = channels[0]
+        entry = self._qq_media_caches.get(channel_id)
+        binding = (channel.binding_id, channel.backend, channel.account_id, channel.endpoint)
+        if not entry or entry[0] != binding:
+            self._qq_media_caches.pop(channel_id, None)
+            raise CoreError('QQ_MEDIA_CACHE_UNBOUND')
+        surface = self.app.surfaces._binding(channel.binding_id)
+        row = MemoryService(self.app.runtime.store).read(source_memory_id)
+        selection = candidate(row)
+        observation = self.app.runtime.store.db.execute(
+            "SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?", (source_memory_id,)).fetchone()
+        if (selection is None or row['scope'] != surface.scope
+                or row['entity_id'] not in {surface.entity_id, self.app.runtime.identity_id}
+                or not observation or not RecordService(self.app.runtime.store).current_support(observation[0])):
+            raise CoreError('QQ_MEDIA_ORIGINAL_SOURCE_REQUIRED')
+        if type(data) is not bytes or not 1 <= len(data) <= 8192 or hashlib.sha256(data).hexdigest() != selection.content_sha256:
+            raise CoreError('QQ_MEDIA_SOURCE_BYTES_MISMATCH')
+        entry[1].put((data,), source_ref=source_memory_id, media_type='image')
+        resolve_image(self.app.runtime.store, entry[1], selection)
+        return {'source_memory_id': source_memory_id, 'content_sha256': selection.content_sha256,
+                'bytes_cached': len(data), 'execution_authority': False}
+
     def qq(self, channel_id, message_id):
         channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
         if len(channels) != 1:
