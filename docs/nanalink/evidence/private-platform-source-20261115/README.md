@@ -21,3 +21,9 @@ QQ 媒体只新增原 RealizationTarget 的可选版本化媒体选择，旧无�
 BFF 后继：当宿主配置版本变化且原 Store 有平台来源，Nana Space 只读投影先通过原 UDS 请求 owner 隐私安全点；owner 不可用或配置持续竞争时安全失败。实际 owned HTTP 测试在 owner 在线时撤销私人读取，先模拟安全点不可用并得到503且不返回来源，再恢复 owner 验证原记忆 DELETED、后续对话不可引用。此结果针对合成输入和测试控制路径；平台取消关注、删除的可信变更信号仍未实现。
 
 隔离回退补验：在含 A `fee8f42` 增量的开发工作树，新 owner 先保存并通过原 forget 撤回一条合成 PERSONAL 来源，关闭 owner 后用 `da752a7030cd9ba4d6a657720b762020a49242f5` 的独立 Git 归档重新打开同一临时 Store。旧 reader 成功启动、主体 identity 一致，原记忆行保持 DELETED，直接读取返回 MEMORY_UNAVAILABLE；过程未访问真实账号或发送。入口 `tools/nanalink_rollback_qualification.py --old-source <已核对旧源码目录>`；该测试不覆盖任意旧包、全量历史重放、恢复备份或生产数据。
+
+### 后继 OneBot 图片与固定源码构建
+
+源码 `dadb4f695d3d9d9122fc56df96576cb14df5600b` 的 GitHub Actions `43729822645` source job 全部步骤通过。受控原 C、原 Manager/Grant/Kernel、独立 owned OneBot WS 侧车与假平台覆盖图片一次尝试、ACK 与丢 ACK 保持 UNKNOWN、重复调度不重发、撤回（含账号检查期间）和缺 Grant 不发送；这不是实际 QQ 账号联调。后继额外使用新端口实例调用原 Kernel recovery，UNKNOWN 不产生第二次请求；该测试不等同跨进程重启。
+
+对 `dadb4f6` Git 归档使用该提交时间作为 `SOURCE_DATE_EPOCH`，在既有独立构建环境 `--no-build-isolation --no-index --no-deps` 构建两次 wheel，SHA256 均 `a013236207c2a71a27a8e5de42aebc8f264731aed41f984a9feb44f48c559097`。`--no-index --no-deps` 安装至隔离 target 后，309 个 Python 文件与归档逐一一致；从 `/tmp` 指向该安装运行配置 `--check`，返回 `NANALINK_CONFIG_VALID; no account or network accessed`。构建依赖来自已准备环境；并非全依赖离线封装或生产安装资格。APK/Web 输入相对 `80e1145` 无差异，已有 debug APK 仍按原输入标识。

@@ -158,6 +158,16 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scena
             assert platform['sent'][0]['message'][1]['type'] == 'image'
             assert service.dispatch(cycle.intention_id, action, expected_revision=1) == 'UNKNOWN'
             assert len(platform['sent']) == 1
+            if scenario == 'lost-ack':
+                from nana_core.life.platform_bridge import QQCapabilityPort, QQGovernedDelivery
+                fresh_connection = OneBotHTTPTransport(net['endpoint'], '42',
+                    credential=SecretReference(resolver, 'core.test'), authorized=True, realm='SYNTHETIC_LOOPBACK')
+                fresh_port = QQCapabilityPort(r.store, fresh_connection, {target.resource: ('private', '43')},
+                    host_enabled=True, delivery=port.delivery, media_cache=cache)
+                recovered = QQGovernedDelivery(fresh_port, r.authority, host_enabled=True)
+                assert recovered.kernel.recover()[action] == 'UNKNOWN'
+                assert recovered.kernel.run(action) == 'UNKNOWN'
+                assert fresh_connection.calls == 0 and len(platform['sent']) == 1
         cache.close()
     if scenario not in {'revoked', 'during-login'}:
         MemoryService(r.store, r.authority).forget(mid, r.authority)
