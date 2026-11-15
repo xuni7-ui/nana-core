@@ -3809,3 +3809,13 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-16 CST｜NEXT_EXPERIENCE A吸收PR14 B-d409共享预设/目录累积等待与Native remaining limit，正常双亲merge保留双方历史及A当前09/C-D-G/echo/错误码/权限预算。31目录/79认证HTTP/TS-Vite99单测/28四视口，首失败完整保留；无实际Provider/手机/生产或新包APK/CURRENT。新用户全局兼容/视觉任务入原task_inputs/08；下一评PR17与PR18新来源契约，B视觉/NanaLink平台不抢占。
 
 - 同一240集成末次：旧A通过而B候选清空VISION用途的实际浏览器回退已修；末次16影响视口/TS-Vite，兼容端不足256仍有后续不误报full（原2fail1pass→目录34pass7.33s），旧类型名保留别名。资格分列，不重叠加数，不重包/APK。
+
+### 2026-11-13 · B 不变Provider配置解析复用候选
+
+[源码/实测] NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY，S1-C04/S5-C03 Advanced支持。独立基线b016e6c；18行LRU4精确字节解析复用，不缓存文件信任/授权/secret_state/CAS，自定义文档走旧链，无主体语义改写。每侧240次本地合成状态投影：1/1中位0.116→0.032ms，64/256为4.619→0.732ms；4大配置Python跟踪保留2.34MB非RSS。冷miss无收益且两次P95退化如实保留，不称Token/聊天优化。89相关通过、环境缺PIL2失败→按requirements补12.3后原媒体3路径通过；新增8边界回归在相关组通过。原MISSING测试拼写首错保留。证据provider-config-parse-cache-20261113，源码锚dd3ebb81117e6ca769d4d5743e7e1ae66be3e8566ec00e55e510adfb58b8c598。小范围供A评估候选，未主线集成/部署；下一按真实工作负载判断采纳并继续普通配置连接体验，不扩大缓存系统。
+
+[2026-11-13 B候选接续] 正常合入A6655a28资源暂停恢复；A原完整账本前缀保留，Provider配置源/定向测试/实验指纹不变，复用b016上的验证，不扩大回归/发行。
+
+[2026-11-13 B批次对齐] 最新核对A45e7432仅原主体topic appraisal；正常合并保留A账本前缀，B Provider解析源码/实验/测试指纹不变，仅provider_config.py有18行基础设施差额，复用相关验证。
+
+- 2026-11-16 CST｜revision241：A从5d/Brain240正常集成B30459/PR17，仅18行精确字节LRU4复用不可变配置解析；原文件信任/256KiB/CAS/动态凭据/自定义验证保持。166相关32.10s，固定5d原函数同8/32实际provider_status各240次中位.598→.117ms，只有本地CPU收益；B两次冷miss P95退化/约2.34MB四大文档Python跟踪保留如实继承，非真实Token/聊天加速。见evidence/provider-parse-integration-20261115/README.md。PR14/17已吸收，下一审PR18-6645fd0来源/撤回/旧reader/清单，复用NanaLink平台和B视觉成果；原Core自主生活/S8/原A–H继续，CURRENT与fee8候选不变。 指纹锚992a3e564797c8ab9259e36ff74f3f975578676874c1850d55a218df029ab84e。

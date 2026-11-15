@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/nana-pr17-baseline.py", line 15, in <module>
+    result=bench.comparison(lambda:bench.baseline_status(home),lambda:bench.provider_status(home,None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tools/nana_next_experience/experiments/provider_config_cache.py", line 73, in comparison
+    assert old()==new();new() # Both file/OS caches warm; candidate parse warm.
+                  ^^^^^
+  File "/workspace/nana-pr17-baseline.py", line 15, in <lambda>
+    result=bench.comparison(lambda:bench.baseline_status(home),lambda:bench.provider_status(home,None))
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: provider_status() takes 1 positional argument but 2 were given

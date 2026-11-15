@@ -1,0 +1,164 @@
+{
+  "baseline_commit": "b016e6c79b29cc3e02848a8dbc9780a077846efc",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "cases": [
+    {
+      "providers": 1,
+      "models": 1,
+      "document_bytes": 1029,
+      "load_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.0645335,
+          "wall_p95_ms": 0.170147,
+          "cpu_mean_ms": 0.08270237083333333
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.006380500000000001,
+          "wall_p95_ms": 0.012246,
+          "cpu_mean_ms": 0.009746795833333334
+        }
+      },
+      "status_projection_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.116183,
+          "wall_p95_ms": 0.226871,
+          "cpu_mean_ms": 0.136863925
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.031642,
+          "wall_p95_ms": 0.087478,
+          "cpu_mean_ms": 0.041500095833333334
+        }
+      },
+      "load_forced_miss": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.061712,
+          "wall_p95_ms": 0.087532,
+          "cpu_mean_ms": 0.06652700833333333
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.0652635,
+          "wall_p95_ms": 0.116251,
+          "cpu_mean_ms": 0.07523337916666667
+        }
+      },
+      "single_entry_python_traced_retained_bytes": 6864,
+      "single_entry_python_traced_peak_bytes": 267654
+    },
+    {
+      "providers": 8,
+      "models": 32,
+      "document_bytes": 14470,
+      "load_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.492356,
+          "wall_p95_ms": 0.818445,
+          "cpu_mean_ms": 0.5506423083333334
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.010307,
+          "wall_p95_ms": 0.013869,
+          "cpu_mean_ms": 0.012426650000000001
+        }
+      },
+      "status_projection_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.6363025,
+          "wall_p95_ms": 0.850274,
+          "cpu_mean_ms": 0.6678739875
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.1072455,
+          "wall_p95_ms": 0.154476,
+          "cpu_mean_ms": 0.11813095833333334
+        }
+      },
+      "load_forced_miss": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 0.48582749999999997,
+          "wall_p95_ms": 0.732832,
+          "cpu_mean_ms": 0.5278291583333333
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.4852405,
+          "wall_p95_ms": 0.646955,
+          "cpu_mean_ms": 0.5137368250000001
+        }
+      },
+      "single_entry_python_traced_retained_bytes": 75771,
+      "single_entry_python_traced_peak_bytes": 267654
+    },
+    {
+      "providers": 64,
+      "models": 256,
+      "document_bytes": 114336,
+      "load_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 3.748855,
+          "wall_p95_ms": 4.512848,
+          "cpu_mean_ms": 4.0396206625
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.038504,
+          "wall_p95_ms": 0.054765,
+          "cpu_mean_ms": 0.042563775
+        }
+      },
+      "status_projection_warm": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 4.619189499999999,
+          "wall_p95_ms": 5.705068,
+          "cpu_mean_ms": 5.044344275
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 0.732322,
+          "wall_p95_ms": 1.065431,
+          "cpu_mean_ms": 1.0186928541666667
+        }
+      },
+      "load_forced_miss": {
+        "baseline": {
+          "n": 240,
+          "wall_median_ms": 3.8065670000000003,
+          "wall_p95_ms": 5.184504,
+          "cpu_mean_ms": 4.2099406041666665
+        },
+        "candidate": {
+          "n": 240,
+          "wall_median_ms": 3.790494,
+          "wall_p95_ms": 6.870818,
+          "cpu_mean_ms": 4.1601896499999995
+        }
+      },
+      "single_entry_python_traced_retained_bytes": 584763,
+      "single_entry_python_traced_peak_bytes": 718932
+    }
+  ],
+  "measurement": "local synchronous reads; alternating 6x40 calls per arm; OS caches warm; exact DTO/projection equality asserted",
+  "scope": "synthetic host configs; no model/HTTP/Token/billing measurement; traced Python memory is not RSS",
+  "cold_control": "forced parse miss clears previous cache on every candidate call (including clear overhead); file/OS caches still warm",
+  "four_max_schema_entries_python_traced_retained_bytes": 2338373,
+  "four_entry_cache_info": {
+    "hits": 0,
+    "misses": 4,
+    "maxsize": 4,
+    "currsize": 4
+  }
+}

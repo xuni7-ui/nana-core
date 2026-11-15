@@ -1,10 +1,6 @@
-## 当前接续：PR14产品成果进入原A主线，revision240
+## 当前接续：PR17配置解析进入现役消费者，revision241
 
-A从45b/Brain239正常集成B-d409/PR14，采用预设共用、真实协议、多批目录合并/失败保留/实际等待，Native remaining limit防跳未展示ID。保留A当前09/C-D-G-Store及after_id echo/旧桥核验、错误码、CSRF/Vault/CAS/预算；server与Java重复实现沿A，不覆盖旧版。原4目录冲突与98pass1等待语义差额均保留并明确收口，末次34目录/之前79实际本地认证BFF、最终TS/Vite/99单测/先前28视口及末次影响16视口分别通过。可选等待提示异常沿B降为未知/保留已读，真实服务端节流不改，无自动请求/Token推理。见evidence/product-branch-integration-20261115/README.md。
-
-最新用户全局兼容/视觉增补已写task_inputs/GLOBAL_COMPATIBILITY_VISUAL_FUSION_AND_DELIVERY_2026_11_16.md及08；A只接原Core/集成，B两仓算法研究与NanaLink平台各自主责。下一评PR17 draft30459c5（18行parse复用）实际冷热/内存/信任数据后采用或终止；对接PR18固定可见6645fd0的新来源/撤回/旧reader/最小Runtime清单，近期有更新，不推断未提交内容。原S1–S10/内心/S8/原A–H仍最高优先继承。Fee8已资格候选不含239/240后继，不重包APK/CURRENT；真实模型/手机/生产/自然度/实际长期仍未新增资格。
-
-末次还修正同协议模型选择清空用户VISION意向的B候选回退（旧A同用例通过/候选失败/新四视口通过）；兼容端显式未完或未知完成标记不谎报完整，保留手填且不猜cursor。源兼容别名保留。
+A从5d/Brain240正常集成B30459/PR17，仅18行精确字节LRU4复用不可变配置解析；原文件信任/256KiB/CAS/动态凭据/自定义验证保持。166相关32.10s，固定5d原函数同8/32实际provider_status各240次中位.598→.117ms，只有本地CPU收益；B两次冷miss P95退化/约2.34MB四大文档Python跟踪保留如实继承，非真实Token/聊天加速。见evidence/provider-parse-integration-20261115/README.md。PR14/17已吸收，下一审PR18-6645fd0来源/撤回/旧reader/清单，复用NanaLink平台和B视觉成果；原Core自主生活/S8/原A–H继续，CURRENT与fee8候选不变。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

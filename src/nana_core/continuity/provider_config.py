@@ -4,6 +4,7 @@ No secret values, Store, model discovery or environmental credential lookup.
 """
 
 import fcntl, ipaddress, json, os, re, stat, tempfile
+from functools import lru_cache
 from pathlib import Path
 from typing import Literal, Protocol
 from urllib.parse import urlsplit, urlunsplit
@@ -243,6 +244,19 @@ class ProviderCommand(ConfigDTO):
         return self
 
 
+@lru_cache(maxsize=4)
+def _validated_configuration(raw):
+    """Reuse immutable host config parsing, never file checks or runtime grants.
+
+    Exact bytes invalidate immediately, including same-size/same-mtime edits.
+    Four entries bound retention across host instances/revisions. The schema
+    has no credential-value or Subject record fields.
+    """
+    from .privacy import _json_object
+
+    return ProviderConfiguration.model_validate_json(canonical(json.loads(raw, object_pairs_hook=_json_object)))
+
+
 class ProviderConfigService:
     """A single host JSON document; flock+CAS+atomic replace, no Subject writes."""
 
@@ -273,6 +287,10 @@ class ProviderConfigService:
                 raw = f.read(262145)
             if len(raw) > 262144:
                 raise ValueError()
+            if self.document_type is ProviderConfiguration:
+                return _validated_configuration(raw)
+            # Custom document validators may depend on external state. Preserve
+            # their original per-read validation rather than caching subclasses.
             from .privacy import _json_object
 
             obj = json.loads(raw, object_pairs_hook=_json_object)

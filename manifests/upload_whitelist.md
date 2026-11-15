@@ -161,3 +161,11 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 ## 2026-11-13 · B 目录等待提示
 
 持续授权范围：catalog-wait-20261113/{README.md,source-sha256.json}及指纹中6份源码/测试；CODEX_B_QUEUE.md、09/11追加、本清单。沿用原凭据/10秒节流，无真实Key/私史/依赖/构建产物。
+
+## 2026-11-13 · B Provider配置解析复用候选
+
+用户持续开发/提交/推送/PR授权：provider-config-parse-cache-20261113/{README.md,benchmark.json,cold-control-repeat.json,first-failures.txt,validation.txt,source-sha256.json}，其指纹3份原创源码/测试/本地实验；09/11仅追加及本白名单。无第三方复制/真实凭据/私史/依赖/构建产物。
+
+## 2026-11-16 A采用PR17
+
+B30459原12份文件正常合并，A保留当前09/双方11与既有白名单；另09/10/11、ACTIVE/STATUS/CODEX_B_QUEUE、本白名单及evidence/provider-parse-integration-20261115/内原创对照工具/原合成日志/指纹。无私有数据/凭据/第三方复制/二进制/运行配置。

@@ -1,0 +1,24 @@
+{
+  "baseline": "5d4457e5551aaf6fdbe5e34c4fa7045d1b7b1478",
+  "candidate": "30459c54564c3e246d92e1c8e97f2ec2df4b9409",
+  "input_bytes": 14470,
+  "providers": 8,
+  "models": 32,
+  "comparison": {
+    "baseline": {
+      "n": 240,
+      "wall_median_ms": 0.598376,
+      "wall_p95_ms": 0.775142,
+      "cpu_mean_ms": 0.6253452291666667
+    },
+    "candidate": {
+      "n": 240,
+      "wall_median_ms": 0.116817,
+      "wall_p95_ms": 0.195252,
+      "cpu_mean_ms": 0.13226924166666668
+    }
+  },
+  "network_calls": 0,
+  "model_calls": 0,
+  "actual_provider_tokens": null
+}

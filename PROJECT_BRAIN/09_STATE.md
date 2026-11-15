@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 240,
-  "as_of_us": 1794760624737880,
+  "revision": 241,
+  "as_of_us": 1794761365562113,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -16,7 +16,7 @@
     "原G16/32保留；首次可选学习/目录79联调153相关；现无旧private origin的G后来实际成功→宿主/正常D→同C新私问，重启后新cue LEARN/投影消融IGNORE，后一步0模型/不新Gjob；57项及新增闭包2过，其他私活动保留、撤回失效，仅受控。",
     "失败/截断/拒绝响应已报告Token沿原数字receipt计量，不接受正文或退款；无响应/坏usage保持未知，原生含cache。精确3fe旧9fail20pass→29pass7.25s，161相关36.70s，来源撤回/重启/UNKNOWN后新请求有效；fixture非真实Token/费用。",
     "fee8/Brain237匹配285文件Core双构建3b7e2d9e…/Web251bb84b…编译93单测；delivery4cb88e1归档、真实GitHub新克隆13文件摘要一致、两槽离线安装BFF/G/虚拟72h、安装16/152模块及停机fee8-929-fee8通过。CI291仅targeted109.17s；CURRENT266+409不动。",
-    "A45b/239集成PR14 B-d409：共享预设/真实协议/多批保留/冷却，Native remaining limit/兼容端partial诚实；保留A echo/权限预算与明确VISION用途。末34目录/前79认证BFF、TS-Vite99单测、前28视口/末影响16分别通过；C-D-G-Store不变，真实0/无新APK。",
+    "PR14已集成；现A采用PR17 B30459：18行LRU4精确字节不可变parse，原文件信任/CAS/动态凭据每次检查。当前固定5d原函数→真实状态投影8/32各240次，中位.598→.117ms；166相关32.10s。冷miss尾差/内存限制保留，非聊天Token/新包资格。",
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "原literal两码点Native1k/10k/100k资格及74相关保留；现原维护分片/周回看可补完整旧gram缺End键，只加1键/笔记。精确fee8旧2fail2pass→4通过/64相关27.24s，正常D前台优先1通过；每片2来源、重启游标/3类隔离/0认知账项动作，原源头不改，无新scanner。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "新用户兼容/视觉增补已入原task_inputs与08，A职责继续。下一评PR17 draft30459c5的18行parse cache冷热/内存/信任回归并定结局；对接近期更新PR18-6645fd0新来源/撤回/reader/清单，不抢B视觉或平台未提交工作。240非匹配新安装/全仓/生产，原A–H继续。"
+    "新用户兼容/视觉增补归原A–H；PR14/17已吸收，下一审PR18固定6645fd0新来源/撤回/旧reader/最小清单与现役S5消费者。NanaLink近期更新，不能猜其未提交状态；B视觉算法不重复实现。241非匹配新安装/全仓/生产。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/provider-parse-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/product-branch-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/note-end-bounded-maintenance-20261115/README.md",
     "docs/nana_next_experience/evidence/matched-portable-fee8f42-20261115/README.md",
     "docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/README.md",
     "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md",
     "docs/nana_next_experience/evidence/need-causal-populations-20261115/README.md",
-    "docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/README.md",
-    "docs/nana_next_experience/evidence/literal-two-prefix-20261115/README.md"
+    "docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

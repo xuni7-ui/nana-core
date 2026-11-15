@@ -1,0 +1,6 @@
+PYTHONPATH=src:. python -m pytest tests/provider_routing tests/first_life_android_v2/test_provider_models.py tests/first_life_android_v2/test_provider_runtime_settings.py -q
+2 failed, 89 passed in 34.42s; two failures missing PIL; original trace first-failures.txt
+Prerequisite installed only in scratch venv, pinned to requirements.txt Pillow==12.3.0; system ffmpeg available.
+PYTHONPATH=src:. python -m pytest tests/provider_routing/test_ports.py -k original_openai_transport_native_loopback_config_to_h1 -q
+...                                                                      [100%]
+3 passed, 2 deselected in 2.31s
