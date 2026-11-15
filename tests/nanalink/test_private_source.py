@@ -111,14 +111,16 @@ def test_private_platform_source_recalled_in_qq_and_phone_and_withdrawn(tmp_path
     from tests.independent_life.test_dialogue import relay
     from tests.living_release_v4.test_platform_runtime import equip
     from nana_core.life.platform_runtime import QQChannelBinding, SecretReference
-    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
+    import time
+    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock(now_us=time.time_ns()//1000)
     bili=SurfaceBinding(binding_id='bili.private',platform='bilibili.account',adapter='bilibili.account',surface='chat.direct',
        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',),allow_personal_retention=True,personal_retention_consent_ref='consent.fixture')
     qq=SurfaceBinding(binding_id='qq.private',platform='qq.onebot',adapter='qq.onebot',surface='chat.direct',
        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',))
+    mobile=SurfaceBinding(binding_id='nana.space',platform='nana.space',adapter='nana-space.gateway',surface='chat.direct',permitted_privacy=('PERSONAL','PROJECT','PUBLIC'))
     channel=BilibiliChannelBinding(channel_id='bili',binding_id=bili.binding_id,account_id=42,target_id=43,sender_id=43,
        cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
-    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(bili,qq),'bilibili_channels':(channel,)}),expected_revision=cfg.revision)
+    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(bili,qq,mobile),'bilibili_channels':(channel,)}),expected_revision=cfg.revision)
     account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
     item={'id_str':'123','modules':{'module_author':{'mid':7654321,'pub_ts':1},'module_dynamic':{'desc':{'text':'Synthetic ORCHID video observation'}}}}
     event=normalize_dynamic(account,item,now_us=clock.utc_now_us(),origin='SYNTHETIC_LOOPBACK')
@@ -133,8 +135,42 @@ def test_private_platform_source_recalled_in_qq_and_phone_and_withdrawn(tmp_path
         assert mid in calls[-1]['source_context_refs']
         assert 'PRIVATE_PLATFORM_OBSERVATION_NOT_USER_INSTRUCTION' in str(calls[-1])
         assert '7654321' in str(calls[-1])
-        app.chat('ORCHID synthetic phone follow-up',privacy='PERSONAL',message_id='phone-fixture')
-        assert mid in calls[-1]['source_context_refs'] and app.runtime.identity_id==identity
+        # Same live owner/Store: real Nana Space HTTP and UDS, fixture transport.
+        import threading, time
+        from types import SimpleNamespace
+        from nana_core.life.control import ControlServer
+        from nana_core.life.live_api.supervisor import existing_identity
+        from nana_core.life.live_api.contracts import Binding, Role
+        from nana_core.life.live_api.auth import AuthService
+        from nana_core.life.live_api.bridge import GatewayService
+        from nana_core.life.live_api.server import ApiServer
+        from tests.first_life_android_v2.test_http_integration import http,login,base,ORIGIN,PW
+        _,lineage,_=existing_identity(home)
+        binding=Binding(subject_id=identity,lineage_binding=lineage,privacy=('PUBLIC','PROJECT','PERSONAL'))
+        epoch=app.runtime.lease.epoch
+        supervisor=SimpleNamespace(home=home,binding=binding,provider_live_authorized=False,
+            status=lambda:{'owner_epoch':epoch,'process_ready':True,'source_commit':'a'*40},verify_binding=lambda:None)
+        service=GatewayService(supervisor,AuthService(tmp_path/'auth.json',password=PW,roles=tuple(Role)),tmp_path/'gateway')
+        server=ApiServer(('127.0.0.1',0),service,public_origin=ORIGIN)
+        server_thread=threading.Thread(target=server.serve_forever,daemon=True);server_thread.start()
+        result={};done=threading.Event()
+        def phone():
+            try:
+                headers=login(server,service)
+                result['value']=http(server,'messages','POST',{**base(service,'phone-fixture'),
+                    'text':'ORCHID synthetic phone follow-up','privacy_class':'PERSONAL'},headers)
+            finally:
+                done.set()
+        try:
+            with ControlServer(app) as control:
+                thread=threading.Thread(target=phone,daemon=True);thread.start();deadline=time.monotonic()+10
+                while not done.is_set() and time.monotonic()<deadline:
+                    control.poll();time.sleep(.005)
+                thread.join(1)
+                assert done.is_set() and result['value'][1]['data']['state']=='VERIFIED',result
+            assert mid in calls[-1]['source_context_refs'] and app.runtime.identity_id==identity
+        finally:
+            server.shutdown();server_thread.join(3);server.server_close()
         app.chat('ORCHID project context',privacy='PROJECT',message_id='project-fixture')
         assert mid not in calls[-1]['source_context_refs']
         bridge.withdraw(event)

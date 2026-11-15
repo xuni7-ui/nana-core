@@ -11,3 +11,5 @@ QQ 媒体只新增原 RealizationTarget 的可选版本化媒体选择，旧无�
 2026-11-15 后继：继承 A `b6a9eaa`；真实来源入库必须来自 owner 已验证账号的读取批次，单纯提供平台事件不能获得写入资格。若已记录动态的内容发生变化，同一 ID 的旧来源会被撤回，当前不会自动重新导入更新内容；页中其他来源继续处理。受控 owned HTTP 覆盖编辑后旧来源删除，未覆盖平台删除/取消关注信号。`infrastructure-after-align.json` 是合成 2000 入队及2000重复、容量64的单次测量，CPU 0.07685ms/入队、RSS 26620KiB，真实网络/模型/Token均为0，不代表真实有效认知成本。
 
 2026-11-15 跨渠道受控后继：同一原 SubjectLoop/Store 接纳合成 B站私人观察；随后 owned OneBot 私聊基于原有精确检索取得该来源，原 Kernel 的独立回读确认一次合成发送；模拟手机后续对话直接调用原 Core 对话入口并取得来源，尚未经过 Nana Space HTTP/Android 路由。B站作者 ID 与 QQ 联系人 ID 不同，未推断跨平台身份。PROJECT 隐私上下文及撤回后的 PERSONAL 对话不能取得该来源。检索最多从原 Store 有界候选选择4条，来源标识为私人平台观察、非用户指令，不允许执行权；大库召回完整性未资格。合成模型和 owned HTTP 不是上线或自然度评审。新源素材由明确保留授权进入记忆，尚未证明原 C 自主决定保留每条动态。
+
+后续补正：已在一个 owned 进程/原 Store/SubjectLoop 中依次接收合成 B站来源、执行 QQ 原 Kernel 动作并独立回读，再经 Nana Space 实际 HTTP 与原 UDS 输入同一 Core；模型上下文引用原 PERSONAL 来源且标明其为平台观察，不凭不同平台对象 ID 推断身份。另一个实际 HTTP/UDS 场景验证 PROJECT 私域隔离及原 forget 后不再引用，且保留同一主体身份。均为合成来源、loopback 模型和 owned 网络；不是 Android 实机、真实账号或自然度验收。首次组合测试暴露虚拟时钟与 IPC 租约不一致，校准后通过；不将夹具错误归为生产修复。
