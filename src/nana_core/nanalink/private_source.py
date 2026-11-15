@@ -10,10 +10,13 @@ from ..continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, M
 from ..continuity.memory import MemoryService
 from .contracts import Account, Event
 
+# In-process owner capability; no event body or caller-supplied flag grants it.
+_VERIFIED_POLL = object()
+
 
 class PlatformObservationAuthority:
-    def __init__(self, app, channel_id, event):
-        self.app, self.channel_id, self.event = app, channel_id, event
+    def __init__(self, app, channel_id, event, admission):
+        self.app, self.channel_id, self.event, self.admission = app, channel_id, event, admission
 
     def permits(self, store, candidate):
         try:
@@ -34,7 +37,11 @@ class PlatformObservationAuthority:
                     or not binding.personal_retention_consent_ref or 'PERSONAL' not in binding.permitted_privacy
                     or binding.platform != 'bilibili.account' or binding.mode != 'PLATFORM_ADAPTER_NO_SEND'):
                 return False
+            if e.origin == 'SYNTHETIC_LOOPBACK' and channel.activation is not None:
+                return False
             if e.origin != 'SYNTHETIC_LOOPBACK':
+                if self.admission is not _VERIFIED_POLL:
+                    return False
                 from ..life.platform_authority import require_platform_authority
                 require_platform_authority(app,channel.activation,channel='bilibili',exclusive_writer=False,
                                            account_id=channel.account_id)
@@ -58,7 +65,7 @@ class PrivateDynamicBridge:
     def __init__(self, app, channel_id):
         self.app,self.channel_id=app,channel_id
 
-    def receive(self,event):
+    def receive(self,event,*,_admission=None):
         from ..continuity.subject.contracts import SubjectInput
         from ..continuity.extensions import SurfaceEnvelope
         from ..continuity.surfaces import source_key
@@ -68,7 +75,7 @@ class PrivateDynamicBridge:
         if channel is None:
             raise CoreError('PLATFORM_OBSERVATION_NOT_AUTHORIZED')
         binding=app.surfaces._binding(channel.binding_id)
-        authority=PlatformObservationAuthority(app,self.channel_id,event)
+        authority=PlatformObservationAuthority(app,self.channel_id,event,_admission)
         ref='dynamic:'+event.key
         previous=store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",
                                   ('recorded.platform.bilibili.dynamic',ref)).fetchone()
@@ -99,6 +106,9 @@ class PrivateDynamicBridge:
 
     def withdraw(self, event):
         """Use the ORIGINAL deletion closure; stable source remains tombstoned."""
+        channel=next((c for c in self.app.config.bilibili_channels if c.channel_id==self.channel_id),None)
+        if channel is None or type(event) is not Event or event.account != Account(platform='bilibili',adapter_id='bilibili.account',account_id=str(channel.account_id)):
+            raise CoreError('PLATFORM_OBSERVATION_NOT_AUTHORIZED')
         ref='dynamic:'+event.key
         row=self.app.runtime.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace=? AND e.source_reference=? AND m.lifecycle!='DELETED'",
              ('recorded.platform.bilibili.dynamic',ref)).fetchone()
@@ -128,18 +138,21 @@ def poll_dynamics(workflow):
         raise CoreError('BILIBILI_DYNAMIC_HOURLY_CEILING')
     reserve_inbound_read(workflow.realization.kernel,2,'bilibili',source,reservation)
     workflow.transport.calls=0;workflow.transport.account();rows=workflow.transport.dynamic_rows()
-    bridge=PrivateDynamicBridge(app,c.channel_id);admitted=0;retired=0
+    bridge=PrivateDynamicBridge(app,c.channel_id);admitted=0;retired=0;changed=0
     for row in rows:
         event=normalize_dynamic(account,row,now_us=now,origin=workflow.transport.realm)
         if event is None:
             continue
         try:
-            bridge.receive(event);admitted+=1
+            bridge.receive(event,_admission=_VERIFIED_POLL);admitted+=1
         except CoreError as exc:
+            if exc.code=='SOURCE_KEY_COLLISION':
+                bridge.withdraw(event);changed+=1
+                continue
             if exc.code not in {'SOURCE_DELETED','MEMORY_UNAVAILABLE'}:
                 raise
             retired+=1
-    return {'state':'SOURCES_QUEUED_NOT_JUDGED','observations':admitted,'retired':retired,
+    return {'state':'SOURCES_QUEUED_NOT_JUDGED','observations':admitted,'retired':retired,'changed_withdrawn':changed,
             'coverage':'LATEST_PAGE_20_NO_HISTORY_GUARANTEE','external_delivery':False,'model_calls':0}
 
 

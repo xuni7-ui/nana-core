@@ -26,6 +26,8 @@ def test_private_observation_original_memory_duplicate_restart_and_withdrawal(tm
     event=normalize_dynamic(account,row,now_us=clock.utc_now_us(),origin='SYNTHETIC_LOOPBACK')
     with LifeApplication(home,clock=clock) as app:
         app.pause();bridge=PrivateDynamicBridge(app,'bili');identity=app.runtime.identity_id
+        with pytest.raises(CoreError,match='PLATFORM_OBSERVATION_NOT_AUTHORIZED'):
+            bridge.receive(event.model_copy(update={'origin':'AUTHENTICATED_PLATFORM'}))
         result=bridge.receive(event);mid=result['memory_id']
         assert result['state']=='SOURCE_QUEUED_NOT_JUDGED'
         from nana_core.continuity.memory import MemoryService
@@ -58,7 +60,7 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
     from tests.living_release_v4.bilibili_loopback import counterpart
     from tests.nanalink.test_bilibili_notifications import notification_front
     from nana_core.nanalink.private_source import poll_dynamics
-    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
+    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock(now_us=1_791_590_699_000_000)
     binding=SurfaceBinding(binding_id='bili.private',platform='bilibili.account',adapter='bilibili.account',surface='chat.direct',
        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',),allow_personal_retention=True,personal_retention_consent_ref='consent.fixture')
     channel=BilibiliChannelBinding(channel_id='bili',binding_id=binding.binding_id,account_id=42,target_id=43,sender_id=43,
@@ -74,6 +76,12 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
         assert poll_dynamics(workflow)['state']=='ALREADY_POLLED_NO_RETRY'
         assert len(front['requests'])==2 and state['posts']==0
         assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL'").fetchone()[0]==1
+        front['dynamic']=[{**row,'modules':{**row['modules'],'module_dynamic':{'desc':{'text':'changed synthetic event'}}}}]
+        clock.advance(2_000_000)
+        changed=poll_dynamics(workflow)
+        assert changed['changed_withdrawn']==1 and changed['observations']==0
+        assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==0
+        assert state['posts']==0
 
 
 def test_revoked_retention_withdraws_original_memory_after_restart(tmp_path):
