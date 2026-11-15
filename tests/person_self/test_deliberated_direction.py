@@ -176,6 +176,10 @@ def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_a
 
 @pytest.mark.parametrize('wanted',['LEARN','REST'])
 def test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan(tmp_path,monkeypatch,wanted):
+    _run_first_learning_episode(tmp_path,monkeypatch,wanted)
+
+
+def _run_first_learning_episode(tmp_path,monkeypatch,wanted,*,reconsider=None):
     from nana_core.continuity.autonomy.private_intent import candidates
     from nana_core.continuity.subject.opportunities import OpportunityAssessment,LearningProgramRef
     from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
@@ -240,9 +244,91 @@ def test_first_learning_choice_can_use_original_g_and_change_a_different_later_k
         family=[Path(str(db)+suffix) for suffix in ('','-wal','-shm')]
         print(json.dumps({'measurement':'synthetic_first_g_resources','wanted':wanted,'wall_seconds':time.perf_counter()-wall_started,
             'parent_process_cpu_seconds':time.process_time()-cpu_started,'family_allocated_bytes':sum(p.stat().st_blocks*512 for p in family if p.exists())}))
-        if wanted=='LEARN':
+        if reconsider is None and wanted=='LEARN':
             later.forget(mid)
             assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+        if reconsider is not None:
+            from nana_core.presence.contracts import SECOND
+            clock.advance(int(later.config.activity_interval_seconds+1)*SECOND)
+            for _ in range(12):
+                later.tick()
+                if later.runtime.store.all('strategy_assessments'):break
+            assessments=later.runtime.store.all('strategy_assessments')
+            assert len(assessments)==1 and assessments[0]['verdict']=='SUCCESS'
+            assessment=assessments[0]['assessment_id']
+            baseline_private={v.intent_id:(rid,v) for rid,v in candidates(later.runtime.store,'project-work',('PROJECT','PERSONAL'))}
+            assert not any(v.category=='PRIVATE_QUESTION' for _,v in baseline_private.values())
+            actions_before=len(later.runtime.store.all('actions'));later.pause()
+    if reconsider is not None:
+        from nana_core.life.config import load_config,update_config
+        from nana_core.continuity.subject import growth_life
+        from nana_core.presence.contracts import SECOND
+        from tests.independent_life.test_dialogue import relay
+        qtext='PRIVATE_NEW_G_QUESTION_CANARY: What playful creative tools could I make with this newly checked API method?'
+        reflected=[]
+        def grow(request):
+            context=json.loads(request['context_json']);manifest=context['manifest']
+            growth=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='GROWTH_CHANGE']
+            assert not any(b['kind']=='PRIVATE_INTERNAL_STATE' for b in context['blocks'])
+            if growth:
+                assert growth[0]['assessment_id']==assessment and not growth[0].get('basis_private_record_ids')
+            reflected.append((request,growth))
+            return {'interpretation':'SYNTHETIC checked capability use can inspire a first own question', 'subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC a new question, not an observed fact or a compulsory goal',
+                'preferred_behavior':'REFLECT' if growth else 'WATCH','proposed_operations':['DRAFT'],
+                **({'private_question':{'topic':'new-api-play','question':qtext}} if growth else {})}}
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        clock.advance(601*SECOND)
+        with pytest.MonkeyPatch.context() as patch:
+            if not reconsider:patch.setattr(growth_life,'context_projection',lambda *a,**kw:None)
+            with relay(home,subject_builder=grow,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as final:
+                assert final.runtime.identity_id==identity
+                assert {v.intent_id:(rid,v) for rid,v in candidates(final.runtime.store,'project-work',('PROJECT','PERSONAL'))}==baseline_private
+                final.pause(False);final.runtime.refresh_attention()
+                for _ in range(12):final.tick()
+                all_own=candidates(final.runtime.store,'project-work',('PROJECT','PERSONAL'))
+                own=tuple((rid,v) for rid,v in all_own if v.intent_id not in baseline_private)
+                assert {v.intent_id:(rid,v) for rid,v in all_own if v.intent_id in baseline_private}==baseline_private
+                print(json.dumps({'measurement':'synthetic_first_g_new_question','projection_enabled':reconsider,'growth_self_calls':len(requests),
+                    'new_questions':len(own),'qualified_growth_projected':bool(reflected and reflected[0][1]),
+                    'input_bytes':final.runtime.store.one('cognitive_requests',requests[0]['request_id'])['input_bytes'] if requests else None}))
+                assert len(requests)==1 and bool(own)==reconsider
+                if reconsider:
+                    assert len(own)==1 and own[0][1].category=='PRIVATE_QUESTION' and own[0][1].content_summary==qtext
+                    assert own[0][1].owner_identity_id==identity and own[0][1].epistemic_status=='OWN_QUESTION_NOT_WORLD_FACT'
+                assert len(final.runtime.store.all('actions'))==actions_before
+                assert not final.runtime.store.db.execute('SELECT 1 FROM events WHERE instr(data_json,?)>0',(qtext,)).fetchone()
+                calls=len(requests);clock.advance(2*SECOND);final.runtime.lease.heartbeat();final.runtime.refresh_attention()
+                for _ in range(8):final.tick()
+                assert len(requests)==calls
+                final.pause()
+        with LifeApplication(home,clock=clock) as reopened:
+            all_own=candidates(reopened.runtime.store,'project-work',('PROJECT','PERSONAL'))
+            own=tuple((rid,v) for rid,v in all_own if v.intent_id not in baseline_private)
+            assert {v.intent_id:(rid,v) for rid,v in all_own if v.intent_id in baseline_private}==baseline_private
+            assert reopened.runtime.identity_id==identity and bool(own)==reconsider
+            r=reopened.runtime;calls_before=len(r.store.all('cognitive_requests'))
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-api-play',resource_class='ORDINARY',
+                possible_behaviors=('LEARN','REST'),opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+                learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+            future_mid=capture(r,'later-new-question-choice',cue.model_dump(mode='json'),predicate='concern.later-new-question-choice')
+            next_choice=r.subject.run(SubjectInput(source_key='synthetic.later-new-question-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+                scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(future_mid,)))
+            assert next_choice.intention.behavior==('LEARN' if reconsider else 'IGNORE')
+            assert any(m.source=='PRIVATE_INTEREST' for m in next_choice.motivations)==reconsider
+            assert len(r.store.all('cognitive_requests'))==calls_before and len(r.store.all('actions'))==actions_before
+            assert len([j for j in r.store.all('jobs') if j['work_kind']=='LEARNING'])==1
+            print(json.dumps({'measurement':'synthetic_new_question_later_choice','projection_enabled':reconsider,
+                'behavior':next_choice.intention.behavior,'new_model_calls':len(r.store.all('cognitive_requests'))-calls_before}))
+            # Original erasure must remove the G-dependent influence as well as
+            # the method; it is not permission to rewrite an unrelated thought.
+            reopened.forget(mid)
+            assert r.work.open_learning.strategy('python-api','project-work') is None
+            assert not any(v.content_summary==qtext for _,v in candidates(r.store,'project-work',('PROJECT','PERSONAL')))
+            after_withdraw=r.subject.run(SubjectInput(source_key='synthetic.later-new-question-source-withdrawn',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+                scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(future_mid,)))
+            assert after_withdraw.intention.behavior=='IGNORE' and len(r.store.all('cognitive_requests'))==calls_before
 
 
 @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
@@ -263,3 +349,8 @@ def test_first_learning_catalog_reuses_original_readonly_scope_and_current_optio
     assert view.learning_selection_optional==bool(view.learning_programs)
     assert all(set(p.model_dump(mode='json'))=={'learning_key','spec_digest','domain'} for p in view.learning_programs)
     assert r.store.db.total_changes==changes and not r.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('reconsider',[True,False],ids=['verified-growth','growth-projection-ablated'])
+def test_normal_d_checked_first_learning_use_can_form_a_new_private_question_without_an_old_private_origin(tmp_path,monkeypatch,reconsider):
+    _run_first_learning_episode(tmp_path,monkeypatch,'LEARN',reconsider=reconsider)

@@ -1,0 +1,19 @@
+.......................{"measurement": "synthetic_first_considered_activity", "behavior": "CREATE", "input_bytes": 26757, "reserved_bytes": 39046, "self_calls": 1, "budget": {"input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "retained_private_thoughts": 0, "real_provider_calls": 0, "real_actions": 0}
+.........................{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.4735287330004212, "parent_process_cpu_seconds": 0.3740637410000005, "family_allocated_bytes": 3702784}
+.{"measurement": "synthetic_first_optional_g", "wanted": "REST", "behavior": "REST", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 0, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "REST", "method": "PYTHON_TOP_DEFS", "goal_state": "FAILED", "action_states": ["SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "REST", "wall_seconds": 0.2888759380002739, "parent_process_cpu_seconds": 0.21971106700000043, "family_allocated_bytes": 2867200}
+......{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.49780543300039426, "parent_process_cpu_seconds": 0.3841419610000001, "family_allocated_bytes": 3702784}
+{"measurement": "synthetic_first_g_new_question", "projection_enabled": true, "growth_self_calls": 1, "new_questions": 1, "qualified_growth_projected": true, "input_bytes": 54276}
+{"measurement": "synthetic_new_question_later_choice", "projection_enabled": true, "behavior": "LEARN", "new_model_calls": 0}
+.{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.4862381600014487, "parent_process_cpu_seconds": 0.36910727600000026, "family_allocated_bytes": 3702784}
+{"measurement": "synthetic_first_g_new_question", "projection_enabled": false, "growth_self_calls": 1, "new_questions": 0, "qualified_growth_projected": false, "input_bytes": 55592}
+{"measurement": "synthetic_new_question_later_choice", "projection_enabled": false, "behavior": "IGNORE", "new_model_calls": 0}
+.
+57 passed in 10.17s

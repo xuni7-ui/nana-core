@@ -69,3 +69,7 @@ Retained-note lookup failures now have an original C→G practice/independent va
 ## 2026-11-15 · 首次可选学习→原G→重启后实际方法
 
 当前明确LEARN/SEEK_CAPABILITY可重新考虑低工具收益/已有替代，不必先存兴趣；原G有界只读目录也接普通LEARN机会，普通愿望可不绑定程序、原私人G精确引用要求保留。首次LEARN原G独立评价/迁移→同身份重启新材料实际AST/Goal完成；REST不学/旧方法Goal失败，后续0模型。旧4fail，最终79联调/153相关61.83s，失败首轮全存；同1SELF/新目录+308wirebytes，单例G路径+0.20s墙钟/816KiB家族分配，非真实Token/长期。见evidence/first-optional-learning-20261115。
+
+## 2026-11-15 · 无旧私念origin的成长能形成新问题并改变后来取舍
+
+原G独立评价→另一材料实际Kernel成功→宿主观察SUCCESS→正常D/同C一次SELF，新PRIVATE_QUESTION无旧private basis。重启后相同LOW/REPEATED新cue有问题LEARN、消融无问题IGNORE，后一步0模型/不新Gjob；原其他私人活动全保留，来源撤回后方法/新问题影响失效。57同文件+新增闭包两项通过，仅补现有src组合资格，不重开发，不称真实长期成长。见evidence/first-g-new-question-20261115。

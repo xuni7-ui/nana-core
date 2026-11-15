@@ -3764,3 +3764,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6自主性：原C首次当前探索/创作/思考不必先存兴趣，一条件修正、规范/风险/休息/实际权限保持。精确41d7旧7fail17pass→24pass；相关222过/2个socket路径错换短目录原2过；完整SELF请求逐字段相同/各1次，旧IGNORE→CREATE，原候选+4KiB/真实0。collect实证无重叠，不改工作流；证据first-considered-interest-20261115，CURRENT266+409与原A–H继承。
 
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8/S7：首次自主学习取舍/原G目录接普通机会，愿望可不绑定程序而私人G精确ref不变。原G独立评价→同身份重启新材料实际AST成功/REST失败，后续0调用；79联调/153相关61.83s，原首败与修复回归全保留。目录+308wirebytes/各1SELF，单例+0.20s/816KiB，真实0/CURRENT不动。前继CI478/486仅targeted；下一无旧私念的G→D新兴趣与原A–H，证据first-optional-learning-20261115。
+
+- 2026-11-15｜NEXT_EXPERIENCE S1–S4/S6/S8组合：只补原G无旧private origin→实际后来Kernel成功/宿主observer→正常D/同C新私问→再重启新cue取舍LEARN/消融IGNORE；同1成长SELF/后来0模型，其他私活动保留、撤回失效。57同文件/新增闭包2通过、首败2完整保留；不改src，不称广泛成长/上线。证据first-g-new-question-20261115，下一两码点literal隔离原型及原A–H。

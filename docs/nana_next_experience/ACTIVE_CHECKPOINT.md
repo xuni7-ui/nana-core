@@ -1,10 +1,10 @@
-## 现役revision231 — 首次可选学习接原G并影响实际后来方法
+## 现役revision232 — 原G后来成功→正常D→新私问→重启后新取舍
 
-原C当前LEARN/SEEK_CAPABILITY可重考虑LOW/REPEATED和已有替代；原G有界只读目录接普通LEARN机会，Frame仅新路径提示可暂不绑定程序，原私人G精确ref/来源与scope/privacy不改。普通愿望无ref不启动G，未新增private/稳定偏好/执行权。旧四场景4fail；联调79pass24.27s/153相关61.83s，所有首败保留（含目录缺消费者、8项过强ref回归与5夹具契约错）。见evidence/first-optional-learning-20261115/README.md。
+只补原机制组合资格，不改src：无旧private origin的首次G→另一材料实际Kernel AST成功→原宿主observer SUCCESS→正常D/同C一次SELF形成新PRIVATE_QUESTION。消融只关成长投影、同预算/机会仍一次SELF但无新问题。再重启同Store/identity，相同LOW/REPEATED新cue有问题LEARN、消融IGNORE，后一步0模型、不新Gjob；其他原私人活动完整保留。来源撤回后方法/新疑问影响失效，未重发。57同文件10.17s，随后只补撤回两项2pass3.02s，首次“整个Store应无其他私活动”夹具错误2fail保留。见evidence/first-g-new-question-20261115/README.md。
 
-实际owned HTTP1SELF→原C明确LEARN/精确当前G→原独立评价/迁移→同身份重启新批准材料实际Kernel AST/Goal完成；REST同输入预算不学/旧方法Goal失败，后来0模型、来源撤回使方法失效。新两者input49288bytes，旧48980/+308为目录提示非Token；单例G路径墙钟+0.20s/家族分配+816KiB，非P95/长期。前继41d/088独立CI478/486仅各自targeted，client/full/portable SKIP；当前真实模型/账号/手机/生产/自然度/跨日长期0，无新包APK/CURRENT，仍266+409。
+成长SELF开启54276/消融55592inputbytes是fitted上下文不同，非Token节省；初始学习各1SELF/49288bytes，Kernel/后续C run0模型，真实模型/账号/手机/生产/真人自然度/实际跨日长期0。原src仍49d6df5业务代码，未新包/APK/安装，CURRENT266+409，929候选只对自己源码。
 
-下一原G无旧private origin→后来成功→原D/同C能否自生新疑问/兴趣；先核对growth_life/正常机会基线，复用G和Source，不人为先造目标。原情感意义/多时间尺度/反例、广检索/物理隐私/Token费用超时/模型多端/最终发行及全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
+下一S2两码点短线索literal：先只读核对L3索引，隔离prefix+末端补项，尝试复用而非新增全量bigram，不动原20万库；随后内心情感多时间尺度/不同情境反证/S8更广迁移、自然交流/投递、物理隐私/真实Token费用/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
