@@ -493,3 +493,49 @@ def test_owner_caches_only_exact_current_original_image(tmp_path):
                 app.platforms.cache_qq_observed_image('primary', mid, data)
             assert not r.store.all('actions') and not r.store.all('grants')
             cache.close()
+
+
+def test_actual_qq_ingress_can_use_light_cognition_without_selecting_image(tmp_path):
+    import json
+    from nana_core.continuity.world_loop.perception import PerceptionService, PublicMediaSource
+    from nana_core.nanalink.media import MediaCache
+    from tests.person_self.test_nanalink_media_choice import picture
+    from tests.world_loop.helpers import providers
+
+    def choose(request):
+        context = json.loads(request['context_json'])
+        identity = context['manifest']
+        candidates = [json.loads(b['data_json'])['candidates'][0] for b in context['blocks'] if b['kind'] == 'MEDIA_CANDIDATES']
+        assert candidates
+        item = candidates[0]
+        return {'interpretation': 'SYNTHETIC optional picture', 'subject_cognition': {
+            'identity_id': identity['identity_id'], 'identity_revision': identity['identity_revision'],
+            'interpretation': 'SYNTHETIC consider sharing', 'proposed_operations': ['DRAFT'],
+            'memory_refs': [item['source_memory_id']], 'selected_media': item}}
+
+    with counterpart() as (url, platform):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        with relay(home, 'CHAT', context_limit=32768, subject_builder=choose) as (router, requests), \
+                LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            r = app.runtime
+            now = r.clock.utc_now_us()
+            source = PublicMediaSource(source_id='prior-picture', modality='IMAGE', origin='SYNTHETIC',
+                                       event_time_us=now, observed_time_us=now)
+            data = picture()
+            mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, source, entity_id='project-user', scope='project-work')
+            cache = MediaCache(tmp_path/'prior-cache', source_current=lambda _: True)
+            app.platforms.bind_qq_media_cache('primary', cache)
+            app.platforms.cache_qq_observed_image('primary', mid, data)
+            app.bind_provider_cognition()
+            flow = equip(app, channel, url)
+            flow.port.media_cache = cache
+            result = flow.receive('1')
+            assert result['delivery'] == 'SUCCEEDED' and result['external_delivery']
+            assert len(platform['sent']) == 1 and len(platform['sent'][0]['message']) == 1
+            assert [request['cognitive_role'] for request in requests] == ['INTERPRET', 'SOCIAL']
+            assert flow.receive('1')['delivery'] == 'SUCCEEDED' and len(platform['sent']) == 1
+            cache.close()
