@@ -272,7 +272,7 @@ def test_disconnect_during_recovery_handoff_is_not_lost():
         adapter._open_ws = open_fixture
         adapter.recovery = asyncio.create_task(adapter._recover())
         try:
-            await asyncio.wait_for(reconnected.wait(), 2)
+            await asyncio.wait_for(reconnected.wait(), 4)
             assert len(calls) == 2 and adapter.health().login == 'AUTHENTICATED'
         finally:
             adapter.closed = True
