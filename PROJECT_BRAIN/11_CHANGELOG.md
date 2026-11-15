@@ -4029,3 +4029,8 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 - 2026-11-16 CST｜revision250：原H1帧语义补原source_locator，publisher视频时间10秒与图内span0分开，模型标签仍推测。旧精确f5缺字段→最终6过3.15s/前59相关过（2夹具首错保留）及2边界过；后续正常INTERPRET确读→原Concern/C EXPLORE，重复VISION复用/来源撤回有效。每新语义+262bytes、VISION1/INTERPRET1不增阶段，非真实Token/模型质量或新成长。 后续C选择并非旧版差异证明，不宣称视频质量提升；来源/资源夹具错误分列且原守卫未改。指纹锚2e8cf9321ac8f7ff6d9f133231a5c46067bc16bca829965581711bc92fb45699。
 
 - 2026-11-16 CST｜revision251：原REPLAN复查现前模型验证目标/版本/来源，原Frame可选LEARN/REST与当前兴趣，C明确REST/CREATE不被强制复查；LEARN规范生效，原consumer按实际方向防止CREATE候选误修旧目标。旧4fail4pass→9过.75s、116相关22.69s；同身份/重放/stale前模型拒绝/Goal-job-旧Grant保持通过。精确cc8源322文件/131实际模块旧SELF拒REST→新REST，各1HTTP/同预算/request JSON+219bytes非Token，真实0。 高负荷明确LEARN旧已通过，不重计为新修复；基线导入路径/旧schema/Grant夹具错误单列。指纹锚c0298a17f6189b8007f2564cd0fd355e924b1b8343e33916f5d86e2314f0f53e。
+
+
+### C-NANALINK · 2026-11-16 · 平台视频来源与连接兼容
+
+A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限制64条，保留真实时间戳及撤回；能力状态跟随实际原视频消费者及解码器；OneBot单个畸形事件隔离、账号错配仍断开。原视频/帧、消息桥与私人来源50项通过；B视觉固定交接、真实平台及最终集成待办，详见 platform-compat-20261116。

@@ -120,3 +120,38 @@ def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(t
                 adapter=qq_adapter(QQReplyWorkflow(app,channel,transport));asyncio.run(adapter.connect())
                 assert adapter.receive_event(envelope(adapter,'1')).outcome==Outcome.UNKNOWN
                 assert len(state['sent'])==1 and len(calls)==2 and app.runtime.identity_id==identity
+
+
+def test_bilibili_video_capabilities_follow_original_installed_consumer(monkeypatch):
+    from types import SimpleNamespace
+    from nana_core.life.bilibili import BilibiliLoopbackOpener
+    from nana_core.nanalink.adapters import BilibiliEventsAdapter, bilibili_adapter
+    channel = SimpleNamespace(account_id=42, enabled=True, read_authorized=True,
+                              private_read_authorized=True, send_authorized=False)
+    app = SimpleNamespace(bilibili_life=None, config=SimpleNamespace(bilibili_life=None))
+    workflow = SimpleNamespace(channel=channel, app=app)
+    adapter = bilibili_adapter(workflow)
+    events = BilibiliEventsAdapter(workflow)
+    def availability(obj):
+        return {c.name: c.available for c in obj.capabilities()}
+    assert all(not availability(adapter)[key] for key in ('video.metadata', 'video.subtitles', 'video.frames'))
+    cfg = SimpleNamespace(enabled=True, read_authorized=True, visual_samples=True, activation=None)
+    transport = SimpleNamespace(origin='SYNTHETIC_FIXTURE', authorized=True,
+                                opener=BilibiliLoopbackOpener('http://127.0.0.1:12345'))
+    app.bilibili_life = SimpleNamespace(config=cfg, transport=transport)
+    app.config.bilibili_life = cfg
+    assert all(availability(adapter)[key] for key in ('video.metadata', 'video.subtitles', 'video.frames'))
+    assert availability(events)['video.frames']
+    from importlib import util
+    with monkeypatch.context() as patch:
+        patch.setattr(util, 'find_spec', lambda name: None)
+        assert not availability(adapter)['video.frames']
+        assert next(c.reason for c in adapter.capabilities() if c.name == 'video.frames') == 'FRAME_DECODER_UNAVAILABLE'
+    cfg.read_authorized = False
+    assert not availability(adapter)['video.metadata'] and not availability(events)['video.frames']
+    cfg.read_authorized = True
+    app.config.bilibili_life = None
+    assert not availability(adapter)['video.metadata']
+    app.config.bilibili_life = cfg
+    transport.origin = 'REAL_PLATFORM_HTTP'
+    assert not availability(adapter)['video.metadata']

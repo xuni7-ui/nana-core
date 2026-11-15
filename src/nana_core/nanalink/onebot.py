@@ -129,7 +129,7 @@ class OneBotAdapter:
         self.session = self.ws = self.reader = self.recovery = None
         self.closed = False
         self.echo = 0
-        self.metrics = dict(frames=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0)
+        self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0)
 
     def __repr__(self):
         return '<OneBotAdapter account-bound; credentials redacted>'
@@ -214,14 +214,23 @@ class OneBotAdapter:
         try:
             async for msg in ws:
                 if msg.type == aiohttp.WSMsgType.TEXT:
-                    value = decode(msg.data)
                     self.metrics['frames'] += 1
-                    if 'echo' in value:
-                        future = self.pending.get(str(value['echo']))
-                        if future and not future.done():
-                            future.set_result(value)
-                    else:
-                        self.offer(value)
+                    try:
+                        value = decode(msg.data)
+                        if 'echo' in value:
+                            future = self.pending.get(str(value['echo']))
+                            if future and not future.done():
+                                future.set_result(value)
+                        else:
+                            self.offer(value)
+                    except CoreError as exc:
+                        if exc.code in {'ONEBOT_ACCOUNT_BINDING_CHANGED', 'ONEBOT_EVENT_ID_COLLISION'}:
+                            raise
+                        self.metrics['invalid_events'] += 1
+                        self._health = self._health.model_copy(update={'error': 'INVALID_EVENT_DROPPED'})
+                    except (TypeError, ValueError):
+                        self.metrics['invalid_events'] += 1
+                        self._health = self._health.model_copy(update={'error': 'INVALID_EVENT_DROPPED'})
                 elif msg.type == aiohttp.WSMsgType.ERROR:
                     break
         except Exception:
@@ -232,6 +241,10 @@ class OneBotAdapter:
                 for future in tuple(self.pending.values()):
                     if not future.done():
                         future.set_exception(CoreError('ONEBOT_COMPLETION_UNKNOWN_NO_RETRY'))
+                try:
+                    await asyncio.wait_for(ws.close(), 2)
+                except (TimeoutError, OSError):
+                    pass
                 if not self.closed and self.mode == 'websocket' and self.recovery is None:
                     self.recovery = asyncio.create_task(self._recover())
 

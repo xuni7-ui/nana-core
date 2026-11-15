@@ -1,8 +1,8 @@
 """Bounded Bilibili subscription observations, with no private memory writes.
 
 The caller owns the explicitly authorized account reader and its original
-budget. C cannot persist PERSONAL source observations until the original
-MemoryService gains an approved platform-source contract.
+budget. This normalizer does not itself persist private observations; the
+existing consented-platform bridge performs authorization and source capture.
 """
 import re
 from ..life.bilibili import plain
