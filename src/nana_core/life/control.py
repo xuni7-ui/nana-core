@@ -71,6 +71,9 @@ def dispatch(app, request, *, observed_at_us=None, respond_to=()):
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op=='platform-privacy-safe-point' and set(request)=={'operation'}:
+        app.runtime.store.ensure_privacy_current()
+        return {'state':'CURRENT'}
     if op=='bilibili-dynamics' and set(request)=={'operation','channel_id'}:
         if type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id']):
             raise CoreError('BILIBILI_TYPED_CHANNEL_REQUIRED')

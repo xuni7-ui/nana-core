@@ -195,6 +195,7 @@ class DeliberationFrame(DTO):
     behavior_options:tuple[Behavior,...]=Field(default=(),max_length=8)
     learning_programs:tuple[LearningProgramOption,...]=Field(default=(),max_length=16)
     learning_selection_optional:Literal[True]|None=None
+    experience_need:ExperienceNeed|None=None
 
     @model_serializer(mode='wrap')
     def compatible_options(self,handler):
@@ -202,6 +203,7 @@ class DeliberationFrame(DTO):
         if not self.behavior_options:result.pop('behavior_options',None)
         if not self.learning_programs:result.pop('learning_programs',None)
         if self.learning_selection_optional is None:result.pop('learning_selection_optional',None)
+        if self.experience_need is None:result.pop('experience_need',None)
         return result
 
 

@@ -51,8 +51,30 @@ def test_phone_http_original_owner_receives_private_sourced_continuity(tmp_path)
             project=http(server,'messages','POST',{**base(service,'phone.project'),'text':'Synthetic ORCHID project follow-up','privacy_class':'PROJECT'},headers)
             assert project[0]==200 and project[1]['data']['state']=='VERIFIED',project
             assert mid not in calls[-1]['source_context_refs']
-            from nana_core.life.control import request
-            assert request(home,{'operation':'forget','memory_id':mid})['ok']
+            # Change host consent while the owner is running. The BFF's
+            # independent read-only projection must first fence through owner.
+            current=load_config(home)
+            revoked=channel.model_copy(update={'private_read_authorized':False})
+            update_config(home,current.model_copy(update={'revision':current.revision+1,'bilibili_channels':(revoked,)}),expected_revision=current.revision)
+            from nana_core.contracts import CoreError
+            import nana_core.life.live_api.bridge as bff_bridge
+            original_request=bff_bridge.core_request
+            def unavailable(*args,**kwargs):
+                if args[1].get('operation')=='platform-privacy-safe-point':
+                    raise CoreError('SYNTHETIC_OWNER_UNAVAILABLE')
+                return original_request(*args,**kwargs)
+            bff_bridge.core_request=unavailable
+            try:
+                blocked=http(server,'views/memories',headers=headers)
+                assert blocked[0]==503 and 'Synthetic ORCHID source' not in str(blocked)
+            finally:
+                bff_bridge.core_request=original_request
+            view=http(server,'views/memories',headers=headers)
+            assert view[0]==200,view
+            import json,sqlite3
+            assert 'Synthetic ORCHID source' not in json.dumps(view[1])
+            with sqlite3.connect('file:'+str(home/'subject/self.db')+'?mode=ro',uri=True) as db:
+                assert db.execute('SELECT lifecycle FROM memories WHERE memory_id=?',(mid,)).fetchone()[0]=='DELETED'
             after=http(server,'messages','POST',{**base(service,'phone.withdrawn'),'text':'Synthetic ORCHID after withdrawal','privacy_class':'PERSONAL'},headers)
             assert after[0]==200 and after[1]['data']['state']=='VERIFIED',after
             assert mid not in calls[-1]['source_context_refs']

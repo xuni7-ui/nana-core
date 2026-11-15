@@ -1,10 +1,8 @@
-## 现役revision232 — 原G后来成功→正常D→新私问→重启后新取舍
+## 现役revision235 — 无关同域历史不遮住当前能力经历
 
-只补原机制组合资格，不改src：无旧private origin的首次G→另一材料实际Kernel AST成功→原宿主observer SUCCESS→正常D/同C一次SELF形成新PRIVATE_QUESTION。消融只关成长投影、同预算/机会仍一次SELF但无新问题。再重启同Store/identity，相同LOW/REPEATED新cue有问题LEARN、消融IGNORE，后一步0模型、不新Gjob；其他原私人活动完整保留。来源撤回后方法/新疑问影响失效，未重发。57同文件10.17s，随后只补撤回两项2pass3.02s，首次“整个Store应无其他私活动”夹具错误2fail保留。见evidence/first-g-new-question-20261115/README.md。
+原S3 project_need在关切可读因果绑定后取原32失败/评价窗口；其他40同域失败或另G课程40评价不再遮住已SETTLED关切，真实反例OPEN/130链歧义UNKNOWN/撤回恢复/33相关仍UNKNOWN。旧两个真实首败，新57相关86.00s，精确旧1d函数同只读库UNKNOWN→新SETTLED。首SQL功能通过但0.9s被拒，支持边优先/单次聚合后3.86–5.33ms；无模型/写/新表索引，未做大评价史资格。见evidence/need-causal-populations-20261115/README.md。前继1d独立672/1warn185.88s仅targeted，非本批全仓/安装。
 
-成长SELF开启54276/消融55592inputbytes是fitted上下文不同，非Token节省；初始学习各1SELF/49288bytes，Kernel/后续C run0模型，真实模型/账号/手机/生产/真人自然度/实际跨日长期0。原src仍49d6df5业务代码，未新包/APK/安装，CURRENT266+409，929候选只对自己源码。
-
-下一S2两码点短线索literal：先只读核对L3索引，隔离prefix+末端补项，尝试复用而非新增全量bigram，不动原20万库；随后内心情感多时间尺度/不同情境反证/S8更广迁移、自然交流/投递、物理隐私/真实Token费用/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
+下一原motivate仍把已SETTLED历史CAPABILITY_GAP描述为当前相关缺口，先实证后按真实能力结果修正，不自动推断情绪/人格；情感/通信可靠反证/G广迁移及全部A–H继续。CURRENT266+409，无新包/APK/安装/真实模型/手机/生产/自然度/跨日资格。
 
 ## 现役revision196
 

@@ -1,0 +1,88 @@
+.FFF                                                                     [100%]
+=================================== FAILURES ===================================
+____ test_settled_need_does_not_remove_an_explicit_current_direction[LEARN] ____
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7f2c0d000890>, 'eb10966c-3454-4817-9f84-f46575333f6a', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'LEARN'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'LEARN'
+E         
+E         - LEARN
+E         + WATCH
+
+tests/person_self/test_settled_need_choice.py:51: AssertionError
+____ test_settled_need_does_not_remove_an_explicit_current_direction[REST] _____
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7f2c0ce78a10>, 'c4a01893-d487-44a3-b67a-c0343e38db03', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'REST'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'REST'
+E         
+E         - REST
+E         + WATCH
+
+tests/person_self/test_settled_need_choice.py:51: AssertionError
+___ test_settled_need_does_not_remove_an_explicit_current_direction[REFLECT] ___
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7f2c0cf7a870>, '9c65e0c3-fafd-4d6f-94a1-a715b02fe849', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'REFLECT'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'REFLECT'
+E         
+E         - REFLECT
+E         + WATCH
+
+tests/person_self/test_settled_need_choice.py:51: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[LEARN]
+FAILED tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[REST]
+FAILED tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[REFLECT]
+3 failed, 1 passed in 16.80s

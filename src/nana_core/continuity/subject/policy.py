@@ -55,6 +55,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     from .contracts import DeliberationFrame
     return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
         learning_selection_optional=True if situation.learning_selection_optional else None,
+        experience_need=situation.experience_need,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 
@@ -127,6 +128,13 @@ def motivate(event, situation, appraisal):
 
 def current_directions(situation):
     offered=directions(situation.cue) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ()
+    # A checked gap no longer requires another course. This is the quiet
+    # default, not deletion of the offered alternatives before C can consider
+    # them. Current explicit choices still pass the original norm/value gates;
+    # G independently rejects redundant learning work.
+    if (situation.experience_need and situation.experience_need.state=='SETTLED'
+            and situation.preferred_behavior is None):
+        offered=('WATCH',)
     options=[x for x in offered if x not in situation.prohibited_behaviors]
     if situation.preferred_behavior in options:
         options=[situation.preferred_behavior,*[x for x in options if x!=situation.preferred_behavior]]

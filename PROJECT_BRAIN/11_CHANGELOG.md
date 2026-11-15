@@ -3859,3 +3859,14 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 ### C-NANALINK · 2026-11-15 · 撤权安全点与重建差异
 
 原 owner 的隐私读取安全点观察配置变化，原 consent 撤销后先完成原删除闭包，事务内变化安全失败并等待事务外；已有合成撤权/重启/QQ及HTTP定向资格。BFF 独立 Inspector 的窗口未资格。80e1145归档 wheel 双构建同 SHA4a1e30…f2238/308源码离线安装一致；同源两次 Android APK 解压内容相同但打包顺序致最终哈希不同，不冒称字节重现。A新 HEAD f696484 已观测待合并；80e1145的CI43713530184通过。详见对应 evidence。
+
+- 2026-11-15｜NEXT_EXPERIENCE S2/S5/S8上下文：原L3+每笔记一End键，两码点授权计划/CASE后正文，Source事实/旧回退保持。Native同100ms 1k/10k各48/48，100k6/48-42timeout→48/48、P9546.68ms，74相关；真实缓存+15.47MiB非回收，原20万库不动。首错/拒绝原型全存，真实0/无包APK/CURRENT；证据literal-two-prefix-20261115，下一情感/可靠反证、旧有界补项及全部A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：SETTLED不再删除C备选，现有Need入原Frame；默认WATCH/显式兴趣/规范与G重复保护共存。精确b27旧fixture/HTTP各3fail1pass→新8通过，209相关46.05s及原Foundation13；每1SELF/+2625wirebytes非Token。前继CI123仅targeted，当前真实0/无新安装/CURRENT不动。证据settled-capability-current-choice-20261115，下一同域因果窗口挤占及原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S8：原需态失败/评价先因果后32窗口，40无关失败/40其他G评价不压当前SETTLED；反例/撤回/128边界/33相关保护保留。两个原首败，新57相关86.00s；只读旧UNKNOWN→新SETTLED，拒0.9s慢原型，最终3.86–5.33ms/0调用0写。前继1d CI672仅targeted，真实0/无新包/CURRENT不动；证据need-causal-populations-20261115，下一旧缺口动机与实际能力结果一致及原A–H。
+
+
+### C-NANALINK · 2026-11-15 · BFF 撤权安全点及 A f696 对齐
+
+合入 A f696484 的原记忆检索/主体成果，保留原始证据与 C 来源扩展；BFF 配置版本变化且存在私人平台证据时，投影前经原 IPC 同步 owner 删除安全点，owner 不可用安全失败。合并源码相关108项通过；实际HTTP中先模拟 owner 不可用得到503，再恢复并证明原记忆 DELETED、后续对话不引用，独立通过。范围仍不含平台取消关注/删除的可靠发现；80e1145匹配CI43713530184及其构建仅归前继，原 APK 两次解压内容相同但最终字节不同。

@@ -1,0 +1,1263 @@
+{
+  "qualification": "SAME_CORPUS_ISOLATED_ADAPTIVE_PREFIX_TAIL_NOT_CORE",
+  "arms": {
+    "original": {
+      "samples": [
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 100.41190599986294,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 100.34989600171684,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 100.48615800042171,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 100.74904399880324,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 100.36334600044938,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 100.29126100016583,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 100.29218399904494,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 100.320120998731,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 100.35350399994059,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 31.334110999523546,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 100.37252400070429,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 100.3453659996012,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 100.3246880009101,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 100.37364500021795,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 30.480729999908363,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 100.3158399998938,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 100.25852699982352,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 100.49820499989437,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 100.34125000129279,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 100.30010899936315,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 100.29288499936229,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 100.28670499923464,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 100.32465900076204,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 100.33614399981161,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 100.31522699864581,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 30.21569299926341,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 100.58699299952423,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 100.30386499965971,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 100.28168899953016,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 100.31118400002015,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 32.81004500058771,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 100.27297399938107,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 100.31173300012597,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 100.34211899983347,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 100.2802300008625,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 100.3140409993648,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 100.29391900025075,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 100.30410999934247,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 100.27708599955076,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 100.29780799959553,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 100.34162900046795,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 31.633618000341812,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 100.43009799846914,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 100.28277600031288,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 100.37450100026035,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 100.40291500081366,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": false
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 31.587090001266915,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 100.38394500043069,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": false
+        }
+      ],
+      "correct": 6,
+      "false_results": 0,
+      "timeouts": 42,
+      "p50_ms": 100.31463399900531,
+      "p95_ms": 100.49398855007894
+    },
+    "adaptive_prefix_tail": {
+      "samples": [
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 36.932673001501826,
+          "error": null,
+          "actual_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 33.76194900010887,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 40.01159100153018,
+          "error": null,
+          "actual_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 32.419767001556465,
+          "error": null,
+          "actual_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 33.07800299990049,
+          "error": null,
+          "actual_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 33.631149999564514,
+          "error": null,
+          "actual_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 31.862888999967254,
+          "error": null,
+          "actual_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 31.7775139992591,
+          "error": null,
+          "actual_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 33.83289399971545,
+          "error": null,
+          "actual_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 31.835163001233013,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 101.87204099929659,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 32.64640499946836,
+          "error": null,
+          "actual_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 33.381496999936644,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 31.259505998605164,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 27.93268499954138,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 55.81997599983879,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 31.28129499964416,
+          "error": null,
+          "actual_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 32.2757290014124,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 39.1284720008116,
+          "error": null,
+          "actual_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 33.52426700075739,
+          "error": null,
+          "actual_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 33.39253300146083,
+          "error": null,
+          "actual_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 33.79381200102216,
+          "error": null,
+          "actual_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 32.48897499906889,
+          "error": null,
+          "actual_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 32.3060919999989,
+          "error": null,
+          "actual_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 32.691581998733454,
+          "error": null,
+          "actual_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 28.207043000293197,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 101.08262100038701,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 33.17044799950963,
+          "error": null,
+          "actual_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 32.585584000116796,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 31.033520001074066,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 28.417547999197268,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 55.00052100069297,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 31.96204500090971,
+          "error": null,
+          "actual_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 32.33140100019227,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 38.558724998438265,
+          "error": null,
+          "actual_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "expected_memory_ids": [
+            "e7db0ff5-9cce-4ef3-92de-d4331c019f26"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 32.096793000164325,
+          "error": null,
+          "actual_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "expected_memory_ids": [
+            "184f277f-9623-46c5-bf33-f3899809b5c4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 32.83409300092899,
+          "error": null,
+          "actual_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "expected_memory_ids": [
+            "405a3b47-2fa3-4ce7-a660-d7479dcc0c34"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 32.89737399973092,
+          "error": null,
+          "actual_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "expected_memory_ids": [
+            "e24997f9-881c-47b0-927c-c7b59204118d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 32.03999400102475,
+          "error": null,
+          "actual_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "expected_memory_ids": [
+            "33788e60-fd31-4079-a8c2-968baa15995d"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 33.12906900100643,
+          "error": null,
+          "actual_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "expected_memory_ids": [
+            "39609328-db3b-44c3-8479-44e17c065eb7"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 32.6900010004465,
+          "error": null,
+          "actual_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "expected_memory_ids": [
+            "f8e61d5c-62b9-4323-ae38-fa8f3ca12dd2"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 28.694534999885946,
+          "error": null,
+          "actual_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "expected_memory_ids": [
+            "450e87db-7423-4d87-aa24-60caf72e4dc4"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 101.32462399997166,
+          "error": "NOTE_RECALL_TIME_BOUND",
+          "actual_memory_ids": [],
+          "expected_memory_ids": [
+            "2951200d-2fdc-4e5e-9e70-f0e5006519b8",
+            "73068f8a-90bf-4e01-ac72-3b6a01c35606",
+            "ce802edf-d791-44f2-895f-b9f9b7e36b70",
+            "e6a21637-a30f-41ce-8995-920ddca6d006"
+          ],
+          "correct": false
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 31.037349999678554,
+          "error": null,
+          "actual_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "expected_memory_ids": [
+            "1004cd9e-79a3-496b-9641-03a0f3d7f512"
+          ],
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 32.17732600023737,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 33.079346001613885,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 27.602423999269377,
+          "error": null,
+          "actual_memory_ids": [],
+          "expected_memory_ids": [],
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 54.04060900036711,
+          "error": null,
+          "actual_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "expected_memory_ids": [
+            "113036e8-6ff6-4a4f-8aa7-01a7bda51c12",
+            "8eaa9683-5f64-406d-b4a8-fa31dfdc5877"
+          ],
+          "correct": true
+        }
+      ],
+      "correct": 45,
+      "false_results": 0,
+      "timeouts": 3,
+      "p50_ms": 32.69079149958998,
+      "p95_ms": 85.24069525019513
+    }
+  },
+  "cache": {
+    "rows": 99978,
+    "build_seconds": 0.8940558079993934
+  },
+  "runtime_integrated": false,
+  "provider_calls": 0,
+  "provider_tokens": null,
+  "probe_sha256": "e8011bc2cfbc55929ff114c9a74116d1ba7d4580eb243b63bfb7663c6ec8854e",
+  "replay_driver_sha256": "28baa9d408f6aaebe765d03c314fb948dcd2d2bed7ccc83ea0cb8ed20324d60b",
+  "source_memory_sha256": "2477b1772591b3368a82b4bfc5e818843bc869b5db1de10e50cf73a0d39a239b",
+  "spec_sha256": "33267a688243139d9924a514ad4b08df5559c2069976cfaae125ee889c68d62a",
+  "main_database_sha256_before": "3152f0bd0e3d086dbdddb17b9c64e8abcd561377b891099e94c2a0e344e6ae70",
+  "main_database_sha256_after": "3152f0bd0e3d086dbdddb17b9c64e8abcd561377b891099e94c2a0e344e6ae70"
+}

@@ -1,0 +1,36 @@
+{
+  "preserved_200k": "/workspace/nana-preserved-200k-20261114 (not opened/modified in this batch)",
+  "corpora": [
+    {
+      "path": "/workspace/scratch/nana-short-prefix-1k",
+      "exists": true,
+      "db_bytes": 17358848,
+      "owned_synthetic_only": true
+    },
+    {
+      "path": "/workspace/scratch/nana-short-prefix-1k-v2",
+      "exists": true,
+      "db_bytes": 17358848,
+      "owned_synthetic_only": true
+    },
+    {
+      "path": "/workspace/scratch/nana-short-prefix-10k-v2",
+      "exists": true,
+      "db_bytes": 173748224,
+      "owned_synthetic_only": true
+    },
+    {
+      "path": "/workspace/scratch/nana-short-prefix-adaptive-10k",
+      "exists": true,
+      "db_bytes": 172163072,
+      "owned_synthetic_only": true
+    },
+    {
+      "path": "/workspace/scratch/nana-short-prefix-adaptive-100k",
+      "exists": true,
+      "db_bytes": 1765568512,
+      "owned_synthetic_only": true
+    }
+  ],
+  "100k_current_state": "Native end-key cache populated; primary data unchanged, physical hash legitimately differs from earlier read-only prototype receipts."
+}

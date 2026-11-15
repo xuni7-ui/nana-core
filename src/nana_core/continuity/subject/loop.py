@@ -244,8 +244,6 @@ class SubjectLoop:
             need=project_need(self.store,event.task_class,scope=event.scope,privacy_classes=self.privacy_classes,source_memory_ids=event.source_memory_ids)
             records.extend(need.source_record_ids)
             for rid in need.source_record_ids:memories.extend(self.records.support(rid))
-            if need.state=='SETTLED':
-                cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
         frame=None
         if event.problem_frame:
             from .framing import evaluate

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/nana-need-causal-probe.py", line 11, in <module>
+    with ContinuityStore(root/'self.db',schema_target=13) as store:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/store.py", line 108, in __init__
+    self.privacy = PrivacyJournal(self, new_database=new_database)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/privacy.py", line 99, in __init__
+    raise CoreError("PRIVACY_ANCHOR_MISSING")
+nana_core.contracts.CoreError: PRIVACY_ANCHOR_MISSING

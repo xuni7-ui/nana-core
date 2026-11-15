@@ -1,0 +1,950 @@
+{
+  "size": 1000,
+  "spec": {
+    "schema_version": 2,
+    "body_prefix": "SYNTHETIC short literal ",
+    "source_variants": [
+      "eligible",
+      "corrected-away",
+      "withdrawn",
+      "foreign-entity",
+      "foreign-scope",
+      "private",
+      "lookalike",
+      "late-unindexed",
+      "common",
+      "mixed",
+      "absent"
+    ],
+    "qualification": "ISOLATED_PREFIX_TAIL_LITERAL_NOT_CORE_RELEASE",
+    "queries": [
+      "星月",
+      "归途",
+      "co",
+      "🦊🌙",
+      "a%",
+      "γδ",
+      "𐐀x",
+      "􏿿􏿿",
+      "zz",
+      "ßA",
+      "da"
+    ],
+    "limit": 4,
+    "timeout_ms": 100,
+    "repetitions": 3,
+    "scope": "bench",
+    "entity": "bench",
+    "privacy": [
+      "PROJECT"
+    ]
+  },
+  "arms": {
+    "original": {
+      "samples": [
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 2.4270439989777515,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 1.8769220005196985,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 1.894067998364335,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 2.5518310012557777,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 2.4090110000543064,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 1.8966539992106846,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 1.877530999990995,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 2.1455860005517025,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 1.857988001574995,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.6554989995493088,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 2.4612409997644136,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 2.0833819999097614,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 1.7971409997699084,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 1.7556370003148913,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.44365600115270354,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 2.649799000209896,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 2.1815319996676408,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 2.311891999852378,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 2.3359769984381273,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 1.890665000246372,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 2.0175419995211996,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 2.489841001079185,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 1.916331999382237,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 1.9251199992140755,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 1.9035420009458903,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.6240460006665671,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 2.5281310008722357,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 2.0570529995893594,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 1.936499000294134,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 1.8534570008341689,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.41256099939346313,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 2.5642430009611417,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 1.9341690003784606,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 1.949213999978383,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 2.0284560014260933,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 2.1964580009807833,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 1.948148999872501,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 1.9287160012027016,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 1.8518900014896644,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 1.8972620000567986,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 2.2709080003551207,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.5296540002746042,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 2.38534699929005,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 2.066562999971211,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 1.8258879990753485,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 1.840737999373232,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.45162099922890775,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 2.3471289987355703,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        }
+      ],
+      "correct": 48,
+      "false_results": 0,
+      "timeouts": 0,
+      "p50_ms": 1.9353340003362973,
+      "p95_ms": 2.543536001121538
+    },
+    "prefix_tail": {
+      "samples": [
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 0.8328650001203641,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 0.5980199985060608,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 0.6851829984952928,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 0.7668389989703428,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 0.7114170002751052,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 0.7124889998522121,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 0.558525000087684,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 0.6143609989521792,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 0.7230039991554804,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.6456530009018024,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 3.646835999461473,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 0.6441110017476603,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 0.5085319990030257,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 0.4923750002490124,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.38304500048980117,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 1.0958500006381655,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 0.7537370001955424,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 0.7854659997974522,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 0.6861109995952575,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 0.7816720008122502,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 0.5700889996660408,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 0.8030170010897564,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 0.5892709996260237,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 0.7599989985465072,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 0.5964880001556594,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.5458010000438662,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 3.66245099939988,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 0.7904989997769007,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 0.5370440012484323,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 0.5630560008285102,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.48335599967685994,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 0.6484490004368126,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        },
+        {
+          "terms": [
+            "星月"
+          ],
+          "milliseconds": 0.5716190007660771,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途"
+          ],
+          "milliseconds": 0.6094199998187833,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "co"
+          ],
+          "milliseconds": 0.7049189989629667,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "🦊🌙"
+          ],
+          "milliseconds": 0.6794130003981991,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "a%"
+          ],
+          "milliseconds": 0.6383840009220876,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "γδ"
+          ],
+          "milliseconds": 0.660009000057471,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "𐐀x"
+          ],
+          "milliseconds": 0.5986719988868572,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "􏿿􏿿"
+          ],
+          "milliseconds": 0.6259639994823374,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "zz"
+          ],
+          "milliseconds": 0.7674170010432135,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "ßA"
+          ],
+          "milliseconds": 0.5862320012965938,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "da"
+          ],
+          "milliseconds": 3.493383999739308,
+          "error": null,
+          "matches": 4,
+          "correct": true
+        },
+        {
+          "terms": [
+            "晚风"
+          ],
+          "milliseconds": 0.5947180015937192,
+          "error": null,
+          "matches": 1,
+          "correct": true
+        },
+        {
+          "terms": [
+            "旧梦"
+          ],
+          "milliseconds": 0.676787998600048,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "未有"
+          ],
+          "milliseconds": 0.5127770000399323,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "not-present-two"
+          ],
+          "milliseconds": 0.4100599999219412,
+          "error": null,
+          "matches": 0,
+          "correct": true
+        },
+        {
+          "terms": [
+            "归途",
+            "星月"
+          ],
+          "milliseconds": 0.6944880005903542,
+          "error": null,
+          "matches": 2,
+          "correct": true
+        }
+      ],
+      "correct": 48,
+      "false_results": 0,
+      "timeouts": 0,
+      "p50_ms": 0.6470510006693075,
+      "p95_ms": 2.654247100053908
+    }
+  },
+  "cache_build": {
+    "rows": 978,
+    "all_bigram_rows_if_built": 40387,
+    "wall_seconds": 0.008197905000997707,
+    "parent_cpu_seconds": 0.008197031999999993,
+    "temp_page_bytes": 110592
+  },
+  "generation_seconds": 2.8736899929990614,
+  "query_database_writes": 0,
+  "sqlite": "3.53.1",
+  "real_provider_calls": 0,
+  "provider_tokens": null,
+  "actual_cost": null,
+  "runtime_integrated": false,
+  "probe_sha256": "672eb1c9a1543b05a077c8bc2106687cf6970cb618dbe7fc9cee8dcf29e56a13",
+  "spec_sha256": "33267a688243139d9924a514ad4b08df5559c2069976cfaae125ee889c68d62a",
+  "source_memory_sha256": "2477b1772591b3368a82b4bfc5e818843bc869b5db1de10e50cf73a0d39a239b",
+  "candidate_method_sha256": "74ff5fc773cf464a790177757aa1739d3945fb685ad369172a21ab3e4c115d80"
+}

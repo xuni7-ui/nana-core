@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "body_prefix": "SYNTHETIC short literal ",
+  "source_variants": [
+    "eligible",
+    "corrected-away",
+    "withdrawn",
+    "foreign-entity",
+    "foreign-scope",
+    "private",
+    "lookalike",
+    "late-unindexed",
+    "common",
+    "mixed",
+    "absent"
+  ],
+  "qualification": "ISOLATED_PREFIX_TAIL_LITERAL_NOT_CORE_RELEASE",
+  "queries": [
+    "星月",
+    "归途",
+    "co",
+    "🦊🌙",
+    "a%",
+    "γδ",
+    "𐐀x",
+    "􏿿􏿿",
+    "zz",
+    "ßA",
+    "da"
+  ],
+  "limit": 4,
+  "timeout_ms": 100,
+  "repetitions": 3,
+  "scope": "bench",
+  "entity": "bench",
+  "privacy": [
+    "PROJECT"
+  ]
+}

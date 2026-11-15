@@ -1,0 +1,37 @@
+from pathlib import Path
+import json,hashlib
+from nana_core.actions import OperatorAuthority
+from nana_core.clock import ManualClock
+from nana_core.continuity import ContinuityStore,IdentityService
+from nana_core.continuity.memory import MemoryService,NOTE_GRAM_COMPLETE
+from tools.nana_next_experience.memory_diverse_compare import add
+from tools.nana_next_experience import literal_two_prefix_probe as p
+root=Path('/workspace/scratch/nana-short-body-guard');assert not root.exists();root.mkdir(mode=0o700)
+reads=[];allowed=set();authority=OperatorAuthority();saved=p.adaptive_rows
+with ContinuityStore(root/'self.db',ManualClock(),schema_target=13) as store:
+    IdentityService(store,authority);normal=MemoryService(store,authority)
+    for name in ('bench','other'):normal.entity(name,'PERSON')
+    good=[]
+    for i in range(70):
+        mid=add(normal,'guard.good.'+str(i),'SYNTHETIC a current co report '+str(i));good.append(mid)
+        allowed.add(store.one('memories',mid)['payload_artifact_id'])
+    for i in range(80):
+        for tag,kw in [('private',{'privacy':'PERSONAL'}),('scope',{'scope':'elsewhere'}),('entity',{'entity':'other'}),('lookalike',{'note':False})]:
+            add(normal,'guard.'+tag+'.'+str(i),'SYNTHETIC forbidden body containing co',**kw)
+    db=store.db;db.execute('CREATE TEMP TABLE probe_note_tails(memory_id TEXT PRIMARY KEY,tail TEXT NOT NULL) WITHOUT ROWID');db.execute('CREATE INDEX temp.probe_tail_lookup ON probe_note_tails(tail,memory_id)')
+    for row in db.execute('SELECT t.memory_id,a.payload FROM memory_terms t JOIN memories m ON m.memory_id=t.memory_id JOIN artifacts a ON a.artifact_id=m.payload_artifact_id WHERE t.term=?',(NOTE_GRAM_COMPLETE,)).fetchall():db.execute('INSERT INTO temp.probe_note_tails VALUES(?,?)',(row[0],row[1].decode().casefold()[-2:]))
+    def spy(aid,payload):
+        assert aid in allowed,'UNAUTHORIZED_ARTIFACT_BODY_READ'
+        reads.append(aid);return payload.decode()
+    db.create_function('probe_body',2,spy)
+    def observed(db,prefix,memory_from,parameters,where,args,match,terms,limit):
+        return saved(db,prefix,memory_from,parameters,where,args,match.replace('CAST(a.payload AS TEXT)','probe_body(a.artifact_id,a.payload)'),terms,limit)
+    p.adaptive_rows=observed;candidate,_=p.candidate_class();service=candidate(store,authority)
+    result=service.literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=('co',),limit=4,timeout_ms=100)
+    assert {m['memory_id'] for m in result}==set(good[-4:]) and len(reads)==4
+    q='a\ud7ff';edge=add(normal,'guard.unicode-boundary','SYNTHETIC ending '+q)
+    db.execute('INSERT INTO temp.probe_note_tails VALUES(?,?)',(edge,q.casefold()))
+    result=service.literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=(q,),limit=4,timeout_ms=100)
+    assert [m['memory_id'] for m in result]==[edge]
+result={'qualification':'ISOLATED_BODY_GUARD_AND_UNICODE_BOUNDARY','common_valid_notes':70,'forbidden_notes':320,'body_reads':len(reads),'unauthorized_body_reads':0,'unicode_d7ff_successor':'PASS','provider_calls':0,'runtime_integrated':False,'probe_sha256':hashlib.sha256(Path(p.__file__).read_bytes()).hexdigest()}
+Path('/workspace/nana-prefix-body-guard.json').write_text(json.dumps(result,indent=2));print(json.dumps(result))

@@ -1,0 +1,167 @@
+"""Isolated two-codepoint prefix/tail experiment on a fresh original Store.
+
+Not a deployed Core cache or semantic/learning qualification. Reuse the existing
+literal method, source/retention checks, original 100ms limit and benchmark add.
+Only an owned SQLite TEMP tail projection is added; the production module and
+preserved 200k corpus are untouched.
+"""
+import argparse
+import hashlib
+import inspect
+import json
+from pathlib import Path
+import statistics
+import shutil
+import textwrap
+import time
+
+from nana_core.actions import OperatorAuthority
+from nana_core.clock import ManualClock
+from nana_core.continuity import ContinuityStore, IdentityService
+from nana_core.continuity import memory as original
+from nana_core.contracts import CoreError
+from tools.nana_next_experience.memory_diverse_compare import add
+
+
+def successor(prefix):
+    for i in range(len(prefix)-1,-1,-1):
+        if ord(prefix[i])<0x10ffff:
+            code=ord(prefix[i])+1
+            if 0xd800<=code<=0xdfff:code=0xe000
+            return prefix[:i]+chr(code)
+    raise ValueError('literal namespace has no successor')
+
+
+def short_ctes(where,args,coverage_hint,terms):
+    clauses=[];values=[];tails=[]
+    for term in terms:
+        normalized=term.casefold()
+        if len(normalized)>=3:
+            clauses.append('term=?');values.append(original.NOTE_GRAM_PREFIX+normalized[:3])
+        else:
+            prefix=original.NOTE_GRAM_PREFIX+normalized
+            clauses.append('(term>=? AND term<? AND term<>?)')
+            values.extend((prefix,successor(prefix),original.NOTE_GRAM_COMPLETE));tails.append(normalized)
+    tail_sql=' OR tail IN ('+','.join('?' for _ in tails)+')' if tails else ''
+    # All existing header/source/text validation after this candidate set stays
+    # in the original method. Missing/legacy/long tails remain in its scan set.
+    prefix=("WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m"+coverage_hint+
+        ' WHERE '+where+original.USER_NOTE_HEADER_QUALIFICATION+" AND m.memory_type='SEMANTIC' EXCEPT "
+        'SELECT memory_id FROM temp.probe_note_tails), candidate_ids AS MATERIALIZED ('
+        'SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE '+
+        ' OR '.join(clauses)+' UNION SELECT memory_id FROM temp.probe_note_tails WHERE 0'+tail_sql+'), ')
+    return prefix,'candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id',[*args,*values,*tails]
+
+
+def adaptive_rows(db,prefix,memory_from,parameters,where,args,match,terms,limit):
+    qualification=where+original.USER_NOTE_QUALIFICATION
+    # This probe selects an execution plan, never limits the returned truth set.
+    # Apply the same consent/role/privacy qualification before its cardinality.
+    probe=db.execute(prefix[:-2]+' SELECT m.memory_id FROM '+memory_from+
+        ' CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE '+qualification+' LIMIT 65',
+        (*parameters,*args)).fetchall()
+    if len(probe)<65:return None
+    # A broad/common literal should not materialize every payload. SQLite CASE
+    # short-circuits: the scalar artifact read cannot precede authorization even
+    # if the optimizer reorders other WHERE terms. Newest qualified matches win.
+    return db.execute('SELECT m.memory_id FROM memories m NOT INDEXED CROSS JOIN continuity_evidence e '
+        'ON e.evidence_id=m.source_evidence_id WHERE '+qualification+' AND CASE WHEN ('+qualification+
+        ') THEN coalesce((SELECT ('+match+') FROM artifacts a WHERE a.artifact_id=m.payload_artifact_id),0) ELSE 0 END '
+        'ORDER BY m.rowid DESC LIMIT ?',(*args,*args,*terms,limit)).fetchall()
+
+
+def candidate_class():
+    source=textwrap.dedent(inspect.getsource(original.MemoryService.literal_notes))
+    old='accelerated=bool(term_index and all(len(t.casefold())>=3 for t in terms))'
+    assert old in source
+    source=source.replace(old,'accelerated=bool(term_index and all(len(t.casefold())>=2 for t in terms))')
+    start=source.index('        if accelerated:');end=source.index('        rows = db.execute(',start)
+    source=source[:start]+('        if accelerated:\n'
+        '            prefix,memory_from,parameters=short_ctes(where,args,coverage_hint,terms)\n'
+        '            rows=adaptive_rows(db,prefix,memory_from,parameters,where,args,match,terms,limit)\n')+source[end:]
+    source=source.replace('        if accelerated:', '        rows=None\n        if accelerated:',1)
+    begin=source.index('        rows = db.execute(');end=source.index(').fetchall()',begin)+len(').fetchall()')
+    source=source[:begin]+'        if rows is None:\n'+textwrap.indent(source[begin:end],'    ')+source[end:]
+    source=source.replace('Materialize authorized headers before inspecting text.', 'Use materialized headers or a source-guarded CASE before text.')
+    namespace={**vars(original),'short_ctes':short_ctes,'adaptive_rows':adaptive_rows}
+    exec(compile(source,'<isolated-prefix-tail-literal>','exec'),namespace)
+    class PrefixTail(original.MemoryService):
+        literal_notes=namespace['literal_notes']
+    return PrefixTail,source
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--root',type=Path,required=True)
+    parser.add_argument('--size',type=int,choices=(1000,10000,100000),default=1000)
+    args=parser.parse_args()
+    if args.root.exists():parser.error('fresh owned synthetic root required')
+    args.root.mkdir(parents=True,mode=0o700)
+    queries=('星月','归途','co','🦊🌙','a%','γδ','𐐀x','\U0010ffff\U0010ffff','zz','ßA','da')
+    body_prefix='SYNTHETIC short literal '
+    spec={'schema_version':2,'body_prefix':body_prefix,'source_variants':['eligible','corrected-away','withdrawn','foreign-entity','foreign-scope','private','lookalike','late-unindexed','common','mixed','absent'],'qualification':'ISOLATED_PREFIX_TAIL_LITERAL_NOT_CORE_RELEASE','queries':queries,
+        'limit':4,'timeout_ms':100,'repetitions':3,'scope':'bench','entity':'bench','privacy':['PROJECT']}
+    (args.root/'FROZEN_SPEC.json').write_text(json.dumps(spec,ensure_ascii=False,indent=2))
+    candidate,patch=candidate_class();(args.root/'candidate-method.py').write_text(patch)
+    authority=OperatorAuthority();started=time.perf_counter();expected={}
+    with ContinuityStore(args.root/'self.db',ManualClock(),schema_target=13) as store:
+        IdentityService(store,authority);baseline=original.MemoryService(store,authority);accelerated=candidate(store,authority)
+        for entity in ('bench','other'):baseline.entity(entity,'PERSON')
+        for i,q in enumerate(queries):
+            text=body_prefix+q+(' extra detail' if i%2==0 and q!='co' else '')
+            expected[q]=[add(baseline,'short.'+str(i),text)]
+            for kind,kw in [('foreign',{'entity':'other'}),('scope',{'scope':'elsewhere'}),('private',{'privacy':'PERSONAL'}),('lookalike',{'note':False})]:
+                add(baseline,'short.'+str(i)+'.'+kind,text,**kw)
+            old=add(baseline,'short.'+str(i)+'.old',text,predicate='user-note.correct.'+str(i))
+            add(baseline,'short.'+str(i)+'.corrected','SYNTHETIC no matching detail remains',predicate='user-note.correct.'+str(i),correction=old)
+        count=store.db.execute('SELECT count(*) FROM memories').fetchone()[0]
+        common=[]
+        for i in range(count,args.size):
+            if i%5000==0 and shutil.disk_usage(args.root).free<512*1024*1024:raise RuntimeError('ISOLATED_DISK_HEADROOM')
+            common.append(add(baseline,'noise.'+str(i),'SYNTHETIC mundane report '+str(i)+' ordinary daily detail'))
+        expected['da']=common[-4:]
+        generated_seconds=time.perf_counter()-started
+        # One row per short-indexed payload, not every bigram or a fact store.
+        store.db.execute('CREATE TEMP TABLE probe_note_tails(memory_id TEXT PRIMARY KEY,tail TEXT NOT NULL) WITHOUT ROWID')
+        store.db.execute('CREATE INDEX temp.probe_tail_lookup ON probe_note_tails(tail,memory_id)')
+        began=time.perf_counter();cpu=time.process_time();bigrams=0;tail_count=0
+        rows=store.db.execute('SELECT t.memory_id,a.payload FROM memory_terms t INDEXED BY memory_terms_term_lookup '
+            'JOIN memories m ON m.memory_id=t.memory_id JOIN artifacts a ON a.artifact_id=m.payload_artifact_id WHERE t.term=?',
+            (original.NOTE_GRAM_COMPLETE,)).fetchall()
+        for row in rows:
+            normalized=row['payload'].decode().casefold()
+            store.db.execute('INSERT INTO temp.probe_note_tails VALUES(?,?)',(row['memory_id'],normalized[-2:]))
+            bigrams+=len({normalized[i:i+2] for i in range(max(0,len(normalized)-1))});tail_count+=1
+        cache={'rows':tail_count,'all_bigram_rows_if_built':bigrams,'wall_seconds':time.perf_counter()-began,
+            'parent_cpu_seconds':time.process_time()-cpu,'temp_page_bytes':store.db.execute('PRAGMA temp.page_size').fetchone()[0]*store.db.execute('PRAGMA temp.page_count').fetchone()[0]}
+        # New/legacy notes without tail entries and stale withdrawn entries must
+        # retain exact semantics. Never rebuild the TEMP view to hide these gaps.
+        late='晚风';expected[late]=[add(baseline,'late-tail-gap','SYNTHETIC unindexed ending '+late)]
+        dropped='旧梦';dead=add(baseline,'withdraw-tail','SYNTHETIC ending '+dropped)
+        store.db.execute('INSERT INTO temp.probe_note_tails VALUES(?,?)',(dead,dropped));baseline.forget(dead,authority);expected[dropped]=[]
+        cases=[(q,) for q in queries]+[(late,),(dropped,),('未有',),('not-present-two',),('归途','星月')]
+        (args.root/'expected-bindings.json').write_text(json.dumps(expected,ensure_ascii=False,indent=2))
+        expected_for=lambda terms:sorted({mid for term in terms for mid in expected.get(term,[])})
+        before=store.db.total_changes;arms={name:{'samples':[],'correct':0,'false_results':0,'timeouts':0} for name in ('original','prefix_tail')}
+        for repeat in range(3):
+            for terms in cases:
+                for name,service in (('original',baseline),('prefix_tail',accelerated)) if repeat%2==0 else (('prefix_tail',accelerated),('original',baseline)):
+                    began=time.perf_counter();error=None
+                    try:ids=sorted(m['memory_id'] for m in service.literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=terms,limit=4,timeout_ms=100))
+                    except CoreError as exc:
+                        if exc.code!='NOTE_RECALL_TIME_BOUND':raise
+                        ids=[];error=exc.code
+                    item={'terms':terms,'milliseconds':(time.perf_counter()-began)*1000,'error':error,'matches':len(ids),'expected_memory_ids':expected_for(terms),'actual_memory_ids':ids,'correct':not error and ids==expected_for(terms)}
+                    arm=arms[name];arm['samples'].append(item);arm['correct']+=int(item['correct']);arm['false_results']+=len(set(ids)-set(expected_for(terms)));arm['timeouts']+=int(error is not None)
+        assert store.db.total_changes==before
+        for arm in arms.values():
+            times=[s['milliseconds'] for s in arm['samples']];arm['p50_ms']=statistics.median(times);arm['p95_ms']=statistics.quantiles(times,n=100,method='inclusive')[94]
+        result={'size':args.size,'spec':spec,'arms':arms,'cache_build':cache,'generation_seconds':generated_seconds,'query_database_writes':0,
+            'sqlite':__import__('sqlite3').sqlite_version,'real_provider_calls':0,'provider_tokens':None,'actual_cost':None,'runtime_integrated':False,'candidate_strategy':'PREFIX_TAIL_WITH_QUALIFIED_CARDINALITY_AND_ROWID_CASE',
+            'probe_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'spec_sha256':hashlib.sha256((args.root/'FROZEN_SPEC.json').read_bytes()).hexdigest(),
+            'source_memory_sha256':hashlib.sha256(Path(original.__file__).read_bytes()).hexdigest(),'candidate_method_sha256':hashlib.sha256(patch.encode()).hexdigest()}
+        (args.root/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
+        print(json.dumps({'size':args.size,'arms':{k:{x:v[x] for x in ('correct','false_results','timeouts','p50_ms','p95_ms')} for k,v in arms.items()},'cache':cache},ensure_ascii=False))
+
+
+if __name__=='__main__':main()

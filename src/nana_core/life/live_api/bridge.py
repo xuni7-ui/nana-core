@@ -58,6 +58,8 @@ class GatewayService:
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
         self.write_lock = threading.RLock()
+        self._platform_fence_lock = threading.RLock()
+        self._platform_fence_version = None
         self.priority_lock = threading.RLock()
         self.read_lock = threading.RLock()
         self.provider_catalog_after = 0
@@ -442,6 +444,37 @@ class GatewayService:
         # Original Inspector already validated the original journal. Hash only,
         # no second memory or deletion authority and no exposed host path.
         from ...continuity.privacy import _load
+        # The owner holds the only deletion authority. A read-only BFF must
+        # synchronize changed platform consent before projecting old evidence.
+        import sqlite3
+        config = self.supervisor.home / 'life.json'
+        database = self.supervisor.home / 'subject/self.db'
+        def version():
+            st=config.stat()
+            return st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns
+        try:
+            with self._platform_fence_lock:
+                for _ in range(3):
+                    before=version()
+                    if before == self._platform_fence_version:
+                        break
+                    db=sqlite3.connect(database.as_uri()+'?mode=ro',uri=True,timeout=2)
+                    try:
+                        row=db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.platform.bilibili.dynamic' LIMIT 1").fetchone()
+                    finally:
+                        db.close()
+                    if row:
+                        result=core_request(self.supervisor.home,{'operation':'platform-privacy-safe-point'},timeout=5)
+                        if result.get('ok') is not True or result.get('result',{}).get('state')!='CURRENT':
+                            raise CoreError('PLATFORM_SOURCE_FENCE_UNAVAILABLE')
+                    after=version()
+                    if before==after:
+                        self._platform_fence_version=after
+                        break
+                else:
+                    raise CoreError('PLATFORM_SOURCE_CONFIG_CHANGED_RETRY_READ')
+        except (OSError,sqlite3.Error,CoreError,ValueError,TypeError):
+            raise ApiError('PLATFORM_SOURCE_FENCE_UNAVAILABLE',503) from None
 
         side = Path(str(self.supervisor.home / "subject/self.db") + ".privacy.json")
         link = _load(side)

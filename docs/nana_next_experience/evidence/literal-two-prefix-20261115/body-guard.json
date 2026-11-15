@@ -1,0 +1,11 @@
+{
+  "qualification": "ISOLATED_BODY_GUARD_AND_UNICODE_BOUNDARY",
+  "common_valid_notes": 70,
+  "forbidden_notes": 320,
+  "body_reads": 4,
+  "unauthorized_body_reads": 0,
+  "unicode_d7ff_successor": "PASS",
+  "provider_calls": 0,
+  "runtime_integrated": false,
+  "probe_sha256": "96e9ec5f519e73e75a0db0598b0c8f0ac51020338c20cc96f8b5a20e9266bdba"
+}

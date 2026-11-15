@@ -1,0 +1,30 @@
+.......F......                                                           [100%]
+=================================== FAILURES ===================================
+______ test_common_short_literal_reads_only_four_newest_authorized_bodies ______
+
+literal_store = (<nana_core.continuity.store.ContinuityStore object at 0x7fa7fc836ea0>, <nana_core.continuity.memory.MemoryService object at 0x7fa7fc836f60>, <nana_core.actions.OperatorAuthority object at 0x7fa7fc836a80>)
+
+    def test_common_short_literal_reads_only_four_newest_authorized_bodies(literal_store):
+        import inspect,textwrap
+        from nana_core.continuity import memory as module
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from tools.nana_next_experience.memory_diverse_compare import add
+        store,memory,_=literal_store;good=[];allowed=set();reads=[]
+        for i in range(70):
+            mid=add(memory,'common.good.'+str(i),'SYNTHETIC current co report '+str(i));good.append(mid)
+            allowed.add(store.one('memories',mid)['payload_artifact_id'])
+        for i in range(80):
+            for name,kw in [('private',{'privacy':'PERSONAL'}),('scope',{'scope':'elsewhere'}),('entity',{'entity':'other'})]:
+                add(memory,'common.'+name+'.'+str(i),'SYNTHETIC forbidden co text',**kw)
+            # A semantic/DIRECT/user-note header alone does not grant source consent.
+>           eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SYNTHETIC_ONLY',source_namespace='synthetic.other-source',
+                source_reference='note:common.lookalike.'+str(i),source_kind='USER_STATEMENT'),text='SYNTHETIC unqualified co body',privacy_class='PROJECT'))
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for EvidenceInput
+E           observed_time_us
+E             Field required [type=missing, input_value={'provenance': Provenance...ivacy_class': 'PROJECT'}, input_type=dict]
+E               For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+tests/independent_life/test_note_recall.py:226: ValidationError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_note_recall.py::test_common_short_literal_reads_only_four_newest_authorized_bodies
+1 failed, 13 passed in 6.36s
