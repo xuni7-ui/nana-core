@@ -1,0 +1,7 @@
+# 原C巩固候选前置与可选判断
+
+基线341d4bc7dd5f1426b5e82b1b321195ba94ea3d58/Brain247，已推，dirty仅本批原创测试。复用原MaintenanceService/MAINTENANCE_CANDIDATE/SubjectLoop.situation/DeliberationFrame与同一SELF、adopt、来源撤回，不建新Store/内心循环或总结模型。
+
+实际旧6fail：原situation在模型前未绑定memory_review_id/候选record，Frame无MAINTAIN/REST，正常SELF合法REST被UNSUPPORTED_COGNITIVE_BEHAVIOR拒绝；无明确选择的原默认策略本身仍存在，但缺候选投影断言失败。最初_offer误传只有header的row导致text KeyError为夹具错误，单列保留；按原消费者传MemoryService.read完整row后才作为行为基线。
+
+拟在原只读situation安全验证并接入原候选/来源refs，原Frame/实际决策共用该目的可选方向；提供MAINTENANCE/资源压力时REST动机。明确维护可与pending>=6/高负荷竞争，明确REST不强制形成摘要。默认压力回退、规范/真实容量/来源当前性/原adopt保持；没有新持久schema/模型阶段。回退本锚policy.py/loop.py，无数据迁移，旧run内接受时再次验证继续保留。

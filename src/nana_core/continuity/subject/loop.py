@@ -231,6 +231,13 @@ class SubjectLoop:
             plan_step=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
             if event.realization_target!=plan_step.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
             records.append(plan_step.record_id);memories.extend(plan_step.source_memory_ids)
+        if event.memory_review_id:
+            # The same original bounded candidate must be known before C's
+            # appraisal/model, not only after it has already made a choice.
+            from ..maintenance import MaintenanceService
+            _,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,
+                privacy_classes=self.privacy_classes).candidate(event.memory_review_id)
+            records.append(event.memory_review_id);memories.extend(body['memory_ids'])
         contextual_event=event
         if event.goal_step or event.goal_review:
             binding=plan_binding(self.store,None,scope=event.scope,privacy_classes=self.privacy_classes,goal_id=plan_step.goal_id if plan_step else event.goal_review.goal_id)
@@ -263,7 +270,7 @@ class SubjectLoop:
             learning_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
             learning_programs=self.learning_program_catalog(event.scope,learning_privacy)
             learning_selection_optional=bool(learning_programs)
-        return Situation(plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(memory_review_id=event.memory_review_id,plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),

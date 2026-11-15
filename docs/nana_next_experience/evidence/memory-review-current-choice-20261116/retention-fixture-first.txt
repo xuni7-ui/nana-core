@@ -1,0 +1,75 @@
+.....{"measurement": "memory-review-resource-attempt", "http_calls": 1, "request_json_bytes": 36994, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+{"measurement": "memory-review-self", "kind": "NO_ACTION", "behavior": "REST", "http_calls": 1, "request_json_bytes": 36994, "real_model_calls": 0}
+..F
+=================================== FAILURES ===================================
+_____ test_nonretention_review_does_not_request_a_model_or_adopt_a_summary _____
+
+app = <nana_core.life.application.LifeApplication object at 0x7fce054cd970>
+
+    def test_nonretention_review_does_not_request_a_model_or_adopt_a_summary(app):
+        event,rid,_=offered(app);called=[]
+        class MustNotRun:
+            descriptor='synthetic-nonretention-review'
+            def propose(self,request):called.append(request);raise AssertionError('NONRETENTION_MODEL_CALL')
+        event=event.model_copy(update={'retention':'DO_NOT_REMEMBER'})
+        r=app.runtime
+>       result=r.subject.cognize(event,model=MustNotRun(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:699: in cognize
+    source = self.ingress.ingest(event)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.ingress.SubjectIngress object at 0x7fce05435280>
+event = SubjectInput(communication_method_record_id=None, private_thought_ref=None, conversation_proposal=None, problem_frame=...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+
+    def ingest(self, event: SubjectInput):
+        if event.private_thought_ref is not None and self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
+        if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
+        now = self.store.clock.utc_now_us()
+        if event.surface:
+            from ..surfaces import source_key
+            if event.surface.subject_id != self.store.identity['identity_id'] or event.source_key != source_key(event.surface):
+                raise CoreError('SURFACE_BINDING_INVALID')
+        if event.observed_at_us > now or (event.occurred_at_us is not None and event.occurred_at_us > event.observed_at_us):
+            raise CoreError('INVALID_SUBJECT_TIME')
+        if not self.store.one('entities', event.entity_id):
+            raise CoreError('UNKNOWN_SUBJECT_ENTITY')
+        previous = self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?', (event.source_key,)).fetchone()
+        if previous:
+            row = dict(previous)
+            if row['entity_id'] != event.entity_id or row['scope'] != event.scope or row['kind'] != event.kind or row['origin'] != event.origin:
+                raise CoreError('SUBJECT_SOURCE_COLLISION')
+            if row['record_id']:
+                try:
+                    old = self.records.read(row['record_id'])['payload']['input']
+                except CoreError:
+                    raise CoreError('SUBJECT_SOURCE_RETIRED') from None
+                if SubjectInput.model_validate_json(canonical(old)).model_dump(mode='json') != json.loads(event.model_dump_json()):
+                    raise CoreError('SUBJECT_SOURCE_COLLISION')
+            # Nonretained input intentionally has no content hash that might leak it.
+            return row
+        request_target=None
+        if self.store.schema_target>=10 and event.relational_request:
+            request_target='relational-request:'+digest([event.scope,event.entity_id,event.relational_request.request_id])
+            if self.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? LIMIT 1",(request_target,)).fetchone():
+                raise CoreError('RELATIONAL_REQUEST_ID_REUSED')
+        if event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:
+            from .context_fit import boundary_key
+            request_target=boundary_key(event.entity_id,event.scope,event.interaction_signal.topic_key,purpose='DELIVERY' if event.interaction_signal.kind in {'DECLINE_DELIVERY','REOPEN_DELIVERY'} else 'COGNITION')
+        support = tuple(dict.fromkeys((*event.source_memory_ids, *event.constraint_memory_ids)))
+        for memory_id in support:
+            item = self.memory.read(memory_id)
+            if item['scope'] != event.scope:
+                raise CoreError('CROSS_SCOPE_SUBJECT_INPUT')
+            if event.retention == 'DO_NOT_REMEMBER':
+>               raise CoreError('NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION')
+E               nana_core.contracts.CoreError: NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION
+
+src/nana_core/continuity/subject/ingress.py:69: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_choice.py::test_nonretention_review_does_not_request_a_model_or_adopt_a_summary
+1 failed, 7 passed in 0.97s

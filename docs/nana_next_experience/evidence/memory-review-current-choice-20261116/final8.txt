@@ -1,0 +1,4 @@
+.....{"measurement": "memory-review-resource-attempt", "http_calls": 1, "request_json_bytes": 36994, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+{"measurement": "memory-review-self", "kind": "NO_ACTION", "behavior": "REST", "http_calls": 1, "request_json_bytes": 36994, "real_model_calls": 0}
+...
+8 passed in 0.91s

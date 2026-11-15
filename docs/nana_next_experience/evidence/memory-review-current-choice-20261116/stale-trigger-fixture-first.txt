@@ -1,0 +1,233 @@
+FFFFF{"measurement": "memory-review-resource-attempt", "http_calls": 1, "request_json_bytes": 36994, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+{"measurement": "memory-review-self", "kind": "NO_ACTION", "behavior": "REST", "http_calls": 1, "request_json_bytes": 36994, "real_model_calls": 0}
+.
+=================================== FAILURES ===================================
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f6d09930080>
+preference = 'MAINTAIN', pending = 6, prohibited = ()
+expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+        assert rid in frame['source_record_ids']
+        assert any(m['source']=='MAINTENANCE' for m in frame['motivations'])
+        if pending:assert any(m['source']=='REST' for m in frame['motivations'])
+        summary=r.work.maintenance.adopt(rid,result)
+        if expected=='MEMORY_CANDIDATE':
+            assert summary
+            row=MemoryService(r.store).read(summary)
+            assert row['authority']=='INFERRED' and row['epistemic_kind']=='SUMMARY'
+            assert mid in {d['parent_id'] for d in r.store.all('memory_dependencies') if d['memory_id']==summary}
+        else:
+            assert summary is None and result.intention.behavior=='REST'
+        app.forget(mid)
+        if summary:assert r.store.one('memories',summary)['lifecycle']=='DELETED'
+        stale=event.model_copy(update={'source_key':'synthetic.stale-memory-review.'+rid})
+>       with pytest.raises(CoreError,match='MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'
+E         Actual message: 'MEMORY_UNAVAILABLE'
+
+tests/person_self/test_memory_review_choice.py:65: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f6d09935d00>
+preference = 'REST', pending = 0, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+        assert rid in frame['source_record_ids']
+        assert any(m['source']=='MAINTENANCE' for m in frame['motivations'])
+        if pending:assert any(m['source']=='REST' for m in frame['motivations'])
+        summary=r.work.maintenance.adopt(rid,result)
+        if expected=='MEMORY_CANDIDATE':
+            assert summary
+            row=MemoryService(r.store).read(summary)
+            assert row['authority']=='INFERRED' and row['epistemic_kind']=='SUMMARY'
+            assert mid in {d['parent_id'] for d in r.store.all('memory_dependencies') if d['memory_id']==summary}
+        else:
+            assert summary is None and result.intention.behavior=='REST'
+        app.forget(mid)
+        if summary:assert r.store.one('memories',summary)['lifecycle']=='DELETED'
+        stale=event.model_copy(update={'source_key':'synthetic.stale-memory-review.'+rid})
+>       with pytest.raises(CoreError,match='MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'
+E         Actual message: 'MEMORY_UNAVAILABLE'
+
+tests/person_self/test_memory_review_choice.py:65: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f6d0978ffe0>
+preference = None, pending = 6, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+        assert rid in frame['source_record_ids']
+        assert any(m['source']=='MAINTENANCE' for m in frame['motivations'])
+        if pending:assert any(m['source']=='REST' for m in frame['motivations'])
+        summary=r.work.maintenance.adopt(rid,result)
+        if expected=='MEMORY_CANDIDATE':
+            assert summary
+            row=MemoryService(r.store).read(summary)
+            assert row['authority']=='INFERRED' and row['epistemic_kind']=='SUMMARY'
+            assert mid in {d['parent_id'] for d in r.store.all('memory_dependencies') if d['memory_id']==summary}
+        else:
+            assert summary is None and result.intention.behavior=='REST'
+        app.forget(mid)
+        if summary:assert r.store.one('memories',summary)['lifecycle']=='DELETED'
+        stale=event.model_copy(update={'source_key':'synthetic.stale-memory-review.'+rid})
+>       with pytest.raises(CoreError,match='MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'
+E         Actual message: 'MEMORY_UNAVAILABLE'
+
+tests/person_self/test_memory_review_choice.py:65: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f6d09890500>
+preference = None, pending = 0, prohibited = (), expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+        assert rid in frame['source_record_ids']
+        assert any(m['source']=='MAINTENANCE' for m in frame['motivations'])
+        if pending:assert any(m['source']=='REST' for m in frame['motivations'])
+        summary=r.work.maintenance.adopt(rid,result)
+        if expected=='MEMORY_CANDIDATE':
+            assert summary
+            row=MemoryService(r.store).read(summary)
+            assert row['authority']=='INFERRED' and row['epistemic_kind']=='SUMMARY'
+            assert mid in {d['parent_id'] for d in r.store.all('memory_dependencies') if d['memory_id']==summary}
+        else:
+            assert summary is None and result.intention.behavior=='REST'
+        app.forget(mid)
+        if summary:assert r.store.one('memories',summary)['lifecycle']=='DELETED'
+        stale=event.model_copy(update={'source_key':'synthetic.stale-memory-review.'+rid})
+>       with pytest.raises(CoreError,match='MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'
+E         Actual message: 'MEMORY_UNAVAILABLE'
+
+tests/person_self/test_memory_review_choice.py:65: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f6d0988d5e0>
+preference = 'MAINTAIN', pending = 0, prohibited = ('MAINTAIN',)
+expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+        assert rid in frame['source_record_ids']
+        assert any(m['source']=='MAINTENANCE' for m in frame['motivations'])
+        if pending:assert any(m['source']=='REST' for m in frame['motivations'])
+        summary=r.work.maintenance.adopt(rid,result)
+        if expected=='MEMORY_CANDIDATE':
+            assert summary
+            row=MemoryService(r.store).read(summary)
+            assert row['authority']=='INFERRED' and row['epistemic_kind']=='SUMMARY'
+            assert mid in {d['parent_id'] for d in r.store.all('memory_dependencies') if d['memory_id']==summary}
+        else:
+            assert summary is None and result.intention.behavior=='REST'
+        app.forget(mid)
+        if summary:assert r.store.one('memories',summary)['lifecycle']=='DELETED'
+        stale=event.model_copy(update={'source_key':'synthetic.stale-memory-review.'+rid})
+>       with pytest.raises(CoreError,match='MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'MAINTENANCE_SOURCE_UNAVAILABLE|MAINTENANCE_SOURCE_STALE'
+E         Actual message: 'MEMORY_UNAVAILABLE'
+
+tests/person_self/test_memory_review_choice.py:65: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION]
+5 failed, 1 passed in 0.72s

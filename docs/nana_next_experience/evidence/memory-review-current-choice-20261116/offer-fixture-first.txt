@@ -1,0 +1,231 @@
+FFFFFF
+=================================== FAILURES ===================================
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f628ee630>
+preference = 'MAINTAIN', pending = 6, prohibited = ()
+expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+>       event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': 'ec78461c-ad32-4a9f-83c9-7470145c6ad1', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f628ef0b0>
+preference = 'REST', pending = 0, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+>       event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': 'dff2b2ac-046e-40a5-8688-95244a2ac430', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f628ef2c0>
+preference = None, pending = 6, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+>       event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': 'cad09057-dd06-4144-b40c-d33b2a00b3ff', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f6293a990>
+preference = None, pending = 0, prohibited = (), expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+>       event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': 'e1df8620-3ddd-43ae-b7bd-672490ab2128', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f6293f5f0>
+preference = 'MAINTAIN', pending = 0, prohibited = ('MAINTAIN',)
+expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+>       event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': 'eaea930e-2bcb-4695-b0d2-8ed62c8d73d7', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+_ test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3f6293ef00>
+
+    def test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase(app):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.context import ContextPolicy
+>       event,rid,_=offered(app);seen=[];r=app.runtime
+                    ^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_choice.py:22: in offered
+    rid=maintenance._offer((r.store.one('memories',mid),),'project-work','INCREMENTAL')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in _offer
+    fragments=tuple(self._fragment(r) for r in selected)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:108: in <genexpr>
+    fragments=tuple(self._fragment(r) for r in selected)
+                    ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+memory = {'memory_id': '25c699a9-7288-4940-8560-10dbb739f3f5', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'EPISODIC', ...}
+terms = ()
+
+    @staticmethod
+    def _fragment(memory,terms=()):
+>       text=memory['text'];start=0
+             ^^^^^^^^^^^^^^
+E       KeyError: 'text'
+
+src/nana_core/continuity/maintenance.py:150: KeyError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase
+6 failed in 0.56s

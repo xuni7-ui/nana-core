@@ -1,8 +1,8 @@
-## 当前接续：目标候选菜单不等于放弃决定，revision247
+## 当前接续：原C可选巩固与正常D消费者，revision248
 
-原GoalReview LIFECYCLE不再把候选菜单包含WITHDRAW当作实际放弃；沿原当前排序选择REST/WITHDRAW，明确CONTINUE可与负荷竞争。28f旧6fail3pass→9pass.78s/58相关16.53s；原消费者真实Goal ACTIVE/SUSPENDED/ABANDONED按选择变化、同身份重开/原plan/Grant保持，无动作/不新Goal/不重写过去ABANDONED。owned SELF两侧1HTTP/22757request JSON bytes同预算，真实0。
+原Maintenance候选在situation/模型前只读验证并接原Frame/来源，MAINTAIN-REST与实际C判断共用；明确整理可和压力竞争，明确休息不强制摘要。固定341原263模块旧7fail1pass→8pass.91s/前49相关7.71s；原summary INFERRED/来源撤回、正常Runtime.step一SELF/原job PAUSED/同条件不重调、拒不保留0写通过。旧/新直接SELF各1HTTP/request JSON+262bytes非Token，预算不变，真实0。
 
-下一原memory_review的pending>=6/HIGH负荷是否覆盖C明确MAINTAIN，先复用原维护/巩固与C调用验证，不删资源保护；S5/C/S3/S8、B视觉固定候选与全部原A–H继续。新CI待实际，9a匹配候选不含245–247，不重包/APK/CURRENT。证据evidence/deliberated-goal-review-20261116/README.md。
+下一原LivingWork._memory_review_blockers的129cue样本/私人版本是否遗漏新状态，先真实基线，不扩大常量或使用全局事件自激。S5/C/S3/S8、B固定算法/全部A–H继续；9a候选不含245–248，不重包/APK/CURRENT，新CI与真实模型/手机/生产/自然度/实际长期未新资格。证据evidence/memory-review-current-choice-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

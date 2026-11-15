@@ -1,0 +1,296 @@
+FFFFF{"measurement": "memory-review-resource-attempt", "http_calls": 1, "request_json_bytes": 36732, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+F
+=================================== FAILURES ===================================
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8a9e2a0>
+preference = 'MAINTAIN', pending = 6, prohibited = ()
+expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:719: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:156: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='MAINTAIN', learning_program_ref=None, private_question=Non...a7-9066-d3b31433821d', '63a3f80a-48f4-4189-a09a-72219cff6ff1', 'bb3beca0-3362-422e-9a15-07d2c23d83e5'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='ec5ab882-c1ea-44e2-8af5-1164f285dbf2', identity...b9-9629-4514-add6-981e30e04222',))), content_digest='95c3bcb21daffb94e4ec32728752247c595017e27a1a13cd25c31776d9a3afb2')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.selected_media is not None:
+            selected=proposal.selected_media.model_dump(mode='json')
+            offered=[v for block in context.blocks if block.kind=='MEDIA_CANDIDATES'
+                     for v in json.loads(block.data_json).get('candidates',())]
+            if selected not in offered or proposal.selected_media.source_memory_id not in proposal.memory_refs:
+                raise CoreError('UNSUPPORTED_COGNITIVE_MEDIA_SELECTION')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+>           if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: UNSUPPORTED_COGNITIVE_BEHAVIOR
+
+src/nana_core/continuity/cognition.py:124: CoreError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8aa1b20>
+preference = 'REST', pending = 0, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:719: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:156: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='REST', learning_program_ref=None, private_question=None, p...b4-81d5-6d3d3c916143', '92092dd0-690f-4145-aa3f-d52a4fe1c07f', 'af1f8bfa-3e2e-41b4-b8c8-407c6497c732'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='ef8047b3-e133-4a9c-8273-e205538d5f07', identity...c0-ebc6-488e-9a1a-49877474e713',))), content_digest='6745cab2112e2c4939876175e23cdfe896351ce4d29e05d4f25e8872922382c6')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.selected_media is not None:
+            selected=proposal.selected_media.model_dump(mode='json')
+            offered=[v for block in context.blocks if block.kind=='MEDIA_CANDIDATES'
+                     for v in json.loads(block.data_json).get('candidates',())]
+            if selected not in offered or proposal.selected_media.source_memory_id not in proposal.memory_refs:
+                raise CoreError('UNSUPPORTED_COGNITIVE_MEDIA_SELECTION')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+>           if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: UNSUPPORTED_COGNITIVE_BEHAVIOR
+
+src/nana_core/continuity/cognition.py:124: CoreError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8ae6a80>
+preference = None, pending = 6, prohibited = (), expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>       assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+E       AssertionError: assert set() == {'MAINTAIN', 'REST'}
+E         
+E         Extra items in the right set:
+E         'REST'
+E         'MAINTAIN'
+E         Use -v to get more diff
+
+tests/person_self/test_memory_review_choice.py:50: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8aebb30>
+preference = None, pending = 0, prohibited = (), expected = 'MEMORY_CANDIDATE'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert result.intention.kind==expected
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+>       assert set(frame.get('behavior_options',()))=={'MAINTAIN','REST'}
+E       AssertionError: assert set() == {'MAINTAIN', 'REST'}
+E         
+E         Extra items in the right set:
+E         'REST'
+E         'MAINTAIN'
+E         Use -v to get more diff
+
+tests/person_self/test_memory_review_choice.py:50: AssertionError
+_ test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8a9ee10>
+preference = 'MAINTAIN', pending = 0, prohibited = ('MAINTAIN',)
+expected = 'NO_ACTION'
+
+    @pytest.mark.parametrize('preference,pending,prohibited,expected',[
+        ('MAINTAIN',6,(),'MEMORY_CANDIDATE'),('REST',0,(),'NO_ACTION'),
+        (None,6,(),'NO_ACTION'),(None,0,(),'MEMORY_CANDIDATE'),
+        ('MAINTAIN',0,('MAINTAIN',),'NO_ACTION'),
+    ])
+    def test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined(app,preference,pending,prohibited,expected):
+        event,rid,mid=offered(app,pending=pending,prohibited=prohibited);seen=[]
+        class Choosing:
+            descriptor='synthetic-memory-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        r=app.runtime
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:719: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:156: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='MAINTAIN', learning_program_ref=None, private_question=Non...12-8897-8042ed0b6c15', '69f2af01-2808-490c-b332-266e94479c13', 'e30b7aa5-009d-4cd2-84a0-25c27e47a569'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='4648f87a-8d23-4892-bf7d-1b33f5913ce5', identity...19-c983-4a8f-808a-761db2f174b1',))), content_digest='a11604ec5798709068873c2614468389d03a5e28935cf80e88da5c66f418cfe0')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.selected_media is not None:
+            selected=proposal.selected_media.model_dump(mode='json')
+            offered=[v for block in context.blocks if block.kind=='MEDIA_CANDIDATES'
+                     for v in json.loads(block.data_json).get('candidates',())]
+            if selected not in offered or proposal.selected_media.source_memory_id not in proposal.memory_refs:
+                raise CoreError('UNSUPPORTED_COGNITIVE_MEDIA_SELECTION')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+>           if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: UNSUPPORTED_COGNITIVE_BEHAVIOR
+
+src/nana_core/continuity/cognition.py:124: CoreError
+_ test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase _
+
+app = <nana_core.life.application.LifeApplication object at 0x7ff7f8bf8b30>
+
+    def test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase(app):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.context import ContextPolicy
+        event,rid,_=offered(app);seen=[];r=app.runtime
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC defer optional consolidation',
+                subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                    interpretation='SYNTHETIC choose rest while retaining the original sources',preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        policy=ContextPolicy(policy_id='synthetic.memory-choice',allowed_scopes=('project-work',),readable_privacy=('PROJECT',))
+        with provider_harness(proposer=propose) as (transport,metrics):
+            port=CognitionSession(r,transport,policy).subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=65536))
+            try:
+>               result=r.subject.cognize(event,model=port,authority=r.authority,policy=policy)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_memory_review_choice.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:719: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:152: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7ff7f8afda90>
+frozen = FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"i...d0e6f6b3d3b6e420abc7eb5bb290f33e"}', context_digest='f783e461950c44c3feb1af658f7322e2d0e6f6b3d3b6e420abc7eb5bb290f33e')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        tasks=[json.loads(b.data_json) for b in context.blocks if b.kind=='TASK_CONSTRAINTS']
+        if len(tasks)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            **subject_focus_inputs(frame.subject_event_id,self.privacy_class,tasks[0]['task'],frozen.task_class))
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: UNSUPPORTED_COGNITIVE_BEHAVIOR
+
+src/nana_core/continuity/world_loop/cognition.py:923: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-6-prohibited0-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[REST-0-prohibited1-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-6-prohibited2-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[None-0-prohibited3-MEMORY_CANDIDATE]
+FAILED tests/person_self/test_memory_review_choice.py::test_actual_candidate_is_offered_before_c_and_can_be_adopted_or_declined[MAINTAIN-0-prohibited4-NO_ACTION]
+FAILED tests/person_self/test_memory_review_choice.py::test_normal_self_resource_can_choose_rest_for_a_memory_candidate_without_an_extra_model_phase
+6 failed in 0.83s

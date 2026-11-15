@@ -50,6 +50,11 @@ class Situation(DTO):
     goal_review_id: str | None = None
 
 
+def offered_directions(situation):
+    if situation.memory_review_id:return ('MAINTAIN','REST')
+    return directions(situation.cue) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ()
+
+
 def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     """Same read-only C projection for deliberation and D resource admission."""
     from .contracts import DeliberationFrame
@@ -57,7 +62,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
         learning_selection_optional=True if situation.learning_selection_optional else None,
         experience_need=situation.experience_need,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
-        behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
+        behavior_options=tuple(dict.fromkeys(offered_directions(situation))))
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -72,6 +77,8 @@ def appraise(event: SubjectInput, situation: Situation):
         reasons.append('supported interest remains unresolved')
     if situation.private_interest_records:
         reasons.append('A relevant own private idea remains available; this is not disclosure permission')
+    if situation.memory_review_id:
+        reasons.append('an original bounded source-linked consolidation candidate is available; adoption is optional and never deletes its sources')
     if not reasons:
         reasons.append('evaluate input without assuming it is an adopted goal')
     if situation.context_fit:reasons.append(situation.context_fit.reason)
@@ -127,13 +134,17 @@ def motivate(event, situation, appraisal):
         motives.append(Motivation(source='SOCIAL_QUIET',strength='RELEVANT',source_ids=situation.social_appetite.sources_for('RECOVERING','QUIET','SATURATED')))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
+    if situation.memory_review_id:
+        motives.append(Motivation(source='MAINTENANCE',strength='RELEVANT',source_ids=(situation.memory_review_id,)))
+        if situation.pending_count>=6 and not any(m.source=='REST' for m in motives):
+            motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=(situation.memory_review_id,)))
     if not motives:
         motives.append(Motivation(source='REST', strength='AVAILABLE', source_ids=()))
     return tuple(motives)
 
 
 def current_directions(situation):
-    offered=directions(situation.cue) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ()
+    offered=offered_directions(situation)
     # A checked gap no longer requires another course. This is the quiet
     # default, not deletion of the offered alternatives before C can consider
     # them. Current explicit choices still pass the original norm/value gates;
@@ -227,9 +238,12 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='GOAL_CANDIDATE' if behavior=='CONTINUE_PROJECT' else 'NO_ACTION',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
         return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
-    if situation.memory_review_id and (situation.pending_count>=6 or (situation.cue and situation.cue.cognitive_load=='HIGH')):
+    maintain_chosen=considered_choice and situation.preferred_behavior=='MAINTAIN'
+    rest_chosen=considered_choice and situation.preferred_behavior=='REST'
+    if situation.memory_review_id and (rest_chosen or 'MAINTAIN' in situation.prohibited_behaviors
+            or (situation.pending_count>=6 or (situation.cue and situation.cue.cognitive_load=='HIGH')) and not maintain_chosen):
         return ('DEFER',Judgment(stance='DEFER',reason='Current sourced commitments or attention load outweigh optional consolidation; keep its sources and review after conditions change',source_ids=sources),
-            Intention(kind='NO_ACTION',purpose='Rest or finish existing intentions before optional memory work',slot_key='quiet',source_ids=sources,self_generated=True,behavior='REST'))
+            Intention(kind='NO_ACTION',purpose='Leave the original sources available while deferring optional consolidation',slot_key='quiet',source_ids=sources,self_generated=True,behavior='REST' if 'REST' not in situation.prohibited_behaviors else None))
     if situation.memory_review_id:
         return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
     if voluntary_restraint_applies(event,situation,options):

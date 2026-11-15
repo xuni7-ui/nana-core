@@ -1,0 +1,39 @@
+.....{"measurement": "memory-review-resource-attempt", "http_calls": 1, "request_json_bytes": 36994, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+{"measurement": "memory-review-self", "kind": "NO_ACTION", "behavior": "REST", "http_calls": 1, "request_json_bytes": 36994, "real_model_calls": 0}
+.F
+=================================== FAILURES ===================================
+_ test_normal_runtime_step_receives_the_same_candidate_and_defers_without_polling _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f583995ff80>
+
+    def test_normal_runtime_step_receives_the_same_candidate_and_defers_without_polling(app):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal,subject_focus_inputs
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        event,rid,mid=offered(app);r=app.runtime
+        event=event.model_copy(update={'significance':'HIGH','uncertainty':'HIGH'})
+        def propose(request):
+            manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC normal D considers a real consolidation candidate',
+                subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                    interpretation='SYNTHETIC keep sources and rest for now',preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        with provider_harness(proposer=propose) as (transport,metrics):
+            policy=ContextPolicy(policy_id='synthetic.memory-normal-d',allowed_scopes=('project-work',),readable_privacy=('PROJECT',))
+            session=CognitionSession(r,transport,policy);budget=CognitionBudget(input_tokens=32768)
+            def preview(event,frame):
+                return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+                    subject_frame=frame,**subject_focus_inputs(frame.subject_event_id,event.privacy_class,
+                        event.text or 'Assess current concerns; silence is allowed',event.task_class or 'subject_deliberation'),budget=budget)
+            r.cognition.bind_provider(lambda event:session.subject_port(privacy_class=event.privacy_class,budget=budget),preview)
+            value=RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,
+                               causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us())
+            qid=r.submit(value);result=r.step()
+>           assert result['queue_id']==qid and result['cycle'].intention.behavior=='REST'
+                   ^^^^^^^^^^^^^^^^^^
+E           TypeError: 'NoneType' object is not subscriptable
+
+tests/person_self/test_memory_review_choice.py:120: TypeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_choice.py::test_normal_runtime_step_receives_the_same_candidate_and_defers_without_polling
+1 failed, 6 passed in 0.79s
