@@ -241,13 +241,14 @@ def test_cached_image_must_match_current_original_observation(app, tmp_path):
     cache.close()
 
 
-def test_retrieved_image_does_not_cross_entity_boundary(app):
+@pytest.mark.parametrize('explicit_source', [False, True])
+def test_retrieved_image_does_not_cross_entity_boundary(app, explicit_source):
     r = app.runtime
     now = r.clock.utc_now_us()
     MemoryService(r.store).entity('another-person', 'PERSON')
     source = PublicMediaSource(source_id='other-picture', modality='IMAGE', origin='SYNTHETIC',
                                event_time_us=now, observed_time_us=now)
-    PerceptionService(r.store, providers(), app.policy).ingest(
+    mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
         picture(), source, entity_id='another-person', scope='project-work')
     def propose(request):
         context = json.loads(request.context_json)
@@ -257,8 +258,13 @@ def test_retrieved_image_does_not_cross_entity_boundary(app):
             identity_id=identity['identity_id'], identity_revision=identity['identity_revision'],
             interpretation='wait', proposed_operations=('WAIT',)))
     event = SubjectInput(source_key='synthetic.no-cross-entity-image', kind='WAKE', origin='SELF_WAKE',
-        entity_id='project-user', scope='project-work', observed_at_us=now, privacy_class='PUBLIC')
+        entity_id='project-user', scope='project-work', observed_at_us=now, privacy_class='PUBLIC',
+        source_memory_ids=(mid,) if explicit_source else ())
     with provider_harness(proposer=propose) as (transport, state):
         session = CognitionSession(r, transport, app.policy)
-        r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC'), authority=r.authority, policy=app.policy)
-    assert state['calls'] == 1 and not r.store.all('actions')
+        if explicit_source:
+            with pytest.raises(CoreError, match='CONTEXT_REQUIRED_SOURCE_DENIED'):
+                r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC'), authority=r.authority, policy=app.policy)
+        else:
+            r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC'), authority=r.authority, policy=app.policy)
+    assert state['calls'] == (0 if explicit_source else 1) and not r.store.all('actions')
