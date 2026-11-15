@@ -1,8 +1,8 @@
-## 当前接续：原REPLAN当前判断与消费者，revision251
+## 当前接续：新社交愿望与原投递准入，revision252
 
-原REPLAN复查现前模型验证目标/版本/来源，原Frame可选LEARN/REST与当前兴趣，C明确REST/CREATE不被强制复查；LEARN规范生效，原consumer按实际方向防止CREATE候选误修旧目标。旧4fail4pass→9过.75s、116相关22.69s；同身份/重放/stale前模型拒绝/Goal-job-旧Grant保持通过。精确cc8源322文件/131实际模块旧SELF拒REST→新REST，各1HTTP/同预算/request JSON+219bytes非Token，真实0。
+原C当前SOCIALIZE可以是新愿望，不再须旧private/SEEKING作入场券；低价值默认/旧quiet倾向/规范/拒绝/近期重复投递与原权限保留。cfd旧3fail6pass→10过.81s、前85相关16.94s；原纯C消融IGNORE→SOCIALIZE、各1SELF/42992requestbytes同预算。原BUSY准入延后/重复同record、同身份重启pending与RECOVERING不丢/请求不增；旧私文撤回不复活，当前来源撤回模型0。
 
-下一继续原C情感/持续策略与可靠反馈/G独立未见迁移，B视觉固定交接后原生融合；所有原A–H继承。9a候选不含245–251，CURRENT266+409/原APK不动；新CI待实际，真实模型/手机/生产/自然度/长期未新增。 证据evidence/deliberated-replan-choice-20261116/README.md。
+下一继续原C情感/持续策略、可靠反馈/G独立未见迁移和全部A–H，B视觉固定候选交接后融合；新愿望不等于送达/关系发展。9a候选不含245–252，CURRENT266+409/原APK不动；新CI待实际，真实模型/手机/生产/自然度/长期未新增。 证据evidence/fresh-social-choice-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

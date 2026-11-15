@@ -1,0 +1,3 @@
+.........{"measurement": "fresh-social-self", "http_calls": 1, "request_json_bytes": 42992, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "behavior": "SOCIALIZE", "real_model_calls": 0}
+.
+10 passed in 0.81s

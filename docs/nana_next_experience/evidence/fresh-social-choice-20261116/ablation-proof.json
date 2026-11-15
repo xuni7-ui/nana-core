@@ -1,0 +1,9 @@
+{
+  "base": "cfd11be158a3f0fa36abf93f42d5e4fde1f55bf0",
+  "changed_core_files": [
+    "src/nana_core/continuity/subject/policy.py"
+  ],
+  "non_decide_ast_identical": true,
+  "current_policy_sha256": "1bfc0f10ffd20ec6ee9cb826829d3309d3c9422045c6dd301022f8c1fe17833d",
+  "old_policy_sha256": "289208d96291cfee8555332886e87b26c1212e3d615288932cb4275b2f081884"
+}

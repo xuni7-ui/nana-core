@@ -1,0 +1,6 @@
+# 当前原C社交选择不以旧私人愿望作为入场券
+
+基线cfd11be1（以git HEAD完整SHA/指纹为锚）/Brain251，已推干净。原policy允许当前明确学习/创作竞争低价值/重复机会，却让SOCIALIZE还须已有私人兴趣或SEEKING记录；旧QUIET/RECOVERING或没有旧社交倾向记录时，新C当前明确愿望仍可能被通用价值门提前否决。先复用原C/ShareAssessment/S3与实际SELF基线，不新建欲望/情绪权威。
+
+拟仅让已绑定当前C所选SOCIALIZE也具有考虑机会；原规范、接收者明确DECLINED、近期已投递的重复分享、真实资源、DeliveryAdmission/Kernel/Grant全部不动。OPEN只来自当前cue但C未选择仍不算独立旧倾向。不把联系愿望当真实发送/送达或关系成长。若撤回旧私念但新的独立cue仍有效，需区分旧内容消失与新的当前愿望；不能用撤回历史永久禁止相同行为。回退policy.py，无Store迁移/新执行权限。
+cfd11be158a3f0fa36abf93f42d5e4fde1f55bf0

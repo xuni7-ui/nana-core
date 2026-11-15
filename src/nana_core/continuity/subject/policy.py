@@ -309,13 +309,13 @@ def decide(event, situation, appraisal, motives):
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
         # remains the existing separate DeliveryAdmission/Kernel consideration.
-        # A present C choice supported by an own retained idea can compete
-        # with an older quiet tendency; neither tendency is erased.
+        # A bound current C choice can be a new wish. Prior retention or a
+        # SEEKING trait is not its admission price. An unchosen OPEN cue alone
+        # still does not supply an independent social tendency; neither old
+        # quiet tendencies nor actual reception/authorization are erased.
         interested_social = bool(situation.separate_delivery and behavior=='SOCIALIZE'
-            and ((situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
-                and situation.social_appetite.source_record_ids)
-                or (considered_choice and (personal_interest or (situation.social_appetite
-                    and situation.social_appetite.sources_for('SEEKING'))))))
+            and (considered_choice or (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
+                and situation.social_appetite.source_record_ids)))
         # Costs/reception for an unchosen alternative are not properties of the
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}

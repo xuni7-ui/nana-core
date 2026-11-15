@@ -10,7 +10,7 @@ from .test_private_tendency import form,current
 
 
 @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
-@pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','IGNORE'),('EXPLORE','research','EXPLORE'),('SOCIALIZE','repeated-delivery','STAY_SILENT')])
+@pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','SOCIALIZE'),('EXPLORE','research','EXPLORE'),('SOCIALIZE','repeated-delivery','STAY_SILENT')])
 def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):
     r=app.runtime;seen=[];topic='own-connection'
     for i in range(2):
@@ -54,6 +54,13 @@ def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency
     assert social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',)).state==retained.state
     if guard!='withdrawn':assert retained.state==state
     assert (not current(app)) if guard=='withdrawn' else current(app)[0][1]==thought
+    if guard=='withdrawn':
+        # Old content stays withdrawn. A newly considered wish can arise from
+        # this independent, still-current cue without resurrecting that content.
+        assert thought.content_summary not in seen[0].context_json
+        assert thought.source_memory_ids[0] not in frame['source_memory_ids']
+        assert mid in frame['source_memory_ids']
+        assert r.store.one('memories',thought.source_memory_ids[0])['lifecycle']=='DELETED'
     assert not r.store.all('actions') and not r.store.all('grants')
 
 

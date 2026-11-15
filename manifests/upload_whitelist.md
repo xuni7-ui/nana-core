@@ -209,3 +209,7 @@ world_loop/semantics.py原H1来源元数据、test_bilibili_frames.py原场景�
 ## 2026-11-16 A原REPLAN当前选择
 
 subject/{policy,loop}.py及presence/living.py原consumer局部、test_deliberated_replan_choice.py、现有CI组、09/11/ACTIVE/STATUS与evidence/deliberated-replan-choice-20261116/原受控日志/独立基线脚本/指纹、本白名单。无运行Store/配置/私史/账户/凭据/第三方复制/二进制/新执行权限或收费。
+
+## 2026-11-16 A原C新社交选择
+
+policy.py原interested_social局部、test_fresh_social_choice.py/原test_social_tendency_competition.py新语义与严格撤回断言、既有CI组、09/11/ACTIVE/STATUS及evidence/fresh-social-choice-20261116/原公开合成日志/纯C消融脚本/指纹、本白名单。无真实收件人/账户/私史/DB/配置/凭据/第三方复制/二进制/新执行或收费授权。
