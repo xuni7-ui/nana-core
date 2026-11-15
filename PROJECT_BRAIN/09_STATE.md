@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 236,
-  "as_of_us": 1794754668149511,
+  "revision": 237,
+  "as_of_us": 1794755148447492,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -20,7 +20,7 @@
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "原literal两码点复用L3+每笔记一End键，授权头选计划/CASE后读正文，旧缺键回退。Native同100ms：1k/10k各48/48；100k旧6/48-42timeout→48/48无误返/超时，P95100.46→46.68ms，74相关27.32s。100k缓存+15.47MiB非回收，原20万成果未动。",
-    "原Need因果窗口235保留：40无关失败/评价不压当前SETTLED，57相关；现真实SETTLED只投影COMPETENCE/AVAILABLE，不延续旧缺口动机。f696旧1fail1pass→2同HTTP/123相关68.30s，后续REFLECT/反例LEARN；各1SELF，wire57457→55509bytes非Token，G不重训/原cue不改。"
+    "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一原PRIVATE_TENDENCY_V4仅生命周期/时间戳，短暂情境倾向无独立注意有效条件：先核原Context/D消费者及旧行为，最小兼容扩展/消融，不固定衰减或删长期兴趣。情感/S8通信/原A–H/存储隐私/Token模型产品及匹配发行继续；236非全仓/真实/长期。"
+    "下一复用原builder/封签wheelhouse做累计237匹配Core候选与实际离线安装兼容（G/C/End键隐私），先实核资产；不重打APK/不动CURRENT。V4 elapsed只是重评时间线索，非情绪消退/长期资格。多时间尺度/可靠反馈/G广迁移及原A–H/模型产品/物理语义/最终发行继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/README.md",
     "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md",
     "docs/nana_next_experience/evidence/need-causal-populations-20261115/README.md",
     "docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/README.md",
     "docs/nana_next_experience/evidence/literal-two-prefix-20261115/README.md",
     "docs/nana_next_experience/evidence/first-g-new-question-20261115/README.md",
     "docs/nana_next_experience/evidence/first-optional-learning-20261115/README.md",
-    "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md",
-    "docs/nana_next_experience/evidence/coexisting-social-tendencies-20261115/README.md"
+    "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2893,3 +2893,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision235 fingerprint anchor: `8d5c1fd45cd1ebb6e0f4ae53e6e8c8aef540199af5de67f108a7afb9507229ce` → `docs/nana_next_experience/evidence/need-causal-populations-20261115/source.sha256`; same dev source successor, no production selection.
 
 - revision236 fingerprint anchor: `35dd57c69f52e684536ed53cb037ec809f4fb9c677e91fa6d1427a3b02fc2156` → `docs/nana_next_experience/evidence/checked-competence-motive-20261115/source.sha256`; same active development branch, no production selection.
+
+- revision237 fingerprint anchor: `38c3e7728b46040e6c1312c49f2caae7219fb6713bb1306b894eb4ba3933dfa9` → `docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/source.sha256`; derived projection only, original private payload contracts unchanged.

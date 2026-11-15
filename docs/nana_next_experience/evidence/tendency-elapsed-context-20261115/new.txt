@@ -1,0 +1,4 @@
+{"enduring": false, "later": "SYNTHETIC: ordinary brief chat.", "age": 176400000000, "projection_bytes": 494, "calls": 4}
+.{"enduring": true, "later": "SYNTHETIC: stay with the topic without pressing for details.", "age": 176400000000, "projection_bytes": 500, "calls": 4}
+.
+2 passed in 2.18s

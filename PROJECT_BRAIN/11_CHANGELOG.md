@@ -3774,3 +3774,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S8：原需态失败/评价先因果后32窗口，40无关失败/40其他G评价不压当前SETTLED；反例/撤回/128边界/33相关保护保留。两个原首败，新57相关86.00s；只读旧UNKNOWN→新SETTLED，拒0.9s慢原型，最终3.86–5.33ms/0调用0写。前继1d CI672仅targeted，真实0/无新包/CURRENT不动；证据need-causal-populations-20261115，下一旧缺口动机与实际能力结果一致及原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：原SETTLED需态改变当前动机COMPETENCE/AVAILABLE，保留原CAPABILITY_GAP历史及反例OPEN/显式继续学的自由。f696旧1fail1pass→2同HTTP/123相关68.30s；同提议器未来REFLECT/反例LEARN，各1SELF/0额外G或动作，wire-1948bytes非Token。原cue不改/不推断情绪人格/真实0/CURRENT不动；证据checked-competence-motive-20261115，下一短长期倾向注意条件及原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原V4私倾向有Core elapsed投影，不改存储契约/不自动衰减/不加唤醒。dd756旧1行为错+1缺字段→2同源HTTP/74相关40.35s；虚拟49h同身份重启短倾向CHAT/长期LISTEN、去字段消融/撤回/回拨有效，原记录不变。每chat仍2HTTP/+39投影bytes非Token，真实0/CURRENT未动；证据tendency-elapsed-context-20261115，下一累计匹配Core候选安装及原A–H。
