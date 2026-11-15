@@ -368,6 +368,23 @@ class ContextAssembler:
             mandatory.append(ContextBlock(block_id="subject-deliberation",kind="SUBJECT_APPRAISAL",
                 data_json=subject_frame.model_dump_json(), source_memory_ids=subject_frame.source_memory_ids,
                 source_record_ids=subject_frame.source_record_ids))
+            # An optional, source-backed menu for original C; this is neither
+            # automatic selection nor a Grant. Only actual included blocks may
+            # later be cited by the existing cognition validation.
+            from ..nanalink.media_candidates import candidate as media_candidate
+            choices=[]
+            for mid in subject_frame.source_memory_ids:
+                item=media_candidate(memory_service.read(mid))
+                observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone() if item is not None else None
+                if observation and RecordService(self.store).current_support(observation[0]):
+                    choices.append(item)
+                if len(choices)>=4:
+                    break
+            if choices:
+                candidates.append((936.0,ContextBlock(block_id='subject-media-candidates',kind='MEDIA_CANDIDATES',
+                    data_json=canonical({'candidates':[x.model_dump(mode='json') for x in choices],
+                                         'instruction':'Optional original-C choice; no execution permission.'}),
+                    source_memory_ids=tuple(x.source_memory_id for x in choices))))
             if self.store.schema_target>=13:
                 from .autonomy.private_intent import internal_projection
                 from .subject.growth_life import context_projection

@@ -3884,3 +3884,8 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 ### C-NANALINK · 2026-11-15 · A 对齐及旧 reader 合成回退
 
 合入 A fee8f42 的原私人倾向时间上下文及原账本；主体时间、私人来源、手机HTTP及原笔记24项通过。隔离 Store 先在新版撤回合成私人来源，再用 da752a7 旧源码启动，身份一致、DELETED 墓碑阻止读取；脚本和证据入 docs/nanalink/evidence/private-platform-source-20261115。Android/Web 相对80e1145无差异，该测试包不代表当前 Core 已打包或实机；QQ媒体执行与平台取消关注信号仍未完成。
+
+
+### C-NANALINK · 2026-11-15 · 原主体图片候选
+
+原C可从当前原PerceptionService的直接图片观察选择版本化引用并绑定既定联系目标；无选择仍兼容旧wire，不生成Grant或发送。受控验证拒绝伪造候选与无实际观察的描述，撤回来源使周期失效；相关39项及独立反例通过。OneBot/官方路径仍只发送文字，图片/表情及Verify不可用；1ca8a9d匹配CI通过，当前后继待CI。

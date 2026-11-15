@@ -536,6 +536,15 @@ class SubjectLoop:
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
+            selected_media=_deliberation.proposal.selected_media if _deliberation is not None else None
+            if selected_media is not None and target is not None:
+                # Original C accepts at most one already-advertised source. A
+                # provider answer or host target alone is never a Grant.
+                if (_deliberation.resource_record_id is None or target.capability!='world.contact'
+                        or target.operation!='CONTACT' or selected_media.source_memory_id not in situation.memory_ids
+                        or target.media is not None and target.media != selected_media):
+                    raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
+                target=target.model_copy(update={'media':selected_media})
             if event.goal_step and (intention.kind!='ACTION_PROPOSAL' or intention.behavior!='CONTINUE_PROJECT'):
                 target=None  # A different C choice does not inherit this step's execution target.
             if target and situation.cue and situation.cue.resource_ref and not situation.plan_step:
