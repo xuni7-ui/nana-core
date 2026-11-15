@@ -2,15 +2,15 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `b6a9eaab5998e8ad817e4fa465f4d9947fa830ec`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；0554f47 的匹配 GitHub CI 43713273977 通过，不代替当前后继源码 CI。
+[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `b6a9eaab5998e8ad817e4fa465f4d9947fa830ec`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；80e1145 的匹配 GitHub CI 43713530184 通过，不代替当前后继源码 CI；A 最新观测 f696484，增量合并待本安全点验证后进行。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
-- 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；授权撤销到 owner refresh/restart 的窗口未资格。无第二记忆库。
+- 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；后继相关30项与事务安全点反例通过，BFF 独立只读 Inspector 的变更窗口仍未资格。无第二记忆库。
 - QQ 媒体：原行动目标新增可选 v1 媒体选择，旧无媒体 wire 不变；当前端口返回 UNSUPPORTED，防止漏附件误发。原 C 选择、图片/表情发送、来源撤回验证及 Kernel 回执闭环尚未完成；B站→QQ 及模拟手机直连原 Core 已完成有限来源检索和原 Kernel 回读场景，未经过手机 HTTP/Android 路由；长期/自然度/真实账号尚未资格。
-- 验证：前继 A 对齐109项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。隔离 Android SDK/JDK/Gradle 下 `0554f47` 输入 debug APK 构建成功并验证签名，SHA256 `07315406357de665baff961b9c6c04677bb2f85f175df5637b1fed1a671793f4`；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
+- 验证：前继 A 对齐109项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。隔离 Android SDK/JDK/Gradle 下 `80e1145` 输入 debug APK 构建成功并验证签名，SHA256 `062b4c8f2a3c27fd123555e97fa95d325cdcb212810a4c2f5897530f1a4fa15c`；第二次源码归档构建 ZIP 条目内容相同但 APK 最终字节不同，原因有打包顺序差异；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
 - 后续：完成 QQ 原 C 媒体选择和授权发送/Verify，接入可信平台来源变化撤回，扩大跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据。
 
-证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `ec309aab1047819bdb770df0400ce49b23a35ea60ffdde67c5adcd411e1e47d5`，不含自身/账本。后继基础设施 2000 入队及2000重复用时0.154s、峰值RSS 26620KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
+证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `2c2c59464b67d45c82e1fa859a8283598aaff93ed21d94e67690a64dece465ba`，不含自身/账本。后继基础设施 2000 入队及2000重复用时0.154s、峰值RSS 26620KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
 
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->

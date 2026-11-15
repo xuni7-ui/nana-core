@@ -76,11 +76,11 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
         assert poll_dynamics(workflow)['state']=='ALREADY_POLLED_NO_RETRY'
         assert len(front['requests'])==2 and state['posts']==0
         assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL'").fetchone()[0]==1
-        front['dynamic']=[{**row,'modules':{**row['modules'],'module_dynamic':{'desc':{'text':'changed synthetic event'}}}}]
+        front['dynamic']=[{**row,'modules':{**row['modules'],'module_dynamic':{'desc':{'text':'changed synthetic event'}}}}, {**row,'id_str':'124'}]
         clock.advance(2_000_000)
         changed=poll_dynamics(workflow)
-        assert changed['changed_withdrawn']==1 and changed['observations']==0
-        assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==0
+        assert changed['changed_withdrawn']==1 and changed['observations']==1
+        assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==1
         assert state['posts']==0
 
 
@@ -176,3 +176,29 @@ def test_private_platform_source_recalled_in_qq_and_phone_and_withdrawn(tmp_path
         bridge.withdraw(event)
         app.chat('ORCHID after withdrawal',privacy='PERSONAL',message_id='phone-withdrawn')
         assert mid not in calls[-1]['source_context_refs']
+
+
+def test_config_revocation_closes_source_before_next_original_memory_read(tmp_path):
+    from nana_core.continuity.memory import MemoryService
+    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
+    b=SurfaceBinding(binding_id='bili.private',platform='bilibili.account',adapter='bilibili.account',surface='chat.direct',
+        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',),allow_personal_retention=True,
+        personal_retention_consent_ref='consent.fixture')
+    c=BilibiliChannelBinding(channel_id='bili',binding_id=b.binding_id,account_id=42,target_id=43,sender_id=43,
+        cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    cfg=cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(b,),'bilibili_channels':(c,)})
+    update_config(home,cfg,expected_revision=cfg.revision-1)
+    account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
+    row={'id_str':'123','modules':{'module_author':{'mid':43,'pub_ts':1},'module_dynamic':{'desc':{'text':'fixture'}}}}
+    event=normalize_dynamic(account,row,now_us=clock.utc_now_us(),origin='SYNTHETIC_LOOPBACK')
+    with LifeApplication(home,clock=clock) as app:
+        app.pause();mid=PrivateDynamicBridge(app,'bili').receive(event)['memory_id']
+        next_cfg=cfg.model_copy(update={'revision':cfg.revision+1,'bilibili_channels':(c.model_copy(update={'private_read_authorized':False}),)})
+        with app.runtime.store.transaction('fixture.source_config_change'):
+            update_config(home,next_cfg,expected_revision=cfg.revision)
+            with pytest.raises(CoreError,match='PLATFORM_SOURCE_REVOCATION_PENDING_SAFE_POINT'):
+                MemoryService(app.runtime.store).read(mid)
+        # No platform-refresh or restart: the original privacy safe point detects
+        # the changed host config before revealing the now-revoked source.
+        with pytest.raises(CoreError):MemoryService(app.runtime.store).read(mid)
+        assert app.runtime.store.one('memories',mid)['lifecycle']=='DELETED'

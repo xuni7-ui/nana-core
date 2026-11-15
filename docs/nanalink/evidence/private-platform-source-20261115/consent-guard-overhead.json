@@ -1,0 +1,37 @@
+{
+  "scope": "SYNTHETIC_ONE_MEMORY_READ",
+  "iterations_per_run": 1000,
+  "runs": {
+    "with_guard": [
+      {
+        "wall_ms": 37.589,
+        "cpu_ms": 37.6
+      },
+      {
+        "wall_ms": 38.784,
+        "cpu_ms": 38.795
+      },
+      {
+        "wall_ms": 37.995,
+        "cpu_ms": 37.999
+      }
+    ],
+    "without_guard": [
+      {
+        "wall_ms": 25.893,
+        "cpu_ms": 25.877
+      },
+      {
+        "wall_ms": 26.513,
+        "cpu_ms": 26.515
+      },
+      {
+        "wall_ms": 25.869,
+        "cpu_ms": 25.804
+      }
+    ]
+  },
+  "peak_rss_kib": 53296,
+  "network_calls": 0,
+  "model_calls": 0
+}

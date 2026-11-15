@@ -249,6 +249,37 @@ class PlatformRuntime:
         self._nanalink_bili_sources = {}
         from ..nanalink.private_source import reconcile_revoked_sources
         reconcile_revoked_sources(app,app.config)
+        self._source_guard_busy = False
+        self._source_config_version = self._config_version()
+        app.runtime.store._nanalink_source_guard = self._guard_platform_sources
+
+    def _config_version(self):
+        try:
+            st = (self.app.home / 'life.json').stat()
+            return st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns
+        except OSError:
+            raise CoreError('PLATFORM_SOURCE_CONFIG_UNAVAILABLE') from None
+
+    def _guard_platform_sources(self):
+        if self._source_guard_busy or self._config_version() == self._source_config_version:
+            return
+        if self.app.runtime.store.db.in_transaction:
+            raise CoreError('PLATFORM_SOURCE_REVOCATION_PENDING_SAFE_POINT')
+        from .config import load_config
+        from ..nanalink.private_source import reconcile_revoked_sources
+        self._source_guard_busy = True
+        try:
+            for _ in range(3):
+                before = self._config_version()
+                current = load_config(self.app.home)
+                reconcile_revoked_sources(self.app, current)
+                after = self._config_version()
+                if before == after:
+                    self._source_config_version = after
+                    return
+            raise CoreError('PLATFORM_SOURCE_CONFIG_CHANGED_RETRY_READ')
+        finally:
+            self._source_guard_busy = False
 
     def qq(self, channel_id, message_id):
         channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
