@@ -1,0 +1,3 @@
+.......................{"measurement": "synthetic_first_considered_activity", "behavior": "CREATE", "input_bytes": 26757, "reserved_bytes": 39046, "self_calls": 1, "budget": {"input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "retained_private_thoughts": 0, "real_provider_calls": 0, "real_actions": 0}
+.
+24 passed in 3.19s

@@ -16,7 +16,7 @@ def willing_deference(request,*,relationship,anchor,personality,appetite,commitm
     if request.consequence=='HIGH':counters.append('SIGNIFICANT_CONSEQUENCE')
     if commitments:counters.append('EXISTING_COMMITMENTS')
     if not appetite.available:counters.append('COGNITIVE_LOAD')
-    if appetite.state=='SEEKING' and request.operation=='REFRAIN':counters.append('RETAINED_SOCIAL_DESIRE')
+    if (appetite.state=='SEEKING' or bool(appetite.sources_for('SEEKING'))) and request.operation=='REFRAIN':counters.append('RETAINED_SOCIAL_DESIRE')
     if trait['self_direction_sensitivity']=='HIGH':counters.append('SCOPE_SENSITIVITY')
     if anchor and anchor.spec.deference_baseline=='HIGH':level='STRONG'
     elif related and trust and trust.assessment=='SUPPORTED' and relationship.care_salience.assessment=='SALIENT':level='STRONG'
@@ -39,7 +39,7 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     appetite=situation.social_appetite
     willingness=willing_deference(request,relationship=relation,anchor=anchor,personality=person,appetite=appetite,commitments=situation.commitment_ids,request_refs=(source_record_id,))
     traits={f.name:f.assessment for f in person.facets}
-    desired=appetite.state=='SEEKING'
+    desired=(appetite.state=='SEEKING' or bool(appetite.sources_for('SEEKING')))
     related=bool(anchor or relation.familiarity.assessment=='FAMILIAR')
     now=store.clock.utc_now_us()
     duration=request.duration_us

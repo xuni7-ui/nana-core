@@ -12,6 +12,7 @@ from .experience_need import ExperienceNeed
 
 class Situation(DTO):
     learning_programs:tuple[LearningProgramOption,...]=()
+    learning_selection_optional:bool=False
     preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
@@ -53,6 +54,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     """Same read-only C projection for deliberation and D resource admission."""
     from .contracts import DeliberationFrame
     return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
+        learning_selection_optional=True if situation.learning_selection_optional else None,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 
@@ -101,14 +103,21 @@ def motivate(event, situation, appraisal):
         motives.append(Motivation(source='EXPLORATION', strength='RELEVANT', source_ids=situation.memory_ids))
     if event.novelty == 'HIGH':
         motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids))
-    if (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
-        motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=situation.memory_ids))
+    if (situation.social_appetite and (situation.social_appetite.state in {'OPEN','SEEKING'}
+            or situation.social_appetite.sources_for('SEEKING'))) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
+        connection_sources=situation.social_appetite.sources_for('SEEKING') if situation.social_appetite else ()
+        motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=connection_sources or situation.memory_ids))
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
     if situation.cue:
         motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
         if situation.cue.cognitive_load=='HIGH' and situation.cue.motivation_source!='REST':
             motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=situation.memory_ids))
+    if (situation.cue and 'SOCIALIZE' in directions(situation.cue) and situation.social_appetite
+            and situation.social_appetite.sources_for('RECOVERING','QUIET','SATURATED')):
+        # A social quiet tendency is neither global fatigue nor an instruction
+        # to avoid all company. Preserve it as a sourced competing motive.
+        motives.append(Motivation(source='SOCIAL_QUIET',strength='RELEVANT',source_ids=situation.social_appetite.sources_for('RECOVERING','QUIET','SATURATED')))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
@@ -240,16 +249,23 @@ def decide(event, situation, appraisal, motives):
         # Generic utility/novelty does not erase a current source-backed personal
         # interest. Enjoyment need not promise learning or task productivity.
         interested_learning = (behavior in {'LEARN', 'SEEK_CAPABILITY'}
-            and (personal_interest or (cue.learning_value is not None
+            and (personal_interest or considered_choice or (cue.learning_value is not None
                 and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
-        interested_activity = personal_interest and behavior in {'EXPLORE', 'CREATE', 'REFLECT'}
+        # A present considered wish may be new: neither prior adoption nor
+        # storing a private thought is the admission price for optional thought,
+        # exploration or creation. Source/norm/resource and delivery gates stay.
+        interested_activity = (personal_interest or considered_choice) and behavior in {'EXPLORE', 'CREATE', 'REFLECT'}
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
         # remains the existing separate DeliveryAdmission/Kernel consideration.
+        # A present C choice supported by an own retained idea can compete
+        # with an older quiet tendency; neither tendency is erased.
         interested_social = bool(situation.separate_delivery and behavior=='SOCIALIZE'
-            and situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
-            and situation.social_appetite.source_record_ids)
+            and ((situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
+                and situation.social_appetite.source_record_ids)
+                or (considered_choice and (personal_interest or (situation.social_appetite
+                    and situation.social_appetite.sources_for('SEEKING'))))))
         # Costs/reception for an unchosen alternative are not properties of the
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}

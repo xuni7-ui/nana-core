@@ -1,0 +1,28 @@
+{
+  "exact-old-17.txt": [
+    {
+      "measurement": "synthetic_cross_time_social_choice",
+      "behavior": "IGNORE",
+      "self_calls": 1,
+      "input_bytes": 55038,
+      "reserved_bytes": 67327,
+      "quiet_motive_before_model": false,
+      "virtual_hours": 49,
+      "real_social_sends": 0,
+      "real_provider_calls": 0
+    }
+  ],
+  "new-17.txt": [
+    {
+      "measurement": "synthetic_cross_time_social_choice",
+      "behavior": "SOCIALIZE",
+      "self_calls": 1,
+      "input_bytes": 55309,
+      "reserved_bytes": 67598,
+      "quiet_motive_before_model": true,
+      "virtual_hours": 49,
+      "real_social_sends": 0,
+      "real_provider_calls": 0
+    }
+  ]
+}

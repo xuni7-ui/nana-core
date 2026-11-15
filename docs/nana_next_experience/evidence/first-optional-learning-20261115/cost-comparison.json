@@ -1,0 +1,31 @@
+{
+  "old": {
+    "input_bytes": 48980,
+    "reserved_bytes": 61269,
+    "latency_us": 3712,
+    "budget": {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 32768,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    },
+    "source_context_count": 4,
+    "program_count": 0,
+    "learning_selection_optional": false
+  },
+  "new": {
+    "input_bytes": 49288,
+    "reserved_bytes": 61577,
+    "latency_us": 3480,
+    "budget": {
+      "cost_ceiling_micro": 0,
+      "input_tokens": 32768,
+      "output_tokens": 2048,
+      "timeout_ms": 120000
+    },
+    "source_context_count": 4,
+    "program_count": 1,
+    "learning_selection_optional": true
+  },
+  "expected_schema_unchanged": true
+}

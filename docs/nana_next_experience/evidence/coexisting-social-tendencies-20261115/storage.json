@@ -1,0 +1,20 @@
+{
+  "old": {
+    "page_bytes": 1122304,
+    "artifact_payload_bytes": 116230,
+    "continuity_records": 46,
+    "artifacts": 71,
+    "cognitive_requests": 1,
+    "physical_file_bytes": 1122304,
+    "allocated_file_bytes": 1122304
+  },
+  "new": {
+    "page_bytes": 1122304,
+    "artifact_payload_bytes": 115742,
+    "continuity_records": 46,
+    "artifacts": 71,
+    "cognitive_requests": 1,
+    "physical_file_bytes": 1122304,
+    "allocated_file_bytes": 1122304
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "overlap": {
+    "collected": 102,
+    "unique": 102,
+    "duplicate_count": 0
+  },
+  "parent_only": {
+    "collected": 102,
+    "unique": 102,
+    "duplicate_count": 0
+  },
+  "same_unique_coverage": true
+}

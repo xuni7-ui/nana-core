@@ -1,0 +1,171 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[offered] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f99e51aa030>
+condition = 'offered'
+
+    @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+    def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+        r=app.runtime
+        if condition=='unconfigured':r.work.configure_open_learning(())
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+            possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+        mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+            capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+>       event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+            retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'NORMAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SubjectInput
+E       retention
+E         Input should be 'MAY_REMEMBER' or 'DO_NOT_REMEMBER' [type=literal_error, input_value='NORMAL', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_deliberated_direction.py:252: ValidationError
+_ test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[norm] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f99e50400e0>
+condition = 'norm'
+
+    @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+    def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+        r=app.runtime
+        if condition=='unconfigured':r.work.configure_open_learning(())
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+            possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+        mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+            capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+>       event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+            retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'NORMAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SubjectInput
+E       retention
+E         Input should be 'MAY_REMEMBER' or 'DO_NOT_REMEMBER' [type=literal_error, input_value='NORMAL', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_deliberated_direction.py:252: ValidationError
+_ test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[not-learning] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f99e5040350>
+condition = 'not-learning'
+
+    @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+    def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+        r=app.runtime
+        if condition=='unconfigured':r.work.configure_open_learning(())
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+            possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+        mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+            capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+>       event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+            retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'NORMAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SubjectInput
+E       retention
+E         Input should be 'MAY_REMEMBER' or 'DO_NOT_REMEMBER' [type=literal_error, input_value='NORMAL', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_deliberated_direction.py:252: ValidationError
+_ test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[unconfigured] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f99e50b37d0>
+condition = 'unconfigured'
+
+    @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+    def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+        r=app.runtime
+        if condition=='unconfigured':r.work.configure_open_learning(())
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+            possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+        mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+            capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+>       event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+            retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'NORMAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for SubjectInput
+E       retention
+E         Input should be 'MAY_REMEMBER' or 'DO_NOT_REMEMBER' [type=literal_error, input_value='NORMAL', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+
+tests/person_self/test_deliberated_direction.py:252: ValidationError
+_ test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[no-retention] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f99e50b1d90>
+condition = 'no-retention'
+
+    @pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+    def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+        r=app.runtime
+        if condition=='unconfigured':r.work.configure_open_learning(())
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+            possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+        mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+        if condition=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+            capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+        event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+            retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'NORMAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       source=r.subject.ingress.ingest(event);changes=r.store.db.total_changes
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.ingress.SubjectIngress object at 0x7f99e50be120>
+event = SubjectInput(communication_method_record_id=None, private_thought_ref=None, conversation_proposal=None, problem_frame=...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+
+    def ingest(self, event: SubjectInput):
+        if event.private_thought_ref is not None and self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
+        if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
+        now = self.store.clock.utc_now_us()
+        if event.surface:
+            from ..surfaces import source_key
+            if event.surface.subject_id != self.store.identity['identity_id'] or event.source_key != source_key(event.surface):
+                raise CoreError('SURFACE_BINDING_INVALID')
+        if event.observed_at_us > now or (event.occurred_at_us is not None and event.occurred_at_us > event.observed_at_us):
+            raise CoreError('INVALID_SUBJECT_TIME')
+        if not self.store.one('entities', event.entity_id):
+            raise CoreError('UNKNOWN_SUBJECT_ENTITY')
+        previous = self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?', (event.source_key,)).fetchone()
+        if previous:
+            row = dict(previous)
+            if row['entity_id'] != event.entity_id or row['scope'] != event.scope or row['kind'] != event.kind or row['origin'] != event.origin:
+                raise CoreError('SUBJECT_SOURCE_COLLISION')
+            if row['record_id']:
+                try:
+                    old = self.records.read(row['record_id'])['payload']['input']
+                except CoreError:
+                    raise CoreError('SUBJECT_SOURCE_RETIRED') from None
+                if SubjectInput.model_validate_json(canonical(old)).model_dump(mode='json') != json.loads(event.model_dump_json()):
+                    raise CoreError('SUBJECT_SOURCE_COLLISION')
+            # Nonretained input intentionally has no content hash that might leak it.
+            return row
+        request_target=None
+        if self.store.schema_target>=10 and event.relational_request:
+            request_target='relational-request:'+digest([event.scope,event.entity_id,event.relational_request.request_id])
+            if self.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? LIMIT 1",(request_target,)).fetchone():
+                raise CoreError('RELATIONAL_REQUEST_ID_REUSED')
+        if event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:
+            from .context_fit import boundary_key
+            request_target=boundary_key(event.entity_id,event.scope,event.interaction_signal.topic_key,purpose='DELIVERY' if event.interaction_signal.kind in {'DECLINE_DELIVERY','REOPEN_DELIVERY'} else 'COGNITION')
+        support = tuple(dict.fromkeys((*event.source_memory_ids, *event.constraint_memory_ids)))
+        for memory_id in support:
+            item = self.memory.read(memory_id)
+            if item['scope'] != event.scope:
+                raise CoreError('CROSS_SCOPE_SUBJECT_INPUT')
+            if event.retention == 'DO_NOT_REMEMBER':
+>               raise CoreError('NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION')
+E               nana_core.contracts.CoreError: NONRETENTION_INPUT_CANNOT_PERSIST_DERIVATION
+
+src/nana_core/continuity/subject/ingress.py:69: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[offered]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[norm]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[not-learning]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[unconfigured]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_catalog_reuses_original_readonly_scope_and_current_options[no-retention]
+5 failed, 50 deselected in 0.67s

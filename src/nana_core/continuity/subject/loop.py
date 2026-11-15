@@ -119,7 +119,7 @@ class SubjectLoop:
         if method is not None:
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='OWN_METHOD_RECONSIDERATION',topic_key=method['topic'],possible_behaviors=('REFLECT','REST'))
-        learning_programs=()
+        learning_programs=();learning_selection_optional=False
         if continued is not None and cue is None:
             from .opportunities import ConcernCue
             # A retained own thought is already a real reason to reconsider.
@@ -257,7 +257,15 @@ class SubjectLoop:
                 privacy_classes=self.privacy_classes,reference=event.private_thought_ref)
             if feedback is None or feedback['reference']!=event.private_thought_ref:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
             records.extend(feedback['record_ids']);memories.extend(feedback['memory_ids'])
-        return Situation(plan_step=plan_step,learning_programs=learning_programs,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        # The same G catalog is available to a first learning wish too; a
+        # retained private thought is not a prerequisite. Only descriptors of
+        # current configured programs cross the original scope/privacy boundary.
+        if (not learning_programs and cue and 'LEARN' in directions(cue) and 'LEARN' not in prohibited
+                and event.retention!='DO_NOT_REMEMBER' and self.learning_program_catalog is not None):
+            learning_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
+            learning_programs=self.learning_program_catalog(event.scope,learning_privacy)
+            learning_selection_optional=bool(learning_programs)
+        return Situation(plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),

@@ -1,0 +1,120 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[LOW-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2226ac6120>
+behavior = 'LEARN', generic_value = 'LOW'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'IGNORE' == 'LEARN'
+E         
+E         - LEARN
+E         + IGNORE
+
+tests/person_self/test_deliberated_direction.py:165: AssertionError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[LOW-SEEK_CAPABILITY] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2226ac62a0>
+behavior = 'SEEK_CAPABILITY', generic_value = 'LOW'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'IGNORE' == 'SEEK_CAPABILITY'
+E         
+E         - SEEK_CAPABILITY
+E         + IGNORE
+
+tests/person_self/test_deliberated_direction.py:165: AssertionError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[RELEVANT-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2226ac9be0>
+behavior = 'LEARN', generic_value = 'RELEVANT'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'WATCH' == 'LEARN'
+E         
+E         - LEARN
+E         + WATCH
+
+tests/person_self/test_deliberated_direction.py:165: AssertionError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[RELEVANT-SEEK_CAPABILITY] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2226ac8740>
+behavior = 'SEEK_CAPABILITY', generic_value = 'RELEVANT'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'WATCH' == 'SEEK_CAPABILITY'
+E         
+E         - SEEK_CAPABILITY
+E         + WATCH
+
+tests/person_self/test_deliberated_direction.py:165: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[LOW-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[LOW-SEEK_CAPABILITY]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[RELEVANT-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[RELEVANT-SEEK_CAPABILITY]
+4 failed, 24 deselected in 0.66s

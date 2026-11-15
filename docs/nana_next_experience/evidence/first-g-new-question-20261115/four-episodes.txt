@@ -1,0 +1,16 @@
+{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.4776746989991807, "parent_process_cpu_seconds": 0.38604142900000005, "family_allocated_bytes": 3682304}
+.{"measurement": "synthetic_first_optional_g", "wanted": "REST", "behavior": "REST", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 0, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "REST", "method": "PYTHON_TOP_DEFS", "goal_state": "FAILED", "action_states": ["SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "REST", "wall_seconds": 0.27083138300076826, "parent_process_cpu_seconds": 0.21085522699999992, "family_allocated_bytes": 2854912}
+.{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.4314282710001862, "parent_process_cpu_seconds": 0.33984829500000013, "family_allocated_bytes": 3682304}
+{"measurement": "synthetic_first_g_new_question", "projection_enabled": true, "growth_self_calls": 1, "new_questions": 1, "qualified_growth_projected": true, "input_bytes": 54276}
+.{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.41908216499905393, "parent_process_cpu_seconds": 0.3385223209999997, "family_allocated_bytes": 3682304}
+{"measurement": "synthetic_first_g_new_question", "projection_enabled": false, "growth_self_calls": 1, "new_questions": 0, "qualified_growth_projected": false, "input_bytes": 55592}
+.
+4 passed, 53 deselected in 3.61s

@@ -1,0 +1,94 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[EXPLORE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f32a87b49e0>
+behavior = 'EXPLORE'
+
+    @pytest.mark.parametrize('behavior',['EXPLORE','CREATE','REFLECT'])
+    def test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest(app,behavior):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        from .test_private_tendency import current
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='a-first-uncommitted-idea',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'first-noninstrumental-idea',cue.model_dump(mode='json'),predicate='concern.first-noninstrumental-idea')
+        assert not current(app) and not r.store.all('self_assertions')
+        class Choosing:
+            descriptor='synthetic-a-first-considered-interest'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-noninstrumental-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+            scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'IGNORE' == 'EXPLORE'
+E         
+E         - EXPLORE
+E         + IGNORE
+
+tests/person_self/test_deliberated_direction.py:103: AssertionError
+_ test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[CREATE] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f32a8904a40>
+behavior = 'CREATE'
+
+    @pytest.mark.parametrize('behavior',['EXPLORE','CREATE','REFLECT'])
+    def test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest(app,behavior):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        from .test_private_tendency import current
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='a-first-uncommitted-idea',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'first-noninstrumental-idea',cue.model_dump(mode='json'),predicate='concern.first-noninstrumental-idea')
+        assert not current(app) and not r.store.all('self_assertions')
+        class Choosing:
+            descriptor='synthetic-a-first-considered-interest'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-noninstrumental-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+            scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'IGNORE' == 'CREATE'
+E         
+E         - CREATE
+E         + IGNORE
+
+tests/person_self/test_deliberated_direction.py:103: AssertionError
+_ test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[REFLECT] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f32a87d17f0>
+behavior = 'REFLECT'
+
+    @pytest.mark.parametrize('behavior',['EXPLORE','CREATE','REFLECT'])
+    def test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest(app,behavior):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        from .test_private_tendency import current
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='a-first-uncommitted-idea',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'first-noninstrumental-idea',cue.model_dump(mode='json'),predicate='concern.first-noninstrumental-idea')
+        assert not current(app) and not r.store.all('self_assertions')
+        class Choosing:
+            descriptor='synthetic-a-first-considered-interest'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value.update(preferred_behavior=behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-noninstrumental-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+            scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==behavior
+E       AssertionError: assert 'IGNORE' == 'REFLECT'
+E         
+E         - REFLECT
+E         + IGNORE
+
+tests/person_self/test_deliberated_direction.py:103: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[EXPLORE]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[CREATE]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_considered_noninstrumental_activity_does_not_require_a_stored_interest[REFLECT]
+3 failed, 5 deselected in 0.54s

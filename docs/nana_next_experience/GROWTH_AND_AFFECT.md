@@ -53,3 +53,23 @@ Retained-note lookup failures now have an original C→G practice/independent va
 ## 2026-11-14 · 明确考虑的重型兴趣与原REST动机共同竞争
 
 原C明确选择、有独立私人兴趣支持时，HIGH负荷/HEAVY投入不再在后续策略强制替换为REST；REST仍在原动机，未考虑的重型默认与实际资源/权限/接收者门保留。这是A/B/C不变、修E并归还D取舍的窄范围修正。正常Runtime/SELF旧3fail2pass→15pass、199相关52.93s，同1次53288wirebytes非Token；不是重型活动已执行或全自主性资格。证据evidence/deliberated-heavy-interest-20261114/README.md。
+
+## 2026-11-15 · 安静与当前联系愿望的原C竞争
+
+原RECOVERING/QUIET在社交候选中成为有源SOCIAL_QUIET动机，当前C明确选择且有自身兴趣时可考虑SOCIALIZE，不再被泛化低价值/重复直接改IGNORE。旧状态/私念保留，REST与接收者/规范/重复投递仍有效；不是全域疲劳，不授发送权限。旧5337同17场景13fail4pass→17pass/110相关31.79s；虚拟49h同主体重启实际SELF1次、+271wirebytes非Token，无真实社交或长期资格。证据evidence/social-quiet-current-choice-20261115/README.md。
+
+## 2026-11-15 · 原长期社交倾向共存
+
+原Growth已采纳的联系/安静/恢复/满足可以在同一派生投影并存，原C同时考虑有源方向，不再要求另造private记录才能明确选择联系。只在共存时携带至多四类原状态/分来源，不建权重或新Store；关系请求/有限约定复查保留联系偏好。旧四行为2fail2pass→新34pass，142相关35.89s；同身份虚拟49h重启结构化旧IGNORE→新SOCIALIZE，各1SELF/0发送。来源撤回/作用域/候选资格/休息与接收者边界保持，真实0。证据evidence/coexisting-social-tendencies-20261115/README.md。
+
+## 2026-11-15 · 首次明确活动选择无需先保存兴趣
+
+原C已核验的当前EXPLORE/CREATE/REFLECT选择可与LOW/REPEATED及负荷动机竞争，保留无选择/休息/规范/风险/真实预算；不强制存private、不造偏好或正式Goal。精确41d7旧7fail17pass→24pass3.19s；相关222通过、2个路径启动失败换短目录原2通过。完整SELF请求逐字段同、各1次/input26757bytes，旧IGNORE→CREATE；新增原候选记账一页4KiB，真实0。见evidence/first-considered-interest-20261115。
+
+## 2026-11-15 · 首次可选学习→原G→重启后实际方法
+
+当前明确LEARN/SEEK_CAPABILITY可重新考虑低工具收益/已有替代，不必先存兴趣；原G有界只读目录也接普通LEARN机会，普通愿望可不绑定程序、原私人G精确引用要求保留。首次LEARN原G独立评价/迁移→同身份重启新材料实际AST/Goal完成；REST不学/旧方法Goal失败，后续0模型。旧4fail，最终79联调/153相关61.83s，失败首轮全存；同1SELF/新目录+308wirebytes，单例G路径+0.20s墙钟/816KiB家族分配，非真实Token/长期。见evidence/first-optional-learning-20261115。
+
+## 2026-11-15 · 无旧私念origin的成长能形成新问题并改变后来取舍
+
+原G独立评价→另一材料实际Kernel成功→宿主观察SUCCESS→正常D/同C一次SELF，新PRIVATE_QUESTION无旧private basis。重启后相同LOW/REPEATED新cue有问题LEARN、消融无问题IGNORE，后一步0模型/不新Gjob；原其他私人活动全保留，来源撤回后方法/新问题影响失效。57同文件+新增闭包两项通过，仅补现有src组合资格，不重开发，不称真实长期成长。见evidence/first-g-new-question-20261115。

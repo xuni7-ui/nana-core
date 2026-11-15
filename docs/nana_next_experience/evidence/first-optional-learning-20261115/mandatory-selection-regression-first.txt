@@ -1,0 +1,519 @@
+.F.F...................{"measurement": "synthetic_first_considered_activity", "behavior": "CREATE", "input_bytes": 26757, "reserved_bytes": 39046, "self_calls": 1, "budget": {"input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "retained_private_thoughts": 0, "real_provider_calls": 0, "real_actions": 0}
+.F.F.............F.F.F.F.{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49239, "reserved_bytes": 61528, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+.{"measurement": "synthetic_first_optional_g", "wanted": "REST", "behavior": "REST", "self_calls": 1, "input_bytes": 49239, "reserved_bytes": 61528, "learning_jobs": 0, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "REST", "method": "PYTHON_TOP_DEFS", "goal_state": "FAILED", "action_states": ["SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+.
+=================================== FAILURES ===================================
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[learn-not-first] _
+
+tmp_path = PosixPath('/workspace/scratch/nana-first-learning-50/test_existing_cognition_can_pr1')
+preference = 'LEARN', prohibited = (), risk = 'LOW', expected = 'LEARN'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=prohibited)
+                capture(r,'deliberation-current-norm',norm.model_dump(mode='json'),predicate='concern.constraint.deliberation')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...f7-b1f4-4fcd5ec1f01d', '404066f2-14c7-4655-a9a3-9712394baf4c', '5e8acb90-12fa-4eae-8362-ffe0305f2823'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='bb32eb5a-4857-42a5-b5fa-a1cca0778a53', identity...0b-e8f3-4208-ac95-1ed855701258',))), content_digest='5408ab8861d22d78519b378dfd32afec10a48d15a81fab076ebef8cf0b827fbb')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[selected-learning-risk-still-applies] _
+
+tmp_path = PosixPath('/workspace/scratch/nana-first-learning-50/test_existing_cognition_can_pr3')
+preference = 'LEARN', prohibited = (), risk = 'HIGH', expected = 'REST'
+
+    @pytest.mark.parametrize('preference,prohibited,risk,expected',[
+        ('REST',(), 'LOW','REST'),
+        ('LEARN',(), 'LOW','LEARN'),
+        ('LEARN',('LEARN',), 'LOW','CREATE'),
+        ('LEARN',(), 'HIGH','REST'),
+    ],ids=['rest-not-first','learn-not-first','norm-still-applies','selected-learning-risk-still-applies'])
+    def test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain(tmp_path,preference,prohibited,risk,expected):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();calls=[]
+        class Choosing:
+            descriptor='synthetic-direction-choice'
+            def propose(self,request):
+                calls.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request))
+                value['interpretation']='SYNTHETIC prefer '+preference+' after considering the available motives.'
+                if 'preferred_behavior' in CognitiveProposal.model_fields:value['preferred_behavior']=preference
+                return json.dumps(value)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();seed(app);r=app.runtime
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CREATIVE_INTEREST',topic_key='own-curiosity',
+                possible_behaviors=('CREATE','LEARN','REST'),
+                learning_value=LearningValue(goal_value='HIGH',future_reuse='HIGH',interest='HIGH',risk=risk))
+            mid=capture(r,'deliberated-direction',cue.model_dump(mode='json'),predicate='concern.deliberated-direction')
+            if prohibited:
+                norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=prohibited)
+                capture(r,'deliberation-current-norm',norm.model_dump(mode='json'),predicate='concern.constraint.deliberation')
+            event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.deliberated-direction',kind='WAKE',origin='SELF_WAKE',
+                entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+>           cycle=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...16-a551-17514d561a2a', '7cd315b7-453b-48ad-936d-0d8f21a26931', 'daafa8e8-3f81-4c19-8aeb-3db8a19f4e1a'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='5ecaf4bf-49dd-48d1-8466-b5a88c7ef134', identity...b1-8a70-47e7-b8ab-cfdf87d027bf',))), content_digest='672cb67b997848027e5160362e778b6c38336328980638c84b940c84d8449686')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[current-LOW-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f73d9fd0>
+behavior = 'LEARN', generic_value = 'LOW', guard = 'current'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...95-b10d-79ce66c51b9c', '436bb867-4398-4806-badc-0b62ef12999a', '61431108-51c2-4d75-9563-01c188696595'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='ae92a4db-ce8f-434b-8c58-c4b903669fea', identity...a0-9d44-426f-9f77-bf3de4ba5ddf',))), content_digest='e1d28e640c7983e28856268d24fe34c141b09e50ea3b39f3aff5bd8ba345ad5d')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[current-RELEVANT-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f7313b00>
+behavior = 'LEARN', generic_value = 'RELEVANT', guard = 'current'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...77-a86e-519613eadf69', '38aa6711-3d2e-4917-98e9-6db5539c8a62', '4b339c74-662a-41da-8db7-ee881ef6114f'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='fab1a5a3-5902-4ca9-86c7-0a19a751b004', identity...0e-c0ee-498b-bff8-67861340d05a',))), content_digest='6d30ea77c7e14fd321bd5b4d59e79f614e2c66ee71886eb7bd43a00cf9c727b0')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[risk-LOW-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f7106f30>
+behavior = 'LEARN', generic_value = 'LOW', guard = 'risk'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...ea-8d89-311b57bae9eb', '6d284c98-ae3a-46c0-9b4f-5eb6c1c09e62', 'c2b5cf10-e21f-4af7-aed0-76af79af5123'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='6cd491d5-e6f9-4e09-8c84-2dc4662aee74', identity...e0-f247-4f88-b0c1-c3351ab5c601',))), content_digest='fce0f6d66cfab37840a403601745623a7416a3e34d073791f7ffe183826f073e')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[risk-RELEVANT-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f71074d0>
+behavior = 'LEARN', generic_value = 'RELEVANT', guard = 'risk'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...7b-af07-70ae9e21a3ad', '2d6ac694-5486-41e6-b0ef-489951dc7f87', '3a9f5329-4b70-49d7-9ccc-b11a280ebf4f'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='ba65a45d-fd65-4bd2-9864-964f3a79487e', identity...2b-a6d1-40e6-ad0c-64bb326aa21d',))), content_digest='2bd56fd21042995bf8d2e0232a8e5b34e2d95a5cf9a357a2072e81164d87787f')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[heavy-LOW-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f736d1f0>
+behavior = 'LEARN', generic_value = 'LOW', guard = 'heavy'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...c5-b73a-2b341d3285cf', '3af58bc0-86a7-41b5-bbac-4c2ebcaf2ae1', '4f30a088-c86c-4973-98fe-aa14e1904f89'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='ea5d482d-e294-4c1a-ab99-baa040af0a12', identity...ea-f36b-4787-b014-119b418e7d2b',))), content_digest='1d7ac30359be5a3dabbb936df324fdc44be38aa7f81cbab0965594016d62bd9e')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+_ test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[heavy-RELEVANT-LEARN] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f57f7544350>
+behavior = 'LEARN', generic_value = 'RELEVANT', guard = 'heavy'
+
+    @pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+    @pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+    @pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+    def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment
+        r=app.runtime;seen=[]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+            possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+            opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+                risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+        mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+            capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+        class Choosing:
+            descriptor='synthetic-new-learning-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+>       result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:696: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:144: in run
+    validate_cognitive_proposal(proposal,context)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+proposal = CognitiveProposal(passing_thought=None, preferred_behavior='LEARN', learning_program_ref=None, private_question=None, ...43-a28c-8b598ad884d5', '7aefe5a1-ea0a-4592-9517-ff33627ee319', '95663569-2c9b-444d-92c0-7017d5ceb34f'), lesson_refs=())
+context = ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='a95a6560-2705-455b-9291-2c6d3c3e2d08', identity...09-3aa0-49ef-810f-ff1c1192c4fa',))), content_digest='7eb53fdb2e2dd9d05ff87a91102e186bece8d2deeef13566fdfe9e4fe37ed816')
+
+    def validate_cognitive_proposal(proposal, context):
+        """One reference/identity contract for original C and its provider resource."""
+        manifest=context.manifest
+        if (proposal.identity_id,proposal.identity_revision)!=(manifest.identity_id,manifest.identity_revision):
+            raise CoreError('MODEL_IDENTITY_MISMATCH')
+        available={m for b in context.blocks for m in b.source_memory_ids}
+        lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
+        if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
+            raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+        if proposal.preferred_behavior is not None:
+            choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
+            if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+        programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+        selected=proposal.learning_program_ref
+        if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+            raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+        if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+>           raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+E           nana_core.contracts.CoreError: PRIVATE_LEARNING_SELECTION_REQUIRED
+
+src/nana_core/continuity/cognition.py:121: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[learn-not-first]
+FAILED tests/person_self/test_deliberated_direction.py::test_existing_cognition_can_prefer_an_alternative_while_current_c_guards_and_replay_remain[selected-learning-risk-still-applies]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[current-LOW-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[current-RELEVANT-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[risk-LOW-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[risk-RELEVANT-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[heavy-LOW-LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative[heavy-RELEVANT-LEARN]
+8 failed, 42 passed in 7.12s

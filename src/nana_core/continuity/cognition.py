@@ -117,7 +117,10 @@ def validate_cognitive_proposal(proposal, context):
     selected=proposal.learning_program_ref
     if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
         raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
-    if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+    # This is a Core frame hint, never a model permission. The first wish may
+    # stay unbound; the original private-G path still requires an exact choice.
+    optional=any(b.kind=='SUBJECT_APPRAISAL' and json.loads(b.data_json).get('learning_selection_optional') is True for b in context.blocks)
+    if programs and proposal.preferred_behavior=='LEARN' and selected is None and not optional:
         raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
     for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN'),(proposal.private_tendency,'PRIVATE_TENDENCY')):
         if candidate is None:continue

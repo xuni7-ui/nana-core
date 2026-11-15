@@ -1,10 +1,10 @@
-## 现役revision227 — 合成评论不再挤掉用户证据群，范围资格在截断前
+## 现役revision232 — 原G后来成功→正常D→新私问→重启后新取舍
 
-原learnable改为各证据群/已评价状态先过滤，再各取原32；合成评论量不能遮住用户意见/反例，UNREVIEWED不挤已评价。原expression_policy先scope/privacy/current再16，已采纳策略最多2示例来自同群。精确383旧7fail10pass→17pass4.20s，168相关55.68s；后补正常原INTERPRET/C/SOCIAL聊天旧fail→新pass，实际USER方法+2同群示例进入生成。预算/120s不变、同2阶段/+3263wirebytes非Token；只读查询单例约5.026→5.336ms、写0，不当P95。无新表/index/依赖/Prompt/schema，16/32笔记范围不改。首错均保留，见evidence/language-feedback-populations-20261115/README.md。
+只补原机制组合资格，不改src：无旧private origin的首次G→另一材料实际Kernel AST成功→原宿主observer SUCCESS→正常D/同C一次SELF形成新PRIVATE_QUESTION。消融只关成长投影、同预算/机会仍一次SELF但无新问题。再重启同Store/identity，相同LOW/REPEATED新cue有问题LEARN、消融IGNORE，后一步0模型、不新Gjob；其他原私人活动完整保留。来源撤回后方法/新疑问影响失效，未重发。57同文件10.17s，随后只补撤回两项2pass3.02s，首次“整个Store应无其他私活动”夹具错误2fail保留。见evidence/first-g-new-question-20261115/README.md。
 
-前继383独立69pass59.28s仅前继；未新包/APK/手机/生产/自然度/长期，真实Provider0，USER标签是合成夹具而非真人来源。当前源码不在929候选，CURRENT266+409保持。两个续办已按北京时间今日11-15 22:25/明日11-16 05:00设置，不冻结当前进度。工作副本仍/workspace/nana-next-refinement-work，保护磁盘20万库/旧18bc。
+成长SELF开启54276/消融55592inputbytes是fitted上下文不同，非Token节省；初始学习各1SELF/49288bytes，Kernel/后续C run0模型，真实模型/账号/手机/生产/真人自然度/实际跨日长期0。原src仍49d6df5业务代码，未新包/APK/安装，CURRENT266+409，929候选只对自己源码。
 
-下一原S3短长情感/多动机及同群更长历史/独立发生采样、通信方法更广后续评价/反例迁移；不将分群窗口或单次意见当长期成长。原G/反馈接线继续复用，跨topic/存储隐私/Token费用超时/模型多端/全部A–H继承。
+下一S2两码点短线索literal：先只读核对L3索引，隔离prefix+末端补项，尝试复用而非新增全量bigram，不动原20万库；随后内心情感多时间尺度/不同情境反证/S8更广迁移、自然交流/投递、物理隐私/真实Token费用/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

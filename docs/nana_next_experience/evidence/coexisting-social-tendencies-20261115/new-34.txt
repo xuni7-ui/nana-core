@@ -1,0 +1,4 @@
+................{"measurement": "synthetic_cross_time_social_choice", "behavior": "SOCIALIZE", "self_calls": 1, "input_bytes": 55309, "reserved_bytes": 67598, "quiet_motive_before_model": true, "virtual_hours": 49, "real_social_sends": 0, "real_provider_calls": 0}
+.................{"measurement": "synthetic_coexisting_social_restart", "behavior": "SOCIALIZE", "self_calls": 1, "input_bytes": 51456, "reserved_bytes": 63745, "pre_model_motive_sources": ["EXPLORATION", "SOCIAL_CONNECTION", "RELATIONSHIP", "SOCIAL_QUIET"], "virtual_hours": 49, "private_thoughts": 0, "real_social_sends": 0, "real_provider_calls": 0}
+.
+34 passed in 5.53s

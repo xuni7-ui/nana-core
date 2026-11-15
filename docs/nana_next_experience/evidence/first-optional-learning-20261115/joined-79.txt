@@ -1,0 +1,51 @@
+.......................{"measurement": "synthetic_first_considered_activity", "behavior": "CREATE", "input_bytes": 26757, "reserved_bytes": 39046, "self_calls": 1, "budget": {"input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "retained_private_thoughts": 0, "real_provider_calls": 0, "real_actions": 0}
+.........................{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+.{"measurement": "synthetic_first_optional_g", "wanted": "REST", "behavior": "REST", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 0, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "REST", "method": "PYTHON_TOP_DEFS", "goal_state": "FAILED", "action_states": ["SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+......{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"family_allocated_bytes": 1699840, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.44304948300000024, "wall_seconds": 0.975334439001017, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "WATCH"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED"], "goal_state": "FAILED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_TOP_DEFS", "wanted": "WATCH"}
+{"family_allocated_bytes": 1236992, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.32088033900000035, "wall_seconds": 0.8767075260002457, "wanted": "WATCH"}
+.{"input_bytes": 50479, "learning_jobs": 0, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "REST"}
+{"family_allocated_bytes": 901120, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.2029122750000001, "wall_seconds": 0.7299844850003865, "wanted": "REST"}
+...............{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2076672, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8096982659999998, "wall_seconds": 1.8026647659989976, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": false, "growth_self_calls": 1, "input_bytes": 55866, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1, "retired": false}
+{"family_allocated_bytes": 2064384, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8142807970000003, "wall_seconds": 1.80282308400092, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 0, "view_available": true}
+{"closed": true, "enabled": true, "growth_self_calls": 1, "input_bytes": 55970, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1, "retired": false}
+{"family_allocated_bytes": 2142208, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.834083764999999, "wall_seconds": 1.8239794399996754, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 0, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55392, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 2, "retired": true}
+{"family_allocated_bytes": 2093056, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8787342480000007, "wall_seconds": 1.8310368840011506, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"growth_queue_states": [], "measurement": "synthetic_unconfigured_growth_gap", "stored_provider_calls": 1}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55027, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 2, "retired": false}
+{"family_allocated_bytes": 2076672, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.7980955129999998, "wall_seconds": 1.8018200319984317, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55007, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 3, "retired": false}
+{"family_allocated_bytes": 2129920, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.9930131090000014, "wall_seconds": 1.9789835270003096, "wanted": "LEARN"}
+.{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55007, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 4, "retired": false}
+{"family_allocated_bytes": 2121728, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8739104060000003, "wall_seconds": 1.8583269270002347, "wanted": "LEARN"}
+.
+79 passed in 24.27s

@@ -1,0 +1,80 @@
+FF..                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_retained_connection_and_quiet_can_compete_without_a_new_private_thought[SOCIALIZE-social_recovery_needed-RECOVERING] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f583265b5c0>
+quiet_topic = 'social_recovery_needed', quiet_state = 'RECOVERING'
+choice = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('quiet_topic,quiet_state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice',['SOCIALIZE','REST'])
+    def test_retained_connection_and_quiet_can_compete_without_a_new_private_thought(app,quiet_topic,quiet_state,choice):
+        r=app.runtime;seen=[]
+        for topic in ('social_connection',quiet_topic):
+            for i in range(2):
+                r.subject.run(SubjectInput(source_key=f'synthetic.retained.{topic}.{i}',kind='PLAY',origin='ENVIRONMENT',
+                    entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                    text=f'SYNTHETIC independent lived preference {topic} occurrence {i}',preference_signal=PreferenceSignal(
+                        topic=topic,direction='SUPPORT',interpretation='SYNTHETIC a revisable supported preference')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==quiet_state and not current(app)
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='ordinary-small-share',
+            resource_class='ORDINARY',possible_behaviors=('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'coexisting-social-opportunity',cue.model_dump(mode='json'),predicate='concern.coexisting-social')
+        class Choosing:
+            descriptor='synthetic-independent-retained-tendencies'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value.update(preferred_behavior=choice,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.coexisting-social-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+            scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==choice
+E       AssertionError: assert 'IGNORE' == 'SOCIALIZE'
+E         
+E         - SOCIALIZE
+E         + IGNORE
+
+tests/person_self/test_social_tendency_competition.py:137: AssertionError
+_ test_retained_connection_and_quiet_can_compete_without_a_new_private_thought[SOCIALIZE-social_quiet_preference-QUIET] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f5832654380>
+quiet_topic = 'social_quiet_preference', quiet_state = 'QUIET'
+choice = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('quiet_topic,quiet_state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice',['SOCIALIZE','REST'])
+    def test_retained_connection_and_quiet_can_compete_without_a_new_private_thought(app,quiet_topic,quiet_state,choice):
+        r=app.runtime;seen=[]
+        for topic in ('social_connection',quiet_topic):
+            for i in range(2):
+                r.subject.run(SubjectInput(source_key=f'synthetic.retained.{topic}.{i}',kind='PLAY',origin='ENVIRONMENT',
+                    entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                    text=f'SYNTHETIC independent lived preference {topic} occurrence {i}',preference_signal=PreferenceSignal(
+                        topic=topic,direction='SUPPORT',interpretation='SYNTHETIC a revisable supported preference')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==quiet_state and not current(app)
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='ordinary-small-share',
+            resource_class='ORDINARY',possible_behaviors=('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'))
+        mid=capture(r,'coexisting-social-opportunity',cue.model_dump(mode='json'),predicate='concern.coexisting-social')
+        class Choosing:
+            descriptor='synthetic-independent-retained-tendencies'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                value.update(preferred_behavior=choice,proposed_operations=['DRAFT']);return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.coexisting-social-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',
+            scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+>       assert result.intention.behavior==choice
+E       AssertionError: assert 'IGNORE' == 'SOCIALIZE'
+E         
+E         - SOCIALIZE
+E         + IGNORE
+
+tests/person_self/test_social_tendency_competition.py:137: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_social_tendency_competition.py::test_retained_connection_and_quiet_can_compete_without_a_new_private_thought[SOCIALIZE-social_recovery_needed-RECOVERING]
+FAILED tests/person_self/test_social_tendency_competition.py::test_retained_connection_and_quiet_can_compete_without_a_new_private_thought[SOCIALIZE-social_quiet_preference-QUIET]
+2 failed, 2 passed, 17 deselected in 0.81s
