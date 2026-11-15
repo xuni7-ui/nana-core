@@ -41,6 +41,7 @@ on:
       - tests/person_self/test_deliberated_plan_load.py
       - tests/person_self/test_deliberated_goal_review.py
       - tests/person_self/test_memory_review_choice.py
+      - tests/person_self/test_memory_review_condition.py
       - src/nana_core/continuity/relational/**
       - src/nana_core/continuity/subject/loop.py
       - src/nana_core/continuity/subject/contracts.py
@@ -324,7 +325,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
-            (('subject/policy.py','subject/loop.py','continuity/maintenance.py','test_memory_review_choice.py'), ['tests/person_self/test_memory_review_choice.py','tests/person_self/test_dream_recall.py','tests/living_autonomy/test_maintenance.py']),
+            (('subject/policy.py','subject/loop.py','continuity/maintenance.py','presence/living.py','test_memory_review_choice.py','test_memory_review_condition.py'), ['tests/person_self/test_memory_review_choice.py','tests/person_self/test_memory_review_condition.py','tests/person_self/test_dream_recall.py','tests/living_autonomy/test_maintenance.py']),
             (('life/bilibili_frames.py','test_bilibili_frame_unknown.py'), ['tests/living_release_v4/test_bilibili_frame_unknown.py','tests/living_release_v4/test_bilibili_frames.py','tests/living_release_v4/test_bilibili_life.py','tests/independent_life/test_unknown_background_contract.py','tests/cloud_life/test_provider_budget.py','tests/world_loop/test_wire_reservation.py','tests/provider_routing/test_timeout_inheritance.py']),
             (('nanalink/','test_nanalink','life/platform_runtime.py','live_api/platform_setup.py','live_api/platform_login.py','live_api/platform_adapters.py'), ['tests/nanalink','tests/person_self/test_nanalink_media_choice.py','tests/engineering_quality/test_nanalink_portable_closure.py']),
             (('open_agency/learning.py','open_agency/service.py','continuity/learning.py','continuity/cognition.py','presence/living.py','subject/loop.py','subject/contracts.py','subject/opportunities.py','subject/policy.py','test_private_learning_selection.py'), ['tests/person_self/test_private_learning_selection.py','tests/open_life/test_learning_renewal.py','tests/real_life/test_project_work.py','tests/continuous_self/test_learning.py','tests/continuous_self/test_privacy.py']),

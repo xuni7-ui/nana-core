@@ -1,0 +1,69 @@
+FF.....F                                                                 [100%]
+=================================== FAILURES ===================================
+__ test_tail_cue_change_reconsiders_original_paused_review_after_restart[new] __
+
+app = <nana_core.life.application.LifeApplication object at 0x7f14dfcc0230>
+change = 'new'
+
+    @pytest.mark.parametrize('change',['new','withdraw'])
+    def test_tail_cue_change_reconsiders_original_paused_review_after_restart(app,change):
+        serial=itertools.count(1)
+        with patch('nana_core.continuity.memory.uid',side_effect=lambda:str(uuid.UUID(int=next(serial)))):
+            mids=[cue(app,'tail-'+str(n)) for n in range(130)]
+            rid,job=pause_candidate(app,'tail');r=app.runtime
+            before=r.work._memory_review_blockers('project-work')
+            sampled={row[0] for row in r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key>='concern.' AND predicate_key<'concern/' ORDER BY memory_id LIMIT 129")}
+            assert mids[-1] not in sampled
+            if change=='new':
+                added=cue(app,'tail-new');assert added not in sampled
+            else:app.forget(mids[-1])
+>           assert r.work._memory_review_blockers('project-work')!=before
+E           AssertionError: assert '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' != '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b'
+E            +  where '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' = _memory_review_blockers('project-work')
+E            +    where _memory_review_blockers = <nana_core.presence.living.LivingWork object at 0x7f14dfcbd790>._memory_review_blockers
+E            +      where <nana_core.presence.living.LivingWork object at 0x7f14dfcbd790> = <nana_core.presence.runtime.NanaRuntime object at 0x7f14dfcc0bf0>.work
+
+tests/person_self/test_memory_review_condition.py:62: AssertionError
+_ test_tail_cue_change_reconsiders_original_paused_review_after_restart[withdraw] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f14dfcbd190>
+change = 'withdraw'
+
+    @pytest.mark.parametrize('change',['new','withdraw'])
+    def test_tail_cue_change_reconsiders_original_paused_review_after_restart(app,change):
+        serial=itertools.count(1)
+        with patch('nana_core.continuity.memory.uid',side_effect=lambda:str(uuid.UUID(int=next(serial)))):
+            mids=[cue(app,'tail-'+str(n)) for n in range(130)]
+            rid,job=pause_candidate(app,'tail');r=app.runtime
+            before=r.work._memory_review_blockers('project-work')
+            sampled={row[0] for row in r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key>='concern.' AND predicate_key<'concern/' ORDER BY memory_id LIMIT 129")}
+            assert mids[-1] not in sampled
+            if change=='new':
+                added=cue(app,'tail-new');assert added not in sampled
+            else:app.forget(mids[-1])
+>           assert r.work._memory_review_blockers('project-work')!=before
+E           AssertionError: assert '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' != '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b'
+E            +  where '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' = _memory_review_blockers('project-work')
+E            +    where _memory_review_blockers = <nana_core.presence.living.LivingWork object at 0x7f14dfd14f80>._memory_review_blockers
+E            +      where <nana_core.presence.living.LivingWork object at 0x7f14dfd14f80> = <nana_core.presence.runtime.NanaRuntime object at 0x7f14dfcc39e0>.work
+
+tests/person_self/test_memory_review_condition.py:62: AssertionError
+____ test_same_scope_paused_candidates_share_only_one_slice_condition_read _____
+
+app = <nana_core.life.application.LifeApplication object at 0x7f14dfd0aa20>
+
+    def test_same_scope_paused_candidates_share_only_one_slice_condition_read(app):
+        jobs=[pause_candidate(app,'batch-'+str(n))[1] for n in range(3)]
+        r=app.runtime;app.pause(False)
+        with patch.object(r.work,'_memory_review_blockers',wraps=r.work._memory_review_blockers) as read:
+>           r.work.maintenance_slice();assert read.call_count==1
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert 3 == 1
+E            +  where 3 = <MagicMock name='_memory_review_blockers' id='139727631067344'>.call_count
+
+tests/person_self/test_memory_review_condition.py:102: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_condition.py::test_tail_cue_change_reconsiders_original_paused_review_after_restart[new]
+FAILED tests/person_self/test_memory_review_condition.py::test_tail_cue_change_reconsiders_original_paused_review_after_restart[withdraw]
+FAILED tests/person_self/test_memory_review_condition.py::test_same_scope_paused_candidates_share_only_one_slice_condition_read
+3 failed, 5 passed in 1.10s

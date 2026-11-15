@@ -1,0 +1,30 @@
+........F...........................................                     [100%]
+=================================== FAILURES ===================================
+____ test_candidate_safe_point_write_invalidates_the_within_slice_condition ____
+
+app = <nana_core.life.application.LifeApplication object at 0x7f5f818e8590>
+
+    def test_candidate_safe_point_write_invalidates_the_within_slice_condition(app):
+        old=cue(app,'safe-point-old')
+        pairs=[pause_candidate(app,'safe-point-'+str(n)) for n in range(2)]
+        r=app.runtime;app.pause(False);original=r.work.maintenance.candidate;seen=[]
+        def safe_point(rid):
+            seen.append(rid)
+            if len(seen)==2:app.forget(old)
+            return original(rid)
+        # Same owner, genuine source withdrawal at the second candidate safe point.
+        # The wrapper controls timing only; all candidate/privacy/store logic is original.
+        with patch.object(r.work.maintenance,'candidate',side_effect=safe_point):
+            with patch.object(r.work,'_memory_review_blockers',wraps=r.work._memory_review_blockers) as read:
+                activity=r.work.maintenance_slice()
+                assert read.call_count==2
+>       assert activity.get('review_enqueued')==pairs[1][0]
+E       AssertionError: assert '4b7b1e7a-772...-3b4f20b72e9a' == 'aabe10bd-221...-bc1879e5ee47'
+E         
+E         - aabe10bd-2219-45ca-8fc7-bc1879e5ee47
+E         + 4b7b1e7a-772b-4804-81b3-3b4f20b72e9a
+
+tests/person_self/test_memory_review_condition.py:122: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_condition.py::test_candidate_safe_point_write_invalidates_the_within_slice_condition
+1 failed, 51 passed in 17.80s

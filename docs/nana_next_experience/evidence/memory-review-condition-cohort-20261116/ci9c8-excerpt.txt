@@ -1,0 +1,6 @@
+Source: 9c8fe1e9ca8b3139adde15d151a27dcb32ea6aac
+Run: https://github.com/xuni7-ui/nana-core/actions/runs/43769066695
+Job: 132980872350 / original-core-feedback
+Actual steps: affected source integration SUCCESS; full regression, old SQLite and matching portable build/install SKIPPED; client SKIPPED.
+2026-11-15T22:31:31.6957148Z =============================== warnings summary ===============================
+2026-11-15T22:31:31.6964816Z 746 passed, 3 warnings in 346.75s (0:05:46)

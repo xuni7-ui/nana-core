@@ -4023,3 +4023,5 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 - 2026-11-16 CST｜revision247：原GoalReview LIFECYCLE不再把候选菜单包含WITHDRAW当作实际放弃；沿原当前排序选择REST/WITHDRAW，明确CONTINUE可与负荷竞争。28f旧6fail3pass→9pass.78s/58相关16.53s；原消费者真实Goal ACTIVE/SUSPENDED/ABANDONED按选择变化、同身份重开/原plan/Grant保持，无动作/不新Goal/不重写过去ABANDONED。owned SELF两侧1HTTP/22757request JSON bytes同预算，真实0。 指纹锚be49d44640c9daafa18d61f98c1098dec4f3777ed2d4248e2c19b1e2c0023f0f。
 
 - 2026-11-16 CST｜revision248：原Maintenance候选在situation/模型前只读验证并接原Frame/来源，MAINTAIN-REST与实际C判断共用；明确整理可和压力竞争，明确休息不强制摘要。固定341原263模块旧7fail1pass→8pass.91s/前49相关7.71s；原summary INFERRED/来源撤回、正常Runtime.step一SELF/原job PAUSED/同条件不重调、拒不保留0写通过。旧/新直接SELF各1HTTP/request JSON+262bytes非Token，预算不变，真实0。 夹具首错分列，指纹锚0473ec9faf065460796616acf351f20ccfda908d11e6d206b492793b2e929608。
+
+- 2026-11-16 CST｜revision249：原暂停回看条件补原关切族count/创建seq/更新时间，129样本与上下文不扩；限定本scope/entity/privacy/current，非全局事件自激。旧3fail5pass→新9pass1.28s、前52相关17.64s；正常Runtime.step、同身份重启、尾部新增/撤回、单排队、隔离/只读/同slice复用与安全点撤回通过，模型/动作0。100k全关切聚合38.26ms额外成本原样保留，非完整变化版本/真实Token。 独立9c8 CI746/3warn346.75s仅targeted；本批非全仓/匹配安装，原探针opportunity不替代正常Runtime.step，夹具首错与成本/限制分列。指纹锚a934090f52448ba83a6e730fa47fe6ffd89e232673b0611715d0d3114f9de610。

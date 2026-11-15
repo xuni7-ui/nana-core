@@ -127,10 +127,17 @@ class LivingWork:
         obligations=tuple(tuple(row) for row in r.store.db.execute(
             "SELECT commitment_id,revision,state FROM commitments WHERE scope=? AND state IN ('ADOPTED','ACTIVE') ORDER BY commitment_id",(scope,)))
         where,args=self.maintenance.records.memory._query_filter((r.config.entity_id,r.identity_id),(scope,),r.config.privacy_classes,False)
+        # Exact literal prefix range uses the original memory_family index.
+        # Keep the bounded sample, but do not miss new/retired tail cues just
+        # because their IDs sort beyond it. Creation seq is not a global wake.
+        where+=" AND m.predicate_key>='concern.' AND m.predicate_key<'concern/'"
         cues=tuple(tuple(row) for row in r.store.db.execute(
             'SELECT m.memory_id,m.updated_at_us,m.assessment FROM memories m WHERE '+where+
-            " AND substr(m.predicate_key,1,8)='concern.' ORDER BY m.memory_id LIMIT 129",args))
-        return digest([pending,obligations,cues])
+            ' ORDER BY m.memory_id LIMIT 129',args))
+        population=tuple(r.store.db.execute(
+            'SELECT count(*),coalesce(max(e.seq),0),coalesce(max(m.updated_at_us),0) '
+            'FROM memories m JOIN events e ON e.event_id=m.event_id WHERE '+where,args).fetchone())
+        return digest([pending,obligations,cues,population])
 
     def review_memory(self,rid,cycle):
         r=self.runtime
@@ -178,19 +185,27 @@ class LivingWork:
             "AND scope IN ("+','.join('?' for _ in scopes)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+") "
             "AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) "
             "ORDER BY created_at_us LIMIT 16",(*scopes,*privacy)).fetchall()
+        review_conditions={}
         for head in heads:
+            writes=r.store.db.total_changes
             try:_,body=self.maintenance.candidate(head['record_id'])
             except CoreError as exc:
                 if exc.code not in {'MAINTENANCE_SOURCE_STALE','MAINTENANCE_SOURCE_UNAVAILABLE'}:raise
+                review_conditions.clear()
                 # Retire only this stale offer, preserving all original history.
                 # Otherwise old corrected candidates can starve newer work.
                 with r.store.transaction('living.memory_reviewed',{'candidate_record_id':head['record_id'],
                         'memory_id':None,'reason':exc.code},source_namespace='living.review',source_key=head['record_id']):pass
                 continue
+            # A candidate privacy safe point may withdraw sources. Cache only
+            # within this slice, and never across such changes or a recovered C.
+            if r.store.db.total_changes!=writes:review_conditions.clear()
             job=r.store.db.execute('SELECT * FROM jobs WHERE occurrence_key=?',('maintenance-review:'+head['record_id'],)).fetchone()
             if job and job['state']=='PAUSED':
                 previous=json.loads(job['body_json'])
-                if previous['blockers']==self._memory_review_blockers(head['scope']):continue
+                if head['scope'] not in review_conditions:
+                    review_conditions[head['scope']]=self._memory_review_blockers(head['scope'])
+                if previous['blockers']==review_conditions[head['scope']]:continue
                 with r.store.transaction('living.memory_review_reconsidered',{'candidate_record_id':head['record_id']}) as tx:
                     tx.update('jobs',job['job_id'],state='WAITING',revision=job['revision']+1,updated_at_us=r.clock.utc_now_us())
                 job=r.store.one('jobs',job['job_id'])
@@ -198,7 +213,9 @@ class LivingWork:
             source=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(key,)).fetchone()
             if source:
                 cycle=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(source['subject_event_id'],)).fetchone()
-                if cycle:self.review_memory(head['record_id'],r.subject.result(dict(cycle)))
+                if cycle:
+                    self.review_memory(head['record_id'],r.subject.result(dict(cycle)))
+                    review_conditions.clear()
                 continue
             inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=head['scope'],observed_at_us=head['created_at_us'],source_memory_ids=tuple(body['memory_ids']),memory_review_id=head['record_id'])
             r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=tuple(Cause(kind='MEMORY',reference_id=m) for m in body['memory_ids']),due_at_us=head['created_at_us'],priority=0))

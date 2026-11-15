@@ -1,0 +1,240 @@
+{
+  "scope": "isolated metadata SQL only, not a Core Store or complete memory benchmark",
+  "sqlite": "3.53.1",
+  "cases": [
+    {
+      "total_headers": 1000,
+      "concern_headers": 131,
+      "samples_ms": {
+        "original": [
+          0.162368,
+          0.154527,
+          0.163716,
+          0.149882,
+          0.174862,
+          0.151912,
+          0.154992
+        ],
+        "cohort": [
+          0.050456,
+          0.044156,
+          0.04471,
+          0.041315,
+          0.04448,
+          0.040776,
+          0.042209
+        ]
+      },
+      "median_ms": {
+        "original": 0.154992,
+        "cohort": 0.044156
+      },
+      "plans": {
+        "original": [
+          [
+            5,
+            0,
+            62,
+            "SEARCH m USING INDEX memory_scope_visibility (scope=? AND lifecycle=? AND assessment=? AND privacy_class=? AND entity_id=?)"
+          ],
+          [
+            62,
+            0,
+            0,
+            "USE TEMP B-TREE FOR ORDER BY"
+          ]
+        ],
+        "cohort": [
+          [
+            5,
+            0,
+            59,
+            "SEARCH m USING INDEX memory_family (entity_id=? AND scope=? AND predicate_key>? AND predicate_key<?)"
+          ],
+          [
+            34,
+            0,
+            45,
+            "SEARCH e USING COVERING INDEX sqlite_autoindex_events_1 (event_id=?)"
+          ]
+        ]
+      }
+    },
+    {
+      "total_headers": 10000,
+      "concern_headers": 131,
+      "samples_ms": {
+        "original": [
+          1.175519,
+          1.090819,
+          1.171549,
+          1.149084,
+          1.132788,
+          1.341099,
+          1.273757
+        ],
+        "cohort": [
+          0.075081,
+          0.052065,
+          0.094344,
+          0.050419,
+          0.066414,
+          0.049419,
+          0.067982
+        ]
+      },
+      "median_ms": {
+        "original": 1.171549,
+        "cohort": 0.066414
+      },
+      "plans": {
+        "original": [
+          [
+            5,
+            0,
+            62,
+            "SEARCH m USING INDEX memory_scope_visibility (scope=? AND lifecycle=? AND assessment=? AND privacy_class=? AND entity_id=?)"
+          ],
+          [
+            62,
+            0,
+            0,
+            "USE TEMP B-TREE FOR ORDER BY"
+          ]
+        ],
+        "cohort": [
+          [
+            5,
+            0,
+            59,
+            "SEARCH m USING INDEX memory_family (entity_id=? AND scope=? AND predicate_key>? AND predicate_key<?)"
+          ],
+          [
+            34,
+            0,
+            45,
+            "SEARCH e USING COVERING INDEX sqlite_autoindex_events_1 (event_id=?)"
+          ]
+        ]
+      }
+    },
+    {
+      "total_headers": 100000,
+      "concern_headers": 131,
+      "samples_ms": {
+        "original": [
+          11.582384,
+          9.870171,
+          10.18537,
+          10.308259,
+          11.133331,
+          10.57126,
+          10.363073
+        ],
+        "cohort": [
+          0.11061,
+          0.064449,
+          0.104547,
+          0.062019,
+          0.14618,
+          0.069577,
+          0.110811
+        ]
+      },
+      "median_ms": {
+        "original": 10.363073,
+        "cohort": 0.104547
+      },
+      "plans": {
+        "original": [
+          [
+            5,
+            0,
+            62,
+            "SEARCH m USING INDEX memory_scope_visibility (scope=? AND lifecycle=? AND assessment=? AND privacy_class=? AND entity_id=?)"
+          ],
+          [
+            62,
+            0,
+            0,
+            "USE TEMP B-TREE FOR ORDER BY"
+          ]
+        ],
+        "cohort": [
+          [
+            5,
+            0,
+            59,
+            "SEARCH m USING INDEX memory_family (entity_id=? AND scope=? AND predicate_key>? AND predicate_key<?)"
+          ],
+          [
+            34,
+            0,
+            45,
+            "SEARCH e USING COVERING INDEX sqlite_autoindex_events_1 (event_id=?)"
+          ]
+        ]
+      }
+    },
+    {
+      "total_headers": 100000,
+      "concern_headers": 100000,
+      "samples_ms": {
+        "original": [
+          14.046418,
+          13.598015,
+          14.640236,
+          13.130121,
+          13.054333,
+          13.148221,
+          13.852397
+        ],
+        "cohort": [
+          38.578307,
+          38.714562,
+          38.152454,
+          38.261036,
+          37.998283,
+          37.427743,
+          38.446208
+        ]
+      },
+      "median_ms": {
+        "original": 13.598015,
+        "cohort": 38.261036
+      },
+      "plans": {
+        "original": [
+          [
+            5,
+            0,
+            62,
+            "SEARCH m USING INDEX memory_scope_visibility (scope=? AND lifecycle=? AND assessment=? AND privacy_class=? AND entity_id=?)"
+          ],
+          [
+            62,
+            0,
+            0,
+            "USE TEMP B-TREE FOR ORDER BY"
+          ]
+        ],
+        "cohort": [
+          [
+            5,
+            0,
+            59,
+            "SEARCH m USING INDEX memory_family (entity_id=? AND scope=? AND predicate_key>? AND predicate_key<?)"
+          ],
+          [
+            34,
+            0,
+            45,
+            "SEARCH e USING COVERING INDEX sqlite_autoindex_events_1 (event_id=?)"
+          ]
+        ]
+      }
+    }
+  ],
+  "model_calls": 0,
+  "actual_provider_tokens": null
+}

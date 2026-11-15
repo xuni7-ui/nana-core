@@ -1,0 +1,122 @@
+FF.FF..F                                                                 [100%]
+=================================== FAILURES ===================================
+__ test_tail_cue_change_reconsiders_original_paused_review_after_restart[new] __
+
+app = <nana_core.life.application.LifeApplication object at 0x7fdf65aadb20>
+change = 'new'
+
+    @pytest.mark.parametrize('change',['new','withdraw'])
+    def test_tail_cue_change_reconsiders_original_paused_review_after_restart(app,change):
+        serial=itertools.count(1)
+        with patch('nana_core.continuity.memory.uid',side_effect=lambda:str(uuid.UUID(int=next(serial)))):
+            mids=[cue(app,'tail-'+str(n)) for n in range(130)]
+            rid,job=pause_candidate(app,'tail');r=app.runtime
+            before=r.work._memory_review_blockers('project-work')
+            sampled={row[0] for row in r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key>='concern.' AND predicate_key<'concern/' ORDER BY memory_id LIMIT 129")}
+            assert mids[-1] not in sampled
+            if change=='new':
+                added=cue(app,'tail-new');assert added not in sampled
+            else:app.forget(mids[-1])
+>           assert r.work._memory_review_blockers('project-work')!=before
+E           AssertionError: assert '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' != '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b'
+E            +  where '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' = _memory_review_blockers('project-work')
+E            +    where _memory_review_blockers = <nana_core.presence.living.LivingWork object at 0x7fdf65ab1e80>._memory_review_blockers
+E            +      where <nana_core.presence.living.LivingWork object at 0x7fdf65ab1e80> = <nana_core.presence.runtime.NanaRuntime object at 0x7fdf65ab0b90>.work
+
+tests/person_self/test_memory_review_condition.py:61: AssertionError
+_ test_tail_cue_change_reconsiders_original_paused_review_after_restart[withdraw] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7fdf65b044a0>
+change = 'withdraw'
+
+    @pytest.mark.parametrize('change',['new','withdraw'])
+    def test_tail_cue_change_reconsiders_original_paused_review_after_restart(app,change):
+        serial=itertools.count(1)
+        with patch('nana_core.continuity.memory.uid',side_effect=lambda:str(uuid.UUID(int=next(serial)))):
+            mids=[cue(app,'tail-'+str(n)) for n in range(130)]
+            rid,job=pause_candidate(app,'tail');r=app.runtime
+            before=r.work._memory_review_blockers('project-work')
+            sampled={row[0] for row in r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key>='concern.' AND predicate_key<'concern/' ORDER BY memory_id LIMIT 129")}
+            assert mids[-1] not in sampled
+            if change=='new':
+                added=cue(app,'tail-new');assert added not in sampled
+            else:app.forget(mids[-1])
+>           assert r.work._memory_review_blockers('project-work')!=before
+E           AssertionError: assert '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' != '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b'
+E            +  where '68671d69d2f8d246c4fb3a799dc72e67254e6ab87d46c684af6bb4264288f45b' = _memory_review_blockers('project-work')
+E            +    where _memory_review_blockers = <nana_core.presence.living.LivingWork object at 0x7fdf65b06090>._memory_review_blockers
+E            +      where <nana_core.presence.living.LivingWork object at 0x7fdf65b06090> = <nana_core.presence.runtime.NanaRuntime object at 0x7fdf65b04b60>.work
+
+tests/person_self/test_memory_review_condition.py:61: AssertionError
+_______ test_unrelated_events_do_not_reactivate_a_paused_review[values1] _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7fdf65997680>
+values = {'entity': 'another-entity'}
+
+    @pytest.mark.parametrize('values',[
+        {'scope':'another-scope'},{'entity':'another-entity'},{'privacy':'PERSONAL'},
+        {'predicate':'concernX.not-a-cue'},{'predicate':'Concern.not-a-cue'},
+    ])
+    def test_unrelated_events_do_not_reactivate_a_paused_review(app,values):
+        rid,job=pause_candidate(app,'unrelated');r=app.runtime
+        before=r.work._memory_review_blockers('project-work')
+>       cue(app,'unrelated',**values)
+
+tests/person_self/test_memory_review_condition.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_memory_review_condition.py:45: in cue
+    return memory.add(MemoryCandidate(entity_id=entity,scope=scope,memory_type=MemoryType.EPISODIC,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7fdf65ab3020>
+candidate = MemoryCandidate(schema_version=1, entity_id='another-entity', scope='project-work', memory_type=<MemoryType.EPISODIC: ..._key='concern.review.unrelated', confidence=0.0, importance=0.5, significance=0.0, derived_from=(), correction_of=None)
+
+    def add(self, candidate: MemoryCandidate):
+        if not isinstance(candidate, MemoryCandidate):
+            raise CoreError("INVALID_MEMORY_CONTRACT")
+        if not self.store.one("entities", candidate.entity_id):
+>           raise CoreError("ENTITY_BINDING_REQUIRED")
+E           nana_core.contracts.CoreError: ENTITY_BINDING_REQUIRED
+
+src/nana_core/continuity/memory.py:185: CoreError
+_______ test_unrelated_events_do_not_reactivate_a_paused_review[values2] _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7fdf65ab3800>
+values = {'privacy': 'PERSONAL'}
+
+    @pytest.mark.parametrize('values',[
+        {'scope':'another-scope'},{'entity':'another-entity'},{'privacy':'PERSONAL'},
+        {'predicate':'concernX.not-a-cue'},{'predicate':'Concern.not-a-cue'},
+    ])
+    def test_unrelated_events_do_not_reactivate_a_paused_review(app,values):
+        rid,job=pause_candidate(app,'unrelated');r=app.runtime
+        before=r.work._memory_review_blockers('project-work')
+        cue(app,'unrelated',**values)
+>       assert r.work._memory_review_blockers('project-work')==before
+E       AssertionError: assert 'c1eaf27ae310...3d9f68454329a' == '5ae1625b488b...aad08baaed1e2'
+E         
+E         - 5ae1625b488b3935122d8dd627fe575b388a5aa360378fa4407aad08baaed1e2
+E         + c1eaf27ae31043b1466cd15655dc4a5ade1c196ae8f53a451363d9f68454329a
+
+tests/person_self/test_memory_review_condition.py:84: AssertionError
+____ test_same_scope_paused_candidates_share_only_one_slice_condition_read _____
+
+app = <nana_core.life.application.LifeApplication object at 0x7fdf65b02b10>
+
+    def test_same_scope_paused_candidates_share_only_one_slice_condition_read(app):
+        jobs=[pause_candidate(app,'batch-'+str(n))[1] for n in range(3)]
+        r=app.runtime;app.pause(False)
+        with patch.object(r.work,'_memory_review_blockers',wraps=r.work._memory_review_blockers) as read:
+>           r.work.maintenance_slice();assert read.call_count==1
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert 3 == 1
+E            +  where 3 = <MagicMock name='_memory_review_blockers' id='140597460385280'>.call_count
+
+tests/person_self/test_memory_review_condition.py:98: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_review_condition.py::test_tail_cue_change_reconsiders_original_paused_review_after_restart[new]
+FAILED tests/person_self/test_memory_review_condition.py::test_tail_cue_change_reconsiders_original_paused_review_after_restart[withdraw]
+FAILED tests/person_self/test_memory_review_condition.py::test_unrelated_events_do_not_reactivate_a_paused_review[values1]
+FAILED tests/person_self/test_memory_review_condition.py::test_unrelated_events_do_not_reactivate_a_paused_review[values2]
+FAILED tests/person_self/test_memory_review_condition.py::test_same_scope_paused_candidates_share_only_one_slice_condition_read
+5 failed, 3 passed in 1.18s

@@ -1,8 +1,8 @@
-## 当前接续：原C可选巩固与正常D消费者，revision248
+## 当前接续：原暂停回看关切群变化，revision249
 
-原Maintenance候选在situation/模型前只读验证并接原Frame/来源，MAINTAIN-REST与实际C判断共用；明确整理可和压力竞争，明确休息不强制摘要。固定341原263模块旧7fail1pass→8pass.91s/前49相关7.71s；原summary INFERRED/来源撤回、正常Runtime.step一SELF/原job PAUSED/同条件不重调、拒不保留0写通过。旧/新直接SELF各1HTTP/request JSON+262bytes非Token，预算不变，真实0。
+原暂停回看条件补原关切族count/创建seq/更新时间，129样本与上下文不扩；限定本scope/entity/privacy/current，非全局事件自激。旧3fail5pass→新9pass1.28s、前52相关17.64s；正常Runtime.step、同身份重启、尾部新增/撤回、单排队、隔离/只读/同slice复用与安全点撤回通过，模型/动作0。100k全关切聚合38.26ms额外成本原样保留，非完整变化版本/真实Token。
 
-下一原LivingWork._memory_review_blockers的129cue样本/私人版本是否遗漏新状态，先真实基线，不扩大常量或使用全局事件自激。S5/C/S3/S8、B固定算法/全部A–H继续；9a候选不含245–248，不重包/APK/CURRENT，新CI与真实模型/手机/生产/自然度/实际长期未新资格。证据evidence/memory-review-current-choice-20261116/README.md。
+下一继续商业C情感/多动机与G独立后续迁移、B视觉固定交接及原全部A–H；私人版本是否需要触发此回看尚无实证，不泛加游标。9c8独立CI746/3warn为targeted，非本批CI；9a候选不含245–249，CURRENT266+409不动。真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/memory-review-condition-cohort-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
