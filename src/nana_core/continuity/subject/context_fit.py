@@ -177,15 +177,16 @@ def communication_strategy_projection(store,*,scope,entity_id,topic,recipient_co
     records=RecordService(store)
     if not records.current_support(head['record_id']):return None
     from ...life.dialogue_contracts import CommunicationStrategy
-    from ..autonomy.private_intent import internal_projection
+    from ..autonomy.private_intent import current_related_target
     value=CommunicationStrategy.model_validate_json(canonical(records.read(head['record_id'])['payload']))
     expected_recipient=recipient_context.model_dump(mode='json') if hasattr(recipient_context,'model_dump') else recipient_context
     if (value.owner_identity_id!=store.identity['identity_id'] or value.entity_id!=entity_id or value.topic!=topic
             or (value.recipient_context.model_dump(mode='json') if value.recipient_context else None)!=expected_recipient
             or value.state!='ACTIVE' or value.expires_at_us<=store.clock.utc_now_us()):return None
-    current={item['record_id'] for item in internal_projection(store,value.basis_private_record_ids,
-        scope=scope,privacy_classes=privacy_classes,include_associations=False)}
-    if not set(value.basis_private_record_ids)<=current:return None
+    # The private reason may be revised while the bounded prior method remains
+    # only a hypothesis for C. Never project a withdrawn, foreign or ambiguous basis.
+    for rid in value.basis_private_record_ids:
+        if current_related_target(store,rid,scope=scope,privacy_classes=privacy_classes) is None:return None
     # Only a compact prior own method, never the previous user words, private
     # reasons, a claim of effectiveness or a command to follow it unchanged.
     return {'record_id':head['record_id'],'choice':value.choice.model_dump(mode='json'),

@@ -1,0 +1,25 @@
+{
+  "actual_worktree": "/workspace/nana-next-refinement-work",
+  "remote_source": "24427c17a19e32419d0dad47bebc17619507bb73",
+  "previous_tmp_worktree_exists": false,
+  "old_tmp_installs_exist": false,
+  "preserved_corpus_path": "/workspace/nana-preserved-200k-20261114",
+  "preserved_files_checked": [
+    "physical-after-recovery.json",
+    "self.db-shm",
+    "self.db-wal",
+    "two-query-variants.json",
+    "prototype-not_in.py",
+    "prototype-not_exists.py",
+    "CORPUS.json",
+    "result-200000.json",
+    "self.db.privacy.json",
+    "self.db.privacy.json.lock",
+    "self.db",
+    "self.db.lock",
+    "FROZEN_SPEC.json"
+  ],
+  "all_sha256_and_bytes_match_previous_commit": true,
+  "previous_shm_symlink_exists": false,
+  "database_replayed_or_performance_retested": false
+}

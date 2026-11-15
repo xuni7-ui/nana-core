@@ -27,7 +27,7 @@ def wording(request):
     return 'SYNTHETIC listening method' if choice and choice['approach']=='LISTEN' else 'SYNTHETIC ordinary-chat method'
 
 
-@pytest.mark.parametrize('choice',['revise','rest','source-race'])
+@pytest.mark.parametrize('choice',['revise','rest','source-race','revise-current','rest-current-revision'])
 def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice(tmp_path,choice):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();feedback=[];self_requests=[]
     def inner(request):
@@ -38,7 +38,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
         grounded=bool(own and feedback and feedback[0] in frame['source_memory_ids'] and any(
             v.get('human_judgment')=='REJECTED' and 'ordinary chat would suit' in v.get('exact_feedback_excerpt','')
             and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' and not v['human_read_proven'] for v in opinions))
-        if grounded and choice=='rest':
+        if grounded and choice in {'rest','rest-current-revision'}:
             return {'interpretation':'SYNTHETIC actual opinion considered; rest rather than compulsory learning','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC choose rest without declaring that the method worked','preferred_behavior':'REST','proposed_operations':['WAIT']}}
         return {'interpretation':'SYNTHETIC reconsider a bounded explicit opinion, not emotional effectiveness','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC own care can use a different method without claiming a changed mood','proposed_operations':['DRAFT'] if grounded else ['WAIT'],**({'private_tendency':{'topic':'own-concern','tendency':'SYNTHETIC I still care, but prefer ordinary-chat after this explicit opinion; the actual emotional effect is unknown.','revises_record_id':own[0]['record_id']}} if grounded else {})}}
     with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
@@ -46,6 +46,10 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             app.pause();form(app);identity=app.runtime.identity_id;first_id,first=current(app)[0]
             before=app.chat('SYNTHETIC initial related situation',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='before')
             assert before['text']=='SYNTHETIC listening method'
+            if choice in {'revise-current','rest-current-revision'}:
+                form(app,'interim-own-view','SYNTHETIC I still care, while reconsidering my own concern independently of this feedback.',topic='own-concern',revision=first_id)
+                first_id=current(app)[0][0]
+            prior_text=current(app)[0][1].content_summary
             service=LanguageService(app.runtime.store,app.runtime.authority)
             sample=LanguageSample(sample_id='explicit-own-method-opinion',review_target=before['exchange_record_id'],mode='CASUAL',context='SYNTHETIC exact retained local conversation',candidate_response=before['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC ordinary chat would suit this conversation better.',reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
             review=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=before['exchange_record_id'])
@@ -77,6 +81,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             assert len(self_requests)==1
             new_id,tendency=current(app)[0]
             measure=app.runtime.store.one('cognitive_requests',self_requests[0]['request_id'])
+            assert feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids']
             print(json.dumps({'measurement':'synthetic_private_feedback','variant':choice,
                 'self_http_calls':len(self_requests),'http_calls_so_far':len(requests),
                 'budget':self_requests[0]['budget'],'input_bytes':measure['input_bytes'],
@@ -85,10 +90,13 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 'feedback_in_frame':feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids'],
                 'tendency_revised':new_id!=first_id,'sqlite_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists()),
                 'record_count':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
-            if choice=='revise':assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
-            else:assert new_id==first_id and tendency.content_summary==PRIVATE
+            if choice in {'revise','revise-current'}:assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
+            else:assert new_id==first_id and tendency.content_summary==prior_text
             assert tendency.intent_id==first.intent_id
-            if choice=='rest':
+            if choice in {'rest','rest-current-revision'}:
+                if choice=='rest-current-revision':
+                    form(app,'independent-revision-after-opinion',prior_text+' A new own thought, not a new opinion.',topic='own-concern',revision=new_id)
+                    assert current(app)[0][0]!=new_id
                 alias=sample.model_copy(update={'sample_id':'same-opinion-alias','observed_at_us':clock.utc_now_us()})
                 language=LanguageService(app.runtime.store,app.runtime.authority)
                 alias_id=language.record(alias,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=before['exchange_record_id'])
@@ -99,13 +107,13 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes
             app.pause()
             after=app.chat('SYNTHETIC a different later conversation',topic='own-concern',privacy='PROJECT',message_id='after')
-            assert after['text']==('SYNTHETIC ordinary-chat method' if choice=='revise' else 'SYNTHETIC listening method')
+            assert after['text']==('SYNTHETIC ordinary-chat method' if choice in {'revise','revise-current'} else 'SYNTHETIC listening method')
             assert not any('exact_feedback_excerpt' in json.loads(b['data_json']) for b in json.loads(requests[-1]['context_json'])['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK')
             assert tendency.content_summary not in requests[-1]['context_json']
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
             assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
             app.forget(feedback[0])
-            assert (not current(app)) if choice=='revise' else current(app)[0][1].content_summary==PRIVATE
+            assert (not current(app)) if choice in {'revise','revise-current'} else current(app)[0][1].content_summary.startswith(prior_text)
 
 
 @pytest.mark.parametrize('condition',['unbound','withdrawn','paused','unreviewed'])

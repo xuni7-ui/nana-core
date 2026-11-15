@@ -1,0 +1,3 @@
+{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "feedback_in_frame": true, "fixture_cost_micro": 0, "http_calls_so_far": 3, "input_bytes": 54823, "latency_us": 3285, "measurement": "synthetic_private_feedback", "output_bytes": 788, "record_count": 30, "reserved_bytes": 67112, "self_http_calls": 1, "sqlite_allocated_bytes": 1835120, "tendency_revised": true, "variant": "revise-current"}
+.
+1 passed, 8 deselected in 1.24s

@@ -1,10 +1,10 @@
-## 现役revision224 — 原C明确重型兴趣可与高负荷REST竞争
+## 现役revision225 — 已修订关切继续接收原方法的明确反馈
 
-有独立兴趣支持且原C明确选择的REFLECT/CREATE/LEARN，不再被HIGH负荷/HEAVY估计一律替换成REST；原REST动机、未明确考虑的默认、规范/资源/预算/执行门保持。精确85旧3fail2pass3.58s→15pass10.20s，199相关52.93s；同1SELF/53288inputbytes/65577reservedbytes非Token。只扩大原意图选择/内部思考，非重型执行或全部A–E完成。见evidence/deliberated-heavy-interest-20261114/README.md。
+复用同一个223当前版本解析：原C已保留的方法basis可只读关联同一当前思想，原方法仍只是供C重考虑的假设；不改历史意见/方法/送达事实。正常原交流→关切合法修订→明确话轮方法意见/Experience→D/C当前关切修订→后续CHAT，精确244旧2fail→116相关81.68s。意见必须真正进入SELF frame；主动REST、再次独立改关切后的同意见alias不重复触发，暂停/放弃/到期/撤回与精确stale引用继续有效。各仍1SELF，52522→54823wire bytes（+2301）非Token，未增阶段/schema。见evidence/private-feedback-current-basis-20261115/README.md。
 
-首次错误Precision路径0tests及两个OOM kill137分列；当时tmpfs总shmem近8GiB。实际根盘已有7.5GB，关闭的20万合成库13文件全SHA/字节一致迁/workspace/nana-preserved-200k-20261114，旧/dev/shm路径留symlink，所有DB/旁文件/证据保留，未删数据/未知文件。迁后串行旧对照/199相关完成，OOM计数仍2。原P95只归RAM旧样本，非迁移后性能或Core物理回收。后续测试可用实际磁盘路径，别再把旧ENOSPC当最新现场。
+环境重建后/tmp工作树/安装/shm指向已丢失，远端244和交付1d820c7确认保存；工作副本现/workspace/nana-next-refinement-work，同开发分支，旧18bc干净。磁盘20万库13文件全SHA/字节与原提交一致，未重测检索P95。429独立CI仅前继244；当前未重打包/APK/全仓，固定929候选资格保留而非当前匹配。无新真实模型/账号外发/手机/生产/自然度/长期，CURRENT266+409保持。
 
-前继85独立323pass1warning118.97s仅前继。当前新源码未重打包/APK；固定929交付候选/真实下载安装/静止回退资格保留，CURRENT266+409未变。无新真实模型/手机/生产/自然度/长期。下一原INTERPRET意义/同C私人倾向/持续交流方法与明确反馈→原Experience/S8反例，先复用现有接线/角色边界；情感多时间尺度/广G/跨topic/存储/Token/产品/原A–H继续。
+下一明确方法反馈/私人关注与原G可选学习问题/独立未见结果/反例→未来选择，先复用186/213/218–225消费者；情感短长/多动机/跨topic/存储/Token/模型产品/原A–H继续，不把一次反馈或局部闭环当全部完成。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

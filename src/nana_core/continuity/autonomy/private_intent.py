@@ -286,8 +286,8 @@ def review_target(store,reference,*,scope,privacy_classes,topic=None):
 
 
 
-def growth_origin_target(store,reference,*,scope,privacy_classes,topic):
-    """Current same-topic thought for an independently verified G outcome only.
+def outcome_origin_target(store,reference,*,scope,privacy_classes,topic):
+    """Current same-topic thought for a verified outcome or attributed method.
 
     Historical origin is authenticated first. This is a read-only context
     association, never a replacement for exact review/continuation references.
@@ -310,6 +310,25 @@ def growth_origin_target(store,reference,*,scope,privacy_classes,topic):
             or item.revision<origin.revision or (rid!=reference.record_id and item.revision==origin.revision)
             or getattr(item,'created_at_us',None)!=getattr(origin,'created_at_us',None)):return None
     return rid,item
+
+
+
+# Compatibility for the original G consumer; one resolver, not a second lookup.
+growth_origin_target=outcome_origin_target
+
+
+def current_related_target(store,record_id,*,scope,privacy_classes):
+    """Authenticate a method's original private basis before current association."""
+    head=store.one('continuity_records',record_id)
+    if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+            or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+            or head['lifecycle'] not in {'ACTIVE','SUPERSEDED'}):return None
+    data=RecordService(store).read(record_id,include_history=True)['payload'];model=payload_model(data)
+    if model is None:return None
+    item=model.model_validate_json(json.dumps(data))
+    from ..subject.opportunities import PrivateIntentRef
+    ref=PrivateIntentRef(record_id=record_id,intent_id=item.intent_id,revision=item.revision)
+    return outcome_origin_target(store,ref,scope=scope,privacy_classes=privacy_classes,topic=item.topic)
 
 
 def continuation_target(store,reference,*,scope,privacy_classes):
@@ -355,17 +374,17 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     strategy=communication_strategy_projection(store,**arguments,privacy_classes=privacy_classes)
     if strategy is None:return None
     method=CommunicationStrategy.model_validate_json(json.dumps(records.read(strategy['record_id'])['payload']))
-    target=None;support_id=strategy['record_id']
+    target=None;support_id=strategy['record_id'];dedupe_support_id=support_id
     for rid in method.basis_private_record_ids:
-        if reference is not None and reference.record_id!=rid:continue
-        selected=internal_projection(store,(rid,),scope=scope,privacy_classes=privacy_classes,include_associations=False)
-        if not selected or selected[0]['category']!='PRIVATE_TENDENCY' or selected[0]['activity_state']!='ACTIVE':continue
-        item=PrivateTendency.model_validate_json(json.dumps(records.read(rid)['payload']))
+        current=current_related_target(store,rid,scope=scope,privacy_classes=privacy_classes)
+        if current is None:continue
+        current_rid,item=current
+        if item.category!='PRIVATE_TENDENCY' or item.activity_state!='ACTIVE':continue
         from ..subject.opportunities import PrivateIntentRef
-        candidate=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)
+        candidate=PrivateIntentRef(record_id=current_rid,intent_id=item.intent_id,revision=item.revision)
         if reference is not None and reference!=candidate:continue
         continuation_target(store,candidate,scope=scope,privacy_classes=privacy_classes)
-        target=candidate;support_id=rid
+        target=candidate;support_id=current_rid;dedupe_support_id=rid
         break
     # An initial own method can matter before a lasting inner state exists.
     # A paused/retired/unavailable prior basis is never treated as a new birth.
@@ -374,7 +393,7 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     from ...storage import digest
     # Aliases of the same exact opinion on the same turn are not new
     # conditions. The record remains a dependency, not an identity key.
-    key='private-feedback.'+digest([store.identity['identity_id'],support_id,*opinion_meaning(data)])
+    key='private-feedback.'+digest([store.identity['identity_id'],dedupe_support_id,*opinion_meaning(data)])
     return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
         'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(support_id),*records.support(opinion['review_record_id']))))}
 

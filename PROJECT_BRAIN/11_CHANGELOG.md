@@ -3750,3 +3750,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S8：原G结果关联同一已修订私问当前版，精确旧Ref依旧拒绝；64前intent筛选/原索引只读，暂停不复活，撤回歧义私域等反例有效。c78旧2fail→36pass15.55s/192相关42.78s，各1SELF/55007bytes非Token。未重建929候选/APK/CURRENT/真实0；证据private-growth-current-origin-20261114，下一重型兴趣负荷动机及原A–H。
 
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6：明确有据的重型兴趣可与原REST动机竞争，85旧3fail2pass→15pass/199相关52.93s，同1SELF/53288bytes非Token，默认/资源权限不改。0tests与OOM首错保留，20万合成库13文件哈希保全迁磁盘/旧路径指向，非删库或P95重跑。前继CI323仅85；未新包/APK/CURRENT/真实0。证据deliberated-heavy-interest-20261114，下一原情境意义/持续方法/明确反馈因果及原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7/S8：已修订关切通过原方法假设继续接受确切话轮方法意见，D/C改后续选择；原解析复用/稳定旧basis去重，精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token。环境/tmp丢失后恢复磁盘树/20万13文件SHA核对，旧18bc不变。CI429仅244；未新包/APK/CURRENT/真实0，证据private-feedback-current-basis-20261115，下一原G问题/反例/迁移与原A–H。
