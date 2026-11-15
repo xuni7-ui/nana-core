@@ -3,15 +3,34 @@
   "b_planner_sha": "86d1edb572fdeadd43cc110a174f9d83509c18ca",
   "b_planner_file_sha256": "6b11af1e8ee253ef987e5cceb0284e2ba4427fa710411d930466a6f15ee201fd",
   "iterations": 100,
-  "median_ms": 0.209,
-  "p95_ms": 0.3103,
-  "cpu_seconds": 0.02266,
-  "peak_rss_kib_linux": 46308,
-  "sample_times": [0.0, 5.0, 10.0],
+  "median_ms": 0.2078,
+  "p95_ms": 0.2353,
+  "cpu_seconds": 0.02155,
+  "peak_rss_kib_linux": 46372,
+  "sample_times": [
+    0.0,
+    5.0,
+    10.0
+  ],
   "subtitle_ranges": 1,
-  "selected_times": [0.0, 5.0, 10.0],
-  "gaps": [[0.0, 5.0], [5.0, 10.0]],
+  "selected_times": [
+    0.0,
+    5.0,
+    10.0
+  ],
+  "gaps": [
+    [
+      0.0,
+      5.0
+    ],
+    [
+      5.0,
+      10.0
+    ]
+  ],
   "extra_network": 0,
   "model_calls": 0,
-  "actual_provider_tokens": "NOT_MEASURED"
+  "actual_provider_tokens": "NOT_MEASURED",
+  "source_mapping_verified": true,
+  "withdrawal_invalidates_projection": true
 }

@@ -5,16 +5,17 @@ No real account, network platform, model, external effect, or Core mutation.
 """
 import argparse
 import hashlib
-import importlib.util
 import json
 import resource
 import sys
 import tempfile
 import time
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 from nana_core.clock import Clock
+from nana_core.contracts import CoreError
+from nana_core.continuity.memory import MemoryService
 from nana_core.life.bilibili import BilibiliPublicTransport, BilibiliSourceAdapter
 from nana_core.life.bilibili_frames import BilibiliFrameService
 from nana_core.nanalink.video_handoff import storyboard_samples
@@ -29,12 +30,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--b-planner', required=True, type=Path)
     args = parser.parse_args()
-    if hashlib.sha256(args.b_planner.read_bytes()).hexdigest() != B_FILE_SHA256:
+    source = args.b_planner.read_bytes()
+    if hashlib.sha256(source).hexdigest() != B_FILE_SHA256:
         raise SystemExit('B_PLANNER_FINGERPRINT_MISMATCH')
-    spec = importlib.util.spec_from_file_location('nanalink_pinned_b_planner', args.b_planner)
-    planner = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = planner
-    spec.loader.exec_module(planner)
+    planner = ModuleType('nanalink_pinned_b_planner')
+    planner.__file__ = str(args.b_planner)
+    sys.modules[planner.__name__] = planner
+    exec(compile(source, str(args.b_planner), 'exec'), planner.__dict__)
     with tempfile.TemporaryDirectory() as root, counterpart() as (opener, state), fresh(Path(root)/'subject.db', Clock()) as runtime:
         state['video_duration'] = 12
         transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9)
@@ -55,6 +57,16 @@ def main():
         assert view['bounded_sample_input_valid'] and view['cut_motion'] == 'NOT_MEASURED'
         assert result['gaps'] and not result['coverage_target_met']
         assert set(result['timestamps']) <= set(view['candidate_seconds']) and transport.calls == calls and not state['posts']
+        source_refs = {sample['seconds']: sample['source_memory_id'] for sample in view['samples']}
+        selected_refs = [source_refs[t] for t in result['timestamps']]
+        assert len(selected_refs) == len(result['timestamps']) and all(MemoryService(runtime.store).read(mid) for mid in selected_refs)
+        MemoryService(runtime.store, runtime.authority).forget(source, runtime.authority)
+        try:
+            storyboard_samples(app, source, scope='world', privacy_classes=('PROJECT',))
+        except CoreError:
+            withdrawn = True
+        else:
+            raise AssertionError('SOURCE_WITHDRAWAL_DID_NOT_INVALIDATE_HANDOFF')
         timings.sort()
         print(json.dumps({'scope': 'SYNTHETIC_OWNED_ONLY', 'b_planner_sha': B_SHA,
             'b_planner_file_sha256': B_FILE_SHA256, 'iterations': 100,
@@ -62,7 +74,8 @@ def main():
             'cpu_seconds': round(cpu, 5), 'peak_rss_kib_linux': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
             'sample_times': view['candidate_seconds'], 'subtitle_ranges': len(view['subtitle_ranges']),
             'selected_times': result['timestamps'], 'gaps': result['gaps'], 'extra_network': transport.calls-calls,
-            'model_calls': 0, 'actual_provider_tokens': 'NOT_MEASURED'}, ensure_ascii=False, indent=2))
+            'model_calls': 0, 'source_mapping_verified': True, 'withdrawal_invalidates_projection': withdrawn,
+            'actual_provider_tokens': 'NOT_MEASURED'}, ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':
