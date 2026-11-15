@@ -2,15 +2,15 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[源码/实测 2026-11-15] 独立 C 分支 `feature/nanalink-unified-platform`，C 检查点 `b6afd1b4c8831d0a061596609d5f45d755ed7a1c`，现将 A 最新 `383a51aa99a110219aab5733451ef1c6ef4abeba` 合入；原 work@18bc736 未覆盖。Draft PR #18 是集成候选，不是生产切换。A 的 typed CURRENT 块和原始证据保留。
+[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `5337f11dfdaffe794c260da629611bb603122f73`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；da752a7 的匹配 GitHub CI 43700270743 通过，不代替后继源码 CI。
 
-- 已实现/受控测试：统一 SDK/Event/五态回执与有界队列；OneBot HTTP/WS/reverse-WS；QQ 官方宿主桥与单次发送（无独立回读则 UNKNOWN）；原 QQ/B站主体/Grant/Kernel 和 C.4 通知；RSS/Atom 来源机会；媒体流式缓存；原手机连接配置、B站用户发起扫码、已有 vault 原子凭据保存及批准版本的连接器管理。
-- 本次 A/C 合并：账本和浏览器测试冲突保留双方内容；Android 原生平台路由与 A 模型目录续页、v2 客户端、BFF 查询逻辑均保留。合并源码 99 项 Python、93 项客户端、桌面及 3 种手机宽度 16 项浏览器通过；新动态解析 1 项通过；schema/C.4 同步及 Ruff 通过。浏览器登录失效提示后继重验见交付记录。b6afd1b 尚无 GitHub workflow run，前继 4ccd7b2 的 CI 成功不能代替它。
-- B站订阅动态新增纯解析：来源/账号/作者/时间/PERSONAL 区分和去重，不自动联网或入库。A 当前 MemoryService 不允许此类私人平台直接观察持久化；QQ 原 C 也未表达选定媒体引用。最小可审阅契约及撤回要求见 `docs/nanalink/CONTRACT_EXTENSIONS.md`，不得伪装成公开来源或用户陈述，不在连接器猜选附件。
-- 下一工作：推进 A 对私人平台观察与媒体候选的契约衔接，补受控 owner 事件泵与原主体自主选择，继续真实连接和管理体验；适配器故障、回退和长期成本还须扩大实际验证。真实账号登录/外发、Android 实机、生产须用户单独授权，未运行；SnowLuma 原许可/源码不可达，native 仅研究。
-- 旧 QQ Gateway 方案由统一侧车和原签名转发承接；旧 Bili Agent 不另建第二认知/发送主体。历史证据/安装及回退见 `docs/nanalink/README.md`、`docs/nanalink/evidence/README.md`；历史 2000 入队/去重测量不能作为有效认知或 Token 成本结论。
+- 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
+- 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；授权撤销到 owner refresh/restart 的窗口未资格。无第二记忆库。
+- QQ 媒体：原行动目标新增可选 v1 媒体选择，旧无媒体 wire 不变；当前端口返回 UNSUPPORTED，防止漏附件误发。原 C 选择、图片/表情发送、来源撤回验证及 Kernel 回执闭环尚未完成；跨 QQ/B站/手机同主体经历也未资格。
+- 验证：本次后继 110 项定向 Python 通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。Java 存在但 Android SDK/adb 未发现，APK/实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
+- 后续：完成 QQ 原 C 媒体选择和授权发送/Verify，接入可信平台来源变化撤回，做跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据。
 
-源码输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `94cc06979db67301466270eae7a0face48db3fc2bf8d1acec0d3fc477a3e6b75`，不含账本和自身。开发、合成联调、真实账号、手机实机和生产资格分别记录。
+证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `bd28c2f5943f9c5e5a7d51568fd4128fab09181f7beba3f7a71fb312dd6ae3a1`，不含自身/账本。历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
 
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->

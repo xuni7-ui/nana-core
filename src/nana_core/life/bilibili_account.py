@@ -63,6 +63,7 @@ class BilibiliAccountTransport:
             ("api.bilibili.com", "/x/web-interface/nav", False),
             ("api.bilibili.com", "/x/msgfeed/reply", False),
             ("api.bilibili.com", "/x/msgfeed/at", False),
+            ("api.bilibili.com", "/x/polymer/web-dynamic/v1/feed/all", False),
         }
         if (host, path, write) not in allowed:
             raise CoreError("BILIBILI_ACCOUNT_ENDPOINT_DENIED")
@@ -120,6 +121,13 @@ class BilibiliAccountTransport:
             return result.get("data")
         finally:
             credential.clear()
+
+    def dynamic_rows(self):
+        data = self._json('api.bilibili.com', '/x/polymer/web-dynamic/v1/feed/all',
+                          {'type':'all','page':1,'features':'itemOpusStyle','timezone_offset':-480})
+        if type(data) is not dict or type(data.get('items', [])) is not list:
+            raise CoreError('BILIBILI_DYNAMIC_RESPONSE_INVALID')
+        return data.get('items', [])[:20]
 
     def notification_rows(self, channel):
         """One bounded C.4 notification page; caller separately admits private read.

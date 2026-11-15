@@ -21,6 +21,8 @@ def receipt_from_core(operation_id, value):
     action = value.get('action_id')
     if state == 'SUCCEEDED' and value.get('external_delivery') is True:
         outcome, reason = Outcome.CONFIRMED_SUCCESS, 'ORIGINAL_KERNEL_VERIFIED'
+    elif state == 'MEDIA_ACTION_UNSUPPORTED':
+        outcome, reason = Outcome.UNSUPPORTED, state
     elif state in {'FAILED', 'FAILED_EFFECT', 'NOT_APPLIED', 'REJECTED', 'BLOCKED_MANAGER'}:
         outcome, reason = Outcome.CONFIRMED_FAILURE, state
     elif state in {'CANCELLED', 'NO_SOCIAL_DISPATCH_REPLY_NOT_REPLAYED', 'C_SILENCE_OR_REPLY_UNAVAILABLE',

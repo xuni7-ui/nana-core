@@ -44,6 +44,7 @@ class GatewayService:
         platform_event_secret_refs=None,
         nanalink_observers=(),
         nanalink_bilibili_sources=(),
+        nanalink_bilibili_dynamics=(),
         allow_platform_login=False,
     ):
         self.supervisor, self.auth = supervisor, auth
@@ -74,6 +75,9 @@ class GatewayService:
 
         self.nanalink_bilibili_sources = tuple(nanalink_bilibili_sources)
         if len(self.nanalink_bilibili_sources) > 16 or any(not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}", v) for v in self.nanalink_bilibili_sources):
+            raise ApiError("NANALINK_SOURCE_BINDING_INVALID")
+        self.nanalink_bilibili_dynamics = tuple(nanalink_bilibili_dynamics)
+        if len(self.nanalink_bilibili_dynamics) > 16 or any(not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}",v) for v in self.nanalink_bilibili_dynamics):
             raise ApiError("NANALINK_SOURCE_BINDING_INVALID")
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
         from ...nanalink.console import NanaLinkObserver

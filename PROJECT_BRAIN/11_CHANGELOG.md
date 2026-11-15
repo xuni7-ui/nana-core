@@ -3804,3 +3804,8 @@ ae567f9后继10定向及匹配wheel双构建SHA34286fe4…4f03c/299安装源码�
 将 A 383a51a 合入 C：账本和浏览器测试并存，核对原 Android 路由、客户端、BFF 模型续页及 C 平台能力；99 Python、93 客户端和16跨视口浏览器通过。新增仅内存的 B站私人动态来源解析及独立测试，未绕过原 Memory 契约持久化；提出原私人来源、撤回及 C 媒体选择最小增量。二维码失效与账户不匹配给出可操作说明。真实账号/外发/生产未运行。
 
 - 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S7/S8：原表达反馈先按来源群/已评价过滤后各32、lesson先范围私域后16，已采纳策略示例同群；383旧7fail10pass→17pass/168相关55.68s及正常原C聊天独立oldfail/newpass。同2阶段/+3263bytes非Token，无新表/index/Schema。前继CI69仅383；无新包/APK/CURRENT/真实0。证据language-feedback-populations-20261115，继续S3多动机/独立经历与原A–H；22:25/05:00续办设置不冻结工作。
+
+
+### C-NANALINK · 2026-11-15 · 私人平台观察与媒体契约首段
+
+继承 A 5337f11；新增授权私人 B站动态来源的原 MemoryService/预算/WORLD_EVENT 接线及 owner 配置撤销闭包，保留隐私与账号归因；QQ 原目标增加可选媒体选择，当前不支持执行时明确拒绝。110 项相关 Python、撤销/重启4项及 owned HTTP 合成验证通过；平台侧删除/取消关注、QQ 媒体执行和跨平台连续性未完成。da752a7 CI43700270743通过只归前继，当前源码 CI 待验。证据见 docs/nanalink/evidence/private-platform-source-20261115。

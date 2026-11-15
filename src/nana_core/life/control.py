@@ -71,6 +71,12 @@ def dispatch(app, request, *, observed_at_us=None, respond_to=()):
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op=='bilibili-dynamics' and set(request)=={'operation','channel_id'}:
+        if type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id']):
+            raise CoreError('BILIBILI_TYPED_CHANNEL_REQUIRED')
+        if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
+            raise CoreError('CLOUD_DISK_GUARD')
+        return app.platforms.bilibili_dynamics(request['channel_id'])
     if op=='bilibili-notifications' and set(request)=={'operation','channel_id'}:
         if type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}', request['channel_id']):
             raise CoreError('BILIBILI_TYPED_CHANNEL_REQUIRED')
@@ -482,7 +488,7 @@ def request(home, data, timeout=None, *, progress=None):
             observations=data.get('observations')
             if type(observations) is not list or not 2<=len(observations)<=4:raise CoreError('SURFACE_SEQUENCE_BOUND')
             calls=2*len(observations)  # retained/boundary fallback retains independent phase budgets
-        network_allowance = 60 if data.get('operation') == 'bilibili-notifications' else 30
+        network_allowance = 60 if data.get('operation') in {'bilibili-notifications','bilibili-dynamics'} else 30
         timeout = max(5, calls * load_config(root).provider_timeout_ms / 1000 + network_allowance)
     from ..presence.cli import status
 

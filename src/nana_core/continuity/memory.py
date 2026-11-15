@@ -98,6 +98,15 @@ class MemoryService:
                 raise CoreError('SELF_COGNITION_OCCURRENCE_REQUIRED')
         consented=p.domain=='CONSENTED_INTERACTION'
         if consented and (self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or candidate.retention_consent_ref!=p.source_reference or (p.source_namespace,p.source_kind) not in {('recorded.conversation.input','USER_STATEMENT'),('recorded.conversation.feedback','USER_STATEMENT'),('recorded.conversation.feedback-check','SYSTEM_VERIFICATION'),('recorded.conversation.concern','MODEL_DERIVATION')}):raise CoreError('EXPLICIT_CONVERSATION_RETENTION_REQUIRED')
+        platform=p.domain=='CONSENTED_PLATFORM'
+        if platform:
+            from ..nanalink.private_source import PlatformObservationAuthority
+            if (self.store.schema_target<13 or candidate.privacy_class!='PERSONAL'
+                    or p.source_namespace!='recorded.platform.bilibili.dynamic'
+                    or p.source_kind!='DIRECT_OBSERVATION'
+                    or type(self._authority) is not PlatformObservationAuthority
+                    or not self._authority.permits(self.store,candidate)):
+                raise CoreError('PLATFORM_OBSERVATION_NOT_AUTHORIZED')
         local=p.domain=='LOCAL_INTERACTION_METADATA'
         if local:
             from .contracts import PENDING_LOCAL_RECEIPT
@@ -106,7 +115,7 @@ class MemoryService:
             if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or not (legacy or pending):raise CoreError('LOCAL_METADATA_ONLY')
         project=p.domain=="DEVELOPMENT_PROJECT" and candidate.privacy_class=="PROJECT" and self.store.schema_target>=13
         if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
-        if p.domain!="SYNTHETIC_ONLY" and not project and not local and not consented and not legacy and not own and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
+        if p.domain!="SYNTHETIC_ONLY" and not project and not local and not consented and not legacy and not own and not platform and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
             raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
         previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
             "source_namespace=? AND source_reference=? AND source_revision=?",

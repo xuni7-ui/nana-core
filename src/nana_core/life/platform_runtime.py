@@ -212,6 +212,9 @@ class QQReplyWorkflow:
                     cycle.intention_id, expected_revision=intention["revision"], state="DEFERRED"
                 )
             return {**result, "delivery": "NOT_AUTHORIZED_OR_NO_MODEL_WORDING", "external_delivery": False}
+        # Never silently drop a C-selected attachment and send text alone.
+        if cycle.realization_target and cycle.realization_target.media is not None:
+            return {**result, "delivery":"MEDIA_ACTION_UNSUPPORTED", "external_delivery":False}
         candidate = self.port.bind_candidate(result["text"], rid, privacy=self.channel.privacy_class)
         admission = self.port.delivery.assess_reply(
             cycle, self.resource, payload=candidate, source_memory_ids=(result["message_memory_id"],)
@@ -244,6 +247,8 @@ class PlatformRuntime:
         self.app, self.resolver = app, resolver
         self.health = {}
         self._nanalink_bili_sources = {}
+        from ..nanalink.private_source import reconcile_revoked_sources
+        reconcile_revoked_sources(app,app.config)
 
     def qq(self, channel_id, message_id):
         channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
@@ -307,6 +312,8 @@ class PlatformRuntime:
         from .config import load_config
 
         current = load_config(self.app.home)
+        from ..nanalink.private_source import reconcile_revoked_sources
+        reconcile_revoked_sources(self.app,current)
         self._nanalink_bili_sources.clear()
         self.app.config = self.app.config.model_copy(
             update={
@@ -316,6 +323,11 @@ class PlatformRuntime:
             }
         )
         return self.view()
+
+    def bilibili_dynamics(self, channel_id):
+        from .bilibili_runtime import account_workflow
+        from ..nanalink.private_source import poll_dynamics
+        return poll_dynamics(account_workflow(self.app,self.resolver,channel_id))
 
     def bilibili_notifications(self, channel_id):
         """Explicit infrastructure poll on the ORIGINAL owner; defaults deny.

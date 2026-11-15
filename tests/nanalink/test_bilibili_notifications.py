@@ -32,7 +32,9 @@ def notification_front(endpoint):
         def do_POST(self):self.respond()
         def respond(self):
             state['requests'].append(self.path)
-            if self.path.startswith('/x/msgfeed/'):
+            if self.path.startswith('/x/polymer/web-dynamic/v1/feed/all'):
+                raw=json.dumps({'code':0,'data':{'items':state.get('dynamic',[])}}).encode()
+            elif self.path.startswith('/x/msgfeed/'):
                 if state['fail']:self.send_error(503);return
                 raw=json.dumps({'code':0,'data':{'items':[item] if '/reply' in self.path else []}}).encode()
             else:

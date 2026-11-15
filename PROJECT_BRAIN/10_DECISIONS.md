@@ -1951,3 +1951,8 @@ Runtime4205f31 adds explicit stopped-owner recovery through original exclusive S
 ### C-NANALINK-003 · 2026-11-15 · 官方QQ回执及受控连接管理
 
 官方QQ原生身份独立命名，使用单次发送；没有独立回读时 ACK 不升级为送达，保持 UNKNOWN。扫码登录用户显式触发，凭据成对原子写入既有 vault，连接仍停用。适配器版本仅由宿主批准，换版离线执行；私人平台观察和媒体选择先以独立层与契约提案交 A 协作，不伪造授权或主体意图。
+
+
+### C-NANALINK-004 · 2026-11-15 · 原私人来源契约与显式媒体选择
+
+按用户本次明确授权在独立 C 分支增加 CONSENTED_PLATFORM 来源，并由原 owner 绑定真实账号、私人读取和保留同意；撤回复用原删除闭包，未知平台缺席不视为取消关注。原行动目标增加可选版本化媒体引用，未实现发送路径明确 UNSUPPORTED。旧 reader 不认新来源，回退前必须撤回并验证。具体边界及待补环节见 docs/nanalink/evidence/private-platform-source-20261115。

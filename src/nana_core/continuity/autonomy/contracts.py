@@ -1,6 +1,6 @@
 """Typed, bounded semantic contracts. No authority is serializable here."""
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_serializer
 from ...contracts import DTO
 from ..recurrence import RecurrenceSpec
 from ..commitments import CommitmentCandidate
@@ -10,11 +10,26 @@ DispositionCode = Literal['SUBJECT_ENDORSED','SUBJECT_RESTRAINED','SUBJECT_DEFER
 DisclosureMode = Literal['DISCLOSE_BEFORE','DISCLOSE_AFTER','DISCLOSE_WHEN_ASKED','WITHHOLD_UNTIL_REVEAL','DECLINE_TO_DISCLOSE','STAY_SILENT']
 BehaviorPhase = Literal['PLANNED','MANAGER_BLOCKED','ACTION_BLOCKED','ATTEMPTED','UNKNOWN','VERIFIED_EFFECT']
 
+class MediaSelection(DTO):
+    """A C-selected media reference, not a permission or a network location."""
+    schema_version: Literal[1] = 1
+    kind: Literal['image','face','file','audio']
+    source_memory_id: str = Field(min_length=1, max_length=128)
+    content_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
+    reference: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+
 class RealizationTarget(DTO):
     capability: str = Field(pattern=r'^[a-z][a-z0-9._-]{1,95}$')
     operation: Literal['READ','WRITE','DELETE','CONTACT']
     resource: str = Field(pattern=r'^(?:synthetic|project|hands)://[A-Za-z0-9/._:-]{1,160}$')
     resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN'] = 'UNKNOWN'
+    media: MediaSelection | None = None
+    @model_serializer(mode='wrap')
+    def preserve_existing_target(self, handler):
+        value=handler(self)
+        if self.media is None:
+            value.pop('media',None)
+        return value
 
 class DisclosureRequest(DTO):
     topic: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')

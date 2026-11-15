@@ -162,6 +162,24 @@ class PlatformEvents:
             return self.last
         return None
 
+    def poll_dynamics_once(self):
+        now=time.monotonic()
+        for channel in getattr(self.service,'nanalink_bilibili_dynamics',()):
+            key='dynamic:'+channel
+            if now < self.source_after.get(key,0):
+                continue
+            self.source_after[key]=now+300
+            try:
+                result=request(self.service.supervisor.home,{'operation':'bilibili-dynamics','channel_id':channel},timeout=None)
+                value=result.get('result',{}) if result.get('ok') is True else {}
+                state=value.get('state',result.get('error',result.get('code','UNKNOWN_DYNAMIC_POLL')))
+                self.last={'state':state if type(state) is str and re.fullmatch(r'[A-Z_]{1,96}',state) else 'UNKNOWN',
+                           'external_delivery':False,'no_retry':True}
+            except (CoreError,OSError,ValueError,TypeError):
+                self.last={'state':'UNKNOWN_DYNAMIC_POLL_NO_RETRY','external_delivery':False,'no_retry':True}
+            return self.last
+        return None
+
     def start(self):
         if self.worker is not None:
             raise ApiError("PLATFORM_EVENT_FORWARDER_ALREADY_STARTED")
@@ -170,6 +188,7 @@ class PlatformEvents:
             while not self.stopped.wait(0.25):
                 self.drain_once()
                 self.poll_notification_once()
+                self.poll_dynamics_once()
 
         self.worker = threading.Thread(target=forward, name="nana-platform-metadata", daemon=True)
         self.worker.start()
