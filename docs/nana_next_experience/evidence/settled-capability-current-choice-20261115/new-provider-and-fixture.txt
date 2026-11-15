@@ -1,0 +1,10 @@
+{"choice": null, "port": "fixture", "behavior": "WATCH", "wire_bytes": [], "calls": 1, "need": "SETTLED"}
+.{"choice": "LEARN", "port": "fixture", "behavior": "LEARN", "wire_bytes": [], "calls": 1, "need": "SETTLED"}
+.{"choice": "REST", "port": "fixture", "behavior": "REST", "wire_bytes": [], "calls": 1, "need": "SETTLED"}
+.{"choice": "REFLECT", "port": "fixture", "behavior": "REFLECT", "wire_bytes": [], "calls": 1, "need": "SETTLED"}
+.{"choice": null, "port": "provider", "behavior": "WATCH", "wire_bytes": [57457], "calls": 1, "need": "SETTLED"}
+.{"choice": "LEARN", "port": "provider", "behavior": "LEARN", "wire_bytes": [57457], "calls": 1, "need": "SETTLED"}
+.{"choice": "REST", "port": "provider", "behavior": "REST", "wire_bytes": [57457], "calls": 1, "need": "SETTLED"}
+.{"choice": "REFLECT", "port": "provider", "behavior": "REFLECT", "wire_bytes": [57457], "calls": 1, "need": "SETTLED"}
+.
+8 passed in 33.68s

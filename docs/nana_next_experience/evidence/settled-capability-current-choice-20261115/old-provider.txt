@@ -1,0 +1,134 @@
+{"choice": null, "port": "provider", "behavior": "WATCH", "wire_bytes": [54832], "calls": 1, "need": "SETTLED"}
+.{"choice": "LEARN", "port": "provider", "behavior": "WATCH", "wire_bytes": [54832], "calls": 1, "need": "SETTLED"}
+F{"choice": "REST", "port": "provider", "behavior": "WATCH", "wire_bytes": [54832], "calls": 1, "need": "SETTLED"}
+F{"choice": "REFLECT", "port": "provider", "behavior": "WATCH", "wire_bytes": [54832], "calls": 1, "need": "SETTLED"}
+F
+=================================== FAILURES ===================================
+_ test_settled_need_does_not_remove_an_explicit_current_direction[provider-LEARN] _
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7fe44c677aa0>, 'aa023666-2727-42ea-8c6d-64c359744e87', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'LEARN', port = 'provider'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    @pytest.mark.parametrize('port',['fixture','provider'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice,port):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        with ExitStack() as stack:
+            model=Choosing();wire=[];state=None
+            if port=='provider':
+                def propose(request):
+                    wire.append(len(transport.request_body(request)))
+                    return StructuredProposal(interpretation='SYNTHETIC current choice',
+                        subject_cognition=CognitiveProposal.model_validate_json(Choosing().propose(request)))
+                transport,state=stack.enter_context(provider_harness(proposer=propose))
+                model=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768))
+            result=r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy)
+            print(json.dumps({'choice':choice,'port':port,'behavior':result.intention.behavior,'wire_bytes':wire,
+                'calls':state['calls'] if state else len(seen),'need':result.experience_need.state}))
+            assert r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy).cycle_id==result.cycle_id
+            assert not state or state['calls']==1
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'LEARN'
+E         
+E         - LEARN
+E         + WATCH
+
+../scratch/nana-settled-old-b27/test_behavior_baseline.py:69: AssertionError
+_ test_settled_need_does_not_remove_an_explicit_current_direction[provider-REST] _
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7fe44ca3c440>, '4670e763-1f55-4d06-a932-d66871eabd6c', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'REST', port = 'provider'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    @pytest.mark.parametrize('port',['fixture','provider'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice,port):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        with ExitStack() as stack:
+            model=Choosing();wire=[];state=None
+            if port=='provider':
+                def propose(request):
+                    wire.append(len(transport.request_body(request)))
+                    return StructuredProposal(interpretation='SYNTHETIC current choice',
+                        subject_cognition=CognitiveProposal.model_validate_json(Choosing().propose(request)))
+                transport,state=stack.enter_context(provider_harness(proposer=propose))
+                model=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768))
+            result=r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy)
+            print(json.dumps({'choice':choice,'port':port,'behavior':result.intention.behavior,'wire_bytes':wire,
+                'calls':state['calls'] if state else len(seen),'need':result.experience_need.state}))
+            assert r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy).cycle_id==result.cycle_id
+            assert not state or state['calls']==1
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'REST'
+E         
+E         - REST
+E         + WATCH
+
+../scratch/nana-settled-old-b27/test_behavior_baseline.py:69: AssertionError
+_ test_settled_need_does_not_remove_an_explicit_current_direction[provider-REFLECT] _
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7fe44c986600>, '2bd12605-2bbd-4699-8de5-68481bcd83ab', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+choice = 'REFLECT', port = 'provider'
+
+    @pytest.mark.parametrize('choice',[None,'LEARN','REST','REFLECT'])
+    @pytest.mark.parametrize('port',['fixture','provider'])
+    def test_settled_need_does_not_remove_an_explicit_current_direction(settled,choice,port):
+        app,mid,cue=settled;r=app.runtime;seen=[]
+        class Choosing:
+            descriptor='synthetic-current-choice-after-checked-capability-use'
+            def propose(self,request):
+                frame=next(json.loads(b['data_json']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+                seen.append(frame);value=json.loads(AnalyticalFixturePort().propose(request))
+                if choice:value['preferred_behavior']=choice if choice in frame['behavior_options'] else 'WATCH'
+                return json.dumps(value)
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.settled-interest-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        actions=len(r.store.all('actions'));jobs=[j['job_id'] for j in r.store.all('jobs') if j['work_kind']=='LEARNING']
+        with ExitStack() as stack:
+            model=Choosing();wire=[];state=None
+            if port=='provider':
+                def propose(request):
+                    wire.append(len(transport.request_body(request)))
+                    return StructuredProposal(interpretation='SYNTHETIC current choice',
+                        subject_cognition=CognitiveProposal.model_validate_json(Choosing().propose(request)))
+                transport,state=stack.enter_context(provider_harness(proposer=propose))
+                model=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768))
+            result=r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy)
+            print(json.dumps({'choice':choice,'port':port,'behavior':result.intention.behavior,'wire_bytes':wire,
+                'calls':state['calls'] if state else len(seen),'need':result.experience_need.state}))
+            assert r.subject.cognize(event,model=model,authority=r.authority,policy=app.policy).cycle_id==result.cycle_id
+            assert not state or state['calls']==1
+        assert result.experience_need.state=='SETTLED'
+>       assert result.intention.behavior==(choice or 'WATCH')
+E       AssertionError: assert 'WATCH' == 'REFLECT'
+E         
+E         - REFLECT
+E         + WATCH
+
+../scratch/nana-settled-old-b27/test_behavior_baseline.py:69: AssertionError
+=========================== short test summary info ============================
+FAILED ../scratch/nana-settled-old-b27/test_behavior_baseline.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-LEARN]
+FAILED ../scratch/nana-settled-old-b27/test_behavior_baseline.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-REST]
+FAILED ../scratch/nana-settled-old-b27/test_behavior_baseline.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-REFLECT]
+3 failed, 1 passed, 6 deselected in 18.21s

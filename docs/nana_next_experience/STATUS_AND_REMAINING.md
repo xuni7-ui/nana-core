@@ -1,10 +1,8 @@
-## 现役revision233 — 原Store两码点literal接线，同预算十万条不再超时
+## 现役revision234 — 已解决能力缺口与自主兴趣分开
 
-原memory_terms每可索引笔记补一个派生End键，复用L3前缀；稀少候选只算一次，常见词先65个去重授权头选计划，再按rowid/CASE护栏读正文，65不是结果/生活上限。无新生产表/索引/Model调用，旧/长/缺键安全回退。Native同limit4/100ms：1k/10k各48/48；100k旧6/48/42timeout→新48/48/0误返0timeout，P95100.46→46.68ms。74相关27.32s含原G16/32/TEXT、隐私/副本/恢复、正常两字商业链重启/换fixture模型/纠错撤回。仪器化同源正文70→4，私域/错来源干扰0读取。见evidence/literal-two-prefix-20261115/README.md。
+原S3独立复用SETTLED不再把全部C选项覆盖WATCH；原cue/原Need状态保留，C frame按需加现有Need，默认WATCH/明确LEARN-REST-REFLECT共存，原G拒重复课程。旧b27实际fixture/HTTP各3fail1pass，现8同链/209相关46.05s；原Foundation/续学13保留，norm与完整8选项不放宽。每1SELF，完整wire54832→57457(+2625)bytes非Token。前继b27独立123pass1warning48.65s仅targeted，完整/portable/client SKIP。见evidence/settled-capability-current-choice-20261115/README.md。
 
-100k只补99979派生键、2.489s、实分配+15.47MiB，源主表/identity不变且查询主库写禁；非物理回收/生产回填。初始co夹具真值错/较慢原型/语法首错/10万三timeout/原DTO缺字段首错均保留。原20万保留库未打开/修改，Core-Iris活库绑定/大批旧缺键/更广语义仍未资格；在线有界旧库补项尚待。前继49d独立670仅其targeted，当前非全仓/新安装/真实模型/手机/生产/自然度/跨日，CURRENT266+409。
-
-下一回原情感多时间尺度/自然交流策略可靠反证→后来C选择/G独立迁移；旧库有界补项/更广语义/物理隐私/真实Token费用/模型多端及全部A–H继续。工作树/workspace/nana-next-refinement-work，根盘尚约1GiB，勿再建大库；各隔离语料保留路径见corpora.json。22:25/明早05:00北京时间续办已设，当前未冻结。
+下一先真实复现project_need全域32窗口先于关切因果绑定的挤占，再定向修复，不调大常量；情感/可靠反证/G迁移与原A–H继续。CURRENT266+409未动，无新包/安装/APK/真实模型/手机/生产/自然度/跨日资格。
 
 ## 现役revision196
 
