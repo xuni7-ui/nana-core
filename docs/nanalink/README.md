@@ -44,7 +44,7 @@ Core的QQ endpoint指向侧车loopback origin，凭据只引用该账号的`core
 
 ## 受控图片发送资格
 
-OneBot 路径可在显式注入本会话 `MediaCache` 时，由原 C 从当前原感知记录选择图片，经过原 Manager、Grant、ActionKernel 和侧车发送一个不超过 8192 字节的内嵌图片。缓存按原记忆 ID 与源字节 SHA256 精确绑定，执行前及账号检查后重核来源；来源撤回、字节变化或缺少权限时拒绝发送。适配器不推断图片或收件人。平台无法独立证明图片字节时回执为 UNKNOWN，不重发。该路径已用 owned HTTP/WS 假平台测试；生产宿主的缓存供给、真实 OneBot 兼容性和真实账号尚未验收，默认管理界面仍标示未支持。QQ 官方 Bot 和表情仍不可用。
+OneBot 路径可在显式注入本会话 `MediaCache` 时，由原 C 从当前原感知记录选择图片，经过原 Manager、Grant、ActionKernel 和侧车发送一个不超过 8192 字节的内嵌图片。缓存按原记忆 ID 与源字节 SHA256 精确绑定，执行前及账号检查后重核来源；来源撤回、字节变化或缺少权限时拒绝发送。适配器不推断图片或收件人。平台无法独立证明图片字节时回执为 UNKNOWN，不重发。该路径已用 owned HTTP/WS 假平台测试；原 owner 可显式调用 `PlatformRuntime.bind_qq_media_cache(channel_id, cache)` 将调用方管理的临时缓存绑定到准确账号；不同账号不可共用缓存，账号或端点变化即解除绑定，重启不继承。默认不绑定，产品缓存填充、真实 OneBot 兼容性和真实账号尚未验收，管理界面仍标示未支持。QQ 官方 Bot 和表情仍不可用。
 
 ## 手机使用与健康
 

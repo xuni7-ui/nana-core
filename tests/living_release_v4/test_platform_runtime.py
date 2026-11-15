@@ -415,3 +415,38 @@ def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_co
                 assert MemoryService(app.runtime.store).read(mid)==fact
                 app.forget(mid)
                 assert not LanguageService(app.runtime.store,app.runtime.authority).records.current_support(review_id)
+
+
+def test_owner_media_cache_binding_is_volatile_and_account_isolated(tmp_path, monkeypatch):
+    from nana_core.nanalink.media import MediaCache
+    from nana_core.life import platform_runtime
+    with counterpart() as (url, _):
+        home = tmp_path / 'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            cache = MediaCache(tmp_path / 'cache', source_current=lambda _: True)
+            seen = []
+            class Flow:
+                def __init__(self, app, channel, transport, *, media_cache=None):
+                    seen.append(media_cache)
+                def receive(self, message_id):
+                    return {'delivery': 'NOT_SENT'}
+            monkeypatch.setattr(platform_runtime, 'QQReplyWorkflow', Flow)
+            app.platforms.qq('primary', '1')
+            app.platforms.bind_qq_media_cache('primary', cache)
+            app.platforms.qq('primary', '1')
+            other = channel.model_copy(update={'channel_id': 'secondary', 'account_id': '44'})
+            app.config = app.config.model_copy(update={'qq_channels': (channel, other)})
+            with pytest.raises(CoreError, match='QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED'):
+                app.platforms.bind_qq_media_cache('secondary', cache)
+            changed = channel.model_copy(update={'account_id': '99'})
+            app.config = app.config.model_copy(update={'qq_channels': (changed,)})
+            app.platforms.qq('primary', '1')
+            assert seen == [None, cache, None]
+            with pytest.raises(CoreError, match='QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED'):
+                app.platforms.bind_qq_media_cache('primary', cache)
+            with pytest.raises(CoreError, match='QQ_CHANNEL_UNBOUND'):
+                app.platforms.bind_qq_media_cache('unknown', cache)
+            cache.close()

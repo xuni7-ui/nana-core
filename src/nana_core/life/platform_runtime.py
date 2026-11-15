@@ -250,6 +250,7 @@ class PlatformRuntime:
     def __init__(self, app, resolver=None):
         self.app, self.resolver = app, resolver
         self.health = {}
+        self._qq_media_caches = {}
         self._nanalink_bili_sources = {}
         from ..nanalink.private_source import reconcile_revoked_sources
         reconcile_revoked_sources(app,app.config)
@@ -285,6 +286,30 @@ class PlatformRuntime:
         finally:
             self._source_guard_busy = False
 
+    def bind_qq_media_cache(self, channel_id, cache):
+        """Bind a caller-owned volatile cache to one exact configured account.
+
+        This owner-only adapter hook neither reads bytes nor grants any action.
+        The caller retains cache lifecycle; bindings disappear on restart.
+        """
+        from ..nanalink.media import MediaCache
+        self.app.runtime.cadence.assert_owner()
+        channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
+        if len(channels) != 1 or channels[0].backend != 'onebot':
+            raise CoreError('QQ_CHANNEL_UNBOUND')
+        if cache is None:
+            self._qq_media_caches.pop(channel_id, None)
+            return
+        if type(cache) is not MediaCache or any(k != channel_id and v[1] is cache for k, v in self._qq_media_caches.items()):
+            raise CoreError('QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED')
+        channel = channels[0]
+        binding = (channel.binding_id, channel.backend, channel.account_id, channel.endpoint)
+        owner = (channel_id, *binding)
+        if getattr(cache, '_nanalink_qq_owner', owner) != owner:
+            raise CoreError('QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED')
+        cache._nanalink_qq_owner = owner
+        self._qq_media_caches[channel_id] = (binding, cache)
+
     def qq(self, channel_id, message_id):
         channels = [c for c in self.app.config.qq_channels if c.channel_id == channel_id]
         if len(channels) != 1:
@@ -308,7 +333,12 @@ class PlatformRuntime:
                 request_limit=8,
                 realm="AUTHENTICATED_PLATFORM",
             )
-            result = QQReplyWorkflow(self.app, channel, transport).receive(message_id)
+            binding = (channel.binding_id, channel.backend, channel.account_id, channel.endpoint)
+            entry = self._qq_media_caches.get(channel_id)
+            if entry and entry[0] != binding:
+                self._qq_media_caches.pop(channel_id, None)
+                entry = None
+            result = QQReplyWorkflow(self.app, channel, transport, media_cache=entry[1] if entry else None).receive(message_id)
             self.health["qq." + channel_id] = result.get("delivery", result.get("state", "UNKNOWN"))
             return result
         finally:
