@@ -1,0 +1,53 @@
+ABLATION_DIAG {"reply": {"message_id": "ablated", "message_memory_id": "1225029f-3828-4aae-899d-86214f2f826d", "provider_state": "PRIVATE_CONTEXT_REFERENCE_UNAVAILABLE", "render_state": "NOT_RUN", "route": null, "mode": "UNCLEAR", "judgment": "ASK", "intention": "WAIT", "text": "\u8fd9\u6b21\u6682\u65f6\u65e0\u6cd5\u751f\u6210\u56de\u590d\uff0c\u8bf7\u67e5\u770b\u6a21\u578b\u72b6\u6001\u3002", "raw_body_persisted": false, "exchange_record_id": null, "conversation_decision": null, "external_social_send": false, "reply_response_id": null, "respond_to_memory_ids": ["1225029f-3828-4aae-899d-86214f2f826d"], "cycle_id": "40d05584-1f65-4622-b920-d23b3a8036ca", "cycle_record_id": "25ab39ab-e634-4a63-8776-af87fea2808f", "intention_id": "aa749c9e-26e4-442e-af73-76e8abe3acd7"}, "requests": [{"state": "PROPOSED", "error_code": null}, {"state": "PROPOSED", "error_code": null}, {"state": "PROPOSED", "error_code": null}, {"state": "PROPOSED", "error_code": null}]}
+F
+=================================== FAILURES ===================================
+_ test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-9/test_bounded_history_restart_k0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5f9aeef30>
+
+    def test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate(tmp_path, monkeypatch):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.presence.contracts import HOUR
+        from tests.independent_life.test_dialogue import relay
+        from tests.person_self.test_private_tendency import form, meaning, current
+        home=tmp_path/'home';prepare(home);clock=VirtualClock();source=None
+        private='SYNTHETIC_PRIVATE_CONTINUITY_CANARY'
+        def render(request):
+            choice=request['role_input']['dialogue']['communication_purpose'].get('choice')
+            approach=choice['approach'] if choice else 'CHAT'
+            known=source in request['source_context_refs']
+            return 'SYNTHETIC '+approach+(' SOURCE_KNOWN' if known else ' SOURCE_UNAVAILABLE')
+        with relay(home,'CHAT',recall_query_terms=('ORCHID',),meaning_builder=meaning,
+                   renderer=render,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();source,event=populate(app,clock);identity=app.runtime.identity_id
+                form(app,text=private,topic='orchid');private_record=current(app)[0][0]
+                before=dict(app.runtime.store.one('continuity_records',private_record))
+                # Ordinary user text remains transient, even if a bounded excerpt is kept.
+                app.chat('SYNTHETIC_VOLATILE_CANARY '+('temporary ' * 120),topic='orchid',
+                         privacy='PERSONAL',message_id='before-restart')
+                assert any(turn.text_truncated for turn in app._recent)
+            clock.advance(49*HOUR)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity and app._recent==[]
+                kept=app.chat('SYNTHETIC ORCHID follow-up',topic='orchid',privacy='PERSONAL',message_id='kept')
+                assert kept['text']=='SYNTHETIC LISTEN SOURCE_KNOWN'
+                assert dict(app.runtime.store.one('continuity_records',private_record))==before
+                original=private_intent.internal_projection
+                def without_private(*args,**kwargs):
+                    return tuple(row for row in original(*args,**kwargs) if row['record_id']!=private_record)
+                with monkeypatch.context() as off:
+                    off.setattr(private_intent,'internal_projection',without_private)
+                    ablated=app.chat('SYNTHETIC ORCHID follow-up',topic='orchid',privacy='PERSONAL',message_id='ablated')
+                print('ABLATION_DIAG',json.dumps({'reply':ablated,'requests':[{k:r[k] for k in ('state','error_code','cognitive_role') if k in r} for r in app.runtime.store.all('cognitive_requests')]}))
+>               assert ablated['text']=='SYNTHETIC CHAT SOURCE_KNOWN'
+E               AssertionError: assert '这次暂时无法生成回复，请查看模型状态。' == 'SYNTHETIC CHAT SOURCE_KNOWN'
+E                 
+E                 - SYNTHETIC CHAT SOURCE_KNOWN
+E                 + 这次暂时无法生成回复，请查看模型状态。
+
+tests/nanalink/test_platform_context_population.py:131: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_platform_context_population.py::test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate
+1 failed in 1.42s

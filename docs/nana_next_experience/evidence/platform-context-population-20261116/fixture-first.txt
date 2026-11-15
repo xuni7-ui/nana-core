@@ -1,0 +1,34 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_private_platform_context_survives_unrelated_population_restart_and_withdrawal _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-5/test_private_platform_context_0')
+
+    def test_private_platform_context_survives_unrelated_population_restart_and_withdrawal(tmp_path):
+        home=tmp_path/'home';prepare(home);clock=VirtualClock()
+        with LifeApplication(home, clock=clock) as app:
+            app.pause();identity=app.runtime.identity_id
+            account=Account(platform='bilibili', adapter_id='bilibili.account', account_id='42')
+            row={'id_str':'123','modules':{'module_author':{'mid':43,'pub_ts':1},
+                 'module_dynamic':{'desc':{'text':'SYNTHETIC ORCHID retained observation'}}}}
+            event=normalize_dynamic(account,row,now_us=clock.utc_now_us(),origin='SYNTHETIC_LOOPBACK')
+            source=PrivateDynamicBridge(app,'bili').receive(event)['memory_id']
+            memory=MemoryService(app.runtime.store)
+            # These are valid, more important observations, but not the requested
+            # platform family. Increasing a global window would mask the defect.
+            for i in range(65):
+                text=f'SYNTHETIC ORCHID other observation {i}'
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.other',
+                    source_reference=str(i),source_kind='DIRECT_OBSERVATION'), text=text,
+                    privacy_class='PERSONAL', event_time_us=clock.utc_now_us(), observed_time_us=clock.utc_now_us()))
+>               memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type='EPISODIC',
+                    epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text,importance=1.0))
+E               pydantic_core._pydantic_core.ValidationError: 1 validation error for MemoryCandidate
+E               memory_type
+E                 Input should be an instance of MemoryType [type=is_instance_of, input_value='EPISODIC', input_type=str]
+E                   For further information visit https://errors.pydantic.dev/2.13/v/is_instance_of
+
+tests/nanalink/test_platform_context_population.py:67: ValidationError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_platform_context_population.py::test_private_platform_context_survives_unrelated_population_restart_and_withdrawal
+1 failed in 0.57s

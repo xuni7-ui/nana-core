@@ -1,0 +1,9 @@
+# 原平台来源召回资格在限额前
+
+基线486ed54626b27a4f2fac10c5fca6c37075b1ebb7/Brain242，已推，除本批原创测试无其他dirty。原PR18已合且GitHub确认，不重复平台开发。
+
+真实同输入基线：一个有效且明示保留的PERSONAL B站观察+65个同关键词/更高importance的其他有效观察。旧原Context先通用LIMIT64再按provenance筛来源，平台观察不进上下文；正常INTERPRET→同C→SOCIAL在49虚拟小时/重启/volatile历史清空后LISTEN仍有效而SOURCE_UNAVAILABLE。两项原版真实失败保留，首个严格MemoryType夹具错误单列，不作行为基线。
+
+拟仅给原MemoryService.query加可选精确namespace参数，在SQL原权限/生命周期筛选内、排名LIMIT前筛指定来源；原Context调用此能力，保留64扫描/最多4输出/同隐私实体scope和当前支持检查。无新表/索引/状态/模型阶段/固定兴趣优先级。回退本基线memory.py和context.py即可，无Store迁移；已有Caller省略新参数保持原查询。
+
+验证：同预算原两个端到端场景、精确namespace/通配符无权/类型验证、原记忆与范围隐私回归。独立私人投影消融影响C，而来源撤回影响知识，不能混称来源已生成私人兴趣或学会安慰。

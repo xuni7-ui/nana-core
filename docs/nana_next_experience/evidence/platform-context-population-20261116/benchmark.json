@@ -1,0 +1,170 @@
+{
+  "baseline": "486ed54626b27a4f2fac10c5fca6c37075b1ebb7",
+  "same_input_memories": 66,
+  "same_input_limit": 16384,
+  "results": {
+    "old": [
+      {
+        "wall_ms": 14.659546,
+        "cpu_ms": 14.664567,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 12.795895,
+        "cpu_ms": 12.799285,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 11.654744,
+        "cpu_ms": 11.658068,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 12.463076,
+        "cpu_ms": 12.466326,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 11.859608,
+        "cpu_ms": 11.862949,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 12.499381,
+        "cpu_ms": 12.502784,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 12.763862,
+        "cpu_ms": 12.767015,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 11.406098,
+        "cpu_ms": 11.409575,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 12.49891,
+        "cpu_ms": 12.502008,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      },
+      {
+        "wall_ms": 11.181708,
+        "cpu_ms": 11.184838,
+        "read_calls": 88,
+        "has_source": false,
+        "context_counter_estimate": 7937
+      }
+    ],
+    "new": [
+      {
+        "wall_ms": 9.667831,
+        "cpu_ms": 9.671293,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 10.243172,
+        "cpu_ms": 10.246086,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 10.007321,
+        "cpu_ms": 10.010483,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 10.506142,
+        "cpu_ms": 10.501537,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 8.784706,
+        "cpu_ms": 8.78772,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 8.567066,
+        "cpu_ms": 8.570246,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 9.31425,
+        "cpu_ms": 9.317382,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 10.595045,
+        "cpu_ms": 10.598089,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 8.763431,
+        "cpu_ms": 8.766416,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      },
+      {
+        "wall_ms": 8.092013,
+        "cpu_ms": 8.094676,
+        "read_calls": 25,
+        "has_source": true,
+        "context_counter_estimate": 9611
+      }
+    ]
+  },
+  "summary": {
+    "old": {
+      "median_wall_ms": 12.480993,
+      "median_cpu_ms": 12.484167,
+      "memory_reads": [
+        88
+      ]
+    },
+    "new": {
+      "median_wall_ms": 9.4910405,
+      "median_cpu_ms": 9.4943375,
+      "memory_reads": [
+        25
+      ]
+    }
+  },
+  "database_writes": 0,
+  "model_calls": 0,
+  "actual_provider_tokens": null
+}

@@ -315,7 +315,7 @@ class MemoryService:
         return self.store.db.execute("SELECT count(*) FROM memories m WHERE " + where, args).fetchone()[0]
 
     def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False,
-              limit=128, query_terms=(), memory_types=(), predicate_prefixes=()):
+              limit=128, query_terms=(), memory_types=(), predicate_prefixes=(), source_namespaces=()):
         self._fresh()
         if type(limit) is not int or not 1 <= limit <= 512:
             raise CoreError("INVALID_RETRIEVAL_LIMIT")
@@ -333,6 +333,17 @@ class MemoryService:
                 "substr(m.predicate_key,1,length(?))=?" for _ in predicate_prefixes
             ) + ")"
             args.extend(value for prefix in predicate_prefixes for value in (prefix, prefix))
+        # A caller may request one sourced family without unrelated memories
+        # consuming its bounded population before provenance qualification.
+        # Namespace matching is exact: these values never carry LIKE syntax.
+        if source_namespaces:
+            if not isinstance(source_namespaces, (tuple, list)) or len(source_namespaces) > 8 or any(
+                type(namespace) is not str or not 1 <= len(namespace) <= 128 for namespace in source_namespaces
+            ):
+                raise CoreError("INVALID_SOURCE_NAMESPACE_FILTER")
+            where += (" AND EXISTS (SELECT 1 FROM continuity_evidence e WHERE e.evidence_id=m.source_evidence_id "
+                      + f"AND e.source_namespace IN ({','.join('?' for _ in source_namespaces)}))")
+            args.extend(source_namespaces)
         if query_terms:
             if len(query_terms) > 32 or any(type(t) is not str or not 1 <= len(t) <= 128 for t in query_terms):
                 raise CoreError("INVALID_QUERY_TERMS")

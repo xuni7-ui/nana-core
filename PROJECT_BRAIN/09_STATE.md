@@ -19,8 +19,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 242,
-  "as_of_us": 1794776836508017,
+  "revision": 243,
+  "as_of_us": 1794777570425014,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -31,7 +31,7 @@
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
-    "原literal两码点Native1k/10k/100k资格及74相关保留；现原维护分片/周回看可补完整旧gram缺End键，只加1键/笔记。精确fee8旧2fail2pass→4通过/64相关27.24s，正常D前台优先1通过；每片2来源、重启游标/3类隔离/0认知账项动作，原源头不改，无新scanner。",
+    "原笔记维护/检索资格保留；现原平台namespace在通用限额前SQL筛选，65其他源不再挤掉授权B站观察。精确486旧2失败→新2通过1.81s/72相关24.02s；49虚拟h同身份/短摘录清空后私念LISTEN、消融CHAT、源撤回知识失效，原64/4与两HTTP不变。",
     "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
   ],
   "open_gates": [
@@ -41,17 +41,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR14/17/18可见固定成果已吸收，242尚非匹配新安装/全仓/生产。下一原上下文授权来源窗口挤占基线、压缩/重启主体连续性与后续行为；B两仓视觉算法待固定交接不推断其WIP。更广情感/S8迁移、真实Token、旧reader、原A–H/最终发行继续。"
+    "PR14/17/18已吸收，243修原平台来源限额前资格；尚非最新匹配安装/全仓/生产。下一固定Core/BFF/Web集成候选及原新来源撤回后旧reader/返回资格；B视觉两仓候选按固定提交对接，不猜其WIP。更广情感/S8/语义压缩/真实Token/原A–H继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/platform-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/nanalink-core-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/provider-parse-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/product-branch-integration-20261115/README.md",
     "docs/nana_next_experience/evidence/note-end-bounded-maintenance-20261115/README.md",
     "docs/nana_next_experience/evidence/matched-portable-fee8f42-20261115/README.md",
     "docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/README.md",
-    "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md",
-    "docs/nana_next_experience/evidence/need-causal-populations-20261115/README.md"
+    "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2915,3 +2915,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision240 integration evidence anchor: `74aed2ee1ace68004a68628657220fb3913e5f7b7acff8586268271e4e7dc9b0` → `docs/nana_next_experience/evidence/product-branch-integration-20261115/source.sha256`; A45b+B-d409 normal merge, existing fee8 candidate unchanged.
 
 - revision242 integration evidence anchor: `4afc0205632a329a6032b7ee6b93961bc43cb154e3f742bed9bc1774c146b4d6` → `docs/nana_next_experience/evidence/nanalink-core-integration-20261115/source.sha256`; PR18 source fixed6645, actual new matching portable/APK still pending.
+
+- revision243 source evidence anchor: `84c1589f6b45e39901a99b9a61520d2112c780394c1324efe1ea1b064ed73f13` → `docs/nana_next_experience/evidence/platform-context-population-20261116/source.sha256`; exact486 original selected263 Git blobs, no CURRENT/production change.

@@ -4011,3 +4011,5 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 `b29ecd0`匹配CI43732210128通过；固定epoch wheel双构建SHA d7a40f89…5f89b32，309源码文件离线安装一致，隔离无账号配置检查通过。实机、真实平台与全部依赖离线封装仍未资格。
 
 - 2026-11-16 CST｜revision242：A从36eb/Brain241正常集成NanaLink固定6645/PR18，复用平台/私人来源/同C可选媒体消费者，保留较新A/B目录/配置契约。补便携17模块（263闭包）、缺QR在账号I/O前明确失败；108平台43.18s、118相关43.07s、7闭包登录5.33s、TS/Vite100单测/24四视口37.2s，schema/C4核对通过；首错保留。没有新APK/实机/真实模型/账号/生产，CURRENT与fee8旧候选不变。下一先做授权来源窗口挤占基线及上下文压缩/主体连续性少量原链路验证；B视觉/NanaLink后继按固定提交接，S3/S8/全部原A–H继续。 指纹锚4afc0205632a329a6032b7ee6b93961bc43cb154e3f742bed9bc1774c146b4d6。
+
+- 2026-11-16 CST｜revision243：原MemoryService查询按精确source namespace在排名/LIMIT前筛选，修复65其他有效同词来源挤掉一条授权平台观察。固定486原263模块Git blob一致旧2失败→新2通过1.81s、72相关24.02s。原64候选/4输出不扩；49虚拟h/同身份/临时摘录清空后私人倾向影响C，选择入口投影消融LISTEN→CHAT，平台来源撤回只移除知识；原始失败/严格拒绝记录保留。装配同输入各10次read88→25/中位12.48→9.49ms、db写0；同两HTTP预算，SOCIAL request JSON+2207bytes非Token。见evidence/platform-context-population-20261116/README.md。 指纹锚84c1589f6b45e39901a99b9a61520d2112c780394c1324efe1ea1b064ed73f13。

@@ -173,3 +173,7 @@ B30459原12份文件正常合并，A保留当前09/双方11与既有白名单；
 ## 2026-11-16 A采用PR18
 
 正常合并固定6645的受控源码/配置示例/原创测试/公开工程资料/合成回执；A另改09/10/11、ACTIVE/STATUS、两个现有CI、portable/runtime-files、nanalink/login及其原测试、新最小包隔离测试、evidence/nanalink-core-integration-20261115/、原task_inputs主体连续性增补/08和本白名单。无DB/私史/真实账号或Key/新二进制，原许可/署名保留。
+
+## 2026-11-16 A平台召回与主体连续性
+
+memory.py/context.py、tests/nanalink/test_platform_context_population.py、原09/11/ACTIVE/STATUS及evidence/platform-context-population-20261116/的原合成日志/独立对照工具/指纹、本白名单；不含DB/运行配置/真实账户/凭据/二进制或上游复制。

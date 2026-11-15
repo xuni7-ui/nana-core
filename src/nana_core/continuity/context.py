@@ -278,7 +278,8 @@ class ContextAssembler:
             # Bounded source-aware continuation, only from explicitly retained
             # platform observations in the same scope/privacy. No name-based
             # person binding and no untrusted platform instruction authority.
-            recent=memory_service.query(**memory_query,query_terms=note_terms,limit=64)
+            recent=memory_service.query(**memory_query,query_terms=note_terms,limit=64,
+                source_namespaces=('recorded.platform.bilibili.dynamic',))
             for row in recent:
                 provenance=row.get('source_provenance',{})
                 if (provenance.get('domain')=='CONSENTED_PLATFORM'

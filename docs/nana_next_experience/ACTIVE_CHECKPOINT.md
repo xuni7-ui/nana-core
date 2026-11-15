@@ -1,8 +1,8 @@
-## 当前接续：PR18进入同主体，revision242
+## 当前接续：来源资格在窗口前与原主体连续性，revision243
 
-A从36eb/Brain241正常集成NanaLink固定6645/PR18，复用平台/私人来源/同C可选媒体消费者，保留较新A/B目录/配置契约。补便携17模块（263闭包）、缺QR在账号I/O前明确失败；108平台43.18s、118相关43.07s、7闭包登录5.33s、TS/Vite100单测/24四视口37.2s，schema/C4核对通过；首错保留。没有新APK/实机/真实模型/账号/生产，CURRENT与fee8旧候选不变。下一先做授权来源窗口挤占基线及上下文压缩/主体连续性少量原链路验证；B视觉/NanaLink后继按固定提交接，S3/S8/全部原A–H继续。
+原MemoryService查询按精确source namespace在排名/LIMIT前筛选，修复65其他有效同词来源挤掉一条授权平台观察。固定486原263模块Git blob一致旧2失败→新2通过1.81s、72相关24.02s。原64候选/4输出不扩；49虚拟h/同身份/临时摘录清空后私人倾向影响C，选择入口投影消融LISTEN→CHAT，平台来源撤回只移除知识；原始失败/严格拒绝记录保留。装配同输入各10次read88→25/中位12.48→9.49ms、db写0；同两HTTP预算，SOCIAL request JSON+2207bytes非Token。见evidence/platform-context-population-20261116/README.md。
 
-证据：evidence/nanalink-core-integration-20261115/README.md。
+下一固定最新匹配Core/BFF/Web候选，验证新来源撤回后的旧reader/返回；原S3/S8更广因果、B视觉候选、真实Token/原A–H与最终发行继续。没有实际语义压缩器/真实49h/手机/模型/生产资格，CURRENT266+409。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

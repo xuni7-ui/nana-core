@@ -1,0 +1,64 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_private_platform_context_survives_unrelated_population_restart_and_withdrawal _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-7/test_private_platform_context_0')
+
+    def test_private_platform_context_survives_unrelated_population_restart_and_withdrawal(tmp_path):
+        home=tmp_path/'home';prepare(home);clock=VirtualClock()
+        with LifeApplication(home, clock=clock) as app:
+            app.pause();identity=app.runtime.identity_id
+            source,event=populate(app,clock);memory=MemoryService(app.runtime.store)
+            eligible=memory.query(entity_ids=('project-user',),scopes=('project-work',),
+                                  privacy_classes=('PERSONAL',),query_terms=('ORCHID',),limit=64)
+            assert source not in {row['memory_id'] for row in eligible}
+            result=select(app)
+>           assert source in refs(result)
+E           AssertionError: assert 'd4ff58e1-eeac-48d9-93d5-8feec76550d8' in set()
+E            +  where set() = refs(ContextPackage(manifest=ContextManifest(schema_version=1, identity_id='35f8a8d3-2fa0-476c-bb3d-b312b410add7', identity...dence_ids=(), source_event_ids=())), content_digest='cb7cc9590bf4ca818fa824dce1b2cb5612f76ea8e2f40f0de8767855c64de26f'))
+
+tests/nanalink/test_platform_context_population.py:82: AssertionError
+_ test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-7/test_bounded_history_restart_k0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f97c7e10fe0>
+
+    def test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate(tmp_path, monkeypatch):
+        from nana_core.continuity.autonomy import private_intent
+        from nana_core.presence.contracts import HOUR
+        from tests.independent_life.test_dialogue import relay
+        from tests.person_self.test_private_tendency import form, meaning, current
+        home=tmp_path/'home';prepare(home);clock=VirtualClock();source=None
+        private='SYNTHETIC_PRIVATE_CONTINUITY_CANARY'
+        def render(request):
+            choice=request['role_input']['dialogue']['communication_purpose'].get('choice')
+            approach=choice['approach'] if choice else 'CHAT'
+            known=source in request['source_context_refs']
+            return 'SYNTHETIC '+approach+(' SOURCE_KNOWN' if known else ' SOURCE_UNAVAILABLE')
+        with relay(home,'CHAT',recall_query_terms=('ORCHID',),meaning_builder=meaning,
+                   renderer=render,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();source,event=populate(app,clock);identity=app.runtime.identity_id
+                form(app,text=private,topic='orchid');private_record=current(app)[0][0]
+                before=dict(app.runtime.store.one('continuity_records',private_record))
+                # Ordinary user text remains transient, even if a bounded excerpt is kept.
+                app.chat('SYNTHETIC_VOLATILE_CANARY '+('temporary ' * 120),topic='orchid',
+                         privacy='PERSONAL',message_id='before-restart')
+                assert any(turn.text_truncated for turn in app._recent)
+            clock.advance(49*HOUR)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity and app._recent==[]
+                kept=app.chat('SYNTHETIC ORCHID follow-up',topic='orchid',privacy='PERSONAL',message_id='kept')
+>               assert kept['text']=='SYNTHETIC LISTEN SOURCE_KNOWN'
+E               AssertionError: assert 'SYNTHETIC LI...E_UNAVAILABLE' == 'SYNTHETIC LI... SOURCE_KNOWN'
+E                 
+E                 - SYNTHETIC LISTEN SOURCE_KNOWN
+E                 ?                         ^ ^^^
+E                 + SYNTHETIC LISTEN SOURCE_UNAVAILABLE
+E                 ?                         ^ ^^^^^^^^^
+
+tests/nanalink/test_platform_context_population.py:122: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_platform_context_population.py::test_private_platform_context_survives_unrelated_population_restart_and_withdrawal
+FAILED tests/nanalink/test_platform_context_population.py::test_bounded_history_restart_keeps_private_choice_and_platform_evidence_separate
+2 failed in 1.55s
