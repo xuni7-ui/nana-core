@@ -33,3 +33,7 @@ BFF 后继：当宿主配置版本变化且原 Store 有平台来源，Nana Spac
 源码 `31fcbc3ed351c53e259ff7290a26b9a7d773d3cb` 的匹配 CI `43731486644` 通过；定向运行时、主体图片、OneBot网络及私人来源 45 项通过。按提交时间固定 `SOURCE_DATE_EPOCH`，在已准备的隔离构建环境用 `--no-index --no-deps --no-build-isolation` 双构建 wheel，SHA256 均为 `e44c1a18fbf6d39a35c3faa57cd700c9670165441d4533ddcf57fa646e50d779`。隔离 target 离线安装后 309 个 Python 源文件与该 Git 归档逐一一致；从 `/tmp` 指向安装目录运行无账号配置检查通过。这不是全部依赖的离线打包或生产安装资格。APK/Web 输入与 `80e1145` 一致，测试 APK 按实际输入标识。
 
 `infrastructure-31fcbc3.json` 是该 wheel 安装环境的合成测量：2000 入队、2000 重复，0.185 秒墙钟、0.183 秒 CPU、峰值 RSS 26560 KiB，容量64；不含网络、真实平台、模型或有效认知的 Token/费用。数字是该次样本，不推断长期运行成本。
+
+### 合入 A 后的固定源码 `b29ecd0`
+
+源码 `b29ecd087de5f8439e6aa149c697efbd975fddfa` 的 GitHub Actions `43732210128` 通过；该版本继承 A `45b3e57` 的原笔记有界维护。固定提交时间为 `SOURCE_DATE_EPOCH`，在既有隔离构建环境 `--no-index --no-deps --no-build-isolation` 双构建 wheel SHA256 均为 `d7a40f89c204d78e33c344e1dea3fbe7ac088f0ba58c0ca097b26f7c75f89b32`；隔离 target 离线安装后 309 个 Python 文件与 Git 归档一致，从 `/tmp` 指向安装目录的无账号配置检查通过。不声称全部依赖均已离线封装、真实平台已联调或生产可用。
