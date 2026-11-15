@@ -1,10 +1,10 @@
-## 现役revision227 — 合成评论不再挤掉用户证据群，范围资格在截断前
+## 现役revision228 — 安静与当前联系愿望在原C竞争，愿望不等于发送
 
-原learnable改为各证据群/已评价状态先过滤，再各取原32；合成评论量不能遮住用户意见/反例，UNREVIEWED不挤已评价。原expression_policy先scope/privacy/current再16，已采纳策略最多2示例来自同群。精确383旧7fail10pass→17pass4.20s，168相关55.68s；后补正常原INTERPRET/C/SOCIAL聊天旧fail→新pass，实际USER方法+2同群示例进入生成。预算/120s不变、同2阶段/+3263wirebytes非Token；只读查询单例约5.026→5.336ms、写0，不当P95。无新表/index/依赖/Prompt/schema，16/32笔记范围不改。首错均保留，见evidence/language-feedback-populations-20261115/README.md。
+原RECOVERING/QUIET在社交候选中投影有源SOCIAL_QUIET动机；当前C明确选择且有自身兴趣时，可考虑SOCIALIZE而不被LOW/REPEATED泛化覆盖。旧倾向/私念保留，REST、接收者DECLINED、规范/重复仍有效；研究不被当成社交疲劳。5337旧13fail4pass→17pass2.93s/110相关31.79s，虚拟49h同home身份重启实际SELF1次，完整input55038→55309bytes/+271非Token，重复同source不重调、发送/grant/action0。共享来源撤回会退役相关quiet/私念，首个夹具误假设保留，强化撤回2pass。见evidence/social-quiet-current-choice-20261115/README.md。
 
-前继383独立69pass59.28s仅前继；未新包/APK/手机/生产/自然度/长期，真实Provider0，USER标签是合成夹具而非真人来源。当前源码不在929候选，CURRENT266+409保持。两个续办已按北京时间今日11-15 22:25/明日11-16 05:00设置，不冻结当前进度。工作副本仍/workspace/nana-next-refinement-work，保护磁盘20万库/旧18bc。
+仅原C/资源消费者资格，不称正常D已能自发安排所有联系；虚拟时间/fixture非真实跨日/商业模型或人的情绪。前继5337 CI原输出370pass184.66s仅前继targeted；未新包/APK/手机/生产/自然度/长期，CURRENT266+409保持，真实Provider0。
 
-下一原S3短长情感/多动机及同群更长历史/独立发生采样、通信方法更广后续评价/反例迁移；不将分群窗口或单次意见当长期成长。原G/反馈接线继续复用，跨topic/存储隐私/Token费用超时/模型多端/全部A–H继承。
+下一原social_appetite同时有独立SEEKING与QUIET/RECOVERING、无新private记录时的单state/动机投影基线；复用Growth/Records/原投影，不建新系统。情感短长/多情境/S8迁移、同群采样/跨topic/存储隐私/Token费用超时/模型多端/原A–H继承。今日22:25/明日05:00北京时间续办仍启用，当前任务未冻结。
 
 ## 现役revision196
 

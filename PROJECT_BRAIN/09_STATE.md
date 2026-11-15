@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 227,
-  "as_of_us": 1794735735511474,
+  "revision": 228,
+  "as_of_us": 1794739509444445,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -20,7 +20,7 @@
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "表达反馈按原证据群/已评价状态先筛后各32，合成量不再挤用户意见/反例；lesson先scope/隐私后16，示例同群。383旧7fail10pass→17pass/168相关55.68s；正常C聊天旧fail→pass，同2阶段/+3263bytes非Token，无新表/index。原1k–200k literal成果保留。",
-    "原C明确选择/独立兴趣支持的重型REFLECT/CREATE/LEARN可与高负荷REST竞争，原休息动机/默认/规范/预算执行门保留；精确85旧3fail2pass→15pass/199相关52.93s，同1SELF/53288bytes非Token。私有WAIT非外向澄清/原Growth资源恢复资格继承。"
+    "旧安静/恢复有源SOCIAL_QUIET与当前私愿共同进原C；明确选择可SOCIALIZE，REST/接收者/规范/重复仍有效，不当全域疲劳。5337旧13fail4pass→17pass/110相关31.79s；虚拟49h重启1SELF/+271bytes非Token、发送0。原高负荷重型兴趣资格继承。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一S3短长情感/多动机与同证据群更长历史/独立发生采样、通信方法后续评价/反例迁移；当前分群不等于长期泛化。227未入929候选；原G/反馈成果复用，跨topic/物理隐私/真实Token/模型多端及原A–H继续。"
+    "下一原social_appetite同时独立SEEKING与QUIET/RECOVERING、无新private记录时单state是否遮住另一方向；先实际基线，复用Growth/Records，不造情感权威。228非普通D所有联系/长期资格；跨情境/反馈采样/物理隐私/真实Token/多端及原A–H继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/social-quiet-current-choice-20261115/README.md",
     "docs/nana_next_experience/evidence/language-feedback-populations-20261115/README.md",
     "docs/nana_next_experience/evidence/attributed-feedback-original-g-20261115/README.md",
     "docs/nana_next_experience/evidence/private-feedback-current-basis-20261115/README.md",
     "docs/nana_next_experience/evidence/deliberated-heavy-interest-20261114/README.md",
     "docs/nana_next_experience/evidence/private-growth-current-origin-20261114/README.md",
     "docs/nana_next_experience/evidence/matched-portable-9291f1e-20261114/README.md",
-    "docs/nana_next_experience/evidence/growth-resource-recovery-20261114/README.md",
-    "docs/nana_next_experience/evidence/private-g-interest-return-20261114/README.md"
+    "docs/nana_next_experience/evidence/growth-resource-recovery-20261114/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2875,3 +2875,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-15 明确意见机会原G资格证据锚：`docs/nana_next_experience/evidence/attributed-feedback-original-g-20261115/source.sha256` SHA256 `b3f0a7426973b6f52272c8c32d5c025e2f145ab20c8d2a6c419e8daf8beec00b`；不含自身与09，仅采集时刻。
 
 - 2026-11-15 表达反馈证据群资格锚：`docs/nana_next_experience/evidence/language-feedback-populations-20261115/source.sha256` SHA256 `a82e0f36c13c516a22538324472dbeb238a45f95256285bad5d42455b3967c8c`；不含自身与09，指纹仅采集时刻。
+
+- 2026-11-15 安静/当前联系选择证据锚：`docs/nana_next_experience/evidence/social-quiet-current-choice-20261115/source.sha256` SHA256 `734286e9d9efe29021edeffe6c008b6dda05bb2aa8cb1348b3a675ed528b6ff9`；不含自身与09，仅采集时刻。

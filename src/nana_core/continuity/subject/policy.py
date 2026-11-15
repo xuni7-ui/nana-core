@@ -109,6 +109,12 @@ def motivate(event, situation, appraisal):
         motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
         if situation.cue.cognitive_load=='HIGH' and situation.cue.motivation_source!='REST':
             motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=situation.memory_ids))
+    if (situation.cue and 'SOCIALIZE' in directions(situation.cue) and situation.social_appetite
+            and situation.social_appetite.state in {'RECOVERING','QUIET','SATURATED'}
+            and situation.social_appetite.source_record_ids):
+        # A social quiet tendency is neither global fatigue nor an instruction
+        # to avoid all company. Preserve it as a sourced competing motive.
+        motives.append(Motivation(source='SOCIAL_QUIET',strength='RELEVANT',source_ids=situation.social_appetite.source_record_ids))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
@@ -247,9 +253,12 @@ def decide(event, situation, appraisal, motives):
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
         # remains the existing separate DeliveryAdmission/Kernel consideration.
+        # A present C choice supported by an own retained idea can compete
+        # with an older quiet tendency; neither tendency is erased.
         interested_social = bool(situation.separate_delivery and behavior=='SOCIALIZE'
-            and situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
-            and situation.social_appetite.source_record_ids)
+            and ((situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
+                and situation.social_appetite.source_record_ids)
+                or (considered_choice and personal_interest)))
         # Costs/reception for an unchosen alternative are not properties of the
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}

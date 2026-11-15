@@ -1,0 +1,96 @@
+..........FF                                                             [100%]
+=================================== FAILURES ===================================
+_ test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-IGNORE-social_recovery_needed-RECOVERING] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f70901f68d0>
+tendency = 'social_recovery_needed', state = 'RECOVERING', choice = 'SOCIALIZE'
+guard = 'withdrawn', expected = 'IGNORE'
+
+    @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','IGNORE')])
+    def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):
+        r=app.runtime;seen=[];topic='own-connection'
+        for i in range(2):
+            r.subject.run(SubjectInput(source_key='synthetic.quiet-tendency.'+str(i),kind='PLAY',origin='ENVIRONMENT',
+                entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                text='SYNTHETIC independent observed preference for a quieter interval '+str(i),
+                preference_signal=PreferenceSignal(topic=tendency,direction='SUPPORT',interpretation='SYNTHETIC a sourced quieter tendency, not permanent incapacity')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==state and before.source_record_ids
+        form(app,'connection','SYNTHETIC I currently wish to share a small ordinary moment while still valuing quiet.',topic=topic)
+        thought=current(app)[0][1]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=topic,resource_class='ORDINARY',
+            possible_behaviors=('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),share_assessment=ShareAssessment(user_preference='DECLINED' if guard=='declined' else 'ALLOW'))
+        mid=capture(r,'quiet-and-connection',cue.model_dump(mode='json'),predicate='concern.quiet-and-connection')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('SOCIALIZE',))
+            capture(r,'quiet-social-norm',norm.model_dump(mode='json'),predicate='concern.constraint.quiet-social')
+        if guard=='withdrawn':app.forget(thought.source_memory_ids[0])
+        class Choosing:
+            descriptor='synthetic-own-current-choice-among-conflicting-tendencies'
+            def propose(self,request):
+                seen.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=choice,proposed_operations=['DRAFT'])
+                return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.private-connection-current-choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert len(seen)==1 and result.intention.behavior==expected
+        assert any(m.source=='PRIVATE_INTEREST' for m in result.motivations)==(guard!='withdrawn')
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        quiet=[m for m in frame['motivations'] if m['source']=='SOCIAL_QUIET']
+>       assert len(quiet)==1 and quiet[0]['source_ids'] and quiet[0]['strength']=='RELEVANT'
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/person_self/test_social_tendency_competition.py:46: AssertionError
+_ test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-IGNORE-social_quiet_preference-QUIET] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f709038d760>
+tendency = 'social_quiet_preference', state = 'QUIET', choice = 'SOCIALIZE'
+guard = 'withdrawn', expected = 'IGNORE'
+
+    @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
+    @pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','IGNORE')])
+    def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):
+        r=app.runtime;seen=[];topic='own-connection'
+        for i in range(2):
+            r.subject.run(SubjectInput(source_key='synthetic.quiet-tendency.'+str(i),kind='PLAY',origin='ENVIRONMENT',
+                entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                text='SYNTHETIC independent observed preference for a quieter interval '+str(i),
+                preference_signal=PreferenceSignal(topic=tendency,direction='SUPPORT',interpretation='SYNTHETIC a sourced quieter tendency, not permanent incapacity')))
+        before=social_appetite(r.store,scope='project-work',privacy_classes=('PERSONAL',))
+        assert before.state==state and before.source_record_ids
+        form(app,'connection','SYNTHETIC I currently wish to share a small ordinary moment while still valuing quiet.',topic=topic)
+        thought=current(app)[0][1]
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=topic,resource_class='ORDINARY',
+            possible_behaviors=('SOCIALIZE','REST'),availability='BUSY',
+            opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),share_assessment=ShareAssessment(user_preference='DECLINED' if guard=='declined' else 'ALLOW'))
+        mid=capture(r,'quiet-and-connection',cue.model_dump(mode='json'),predicate='concern.quiet-and-connection')
+        if guard=='norm':
+            norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('SOCIALIZE',))
+            capture(r,'quiet-social-norm',norm.model_dump(mode='json'),predicate='concern.constraint.quiet-social')
+        if guard=='withdrawn':app.forget(thought.source_memory_ids[0])
+        class Choosing:
+            descriptor='synthetic-own-current-choice-among-conflicting-tendencies'
+            def propose(self,request):
+                seen.append(request)
+                value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=choice,proposed_operations=['DRAFT'])
+                return json.dumps(value)
+        event=SubjectInput(source_key='synthetic.private-connection-current-choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+        assert len(seen)==1 and result.intention.behavior==expected
+        assert any(m.source=='PRIVATE_INTEREST' for m in result.motivations)==(guard!='withdrawn')
+        frame=next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        quiet=[m for m in frame['motivations'] if m['source']=='SOCIAL_QUIET']
+>       assert len(quiet)==1 and quiet[0]['source_ids'] and quiet[0]['strength']=='RELEVANT'
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/person_self/test_social_tendency_competition.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_social_tendency_competition.py::test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-IGNORE-social_recovery_needed-RECOVERING]
+FAILED tests/person_self/test_social_tendency_competition.py::test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency[SOCIALIZE-withdrawn-IGNORE-social_quiet_preference-QUIET]
+2 failed, 10 passed in 2.08s

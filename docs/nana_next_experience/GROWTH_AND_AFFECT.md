@@ -53,3 +53,7 @@ Retained-note lookup failures now have an original C→G practice/independent va
 ## 2026-11-14 · 明确考虑的重型兴趣与原REST动机共同竞争
 
 原C明确选择、有独立私人兴趣支持时，HIGH负荷/HEAVY投入不再在后续策略强制替换为REST；REST仍在原动机，未考虑的重型默认与实际资源/权限/接收者门保留。这是A/B/C不变、修E并归还D取舍的窄范围修正。正常Runtime/SELF旧3fail2pass→15pass、199相关52.93s，同1次53288wirebytes非Token；不是重型活动已执行或全自主性资格。证据evidence/deliberated-heavy-interest-20261114/README.md。
+
+## 2026-11-15 · 安静与当前联系愿望的原C竞争
+
+原RECOVERING/QUIET在社交候选中成为有源SOCIAL_QUIET动机，当前C明确选择且有自身兴趣时可考虑SOCIALIZE，不再被泛化低价值/重复直接改IGNORE。旧状态/私念保留，REST与接收者/规范/重复投递仍有效；不是全域疲劳，不授发送权限。旧5337同17场景13fail4pass→17pass/110相关31.79s；虚拟49h同主体重启实际SELF1次、+271wirebytes非Token，无真实社交或长期资格。证据evidence/social-quiet-current-choice-20261115/README.md。
