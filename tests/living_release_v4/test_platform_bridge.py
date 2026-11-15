@@ -359,7 +359,7 @@ def test_transport_endpoint_and_real_account_shadow_fence(tmp_path):
 
 
 def test_owned_image_readback_only_confirms_exact_independent_bytes():
-    import hashlib
+    import base64, hashlib
     with counterpart() as (url, platform):
         connection = transport(url)
         data = b'owned fixture image'
@@ -368,4 +368,9 @@ def test_owned_image_readback_only_confirms_exact_independent_bytes():
         assert verified.verdict == 'MATCH' and verified.evidence['independent_readback'] is True
         platform['sent'][0]['message'][1]['data']['file'] = 'https://example.invalid/never-fetch'
         assert connection.verify_receipt(receipt).verdict == 'INCONCLUSIVE'
-        assert len(platform['sent']) == 1
+        platform['sent'][0]['message'][1]['data']['file'] = 'base64://d3Jvbmc='
+        assert connection.verify_receipt(receipt).verdict == 'INCONCLUSIVE'
+        platform['read_peer'] = '99'
+        platform['sent'][0]['message'][1]['data']['file'] = 'base64://' + base64.b64encode(data).decode()
+        assert connection.verify_receipt(receipt).verdict == 'INCONCLUSIVE'
+        assert len(platform['sent']) == 1 and data.decode() not in json.dumps(verified.evidence)

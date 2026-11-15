@@ -375,12 +375,16 @@ class ContextAssembler:
             choices=[]
             # Include bounded original retrieval, not just the current input;
             # C may choose a previously observed image, or choose none.
-            media_sources=tuple(dict.fromkeys((*subject_frame.source_memory_ids, *(row['memory_id'] for row in memories))))
+            loaded={row['memory_id']:row for row in memories}
+            media_sources=tuple(dict.fromkeys((*subject_frame.source_memory_ids, *loaded)))
             for mid in media_sources:
-                row=memory_service.read(mid)
-                if row['entity_id'] not in {request.entity_id,frame.identity.identity_id}:
+                row=loaded.get(mid) or memory_service.read(mid)
+                if (row['entity_id'] not in {request.entity_id,frame.identity.identity_id}
+                        or media_candidate(row) is None):
                     continue
-                item=media_candidate(row)
+                # Recheck only eligible candidates at the owner privacy safe
+                # point; ordinary retrieved memories need no second read.
+                item=media_candidate(memory_service.read(mid))
                 observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone() if item is not None else None
                 if observation and RecordService(self.store).current_support(observation[0]):
                     choices.append(item)
