@@ -47,6 +47,8 @@ def counterpart():
             elif "/web-interface/view" in self.path:
                 target = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query)['bvid'][0]
                 value = {"bvid": target, "aid": 7, "cid": 8, "title": "Loopback source"}
+                if 'video_duration' in state:
+                    value['duration'] = state['video_duration']
             elif "/player/v2" in self.path:
                 value = {"subtitle": {"subtitles": [{"subtitle_url": "https://aisubtitle.hdslb.com/fixture.json"}]}}
             elif '/player/videoshot' in self.path:
