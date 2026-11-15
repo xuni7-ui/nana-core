@@ -3,7 +3,7 @@
 No worker, scheduler, authority, goal adoption or extra database lives here.
 Accepted model output remains a MODEL_DERIVATION, including ASR and captions.
 """
-import base64, hashlib, io, json, tempfile, wave
+import base64, hashlib, io, json, math, tempfile, wave
 from pathlib import Path
 from ...contracts import CoreError
 from ...storage import canonical,digest
@@ -17,6 +17,23 @@ from .world import SourcedClaim,WorldModel
 
 def _part(data,kind,start=0,end=0):
     return MediaPart(kind=kind,mime='image/png' if kind=='IMAGE' else 'audio/wav',data_b64=base64.b64encode(data).decode('ascii'),digest=hashlib.sha256(data).hexdigest(),start_s=start,end_s=end)
+
+
+def _source_locator(source,body):
+    # Keep the original publisher's video offset separate from IMAGE-local
+    # semantic spans. This is source metadata, never a model's coverage claim.
+    if source['source_provenance']['source_namespace'] not in {
+        'recorded.bilibili.public.frames','recorded.project.bilibili.frames'}:return None
+    sample=body.get('source',{})
+    if type(sample) is not dict:raise CoreError('MEDIA_FRAME_LOCATOR_INVALID')
+    at=sample.get('at_seconds');cid=sample.get('cid');bvid=sample.get('bvid')
+    if (body['decoded']['modality']!='IMAGE' or type(at) not in (int,float) or not math.isfinite(at)
+            or not 0<=at<=86400 or type(cid) is not int or cid<1 or type(bvid) is not str
+            or len(bvid)!=12 or not bvid.startswith('BV')
+            or sample.get('coverage')!='PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'):
+        raise CoreError('MEDIA_FRAME_LOCATOR_INVALID')
+    return {'source_memory_id':source['memory_id'],'bvid':bvid,'cid':cid,'at_seconds':at,
+        'timeline_basis':'PUBLISHER_REPORTED_STORYBOARD_TIME','coverage':sample['coverage'],'full_video_watched':False}
 
 
 def package_media(data,body,decoder=None):
@@ -65,6 +82,7 @@ def validate_media_input(session,body,source_ids):
     source=json.loads(m['text']);d=source['decoded']
     if m['authority']!='DIRECT' or m['epistemic_kind']!='OBSERVATION' or source['source_byte_digest']!=envelope.source_byte_digest or d['modality']!=envelope.modality:raise CoreError('MEDIA_SOURCE_MISMATCH')
     if envelope.duration_s!=d.get('duration_s',0):raise CoreError('MEDIA_DURATION_MISMATCH')
+    _source_locator(m,source)
     from PIL import Image
     size=0;visual=[];audios=[]
     for part in envelope.parts:
@@ -164,12 +182,14 @@ class MediaSemanticService:
             if result['entity_id']!=entity_id or result['predicate']!=predicate:raise CoreError('SEMANTIC_BINDING_MISMATCH')
             return result
         inp=MediaSemanticInput.model_validate_json(canonical(request.role_input));source=self.records.memory.read(inp.source_memory_id)
+        locator=_source_locator(source,json.loads(source['text']))
         self.records.memory.entity(entity_id,'OBJECT');memories=[];beliefs=[]
         for i,ob in enumerate(reply.proposal.media.observations):
             # Summary is its own derived claim; deleting it never deletes raw bytes metadata.
             pred=predicate+('.summary' if ob.kind=='SUMMARY' else '.'+str(i))
             claim=SourcedClaim(entity_id=entity_id,predicate=pred,value={'kind':ob.kind,'label':ob.label,'span':[ob.start_s,ob.end_s],'region':ob.region},kind='MODEL_BELIEF',valid_from_us=source['event_time_us'] or source['observed_time_us'],confidence=ob.confidence)
             data={'world_claim':claim.model_dump(mode='json'),'epistemic_layer':'ASR_TRANSCRIPT' if ob.kind=='ASR_TRANSCRIPT' else 'MODEL_DERIVED' if ob.kind=='SUMMARY' else 'MODEL_INTERPRETATION','provider_id':reply.provider_id,'model_id':reply.model_id,'origin':reply.origin,'source_byte_digest':inp.source_byte_digest,'source_memory_id':inp.source_memory_id,'observed_at_us':source['observed_time_us'],'uncertainty':ob.uncertainty,'confidence_semantics':'PROVIDER_ESTIMATE_NOT_VERIFICATION','semantic':ob.model_dump(mode='json')}
+            if locator:data['source_locator']=locator
             text=canonical(data);domain=source['source_provenance']['domain']
             eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=source['source_provenance']['source_namespace']+'.semantic',source_reference=digest([request_id,i]),source_kind='MODEL_DERIVATION'),text=text,privacy_class=source['privacy_class'],event_time_us=source['event_time_us'],observed_time_us=source['observed_time_us']))
             prior=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(eid,)).fetchone()
@@ -184,6 +204,7 @@ class MediaSemanticService:
             end=max(end,stop)
         if end<inp.duration_s:gaps.append([end,inp.duration_s])
         result={'entity_id':entity_id,'predicate':predicate,'source_memory_id':inp.source_memory_id,'semantic_memory_ids':memories,'belief_ids':beliefs,'provider_id':reply.provider_id,'model_id':reply.model_id,'origin':reply.origin,'asr_status':reply.proposal.media.asr_status,'coverage':reply.proposal.media.coverage,'covered_intervals':covered,'unobserved_gaps':gaps,'audio_linkage':'SEPARATE_INGRESS_REQUIRED' if inp.modality=='VIDEO' else 'NOT_APPLICABLE','proposal_not_truth':True}
+        if locator:result['source_locator']=locator
         with self.store.transaction('world.semantic_grounded',{'request_id':request_id}) as tx:
             self.records.create(tx,kind='MEDIA_OBSERVATION',scope=source['scope'],payload=result,memories=(inp.source_memory_id,*memories),records=(proposal[0],),target_id=target)
         return result

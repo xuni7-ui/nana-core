@@ -162,13 +162,78 @@ def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(
         reading = public.read_video("BV1t55v6DE2v", visual=True)
         source = BilibiliSourceAdapter(app).ingest(reading)
         service = BilibiliFrameService(app)
-        mid = service.capture(source, reading.frames)[0]
+        mid = service.capture(source, reading.frames)[-1]
+        frame_at=reading.frames[-1].at_seconds
+        assert frame_at>0
         result = service.interpret(mid)
         assert result["state"] == "SAMPLED_FRAME_INTERPRETED" and metrics["calls"] == 1
         claim = MemoryService(r.store).read(result["semantic_memory_ids"][0])
         assert claim["authority"] == "INFERRED" and claim["source_provenance"]["source_kind"] == "MODEL_DERIVATION"
+        locator=json.loads(claim['text'])['source_locator']
+        assert locator==result['source_locator']
+        assert locator['source_memory_id']==mid and locator['bvid']=='BV1t55v6DE2v'
+        assert locator['cid']==reading.frames[-1].cid and locator['at_seconds']==frame_at
+        assert locator['timeline_basis']=='PUBLISHER_REPORTED_STORYBOARD_TIME'
+        assert locator['coverage']=='PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'
+        assert locator['full_video_watched'] is False
+        # Source offset is not a model's claim of a long watched interval.
+        assert json.loads(claim['text'])['semantic']['start_s']==0
         assert service.interpret(mid)["semantic_memory_ids"] == result["semantic_memory_ids"] and metrics["calls"] == 1
         world = WorldModel(r.store, scopes=("world",), privacy_classes=("PROJECT",))
         assert world.view(result["entity_id"], "publication.visual.0").state == "SUPPORTED_BELIEF"
+        from nana_core.continuity.world_loop.cognition import StructuredProposal,InterestProposal
+        seen=[]
+        def next_interpret(request):
+            seen.append(request)
+            context=json.loads(request.context_json)
+            item=next(json.loads(block['data_json']) for block in context['blocks']
+                if block['kind']=='MEMORY' and result['semantic_memory_ids'][0] in block['source_memory_ids'])
+            assert json.loads(item['text'])['source_locator']==locator
+            return StructuredProposal(interpretation='SYNTHETIC cited sample may warrant further exploration, not a whole video experience',
+                source_refs=request.primary_source_refs,interests=(InterestProposal(topic='sampled-visual-detail',
+                    motivation_source='CURIOSITY',source_memory_ids=(result['semantic_memory_ids'][0],),expected_value='HIGH',
+                    possible_behaviors=('EXPLORE',),interpretation='Consider the cited publisher sample without assuming unseen video content'),))
+        with provider_harness(proposer=next_interpret) as (text_wire,text_metrics):
+            text_session=CognitionSession(r,text_wire,policy())
+            outcome=text_session.execute(text_session.prepare('frame-offset-followup','INTERPRET',tuple(result['semantic_memory_ids'])))
+            assert outcome['state']=='PROPOSED' and text_metrics['calls']==1
+            from nana_core.life.bilibili import BilibiliReadRealization
+            read=BilibiliReadRealization(app,public)
+            concerns=ConcernService(r,resources=(read.port.registry.resource,));concerns.offer(outcome['record_id'])
+            event=concerns.opportunity().input
+            choice=r.subject.run(event)
+            assert choice.intention.behavior=='EXPLORE'
+        assert len(seen)==1 and metrics['calls']==1
+        from nana_core.storage import canonical
+        data=json.loads(claim['text']);without={k:v for k,v in data.items() if k!='source_locator'}
+        print(json.dumps({'measurement':'frame-source-locator','at_seconds':frame_at,
+            'added_bytes_per_semantic_memory':len(claim['text'].encode())-len(canonical(without).encode()),
+            'vision_http_calls':metrics['calls'],'followup_interpret_calls':text_metrics['calls'],
+            'followup_request_json_bytes':len(seen[0].model_dump_json().encode()),
+            'subject_behavior':choice.intention.behavior,'model_belief_not_truth':result['proposal_not_truth'],
+            'real_model_calls':0,'provider_tokens':None}))
         MemoryService(r.store, r.authority).forget(source, r.authority)
         assert world.view(result["entity_id"], "publication.visual.0").state == "UNKNOWN"
+        with pytest.raises(CoreError,match='MEMORY_UNAVAILABLE'):
+            MemoryService(r.store).read(claim['memory_id'])
+
+
+@pytest.mark.parametrize('bad_sample',[None,{'bvid':'BV1t55v6DE2v','cid':9,'at_seconds':86401,
+    'coverage':'PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'}])
+def test_invalid_frame_locator_is_rejected_before_provider_dispatch(tmp_path,bad_sample):
+    from nana_core.continuity.world_loop.semantic_harness import semantic_harness
+    from nana_core.continuity.world_loop.samples import media_samples
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from nana_core.storage import canonical
+    from tests.h1_semantics.test_grounding import ingest,setup as semantic_setup
+    with fresh(tmp_path/'self.db') as r,semantic_harness() as (transport,metrics):
+        raw=media_samples()['IMAGE'];base=ingest(r,'IMAGE',raw);memory=MemoryService(r.store)
+        body=json.loads(memory.read(base)['text']);body['source']=bad_sample;text=canonical(body)
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT',
+            source_namespace='recorded.project.bilibili.frames',source_reference='synthetic-invalid-locator',
+            source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='PROJECT',observed_time_us=r.clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.EPISODIC,
+            epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text))
+        service=semantic_setup(r,transport)
+        with pytest.raises(CoreError,match='MEDIA_FRAME_LOCATOR_INVALID'):service.prepare('bad-frame-locator',mid,raw)
+        assert metrics['calls']==0 and not r.store.all('cognitive_requests')

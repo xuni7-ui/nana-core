@@ -1,0 +1,55 @@
+...{"measurement": "frame-source-locator", "at_seconds": 10.0, "added_bytes_per_semantic_memory": 262, "vision_http_calls": 1, "followup_interpret_calls": 1, "followup_request_json_bytes": 28648, "subject_behavior": "EXPLORE", "model_belief_not_truth": true, "real_model_calls": 0, "provider_tokens": null}
+.FF.......................................................
+=================================== FAILURES ===================================
+____ test_invalid_frame_locator_is_rejected_before_provider_dispatch[None] _____
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-51/test_invalid_frame_locator_is_0')
+bad_sample = None
+
+    @pytest.mark.parametrize('bad_sample',[None,{'bvid':'BV1t55v6DE2v','cid':9,'at_seconds':86401,
+        'coverage':'PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'}])
+    def test_invalid_frame_locator_is_rejected_before_provider_dispatch(tmp_path,bad_sample):
+        from nana_core.continuity.world_loop.semantic_harness import semantic_harness
+        from nana_core.continuity.world_loop.samples import media_samples
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.storage import canonical
+        from tests.h1_semantics.test_grounding import ingest,setup as semantic_setup
+        with fresh(tmp_path/'self.db') as r,semantic_harness() as (transport,metrics):
+            raw=media_samples()['IMAGE'];base=ingest(r,'IMAGE',raw);memory=MemoryService(r.store)
+            body=json.loads(memory.read(base)['text']);body['source']=bad_sample;text=canonical(body)
+>           eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SYNTHETIC_ONLY',
+                source_namespace='recorded.project.bilibili.frames',source_reference='synthetic-invalid-locator',
+                source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='PROJECT',observed_time_us=r.clock.utc_now_us()))
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for Provenance
+E             Value error, provenance domain mismatch [type=value_error, input_value={'domain': 'SYNTHETIC_ONL...': 'DIRECT_OBSERVATION'}, input_type=dict]
+E               For further information visit https://errors.pydantic.dev/2.13/v/value_error
+
+tests/living_release_v4/test_bilibili_frames.py:232: ValidationError
+_ test_invalid_frame_locator_is_rejected_before_provider_dispatch[bad_sample1] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-51/test_invalid_frame_locator_is_1')
+bad_sample = {'bvid': 'BV1t55v6DE2v', 'cid': 9, 'at_seconds': 86401, 'coverage': 'PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'}
+
+    @pytest.mark.parametrize('bad_sample',[None,{'bvid':'BV1t55v6DE2v','cid':9,'at_seconds':86401,
+        'coverage':'PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'}])
+    def test_invalid_frame_locator_is_rejected_before_provider_dispatch(tmp_path,bad_sample):
+        from nana_core.continuity.world_loop.semantic_harness import semantic_harness
+        from nana_core.continuity.world_loop.samples import media_samples
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.storage import canonical
+        from tests.h1_semantics.test_grounding import ingest,setup as semantic_setup
+        with fresh(tmp_path/'self.db') as r,semantic_harness() as (transport,metrics):
+            raw=media_samples()['IMAGE'];base=ingest(r,'IMAGE',raw);memory=MemoryService(r.store)
+            body=json.loads(memory.read(base)['text']);body['source']=bad_sample;text=canonical(body)
+>           eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SYNTHETIC_ONLY',
+                source_namespace='recorded.project.bilibili.frames',source_reference='synthetic-invalid-locator',
+                source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='PROJECT',observed_time_us=r.clock.utc_now_us()))
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for Provenance
+E             Value error, provenance domain mismatch [type=value_error, input_value={'domain': 'SYNTHETIC_ONL...': 'DIRECT_OBSERVATION'}, input_type=dict]
+E               For further information visit https://errors.pydantic.dev/2.13/v/value_error
+
+tests/living_release_v4/test_bilibili_frames.py:232: ValidationError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_invalid_frame_locator_is_rejected_before_provider_dispatch[None]
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_invalid_frame_locator_is_rejected_before_provider_dispatch[bad_sample1]
+2 failed, 59 passed in 28.76s

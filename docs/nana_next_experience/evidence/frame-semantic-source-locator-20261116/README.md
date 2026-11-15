@@ -1,0 +1,27 @@
+# 原视频帧定位进入H1派生与后续C
+
+基线f5b6993/Brain249。A负责原S5/H1→S2/Context→原C接线，复用BiliFrame/MemorySemanticService/World/Concern/单Store，不重做B算法或NanaLink采集。仅此来源契约修复，不宣称完整视频理解或高级情感/学习完成。
+
+## 差额及现役消费者
+
+原BilibiliFrameService.capture保存bvid/cid/at_seconds，H1输入是IMAGE，其SemanticObservation时间span合法为图内0秒。旧H1 ground派生正文缺少原视频位置，正常后续INTERPRET只读语义时不能获得该定位。original1.txt精确旧f5运行复用测试，KeyError(source_locator)；不是模型准确率对照或旧C行为错误。
+
+现原H1 validate_media_input在付费调用前验证已保留帧的有界定位；ground将原来源locator加入同一MODEL_DERIVATION正文与MEDIA_OBSERVATION结果。定位来自原source Memory，不接受模型改写；明确PUBLISHER_REPORTED_STORYBOARD_TIME、SAMPLE_NOT_FULL_WATCH和full_video_watched=false，不能将图内0秒误当原视频0秒或整片观看区间。标签仍INFERRED/MODEL_DERIVATION/PROVIDER_ESTIMATE_NOT_VERIFICATION，World claim标签/原时间线不改成观察事实。
+
+输入：原recorded.bilibili.public.frames或recorded.project.bilibili.frames的DIRECT/OBSERVATION、已校验实际图像字节和原source。输出：可选source_locator={source_memory_id,bvid,cid,at_seconds,timeline_basis,coverage,full_video_watched}。同一原Memory与依赖链，无新schema/table/index、CognitionRequest wire或执行授权。其他IMAGE/AUDIO/VIDEO不追加Bili特定定位。旧已ground缓存不回写、不声称已经有新字段；原旧reader把Memory text作为内容，现不做历史派生数据迁移。
+
+final6.txt实际6passed3.15s（文件名原采集工具误称final7，以实际计数为准）：原真实路由选VISION→owned HTTP/H1→原World/Memory；选择采样10秒帧，图内span仍0秒，后续正常INTERPRET的MEMORY正文确实包含原10秒定位。提议的兴趣沿原ConcernService进入原C并选择EXPLORE；没有新Goal/自动执行权。后续INTERPRET是独立受控文字oracle，不据此宣称真实模型质量改善或C选择一定较旧版不同。重复interpret复用同语义、视觉调用仍1；原视频来源forget后派生Memory不可读、World未知。两个不合法定位输入（source不是object、at_seconds超86400）在原prepare前被MEDIA_FRAME_LOCATOR_INVALID拒绝，Provider/cognitive_requests0。boundary2.txt独立2passed.73s。
+
+related59-domain-fixture-first与domain-enum-fixture-first：H1 IMAGE/AUDIO/VIDEO、虚拟48h、恢复、真正活跃调用/UNKNOWN、Bili原生活与Context等59passed，另两个新反例因夹具domain/namespace不匹配、随后写错domain枚举失败，未伪称整组61通过。之后只修正夹具为原DEVELOPMENT_PROJECT，重跑boundary2及完整受影响帧文件final6；运行代码与原来源守卫未为这些错误修改。消费者初次漏传资源、误传空资源均被原ConcernService严格拒绝；最终绑定现有BiliReadRealization的原真实resource，没有放宽CONCERN_POLICY_BOUND。保留所有首次失败。
+
+## 资源、资格与回退
+
+实际每条新semantic Memory正文多262字节；此场景VISION1+后续INTERPRET1，两条都是原有生命周期，新增定位不要求额外模型调用。后续内层request JSON28648字节，不是完整wire或Token；Provider usage/真实费用未知。未知/原预算/完整请求装配与来源撤回仍用原机制，无新依赖；原CI选受影响H1并按需启用已有FFmpeg宿主步骤。
+
+回退基线semantics.py，旧可选定位内容无schema迁移；已生成内容保留原来源与撤回。无手机/账号/新付费/生产/自然度/长期运行资格。原9a固定候选/下载与离线安装不包含245–250，CURRENT266+409未动，不每批重打APK/便携包。
+
+## 下一负责人
+
+A继续原Core情感/多动机/S8与统一来源消费者。B继续dsh-see-now/video-watch-plus的真实算法/上游许可/同预算对照；NanaLink继续采集、账号与撤回。可见PR14/17/18已关闭集成；B研究分支447d固定提交涉及拒绝通用图扩展，非当前新视频适配交接，不能因此判断别人的未提交工作未做。
+
+原BilibiliLife._interpret仍只解释三个storyboard样本中的首个，视频时间长短覆盖与多帧共享预算/融合算法尚待B固定契约接入；本批不假称已解决。既有H1 VIDEO解码30秒边界没有抬高；不以3帧、当前视觉Token估算或绿色场景证明整片准确率。接收B固定候选后由A原生吸收，所有原A–H/内心13/机制19/自然交流及最终匹配发行继续。

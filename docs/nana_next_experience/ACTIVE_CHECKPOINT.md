@@ -1,8 +1,8 @@
-## 当前接续：原暂停回看关切群变化，revision249
+## 当前接续：H1原视频帧定位到后续C，revision250
 
-原暂停回看条件补原关切族count/创建seq/更新时间，129样本与上下文不扩；限定本scope/entity/privacy/current，非全局事件自激。旧3fail5pass→新9pass1.28s、前52相关17.64s；正常Runtime.step、同身份重启、尾部新增/撤回、单排队、隔离/只读/同slice复用与安全点撤回通过，模型/动作0。100k全关切聚合38.26ms额外成本原样保留，非完整变化版本/真实Token。
+原H1帧语义补原source_locator，publisher视频时间10秒与图内span0分开，模型标签仍推测。旧精确f5缺字段→最终6过3.15s/前59相关过（2夹具首错保留）及2边界过；后续正常INTERPRET确读→原Concern/C EXPLORE，重复VISION复用/来源撤回有效。每新语义+262bytes、VISION1/INTERPRET1不增阶段，非真实Token/模型质量或新成长。
 
-下一继续商业C情感/多动机与G独立后续迁移、B视觉固定交接及原全部A–H；私人版本是否需要触发此回看尚无实证，不泛加游标。9c8独立CI746/3warn为targeted，非本批CI；9a候选不含245–249，CURRENT266+409不动。真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/memory-review-condition-cohort-20261116/README.md。
+下一继续原C情感/多动机/G独立迁移及全部A–H；BiliLife首帧限制/多帧覆盖与共享预算尚待B固定交接，A负责原生融合、不重复其算法。9a候选不含245–250，CURRENT266+409与原APK不变；真实模型/手机/账号/生产/自然度/实际长期未新增。 证据evidence/frame-semantic-source-locator-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

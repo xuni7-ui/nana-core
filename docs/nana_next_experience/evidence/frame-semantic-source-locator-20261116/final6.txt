@@ -1,0 +1,3 @@
+...{"measurement": "frame-source-locator", "at_seconds": 10.0, "added_bytes_per_semantic_memory": 262, "vision_http_calls": 1, "followup_interpret_calls": 1, "followup_request_json_bytes": 28648, "subject_behavior": "EXPLORE", "model_belief_not_truth": true, "real_model_calls": 0, "provider_tokens": null}
+...
+6 passed in 3.15s

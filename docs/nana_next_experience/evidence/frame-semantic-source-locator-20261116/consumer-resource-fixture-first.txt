@@ -1,0 +1,111 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle __
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-48/test_acquired_frame_uses_real_0')
+
+    def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
+        from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
+        from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy
+        from nana_core.continuity.providers import ProviderRegistry
+        from nana_core.continuity.world_loop.semantic_harness import semantic_proposer
+        from nana_core.continuity.world_loop.world import WorldModel
+        from tests.provider_routing.helpers import config_service, model, update, Resolver
+    
+        with (
+            counterpart() as (opener, _),
+            provider_harness(semantic_proposer) as (wire, metrics),
+            fresh(tmp_path / "self.db", Clock()) as r,
+        ):
+            config, authority = config_service(tmp_path / "config/providers.json")
+            provider = ProviderProfile(
+                provider_profile_id="frames.loopback",
+                display_name="SYNTHETIC_LOOPBACK",
+                protocol="SYNTHETIC_LOOPBACK",
+                base_url=wire.endpoint.removesuffix("/chat/completions"),
+                locality="LOCAL_FIXTURE",
+                permitted_privacy=("PUBLIC", "PROJECT"),
+            )
+            profile = model("model.frames", provider.provider_profile_id, ("VISION",)).model_copy(
+                update={"remote_model_id": "harness-v1"}
+            )
+            update(config, authority, "UPSERT_PROVIDER", provider=provider)
+            update(config, authority, "UPSERT_MODEL", model=profile)
+            update(
+                config,
+                authority,
+                "SET_CAPABILITY_ROUTE",
+                route=CapabilityRoute(
+                    operation="VISION",
+                    primary_model_profile_id=profile.model_profile_id,
+                    permitted_privacy=("PUBLIC", "PROJECT"),
+                ),
+            )
+            router = CapabilityRouter(
+                config, RuntimeProviderFactory(ProviderRegistry(), Resolver(), RoutingPolicy(allow_synthetic_loopback=True))
+            )
+            app = SimpleNamespace(
+                runtime=r,
+                policy=policy(),
+                router=router,
+                config=SimpleNamespace(
+                    provider_wire_bytes_per_day=4_000_000,
+                    provider_context_tokens=16000,
+                    provider_output_tokens=4096,
+                    provider_timeout_ms=3000,
+                    provider_cost_ceiling_micro=0,
+                    provider_total_calls_limit=2,
+                    provider_total_reserved_cost_micro=0,
+                    provider_calls_per_hour=2,
+                    provider_calls_per_day=2,
+                    per_provider_calls_per_day=2,
+                ),
+            )
+            public = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            public.opener = opener
+            reading = public.read_video("BV1t55v6DE2v", visual=True)
+            source = BilibiliSourceAdapter(app).ingest(reading)
+            service = BilibiliFrameService(app)
+            mid = service.capture(source, reading.frames)[-1]
+            frame_at=reading.frames[-1].at_seconds
+            assert frame_at>0
+            result = service.interpret(mid)
+            assert result["state"] == "SAMPLED_FRAME_INTERPRETED" and metrics["calls"] == 1
+            claim = MemoryService(r.store).read(result["semantic_memory_ids"][0])
+            assert claim["authority"] == "INFERRED" and claim["source_provenance"]["source_kind"] == "MODEL_DERIVATION"
+            locator=json.loads(claim['text'])['source_locator']
+            assert locator==result['source_locator']
+            assert locator['source_memory_id']==mid and locator['bvid']=='BV1t55v6DE2v'
+            assert locator['cid']==reading.frames[-1].cid and locator['at_seconds']==frame_at
+            assert locator['timeline_basis']=='PUBLISHER_REPORTED_STORYBOARD_TIME'
+            assert locator['coverage']=='PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH'
+            assert locator['full_video_watched'] is False
+            # Source offset is not a model's claim of a long watched interval.
+            assert json.loads(claim['text'])['semantic']['start_s']==0
+            assert service.interpret(mid)["semantic_memory_ids"] == result["semantic_memory_ids"] and metrics["calls"] == 1
+            world = WorldModel(r.store, scopes=("world",), privacy_classes=("PROJECT",))
+            assert world.view(result["entity_id"], "publication.visual.0").state == "SUPPORTED_BELIEF"
+            from nana_core.continuity.world_loop.cognition import StructuredProposal,InterestProposal
+            seen=[]
+            def next_interpret(request):
+                seen.append(request)
+                context=json.loads(request.context_json)
+                item=next(json.loads(block['data_json']) for block in context['blocks']
+                    if block['kind']=='MEMORY' and result['semantic_memory_ids'][0] in block['source_memory_ids'])
+                assert json.loads(item['text'])['source_locator']==locator
+                return StructuredProposal(interpretation='SYNTHETIC cited sample may warrant further exploration, not a whole video experience',
+                    source_refs=request.primary_source_refs,interests=(InterestProposal(topic='sampled-visual-detail',
+                        motivation_source='CURIOSITY',source_memory_ids=(result['semantic_memory_ids'][0],),expected_value='HIGH',
+                        possible_behaviors=('EXPLORE',),interpretation='Consider the cited publisher sample without assuming unseen video content'),))
+            with provider_harness(proposer=next_interpret) as (text_wire,text_metrics):
+                text_session=CognitionSession(r,text_wire,policy())
+                outcome=text_session.execute(text_session.prepare('frame-offset-followup','INTERPRET',tuple(result['semantic_memory_ids'])))
+                assert outcome['state']=='PROPOSED' and text_metrics['calls']==1
+>               concerns=ConcernService(r);concerns.offer(outcome['record_id'])
+                         ^^^^^^^^^^^^^^^^^
+E               TypeError: ConcernService.__init__() missing 1 required keyword-only argument: 'resources'
+
+tests/living_release_v4/test_bilibili_frames.py:200: TypeError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle
+1 failed in 0.98s

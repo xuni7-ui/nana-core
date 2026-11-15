@@ -19,15 +19,15 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 249,
-  "as_of_us": 1794782875610477,
+  "revision": 250,
+  "as_of_us": 1794783573319981,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原暂停回看补同scope/entity/privacy有效关切群元数据，129样本不扩。9c8旧3fail5pass→新9过/前52相关17.64s；正常Runtime.step/同身份重启/尾部新增撤回/单排队/无关事件不醒/同slice复用和安全点失效通过，模型动作0。全10万关切聚合38.26ms成本保留。",
-    "原失败usage数字计量资格保留；现Bili视觉两处沿原live互斥，不把终态UNKNOWN锁住不同帧。b977旧2fail1pass→3通过/32相关14s；同主体重开、旧UNKNOWN整行/预留不变且不重发、总额度2拒第三帧/活跃CALLING阻断/撤回0新增调用，真实0。",
-    "9a/Brain243候选302文件Core cda06320…/Web9c593456…，delivery efc固定11件，GitHub下载/双槽离线安装/撤回回退通过。独立9c8 CI746/3warn346.75s为targeted，full/portable/client SKIP；候选不含245–249，CURRENT266+409。",
+    "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
+    "9a/Brain243候选302文件Core cda06320…/Web9c593456…，delivery efc固定11件，GitHub下载/双槽离线安装/撤回回退通过。独立9c8 CI746/3warn346.75s为targeted，full/portable/client SKIP；候选不含245–250，CURRENT266+409。",
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
@@ -41,17 +41,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR14/17/18已吸收；9a候选不含245–249，本批新CI待实际。count/max非任意同时间戳原位修改完整版本；私人版本是否应触发回看未证明。继续原C情感/多动机/G独立迁移、B视觉固定交接、物理隐私/Token/全A–H和最终Android。"
+    "PR14/17/18已吸收；9a候选不含245–250，新CI待实读。暂停count/max非完整版本，私念触发未证；BiliLife仍只解释首样本，等待B固定多帧预算/算法契约；继续原C情感/多动机/G迁移、物理隐私/Token/全A–H与Android最终匹配发行。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/frame-semantic-source-locator-20261116/README.md",
     "docs/nana_next_experience/evidence/memory-review-condition-cohort-20261116/README.md",
     "docs/nana_next_experience/evidence/memory-review-current-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-goal-review-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-plan-load-20261116/README.md",
     "docs/nana_next_experience/evidence/visual-unknown-independent-request-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-9a31e15-20261116/README.md",
-    "docs/nana_next_experience/evidence/platform-context-population-20261116/README.md",
-    "docs/nana_next_experience/evidence/nanalink-core-integration-20261115/README.md"
+    "docs/nana_next_experience/evidence/platform-context-population-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

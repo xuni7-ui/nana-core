@@ -1,0 +1,7 @@
+# H1帧语义的原视频定位
+
+基线f5b6993a8b612d666b012afd81928ee68ed5a2de/Brain249已推且工作树干净。当前原帧Memory保存bvid/cid/at_seconds/coverage；H1 IMAGE语义的span为图内0秒，派生Memory正文只含source_memory_id与字节摘要，后续普通INTERPRET只读语义不能知道原视频位置。原型是已有H1/Memory/World/Context，不改B/NanaLink算法。
+
+拟将原帧来源中有界定位元数据带入原MODEL_DERIVATION语义正文与结果，明确publisher报告时间/稀疏样本/非全片；模型标签与来源元数据分开，不让模型改写定位。对既有非Bili媒体不追加特定定位。复用原prepare/validate/execute/ground与来源撤回，不添模型、表、索引或第二观察权威。旧历史派生记录不回写，旧缓存不伪称有新字段；后续完整适配B实际算法交接。
+
+回退本锚semantics.py，无schema/数据迁移；不提高视觉帧数/30秒视频解码限制，不把三个样本当全片。固定远端B447d研究是拒绝通用图扩展，非本次新视觉交接；PR14/17/18已关闭集成，未看见未提交代码不能认定未做。
