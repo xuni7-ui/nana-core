@@ -21,7 +21,7 @@ def picture():
     return output.getvalue()
 
 
-def test_original_c_offers_only_current_decoded_source_and_rejects_forgery(app):
+def test_original_c_can_leave_retrieved_image_unselected(app):
     r = app.runtime
     now = r.clock.utc_now_us()
     source = PublicMediaSource(source_id='synthetic-picture', modality='IMAGE', origin='SYNTHETIC',
@@ -37,11 +37,10 @@ def test_original_c_offers_only_current_decoded_source_and_rejects_forgery(app):
         identity = context['manifest']
         return StructuredProposal(interpretation='synthetic choice', subject_cognition=CognitiveProposal(
             identity_id=identity['identity_id'], identity_revision=identity['identity_revision'],
-            interpretation='consider this picture', proposed_operations=('WAIT',),
-            memory_refs=(mid,), selected_media=offered[0]))
+            interpretation='wait without selecting an image', proposed_operations=('WAIT',)))
     event = SubjectInput(domain='DEVELOPMENT_MATERIAL', source_key='development.media-choice',
         kind='WAKE', origin='SELF_WAKE', entity_id='project-user', scope='project-work',
-        privacy_class='PUBLIC', observed_at_us=now, source_memory_ids=(mid,))
+        privacy_class='PUBLIC', observed_at_us=now)
     with provider_harness(proposer=propose) as (transport, state):
         session = CognitionSession(r, transport, app.policy)
         result = r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC',
@@ -107,7 +106,7 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scena
                                resource='project://qq/private/43', resource_class='ORDINARY')
     event = SubjectInput(source_key='synthetic.qq.image-choice', kind='INTERACTION', origin='USER',
         entity_id='project-user', scope='project-work', observed_at_us=now, text='Synthetic contact opportunity',
-        privacy_class='PROJECT', source_memory_ids=(cue_id, mid), realization_target=target)
+        privacy_class='PROJECT', source_memory_ids=(cue_id,), realization_target=target)
     with provider_harness(proposer=propose) as (transport, state):
         session = CognitionSession(r, transport, app.policy)
         cycle = r.subject.cognize(event, model=session.subject_port(privacy_class='PROJECT',
@@ -240,3 +239,26 @@ def test_cached_image_must_match_current_original_observation(app, tmp_path):
     with pytest.raises(CoreError):
         resolve_image(r.store, cache, selection)
     cache.close()
+
+
+def test_retrieved_image_does_not_cross_entity_boundary(app):
+    r = app.runtime
+    now = r.clock.utc_now_us()
+    MemoryService(r.store).entity('another-person', 'PERSON')
+    source = PublicMediaSource(source_id='other-picture', modality='IMAGE', origin='SYNTHETIC',
+                               event_time_us=now, observed_time_us=now)
+    PerceptionService(r.store, providers(), app.policy).ingest(
+        picture(), source, entity_id='another-person', scope='project-work')
+    def propose(request):
+        context = json.loads(request.context_json)
+        assert not any(b['kind'] == 'MEDIA_CANDIDATES' for b in context['blocks'])
+        identity = context['manifest']
+        return StructuredProposal(interpretation='synthetic wait', subject_cognition=CognitiveProposal(
+            identity_id=identity['identity_id'], identity_revision=identity['identity_revision'],
+            interpretation='wait', proposed_operations=('WAIT',)))
+    event = SubjectInput(source_key='synthetic.no-cross-entity-image', kind='WAKE', origin='SELF_WAKE',
+        entity_id='project-user', scope='project-work', observed_at_us=now, privacy_class='PUBLIC')
+    with provider_harness(proposer=propose) as (transport, state):
+        session = CognitionSession(r, transport, app.policy)
+        r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC'), authority=r.authority, policy=app.policy)
+    assert state['calls'] == 1 and not r.store.all('actions')

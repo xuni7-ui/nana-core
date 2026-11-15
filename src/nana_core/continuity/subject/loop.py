@@ -330,6 +330,19 @@ class SubjectLoop:
                 rid=validate_resource_record(self.store,_deliberation.resource_record_id,_deliberation.proposal,
                     scope=event.scope,subject_event_id=source['subject_event_id'],privacy_classes=self.privacy_classes)
                 situation=situation.model_copy(update={'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
+                selected = _deliberation.proposal.selected_media
+                if selected is not None and selected.source_memory_id not in situation.memory_ids:
+                    # Only the exact resource-validated original C proposal can
+                    # add a retrieved image to this cycle's original supports.
+                    from ..memory import PRIVACY_RANK
+                    from ...nanalink.media_candidates import candidate as media_candidate
+                    item=self.records.memory.read(selected.source_memory_id)
+                    observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(selected.source_memory_id,)).fetchone()
+                    if (item['scope'] != event.scope or item['entity_id'] not in {event.entity_id,self.store.identity['identity_id']}
+                            or PRIVACY_RANK[item['privacy_class']] > PRIVACY_RANK[event.privacy_class]
+                            or media_candidate(item) != selected or not observation or not self.records.current_support(observation[0])):
+                        raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
+                    situation=situation.model_copy(update={'memory_ids':(*situation.memory_ids,selected.source_memory_id)})
             if self.store.schema_target>=11:
                 adopted=[];plan_refs=[]
                 for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):

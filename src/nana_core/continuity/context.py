@@ -373,7 +373,10 @@ class ContextAssembler:
             # later be cited by the existing cognition validation.
             from ..nanalink.media_candidates import candidate as media_candidate
             choices=[]
-            for mid in subject_frame.source_memory_ids:
+            # Include bounded original retrieval, not just the current input;
+            # C may choose a previously observed image, or choose none.
+            media_sources=tuple(dict.fromkeys((*subject_frame.source_memory_ids, *(row['memory_id'] for row in memories))))
+            for mid in media_sources:
                 item=media_candidate(memory_service.read(mid))
                 observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone() if item is not None else None
                 if observation and RecordService(self.store).current_support(observation[0]):
