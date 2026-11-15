@@ -2891,3 +2891,5 @@ Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria 
 The quick setup now binds credentials before switching the cognition route. If native credential binding is unavailable, it preserves the current route and reports the remaining step. Web build and 56 frontend tests passed; real provider/phone and deployment remain unverified.
 
 - 2026-11-14｜交付归档：新增server-9291f1e-candidate，精确Core/Web源码9291f1e/Brain221、285文件双构建与实际离线安装/原G私人兴趣因果/静止929→d141→929通过。仅受控候选非完整发行，不改CURRENT266+409/旧制品，不动生产；dev当前Brain/证据为继续任务入口，独立仓库下载资格后补，不把本地构建称远端下载。
+
+- 2026-11-15｜现有delivery分支仅归档fee8f42/Brain237同源Core-Web受控候选：双构建Core3b7e2d9e…/Web251bb84b…、本机实际离线安装、16安装高级场景、BFF/G/虚拟72h及静止fee8-929-fee8通过；无CURRENT/旧交付改动，无APK/生产。远端独立下载第二安装回执由dev后继单列，非总工程/真实长期资格。

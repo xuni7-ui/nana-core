@@ -1,0 +1,42 @@
+{
+  "status": "CONTROLLED_CANDIDATE_NOT_CURRENT_OR_PRODUCTION",
+  "source_commit": "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+  "brain_revision_at_source": 237,
+  "core_sha256": "3b7e2d9e0e332a34397b4829edca834c50c61be8be975e792db374c69b81535e",
+  "web_sha256": "251bb84b6d00654d66c47448f1a8a62114e8f95386156ec51436f536b6c5cd83",
+  "runtime_files": 285,
+  "core_two_builds_identical": true,
+  "web_two_archives_identical": true,
+  "web_typescript_vite": "PASS",
+  "web_unit_tests": 93,
+  "offline_install": "PASS_LOCAL_FIRST_SLOT",
+  "installed_refinement_cases": 16,
+  "installed_core_modules_checked": 152,
+  "installed_refinement_repository_pythonpath": false,
+  "private_test_tools_in_runtime": false,
+  "old_reader_rollback": "STOPPED_DEV_FEE8_929_FEE8_PASS_NOT_266",
+  "dependencies": {
+    "pydantic": "2.13.4",
+    "pydantic-core": "2.46.4",
+    "annotated-types": "0.8.0",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.3",
+    "cryptography": "50.0.0",
+    "cffi": "2.1.1",
+    "pycparser": "3.0",
+    "pillow": "12.3.0"
+  },
+  "features": [
+    "HOST_VAULT",
+    "PUBLIC_VIDEO_FRAMES"
+  ],
+  "dependency_source_old_bundle_sha256": "1b71be7c7527f30d5458e9e2bf8605740122ea7887c22665f51df815d70937ef",
+  "actual_python": "3.12.14",
+  "actual_sqlite": "3.53.1",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "apk_rebuilt": false,
+  "current_selection_changed": false,
+  "real_model_phone_naturalness_actual_longterm": "NOT_RUN",
+  "fresh_remote_download_and_second_install": "PENDING_SEPARATE_DEV_EVIDENCE"
+}
