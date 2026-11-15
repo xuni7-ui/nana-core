@@ -1,0 +1,795 @@
+INSTALLED_DEPENDENCIES /tmp/nfee8/.venv/lib/python3.12/site-packages/pydantic/__init__.py /tmp/nfee8/.venv/lib/python3.12/site-packages/cryptography/__init__.py /tmp/nfee8/.venv/lib/python3.12/site-packages/PIL/__init__.py
+EEEEEEEEEEEEEEFF                                                         [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[fixture-None] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem0')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[fixture-LEARN] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem1')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[fixture-REST] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem2')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[fixture-REFLECT] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem3')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[provider-None] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem4')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[provider-LEARN] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem5')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[provider-REST] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem6')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_settled_need_does_not_remove_an_explicit_current_direction[provider-REFLECT] _
+
+tmp_path = PosixPath('/tmp/f8q/test_settled_need_does_not_rem7')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_current_need_preserves_original_norm_and_full_candidate_bound[norm] _
+
+tmp_path = PosixPath('/tmp/f8q/test_current_need_preserves_or0')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_current_need_preserves_original_norm_and_full_candidate_bound[eight-options] _
+
+tmp_path = PosixPath('/tmp/f8q/test_current_need_preserves_or1')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_same_domain_independent_failures_do_not_crowd_current_gap _
+
+tmp_path = PosixPath('/tmp/f8q/test_same_domain_independent_f0')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_other_same_domain_lesson_reviews_do_not_hide_checked_current_need _
+
+tmp_path = PosixPath('/tmp/f8q/test_other_same_domain_lesson_0')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_checked_need_result_updates_original_c_motive_and_next_choice[False] _
+
+tmp_path = PosixPath('/tmp/f8q/test_checked_need_result_updat0')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ ERROR at setup of test_checked_need_result_updates_original_c_motive_and_next_choice[True] _
+
+tmp_path = PosixPath('/tmp/f8q/test_checked_need_result_updat1')
+
+    @pytest.fixture
+    def settled(tmp_path):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),
+            ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+>           home=tmp_path/'life';initialize(home,host.profile,skills=False)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_settled_need_choice.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:8: in initialize
+    cfg=LifeConfig(project_root=str(REPO),materials=(material_for(REPO,'src/nana_core/continuity/recurrence.py'),),practice=material_for(REPO,'src/nana_core/continuity/identity.py'),heldout=material_for(REPO,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(REPO,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile),allow_local_skills=skills)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+=================================== FAILURES ===================================
+_ test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest[False] _
+
+tmp_path = PosixPath('/tmp/f8q/test_core_elapsed_time_changes0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff7332947d0>
+enduring = False
+
+    @pytest.mark.parametrize('enduring',[False,True])
+    def test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest(tmp_path,monkeypatch,enduring):
+>       home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+                             ^^^^^^^^^^^^^^^^
+
+tests/person_self/test_tendency_elapsed_context.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/conftest.py:11: in initialize
+    write_config(home,LifeConfig(project_root=str(REPO),materials=(material('recurrence.py'),),practice=material('identity.py'),heldout=material('autonomy/requests.py'),transfer=material('subject/social.py'),max_autonomous_materials=0,provider_calls_per_hour=24,provider_calls_per_day=24,per_provider_calls_per_day=24,provider_context_tokens=16384,provider_output_tokens=2048))
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/conftest.py:10: in <lambda>
+    material=lambda p:material_for(REPO,'src/nana_core/continuity/'+p)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+_ test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest[True] _
+
+tmp_path = PosixPath('/tmp/f8q/test_core_elapsed_time_changes1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff7332a14c0>
+enduring = True
+
+    @pytest.mark.parametrize('enduring',[False,True])
+    def test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest(tmp_path,monkeypatch,enduring):
+>       home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+                             ^^^^^^^^^^^^^^^^
+
+tests/person_self/test_tendency_elapsed_context.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/conftest.py:11: in initialize
+    write_config(home,LifeConfig(project_root=str(REPO),materials=(material('recurrence.py'),),practice=material('identity.py'),heldout=material('autonomy/requests.py'),transfer=material('subject/social.py'),max_autonomous_materials=0,provider_calls_per_hour=24,provider_calls_per_day=24,per_provider_calls_per_day=24,provider_context_tokens=16384,provider_output_tokens=2048))
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/conftest.py:10: in <lambda>
+    material=lambda p:material_for(REPO,'src/nana_core/continuity/'+p)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../nfee8/src/nana_core/continuity/project_work/service.py:186: in material_for
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/tmp/nana-fee8-qualification')
+relative_path = 'src/nana_core/continuity/recurrence.py'
+task_type = 'PYTHON_API'
+
+    def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
+        """Read one explicit task-typed .py/.md file before computing manifest digest."""
+        rel = PurePosixPath(relative_path)
+        if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
+            raise CoreError('PROJECT_MANIFEST_DENIED')
+        root = Path(root).absolute()
+        if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
+        fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in rel.parts[:-1]:
+                new = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd); fd = new
+            filefd = os.open(rel.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            import stat
+            with os.fdopen(filefd, 'rb') as stream:
+                if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROJECT_REGULAR_FILE_REQUIRED')
+                raw = stream.read(6145)
+        except OSError:
+>           raise CoreError('PROJECT_SOURCE_UNAVAILABLE') from None
+E           nana_core.contracts.CoreError: PROJECT_SOURCE_UNAVAILABLE
+
+../nfee8/src/nana_core/continuity/project_work/port.py:45: CoreError
+=========================== short test summary info ============================
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[fixture-None]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[fixture-LEARN]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[fixture-REST]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[fixture-REFLECT]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-None]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-LEARN]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-REST]
+ERROR tests/person_self/test_settled_need_choice.py::test_settled_need_does_not_remove_an_explicit_current_direction[provider-REFLECT]
+ERROR tests/person_self/test_settled_need_choice.py::test_current_need_preserves_original_norm_and_full_candidate_bound[norm]
+ERROR tests/person_self/test_settled_need_choice.py::test_current_need_preserves_original_norm_and_full_candidate_bound[eight-options]
+ERROR tests/person_self/test_need_causal_population.py::test_same_domain_independent_failures_do_not_crowd_current_gap
+ERROR tests/person_self/test_need_causal_population.py::test_other_same_domain_lesson_reviews_do_not_hide_checked_current_need
+ERROR tests/person_self/test_competence_motive.py::test_checked_need_result_updates_original_c_motive_and_next_choice[False]
+ERROR tests/person_self/test_competence_motive.py::test_checked_need_result_updates_original_c_motive_and_next_choice[True]
+FAILED tests/person_self/test_tendency_elapsed_context.py::test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest[False]
+FAILED tests/person_self/test_tendency_elapsed_context.py::test_core_elapsed_time_changes_situational_use_without_erasing_enduring_interest[True]
+2 failed, 14 errors in 6.43s
+INSTALLED_CORE_ORIGINS {"modules": 124, "all_from_installed_bundle": true, "repository_pythonpath": false, "test_tools_are_external": true, "exit_code": 1}

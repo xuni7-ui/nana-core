@@ -1,0 +1,4 @@
+INSTALLED_DEPENDENCIES /tmp/nfee8/.venv/lib/python3.12/site-packages/pydantic/__init__.py /tmp/nfee8/.venv/lib/python3.12/site-packages/cryptography/__init__.py /tmp/nfee8/.venv/lib/python3.12/site-packages/PIL/__init__.py
+................                                                         [100%]
+16 passed in 61.34s (0:01:01)
+INSTALLED_CORE_ORIGINS {"modules": 152, "all_from_installed_bundle": true, "repository_pythonpath": false, "test_tools_are_external": true, "exit_code": 0}

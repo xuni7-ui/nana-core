@@ -1,0 +1,16 @@
+{
+  "source": "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+  "build": "TS and Vite --mode live",
+  "builds": [
+    {
+      "archive": "/tmp/nana-fee8-web-artifact/nana-space-fee8-web-a.tar.gz",
+      "sha256": "251bb84b6d00654d66c47448f1a8a62114e8f95386156ec51436f536b6c5cd83",
+      "bytes": 628305
+    },
+    {
+      "archive": "/tmp/nana-fee8-web-artifact/nana-space-fee8-web-b.tar.gz",
+      "sha256": "251bb84b6d00654d66c47448f1a8a62114e8f95386156ec51436f536b6c5cd83",
+      "bytes": 628305
+    }
+  ]
+}

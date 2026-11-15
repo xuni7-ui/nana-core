@@ -1,8 +1,8 @@
-## 当前接续：原私倾向时间线索参与后续交流，revision237
+## 当前接续：fee8匹配候选真实下载与两槽安装，revision238
 
-原PRIVATE_TENDENCY_V4内投影增加由Core时钟计算elapsed_since_update_us（回拨0），不改原持久契约/不设TTL或固定衰减/不新增唤醒。精确dd756旧1实际短倾向行为错+1缺字段→2同源HTTP通过，74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT、长期兴趣仍LISTEN，去字段消融/来源撤回有效，原记录仍ACTIVE不改。每普通chat仍原2HTTP，单项投影+39bytes非Token，私文不入SOCIAL/公开回复。见evidence/tendency-elapsed-context-20261115/README.md；不是自主情感消退/真实模型/跨日完成。
+固定fee8/Brain237：原285文件Core双构建3b7e2d9e…，同源Web TS/Vite/93单测/双归档251bb84b…。现delivery4cb88e1归档；实际GitHub新克隆13文件/全SHA一致、下载件第二槽离线安装BFF/重启/撤回通过。第一槽BFF/G/流式/原C巩固/虚拟72h/隔离冷回读、原新16高级场景61.34s/152模块来自安装槽，以及停机fee8→929→fee8同身份私倾向G作业/0新增认知请求周期动作通过。实读fee8独立CI291/109.17s仅targeted；不是全仓/云端/手机/生产/真实自然度长期。首次symlink材料及已停宿主profile探针失败完整保留，未绕过守卫。见evidence/matched-portable-fee8f42-20261115/README.md。
 
-下一实核原builder/封签wheelhouse，针对自929以来累计C/G/记忆End键隐私等做一次匹配Core候选/实际离线安装资格；依赖若缺只暂停该资格，不重复403。CURRENT266+409不动、APK最后必要构建。全部A–H/多时间尺度情感/可靠反馈/G广迁移/模型产品/物理存储隐私/最终发行仍继承，当前非全仓/新安装/手机/生产/自然度/长期。
+下一复用原MaintenanceService bounded slice/周回看的索引修复：旧NOTE_GRAM_COMPLETE存在、仅缺新NOTE_END_PREFIX会跳过，先基线再最小修条件；不另建scanner/启动全表回填/模型循环，不重打本候选或APK。fee8精确候选不含后继。全部原A–H及情感/可靠交流/广G/物理语义/Token模型产品继续，仓库CURRENT仍266+409，未更新生产。临时槽真实路径/tmp/nfee8与/tmp/nfee8d、公开数据fixture/tmp/f8*，随环境可能丢失，Git候选与dev证据可重新取得。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
