@@ -1,0 +1,4 @@
+{"counterexample": false, "need": "SETTLED", "behavior": "REFLECT", "motive_sources": ["COMPETENCE"], "wire_bytes": [55509], "calls": 1}
+.{"counterexample": true, "need": "OPEN", "behavior": "LEARN", "motive_sources": ["CAPABILITY_GAP"], "wire_bytes": [53835], "calls": 1}
+.
+2 passed in 8.44s

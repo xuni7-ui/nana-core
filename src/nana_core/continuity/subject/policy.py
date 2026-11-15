@@ -111,7 +111,13 @@ def motivate(event, situation, appraisal):
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
     if situation.cue:
-        motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
+        if (situation.cue.motivation_source=='CAPABILITY_GAP' and situation.experience_need
+                and situation.experience_need.state=='SETTLED'):
+            # The cue preserves its historical origin. Independent later use
+            # changes the present motive, not personality or an emotion score.
+            motives.append(Motivation(source='COMPETENCE',strength='AVAILABLE',source_ids=situation.experience_need.source_record_ids))
+        else:
+            motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
         if situation.cue.cognitive_load=='HIGH' and situation.cue.motivation_source!='REST':
             motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=situation.memory_ids))
     if (situation.cue and 'SOCIALIZE' in directions(situation.cue) and situation.social_appetite
