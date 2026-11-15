@@ -1,8 +1,8 @@
-## 当前接续：原S3关切因果窗口，revision235
+## 当前接续：原G实际能力结果改变S3当前动机，revision236
 
-原S3 project_need在关切可读因果绑定后取原32失败/评价窗口；其他40同域失败或另G课程40评价不再遮住已SETTLED关切，真实反例OPEN/130链歧义UNKNOWN/撤回恢复/33相关仍UNKNOWN。旧两个真实首败，新57相关86.00s，精确旧1d函数同只读库UNKNOWN→新SETTLED。首SQL功能通过但0.9s被拒，支持边优先/单次聚合后3.86–5.33ms；无模型/写/新表索引，未做大评价史资格。见evidence/need-causal-populations-20261115/README.md。前继1d独立672/1warn185.88s仅targeted，非本批全仓/安装。
+原S3 motive跟随原G独立后来复用的实际SETTLED结果：COMPETENCE/AVAILABLE替代历史cue的当前缺口描述；原cue/OPEN-UNKNOWN/默认WATCH与明确自主学习保留，不造情绪总分/快乐/人格结论。精确f696旧1fail1pass→2同源HTTP通过、123相关68.30s；同提议器根据当前动机选择REFLECT，反例仍LEARN，各1SELF/0新Gjob-actions，wire57457→55509(-1948)bytes非Token。见evidence/checked-competence-motive-20261115/README.md。
 
-下一原motivate仍把已SETTLED历史CAPABILITY_GAP描述为当前相关缺口，先实证后按真实能力结果修正，不自动推断情绪/人格；情感/通信可靠反证/G广迁移及全部A–H继续。CURRENT266+409，无新包/APK/安装/真实模型/手机/生产/自然度/跨日资格。
+下一核原PRIVATE_TENDENCY_V4短情境倾向的有效注意条件：现只有生命周期/时间戳，先真实旧行为/Context/D映射，再最小原契约扩展、重启/撤回/同预算消融；不机械衰减/删长期兴趣。原A–H全部继承，CURRENT266+409；本批非全仓/新包/安装/APK/真实模型/手机/生产/自然度/实际跨日资格。Issue2/4远端仍OPEN，只是元数据，源码收口以实际调用/原回执核对。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

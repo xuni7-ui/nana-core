@@ -1,0 +1,49 @@
+{"counterexample": false, "need": "SETTLED", "behavior": "LEARN", "motive_sources": ["CAPABILITY_GAP"], "wire_bytes": [57457], "calls": 1}
+F{"counterexample": true, "need": "OPEN", "behavior": "LEARN", "motive_sources": ["CAPABILITY_GAP"], "wire_bytes": [53835], "calls": 1}
+.
+=================================== FAILURES ===================================
+__ test_checked_need_result_updates_original_c_motive_and_next_choice[False] ___
+
+settled = (<nana_core.life.application.LifeApplication object at 0x7f18f1c0e480>, 'a026b51c-e10c-49e9-bdaf-7c6bddd87bc2', Concer..., alternative='AVAILABLE', time_compute_cost='LIGHT', risk='LOW'), share_assessment=None, opportunity_assessment=None))
+counterexample = False
+
+    @pytest.mark.parametrize('counterexample',[False,True])
+    def test_checked_need_result_updates_original_c_motive_and_next_choice(settled,counterexample):
+        app,mid,cue=settled;r=app.runtime
+        if counterexample:
+            own=r.store.db.execute('SELECT lesson_id FROM strategy_assessments ORDER BY rowid LIMIT 1').fetchone()[0]
+            spec=next(s for s in r.work.open_learning.specs.values() if s.domain=='owned-document')
+            case=spec.transfer[0].model_copy(update={'case_id':'motive-counter','context':'independent-changed-expectation',
+                'expected':{'different_required_workflow':True}})
+            source=capture(r,'competence-motive-counter',{'strategy_episode':{'episode_key':'competence-motive-counter','lesson_id':own,
+                'case':case.model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+            EpisodeLearning(r.store,r.authority,scopes=r.config.scopes,privacy_classes=r.config.privacy_classes).assess(own,source,authority=r.authority)
+        frames=[];wire=[]
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL');frames.append(frame)
+            available=any(m['source']=='COMPETENCE' and m['strength']=='AVAILABLE' for m in frame['motivations'])
+            wire.append(len(transport.request_body(request)))
+            return StructuredProposal(interpretation='SYNTHETIC consider current checked result',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],proposed_operations=('DRAFT',),
+                interpretation='SYNTHETIC reflection is optional after checked reuse; a counterexample warrants reconsidering learning',
+                preferred_behavior='REFLECT' if available else 'LEARN'))
+        event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.competence-motive',kind='WAKE',origin='SELF_WAKE',
+            entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),task_class='owned-document')
+        jobs=len(r.store.all('jobs'));actions=len(r.store.all('actions'))
+        with provider_harness(proposer=propose) as (transport,state):
+            port=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PROJECT',budget=CognitionBudget(input_tokens=32768))
+            result=r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+            print(json.dumps({'counterexample':counterexample,'need':result.experience_need.state,'behavior':result.intention.behavior,
+                'motive_sources':[m['source'] for m in frames[0]['motivations']],'wire_bytes':wire,'calls':state['calls']}))
+            assert result.experience_need.state==('OPEN' if counterexample else 'SETTLED')
+>           assert result.intention.behavior==('LEARN' if counterexample else 'REFLECT')
+E           AssertionError: assert 'LEARN' == 'REFLECT'
+E             
+E             - REFLECT
+E             + LEARN
+
+tests/person_self/test_competence_motive.py:43: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_competence_motive.py::test_checked_need_result_updates_original_c_motive_and_next_choice[False]
+1 failed, 1 passed in 8.56s

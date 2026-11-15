@@ -3772,3 +3772,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：SETTLED不再删除C备选，现有Need入原Frame；默认WATCH/显式兴趣/规范与G重复保护共存。精确b27旧fixture/HTTP各3fail1pass→新8通过，209相关46.05s及原Foundation13；每1SELF/+2625wirebytes非Token。前继CI123仅targeted，当前真实0/无新安装/CURRENT不动。证据settled-capability-current-choice-20261115，下一同域因果窗口挤占及原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S8：原需态失败/评价先因果后32窗口，40无关失败/40其他G评价不压当前SETTLED；反例/撤回/128边界/33相关保护保留。两个原首败，新57相关86.00s；只读旧UNKNOWN→新SETTLED，拒0.9s慢原型，最终3.86–5.33ms/0调用0写。前继1d CI672仅targeted，真实0/无新包/CURRENT不动；证据need-causal-populations-20261115，下一旧缺口动机与实际能力结果一致及原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：原SETTLED需态改变当前动机COMPETENCE/AVAILABLE，保留原CAPABILITY_GAP历史及反例OPEN/显式继续学的自由。f696旧1fail1pass→2同HTTP/123相关68.30s；同提议器未来REFLECT/反例LEARN，各1SELF/0额外G或动作，wire-1948bytes非Token。原cue不改/不推断情绪人格/真实0/CURRENT不动；证据checked-competence-motive-20261115，下一短长期倾向注意条件及原A–H。

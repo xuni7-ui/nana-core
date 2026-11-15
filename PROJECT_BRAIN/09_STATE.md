@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 235,
-  "as_of_us": 1794754398937343,
+  "revision": 236,
+  "as_of_us": 1794754668149511,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -20,7 +20,7 @@
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "原literal两码点复用L3+每笔记一End键，授权头选计划/CASE后读正文，旧缺键回退。Native同100ms：1k/10k各48/48；100k旧6/48-42timeout→48/48无误返/超时，P95100.46→46.68ms，74相关27.32s。100k缓存+15.47MiB非回收，原20万成果未动。",
-    "原S3需态先关切因果绑定再取32失败/评价；无关40失败或其他G方法40评价不再SETTLED→UNKNOWN。精确旧两首败/原函数只读对照，新57相关86.00s；反例OPEN/超128或33相关仍UNKNOWN/撤回有效。慢0.9s原型拒绝，最终3.86–5.33ms/0模型0写，无新表。"
+    "原Need因果窗口235保留：40无关失败/评价不压当前SETTLED，57相关；现真实SETTLED只投影COMPETENCE/AVAILABLE，不延续旧缺口动机。f696旧1fail1pass→2同HTTP/123相关68.30s，后续REFLECT/反例LEARN；各1SELF，wire57457→55509bytes非Token，G不重训/原cue不改。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -29,17 +29,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一原S3 motivate仍把已SETTLED旧CAPABILITY_GAP当当前缺口：先基线再投影真实能力结果，不据此推断快乐/人格。情感多时间尺度/通信反证/G迁移、原A–H/物理隐私/Token模型产品/匹配发行继续；235非全仓/新安装/真实/长期资格。"
+    "下一原PRIVATE_TENDENCY_V4仅生命周期/时间戳，短暂情境倾向无独立注意有效条件：先核原Context/D消费者及旧行为，最小兼容扩展/消融，不固定衰减或删长期兴趣。情感/S8通信/原A–H/存储隐私/Token模型产品及匹配发行继续；236非全仓/真实/长期。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md",
     "docs/nana_next_experience/evidence/need-causal-populations-20261115/README.md",
     "docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/README.md",
     "docs/nana_next_experience/evidence/literal-two-prefix-20261115/README.md",
     "docs/nana_next_experience/evidence/first-g-new-question-20261115/README.md",
     "docs/nana_next_experience/evidence/first-optional-learning-20261115/README.md",
     "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md",
-    "docs/nana_next_experience/evidence/coexisting-social-tendencies-20261115/README.md",
-    "docs/nana_next_experience/evidence/social-quiet-current-choice-20261115/README.md"
+    "docs/nana_next_experience/evidence/coexisting-social-tendencies-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2891,3 +2891,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision234 fingerprint anchor: `4ec5bf7d1af4e58b644e2454f3f4313657c161b9d4f2cac2aed36442ad521bc4` → `docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/source.sha256`; source b27 legal successor, current commit carries exact files.
 
 - revision235 fingerprint anchor: `8d5c1fd45cd1ebb6e0f4ae53e6e8c8aef540199af5de67f108a7afb9507229ce` → `docs/nana_next_experience/evidence/need-causal-populations-20261115/source.sha256`; same dev source successor, no production selection.
+
+- revision236 fingerprint anchor: `35dd57c69f52e684536ed53cb037ec809f4fb9c677e91fa6d1427a3b02fc2156` → `docs/nana_next_experience/evidence/checked-competence-motive-20261115/source.sha256`; same active development branch, no production selection.
