@@ -247,7 +247,7 @@ class ContextAssembler:
         # Fetch its explicit sources/notes only; self/relationship/lessons still
         # use their original independent sourced projections.
         memories = [] if pinned_only else memory_service.query(**memory_query, query_terms=request.query_terms)
-        note_ids=set();note_strategy_refs=();recall_gap=None
+        note_ids=set();platform_ids=set();note_strategy_refs=();recall_gap=None
         note_terms=tuple(t for t in request.query_terms if 2<=len(t)<=64)[:8]
         if pinned_only and conversation_topic is not None and note_terms:
             try:
@@ -274,6 +274,22 @@ class ContextAssembler:
             except CoreError as exc:
                 if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED','NOTE_RECALL_INDEX_DEFINITION_MISMATCH','NOTE_STRATEGY_SCOPE_BOUND'}:raise
                 recall_gap=exc.code+'_NO_ABSENCE_CLAIM'
+        if pinned_only and conversation_topic is not None and note_terms and 'PERSONAL' in privacy:
+            # Bounded source-aware continuation, only from explicitly retained
+            # platform observations in the same scope/privacy. No name-based
+            # person binding and no untrusted platform instruction authority.
+            recent=memory_service.query(**memory_query,query_terms=note_terms,limit=64)
+            for row in recent:
+                provenance=row.get('source_provenance',{})
+                if (provenance.get('domain')=='CONSENTED_PLATFORM'
+                        and provenance.get('source_namespace')=='recorded.platform.bilibili.dynamic'
+                        and provenance.get('source_kind')=='DIRECT_OBSERVATION'
+                        and any(term.casefold() in row['text'].casefold() for term in note_terms)):
+                    platform_ids.add(row['memory_id'])
+                    if not any(old['memory_id']==row['memory_id'] for old in memories):
+                        memories.append(row)
+                    if len(platform_ids)>=4:
+                        break
         if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
         for mid in required_memory_ids:
             head=self.store.one('memories',mid)
@@ -426,7 +442,7 @@ class ContextAssembler:
             if relevance:score += 1000
             if row["memory_type"] == "SELF":
                 score += 50
-            if row['memory_id'] in note_ids and row['memory_id'] not in required_memory_ids:
+            if row['memory_id'] in (note_ids | platform_ids) and row['memory_id'] not in required_memory_ids:
                 # Keep person-self and established language policy ahead of
                 # optional lookup, while questions outrank generic projections.
                 score=975.0
@@ -440,6 +456,10 @@ class ContextAssembler:
                     'provenance':'EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT',
                     'nana_lived_experience':False,'execution_authority':'NONE'}),
                     'source_record_ids':note_strategy_refs})
+            if row['memory_id'] in platform_ids:
+                block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
+                    'provenance':'PRIVATE_PLATFORM_OBSERVATION_NOT_USER_INSTRUCTION',
+                    'execution_authority':'NONE'})})
             candidates.append((score, block))
         # Disputes are whole bundles; never keep one side because of token limits.
         for key, rows in conflicts.items():
@@ -574,7 +594,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL','COMMUNICATION_STRATEGY','COMMUNICATION_FEEDBACK'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids|platform_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL','COMMUNICATION_STRATEGY','COMMUNICATION_FEEDBACK'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
@@ -600,7 +620,7 @@ class ContextAssembler:
             proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
-            elif (block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids) or block.kind == 'MEMORY_USE_GUIDANCE':
+            elif (block.kind == 'MEMORY' and set(block.source_memory_ids) & (note_ids | platform_ids)) or block.kind == 'MEMORY_USE_GUIDANCE':
                 # Qualified lookup and its source-bound use feedback can carry
                 # larger proofs, especially after independent delivery. Reuse the
                 # existing sourced self fallback before dropping the answer's

@@ -104,3 +104,39 @@ def test_revoked_retention_withdraws_original_memory_after_restart(tmp_path):
     with LifeApplication(home,clock=clock) as app:
         with pytest.raises(CoreError):MemoryService(app.runtime.store).read(mid)
         assert app.runtime.store.one('memories',mid)['lifecycle']=='DELETED'
+
+
+def test_private_platform_source_recalled_in_qq_and_phone_and_withdrawn(tmp_path):
+    from tests.nanalink.test_onebot_network import network
+    from tests.independent_life.test_dialogue import relay
+    from tests.living_release_v4.test_platform_runtime import equip
+    from nana_core.life.platform_runtime import QQChannelBinding, SecretReference
+    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
+    bili=SurfaceBinding(binding_id='bili.private',platform='bilibili.account',adapter='bilibili.account',surface='chat.direct',
+       mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',),allow_personal_retention=True,personal_retention_consent_ref='consent.fixture')
+    qq=SurfaceBinding(binding_id='qq.private',platform='qq.onebot',adapter='qq.onebot',surface='chat.direct',
+       mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',))
+    channel=BilibiliChannelBinding(channel_id='bili',binding_id=bili.binding_id,account_id=42,target_id=43,sender_id=43,
+       cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(bili,qq),'bilibili_channels':(channel,)}),expected_revision=cfg.revision)
+    account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
+    item={'id_str':'123','modules':{'module_author':{'mid':7654321,'pub_ts':1},'module_dynamic':{'desc':{'text':'Synthetic ORCHID video observation'}}}}
+    event=normalize_dynamic(account,item,now_us=clock.utc_now_us(),origin='SYNTHETIC_LOOPBACK')
+    with network() as (net,state,resolver,loop),relay(home,'CHAT',recall_query_terms=('ORCHID',)) as (router,calls),LifeApplication(home,clock=clock,router=router) as app:
+        app.pause();bridge=PrivateDynamicBridge(app,'bili');mid=bridge.receive(event)['memory_id'];identity=app.runtime.identity_id
+        qc=QQChannelBinding(channel_id='qq',binding_id=qq.binding_id,endpoint=net['endpoint'],account_id='42',sender_id='43',target_id='43',
+                            enabled=True,read_authorized=True,send_authorized=True,private_read_authorized=True,privacy_class='PERSONAL')
+        workflow=equip(app,qc,net['endpoint']);workflow.transport.credential=SecretReference(resolver,'core.test')
+        delivery=workflow.receive('1')
+        assert delivery['delivery']=='SUCCEEDED' and delivery['external_delivery']
+        assert len(state['sent'])==1
+        assert mid in calls[-1]['source_context_refs']
+        assert 'PRIVATE_PLATFORM_OBSERVATION_NOT_USER_INSTRUCTION' in str(calls[-1])
+        assert '7654321' in str(calls[-1])
+        app.chat('ORCHID synthetic phone follow-up',privacy='PERSONAL',message_id='phone-fixture')
+        assert mid in calls[-1]['source_context_refs'] and app.runtime.identity_id==identity
+        app.chat('ORCHID project context',privacy='PROJECT',message_id='project-fixture')
+        assert mid not in calls[-1]['source_context_refs']
+        bridge.withdraw(event)
+        app.chat('ORCHID after withdrawal',privacy='PERSONAL',message_id='phone-withdrawn')
+        assert mid not in calls[-1]['source_context_refs']
