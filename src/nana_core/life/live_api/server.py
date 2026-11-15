@@ -440,9 +440,18 @@ class Handler(BaseHTTPRequestHandler):
             self._response_permit = service.auth.admit_response(
                 token, kind, csrf=self.headers.get('X-Nana-CSRF'), timeout=phases * 600 + 30,
             )
-        if route=='platform/credential':
+        if route=='platform/adapters':
+            from .platform_adapters import AdapterCommandRequest,command
+            value=command(service,principal,self._model(AdapterCommandRequest,body))
+        elif route=='platform/login':
+            from .platform_login import PlatformLoginRequest,command
+            value=command(service,principal,self._model(PlatformLoginRequest,body))
+        elif route=='platform/credential':
             from .platform_credentials import PlatformCredentialRequest,bind
             value=bind(service,principal,self._model(PlatformCredentialRequest,body))
+        elif route=='platform/setup':
+            from .platform_setup import PlatformSetupRequest,setup
+            value=setup(service,principal,self._model(PlatformSetupRequest,body))
         elif route=='platform/commands':
             from .platform_settings import PlatformConfigurationRequest,configure
             value=configure(service,principal,self._model(PlatformConfigurationRequest,body))

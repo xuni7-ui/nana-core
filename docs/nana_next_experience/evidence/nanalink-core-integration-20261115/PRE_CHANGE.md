@@ -1,0 +1,9 @@
+# A集成PR18前影响与回退
+
+基线36eb3bb185f013b71964b94f628022d40fc544d5/Brain241，工作树干净，已推；候选6645fd0b01e88018203471c013e2fb0cb50be37f，NanaLink唯一实现，A接Core与统一产品。共同祖先45b3e57。PR18近期有活动，仅固定可见提交，不推断他人未提交进度，不修改对方分支。
+
+拟正常合并平台工具/来源契约和原C选择接口，保留较新A/B模型配置/目录代码和当前typed09。新增CONSENTED_PLATFORM只限原owner有绑定且明示同意的PERSONAL B站观察，原MemoryService/Store仍唯一；原owner安全点及BFF fence使用原删除闭包，实际未知投递不补发。完整原C/S3/S8/私人活动/精确来源资格继承，不重造视频算法。
+
+已证实缺口：固定PR18携带新内部导入但便携runtime-files未更新，原verify_runtime_closure在media_candidates.py首次失败（原始日志保留）；补明确最小传递模块，不把联网侧车依赖塞入最小Core。检查普通宿主默认不启动账号/网络，QR/WS依赖保持显式可选。对合并涉及的原Context/C/Memory/来源撤回、Kernel回执/Vault/CAS、平台BFF/SDK与原模型目录运行相关回归，追加便携闭包/隔离运行。
+
+回退：代码回到36eb锚且不改写历史；运行旧reader前必须在新版关闭official/新增宿主选项并撤回CONSENTED_PLATFORM来源，验证可读后停机切回。不能直接把新数据交给旧reader，原private-source回退仅da752固定范围证据，不扩大资格。生产/真实账号/设备/付费模型未授权，不执行。

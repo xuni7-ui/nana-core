@@ -147,6 +147,22 @@ class MemorySecretResolver:
             if old:
                 old.clear()
 
+    def bind_many(self, values):
+        """Validate every value before replacing any, under the original lock."""
+        if type(values) is not dict or not 1 <= len(values) <= 12:
+            raise CoreError('SECRET_BINDING_INVALID')
+        temporary = MemorySecretResolver()
+        try:
+            for reference, value in values.items():
+                temporary.bind(reference, value)
+            with self.__lock:
+                if len(set(self.__values) | set(values)) > 12:
+                    raise CoreError('SECRET_BINDING_CAPACITY')
+                for reference, value in values.items():
+                    self.bind(reference, value)
+        finally:
+            temporary.clear()
+
     def available(self, reference):
         with self.__lock:
             return self._guard_current() and reference in self.__values

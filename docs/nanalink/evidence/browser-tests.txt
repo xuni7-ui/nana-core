@@ -1,0 +1,31 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep NanaLink
+
+[WebServer] (node:4409) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:4430) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (2.2s)
+  ✓   2 [desktop] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.6s)
+  ✓   3 [desktop] › tests/v3.spec.ts:1765:1 › NanaLink health: connected session does not invent received events or delivery (1.5s)
+(node:4677) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [phone-360] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.8s)
+  ✓   5 [phone-360] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.7s)
+  ✓   6 [phone-360] › tests/v3.spec.ts:1765:1 › NanaLink health: connected session does not invent received events or delivery (1.4s)
+(node:4943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone-390] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (2.1s)
+  ✓   8 [phone-390] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.7s)
+  ✓   9 [phone-390] › tests/v3.spec.ts:1765:1 › NanaLink health: connected session does not invent received events or delivery (1.4s)
+(node:5205) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [phone-412] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (2.2s)
+  ✓  11 [phone-412] › tests/v3.spec.ts:1735:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.8s)
+  ✓  12 [phone-412] › tests/v3.spec.ts:1765:1 › NanaLink health: connected session does not invent received events or delivery (1.5s)
+
+  12 passed (28.2s)

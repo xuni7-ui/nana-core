@@ -2738,3 +2738,10 @@
 .v4-remember { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
 .v4-remember input { flex:0 0 auto; inline-size:1.2rem; block-size:1.2rem; margin:0; }
 .v4-remember small { flex-basis:100%; margin-left:1.7rem; }
+
+/* NanaLink extends the existing phone console. */
+.nanalink-setup { min-width: 0; }
+.nanalink-setup label { display: grid; gap: .4rem; margin-block: .8rem; min-width: 0; }
+.nanalink-setup input, .nanalink-setup select { box-sizing: border-box; width: 100%; min-width: 0; max-width: 100%; padding: .65rem; border-radius: .65rem; color: inherit; background: var(--surface, transparent); border: 1px solid var(--border, #8b8b8b); }
+.nanalink-setup summary { cursor: pointer; padding-block: .6rem; }
+.nanalink-setup p { overflow-wrap: anywhere; }

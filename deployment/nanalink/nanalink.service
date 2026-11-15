@@ -1,0 +1,21 @@
+# Explicit dev installation only; never install/restart a production service automatically.
+[Unit]
+Description=NanaLink unprivileged platform transport
+After=network.target
+[Service]
+Type=simple
+User=nanalink
+Group=nanalink
+WorkingDirectory=/opt/nanalink
+ExecStart=/opt/nanalink/venv/bin/python -m nana_core.nanalink --config /etc/nanalink/config.json --adapter-vault /var/lib/nanalink/adapter-vault
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+MemoryMax=192M
+TasksMax=64
+Restart=no
+[Install]
+WantedBy=multi-user.target

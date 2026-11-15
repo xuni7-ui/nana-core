@@ -1,0 +1,4 @@
+NANALINK_CONFIG_VALID; no account or network accessed
+INSTALLED_PLUGIN_FACTORY webfeed
+ENTRYPOINT_NAMES ['qq-onebot', 'web-feed']
+C4_PACKAGED_IMPORT True

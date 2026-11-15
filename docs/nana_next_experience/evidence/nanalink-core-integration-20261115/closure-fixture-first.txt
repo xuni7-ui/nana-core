@@ -1,0 +1,66 @@
+.F.....                                                                  [100%]
+=================================== FAILURES ===================================
+__ test_selected_package_starts_original_owner_without_optional_network_stack __
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-2/test_selected_package_starts_o0')
+
+    def test_selected_package_starts_original_owner_without_optional_network_stack(tmp_path):
+        root = tmp_path / 'package'
+        for name in selected_sources():
+            target = root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / name, target)
+        script = r'''
+    import builtins, json, sys
+    from pathlib import Path
+    root=Path(sys.argv[1]);sys.path.insert(0,str(root/'src'))
+    original_import=builtins.__import__
+    def minimal_import(name,*args,**kwargs):
+        if name.split('.')[0] in {'aiohttp','qrcode','torch','cv2','PySide6'}:
+            raise ImportError('OPTIONAL_STACK_NOT_INSTALLED')
+        return original_import(name,*args,**kwargs)
+    builtins.__import__=minimal_import
+    from nana_core.life.config import LifeConfig,write_config
+    from nana_core.continuity.project_work.service import material_for
+    from nana_core.life.application import LifeApplication
+    from nana_core.life.live_api.bridge import GatewayService
+    material=lambda name:material_for(root,'src/nana_core/continuity/'+name)
+    home=root/'dev';home.mkdir(mode=0o700)
+    write_config(home,LifeConfig(project_root=str(root),materials=(material('recurrence.py'),),
+        practice=material('identity.py'),heldout=material('autonomy/requests.py'),
+        transfer=material('subject/social.py'),max_autonomous_materials=0))
+    with LifeApplication(home) as app:
+        app.pause();identity=app.runtime.identity_id
+        assert not app.runtime.store.all('actions')
+        assert not app.runtime.store.all('cognitive_requests')
+    with LifeApplication(home) as app:
+        app.pause();assert app.runtime.identity_id==identity
+        assert not app.runtime.store.all('actions')
+        assert not app.runtime.store.all('cognitive_requests')
+    modules=[m for n,m in sys.modules.items() if n.startswith('nana_core') and getattr(m,'__file__',None)]
+    assert modules and all(Path(m.__file__).is_relative_to(root/'src') for m in modules)
+    print(json.dumps({'same_identity':True,'loaded_core_modules':len(modules),
+                     'optional_stack_imports':0,'model_calls':0,'actions':0}))
+    '''
+        result = subprocess.run([sys.executable, '-I', '-c', script, str(root)], cwd=tmp_path,
+                                text=True, capture_output=True, timeout=30)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 20, in <module>
+E           File "/dev/shm/pytest-of-agent/pytest-2/test_selected_package_starts_o0/package/src/nana_core/life/application.py", line 90, in __init__
+E             self.work=ProjectWork(self.runtime,self.config.project_root,self.config.materials,self.home/'reports',tuple(specs),grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,motivation_source='CREATIVE_INTEREST')
+E                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/dev/shm/pytest-of-agent/pytest-2/test_selected_package_starts_o0/package/src/nana_core/continuity/project_work/service.py", line 84, in __init__
+E             self.runtime=runtime; self.port=ProjectMaterialPort(runtime.identity_id,repo,materials,output)
+E                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/dev/shm/pytest-of-agent/pytest-2/test_selected_package_starts_o0/package/src/nana_core/continuity/project_work/port.py", line 66, in __init__
+E             raise CoreError('PROJECT_OUTPUT_MUST_BE_SEPARATE')
+E         nana_core.contracts.CoreError: PROJECT_OUTPUT_MUST_BE_SEPARATE
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/workspace/nana-test-env/bin/python', '-I', '-c', "\nimport builtins, json, sys\nfrom pathlib ...aise CoreError(\'PROJECT_OUTPUT_MUST_BE_SEPARATE\')\nnana_core.contracts.CoreError: PROJECT_OUTPUT_MUST_BE_SEPARATE\n').returncode
+
+tests/engineering_quality/test_nanalink_portable_closure.py:62: AssertionError
+=========================== short test summary info ============================
+FAILED tests/engineering_quality/test_nanalink_portable_closure.py::test_selected_package_starts_original_owner_without_optional_network_stack
+1 failed, 6 passed in 3.89s

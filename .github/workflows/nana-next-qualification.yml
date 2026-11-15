@@ -16,6 +16,10 @@ on:
       - tools/nana_portable_cloud/build.py
       - tools/nana_portable_cloud/unpack.py
       - packaging/portable/**
+      - src/nana_core/nanalink/**
+      - tests/nanalink/**
+      - tests/engineering_quality/test_nanalink_portable_closure.py
+      - requirements-nanalink.lock
       - requirements-core-dev.lock
       - src/nana_core/continuity/context.py
       - src/nana_core/continuity/retrieval_growth.py
@@ -281,6 +285,7 @@ jobs:
         run: |
           umask 077
           echo full > qualification-level.txt
+          uv pip install --python .qualification-venv/bin/python -r requirements-nanalink.lock
           export PYTHONPATH="$GITHUB_WORKSPACE/src"
           .qualification-venv/bin/python - <<'PYPREFLIGHT'
           from nana_core.continuity.open_agency import code_skills
@@ -314,6 +319,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('nanalink/','test_nanalink','life/platform_runtime.py','live_api/platform_setup.py','live_api/platform_login.py','live_api/platform_adapters.py'), ['tests/nanalink','tests/person_self/test_nanalink_media_choice.py','tests/engineering_quality/test_nanalink_portable_closure.py']),
             (('open_agency/learning.py','open_agency/service.py','continuity/learning.py','continuity/cognition.py','presence/living.py','subject/loop.py','subject/contracts.py','subject/opportunities.py','subject/policy.py','test_private_learning_selection.py'), ['tests/person_self/test_private_learning_selection.py','tests/open_life/test_learning_renewal.py','tests/real_life/test_project_work.py','tests/continuous_self/test_learning.py','tests/continuous_self/test_privacy.py']),
             (('continuity/accounting.py','presence/resources.py','test_reported_usage.py'), ['tests/person_self/test_reported_usage.py','tests/provider_routing/test_anthropic_native.py','tests/portable_subject/test_package.py','tests/continuous_self/test_privacy.py']),
             (('life/config.py','life/application.py','live_api/provider_settings.py','test_background_provider_startup.py','cloud_life/test_operations.py'), ['tests/person_self/test_background_provider_startup.py','tests/cloud_life/test_operations.py','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),
@@ -346,7 +352,7 @@ jobs:
             (('continuity/privacy.py','test_privacy_copy_increment.py'), ['tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/person_self/test_memory_use_feedback.py']),
             (('bridge_wire.py','test_r044_filesystem.py'), ['tests/nana_shadow/test_r044_filesystem.py','tests/nana_shadow/test_r044_races.py','tests/nana_shadow/test_r044_privacy.py']),
             (('b1_backup.py','test_rev3_operator.py'), ['tests/first_life_android_v2/test_rev3_operator.py']),
-            (('nana_portable_cloud/','packaging/portable/','requirements-core-dev.lock'), ['tests/engineering_quality/test_portable_missing_import.py','tests/portable_cloud_runtime']),
+            (('nana_portable_cloud/','packaging/portable/','requirements-core-dev.lock'), ['tests/engineering_quality/test_portable_missing_import.py','tests/engineering_quality/test_nanalink_portable_closure.py','tests/portable_cloud_runtime']),
             (('continuity/person_self.py',), ['tests/person_self'])]
           selected=sorted({test for markers, tests in groups if any(any(marker in path for marker in markers) for path in changed) for test in tests})
           if not selected: selected=['tests/first_life_android_v2/test_http_integration.py']
@@ -355,6 +361,8 @@ jobs:
               # this original boundary includes real PUBLIC frame decoding.
               selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py'})
           print('TARGETED_CHECKS',selected,flush=True)
+          if any(test.startswith('tests/nanalink') for test in selected):
+              subprocess.run(['uv','pip','install','--python',sys.executable,'-r','requirements-nanalink.lock'],check=True)
           assert all(pathlib.Path(test).exists() for test in selected)
           if any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):
               # Select dependencies from actual tests, not only source-path

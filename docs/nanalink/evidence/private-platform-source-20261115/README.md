@@ -1,0 +1,39 @@
+# 私人平台来源开发资格
+
+[合成 owned HTTP / 源码 2026-11-15] 继承 A `5337f11`。B站的已明确绑定账号可在原预算账本预留两次请求后读取首个动态页，每300秒至多一次；经原证据/MemoryService保存 PERSONAL 来源，再入原 WORLD_EVENT 队列，未强制 C 认知或对外发送。来源载有账号 key、渠道、作者、事件、时间、内容段与同意引用。正文进入原 Store，连接器没有第二记忆库。原账号授权/私人读取/保留同意与绑定必须匹配，失效时通过原 forget 闭包撤回；重启检查原配置，事件重复和被删除来源不重收。
+
+受控 owned HTTP 检查账号预检、单页读取、预算、同窗口不重读、零发送/模型；测试覆盖无授权伪造拒绝、重复/重启/撤回与授权撤销后重启删除。现有匿名平台内容只作为 source-backed 环境机会，非用户命令。单页最多20条，不能声称完整历史；无法仅由列表缺失证明取消关注、平台删除或访问中断，平台侧变化的独立确认与撤回接线尚未完成。来源授权失效到 owner 完成 refresh/restart 之间的窗口尚未资格。
+
+QQ 媒体只新增原 RealizationTarget 的可选版本化媒体选择，旧无媒体序列化保持原样；当前行动端口明确返回 UNSUPPORTED，防止遗漏附件后只发文字。媒体从 C 选择、内容验证、原 Grant/Kernel 到真实 OneBot 及独立 Verify 尚未实现，不得宣称媒体闭环或 DEV_COMPLETE。
+
+新 `CONSENTED_PLATFORM` 是增量数据契约，旧 reader 不理解该来源：回退旧二进制前须在新版用原删除/撤回关闭相关来源并验证旧 reader，再按原受控回退流程操作；不得以旧版直接覆盖有新来源的真实数据。真实账号、对外发送、Android 实机、生产和真实模型成本均未运行。本证据只适用于本地合成范围。
+
+2026-11-15 后继：继承 A `b6a9eaa`；真实来源入库必须来自 owner 已验证账号的读取批次，单纯提供平台事件不能获得写入资格。若已记录动态的内容发生变化，同一 ID 的旧来源会被撤回，当前不会自动重新导入更新内容；页中其他来源继续处理。受控 owned HTTP 覆盖编辑后旧来源删除，未覆盖平台删除/取消关注信号。`infrastructure-after-align.json` 是合成 2000 入队及2000重复、容量64的单次测量，CPU 0.07685ms/入队、RSS 26620KiB，真实网络/模型/Token均为0，不代表真实有效认知成本。
+
+2026-11-15 跨渠道受控后继：同一原 SubjectLoop/Store 接纳合成 B站私人观察；随后 owned OneBot 私聊基于原有精确检索取得该来源，原 Kernel 的独立回读确认一次合成发送；模拟手机后续对话直接调用原 Core 对话入口并取得来源，尚未经过 Nana Space HTTP/Android 路由。B站作者 ID 与 QQ 联系人 ID 不同，未推断跨平台身份。PROJECT 隐私上下文及撤回后的 PERSONAL 对话不能取得该来源。检索最多从原 Store 有界候选选择4条，来源标识为私人平台观察、非用户指令，不允许执行权；大库召回完整性未资格。合成模型和 owned HTTP 不是上线或自然度评审。新源素材由明确保留授权进入记忆，尚未证明原 C 自主决定保留每条动态。
+
+后续补正：已在一个 owned 进程/原 Store/SubjectLoop 中依次接收合成 B站来源、执行 QQ 原 Kernel 动作并独立回读，再经 Nana Space 实际 HTTP 与原 UDS 输入同一 Core；模型上下文引用原 PERSONAL 来源且标明其为平台观察，不凭不同平台对象 ID 推断身份。另一个实际 HTTP/UDS 场景验证 PROJECT 私域隔离及原 forget 后不再引用，且保留同一主体身份。均为合成来源、loopback 模型和 owned 网络；不是 Android 实机、真实账号或自然度验收。首次组合测试暴露虚拟时钟与 IPC 租约不一致，校准后通过；不将夹具错误归为生产修复。
+
+后继撤权安全点：owner 在原 `ensure_privacy_current` 读取前检查宿主配置版本变更；发现渠道解绑、私人读取或保留同意撤销时，先使用原删除闭包，下一次源读取不能继续使用旧记忆。若配置变化发生在原数据库事务内，读取以 `PLATFORM_SOURCE_REVOCATION_PENDING_SAFE_POINT` 安全失败，随后事务外安全点完成撤回。该机制不提供平台取消关注/删除的独立信号，也不声称对任意外部数据库直接读取生效。
+
+原 owner 隐私安全点的合成微基准：对同一个 PERSONAL 记忆做三组各1000次读取，开启配置版本守卫的中位数约37.995ms，关闭时约25.893ms，均为热缓存单进程夹具；峰值 RSS 53296KiB，网络和模型调用均为零。它只用于估计该守卫的本地开销，不能代表实际用户响应或 Token 成本。BFF 的独立只读 Inspector 并不运行 owner 安全点；配置从外部变更后、owner 下一次安全点之前的 Inspector 可见性尚需单独资格，不得将这一安全点描述为全链即时撤回。
+
+BFF 后继：当宿主配置版本变化且原 Store 有平台来源，Nana Space 只读投影先通过原 UDS 请求 owner 隐私安全点；owner 不可用或配置持续竞争时安全失败。实际 owned HTTP 测试在 owner 在线时撤销私人读取，先模拟安全点不可用并得到503且不返回来源，再恢复 owner 验证原记忆 DELETED、后续对话不可引用。此结果针对合成输入和测试控制路径；平台取消关注、删除的可信变更信号仍未实现。
+
+隔离回退补验：在含 A `fee8f42` 增量的开发工作树，新 owner 先保存并通过原 forget 撤回一条合成 PERSONAL 来源，关闭 owner 后用 `da752a7030cd9ba4d6a657720b762020a49242f5` 的独立 Git 归档重新打开同一临时 Store。旧 reader 成功启动、主体 identity 一致，原记忆行保持 DELETED，直接读取返回 MEMORY_UNAVAILABLE；过程未访问真实账号或发送。入口 `tools/nanalink_rollback_qualification.py --old-source <已核对旧源码目录>`；该测试不覆盖任意旧包、全量历史重放、恢复备份或生产数据。
+
+### 后继 OneBot 图片与固定源码构建
+
+源码 `dadb4f695d3d9d9122fc56df96576cb14df5600b` 的 GitHub Actions `43729822645` source job 全部步骤通过。受控原 C、原 Manager/Grant/Kernel、独立 owned OneBot WS 侧车与假平台覆盖图片一次尝试、ACK 与丢 ACK 保持 UNKNOWN、重复调度不重发、撤回（含账号检查期间）和缺 Grant 不发送；这不是实际 QQ 账号联调。后继额外使用新端口实例调用原 Kernel recovery，UNKNOWN 不产生第二次请求；该测试不等同跨进程重启。
+
+对 `dadb4f6` Git 归档使用该提交时间作为 `SOURCE_DATE_EPOCH`，在既有独立构建环境 `--no-build-isolation --no-index --no-deps` 构建两次 wheel，SHA256 均 `a013236207c2a71a27a8e5de42aebc8f264731aed41f984a9feb44f48c559097`。`--no-index --no-deps` 安装至隔离 target 后，309 个 Python 文件与归档逐一一致；从 `/tmp` 指向该安装运行配置 `--check`，返回 `NANALINK_CONFIG_VALID; no account or network accessed`。构建依赖来自已准备环境；并非全依赖离线封装或生产安装资格。APK/Web 输入相对 `80e1145` 无差异，已有 debug APK 仍按原输入标识。
+
+### 固定 31fcbc3 源码的离线构建和基础设施测量
+
+源码 `31fcbc3ed351c53e259ff7290a26b9a7d773d3cb` 的匹配 CI `43731486644` 通过；定向运行时、主体图片、OneBot网络及私人来源 45 项通过。按提交时间固定 `SOURCE_DATE_EPOCH`，在已准备的隔离构建环境用 `--no-index --no-deps --no-build-isolation` 双构建 wheel，SHA256 均为 `e44c1a18fbf6d39a35c3faa57cd700c9670165441d4533ddcf57fa646e50d779`。隔离 target 离线安装后 309 个 Python 源文件与该 Git 归档逐一一致；从 `/tmp` 指向安装目录运行无账号配置检查通过。这不是全部依赖的离线打包或生产安装资格。APK/Web 输入与 `80e1145` 一致，测试 APK 按实际输入标识。
+
+`infrastructure-31fcbc3.json` 是该 wheel 安装环境的合成测量：2000 入队、2000 重复，0.185 秒墙钟、0.183 秒 CPU、峰值 RSS 26560 KiB，容量64；不含网络、真实平台、模型或有效认知的 Token/费用。数字是该次样本，不推断长期运行成本。
+
+### 合入 A 后的固定源码 `b29ecd0`
+
+源码 `b29ecd087de5f8439e6aa149c697efbd975fddfa` 的 GitHub Actions `43732210128` 通过；该版本继承 A `45b3e57` 的原笔记有界维护。固定提交时间为 `SOURCE_DATE_EPOCH`，在既有隔离构建环境 `--no-index --no-deps --no-build-isolation` 双构建 wheel SHA256 均为 `d7a40f89c204d78e33c344e1dea3fbe7ac088f0ba58c0ca097b26f7c75f89b32`；隔离 target 离线安装后 309 个 Python 文件与 Git 归档一致，从 `/tmp` 指向安装目录的无账号配置检查通过。不声称全部依赖均已离线封装、真实平台已联调或生产可用。

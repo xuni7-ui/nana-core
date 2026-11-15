@@ -10,6 +10,7 @@ from typing import Literal, Protocol
 from pydantic import Field,model_serializer,model_validator
 
 from ..contracts import CoreError, DTO
+from .autonomy.contracts import MediaSelection
 from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal,PrivateTendencyProposal
 from .subject.opportunities import Behavior,LearningProgramRef
 
@@ -33,6 +34,7 @@ class CognitiveProposal(DTO):
     private_question:PrivateQuestionProposal|None=None
     private_plan:PrivatePlanProposal|None=None
     private_tendency:PrivateTendencyProposal|None=None
+    selected_media:MediaSelection|None=None
     schema_version: Literal[2] = 2
     identity_id: str
     identity_revision: int = Field(ge=1)
@@ -58,6 +60,7 @@ class CognitiveProposal(DTO):
         if self.private_question is None:value.pop('private_question',None)
         if self.private_plan is None:value.pop('private_plan',None)
         if self.private_tendency is None:value.pop('private_tendency',None)
+        if self.selected_media is None:value.pop('selected_media',None)
         return value
 
 
@@ -110,6 +113,12 @@ def validate_cognitive_proposal(proposal, context):
     lessons={json.loads(b.data_json)['lesson_id'] for b in context.blocks if b.kind=='LESSON'}
     if not set(proposal.memory_refs)<=available or not set(proposal.lesson_refs)<=lessons:
         raise CoreError('UNSUPPORTED_COGNITIVE_REFERENCE')
+    if proposal.selected_media is not None:
+        selected=proposal.selected_media.model_dump(mode='json')
+        offered=[v for block in context.blocks if block.kind=='MEDIA_CANDIDATES'
+                 for v in json.loads(block.data_json).get('candidates',())]
+        if selected not in offered or proposal.selected_media.source_memory_id not in proposal.memory_refs:
+            raise CoreError('UNSUPPORTED_COGNITIVE_MEDIA_SELECTION')
     if proposal.preferred_behavior is not None:
         choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
         if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')

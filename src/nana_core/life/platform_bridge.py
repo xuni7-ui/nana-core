@@ -139,7 +139,57 @@ class OneBotHTTPTransport:
                 "account_id": self.account_id, "text_digest": digest(text), "echo": echo,
                 "platform_origin": self.realm}
 
+    def send_image(self, target_kind, target_id, text, data, content_sha256, echo, *, source_check=None):
+        """One finite inline image attempt; ACK is not image delivery proof."""
+        import base64, hashlib
+        if target_kind not in {"private", "group"} or not re.fullmatch(r"[0-9]{1,20}", str(target_id)):
+            raise CoreError("ONEBOT_TARGET_INVALID")
+        if type(text) is not str or not 1 <= len(text) <= 2048 or type(data) is not bytes or not 1 <= len(data) <= 8192:
+            raise CoreError("ONEBOT_MESSAGE_BOUND")
+        if hashlib.sha256(data).hexdigest() != content_sha256:
+            raise CoreError("MEDIA_CACHE_CONTENT_MISMATCH")
+        self.account()
+        if source_check is not None and source_check() != data:
+            raise CoreError("MEDIA_SELECTION_SOURCE_MISMATCH")
+        params = {"group_id" if target_kind == "group" else "user_id": int(target_id),
+                  "message": [{"type": "text", "data": {"text": text}},
+                              {"type": "image", "data": {"file": "base64://" + base64.b64encode(data).decode('ascii')}}],
+                  "echo": echo}
+        row = self._call("send_" + target_kind + "_msg", params)
+        mid = row.get("message_id")
+        if not re.fullmatch(r"-?[0-9]{1,20}", str(mid)):
+            raise CoreError("ONEBOT_ACK_UNKNOWN_NO_RETRY")
+        return {"message_id": str(mid), "target_kind": target_kind, "target_id": str(target_id),
+                "account_id": self.account_id, "text_digest": digest(text), "echo": echo,
+                "platform_origin": self.realm, "media_sha256": content_sha256}
+
     def verify_receipt(self, receipt):
+        if "media_sha256" in receipt:
+            import base64, binascii, hashlib
+            row = self.get_message(receipt["message_id"])
+            sender = row.get("sender") or {}
+            peer = row.get("group_id") if receipt["target_kind"] == "group" else row.get("target_id")
+            message = row.get("message")
+            if (peer is None or str(peer) != receipt["target_id"] or str(sender.get("user_id")) != self.account_id
+                    or row.get("message_type") != receipt["target_kind"] or type(message) is not list or len(message) != 2):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            text, image = message
+            if (type(text) is not dict or text.get("type") != "text" or type(text.get("data")) is not dict
+                    or type(text["data"].get("text")) is not str or digest(text["data"]["text"]) != receipt["text_digest"]
+                    or type(image) is not dict or image.get("type") != "image" or type(image.get("data")) is not dict):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            value = image["data"].get("file")
+            if type(value) is not str or not value.startswith("base64://") or len(value) > 10933:
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            try:
+                data = base64.b64decode(value[9:], validate=True)
+            except (ValueError, binascii.Error):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            if not 1 <= len(data) <= 8192 or hashlib.sha256(data).hexdigest() != receipt["media_sha256"]:
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            return Verification(verdict="MATCH", evidence={"message_id": receipt["message_id"],
+                "account_id": self.account_id, "target_id": str(peer), "independent_readback": True,
+                "media_sha256": receipt["media_sha256"], "platform_origin": self.realm})
         row = self.get_message(receipt["message_id"])
         sender = row.get("sender") or {}
         peer = row.get("group_id") if receipt["target_kind"] == "group" else row.get("target_id")
@@ -151,6 +201,20 @@ class OneBotHTTPTransport:
         return Verification(verdict="MATCH" if matches else "EFFECT_MISMATCH", evidence={
             "message_id": receipt["message_id"], "account_id": self.account_id,
             "target_id": str(peer), "independent_readback": True, "platform_origin": self.realm})
+
+
+def qq_transport_type(transport):
+    from .official_transport import OfficialQQHTTPTransport
+    return type(transport) in {OneBotHTTPTransport, OfficialQQHTTPTransport}
+
+
+def qq_platform(transport):
+    from .official_transport import OfficialQQHTTPTransport
+    return 'qq.official' if type(transport) is OfficialQQHTTPTransport else 'qq.onebot'
+
+
+def qq_peer_pattern(transport):
+    return r'[A-Za-z0-9_-]{1,128}' if qq_platform(transport) == 'qq.official' else r'[0-9]{1,20}'
 
 
 class QQRegistry:
@@ -200,8 +264,8 @@ class QQCapabilityPort:
     """
     evidence_namespace = "recorded.platform.qq.delivery"
 
-    def __init__(self, store, transport, targets, *, host_enabled=False, app=None, activation=None, delivery=None):
-        if host_enabled is not True or type(transport) is not OneBotHTTPTransport:
+    def __init__(self, store, transport, targets, *, host_enabled=False, app=None, activation=None, delivery=None, media_cache=None):
+        if host_enabled is not True or not qq_transport_type(transport):
             raise CoreError("QQ_HOST_BINDING_REQUIRED")
         self.store, self.transport = store, transport
         self.identity_id = store.identity["identity_id"]
@@ -210,6 +274,7 @@ class QQCapabilityPort:
         if delivery is not None and (type(delivery) is not DeliveryAdmission or delivery.store is not store):
             raise CoreError("QQ_ORIGINAL_DELIVERY_ADMISSION_REQUIRED")
         self.delivery = delivery
+        self.media_cache = media_cache
         self.targets = dict(targets)
         if not 1 <= len(self.targets) <= 16:
             raise CoreError("QQ_FINITE_TARGET_BINDING_REQUIRED")
@@ -217,7 +282,7 @@ class QQCapabilityPort:
             if (not re.fullmatch(r"^project://qq/[A-Za-z0-9/._:-]{1,120}$", resource)
                     or type(target) not in {tuple, list} or len(target) != 2
                     or target[0] not in {"private", "group"}
-                    or not re.fullmatch(r"[0-9]{1,20}", str(target[1]))):
+                    or not re.fullmatch(qq_peer_pattern(transport), str(target[1]))):
                 raise CoreError("QQ_FINITE_TARGET_BINDING_REQUIRED")
         self.registry = QQRegistry(self.targets)
         self.candidates = {}
@@ -235,7 +300,7 @@ class QQCapabilityPort:
             raise CoreError("QQ_CANONICAL_ACTIVATION_REQUIRED")
         from .platform_authority import require_platform_authority
         require_platform_authority(self.app, self.activation, channel="qq", exclusive_writer=True,
-                                   account_id=self.transport.account_id)
+                                   account_id=self.transport.account_id, expected_platform=qq_platform(self.transport))
 
     def bind_candidate(self, text, cycle_record_id, *, privacy):
         if privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
@@ -256,10 +321,28 @@ class QQCapabilityPort:
                 or target.get("resource_class") != "ORDINARY" or target.get("resource") not in self.targets
                 or (payload.get("evaluation") or {}).get("normative") != "ENDORSED"):
             raise CoreError("QQ_C_CONTACT_TARGET_REQUIRED")
+        media = target.get("media")
+        if media is not None:
+            from ..continuity.autonomy.contracts import MediaSelection
+            from ..nanalink.media_candidates import resolve_image
+            if type(self.transport) is not OneBotHTTPTransport or self.media_cache is None:
+                raise CoreError("QQ_MEDIA_UNSUPPORTED")
+            selection = MediaSelection.model_validate(media)
+            trace = payload.get("deliberation") or {}
+            try:
+                proposed = json.loads(trace["raw_proposal_json"]).get("selected_media")
+            except (KeyError, TypeError, ValueError):
+                proposed = None
+            parent = self.store.db.execute("SELECT r.record_id FROM record_dependencies d JOIN continuity_records r ON r.record_id=d.parent_id WHERE d.record_id=? AND d.parent_kind='RECORD' AND r.record_kind='COGNITION_PROPOSAL'", (cycle_record_id,)).fetchone()
+            if proposed != selection.model_dump(mode='json') or not parent or not RecordService(self.store).current_support(parent[0]):
+                raise CoreError("QQ_ORIGINAL_C_MEDIA_SELECTION_REQUIRED")
+            resolve_image(self.store, self.media_cache, selection)
+        else:
+            selection = None
         key = digest([text, cycle_record_id, privacy])
         if len(self.candidates) >= 32 and key not in self.candidates:
             raise CoreError("QQ_VOLATILE_CANDIDATE_BOUND")
-        self.candidates[key] = (text, cycle_record_id, privacy)
+        self.candidates[key] = (text, cycle_record_id, privacy, selection)
         return {"candidate_digest": key, "cycle_record_id": cycle_record_id}
 
     def _proof(self, inv, *, verify=False):
@@ -326,10 +409,16 @@ class QQCapabilityPort:
     def execute(self, inv):
         _, args = self._proof(inv)
         candidate = self.candidates.pop(args["data"]["candidate_digest"], None)
-        if candidate is None or candidate[1:] != (args["data"]["cycle_record_id"], args["data_privacy"]):
+        if candidate is None or candidate[1:3] != (args["data"]["cycle_record_id"], args["data_privacy"]):
             raise CoreError("QQ_CANDIDATE_NOT_AVAILABLE_NO_REGENERATION")
         target_kind, target_id = self.targets[inv.resource]
-        result = self.transport.send(target_kind, target_id, candidate[0], inv.idempotency_key)
+        if candidate[3] is None:
+            result = self.transport.send(target_kind, target_id, candidate[0], inv.idempotency_key)
+        else:
+            from ..nanalink.media_candidates import resolve_image
+            data = resolve_image(self.store, self.media_cache, candidate[3])
+            result = self.transport.send_image(target_kind, target_id, candidate[0], data, candidate[3].content_sha256,
+                inv.idempotency_key, source_check=lambda: resolve_image(self.store, self.media_cache, candidate[3]))
         return Receipt(external_id=result["message_id"], result=result)
 
     def verify(self, inv):
@@ -367,19 +456,19 @@ class QQIngress:
 
     def __init__(self, app, transport, binding_id, sender_id, *, privacy="PROJECT", private_read_authorized=False,
                  target_kind="private", target_id=None, activation=None):
-        if type(transport) is not OneBotHTTPTransport:
+        if not qq_transport_type(transport):
             raise CoreError("ONEBOT_TYPED_TRANSPORT_REQUIRED")
         if privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
             raise CoreError("QQ_PRIVACY_DENIED")
         if privacy == "PERSONAL" and private_read_authorized is not True:
             raise CoreError("QQ_PRIVATE_INGRESS_NOT_AUTHORIZED")
         binding = app.surfaces._binding(binding_id)
-        if binding.mode != "PLATFORM_ADAPTER_NO_SEND" or binding.platform != "qq.onebot":
+        if binding.mode != "PLATFORM_ADAPTER_NO_SEND" or binding.platform != qq_platform(transport):
             raise CoreError("QQ_PLATFORM_BINDING_REQUIRED")
         if privacy not in binding.permitted_privacy:
             raise CoreError("SURFACE_PRIVACY_NOT_BOUND")
-        if (not re.fullmatch(r"[0-9]{1,20}", str(sender_id)) or target_kind not in {"private", "group"}
-                or (target_id is not None and not re.fullmatch(r"[0-9]{1,20}", str(target_id)))
+        if (not re.fullmatch(qq_peer_pattern(transport), str(sender_id)) or target_kind not in {"private", "group"}
+                or (target_id is not None and not re.fullmatch(qq_peer_pattern(transport), str(target_id)))
                 or (target_kind == "group" and target_id is None)):
             raise CoreError("QQ_TRUSTED_PEER_BINDING_REQUIRED")
         self.app, self.transport = app, transport
@@ -398,10 +487,11 @@ class QQIngress:
         if type(self.activation) is not PlatformActivation or self.activation.binding_id != self.binding_id:
             raise CoreError("QQ_CANONICAL_ACTIVATION_REQUIRED")
         require_platform_authority(self.app, self.activation, channel="qq", exclusive_writer=False,
-                                   account_id=self.transport.account_id)
+                                   account_id=self.transport.account_id, expected_platform=qq_platform(self.transport))
 
     def receive(self, message_id, *, reply_target=None):
         from .surfaces import SurfaceObservation
+        from .official_transport import qq_event_id
         self._authority()
         self.transport.account()
         row = self.transport.get_message(message_id)
@@ -413,10 +503,11 @@ class QQIngress:
         peer = str(row.get("group_id")) if kind == "group" else self.sender_id
         if kind != self.target_kind or peer != self.target_id:
             raise CoreError("QQ_PEER_UNBOUND")
-        if not re.fullmatch(r"[0-9]{1,20}", peer) or type(row.get("time")) is not int:
+        if not re.fullmatch(qq_peer_pattern(self.transport), peer) or type(row.get("time")) is not int:
             raise CoreError("QQ_EVENT_METADATA_INVALID")
         result = self.app.surfaces.receive(SurfaceObservation(binding_id=self.binding_id,
-            event_id="qq:" + str(message_id), thread_id="qq." + kind + "." + peer,
+            event_id=qq_event_id(self.transport, message_id),
+            thread_id="qq." + kind + "." + (digest(peer)[:32] if qq_platform(self.transport)=="qq.official" else peer),
             occurred_at_us=row["time"] * 1_000_000, text=message_text(row.get("message")), privacy_class=self.privacy,
             origin=self.transport.realm), reply_target=reply_target)
         source = result.get("source_key")

@@ -3721,6 +3721,49 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 
 - 2026-11-14｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7：原有界方法+确切保留输入经同D/C可首次形成倾向、REST或短念，无需反馈/预置状态；可选method_ref默认None保持旧JSON/模型schema，新增参考仍需匹配安装/旧reader资格。原新索引按方法原窗口限历史，资格后截32、40无保留方法不挤占；精确649旧3fail5pass→202相关57.49s，补pending恢复1pass。物理/字节成本原样，不称完整情感/真人成长；独立649修复CI23pass实读，非本批CI。证据initial-method-tendency-20261114；7ec包/CURRENT不变，下一实际D承诺默认预览/混合机会与原A–H。
 
+
+### 2026-11-14 · NanaLink P0：核对87c32b3远端基线及PR继承，建立独立worktree/feature分支和C状态入口。为避免重复开发记录QQ/Bili/手机/权限源码映射及SnowLuma许可原文404。验证：git ls-remote/HEAD、GitHub PR元数据与实际源码；无生产/账号/模型调用。
+
+
+### 2026-11-14 · NanaLink C 源码候选
+
+[实测] 独立SDK/五态回执/有界传输、OneBot HTTP/WS/reverse-WS隔离桥、原QQ/Bili工作流包装、原owner C.4通知接线、RSS/Atom与媒体缓存、原手机连接准备/健康已实现。为扩大生活感知且不复制主体，复用原C/Store/Kernel/Grant/原worker；仅增加metadata操作/两个C.4只读路径/停用配置setup及负QQ消息ID兼容，不改主体判断。103相关Python、93既有客户端、12四视口浏览器通过；原主体重启/UNKNOWN无重发、离线wheel安装/插件工厂及UID999/无cap/只读容器运行通过。初始鉴权错误包502、缺开发依赖、Feed结果字段、TLS CA及构建backend缺失均保留并修复。SnowLuma原文404、官方QQ统一Core/完整QR及账号/实机/生产资格未完成；不宣称P0–P7全部完成。证据与精确源指纹随后记录docs/nanalink/evidence。
+
+
+### 2026-11-14 · NanaLink 回执/资源复查修复
+
+[实测] 清除已排空账号计数，历史Core回执不升级当前连接/登录健康；原Verify的NOT_APPLIED/FAILED_EFFECT映射确认失败，C静默映射取消，真实不确定保留UNKNOWN。为修正资源长期有界和五态语义差额，追加反例并对最终源码105相关测试通过51.08s。wheel固定epoch双构建同SHA81dd604d…211dbed，最终离线安装/UID999无cap只读容器status通过；不是实际账号或生产资格。
+
+
+### 2026-11-14 · NanaLink 开发交付证据与继承状态
+
+[实测] 落盘精简验收/合成测量/回执测试与源码指纹，更新09唯一C入口及未完成能力；修正本C先前把本机显示时间当UTC导致的日期，已按时钟10:56UTC=18:56北京时间核对为11月14日。299已安装源码逐一匹配，wheel双构建/离线安装、无特权只读容器及原Core不变性检查通过；manifest自指排除、锚点记09。未启动真实账号/外发/生产，不把受控测试宣称全任务完成。
+
+
+### 2026-11-14 · NanaLink Draft PR回执
+
+隔离分支已正常push、Draft PR #18已创建，base87c32b3/head4c5719d；未force/merge/部署。105相关源码资格保持，PROJECT_BRAIN入口回填链接，GitHub CI以实际状态另记。
+
+
+### 2026-11-14 · NanaLink RSS观察与用户指令分离
+
+后续源码复查发现Feed曾走原chat Surface路径，虽无真实发送仍可能把网页标题当对话。改为原MemoryService来源+SOURCED_LIFE/WORLD_EVENT机会，原C可忽略/推迟，暂停不强制唤醒；不改Core契约或另建记忆。10定向通过（含实际HTTP/原单主体/时钟推进去重/暂停/来源删除拒绝），初始source_key绑定失败已依原surface source_key修正。前105资格保留原8669范围，后继源码/匹配wheel/image另记，不虚称新全仓通过。
+
+
+### 2026-11-14 · Feed来源重投与撤回后继
+
+原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均10定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。
+
+
+### 2026-11-14 · Feed后继匹配交付与CI继承
+
+ae567f9后继10定向及匹配wheel双构建SHA34286fe4…4f03c/299安装源码逐一相同、镜像d1a967…67d136的UID999零cap只读运行通过。指纹97b893…b295已回填09；8669的105、旧wheel/image及已通过CI43588127662按原范围保留。PR #18继续Draft，后继CI跟随新HEAD；未登录账号/对外发送/生产。
+
+
+### C-NANALINK · 2026-11-15 · 官方QQ、扫码和适配器管理候选
+
+在独立 C 工作树复用原主体、权限和 vault 增加官方QQ单次发送、B站用户发起扫码、经批准的离线版本管理；减少重复发送与手工凭据操作。82项Python组合、8项vault/管理、93项前端及构建通过；浏览器回归发现可选字段崩溃，修复后12项通过。私人动态和媒体行动仍需原契约支持，真实账号/生产未运行。具体回退与限制见 `docs/nanalink/README.md`。
+
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6 A–E窄修复：原D按原C合法候选可行性提供认知机会，默认承诺不预先否决私念；WATCH/REFLECT/REST与轻量私人反思接回，6pending不当疲倦。规范/预算/UNKNOWN/原承诺不改。环境重建恢复87后重放并重跑250pass76.55s，精确87旧7场景3fail4pass；HIGH源负荷同1SELF/51325bytes非Token，REST/规范保留。87独立585pass实读仅归前继，临时包已丢不假称在场；证据private-choice-admission-20261114。下一64候选挤占/情感G迁移及原A–H继续。
 
 - 2026-11-14｜NEXT_EXPERIENCE S2/S3/S4/S6：原D在64有效注意上限前应用既有处理资格，64关闭研究私念不再挤掉合法新方法；愿望/送达-only分离保持。旧Runtime0SELF→新1SELF/同条件不重复，216相关66.81s、成本补2pass，52351inputbytes非Token。22a独立CI488pass仅归前继；首次失败/误路径0tests保留，未新包/APK/CURRENT/生产。证据attention-eligibility-20261114；下一G→私人关注及原A–H继续。
@@ -3755,7 +3798,17 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 
 - 2026-11-15｜NEXT_EXPERIENCE原接线资格：确认反馈SELF已可选原G，不改src；LEARN/REST同场景/预算/45802bytes，各1SELF，重启新文件实际AST完成vs旧TOP_DEFS质量失败，后续0模型；意见撤回停方法而原关切保留。12pass10.88s/首次旧非学习断言保留，仅新增分支精确要求匹配ACTIVE lesson。无新包/APK/CURRENT/真实0，证据attributed-feedback-original-g-20261115，继续S3多时间尺度/通信方法独立迁移及原A–H。
 
+
+### C-NANALINK · 2026-11-15 · 对齐现役 A 与私人来源边界
+
+将 A 383a51a 合入 C：账本和浏览器测试并存，核对原 Android 路由、客户端、BFF 模型续页及 C 平台能力；99 Python、93 客户端和16跨视口浏览器通过。新增仅内存的 B站私人动态来源解析及独立测试，未绕过原 Memory 契约持久化；提出原私人来源、撤回及 C 媒体选择最小增量。二维码失效与账户不匹配给出可操作说明。真实账号/外发/生产未运行。
+
 - 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S7/S8：原表达反馈先按来源群/已评价过滤后各32、lesson先范围私域后16，已采纳策略示例同群；383旧7fail10pass→17pass/168相关55.68s及正常原C聊天独立oldfail/newpass。同2阶段/+3263bytes非Token，无新表/index/Schema。前继CI69仅383；无新包/APK/CURRENT/真实0。证据language-feedback-populations-20261115，继续S3多动机/独立经历与原A–H；22:25/05:00续办设置不冻结工作。
+
+
+### C-NANALINK · 2026-11-15 · 私人平台观察与媒体契约首段
+
+继承 A 5337f11；新增授权私人 B站动态来源的原 MemoryService/预算/WORLD_EVENT 接线及 owner 配置撤销闭包，保留隐私与账号归因；QQ 原目标增加可选媒体选择，当前不支持执行时明确拒绝。110 项相关 Python、撤销/重启4项及 owned HTTP 合成验证通过；平台侧删除/取消关注、QQ 媒体执行和跨平台连续性未完成。da752a7 CI43700270743通过只归前继，当前源码 CI 待验。证据见 docs/nanalink/evidence/private-platform-source-20261115。
 
 - 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原安静倾向投影有源SOCIAL_QUIET，与当前C私愿竞争，愿望/发送分离、休息规范接收边界保留。5337旧13fail4pass→17pass/110相关31.79s；49虚拟小时重启实际SELF1/+271bytes非Token/发送0。共享根夹具首错保留，前继CI370仅5337；无新包/APK/CURRENT/真实0，证据social-quiet-current-choice-20261115，下一长期倾向共存与原A–H。
 
@@ -3767,18 +3820,141 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 
 - 2026-11-15｜NEXT_EXPERIENCE S1–S4/S6/S8组合：只补原G无旧private origin→实际后来Kernel成功/宿主observer→正常D/同C新私问→再重启新cue取舍LEARN/消融IGNORE；同1成长SELF/后来0模型，其他私活动保留、撤回失效。57同文件/新增闭包2通过、首败2完整保留；不改src，不称广泛成长/上线。证据first-g-new-question-20261115，下一两码点literal隔离原型及原A–H。
 
+
+### C-NANALINK · 2026-11-15 · A 对齐与动态编辑撤回
+
+继承 A b6a9eaa，核验1946087匹配CI43701687660成功；真实平台来源只接受原 owner 已核验账号的读取批次。动态同 ID 内容变化时撤回原来源，继续处理其他来源，避免用过期内容支持后续判断；账号绑定校验、重启及合成 owned HTTP 定向4项、A对齐109项通过。合成2000入队+2000重复0.154秒/峰值26620KiB非真实模型成本。更新后的 QQ 媒体执行、平台删除/取消关注和跨平台主体经历仍未完成。
+
+
+### C-NANALINK · 2026-11-15 · 私人平台来源的后续对话
+
+原 Context 在 PERSONAL 权限下使用原 Store 有界检索4条同范围的已授权平台观察，明确标注来源非用户指令；不靠昵称合并人，也不把全平台历史拼入上下文。合成 B站来源→QQ 原 Kernel 独立回读→模拟手机直连 Core 对话及 PROJECT 隐私/撤回反例通过，未走 Nana Space HTTP/Android；私人来源/原笔记/QQ 28项通过，新增不同作者ID后单项再次通过。大库召回、自然度及真实账号未资格；QQ 媒体实际执行仍待。d97c27a匹配CI43711843351通过，仅归前继源码。
+
+
+### C-NANALINK · 2026-11-15 · 同主体 HTTP 连续性补验
+
+在同一 owned Core/Store 中，合成 B站来源→QQ 原 Kernel 一次经独立回读的发送→Nana Space 实际 HTTP/原 IPC 对话均引用同一来源；另一实际HTTP场景验证 PROJECT 隐私和来源撤回后的反例，账号/作者跨平台不合并。首次虚拟时钟不符原 IPC 租约错误保留于工作日志，校准后通过；私人来源/笔记/QQ/HTTP 29项通过，组合场景独立通过。70946fd匹配CI43712258132成功仅归前继。Android 实机、真实平台、C自主选择保留、QQ媒体发送等仍未资格。
+
+
+### C-NANALINK · 2026-11-15 · 手机状态与隔离 APK 构建
+
+QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联网、不推断送达；OneBot/官方图片和表情行动能力明确未接通，Nana Space 将可用能力翻译为用户可理解的说明。15 Python、94 前端单测、4手机/桌面浏览器及过期后零网络测试通过。隔离 Android SDK/已校验 Temurin JDK21 和 Gradle8.11.1 完成53adb3a对应 debug APK构建；当前后继匹配包待重建，实机/真实账号未运行。
+
+
+### C-NANALINK · 2026-11-15 · 匹配 Android debug 构建
+
+独立 SDK35、校验的 JDK21/Gradle8.11.1 重建0554f47 Web/native输入，debug APK SHA07315406…1793f4，签名v1/v2验证成功；首轮无编译器JRE失败后补JDK。无KVM/手机，未运行实机，非生产签名或双构建可复现证明；详见 docs/nanalink/evidence/android-debug-20261115。
+
+
+### C-NANALINK · 2026-11-15 · 手机平台能力说明
+
+原平台面板新增可折叠说明：文字及视频需原授权，QQ 图片/表情发送尚未接通，官方 ACK 不独立证明送达；不把连接配置误认账号在线。94前端单测和桌面/三手机宽度12浏览器通过，0554f47匹配CI43713273977通过仅归前继。0554f47 debug APK已构建并签名校验，UI后继需重建；真实手机/账号/生产未运行。
+
+
+### C-NANALINK · 2026-11-15 · UI 后继匹配 APK 与动态编辑隔离
+
+重建80e1145源码的 Android debug APK（签名v1/v2校验、SHA062b4c8f…a4fa15c），保留0554旧包证据；无KVM/实机、非发布签名。owned HTTP 额外测试同一页中一个动态编辑撤回旧来源时，后续不同事件仍被接纳，1项通过；平台删除或取消关注仍无完整信号。
+
+
+### C-NANALINK · 2026-11-15 · 撤权安全点与重建差异
+
+原 owner 的隐私读取安全点观察配置变化，原 consent 撤销后先完成原删除闭包，事务内变化安全失败并等待事务外；已有合成撤权/重启/QQ及HTTP定向资格。BFF 独立 Inspector 的窗口未资格。80e1145归档 wheel 双构建同 SHA4a1e30…f2238/308源码离线安装一致；同源两次 Android APK 解压内容相同但打包顺序致最终哈希不同，不冒称字节重现。A新 HEAD f696484 已观测待合并；80e1145的CI43713530184通过。详见对应 evidence。
+
 - 2026-11-15｜NEXT_EXPERIENCE S2/S5/S8上下文：原L3+每笔记一End键，两码点授权计划/CASE后正文，Source事实/旧回退保持。Native同100ms 1k/10k各48/48，100k6/48-42timeout→48/48、P9546.68ms，74相关；真实缓存+15.47MiB非回收，原20万库不动。首错/拒绝原型全存，真实0/无包APK/CURRENT；证据literal-two-prefix-20261115，下一情感/可靠反证、旧有界补项及全部A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：SETTLED不再删除C备选，现有Need入原Frame；默认WATCH/显式兴趣/规范与G重复保护共存。精确b27旧fixture/HTTP各3fail1pass→新8通过，209相关46.05s及原Foundation13；每1SELF/+2625wirebytes非Token。前继CI123仅targeted，当前真实0/无新安装/CURRENT不动。证据settled-capability-current-choice-20261115，下一同域因果窗口挤占及原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S2/S3/S6/S8：原需态失败/评价先因果后32窗口，40无关失败/40其他G评价不压当前SETTLED；反例/撤回/128边界/33相关保护保留。两个原首败，新57相关86.00s；只读旧UNKNOWN→新SETTLED，拒0.9s慢原型，最终3.86–5.33ms/0调用0写。前继1d CI672仅targeted，真实0/无新包/CURRENT不动；证据need-causal-populations-20261115，下一旧缺口动机与实际能力结果一致及原A–H。
 
+
+### C-NANALINK · 2026-11-15 · BFF 撤权安全点及 A f696 对齐
+
+合入 A f696484 的原记忆检索/主体成果，保留原始证据与 C 来源扩展；BFF 配置版本变化且存在私人平台证据时，投影前经原 IPC 同步 owner 删除安全点，owner 不可用安全失败。合并源码相关108项通过；实际HTTP中先模拟 owner 不可用得到503，再恢复并证明原记忆 DELETED、后续对话不引用，独立通过。范围仍不含平台取消关注/删除的可靠发现；80e1145匹配CI43713530184及其构建仅归前继，原 APK 两次解压内容相同但最终字节不同。
+
 - 2026-11-15｜NEXT_EXPERIENCE S3/S6/S8：原SETTLED需态改变当前动机COMPETENCE/AVAILABLE，保留原CAPABILITY_GAP历史及反例OPEN/显式继续学的自由。f696旧1fail1pass→2同HTTP/123相关68.30s；同提议器未来REFLECT/反例LEARN，各1SELF/0额外G或动作，wire-1948bytes非Token。原cue不改/不推断情绪人格/真实0/CURRENT不动；证据checked-competence-motive-20261115，下一短长期倾向注意条件及原A–H。
+
+
+### C-NANALINK · 2026-11-15 · 继承 A 已核验能力动机
+
+对齐 A dd756e5：保留原已核验能力动机、原A账本和C来源/安全点；主体动机、私人平台源、实际HTTP及原笔记检索24项定向通过。平台删除/取消关注、QQ图片与表情的原C选择和原Kernel执行仍未实现，不标 DEV_COMPLETE。
 
 - 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原V4私倾向有Core elapsed投影，不改存储契约/不自动衰减/不加唤醒。dd756旧1行为错+1缺字段→2同源HTTP/74相关40.35s；虚拟49h同身份重启短倾向CHAT/长期LISTEN、去字段消融/撤回/回拨有效，原记录不变。每chat仍2HTTP/+39投影bytes非Token，真实0/CURRENT未动；证据tendency-elapsed-context-20261115，下一累计匹配Core候选安装及原A–H。
 
+
+### C-NANALINK · 2026-11-15 · A 对齐及旧 reader 合成回退
+
+合入 A fee8f42 的原私人倾向时间上下文及原账本；主体时间、私人来源、手机HTTP及原笔记24项通过。隔离 Store 先在新版撤回合成私人来源，再用 da752a7 旧源码启动，身份一致、DELETED 墓碑阻止读取；脚本和证据入 docs/nanalink/evidence/private-platform-source-20261115。Android/Web 相对80e1145无差异，该测试包不代表当前 Core 已打包或实机；QQ媒体执行与平台取消关注信号仍未完成。
+
+
+### C-NANALINK · 2026-11-15 · 原主体图片候选
+
+原C可从当前原PerceptionService的直接图片观察选择版本化引用并绑定既定联系目标；无选择仍兼容旧wire，不生成Grant或发送。受控验证拒绝伪造候选与无实际观察的描述，撤回来源使周期失效；相关39项及独立反例通过。OneBot/官方路径仍只发送文字，图片/表情及Verify不可用；1ca8a9d匹配CI通过，当前后继待CI。
+
+
+### C-NANALINK · 2026-11-15 · 图片来源字节校验
+
+拒绝宿主在无原C选择时预设附件；按原观察引用和摘要从既有有界缓存读取图片前后核验来源，丢失、超限、篡改或撤回均失败，不含网络发送。相关27项通过；f4febe0匹配CI43729084351通过，后继CI待核验。
+
+
+### C-NANALINK · 2026-11-15 · OneBot 图片受控路径
+
+原C选择与现有目标绑定的图片，在显式缓存供给下经原Manager/Grant/Kernel及OneBot HTTP/WS侧车最多一次发送；不泄露原字节至回执，无独立内容验证则UNKNOWN不重发。owned合成验证撤回、账号检查期间撤回、无Grant、丢ACK及篡改；默认宿主尚无缓存供给，官方Bot/表情及真实平台未资格。a38e9ad匹配CI43729355207通过，后继待CI。
+
+
+### C-NANALINK · 2026-11-15 · 固定源码构建与图片恢复
+
+`dadb4f6`匹配CI43729822645通过；固定epoch wheel双构建SHA a0132362…559097、309源码文件离线安装一致及无账号配置检查通过。图片丢ACK后新端口实例调用原Kernel恢复仍UNKNOWN且零重发；非进程重启或真实账号资格。
+
+
+### C-NANALINK · 2026-11-15 · 既有图片的原主体选择
+
+原C可从原上下文有界、同实体同隐私检索选择既有图片，而非只选择当前输入显式来源；选择经原SELF提议验证并进入原周期支持，保留不选择、撤回和原权限链。11项来源/选择/隔离及46项主体与QQ相关测试通过；产品宿主字节供给和真实平台资格仍未完成。
 - 2026-11-15｜NEXT_EXPERIENCE 累计匹配安装：fee8双Core3b7e2d9e…/Web251bb84b…编译93，delivery4cb88e1、真实新克隆13文件/双离线安装、16高级/152安装模块、原BFF-G-虚拟72h及静止fee8-929-fee8通过；CI291仅targeted。首夹具symlink/已停host守卫拒绝全保留，真实0/CURRENT266+409不动，无APK。证据matched-portable-fee8f42-20261115，下一原维护有界补End键及原A–H。
 
+
+### C-NANALINK · 2026-11-15 · 对齐 A 最新证据
+
+合入A `3eeb9ea` 的匹配安装、回退和原始证据；其增量不改核心源码，双方账本条目保留。合并后原主体图片、提供者、私人来源与OneBot定向39项通过；CI和构建按各自SHA记录。
+
+
+### C-NANALINK · 2026-11-15 · 图片实体边界
+
+图片候选同时约束当前关系实体或原主体身份；不同实体来源即使被显式交给当前事件也不能成为候选，原上下文会在模型调用前拒绝。12项图片选择及边界通过。
+
+
+### C-NANALINK · 2026-11-15 · 原平台owner媒体缓存绑定
+
+原PlatformRuntime提供显式、进程内、账号/绑定/端点精确绑定的临时缓存入口；账号变化解除、不同账号不得共用，默认关闭不创建Grant或自动下载。原平台/事件及Core集成26项和独立绑定隔离测试通过；产品实际字节采集和真实平台仍未资格。
+
+
+### C-NANALINK · 2026-11-15 · 原感知图片缓存填充
+
+原平台owner可将已存在的PUBLIC图片观察的精确字节填入账号缓存；校验原感知记录、关系实体、scope、SHA256及撤回，不读取网络、不生成Grant。相关平台/图片/侧车37项及另一实体与撤回反例通过；平台侧媒体采集未接入。
+
+
+### C-NANALINK · 2026-11-15 · 原D轻量入口反例
+
+已缓存图片不强迫普通QQ输入调用SELF；原D可选择轻量认知，实际owned入口仍按原文字行动和回执处理。平台/图片/侧车38项通过；`ad633fc`匹配CI43730954834通过，平台真实媒体采集尚未接入。
+
+
+### C-NANALINK · 2026-11-15 · owner缓存生命周期
+
+原平台owner可显式自建私有、有界、按账号隔离的临时缓存；解绑、账号变更及正常关闭清理，外部缓存仍由调用方管理。原运行时/主体媒体/私人来源38项及解绑重建和正常关闭反例通过；异常崩溃残留未资格，不自动启动采集。
+
+
+### C-NANALINK · 2026-11-15 · 图片缓存隐私边界
+
+原感知也可表示合成私人图片，因此原C媒体候选显式只接纳PUBLIC；PERSONAL图片不进入当前临时文件缓存或发送路径。图片主体与缓存相关13项通过；私人媒体另需适当隐私/存储实现。
+
+
+### C-NANALINK · 2026-11-15 · PUBLIC图片候选固定源码资格
+
+31fcbc3匹配CI43731486644及相关45项通过；固定epoch wheel双构建SHA e44c1a18…50d779、离线安装309源码文件一致、无账号检查通过。合成2000事件/2000重复CPU0.183s、RSS26560KiB，无真实模型/平台成本结论。
+
+
+### C-NANALINK · 2026-11-15 · 图片独立回读
+
+原Verify仅在独立get_msg回读的账号、会话、文字和内嵌图片字节SHA全部匹配时确认成功；URL、缺字段、字节不符仍UNKNOWN，不自动下载或重发。原主体→授权→侧车→合成平台的成功和UNKNOWN、相关桥/运行时55项通过，真实平台回读未资格。
 - 2026-11-15｜NEXT_EXPERIENCE S2/S4/S8：原维护SCAN同片/周回看补旧完整gram缺End键，每笔记1写、无新scanner或模型；旧fee8同输入2fail2pass→4过/64相关27.24s，正常D前台优先1过，重启/隔离/源头不改。首对齐夹具错与61pass1fail全保留，未放宽断言；fee8候选不含后继，不重包APK/CURRENT。证据note-end-bounded-maintenance-20261115；下一B d409实际13ahead59behind产品成果择取集成，原A–H继承。
 
 ### 2026-11-12 · Codex B 通用模型目录的显式分页
@@ -3819,3 +3995,19 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 [2026-11-13 B批次对齐] 最新核对A45e7432仅原主体topic appraisal；正常合并保留A账本前缀，B Provider解析源码/实验/测试指纹不变，仅provider_config.py有18行基础设施差额，复用相关验证。
 
 - 2026-11-16 CST｜revision241：A从5d/Brain240正常集成B30459/PR17，仅18行精确字节LRU4复用不可变配置解析；原文件信任/256KiB/CAS/动态凭据/自定义验证保持。166相关32.10s，固定5d原函数同8/32实际provider_status各240次中位.598→.117ms，只有本地CPU收益；B两次冷miss P95退化/约2.34MB四大文档Python跟踪保留如实继承，非真实Token/聊天加速。见evidence/provider-parse-integration-20261115/README.md。PR14/17已吸收，下一审PR18-6645fd0来源/撤回/旧reader/清单，复用NanaLink平台和B视觉成果；原Core自主生活/S8/原A–H继续，CURRENT与fee8候选不变。 指纹锚992a3e564797c8ab9259e36ff74f3f975578676874c1850d55a218df029ab84e。
+
+### C-NANALINK · 2026-11-15 · 对齐A维护切片
+
+合入A `45b3e57` 原笔记尾键有界回填及原始证据，保留C原记忆/主体/平台扩展和双方账本。私人B站来源、手机HTTP、原C图片选择、原笔记维护25项通过；真实平台及当前合并SHA的CI以独立回执为准。
+
+
+### C-NANALINK · 2026-11-15 · 有界候选检索复用
+
+原C图片候选复用原记忆检索行，只对符合类型/实体的图片再读隐私安全点，避免逐条重复读取无关普通记忆；保留候选再验证。图片回读增加URL、字节和会话不符反例；原主体与图片相关29项通过。
+
+
+### C-NANALINK · 2026-11-15 · A对齐后固定源码构建
+
+`b29ecd0`匹配CI43732210128通过；固定epoch wheel双构建SHA d7a40f89…5f89b32，309源码文件离线安装一致，隔离无账号配置检查通过。实机、真实平台与全部依赖离线封装仍未资格。
+
+- 2026-11-16 CST｜revision242：A从36eb/Brain241正常集成NanaLink固定6645/PR18，复用平台/私人来源/同C可选媒体消费者，保留较新A/B目录/配置契约。补便携17模块（263闭包）、缺QR在账号I/O前明确失败；108平台43.18s、118相关43.07s、7闭包登录5.33s、TS/Vite100单测/24四视口37.2s，schema/C4核对通过；首错保留。没有新APK/实机/真实模型/账号/生产，CURRENT与fee8旧候选不变。下一先做授权来源窗口挤占基线及上下文压缩/主体连续性少量原链路验证；B视觉/NanaLink后继按固定提交接，S3/S8/全部原A–H继续。 指纹锚4afc0205632a329a6032b7ee6b93961bc43cb154e3f742bed9bc1774c146b4d6。

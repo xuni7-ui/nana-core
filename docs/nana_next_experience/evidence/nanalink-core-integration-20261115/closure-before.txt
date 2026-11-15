@@ -1,0 +1,6 @@
+commit 6645fd0b01e88018203471c013e2fb0cb50be37f selected 246
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/workspace/nana-next-refinement-work/tools/nana_portable_cloud/build.py", line 74, in verify_runtime_closure
+    raise ValueError("RUNTIME_IMPORT_MISSING: " + dep)
+ValueError: RUNTIME_IMPORT_MISSING: src/nana_core/nanalink/media_candidates.py

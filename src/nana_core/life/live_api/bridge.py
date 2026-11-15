@@ -42,15 +42,24 @@ class GatewayService:
         allow_provider_runtime_budget=False,
         credential_resolver=None,
         platform_event_secret_refs=None,
+        nanalink_observers=(),
+        nanalink_bilibili_sources=(),
+        nanalink_bilibili_dynamics=(),
+        allow_platform_login=False,
     ):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
         self.allow_provider_runtime_budget = allow_provider_runtime_budget
         self.credential_resolver = credential_resolver
+        self.allow_platform_login = allow_platform_login
+        from ...nanalink.login import LoginBroker
+        self.platform_login = LoginBroker()
         self.binding = supervisor.binding
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
         self.write_lock = threading.RLock()
+        self._platform_fence_lock = threading.RLock()
+        self._platform_fence_version = None
         self.priority_lock = threading.RLock()
         self.read_lock = threading.RLock()
         self.provider_catalog_after = 0
@@ -66,7 +75,15 @@ class GatewayService:
         self.inflight_messages = {}  # Parent bindings only; no message bodies/history.
         from .platform_events import PlatformEvents
 
+        self.nanalink_bilibili_sources = tuple(nanalink_bilibili_sources)
+        if len(self.nanalink_bilibili_sources) > 16 or any(not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}", v) for v in self.nanalink_bilibili_sources):
+            raise ApiError("NANALINK_SOURCE_BINDING_INVALID")
+        self.nanalink_bilibili_dynamics = tuple(nanalink_bilibili_dynamics)
+        if len(self.nanalink_bilibili_dynamics) > 16 or any(not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}",v) for v in self.nanalink_bilibili_dynamics):
+            raise ApiError("NANALINK_SOURCE_BINDING_INVALID")
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
+        from ...nanalink.console import NanaLinkObserver
+        self.nanalink_observer = NanaLinkObserver(nanalink_observers, credential_resolver)
 
     def _prune_receipt_cache(self):
         # Warm body visibility follows the bounded host ledger, never an
@@ -427,6 +444,37 @@ class GatewayService:
         # Original Inspector already validated the original journal. Hash only,
         # no second memory or deletion authority and no exposed host path.
         from ...continuity.privacy import _load
+        # The owner holds the only deletion authority. A read-only BFF must
+        # synchronize changed platform consent before projecting old evidence.
+        import sqlite3
+        config = self.supervisor.home / 'life.json'
+        database = self.supervisor.home / 'subject/self.db'
+        def version():
+            st=config.stat()
+            return st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns,st.st_ctime_ns
+        try:
+            with self._platform_fence_lock:
+                for _ in range(3):
+                    before=version()
+                    if before == self._platform_fence_version:
+                        break
+                    db=sqlite3.connect(database.as_uri()+'?mode=ro',uri=True,timeout=2)
+                    try:
+                        row=db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.platform.bilibili.dynamic' LIMIT 1").fetchone()
+                    finally:
+                        db.close()
+                    if row:
+                        result=core_request(self.supervisor.home,{'operation':'platform-privacy-safe-point'},timeout=5)
+                        if result.get('ok') is not True or result.get('result',{}).get('state')!='CURRENT':
+                            raise CoreError('PLATFORM_SOURCE_FENCE_UNAVAILABLE')
+                    after=version()
+                    if before==after:
+                        self._platform_fence_version=after
+                        break
+                else:
+                    raise CoreError('PLATFORM_SOURCE_CONFIG_CHANGED_RETRY_READ')
+        except (OSError,sqlite3.Error,CoreError,ValueError,TypeError):
+            raise ApiError('PLATFORM_SOURCE_FENCE_UNAVAILABLE',503) from None
 
         side = Path(str(self.supervisor.home / "subject/self.db") + ".privacy.json")
         link = _load(side)

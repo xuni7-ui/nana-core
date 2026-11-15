@@ -1,0 +1,1 @@
+{"uid": 999, "read_only_rootfs": true, "effective_capabilities": 0, "no_new_privileges": true, "loopback_status": "PASS", "vault": "ISOLATED_SYNTHETIC_ONLY", "raw_body_persisted": false, "account_login": "NOT_RUN", "real_social_send": 0, "core_store_mounted": false}

@@ -169,3 +169,7 @@ Master Framework, application source/tests, runtime configs/DBs, credentials, ou
 ## 2026-11-16 A采用PR17
 
 B30459原12份文件正常合并，A保留当前09/双方11与既有白名单；另09/10/11、ACTIVE/STATUS/CODEX_B_QUEUE、本白名单及evidence/provider-parse-integration-20261115/内原创对照工具/原合成日志/指纹。无私有数据/凭据/第三方复制/二进制/运行配置。
+
+## 2026-11-16 A采用PR18
+
+正常合并固定6645的受控源码/配置示例/原创测试/公开工程资料/合成回执；A另改09/10/11、ACTIVE/STATUS、两个现有CI、portable/runtime-files、nanalink/login及其原测试、新最小包隔离测试、evidence/nanalink-core-integration-20261115/、原task_inputs主体连续性增补/08和本白名单。无DB/私史/真实账号或Key/新二进制，原许可/署名保留。

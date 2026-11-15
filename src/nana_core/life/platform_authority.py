@@ -28,7 +28,7 @@ class PlatformActivation(DTO):
     exclusive_writer_confirmed: bool = False
 
 
-def require_platform_authority(app, activation, *, channel, exclusive_writer, account_id=None):
+def require_platform_authority(app, activation, *, channel, exclusive_writer, account_id=None, expected_platform=None):
     """Verify original receipts and the exact host-bound channel; never mutate."""
     if type(activation) is not PlatformActivation or channel not in {"qq", "bilibili"}:
         raise CoreError("PLATFORM_CANONICAL_ACTIVATION_REQUIRED")
@@ -45,8 +45,9 @@ def require_platform_authority(app, activation, *, channel, exclusive_writer, ac
         raise CoreError("PLATFORM_CANONICAL_IDENTITY_MISMATCH")
     verify_activation(home, value)
     bindings = [b for b in app.config.surface_bindings if b.binding_id == activation.binding_id]
-    platform = {"qq": "qq.onebot", "bilibili": "bilibili.account"}[channel]
-    if (len(bindings) != 1 or not bindings[0].enabled or bindings[0].platform != platform
+    platforms = {"qq": {"qq.onebot", "qq.official"}, "bilibili": {"bilibili.account"}}[channel]
+    if (len(bindings) != 1 or not bindings[0].enabled or bindings[0].platform not in platforms
+            or expected_platform is not None and bindings[0].platform != expected_platform
             or bindings[0].mode != "PLATFORM_ADAPTER_NO_SEND" or bindings[0].entity_id != app.runtime.config.entity_id
             or bindings[0].scope not in app.runtime.config.scopes):
         raise CoreError("PLATFORM_CHANNEL_UNBOUND")

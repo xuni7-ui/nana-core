@@ -21,6 +21,7 @@ from .bridge import GatewayService
 from .contracts import Binding, Role, ApiError
 from .server import ApiServer
 from .supervisor import Supervisor, Release
+from ...nanalink.console import ObservationBinding
 
 
 class HostConfiguration(DTO):
@@ -36,14 +37,22 @@ class HostConfiguration(DTO):
     roles: tuple[Role, ...] = (Role.READER, Role.CONVERSATION)
     activation: dict[str, str] | None = None
     allow_provider_configuration: bool = False
+    allow_platform_login: bool = False
     allow_provider_runtime_budget: bool = False
     provider_vault: str | None = None
     platform_event_secret_refs:dict[str,str]=Field(default_factory=dict,max_length=16)
+    nanalink_observers:tuple[ObservationBinding,...]=Field(default=(),max_length=16)
+    nanalink_bilibili_sources:tuple[str,...]=Field(default=(),max_length=16)
+    nanalink_bilibili_dynamics:tuple[str,...]=Field(default=(),max_length=16)
 
     @model_serializer(mode='wrap')
     def compatible_runtime_opt_in(self,handler):
         value=handler(self)
         if not self.allow_provider_runtime_budget:value.pop('allow_provider_runtime_budget',None)
+        if not self.allow_platform_login:value.pop('allow_platform_login',None)
+        if not self.nanalink_observers:value.pop('nanalink_observers',None)
+        if not self.nanalink_bilibili_sources:value.pop('nanalink_bilibili_sources',None)
+        if not self.nanalink_bilibili_dynamics:value.pop('nanalink_bilibili_dynamics',None)
         return value
 
 
@@ -127,8 +136,12 @@ def main():
         service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration,
                                  credential_resolver=resolver if a.live_provider_authorized or a.platform_bindings_authorized else None,
                                  allow_provider_runtime_budget=cfg.allow_provider_runtime_budget,
-                                 platform_event_secret_refs=cfg.platform_event_secret_refs)
-        if cfg.platform_event_secret_refs:service.platform_events.start()
+                                 platform_event_secret_refs=cfg.platform_event_secret_refs,
+                                 nanalink_observers=cfg.nanalink_observers,
+                                 nanalink_bilibili_sources=cfg.nanalink_bilibili_sources,
+                                 nanalink_bilibili_dynamics=cfg.nanalink_bilibili_dynamics,
+                                 allow_platform_login=cfg.allow_platform_login)
+        if cfg.platform_event_secret_refs or cfg.nanalink_bilibili_sources or cfg.nanalink_bilibili_dynamics:service.platform_events.start()
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)
         stopping = threading.Event()
 

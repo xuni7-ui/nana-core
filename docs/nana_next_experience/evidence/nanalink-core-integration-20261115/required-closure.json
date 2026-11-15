@@ -1,0 +1,23 @@
+{
+  "source": "6645fd0b01e88018203471c013e2fb0cb50be37f",
+  "original_count": 246,
+  "extra": [
+    "src/nana_core/nanalink/media_candidates.py",
+    "src/nana_core/nanalink/private_source.py",
+    "src/nana_core/nanalink/console.py",
+    "src/nana_core/nanalink/login.py",
+    "src/nana_core/life/live_api/platform_adapters.py",
+    "src/nana_core/life/live_api/platform_login.py",
+    "src/nana_core/life/live_api/platform_setup.py",
+    "src/nana_core/life/official_transport.py",
+    "src/nana_core/nanalink/media.py",
+    "src/nana_core/nanalink/adapters.py",
+    "src/nana_core/nanalink/contracts.py",
+    "src/nana_core/nanalink/bilibili_dynamic.py",
+    "src/nana_core/nanalink/onebot.py",
+    "src/nana_core/nanalink/sdk.py",
+    "src/nana_core/nanalink/core_bridge.py",
+    "src/nana_core/nanalink/_c4_source.py"
+  ],
+  "final_count": 262
+}

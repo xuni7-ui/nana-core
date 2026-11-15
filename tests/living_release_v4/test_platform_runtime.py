@@ -415,3 +415,151 @@ def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_co
                 assert MemoryService(app.runtime.store).read(mid)==fact
                 app.forget(mid)
                 assert not LanguageService(app.runtime.store,app.runtime.authority).records.current_support(review_id)
+
+
+def test_owner_media_cache_binding_is_volatile_and_account_isolated(tmp_path, monkeypatch):
+    from nana_core.nanalink.media import MediaCache
+    from nana_core.life import platform_runtime
+    with counterpart() as (url, _):
+        home = tmp_path / 'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            cache = MediaCache(tmp_path / 'cache', source_current=lambda _: True)
+            seen = []
+            class Flow:
+                def __init__(self, app, channel, transport, *, media_cache=None):
+                    seen.append(media_cache)
+                def receive(self, message_id):
+                    return {'delivery': 'NOT_SENT'}
+            monkeypatch.setattr(platform_runtime, 'QQReplyWorkflow', Flow)
+            app.platforms.qq('primary', '1')
+            app.platforms.bind_qq_media_cache('primary', cache)
+            app.platforms.qq('primary', '1')
+            other = channel.model_copy(update={'channel_id': 'secondary', 'account_id': '44'})
+            app.config = app.config.model_copy(update={'qq_channels': (channel, other)})
+            with pytest.raises(CoreError, match='QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED'):
+                app.platforms.bind_qq_media_cache('secondary', cache)
+            changed = channel.model_copy(update={'account_id': '99'})
+            app.config = app.config.model_copy(update={'qq_channels': (changed,)})
+            app.platforms.qq('primary', '1')
+            assert seen == [None, cache, None]
+            with pytest.raises(CoreError, match='QQ_MEDIA_ACCOUNT_ISOLATION_REQUIRED'):
+                app.platforms.bind_qq_media_cache('primary', cache)
+            with pytest.raises(CoreError, match='QQ_CHANNEL_UNBOUND'):
+                app.platforms.bind_qq_media_cache('unknown', cache)
+            cache.close()
+
+
+def test_owner_caches_only_exact_current_original_image(tmp_path):
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.world_loop.perception import PerceptionService, PublicMediaSource
+    from nana_core.nanalink.media import MediaCache
+    from nana_core.nanalink.media_candidates import candidate, resolve_image
+    from tests.person_self.test_nanalink_media_choice import picture
+    from tests.world_loop.helpers import providers
+    with counterpart() as (url, _):
+        home = tmp_path / 'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            r = app.runtime
+            now = r.clock.utc_now_us()
+            source = PublicMediaSource(source_id='owned-original', modality='IMAGE', origin='SYNTHETIC',
+                                       event_time_us=now, observed_time_us=now)
+            data = picture()
+            mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, source, entity_id='project-user', scope='project-work')
+            cache = MediaCache(tmp_path/'image-cache', source_current=lambda _: True)
+            with pytest.raises(CoreError, match='QQ_MEDIA_CACHE_UNBOUND'):
+                app.platforms.cache_qq_observed_image('primary', mid, data)
+            app.platforms.bind_qq_media_cache('primary', cache)
+            MemoryService(r.store).entity('other-person', 'PERSON')
+            other_source = source.model_copy(update={'source_id': 'other-person-picture'})
+            other_mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, other_source, entity_id='other-person', scope='project-work')
+            with pytest.raises(CoreError, match='QQ_MEDIA_ORIGINAL_SOURCE_REQUIRED'):
+                app.platforms.cache_qq_observed_image('primary', other_mid, data)
+            with pytest.raises(CoreError, match='QQ_MEDIA_SOURCE_BYTES_MISMATCH'):
+                app.platforms.cache_qq_observed_image('primary', mid, b'wrong')
+            result = app.platforms.cache_qq_observed_image('primary', mid, data)
+            assert result['execution_authority'] is False and result['bytes_cached'] == len(data)
+            selected = candidate(MemoryService(r.store).read(mid))
+            assert resolve_image(r.store, cache, selected) == data
+            MemoryService(r.store, r.authority).forget(mid, r.authority)
+            with pytest.raises(CoreError):
+                app.platforms.cache_qq_observed_image('primary', mid, data)
+            assert not r.store.all('actions') and not r.store.all('grants')
+            cache.close()
+
+
+def test_actual_qq_ingress_can_use_light_cognition_without_selecting_image(tmp_path):
+    import json
+    from nana_core.continuity.world_loop.perception import PerceptionService, PublicMediaSource
+    from nana_core.nanalink.media import MediaCache
+    from tests.person_self.test_nanalink_media_choice import picture
+    from tests.world_loop.helpers import providers
+
+    def choose(request):
+        context = json.loads(request['context_json'])
+        identity = context['manifest']
+        candidates = [json.loads(b['data_json'])['candidates'][0] for b in context['blocks'] if b['kind'] == 'MEDIA_CANDIDATES']
+        assert candidates
+        item = candidates[0]
+        return {'interpretation': 'SYNTHETIC optional picture', 'subject_cognition': {
+            'identity_id': identity['identity_id'], 'identity_revision': identity['identity_revision'],
+            'interpretation': 'SYNTHETIC consider sharing', 'proposed_operations': ['DRAFT'],
+            'memory_refs': [item['source_memory_id']], 'selected_media': item}}
+
+    with counterpart() as (url, platform):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        with relay(home, 'CHAT', context_limit=32768, subject_builder=choose) as (router, requests), \
+                LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            r = app.runtime
+            now = r.clock.utc_now_us()
+            source = PublicMediaSource(source_id='prior-picture', modality='IMAGE', origin='SYNTHETIC',
+                                       event_time_us=now, observed_time_us=now)
+            data = picture()
+            mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+                data, source, entity_id='project-user', scope='project-work')
+            cache = MediaCache(tmp_path/'prior-cache', source_current=lambda _: True)
+            app.platforms.bind_qq_media_cache('primary', cache)
+            app.platforms.cache_qq_observed_image('primary', mid, data)
+            app.bind_provider_cognition()
+            flow = equip(app, channel, url)
+            flow.port.media_cache = cache
+            result = flow.receive('1')
+            assert result['delivery'] == 'SUCCEEDED' and result['external_delivery']
+            assert len(platform['sent']) == 1 and len(platform['sent'][0]['message']) == 1
+            assert [request['cognitive_role'] for request in requests] == ['INTERPRET', 'SOCIAL']
+            assert flow.receive('1')['delivery'] == 'SUCCEEDED' and len(platform['sent']) == 1
+            cache.close()
+
+
+def test_owner_managed_media_cache_closes_with_application(tmp_path):
+    from pathlib import Path
+    with counterpart() as (url, _):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            app.pause()
+            app.config = app.config.model_copy(update={'qq_channels': (channel,)})
+            assert app.platforms.open_qq_media_cache('primary') == {'state':'CACHE_BOUND_NO_AUTHORITY','persistent':False}
+            cache, directory = app.platforms._owned_qq_media_caches['primary']
+            path = Path(directory.name)
+            assert path.is_dir() and cache.total == 0
+            with pytest.raises(CoreError, match='QQ_MEDIA_CACHE_ALREADY_BOUND'):
+                app.platforms.open_qq_media_cache('primary')
+            app.platforms.bind_qq_media_cache('primary', None)
+            assert not path.exists()
+            app.platforms.open_qq_media_cache('primary')
+            _, directory = app.platforms._owned_qq_media_caches['primary']
+            path = Path(directory.name)
+            assert path.is_dir()
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert not path.exists()

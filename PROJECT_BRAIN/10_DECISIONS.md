@@ -1942,3 +1942,22 @@ Runtime4205f31 adds explicit stopped-owner recovery through original exclusive S
 - 2026-11-16 CST｜A集成PR14独有产品消费者，重叠续页/Java沿较新A；保留echo与权限/预算，optional等待提示异常只降未知不抹已读/不自动重试，真实服务端节流仍强制。只在现役模块扩展，C/D/G/Store与63标准不动。新视觉增补沿原单主任务及A/B/NanaLink分工；证据product-branch-integration-20261115。
 
 - 2026-11-16 CST｜A采用PR17固定30459到现役配置服务：稳定状态读取CPU收益且精确字节失效/安全文件检查保持，18行/4项容量受控；接受已测冷miss尾差与缓存内存，禁止推称聊天/Token或冷读收益。原09/63标准不改，撤18行无数据迁移。证据provider-parse-integration-20261115。
+
+### C-NANALINK-001 · 2026-11-14 · 独立C/六层适配，不修改A/B权威契约。用户本轮持续授权覆盖分支、提交、依赖、推送和Draft PR，优先于旧逐项审批条款；真实账号/发送/生产仍另批。复用原PlatformRuntime/Kernel/Store/Surface/手机，不复制SnowLuma/NapCat受限代码。见docs/nanalink/INHERITANCE.md。
+
+
+### C-NANALINK-002 · 2026-11-14 · 最小兼容增量与交付边界
+
+先完成独立WS→原HTTP层，原C/记忆/权限契约无语义变更。新增原owner metadata通知操作、原Bili两个只读路径、负OneBot ID；BFF setup仅准备暂停配置，两个host opt-in字段默认空且省略。原Store预算/UNKNOWN/Grant继续权威；新host字段给旧BFF回退须恢复旧host配置。详细最小增量、测试和剩余源码/实账号资格见docs/nanalink/evidence/README.md。官方QQ与完整QR/包管理未完成，不为宣称P2/P5通过制造空壳。
+
+
+### C-NANALINK-003 · 2026-11-15 · 官方QQ回执及受控连接管理
+
+官方QQ原生身份独立命名，使用单次发送；没有独立回读时 ACK 不升级为送达，保持 UNKNOWN。扫码登录用户显式触发，凭据成对原子写入既有 vault，连接仍停用。适配器版本仅由宿主批准，换版离线执行；私人平台观察和媒体选择先以独立层与契约提案交 A 协作，不伪造授权或主体意图。
+
+
+### C-NANALINK-004 · 2026-11-15 · 原私人来源契约与显式媒体选择
+
+按用户本次明确授权在独立 C 分支增加 CONSENTED_PLATFORM 来源，并由原 owner 绑定真实账号、私人读取和保留同意；撤回复用原删除闭包，未知平台缺席不视为取消关注。原行动目标增加可选版本化媒体引用，未实现发送路径明确 UNSUPPORTED。旧 reader 不认新来源，回退前必须撤回并验证。具体边界及待补环节见 docs/nanalink/evidence/private-platform-source-20261115。
+
+- 2026-11-16 CST｜A采用PR18固定6645的原平台/来源/可选媒体链，保留唯一原C/Store/Kernel；补发行闭包和可选QR依赖前置，受控验证后集成。新增来源旧reader不能直读，须新版撤回/关闭新增配置后按固定资格回退。不是自适应视频算法/真实账号资格，后续B算法按固定输入输出交A原生接线。

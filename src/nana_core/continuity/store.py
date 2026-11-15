@@ -125,6 +125,11 @@ class ContinuityStore(Store):
 
     def ensure_privacy_current(self):
         self.privacy.ensure_current()
+        # Optional host source guard, installed only by the existing owner.
+        # It can withdraw revoked platform evidence before any sourced read.
+        guard = getattr(self, '_nanalink_source_guard', None)
+        if guard is not None:
+            guard()
 
     def backup(self, destination):
         destination = self._private_path(destination)

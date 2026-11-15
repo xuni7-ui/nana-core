@@ -83,7 +83,8 @@ class LifeConfig(DTO):
         for platform,channels in (('qq.onebot',self.qq_channels),('bilibili.account',self.bilibili_channels)):
             for channel in channels:
                 binding=bindings.get(channel.binding_id)
-                if (binding is None or binding.platform!=platform or binding.mode!='PLATFORM_ADAPTER_NO_SEND'
+                expected = 'qq.official' if platform == 'qq.onebot' and channel.backend == 'official' else platform
+                if (binding is None or binding.platform!=expected or binding.mode!='PLATFORM_ADAPTER_NO_SEND'
                         or channel.enabled and not binding.enabled):raise ValueError('platform channel surface binding mismatch')
         return self
     max_autonomous_materials:int=Field(default=2,ge=0,le=16)

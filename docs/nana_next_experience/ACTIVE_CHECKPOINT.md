@@ -1,6 +1,8 @@
-## 当前接续：PR17配置解析进入现役消费者，revision241
+## 当前接续：PR18进入同主体，revision242
 
-A从5d/Brain240正常集成B30459/PR17，仅18行精确字节LRU4复用不可变配置解析；原文件信任/256KiB/CAS/动态凭据/自定义验证保持。166相关32.10s，固定5d原函数同8/32实际provider_status各240次中位.598→.117ms，只有本地CPU收益；B两次冷miss P95退化/约2.34MB四大文档Python跟踪保留如实继承，非真实Token/聊天加速。见evidence/provider-parse-integration-20261115/README.md。PR14/17已吸收，下一审PR18-6645fd0来源/撤回/旧reader/清单，复用NanaLink平台和B视觉成果；原Core自主生活/S8/原A–H继续，CURRENT与fee8候选不变。
+A从36eb/Brain241正常集成NanaLink固定6645/PR18，复用平台/私人来源/同C可选媒体消费者，保留较新A/B目录/配置契约。补便携17模块（263闭包）、缺QR在账号I/O前明确失败；108平台43.18s、118相关43.07s、7闭包登录5.33s、TS/Vite100单测/24四视口37.2s，schema/C4核对通过；首错保留。没有新APK/实机/真实模型/账号/生产，CURRENT与fee8旧候选不变。下一先做授权来源窗口挤占基线及上下文压缩/主体连续性少量原链路验证；B视觉/NanaLink后继按固定提交接，S3/S8/全部原A–H继续。
+
+证据：evidence/nanalink-core-integration-20261115/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

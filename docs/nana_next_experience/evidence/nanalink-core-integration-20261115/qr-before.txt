@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_missing_optional_qr_support_does_not_start_an_external_login _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f728c27da00>
+
+    def test_missing_optional_qr_support_does_not_start_an_external_login(monkeypatch):
+        import builtins
+        original_import = builtins.__import__
+        calls = []
+        class ExternalLogin:
+            def begin(self):
+                calls.append('external_login_request')
+                return 'https://passport.bilibili.com/fixture'
+            def clear(self):
+                pass
+        def without_qr(name, *args, **kwargs):
+            if name == 'qrcode' or name.startswith('qrcode.'):
+                raise ImportError('SYNTHETIC_OPTIONAL_DEPENDENCY_ABSENT')
+            return original_import(name, *args, **kwargs)
+        monkeypatch.setattr(builtins, '__import__', without_qr)
+        broker = LoginBroker(provider_factory=ExternalLogin)
+>       with pytest.raises(CoreError, match='NANALINK_LOGIN_QR_DEPENDENCY_UNAVAILABLE'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'NANALINK_LOGIN_QR_DEPENDENCY_UNAVAILABLE'
+E         Actual message: 'NANALINK_LOGIN_START_NOT_CONFIRMED_NO_RETRY'
+
+tests/nanalink/test_login.py:118: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_login.py::test_missing_optional_qr_support_does_not_start_an_external_login
+1 failed in 0.46s

@@ -32,8 +32,10 @@ def dispatch(app, request, *, observed_at_us=None, respond_to=()):
     if legacy is not None and op != 'control':
         legacy.reconcile()
     if op=='qq-message' and set(request)=={'operation','channel_id','message_id'}:
+        channels = [c for c in getattr(app.config, 'qq_channels', ()) if c.channel_id == request.get('channel_id')]
+        pattern = r'[A-Za-z0-9._:-]{1,128}' if len(channels)==1 and channels[0].backend=='official' else r'-?[0-9]{1,20}'
         if (type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id'])
-                or type(request['message_id']) is not str or not re.fullmatch(r'[0-9]{1,20}',request['message_id'])):
+                or type(request['message_id']) is not str or not re.fullmatch(pattern,request['message_id'])):
             raise CoreError('QQ_TYPED_MESSAGE_REFERENCE_REQUIRED')
         if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
             raise CoreError('CLOUD_DISK_GUARD')
@@ -69,6 +71,21 @@ def dispatch(app, request, *, observed_at_us=None, respond_to=()):
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op=='platform-privacy-safe-point' and set(request)=={'operation'}:
+        app.runtime.store.ensure_privacy_current()
+        return {'state':'CURRENT'}
+    if op=='bilibili-dynamics' and set(request)=={'operation','channel_id'}:
+        if type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id']):
+            raise CoreError('BILIBILI_TYPED_CHANNEL_REQUIRED')
+        if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
+            raise CoreError('CLOUD_DISK_GUARD')
+        return app.platforms.bilibili_dynamics(request['channel_id'])
+    if op=='bilibili-notifications' and set(request)=={'operation','channel_id'}:
+        if type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}', request['channel_id']):
+            raise CoreError('BILIBILI_TYPED_CHANNEL_REQUIRED')
+        if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
+            raise CoreError('CLOUD_DISK_GUARD')
+        return app.platforms.bilibili_notifications(request['channel_id'])
     if op=='platform-status' and set(request)=={'operation'}:return app.platforms.view()
     if op=='memory-note' and set(request)=={'operation','text','privacy','request_id','target_id','surface_binding_id','request_digest'}:
         from .memory_notes import save
@@ -474,7 +491,8 @@ def request(home, data, timeout=None, *, progress=None):
             observations=data.get('observations')
             if type(observations) is not list or not 2<=len(observations)<=4:raise CoreError('SURFACE_SEQUENCE_BOUND')
             calls=2*len(observations)  # retained/boundary fallback retains independent phase budgets
-        timeout = max(5, calls * load_config(root).provider_timeout_ms / 1000 + 30)
+        network_allowance = 60 if data.get('operation') in {'bilibili-notifications','bilibili-dynamics'} else 30
+        timeout = max(5, calls * load_config(root).provider_timeout_ms / 1000 + network_allowance)
     from ..presence.cli import status
 
     current = status(root / "subject/self.db")

@@ -248,3 +248,22 @@ src/nana_core/storage/schema_v7.sql
 src/nana_core/storage/schema_v8.sql
 src/nana_core/storage/schema_v9.sql
 src/nana_core/storage/sqlite_store.py
+
+# Core consumers of the optional NanaLink infrastructure; no standalone sidecar.
+src/nana_core/life/live_api/platform_adapters.py
+src/nana_core/life/live_api/platform_login.py
+src/nana_core/life/live_api/platform_setup.py
+src/nana_core/life/official_transport.py
+src/nana_core/nanalink/__init__.py
+src/nana_core/nanalink/_c4_source.py
+src/nana_core/nanalink/adapters.py
+src/nana_core/nanalink/bilibili_dynamic.py
+src/nana_core/nanalink/console.py
+src/nana_core/nanalink/contracts.py
+src/nana_core/nanalink/core_bridge.py
+src/nana_core/nanalink/login.py
+src/nana_core/nanalink/media.py
+src/nana_core/nanalink/media_candidates.py
+src/nana_core/nanalink/onebot.py
+src/nana_core/nanalink/private_source.py
+src/nana_core/nanalink/sdk.py

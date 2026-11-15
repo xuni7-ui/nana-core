@@ -1,0 +1,10 @@
+**
+!requirements-nanalink.lock
+!src/
+!src/nana_core/
+!src/nana_core/**
+!deployment/
+!deployment/nanalink/
+!deployment/nanalink/Dockerfile
+**/__pycache__/**
+**/*.pyc

@@ -1,0 +1,43 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep NanaLink|platform|explicit continuation|legacy bridge|explicit visual intent
+
+[WebServer] (node:21270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:21290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (2.5s)
+  ✓   2 [desktop] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.4s)
+  ✓   3 [desktop] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (1.3s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1928:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.4s)
+  ✓   5 [desktop] › tests/v3.spec.ts:1955:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.3s)
+  ✓   6 [desktop] › tests/v3.spec.ts:1974:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent (1.3s)
+(node:21663) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone-360] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.4s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.4s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (1.0s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:1928:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.3s)
+  ✓  11 [phone-360] › tests/v3.spec.ts:1955:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.3s)
+  ✓  12 [phone-360] › tests/v3.spec.ts:1974:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent (1.3s)
+(node:22026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-390] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.6s)
+  ✓  14 [phone-390] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.3s)
+  ✓  15 [phone-390] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (1.2s)
+  ✓  16 [phone-390] › tests/v3.spec.ts:1928:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.4s)
+  ✓  17 [phone-390] › tests/v3.spec.ts:1955:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.4s)
+  ✓  18 [phone-390] › tests/v3.spec.ts:1974:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent (1.3s)
+(node:22389) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [phone-412] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.2s)
+  ✓  20 [phone-412] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.1s)
+  ✓  21 [phone-412] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (861ms)
+  ✓  22 [phone-412] › tests/v3.spec.ts:1928:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.1s)
+  ✓  23 [phone-412] › tests/v3.spec.ts:1955:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.1s)
+  ✓  24 [phone-412] › tests/v3.spec.ts:1974:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent (1.1s)
+
+  24 passed (37.2s)

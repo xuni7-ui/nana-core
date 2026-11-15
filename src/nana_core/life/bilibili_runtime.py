@@ -248,7 +248,7 @@ class BilibiliReplyWorkflow:
         return {**result, "delivery": state, "action_id": action, "external_delivery": state == "SUCCEEDED"}
 
 
-def account_message(app, resolver, channel_id, message_id):
+def account_workflow(app, resolver, channel_id):
     channels = [c for c in app.config.bilibili_channels if c.channel_id == channel_id]
     if len(channels) != 1:
         raise CoreError("BILIBILI_CHANNEL_UNBOUND")
@@ -271,4 +271,8 @@ def account_message(app, resolver, channel_id, message_id):
         ),
         realm="AUTHENTICATED_PLATFORM",
     )
-    return BilibiliReplyWorkflow(app, channel, transport).receive(message_id)
+    return BilibiliReplyWorkflow(app, channel, transport)
+
+
+def account_message(app, resolver, channel_id, message_id):
+    return account_workflow(app, resolver, channel_id).receive(message_id)

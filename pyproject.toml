@@ -44,3 +44,7 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E9", "F", "C901"]
+
+[project.entry-points."nanalink.adapters"]
+web-feed = "nana_core.nanalink.feed:FeedAdapter"
+qq-onebot = "nana_core.nanalink.onebot:OneBotAdapter"

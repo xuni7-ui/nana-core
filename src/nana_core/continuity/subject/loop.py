@@ -330,6 +330,19 @@ class SubjectLoop:
                 rid=validate_resource_record(self.store,_deliberation.resource_record_id,_deliberation.proposal,
                     scope=event.scope,subject_event_id=source['subject_event_id'],privacy_classes=self.privacy_classes)
                 situation=situation.model_copy(update={'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
+                selected = _deliberation.proposal.selected_media
+                if selected is not None and selected.source_memory_id not in situation.memory_ids:
+                    # Only the exact resource-validated original C proposal can
+                    # add a retrieved image to this cycle's original supports.
+                    from ..memory import PRIVACY_RANK
+                    from ...nanalink.media_candidates import candidate as media_candidate
+                    item=self.records.memory.read(selected.source_memory_id)
+                    observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(selected.source_memory_id,)).fetchone()
+                    if (item['scope'] != event.scope or item['entity_id'] not in {event.entity_id,self.store.identity['identity_id']}
+                            or PRIVACY_RANK[item['privacy_class']] > PRIVACY_RANK[event.privacy_class]
+                            or media_candidate(item) != selected or not observation or not self.records.current_support(observation[0])):
+                        raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
+                    situation=situation.model_copy(update={'memory_ids':(*situation.memory_ids,selected.source_memory_id)})
             if self.store.schema_target>=11:
                 adopted=[];plan_refs=[]
                 for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
@@ -536,6 +549,17 @@ class SubjectLoop:
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
+            selected_media=_deliberation.proposal.selected_media if _deliberation is not None else None
+            if target is not None and target.media is not None and selected_media is None:
+                raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
+            if selected_media is not None and target is not None:
+                # Original C accepts at most one already-advertised source. A
+                # provider answer or host target alone is never a Grant.
+                if (_deliberation.resource_record_id is None or target.capability!='world.contact'
+                        or target.operation!='CONTACT' or selected_media.source_memory_id not in situation.memory_ids
+                        or target.media is not None and target.media != selected_media):
+                    raise CoreError('SUBJECT_MEDIA_SELECTION_BINDING_REQUIRED')
+                target=target.model_copy(update={'media':selected_media})
             if event.goal_step and (intention.kind!='ACTION_PROPOSAL' or intention.behavior!='CONTINUE_PROJECT'):
                 target=None  # A different C choice does not inherit this step's execution target.
             if target and situation.cue and situation.cue.resource_ref and not situation.plan_step:

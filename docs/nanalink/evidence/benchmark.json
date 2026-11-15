@@ -1,0 +1,30 @@
+{
+  "scope": "SYNTHETIC_INFRASTRUCTURE_ONLY",
+  "events": {
+    "accepted": 2000,
+    "duplicate": 2000,
+    "rejected": 0,
+    "dispatched": 2000,
+    "unknown": 2000
+  },
+  "elapsed_seconds": 0.20690640399993754,
+  "cpu_seconds": 0.20674288000000002,
+  "cpu_ms_per_admitted_event": 0.10337144000000001,
+  "peak_rss_kib_linux": 26700,
+  "queue_capacity": 64,
+  "per_account_capacity": 16,
+  "dedupe_capacity": 512,
+  "dedupe_retained": 512,
+  "media": {
+    "ingested_bytes": 16777216,
+    "reused_bytes": 8388608,
+    "evicted_bytes": 0,
+    "retained_bytes": 8388608,
+    "range_bytes": 65536
+  },
+  "model_calls": 0,
+  "provider_tokens": 0,
+  "external_requests": 0,
+  "real_social_sends": 0,
+  "effective_cognition_cost": "NOT_QUALIFIED_NO_REAL_PROVIDER"
+}
