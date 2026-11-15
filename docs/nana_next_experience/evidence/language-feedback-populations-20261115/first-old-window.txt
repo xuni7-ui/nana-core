@@ -1,0 +1,24 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+______ test_one_human_review_is_not_outvoted_by_many_fixture_reviews[40] _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7f1fce6e4500>
+later_fixtures = 40
+
+    @pytest.mark.parametrize('later_fixtures',[0,40])
+    def test_one_human_review_is_not_outvoted_by_many_fixture_reviews(app,later_fixtures):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1);record(app,2);record(app,3)
+        record(app,4,provenance='USER_PROVIDED_REVIEW')
+        for n in range(later_fixtures):record(app,100+n)
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+E       AssertionError: assert ('PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC)
+
+tests/person_self/test_learning.py:124: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_one_human_review_is_not_outvoted_by_many_fixture_reviews[40]
+1 failed, 1 passed, 9 deselected in 0.59s

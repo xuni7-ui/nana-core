@@ -1,0 +1,9 @@
+{
+  "base_commit": "383a51aa99a110219aab5733451ef1c6ef4abeba",
+  "old_runtime_files": 298,
+  "runtime_list_sha256": "f68a739821b0a8967ac249a4a580c8c17e2a0bdc0bcf71f7a3dae4d4b0c37c45",
+  "new_database_tables_or_indexes": false,
+  "qualification_window_per_population": 32,
+  "expression_lesson_window": 16,
+  "runtime_modules_added": false
+}

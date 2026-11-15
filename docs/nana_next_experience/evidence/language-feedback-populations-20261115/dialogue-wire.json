@@ -1,0 +1,54 @@
+{
+  "old": [
+    {
+      "retained_role": "INTERPRET",
+      "input_bytes": 25283,
+      "reserved_bytes": 37572,
+      "latency_us": 9828,
+      "state": "PROPOSED",
+      "budget": {
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      }
+    },
+    {
+      "retained_role": "SOCIAL",
+      "input_bytes": 22335,
+      "reserved_bytes": 34624,
+      "latency_us": 3405,
+      "state": "PROPOSED",
+      "budget": {
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      }
+    }
+  ],
+  "new": [
+    {
+      "retained_role": "INTERPRET",
+      "input_bytes": 26872,
+      "reserved_bytes": 39161,
+      "latency_us": 8135,
+      "state": "PROPOSED",
+      "budget": {
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      }
+    },
+    {
+      "retained_role": "SOCIAL",
+      "input_bytes": 24009,
+      "reserved_bytes": 36298,
+      "latency_us": 2951,
+      "state": "PROPOSED",
+      "budget": {
+        "input_tokens": 16384,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      }
+    }
+  ]
+}

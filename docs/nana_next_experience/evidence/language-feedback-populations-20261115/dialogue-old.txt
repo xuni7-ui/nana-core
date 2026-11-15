@@ -1,0 +1,36 @@
+F
+=================================== FAILURES ===================================
+___ test_normal_dialogue_retains_human_policy_after_dense_synthetic_feedback ___
+
+tmp_path = PosixPath('/workspace/scratch/nana-language-dialogue-old/test_normal_dialogue_retains_h0')
+
+    def test_normal_dialogue_retains_human_policy_after_dense_synthetic_feedback(tmp_path):
+        import json
+        from .conftest import initialize
+        from tests.independent_life.test_dialogue import relay
+        from nana_core.presence.authority import VirtualClock
+        home=tmp_path/'home';initialize(home);seen=[]
+        def render(request):
+            blocks=json.loads(request['context_json'])['blocks']
+            policies=[json.loads(b['data_json'])['policy'] for b in blocks if b['kind']=='LIVED_LANGUAGE']
+            examples=[e for b in blocks if b['kind']=='LANGUAGE_EXAMPLES' for e in json.loads(b['data_json'])['examples']]
+            seen.append((policies,examples))
+            correct=bool(policies and policies[0].get('evidence_level')=='USER_PROVIDED_REVIEW')
+            if correct:assert all(e['provenance']=='USER_PROVIDED_REVIEW' for e in examples)
+            return 'SYNTHETIC original human-reviewed method' if correct else 'SYNTHETIC lost human-reviewed method'
+        with relay(home,'CHAT',renderer=render,context_limit=65536) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();record(app,1,provenance='USER_PROVIDED_REVIEW');_,eid=record(app,2,provenance='USER_PROVIDED_REVIEW');lid=activate(app,eid)
+            for n in range(40):record(app,100+n,tags=('TOO_TERSE',))
+            answer=app.chat('SYNTHETIC a different casual conversation',privacy='PROJECT',message_id='human-policy-after-fixtures')
+>           assert answer['text']=='SYNTHETIC original human-reviewed method'
+E           AssertionError: assert 'SYNTHETIC lo...viewed method' == 'SYNTHETIC or...viewed method'
+E             
+E             - SYNTHETIC original human-reviewed method
+E             ?            ^^^^^^^
+E             + SYNTHETIC lost human-reviewed method
+E             ?           + ^^
+
+tests/person_self/test_learning.py:202: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_normal_dialogue_retains_human_policy_after_dense_synthetic_feedback
+1 failed, 17 deselected in 1.19s

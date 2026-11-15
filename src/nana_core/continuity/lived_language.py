@@ -103,7 +103,10 @@ def report_matches(sample, report):
 
 def learnable(store, scope, privacy):
     records = RecordService(store)
-    samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target='CASUAL')
+    # Each evidence family retains the original 32-row window. Synthetic
+    # examples cannot evict the human family and then qualify themselves.
+    samples = tuple(row for population in ('USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC')
+        for row in rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target='CASUAL',sample_provenance=population))
     # Human reviews and project fixtures are distinct evidence populations in
     # both directions: synthetic counterexamples cannot veto human feedback,
     # and a human report cannot silently validate/suspend a fixture lesson.
@@ -435,7 +438,7 @@ def expression_policy(store, *, scope, privacy, mode):
     if mode != 'CASUAL' or not qualification['eligible']:
         return {'state': 'BASELINE_OR_REVIEW_REQUIRED', 'rule': None, 'source_record_ids': ()}
     records = RecordService(store)
-    for raw in store.db.execute("SELECT * FROM lessons WHERE task_class='interaction.expression' AND state='ACTIVE' ORDER BY rowid DESC LIMIT 16"):
+    for raw in store.db.execute("SELECT l.* FROM lessons l JOIN continuity_records r ON r.record_id=l.record_id WHERE l.task_class='interaction.expression' AND l.state='ACTIVE' AND r.scope=? AND r.lifecycle='ACTIVE' AND r.privacy_class IN ("+','.join('?' for _ in privacy)+") ORDER BY l.rowid DESC LIMIT 16",(scope,*privacy)):
         h = store.one('continuity_records', raw['record_id'])
         if h['scope'] != scope or h['privacy_class'] not in privacy or h['lifecycle'] != 'ACTIVE' or not records.current_support(h['record_id']):
             continue
@@ -457,7 +460,8 @@ def expression_policy(store, *, scope, privacy, mode):
 def context(store, *, scope, privacy, mode):
     policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode)
     records = RecordService(store)
-    samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target=mode, limit=16)[:2]
+    population=policy.get('evidence_level') if policy.get('rule') else None
+    samples = rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target=mode,limit=16,sample_provenance=population)[:2]
     examples=[]
     for row in samples:
         item=row['payload']['sample']
