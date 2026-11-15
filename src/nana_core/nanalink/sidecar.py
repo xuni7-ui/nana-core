@@ -171,11 +171,26 @@ class OneBotSidecar:
                 if set(params) - allowed or not re.fullmatch(r'[A-Za-z0-9_-]{1,128}' if config.backend=='official' else r'[0-9]{1,20}', str(params.get('group_id' if group else 'user_id'))):
                     raise web.HTTPBadRequest()
                 message = params.get('message')
-                if (type(message) is not list or len(message) != 1 or type(message[0]) is not dict
+                if (type(message) is not list or len(message) not in (1, 2) or type(message[0]) is not dict
                         or set(message[0]) != {'type', 'data'} or message[0]['type'] != 'text'
                         or type(message[0]['data']) is not dict or set(message[0]['data']) != {'text'}
                         or type(message[0]['data']['text']) is not str or not 1 <= len(message[0]['data']['text']) <= 2048):
                     raise web.HTTPBadRequest()
+                if len(message) == 2:
+                    import base64, binascii
+                    image = message[1]
+                    if (config.backend != 'onebot' or type(image) is not dict or set(image) != {'type', 'data'}
+                            or image['type'] != 'image' or type(image['data']) is not dict
+                            or set(image['data']) != {'file'} or type(image['data']['file']) is not str
+                            or not image['data']['file'].startswith('base64://')
+                            or len(image['data']['file']) > 10933):
+                        raise web.HTTPBadRequest()
+                    try:
+                        content = base64.b64decode(image['data']['file'][9:], validate=True)
+                    except (ValueError, binascii.Error):
+                        raise web.HTTPBadRequest() from None
+                    if not 1 <= len(content) <= 8192:
+                        raise web.HTTPBadRequest()
             result = await adapter.rpc(action, params)
             return web.json_response({'status': 'ok', 'retcode': 0, 'data': result})
 

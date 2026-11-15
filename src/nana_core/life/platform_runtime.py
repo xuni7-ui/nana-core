@@ -74,7 +74,7 @@ class QQChannelBinding(DTO):
 
 
 class QQReplyWorkflow:
-    def __init__(self, app, channel, transport):
+    def __init__(self, app, channel, transport, *, media_cache=None):
         self.app, self.runtime, self.channel, self.transport = app, app.runtime, channel, transport
         self.store = app.runtime.store
         from .platform_bridge import qq_platform
@@ -121,6 +121,7 @@ class QQReplyWorkflow:
             app=app,
             activation=channel.activation,
             delivery=delivery,
+            media_cache=media_cache,
         )
         self.realization = QQGovernedDelivery(self.port, app.runtime.authority, host_enabled=True)
 
@@ -213,11 +214,14 @@ class QQReplyWorkflow:
                 )
             return {**result, "delivery": "NOT_AUTHORIZED_OR_NO_MODEL_WORDING", "external_delivery": False}
         # Never silently drop a C-selected attachment and send text alone.
-        if cycle.realization_target and cycle.realization_target.media is not None:
+        media = cycle.realization_target.media if cycle.realization_target else None
+        if media is not None and (media.kind != 'image' or self.port.media_cache is None
+                                  or type(self.transport) is not OneBotHTTPTransport):
             return {**result, "delivery":"MEDIA_ACTION_UNSUPPORTED", "external_delivery":False}
         candidate = self.port.bind_candidate(result["text"], rid, privacy=self.channel.privacy_class)
+        sources = tuple(dict.fromkeys((result["message_memory_id"],) + ((media.source_memory_id,) if media else ())))
         admission = self.port.delivery.assess_reply(
-            cycle, self.resource, payload=candidate, source_memory_ids=(result["message_memory_id"],)
+            cycle, self.resource, payload=candidate, source_memory_ids=sources
         )
         intention = self.store.one("subject_intentions", cycle.intention_id)
         _, action_id = self.realization.propose(
@@ -228,7 +232,7 @@ class QQReplyWorkflow:
                 "data_privacy": self.channel.privacy_class,
                 "admission_id": admission["record_id"],
             },
-            input_memory_ids=(result["message_memory_id"],),
+            input_memory_ids=sources,
         )
         if action_id is None:
             return {**result, "delivery": "BLOCKED_MANAGER", "external_delivery": False}

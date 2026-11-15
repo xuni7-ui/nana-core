@@ -139,7 +139,33 @@ class OneBotHTTPTransport:
                 "account_id": self.account_id, "text_digest": digest(text), "echo": echo,
                 "platform_origin": self.realm}
 
+    def send_image(self, target_kind, target_id, text, data, content_sha256, echo, *, source_check=None):
+        """One finite inline image attempt; ACK is not image delivery proof."""
+        import base64, hashlib
+        if target_kind not in {"private", "group"} or not re.fullmatch(r"[0-9]{1,20}", str(target_id)):
+            raise CoreError("ONEBOT_TARGET_INVALID")
+        if type(text) is not str or not 1 <= len(text) <= 2048 or type(data) is not bytes or not 1 <= len(data) <= 8192:
+            raise CoreError("ONEBOT_MESSAGE_BOUND")
+        if hashlib.sha256(data).hexdigest() != content_sha256:
+            raise CoreError("MEDIA_CACHE_CONTENT_MISMATCH")
+        self.account()
+        if source_check is not None and source_check() != data:
+            raise CoreError("MEDIA_SELECTION_SOURCE_MISMATCH")
+        params = {"group_id" if target_kind == "group" else "user_id": int(target_id),
+                  "message": [{"type": "text", "data": {"text": text}},
+                              {"type": "image", "data": {"file": "base64://" + base64.b64encode(data).decode('ascii')}}],
+                  "echo": echo}
+        row = self._call("send_" + target_kind + "_msg", params)
+        mid = row.get("message_id")
+        if not re.fullmatch(r"-?[0-9]{1,20}", str(mid)):
+            raise CoreError("ONEBOT_ACK_UNKNOWN_NO_RETRY")
+        return {"message_id": str(mid), "target_kind": target_kind, "target_id": str(target_id),
+                "account_id": self.account_id, "text_digest": digest(text), "echo": echo,
+                "platform_origin": self.realm, "media_sha256": content_sha256}
+
     def verify_receipt(self, receipt):
+        if "media_sha256" in receipt:
+            return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
         row = self.get_message(receipt["message_id"])
         sender = row.get("sender") or {}
         peer = row.get("group_id") if receipt["target_kind"] == "group" else row.get("target_id")
@@ -214,7 +240,7 @@ class QQCapabilityPort:
     """
     evidence_namespace = "recorded.platform.qq.delivery"
 
-    def __init__(self, store, transport, targets, *, host_enabled=False, app=None, activation=None, delivery=None):
+    def __init__(self, store, transport, targets, *, host_enabled=False, app=None, activation=None, delivery=None, media_cache=None):
         if host_enabled is not True or not qq_transport_type(transport):
             raise CoreError("QQ_HOST_BINDING_REQUIRED")
         self.store, self.transport = store, transport
@@ -224,6 +250,7 @@ class QQCapabilityPort:
         if delivery is not None and (type(delivery) is not DeliveryAdmission or delivery.store is not store):
             raise CoreError("QQ_ORIGINAL_DELIVERY_ADMISSION_REQUIRED")
         self.delivery = delivery
+        self.media_cache = media_cache
         self.targets = dict(targets)
         if not 1 <= len(self.targets) <= 16:
             raise CoreError("QQ_FINITE_TARGET_BINDING_REQUIRED")
@@ -270,10 +297,28 @@ class QQCapabilityPort:
                 or target.get("resource_class") != "ORDINARY" or target.get("resource") not in self.targets
                 or (payload.get("evaluation") or {}).get("normative") != "ENDORSED"):
             raise CoreError("QQ_C_CONTACT_TARGET_REQUIRED")
+        media = target.get("media")
+        if media is not None:
+            from ..continuity.autonomy.contracts import MediaSelection
+            from ..nanalink.media_candidates import resolve_image
+            if type(self.transport) is not OneBotHTTPTransport or self.media_cache is None:
+                raise CoreError("QQ_MEDIA_UNSUPPORTED")
+            selection = MediaSelection.model_validate(media)
+            trace = payload.get("deliberation") or {}
+            try:
+                proposed = json.loads(trace["raw_proposal_json"]).get("selected_media")
+            except (KeyError, TypeError, ValueError):
+                proposed = None
+            parent = self.store.db.execute("SELECT r.record_id FROM record_dependencies d JOIN continuity_records r ON r.record_id=d.parent_id WHERE d.record_id=? AND d.parent_kind='RECORD' AND r.record_kind='COGNITION_PROPOSAL'", (cycle_record_id,)).fetchone()
+            if proposed != selection.model_dump(mode='json') or not parent or not RecordService(self.store).current_support(parent[0]):
+                raise CoreError("QQ_ORIGINAL_C_MEDIA_SELECTION_REQUIRED")
+            resolve_image(self.store, self.media_cache, selection)
+        else:
+            selection = None
         key = digest([text, cycle_record_id, privacy])
         if len(self.candidates) >= 32 and key not in self.candidates:
             raise CoreError("QQ_VOLATILE_CANDIDATE_BOUND")
-        self.candidates[key] = (text, cycle_record_id, privacy)
+        self.candidates[key] = (text, cycle_record_id, privacy, selection)
         return {"candidate_digest": key, "cycle_record_id": cycle_record_id}
 
     def _proof(self, inv, *, verify=False):
@@ -340,10 +385,16 @@ class QQCapabilityPort:
     def execute(self, inv):
         _, args = self._proof(inv)
         candidate = self.candidates.pop(args["data"]["candidate_digest"], None)
-        if candidate is None or candidate[1:] != (args["data"]["cycle_record_id"], args["data_privacy"]):
+        if candidate is None or candidate[1:3] != (args["data"]["cycle_record_id"], args["data_privacy"]):
             raise CoreError("QQ_CANDIDATE_NOT_AVAILABLE_NO_REGENERATION")
         target_kind, target_id = self.targets[inv.resource]
-        result = self.transport.send(target_kind, target_id, candidate[0], inv.idempotency_key)
+        if candidate[3] is None:
+            result = self.transport.send(target_kind, target_id, candidate[0], inv.idempotency_key)
+        else:
+            from ..nanalink.media_candidates import resolve_image
+            data = resolve_image(self.store, self.media_cache, candidate[3])
+            result = self.transport.send_image(target_kind, target_id, candidate[0], data, candidate[3].content_sha256,
+                inv.idempotency_key, source_check=lambda: resolve_image(self.store, self.media_cache, candidate[3]))
         return Receipt(external_id=result["message_id"], result=result)
 
     def verify(self, inv):

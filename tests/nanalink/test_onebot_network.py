@@ -177,3 +177,24 @@ def test_observer_binds_exact_account_and_redacts_configuration():
         assert 'FIXTURE_ONLY' not in raw and net['endpoint'] not in raw and 'core.test' not in raw
         wrong=ObservationBinding(platform='qq',account_id='43',channel_id='wrong',endpoint=net['endpoint'],credential_ref='core.test')
         assert NanaLinkObserver((wrong,),resolver).view()['sessions'][0]['health']['connection']=='DISCONNECTED'
+
+
+@pytest.mark.parametrize('mode', ['websocket', 'http'])
+def test_owned_sidecar_transports_bounded_inline_image_without_claiming_verified_delivery(mode):
+    import base64
+    with network(mode=mode) as (net, state, resolver, loop):
+        transport = OneBotHTTPTransport(net['endpoint'], '42', credential=SecretReference(resolver, 'core.test'),
+                                        authorized=True, realm='SYNTHETIC_LOOPBACK')
+        data = b'owned synthetic image bytes'
+        receipt = transport.send_image('private', '43', 'picture', data, hashlib.sha256(data).hexdigest(), 'image-key')
+        assert len(state['sent']) == 1
+        assert state['sent'][0]['message'][1]['data']['file'] == 'base64://' + base64.b64encode(data).decode()
+        assert transport.verify_receipt(receipt).verdict == 'INCONCLUSIVE'
+        async def reject():
+            async with ClientSession() as client:
+                msg = [{'type':'text','data':{'text':'x'}}, {'type':'image','data':{'file':'https://example.invalid/a'}}]
+                async with client.post(net['endpoint']+'/send_private_msg', json={'user_id':43,'message':msg},
+                                       headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}) as response:
+                    assert response.status == 400
+        asyncio.run_coroutine_threadsafe(reject(), loop).result(3)
+        assert len(state['sent']) == 1

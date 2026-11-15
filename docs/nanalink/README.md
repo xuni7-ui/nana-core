@@ -42,6 +42,10 @@ OneBot最小网络API保持`get_login_info/get_msg/send_private_msg/send_group_m
 
 Core的QQ endpoint指向侧车loopback origin，凭据只引用该账号的`core_api_secret_ref`。不要把upstream token和Core API token复用。每个route精确绑定sender/conversation/channel；未绑定的来源不进入模型。`allow_send=false`默认不发；改为true仍不替代原C、Grant、canonical activation和独立Verify。
 
+## 受控图片发送资格
+
+OneBot 路径可在显式注入本会话 `MediaCache` 时，由原 C 从当前原感知记录选择图片，经过原 Manager、Grant、ActionKernel 和侧车发送一个不超过 8192 字节的内嵌图片。缓存按原记忆 ID 与源字节 SHA256 精确绑定，执行前及账号检查后重核来源；来源撤回、字节变化或缺少权限时拒绝发送。适配器不推断图片或收件人。平台无法独立证明图片字节时回执为 UNKNOWN，不重发。该路径已用 owned HTTP/WS 假平台测试；生产宿主的缓存供给、真实 OneBot 兼容性和真实账号尚未验收，默认管理界面仍标示未支持。QQ 官方 Bot 和表情仍不可用。
+
 ## 手机使用与健康
 
 原Nana Space“设备与连接”→“添加平台连接”→选择QQ OneBot或B站→账号/对象→保存。使用原认证、CSRF、CAS、OperationLedger；只创建暂停配置，read/send/private-read/retention/activation全部不授予。复用Android安全凭据输入，二维码/OAuth仍由实际客户端/平台提供。宿主须完成账号授权和匹配Core重启；按钮/保存成功不声称已连接。

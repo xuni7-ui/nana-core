@@ -72,7 +72,8 @@ def test_proposal_rejects_unadvertised_or_uncited_media():
         validate_cognitive_proposal(CognitiveProposal(**base, memory_refs=('m1',), selected_media=forged), context)
 
 
-def test_selected_image_binds_original_endorsed_contact_and_withdraws(app):
+@pytest.mark.parametrize('scenario', ['ack', 'lost-ack', 'revoked', 'no-grant', 'during-login'])
+def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scenario):
     from nana_core.continuity.autonomy.contracts import RealizationTarget
     from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
     from nana_core.continuity.records import RecordService
@@ -89,7 +90,7 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app):
                      possible_behaviors=('SOCIALIZE',), availability='AVAILABLE')
     evidence = memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.qq',
         source_reference='media-choice', source_kind='USER_STATEMENT'), text=cue.model_dump_json(),
-        privacy_class='PUBLIC', observed_time_us=now))
+        privacy_class='PROJECT', observed_time_us=now))
     cue_id = memory.add(MemoryCandidate(entity_id='project-user', scope='project-work', memory_type=MemoryType.SEMANTIC,
         epistemic_kind='STATEMENT', source_evidence_id=evidence, text=cue.model_dump_json(),
         predicate_key='concern.open.qq-image-choice'))
@@ -103,19 +104,63 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app):
             interpretation='consider sharing', proposed_operations=('DRAFT',), preferred_behavior='SOCIALIZE',
             memory_refs=(mid,), selected_media=media))
     target = RealizationTarget(capability='world.contact', operation='CONTACT',
-                               resource='project://qq/test', resource_class='ORDINARY')
+                               resource='project://qq/private/43', resource_class='ORDINARY')
     event = SubjectInput(source_key='synthetic.qq.image-choice', kind='INTERACTION', origin='USER',
         entity_id='project-user', scope='project-work', observed_at_us=now, text='Synthetic contact opportunity',
-        privacy_class='PUBLIC', source_memory_ids=(cue_id, mid), realization_target=target)
+        privacy_class='PROJECT', source_memory_ids=(cue_id, mid), realization_target=target)
     with provider_harness(proposer=propose) as (transport, state):
         session = CognitionSession(r, transport, app.policy)
-        cycle = r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC',
+        cycle = r.subject.cognize(event, model=session.subject_port(privacy_class='PROJECT',
             budget=CognitionBudget(input_tokens=32768)), authority=r.authority, policy=app.policy)
     assert state['calls'] == 1 and cycle.evaluation.normative == 'ENDORSED'
     assert cycle.realization_target.resource == target.resource
     assert cycle.realization_target.media.source_memory_id == mid
     assert not r.store.all('actions') and not r.store.all('grants')
-    MemoryService(r.store, r.authority).forget(mid, r.authority)
+    from nana_core.nanalink.media import MediaCache
+    from tests.living_release_v4.test_platform_bridge import equipped, propose
+    from tests.nanalink.test_onebot_network import network
+    from nana_core.life.platform_bridge import OneBotHTTPTransport
+    from nana_core.life.platform_runtime import SecretReference
+    import tempfile
+    with tempfile.TemporaryDirectory() as directory, network() as (net, platform, resolver, loop):
+        cache = MediaCache(directory, source_current=lambda _: True)
+        cache.put([picture()], source_ref=mid)
+        connection = OneBotHTTPTransport(net["endpoint"], "42", credential=SecretReference(resolver, "core.test"),
+                                         authorized=True, realm="SYNTHETIC_LOOPBACK")
+        service, port = equipped(r.store, r.authority, connection, grant=scenario != 'no-grant')
+        port.media_cache = cache
+        action = propose(service, port, cycle)
+        if scenario == 'during-login':
+            login = connection.account
+            def revoke_during_login():
+                value = login()
+                MemoryService(r.store, r.authority).forget(mid, r.authority)
+                return value
+            connection.account = revoke_during_login
+            try:
+                service.dispatch(cycle.intention_id, action, expected_revision=1)
+            except CoreError:
+                pass
+            assert not platform['sent']
+        elif scenario == 'revoked':
+            MemoryService(r.store, r.authority).forget(mid, r.authority)
+            with pytest.raises(CoreError):
+                service.dispatch(cycle.intention_id, action, expected_revision=1)
+            assert not platform['sent']
+        elif scenario == 'no-grant':
+            with pytest.raises(CoreError, match='AUTH_REQUIRED'):
+                service.dispatch(cycle.intention_id, action, expected_revision=1)
+            assert not platform['sent']
+        else:
+            platform['lose_ack'] = scenario == 'lost-ack'
+            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == 'UNKNOWN'
+            assert len(platform['sent']) == 1
+            assert platform['sent'][0]['message'][1]['type'] == 'image'
+            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == 'UNKNOWN'
+            assert len(platform['sent']) == 1
+        cache.close()
+    if scenario not in {'revoked', 'during-login'}:
+        MemoryService(r.store, r.authority).forget(mid, r.authority)
     assert not RecordService(r.store).current_support(cycle.record_id)
 
 
