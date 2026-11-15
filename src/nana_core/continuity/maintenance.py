@@ -83,12 +83,18 @@ class MaintenanceService:
             # Rebuild only this already-read bounded slice's derived lookup aid.
             # Old writers leave per-note markers absent, so cursor recovery and
             # weekly review can upgrade those notes without a startup full scan.
-            from .memory import is_user_note,NOTE_GRAM_COMPLETE,NOTE_GRAM_MAX_CHARS
+            from .memory import is_user_note,NOTE_GRAM_COMPLETE,NOTE_GRAM_MAX_CHARS,NOTE_END_PREFIX
             for source in selected:
-                if (is_user_note(source) and len(source['text'])<=NOTE_GRAM_MAX_CHARS
-                        and not self.store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',
-                            (source['memory_id'],NOTE_GRAM_COMPLETE)).fetchone()):
-                    self.records.memory._index(source['memory_id'],source['text'])
+                if is_user_note(source) and len(source['text'])<=NOTE_GRAM_MAX_CHARS:
+                    tail=NOTE_END_PREFIX+source['text'].casefold()[-2:]
+                    covered={row[0] for row in self.store.db.execute('SELECT term FROM memory_terms WHERE memory_id=? AND term IN (?,?)',
+                        (source['memory_id'],NOTE_GRAM_COMPLETE,tail))}
+                    if NOTE_GRAM_COMPLETE not in covered:
+                        self.records.memory._index(source['memory_id'],source['text'])
+                    elif tail not in covered:
+                        # Reuse complete legacy grams; this upgrade needs only
+                        # one derived key, not thousands of ignored insertions.
+                        self.store.db.execute('INSERT OR IGNORE INTO memory_terms VALUES(?,?)',(source['memory_id'],tail))
             tx.update('jobs',job['job_id'],cursor=cursor,body_json=canonical(metadata),revision=job['revision']+1,due_at_us=now+gap,updated_at_us=now)
         return {'candidate_record_id':candidate,'candidate_record_ids':tuple(candidates),'mode':mode,'work_id':job['job_id'],'read_count':len(rows)}
     def _offer(self,selected,scope,mode):

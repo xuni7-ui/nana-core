@@ -1,0 +1,131 @@
+FF
+=================================== FAILURES ===================================
+_ test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams[False] _
+
+tmp_path = PosixPath('/dev/shm/nemold/test_original_bounded_scan_rep0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5252c34a40>
+weekly = False
+
+    @pytest.mark.parametrize('weekly',[False,True])
+    def test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams(tmp_path,monkeypatch,weekly):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock();repaired=[]
+        def configure(app):
+            service=app.runtime.work.maintenance;service.batch=2;service.interval=SECOND;service.privacy_classes=('PUBLIC','PROJECT');service.discover()
+            return service
+        def run_until(app,predicate):
+            for _ in range(160):
+                if predicate():return
+                clock.advance(SECOND);app.runtime.lease.heartbeat();activity=app.runtime.work.maintenance.slice()
+                if activity:assert activity['read_count']<=2
+            assert predicate(),'old complete-gram notes were skipped instead of receiving bounded End coverage'
+        def has_end(store,mid):
+            return bool(store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_END_PREFIX+'归途')).fetchone())
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;memory=MemoryService(r.store)
+            good=[add(memory,'old-end-'+str(i),'SYNTHETIC note '+str(i)+' 归途',entity=r.config.entity_id,scope=r.config.scopes[0]) for i in range(6)]
+            memory.entity('another-owner','PERSON')
+            excluded=[add(memory,'old-end-private','SYNTHETIC private 归途',entity=r.config.entity_id,scope=r.config.scopes[0],privacy='PERSONAL'),
+                add(memory,'old-end-entity','SYNTHETIC different owner 归途',entity='another-owner',scope=r.config.scopes[0]),
+                add(memory,'old-end-scope','SYNTHETIC different scope 归途',entity=r.config.entity_id,scope='another-scope')]
+            headers={mid:dict(r.store.one('memories',mid)) for mid in (*good,*excluded)};identity=r.identity_id
+            service=configure(app)
+            if weekly:
+                run_until(app,lambda:r.store.db.execute("SELECT cursor FROM jobs WHERE work_kind='SCAN'").fetchone()[0]>=max(r.store.db.execute('SELECT rowid FROM memories WHERE memory_id=?',(mid,)).fetchone()[0] for mid in good))
+            for mid in (*good,*excluded):
+                assert r.store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_GRAM_COMPLETE)).fetchone()
+                r.store.db.execute('DELETE FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_END_PREFIX+'归途'))
+            original=MemoryService._index
+            def traced(self,mid,text):
+                if mid in headers:repaired.append(mid)
+                return original(self,mid,text)
+            monkeypatch.setattr(MemoryService,'_index',traced)
+            if not weekly:
+>               run_until(app,lambda:len(repaired)>=2)
+
+tests/independent_life/test_note_cache_maintenance.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7f5252c363c0>
+predicate = <function test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams.<locals>.<lambda> at 0x7f5252aa14e0>
+
+    def run_until(app,predicate):
+        for _ in range(160):
+            if predicate():return
+            clock.advance(SECOND);app.runtime.lease.heartbeat();activity=app.runtime.work.maintenance.slice()
+            if activity:assert activity['read_count']<=2
+>       assert predicate(),'old complete-gram notes were skipped instead of receiving bounded End coverage'
+E       AssertionError: old complete-gram notes were skipped instead of receiving bounded End coverage
+E       assert False
+E        +  where False = <function test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams.<locals>.<lambda> at 0x7f5252aa14e0>()
+
+tests/independent_life/test_note_cache_maintenance.py:24: AssertionError
+_ test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams[True] _
+
+tmp_path = PosixPath('/dev/shm/nemold/test_original_bounded_scan_rep1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5252ac9520>
+weekly = True
+
+    @pytest.mark.parametrize('weekly',[False,True])
+    def test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams(tmp_path,monkeypatch,weekly):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock();repaired=[]
+        def configure(app):
+            service=app.runtime.work.maintenance;service.batch=2;service.interval=SECOND;service.privacy_classes=('PUBLIC','PROJECT');service.discover()
+            return service
+        def run_until(app,predicate):
+            for _ in range(160):
+                if predicate():return
+                clock.advance(SECOND);app.runtime.lease.heartbeat();activity=app.runtime.work.maintenance.slice()
+                if activity:assert activity['read_count']<=2
+            assert predicate(),'old complete-gram notes were skipped instead of receiving bounded End coverage'
+        def has_end(store,mid):
+            return bool(store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_END_PREFIX+'归途')).fetchone())
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;memory=MemoryService(r.store)
+            good=[add(memory,'old-end-'+str(i),'SYNTHETIC note '+str(i)+' 归途',entity=r.config.entity_id,scope=r.config.scopes[0]) for i in range(6)]
+            memory.entity('another-owner','PERSON')
+            excluded=[add(memory,'old-end-private','SYNTHETIC private 归途',entity=r.config.entity_id,scope=r.config.scopes[0],privacy='PERSONAL'),
+                add(memory,'old-end-entity','SYNTHETIC different owner 归途',entity='another-owner',scope=r.config.scopes[0]),
+                add(memory,'old-end-scope','SYNTHETIC different scope 归途',entity=r.config.entity_id,scope='another-scope')]
+            headers={mid:dict(r.store.one('memories',mid)) for mid in (*good,*excluded)};identity=r.identity_id
+            service=configure(app)
+            if weekly:
+                run_until(app,lambda:r.store.db.execute("SELECT cursor FROM jobs WHERE work_kind='SCAN'").fetchone()[0]>=max(r.store.db.execute('SELECT rowid FROM memories WHERE memory_id=?',(mid,)).fetchone()[0] for mid in good))
+            for mid in (*good,*excluded):
+                assert r.store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_GRAM_COMPLETE)).fetchone()
+                r.store.db.execute('DELETE FROM memory_terms WHERE memory_id=? AND term=?',(mid,NOTE_END_PREFIX+'归途'))
+            original=MemoryService._index
+            def traced(self,mid,text):
+                if mid in headers:repaired.append(mid)
+                return original(self,mid,text)
+            monkeypatch.setattr(MemoryService,'_index',traced)
+            if not weekly:
+                run_until(app,lambda:len(repaired)>=2)
+                assert len(repaired)==2 and set(repaired)<=set(good)
+            cursor=r.store.db.execute("SELECT cursor FROM jobs WHERE work_kind='SCAN'").fetchone()[0]
+        if weekly:clock.advance(7*86400*SECOND)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;service=configure(app)
+            assert r.identity_id==identity and r.store.db.execute("SELECT cursor FROM jobs WHERE work_kind='SCAN'").fetchone()[0]==cursor
+>           run_until(app,lambda:all(has_end(r.store,mid) for mid in good))
+
+tests/independent_life/test_note_cache_maintenance.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7f5252c20320>
+predicate = <function test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams.<locals>.<lambda> at 0x7f5252b07f60>
+
+    def run_until(app,predicate):
+        for _ in range(160):
+            if predicate():return
+            clock.advance(SECOND);app.runtime.lease.heartbeat();activity=app.runtime.work.maintenance.slice()
+            if activity:assert activity['read_count']<=2
+>       assert predicate(),'old complete-gram notes were skipped instead of receiving bounded End coverage'
+E       AssertionError: old complete-gram notes were skipped instead of receiving bounded End coverage
+E       assert False
+E        +  where False = <function test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams.<locals>.<lambda> at 0x7f5252b07f60>()
+
+tests/independent_life/test_note_cache_maintenance.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_note_cache_maintenance.py::test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams[False]
+FAILED tests/independent_life/test_note_cache_maintenance.py::test_original_bounded_scan_repairs_missing_end_keys_with_old_complete_grams[True]
+2 failed in 0.27s
