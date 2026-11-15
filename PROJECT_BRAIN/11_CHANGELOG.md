@@ -3752,3 +3752,5 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-14｜NEXT_EXPERIENCE S3/S4/S6：明确有据的重型兴趣可与原REST动机竞争，85旧3fail2pass→15pass/199相关52.93s，同1SELF/53288bytes非Token，默认/资源权限不改。0tests与OOM首错保留，20万合成库13文件哈希保全迁磁盘/旧路径指向，非删库或P95重跑。前继CI323仅85；未新包/APK/CURRENT/真实0。证据deliberated-heavy-interest-20261114，下一原情境意义/持续方法/明确反馈因果及原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S4/S6/S7/S8：已修订关切通过原方法假设继续接受确切话轮方法意见，D/C改后续选择；原解析复用/稳定旧basis去重，精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token。环境/tmp丢失后恢复磁盘树/20万13文件SHA核对，旧18bc不变。CI429仅244；未新包/APK/CURRENT/真实0，证据private-feedback-current-basis-20261115，下一原G问题/反例/迁移与原A–H。
+
+- 2026-11-15｜NEXT_EXPERIENCE原接线资格：确认反馈SELF已可选原G，不改src；LEARN/REST同场景/预算/45802bytes，各1SELF，重启新文件实际AST完成vs旧TOP_DEFS质量失败，后续0模型；意见撤回停方法而原关切保留。12pass10.88s/首次旧非学习断言保留，仅新增分支精确要求匹配ACTIVE lesson。无新包/APK/CURRENT/真实0，证据attributed-feedback-original-g-20261115，继续S3多时间尺度/通信方法独立迁移及原A–H。

@@ -1,10 +1,8 @@
-## 现役revision225 — 已修订关切继续接收原方法的明确反馈
+## 现役revision226 — 复用原反馈可选G，独立实际后续使用已受控资格
 
-复用同一个223当前版本解析：原C已保留的方法basis可只读关联同一当前思想，原方法仍只是供C重考虑的假设；不改历史意见/方法/送达事实。正常原交流→关切合法修订→明确话轮方法意见/Experience→D/C当前关切修订→后续CHAT，精确244旧2fail→116相关81.68s。意见必须真正进入SELF frame；主动REST、再次独立改关切后的同意见alias不重复触发，暂停/放弃/到期/撤回与精确stale引用继续有效。各仍1SELF，52522→54823wire bytes（+2301）非Token，未增阶段/schema。见evidence/private-feedback-current-basis-20261115/README.md。
+核对确认原D反馈SELF已有原G可选入口，不重复开发src。新增受控资格：确切话轮方法意见→同C自愿LEARN/REST→原G独立评价/transfer→同身份重启同一新批准文件实际Kernel。LEARN选AST、3动作成功/goal完成；REST旧TOP_DEFS、2动作成功但质量goal失败。相同材料SHA、预算32768/2048/120000、各1SELF及45802wirebytes，后续新增模型0；撤回意见使方法停用但原私人关切保留。12pass10.88s，首次沿用非学习lesson断言失败已留；新增LEARN分支要求唯一匹配资格lesson，原非学习断言保留。见evidence/attributed-feedback-original-g-20261115/README.md。
 
-环境重建后/tmp工作树/安装/shm指向已丢失，远端244和交付1d820c7确认保存；工作副本现/workspace/nana-next-refinement-work，同开发分支，旧18bc干净。磁盘20万库13文件全SHA/字节与原提交一致，未重测检索P95。429独立CI仅前继244；当前未重打包/APK/全仓，固定929候选资格保留而非当前匹配。无新真实模型/账号外发/手机/生产/自然度/长期，CURRENT266+409保持。
-
-下一明确方法反馈/私人关注与原G可选学习问题/独立未见结果/反例→未来选择，先复用186/213/218–225消费者；情感短长/多动机/跨topic/存储/Token/模型产品/原A–H继续，不把一次反馈或局部闭环当全部完成。
+仅测试/证据，业务源码仍aebb02a/225；不声称新开发了原G、学会安慰/一般交流或人格成长。模型选择/反馈都是fixture，真实模型/送达/手机/生产/自然度/长期未新增，无新包/APK/CURRENT。工作副本/workspace/nana-next-refinement-work，保护磁盘20万库与旧18bc；下一S3短长情感/多动机与原186通信方法消费者更广独立评价/反例/后续迁移，全部原A–H继承。
 
 ## 现役revision196
 
