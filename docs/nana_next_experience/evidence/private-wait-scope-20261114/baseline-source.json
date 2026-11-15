@@ -1,0 +1,7 @@
+{
+  "commit": "1aee249b95b5b33593eeb47ec4941518feeba5a9",
+  "runtime_files": 298,
+  "all_bytes_match_git": true,
+  "source_list_sha256": "c0c09b7dc969c4948c79e365eae61335f7d64bbfdbea3ca48ce2087997540809",
+  "execution": "Final same six selected scenarios; original pytest -o pythonpath=/dev/shm/nana-wait-1aee/src."
+}

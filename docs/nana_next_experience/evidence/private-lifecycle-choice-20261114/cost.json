@@ -1,0 +1,105 @@
+{
+  "evidence": "SYNTHETIC_OWNED_HTTP_NOT_REAL_MODEL",
+  "samples": [
+    {
+      "source": "old",
+      "declared": true,
+      "input_bytes": 48444,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 60733,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "PAUSED"
+    },
+    {
+      "source": "old",
+      "declared": true,
+      "input_bytes": 48444,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 60733,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "ABANDONED"
+    },
+    {
+      "source": "old",
+      "declared": false,
+      "input_bytes": 48444,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 60733,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "PAUSED"
+    },
+    {
+      "source": "old",
+      "declared": false,
+      "input_bytes": 48444,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 60733,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "ABANDONED"
+    },
+    {
+      "source": "old",
+      "measurement": "synthetic_paused_edit_attention",
+      "model_calls": 0,
+      "offered_target": true,
+      "state": "ACTIVE"
+    },
+    {
+      "source": "new",
+      "declared": true,
+      "input_bytes": 49404,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "state": "PAUSED",
+      "wanted": "PAUSED"
+    },
+    {
+      "source": "new",
+      "declared": true,
+      "input_bytes": 49404,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "state": "ABANDONED",
+      "wanted": "ABANDONED"
+    },
+    {
+      "source": "new",
+      "declared": false,
+      "input_bytes": 49404,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "PAUSED"
+    },
+    {
+      "source": "new",
+      "declared": false,
+      "input_bytes": 49404,
+      "measurement": "synthetic_private_lifecycle_choice",
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "state": "ACTIVE",
+      "wanted": "ABANDONED"
+    },
+    {
+      "source": "new",
+      "measurement": "synthetic_paused_edit_attention",
+      "model_calls": 0,
+      "offered_target": false,
+      "state": "PAUSED"
+    }
+  ],
+  "actual_provider_tokens": null,
+  "fees": null,
+  "extra_model_stages": 0,
+  "ordinary_schema_extra_bytes": 0,
+  "self_schema_extra_bytes": 870,
+  "complete_self_request_extra_bytes": 960
+}

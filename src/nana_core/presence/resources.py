@@ -52,10 +52,10 @@ from ..continuity.accounting import PREFIX,decode_usage_receipt,reported_usage_p
 
 
 def reported_token_usage(store,world,*,legacy_calls=0):
-    """Metadata-only projection of accepted original cognition receipts.
+    """Metadata-only projection of original bound response consumption.
 
     A provider's report is not an invoice or a measured tokenizer binding.
-    UNKNOWN/unaccepted receipts retain reservations and missing usage;
+    UNKNOWN/rejected wording retains reservations; absent usage stays unknown;
     new numeric receipts survive content erasure, legacy reports may be missing;
     local fixture totals can never be presented as commercial model evidence.
     """

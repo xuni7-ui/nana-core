@@ -11,7 +11,7 @@ from pydantic import Field,model_serializer,model_validator
 
 from ..contracts import CoreError, DTO
 from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal,PrivateTendencyProposal
-from .subject.opportunities import Behavior
+from .subject.opportunities import Behavior,LearningProgramRef
 
 
 class FrozenModelInput(DTO):
@@ -28,6 +28,8 @@ class CognitiveProposal(DTO):
     passing_thought:str|None=Field(default=None,min_length=1,max_length=512)
     # A candidate direction within the current C frame, not an action/authority.
     preferred_behavior:Behavior|None=None
+    learning_program_ref:LearningProgramRef|None=Field(default=None,
+        description='Exact entry from SUBJECT_APPRAISAL.learning_programs, required when choosing its LEARN option. Learning is optional; this is not a learned result or permission.')
     private_question:PrivateQuestionProposal|None=None
     private_plan:PrivatePlanProposal|None=None
     private_tendency:PrivateTendencyProposal|None=None
@@ -41,6 +43,8 @@ class CognitiveProposal(DTO):
 
     @model_validator(mode='after')
     def one_private_edit(self):
+        if self.learning_program_ref is not None and (self.preferred_behavior!='LEARN' or any(v is not None for v in (self.private_question,self.private_plan,self.private_tendency))):
+            raise ValueError('a learning selection requires LEARN without a simultaneous private edit')
         if sum(v is not None for v in (self.private_question,self.private_plan,self.private_tendency))>1:
             raise ValueError('one private edit per formation intention; existing thoughts coexist')
         return self
@@ -50,6 +54,7 @@ class CognitiveProposal(DTO):
         value=handler(self)
         if self.passing_thought is None:value.pop('passing_thought',None)
         if self.preferred_behavior is None:value.pop('preferred_behavior',None)
+        if self.learning_program_ref is None:value.pop('learning_program_ref',None)
         if self.private_question is None:value.pop('private_question',None)
         if self.private_plan is None:value.pop('private_plan',None)
         if self.private_tendency is None:value.pop('private_tendency',None)
@@ -108,6 +113,12 @@ def validate_cognitive_proposal(proposal, context):
     if proposal.preferred_behavior is not None:
         choices={choice for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for choice in json.loads(b.data_json).get('behavior_options',())}
         if proposal.preferred_behavior not in choices:raise CoreError('UNSUPPORTED_COGNITIVE_BEHAVIOR')
+    programs=[p for b in context.blocks if b.kind=='SUBJECT_APPRAISAL' for p in json.loads(b.data_json).get('learning_programs',())]
+    selected=proposal.learning_program_ref
+    if selected is not None and not any((p['learning_key'],p['spec_digest'])==(selected.learning_key,selected.spec_digest) for p in programs):
+        raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
+    if programs and proposal.preferred_behavior=='LEARN' and selected is None:
+        raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
     for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN'),(proposal.private_tendency,'PRIVATE_TENDENCY')):
         if candidate is None:continue
         private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}

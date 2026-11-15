@@ -177,15 +177,16 @@ def communication_strategy_projection(store,*,scope,entity_id,topic,recipient_co
     records=RecordService(store)
     if not records.current_support(head['record_id']):return None
     from ...life.dialogue_contracts import CommunicationStrategy
-    from ..autonomy.private_intent import internal_projection
+    from ..autonomy.private_intent import current_related_target
     value=CommunicationStrategy.model_validate_json(canonical(records.read(head['record_id'])['payload']))
     expected_recipient=recipient_context.model_dump(mode='json') if hasattr(recipient_context,'model_dump') else recipient_context
     if (value.owner_identity_id!=store.identity['identity_id'] or value.entity_id!=entity_id or value.topic!=topic
             or (value.recipient_context.model_dump(mode='json') if value.recipient_context else None)!=expected_recipient
             or value.state!='ACTIVE' or value.expires_at_us<=store.clock.utc_now_us()):return None
-    current={item['record_id'] for item in internal_projection(store,value.basis_private_record_ids,
-        scope=scope,privacy_classes=privacy_classes,include_associations=False)}
-    if not set(value.basis_private_record_ids)<=current:return None
+    # The private reason may be revised while the bounded prior method remains
+    # only a hypothesis for C. Never project a withdrawn, foreign or ambiguous basis.
+    for rid in value.basis_private_record_ids:
+        if current_related_target(store,rid,scope=scope,privacy_classes=privacy_classes) is None:return None
     # Only a compact prior own method, never the previous user words, private
     # reasons, a claim of effectiveness or a command to follow it unchanged.
     return {'record_id':head['record_id'],'choice':value.choice.model_dump(mode='json'),
@@ -214,7 +215,9 @@ def method_consideration(store, record_id, *, scope, entity_id, privacy_classes)
     cycle=store.one('subject_cycles',value.source_cycle_id)
     source=store.one('subject_events',cycle['subject_event_id']) if cycle else None
     if not source or source['entity_id']!=entity_id or source['scope']!=scope:return None
-    data=records.read(cycle['record_id'])['payload'];roots=[]
+    # The event may intentionally have no durable body. Original C's accepted
+    # context-fit refs and the exact retained statement bind its prior meaning.
+    data=records.read(cycle['record_id'])['payload'];roots=[];meanings={}
     for rid in (data.get('context_fit') or {}).get('source_record_ids',()):
         h=store.one('continuity_records',rid)
         if not h or h['record_kind']!='COGNITION_PROPOSAL' or h['scope']!=scope or h['privacy_class'] not in privacy_classes or h['lifecycle']!='ACTIVE' or not records.current_support(rid):continue
@@ -228,9 +231,21 @@ def method_consideration(store, record_id, *, scope, entity_id, privacy_classes)
         if not header or header['scope']!=scope or header['privacy_class'] not in privacy_classes or header['entity_id']!=entity_id:continue
         memory=records.memory.read(mid);provenance=memory['source_provenance']
         if (provenance['source_namespace']=='recorded.conversation.input' and provenance['source_kind']=='USER_STATEMENT'
-                and provenance['source_reference']==source['source_key']):roots.append(mid)
+                and provenance['source_reference']==source['source_key']):
+            roots.append(mid)
+            meaning=reply['proposal'].get('dialogue') or {}
+            recipient=value.recipient_context.model_dump(mode='json') if value.recipient_context else None
+            if (source['origin']=='USER' and (data.get('context_fit') or {}).get('mode')==meaning.get('kind')
+                    and meaning.get('confidence') in {'RELEVANT','HIGH'} and dialogue.get('recipient_context')==recipient):
+                # Reuse already-paid typed understanding, not private wording or
+                # a new assertion about the person's present emotional state.
+                meanings[rid]={'data':{'kind':meaning['kind'],'confidence':meaning['confidence'],
+                    'message_memory_id':mid,'source_proposal_record_id':rid,'request_id':reply['request_id'],
+                    'observed_at_us':source['observed_at_us'],'temporal_scope':'AT_METHOD_FORMATION',
+                    'provenance':'MODEL_PROPOSAL','establishes_current_emotional_state':False,'establishes_effect':False},
+                    'record_ids':(rid,request['record_id']),'memory_ids':(mid,)}
     if len(set(roots))!=1:return None
-    return {'strategy':current,'topic':value.topic,'input_memory_id':roots[0],
+    return {'strategy':current,'topic':value.topic,'input_memory_id':roots[0],'formation_meaning':next(iter(meanings.values())) if len(meanings)==1 else None,
         'record_ids':(record_id,cycle['record_id']),'memory_ids':records.support(record_id)}
 
 

@@ -55,6 +55,11 @@ class AnthropicJSONTransport(OpenAIJSONTransport):
         require(total_input<=2**53-1,'$.usage','CONSTRAINT',usage)
         normalized_usage={**counts,'uncached_input_tokens':counts['input_tokens'],'input_tokens':total_input}
         stop=value.get('stop_reason')
+        # Consumption belongs to the actual response, not to acceptance of its
+        # wording. Native refusal/truncation can still carry valid paid usage.
+        observe({**value,'usage':normalized_usage},{'finish_reason':stop})
+        native_metadata={'finish_reason':self._measurement_id(stop),'model_returned':self._measurement_id(value.get('model')),'usage':normalized_usage}
+        self.last_response_metadata=native_metadata
         require(stop!='refusal','$.stop_reason','STOP',stop,code='PROVIDER_REFUSAL')
         require(stop=='end_turn','$.stop_reason','STOP',stop,code='PROVIDER_PARTIAL_OUTPUT')
         content=value.get('content')
@@ -72,6 +77,7 @@ class AnthropicJSONTransport(OpenAIJSONTransport):
         try:
             proposal,model,_=super()._parse_response(canonical(normalized).encode(),request,observe)
         finally:
+            self.last_response_metadata=native_metadata
             diagnostic=self.last_parse_diagnostic
             self.last_parse_diagnostic=diagnostic.model_copy(update={'openai_shape_valid':None,
                 'issues':tuple(i.model_copy(update={'path':i.path.replace('$.choices[0].message.content','$.content')}) for i in diagnostic.issues)})

@@ -1,0 +1,1 @@
+{"memory_rows": 200000, "wall_seconds": 206.02206211200064, "scores": {"baseline": {"correct": 0, "false_result_cases": 0, "timeouts": 144, "p50_ms": 100.25335299997096, "p95_ms": 100.42314189913668}, "candidate": {"correct": 144, "false_result_cases": 0, "timeouts": 0, "p50_ms": 17.2297350000008, "p95_ms": 20.344612499229697}}}

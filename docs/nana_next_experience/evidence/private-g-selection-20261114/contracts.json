@@ -1,0 +1,30 @@
+{
+  "base_commit": "717a3a8f125822d66f91ed86c65000659b7fc286",
+  "old_source_files": 298,
+  "old_source_list_sha256": "91b46f7d10c1785ce02997040cd840e65da9fee0ef5edff3465ab62e569d3bf9",
+  "old": {
+    "module": "/dev/shm/nana-private-g-717/src/nana_core/continuity/cognition.py",
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 5284,
+      "sha256": "0c9f2282ec99f385d4a50d49d55f99cda40e4368b25a56bdd31a2312ffa4ba4b"
+    },
+    "default_proposal_sha256": "fdf405930d168667c560af49d50b0daa85ff9ad91c1d8f321e7e34cfa9a6fe50"
+  },
+  "new": {
+    "module": "/tmp/nana-inner-refinement-work/src/nana_core/continuity/cognition.py",
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 6006,
+      "sha256": "35dc36dff881fc828c7496f4aa0530f2e542cfd4a4feb770ec1acb2834d47bbe"
+    },
+    "default_proposal_sha256": "fdf405930d168667c560af49d50b0daa85ff9ad91c1d8f321e7e34cfa9a6fe50"
+  },
+  "self_schema_extra_bytes": 722
+}

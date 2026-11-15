@@ -125,7 +125,10 @@ class ExperienceService:
         namespace='recorded.project.structured-check' if result['source_provenance']['domain']=='DEVELOPMENT_PROJECT' else 'synthetic.structured-check'
         previous=self.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",(namespace,result_memory_id)).fetchone()
         now=previous[0] if previous else self.store.clock.utc_now_us()
-        eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],observed_time_us=now))
+        # This numeric check concerns the actual result evidence. Its derived
+        # memory below still inherits the result's full private cause lineage.
+        source_privacy=self.records.memory.evidence(result['source_evidence_id'])['privacy_class']
+        eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=source_privacy,observed_time_us=now))
         return self.records.memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,),confidence=1.))
 
     def _interaction_outcome(self,result):

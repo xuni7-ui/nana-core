@@ -1,0 +1,67 @@
+{
+  "reason": "ENVIRONMENT_TMPFS_SHMEM_REACHED_8G_CGROUP_OOM",
+  "source_path": "/dev/shm/nana-diverse-200k-20261114",
+  "preserved_disk_path": "/workspace/nana-preserved-200k-20261114",
+  "closed_database_checked": true,
+  "all_files_byte_identical": true,
+  "files": {
+    "physical-after-recovery.json": {
+      "sha256": "df4ed66bd48708954cafaf4b83869c94282704663390c50fa782c6351e09c14c",
+      "bytes": 1128
+    },
+    "self.db-shm": {
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "bytes": 32768
+    },
+    "self.db-wal": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "two-query-variants.json": {
+      "sha256": "943b7a6a530894a64bf6583f4cf82cc18213c6db881c51fd9e2e4b7bd6788c72",
+      "bytes": 43566
+    },
+    "prototype-not_in.py": {
+      "sha256": "ea00392afd582b37a1e502d8d2b0f25081ff6972fd732a6ce1b12fe84dc29abe",
+      "bytes": 32333
+    },
+    "prototype-not_exists.py": {
+      "sha256": "f82be16d4538ececcade2e367545e3d2605e9b08c849fe841f9a226c4d0e7717",
+      "bytes": 32343
+    },
+    "CORPUS.json": {
+      "sha256": "0ce763d639a8a4d19f3892f2322b367bee296cffcd4f4b146991b41fdd7feac9",
+      "bytes": 290
+    },
+    "result-200000.json": {
+      "sha256": "6c90cb56ca8af105578827f77f9f17ec7e897df6b12f152943a1561e4e64968a",
+      "bytes": 71567
+    },
+    "self.db.privacy.json": {
+      "sha256": "c158280098d0a491ea27501bbeabfe92abad4a8684c278e1d7446604595c8e84",
+      "bytes": 2495
+    },
+    "self.db.privacy.json.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "self.db": {
+      "sha256": "e8d238e9f17f1e5bd038d0f196e08f7505c8a50e8eff78ec275de09f9aca197e",
+      "bytes": 2037067776
+    },
+    "self.db.lock": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "FROZEN_SPEC.json": {
+      "sha256": "7fb0b79025ea4700d066cd5a392a7784811cbe1347cc76b9dd3337afc147bf10",
+      "bytes": 6970
+    }
+  },
+  "logical_path_retained_by_symlink": true,
+  "runtime_or_production_db": false,
+  "captured_us": 1794683572481610,
+  "database_content_lost": false,
+  "original_tmpfs_copy_removed_after_all_file_hash_match": true,
+  "performance_requalified_after_move": false
+}

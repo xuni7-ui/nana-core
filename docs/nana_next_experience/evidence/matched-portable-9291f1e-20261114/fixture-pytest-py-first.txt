@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/tmp/nana-929-private-g-probe.py", line 10, in <module>
+    import pytest
+  File "/tmp/nana-929-qualification-deps/pytest/__init__.py", line 8, in <module>
+    from _pytest._code import ExceptionInfo
+  File "/tmp/nana-929-qualification-deps/_pytest/_code/__init__.py", line 5, in <module>
+    from .code import Code
+  File "/tmp/nana-929-qualification-deps/_pytest/_code/code.py", line 41, in <module>
+    from _pytest._io import TerminalWriter
+  File "/tmp/nana-929-qualification-deps/_pytest/_io/__init__.py", line 3, in <module>
+    from .terminalwriter import get_terminal_width
+  File "/tmp/nana-929-qualification-deps/_pytest/_io/terminalwriter.py", line 19, in <module>
+    from ..compat import assert_never
+  File "/tmp/nana-929-qualification-deps/_pytest/compat.py", line 20, in <module>
+    import py
+ModuleNotFoundError: No module named 'py'

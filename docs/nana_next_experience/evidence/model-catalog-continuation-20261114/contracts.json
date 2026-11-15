@@ -1,0 +1,32 @@
+{
+  "base_commit": "ce603d27a5b4a5047ab90d9047132f70dd6abe01",
+  "GET": "/api/nana-space/v2/providers/models",
+  "required_query": [
+    "provider_profile_id",
+    "profile_revision"
+  ],
+  "optional_query": [
+    "after_id"
+  ],
+  "native_protocol": "ANTHROPIC",
+  "optional_response": [
+    "next_after_id",
+    "continued_after_id",
+    "retry_after_ms"
+  ],
+  "per_explicit_read": {
+    "pages": 8,
+    "decoded_body_bytes": 262144,
+    "visible_model_ids": 256,
+    "opportunity_seconds": 10
+  },
+  "continuation": "Only when all received IDs fit, a valid unseen last_id equals the last model row and the native API has_more. No cursor for malformed, cyclic, unsupported or over-visible-cap responses.",
+  "compatibility": "Old initial requests and JSON remain accepted. Continuation request must be echoed by BFF, so an old native bridge that drops it cannot show a fake next page.",
+  "configuration_or_inference_side_effects": false,
+  "new_real_provider_calls": 0,
+  "new_paid_inference_calls": 0,
+  "native_java_build": "NOT_RUN_JDK_COMPILER_AND_ANDROID_PLATFORM_NOT_QUALIFIED",
+  "real_device": "NOT_RUN",
+  "APK": "NOT_BUILT",
+  "production": "NOT_CHANGED"
+}

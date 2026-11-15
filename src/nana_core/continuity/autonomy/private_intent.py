@@ -55,9 +55,13 @@ class PrivateThoughtEdit(DTO):
     related_private_record_ids:tuple[str,...]=Field(default=(),max_length=8)
     clear_related_private_records:bool=False
     revises_record_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
+    activity_state:Literal['ACTIVE','PAUSED','ABANDONED']|None=Field(default=None,
+        description='Explicit lifecycle choice for the revised own idea, requiring revises_record_id; never an action result or a disclosure permission.')
 
     @model_validator(mode='after')
     def unambiguous_association_choice(self):
+        if self.activity_state is not None and self.revises_record_id is None:
+            raise ValueError('a lifecycle choice requires one current private revision')
         if self.clear_related_private_records and (self.revises_record_id is None or self.related_private_record_ids):
             raise ValueError('clearing associations requires one current revision and no replacement links')
         return self
@@ -66,6 +70,7 @@ class PrivateThoughtEdit(DTO):
     def compatible_wire(self,handler):
         value=handler(self)
         if self.revises_record_id is None:value.pop('revises_record_id',None)
+        if self.activity_state is None:value.pop('activity_state',None)
         if not self.clear_related_private_records:value.pop('clear_related_private_records',None)
         return value
 
@@ -99,7 +104,7 @@ def payload_model(data):
         'PRIVATE_QUESTION_V3':PrivateQuestion,'PRIVATE_TENDENCY_V4':PrivateTendency}.get(data.get('contract'))
 
 
-def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,for_decision=False,for_continuation=False):
+def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,intent_id=None,for_decision=False,for_continuation=False,continuation_entity_id=None):
     marks=','.join('?' for _ in privacy_classes)
     if not marks:return ()
     # Scope/privacy/current headers precede the bounded payload window. The
@@ -120,12 +125,13 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
         queries=[]
         for index,predicate in (('private_intent_topic_lookup_v1',PRIVATE_INTENT_JSON_FILTER),('private_intent_tendency_topic_v4',PRIVATE_TENDENCY_JSON_FILTER)):
             query="SELECT r.record_id,r.scope,r.privacy_class,r.lifecycle,r.created_at_us,r.rowid AS ordering_row FROM artifacts a INDEXED BY "+index+" JOIN continuity_records r INDEXED BY private_intent_payload_lookup ON r.payload_artifact_id=a.artifact_id WHERE "+predicate.replace('payload','a.payload')+" AND json_extract(CAST(a.payload AS TEXT),'$.owner_identity_id')=? AND json_extract(CAST(a.payload AS TEXT),'$.topic')=? AND r.record_kind='INTENTION' AND r.target_id='private-intent.v1' AND r.lifecycle='ACTIVE' AND r.scope=? AND r.privacy_class IN ("+marks+")"
+            if intent_id is not None:query+=" AND json_extract(CAST(a.payload AS TEXT),'$.intent_id')=?"
             if for_continuation:query+=" AND NOT EXISTS (SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='private-thought.'||r.record_id)"
             queries.append(query)
         # Disjoint format indexes: do not duplicate legacy entries or change
         # the partial predicate an older installed reader explicitly selects.
         sql=' UNION ALL '.join(queries)+' ORDER BY created_at_us DESC,ordering_row DESC LIMIT 64 OFFSET ?'
-        args=(owner_identity_id,topic,scope,*privacy_classes)*2
+        args=(owner_identity_id,topic,scope,*privacy_classes,*((intent_id,) if intent_id is not None else ()))*2
     else:
         # Legacy/read-only/JSON-less engines retain correctness by paging
         # current permitted headers. They never install a cache on inspection.
@@ -145,6 +151,7 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
             data=records.read(row[0])['payload'];model=payload_model(data)
             if model is None:continue
             value=model.model_validate_json(json.dumps(data))
+            if intent_id is not None and value.intent_id!=intent_id:continue
             if topic is not None and value.topic!=topic:continue
             if owner_identity_id is not None and value.owner_identity_id!=owner_identity_id:continue
             if for_decision and (value.status=='WITHDRAWN' or value.disclosure_policy=='WITHDRAWN'
@@ -153,6 +160,12 @@ def candidates(store,scope,privacy_classes,*,topic=None,owner_identity_id=None,f
                 formed=store.one('subject_intentions',value.intent_id)
                 if (not isinstance(value,PrivateActivity) or value.activity_state!='ACTIVE'
                         or not formed or formed['kind']!='REFLECTION' or formed['state']!='COMPLETED'):continue
+                if continuation_entity_id is not None:
+                    from ..subject.context_fit import depth_boundary
+                    # This C/data permission already governs actual cognition.
+                    # Filter before the opportunity cap, without changing the
+                    # retained wish. Delivery-only boundaries leave cognition eligible.
+                    if depth_boundary(store,continuation_entity_id,scope,value.topic,privacy_classes,purpose='COGNITION')[0]:continue
             out.append((row[0],value))
             if len(out)==64:break
         if len(rows)<64:break
@@ -272,6 +285,52 @@ def review_target(store,reference,*,scope,privacy_classes,topic=None):
     return reference.record_id,item
 
 
+
+def outcome_origin_target(store,reference,*,scope,privacy_classes,topic):
+    """Current same-topic thought for a verified outcome or attributed method.
+
+    Historical origin is authenticated first. This is a read-only context
+    association, never a replacement for exact review/continuation references.
+    """
+    head=store.one('continuity_records',reference.record_id);records=RecordService(store)
+    if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+            or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+            or head['lifecycle'] not in {'ACTIVE','SUPERSEDED'}
+            or not records.current_support(reference.record_id)):return None
+    data=records.read(reference.record_id,include_history=True)['payload'];model=payload_model(data)
+    if model is None:return None
+    origin=model.model_validate_json(json.dumps(data))
+    if (origin.owner_identity_id!=store.identity['identity_id'] or origin.intent_id!=reference.intent_id
+            or origin.revision!=reference.revision or origin.topic!=topic):return None
+    current=candidates(store,scope,privacy_classes,topic=topic,owner_identity_id=origin.owner_identity_id,
+        intent_id=origin.intent_id,for_decision=True)
+    if len(current)!=1:return None
+    rid,item=current[0]
+    if (item.cycle_id!=origin.cycle_id or item.category!=origin.category
+            or item.revision<origin.revision or (rid!=reference.record_id and item.revision==origin.revision)
+            or getattr(item,'created_at_us',None)!=getattr(origin,'created_at_us',None)):return None
+    return rid,item
+
+
+
+# Compatibility for the original G consumer; one resolver, not a second lookup.
+growth_origin_target=outcome_origin_target
+
+
+def current_related_target(store,record_id,*,scope,privacy_classes):
+    """Authenticate a method's original private basis before current association."""
+    head=store.one('continuity_records',record_id)
+    if (not head or head['record_kind']!='INTENTION' or head['target_id']!='private-intent.v1'
+            or head['scope']!=scope or head['privacy_class'] not in privacy_classes
+            or head['lifecycle'] not in {'ACTIVE','SUPERSEDED'}):return None
+    data=RecordService(store).read(record_id,include_history=True)['payload'];model=payload_model(data)
+    if model is None:return None
+    item=model.model_validate_json(json.dumps(data))
+    from ..subject.opportunities import PrivateIntentRef
+    ref=PrivateIntentRef(record_id=record_id,intent_id=item.intent_id,revision=item.revision)
+    return outcome_origin_target(store,ref,scope=scope,privacy_classes=privacy_classes,topic=item.topic)
+
+
 def continuation_target(store,reference,*,scope,privacy_classes):
     rid,item=review_target(store,reference,scope=scope,privacy_classes=privacy_classes)
     if not isinstance(item,PrivateActivity) or item.activity_state!='ACTIVE':raise CoreError('PRIVATE_CONTINUATION_INACTIVE')
@@ -315,17 +374,17 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     strategy=communication_strategy_projection(store,**arguments,privacy_classes=privacy_classes)
     if strategy is None:return None
     method=CommunicationStrategy.model_validate_json(json.dumps(records.read(strategy['record_id'])['payload']))
-    target=None;support_id=strategy['record_id']
+    target=None;support_id=strategy['record_id'];dedupe_support_id=support_id
     for rid in method.basis_private_record_ids:
-        if reference is not None and reference.record_id!=rid:continue
-        selected=internal_projection(store,(rid,),scope=scope,privacy_classes=privacy_classes,include_associations=False)
-        if not selected or selected[0]['category']!='PRIVATE_TENDENCY' or selected[0]['activity_state']!='ACTIVE':continue
-        item=PrivateTendency.model_validate_json(json.dumps(records.read(rid)['payload']))
+        current=current_related_target(store,rid,scope=scope,privacy_classes=privacy_classes)
+        if current is None:continue
+        current_rid,item=current
+        if item.category!='PRIVATE_TENDENCY' or item.activity_state!='ACTIVE':continue
         from ..subject.opportunities import PrivateIntentRef
-        candidate=PrivateIntentRef(record_id=rid,intent_id=item.intent_id,revision=item.revision)
+        candidate=PrivateIntentRef(record_id=current_rid,intent_id=item.intent_id,revision=item.revision)
         if reference is not None and reference!=candidate:continue
         continuation_target(store,candidate,scope=scope,privacy_classes=privacy_classes)
-        target=candidate;support_id=rid
+        target=candidate;support_id=current_rid;dedupe_support_id=rid
         break
     # An initial own method can matter before a lasting inner state exists.
     # A paused/retired/unavailable prior basis is never treated as a new birth.
@@ -334,7 +393,7 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     from ...storage import digest
     # Aliases of the same exact opinion on the same turn are not new
     # conditions. The record remains a dependency, not an identity key.
-    key='private-feedback.'+digest([store.identity['identity_id'],support_id,*opinion_meaning(data)])
+    key='private-feedback.'+digest([store.identity['identity_id'],dedupe_support_id,*opinion_meaning(data)])
     return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
         'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(support_id),*records.support(opinion['review_record_id']))))}
 
@@ -352,6 +411,13 @@ def consider_tendency(event,situation,judgment,intention,proposal):
     return _consider_formation(event,situation,judgment,intention,proposal)
 
 
+def is_private_consideration(event):
+    """Existing internal opportunities, not public questions or work requests."""
+    return event.origin=='SELF_WAKE' and (event.private_thought_ref is not None
+        or event.communication_method_record_id is not None or event.growth_assessment_id is not None
+        or event.task_class=='private.feedback.review')
+
+
 def can_consider_private_formation(event,situation,judgment,intention):
     """The original C's pre-choice, reused by D only to allocate its method."""
     if (event.origin!='SELF_WAKE' or event.retention=='DO_NOT_REMEMBER'
@@ -360,7 +426,7 @@ def can_consider_private_formation(event,situation,judgment,intention):
             or intention.kind in {'SOCIAL_INTERACTION','DISAGREE','ACTION_PROPOSAL'}
             or intention.behavior in {'REST','WITHDRAW','STAY_SILENT','IGNORE','DO_NOTHING','DEFER'}
             or any((event.realization_target,event.goal_step,event.goal_review,event.memory_review_id,
-                event.governance_review_id,event.disposition_reflection_id,event.growth_assessment_id))
+                event.governance_review_id,event.disposition_reflection_id))
             or 'REFLECT' in situation.prohibited_behaviors
             or (situation.context_fit and not situation.context_fit.allow_deepening)
             or (situation.cue and (situation.cue.resource_ref or situation.cue.program_id))):
@@ -519,8 +585,11 @@ def after_choice(store,tx,event,result,*,privacy_classes,selected_topic=None,pri
             associations=() if formation.clear_related_private_records else (
                 tuple(dict.fromkeys(x for x in formation.related_private_record_ids if x!=rid)) or previous_associations)
             association_changed=set(associations)!=set(previous_associations)
-            if reframed or association_changed or item.activity_state!='ACTIVE':
-                changes={'content_summary':contents,'topic':formation.topic,'activity_state':'ACTIVE',
+            # Editing words/associations does not silently restart a paused idea.
+            # C's explicit lifecycle choice is separate from revising its content.
+            target_state=formation.activity_state or item.activity_state
+            if reframed or association_changed or item.activity_state!=target_state:
+                changes={'content_summary':contents,'topic':formation.topic,'activity_state':target_state,
                     'revision':item.revision+1,'updated_at_us':store.clock.utc_now_us(),'last_choice_cycle_id':result.cycle_id,
                     'source_memory_ids':result.intention.source_ids}
                 if reframed or association_changed:

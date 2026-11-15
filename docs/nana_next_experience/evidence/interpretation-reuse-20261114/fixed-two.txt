@@ -1,0 +1,4 @@
+{"ablated": false, "formed": true, "input_bytes": 49201, "latency_us": 3336, "measurement": "synthetic_interpretation_reuse", "reserved_bytes": 61490, "self_calls": 1}
+.{"ablated": true, "formed": false, "input_bytes": 48109, "latency_us": 2938, "measurement": "synthetic_interpretation_reuse", "reserved_bytes": 60398, "self_calls": 1}
+.
+2 passed, 13 deselected in 1.95s

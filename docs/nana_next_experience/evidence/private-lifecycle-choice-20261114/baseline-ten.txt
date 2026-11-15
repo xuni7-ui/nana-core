@@ -1,0 +1,235 @@
+{"declared": true, "input_bytes": 48444, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 60733, "self_calls": 1, "state": "ACTIVE", "wanted": "PAUSED"}
+F{"declared": true, "input_bytes": 48444, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 60733, "self_calls": 1, "state": "ACTIVE", "wanted": "ABANDONED"}
+F{"declared": false, "input_bytes": 48444, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 60733, "self_calls": 1, "state": "ACTIVE", "wanted": "PAUSED"}
+.{"declared": false, "input_bytes": 48444, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 60733, "self_calls": 1, "state": "ACTIVE", "wanted": "ABANDONED"}
+.FFF..{"measurement": "synthetic_paused_edit_attention", "model_calls": 0, "offered_target": true, "state": "ACTIVE"}
+F
+=================================== FAILURES ===================================
+_ test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[True-PAUSED] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_normal_provider_c_can_exp0')
+wanted = 'PAUSED', declared = True
+
+    @pytest.mark.parametrize('wanted',['PAUSED','ABANDONED'])
+    @pytest.mark.parametrize('declared',[True,False])
+    def test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle(tmp_path,wanted,declared):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LIFECYCLE_CANARY: an own question I may keep, pause, or leave without declaring any external effect.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='own-lifecycle')
+            old_rid,old=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            identity=app.runtime.identity_id;source=old.source_memory_ids[0]
+        cfg=load_config(home)
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def inner(request):
+            package=json.loads(request['context_json']);manifest=package['manifest']
+            values=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+            value=next(v for v in values if v['record_id']==old_rid);assert value['activity_state']=='ACTIVE'
+            offered='activity_state' in request['expected_schema']['$defs']['PrivateTendencyProposal']['properties']
+            seen.append(request)
+            return {'interpretation':'SYNTHETIC choose the lifespan of only this own idea',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC pause or end attention without claiming an action or erasing history',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':'own-lifecycle','tendency':private,'revises_record_id':old_rid,
+                        **({'activity_state':wanted} if offered and declared else {})}}}
+        with relay(home,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==old.intent_id)
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_private_lifecycle_choice','wanted':wanted,'declared':declared,'state':item.activity_state,
+                    'self_calls':len(seen),'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None},sort_keys=True))
+>               assert len(seen)==1 and item.activity_state==(wanted if declared else 'ACTIVE')
+E               assert (1 == 1 and 'ACTIVE' == 'PAUSED'
+E                +  where 1 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 32768, 'output_tokens': 2048, 'tim...4e2f-b534-7017478cf5c5"]}],"content_digest":"1ac7d1a0063814cd0a265eba3280ccfc6a14e68828e4aabc4761b719a418533c"}', ...}])
+E                 
+E                 - PAUSED
+E                 + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:48: AssertionError
+_ test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[True-ABANDONED] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_normal_provider_c_can_exp1')
+wanted = 'ABANDONED', declared = True
+
+    @pytest.mark.parametrize('wanted',['PAUSED','ABANDONED'])
+    @pytest.mark.parametrize('declared',[True,False])
+    def test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle(tmp_path,wanted,declared):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LIFECYCLE_CANARY: an own question I may keep, pause, or leave without declaring any external effect.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='own-lifecycle')
+            old_rid,old=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            identity=app.runtime.identity_id;source=old.source_memory_ids[0]
+        cfg=load_config(home)
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def inner(request):
+            package=json.loads(request['context_json']);manifest=package['manifest']
+            values=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+            value=next(v for v in values if v['record_id']==old_rid);assert value['activity_state']=='ACTIVE'
+            offered='activity_state' in request['expected_schema']['$defs']['PrivateTendencyProposal']['properties']
+            seen.append(request)
+            return {'interpretation':'SYNTHETIC choose the lifespan of only this own idea',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC pause or end attention without claiming an action or erasing history',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':'own-lifecycle','tendency':private,'revises_record_id':old_rid,
+                        **({'activity_state':wanted} if offered and declared else {})}}}
+        with relay(home,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==old.intent_id)
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_private_lifecycle_choice','wanted':wanted,'declared':declared,'state':item.activity_state,
+                    'self_calls':len(seen),'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None},sort_keys=True))
+>               assert len(seen)==1 and item.activity_state==(wanted if declared else 'ACTIVE')
+E               assert (1 == 1 and 'ACTIVE' == 'ABANDONED'
+E                +  where 1 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 32768, 'output_tokens': 2048, 'tim...4fa0-af6c-bbb8329ae7e4"]}],"content_digest":"e7edd46c39fc16e79771451ab02beffd1ad50e413bccc60623a2fd173715e34d"}', ...}])
+E                 
+E                 - ABANDONED
+E                 + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:48: AssertionError
+_ test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_question-question-PRIVATE_QUESTION] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_same_c_can_pause_reactiva0')
+kind = 'private_question', field = 'question', category = 'PRIVATE_QUESTION'
+
+    @pytest.mark.parametrize('kind,field,category',[('private_question','question','PRIVATE_QUESTION'),('private_plan','plan','PRIVATE_PLAN'),('private_tendency','tendency','PRIVATE_TENDENCY')])
+    def test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains(tmp_path,kind,field,category):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,'other','SYNTHETIC another independent own interest.',topic='lifecycle-target')
+            other_rid,other=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            formation=form(app,'target','SYNTHETIC my own optional idea.',topic='lifecycle-target',kind=kind,related=(other_rid,))
+            rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==formation.intention_id)
+            initial=item;r=app.runtime
+            for index,state in enumerate(('PAUSED','PAUSED','ACTIVE','ABANDONED')):
+                before_count=r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]
+                old_rid,old=rid,item
+                class Edit:
+                    descriptor='synthetic-private-lifecycle-only'
+                    def propose(self,request):
+                        value=json.loads(AnalyticalFixturePort().propose(request));value['proposed_operations']=['DRAFT']
+                        value[kind]={'topic':old.topic,field:old.content_summary,'revises_record_id':old_rid,
+                            **({'activity_state':state} if 'activity_state' in PrivateThoughtEdit.model_fields else {})}
+                        return json.dumps(value)
+                clock.advance(SECOND)
+                result=r.subject.cognize(SubjectInput(source_key='synthetic.lifecycle.'+str(index),kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                    privacy_class='PROJECT',topic=old.topic,observed_at_us=clock.utc_now_us()),model=Edit(),authority=r.authority,policy=app.policy)
+                rid,item=next((rr,v) for rr,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==initial.intent_id)
+>               assert item.activity_state==state and item.category==category
+E               AssertionError: assert ('ACTIVE' == 'PAUSED'
+E                 
+E                 - PAUSED
+E                 + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:92: AssertionError
+_ test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_plan-plan-PRIVATE_PLAN] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_same_c_can_pause_reactiva1')
+kind = 'private_plan', field = 'plan', category = 'PRIVATE_PLAN'
+
+    @pytest.mark.parametrize('kind,field,category',[('private_question','question','PRIVATE_QUESTION'),('private_plan','plan','PRIVATE_PLAN'),('private_tendency','tendency','PRIVATE_TENDENCY')])
+    def test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains(tmp_path,kind,field,category):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,'other','SYNTHETIC another independent own interest.',topic='lifecycle-target')
+            other_rid,other=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            formation=form(app,'target','SYNTHETIC my own optional idea.',topic='lifecycle-target',kind=kind,related=(other_rid,))
+            rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==formation.intention_id)
+            initial=item;r=app.runtime
+            for index,state in enumerate(('PAUSED','PAUSED','ACTIVE','ABANDONED')):
+                before_count=r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]
+                old_rid,old=rid,item
+                class Edit:
+                    descriptor='synthetic-private-lifecycle-only'
+                    def propose(self,request):
+                        value=json.loads(AnalyticalFixturePort().propose(request));value['proposed_operations']=['DRAFT']
+                        value[kind]={'topic':old.topic,field:old.content_summary,'revises_record_id':old_rid,
+                            **({'activity_state':state} if 'activity_state' in PrivateThoughtEdit.model_fields else {})}
+                        return json.dumps(value)
+                clock.advance(SECOND)
+                result=r.subject.cognize(SubjectInput(source_key='synthetic.lifecycle.'+str(index),kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                    privacy_class='PROJECT',topic=old.topic,observed_at_us=clock.utc_now_us()),model=Edit(),authority=r.authority,policy=app.policy)
+                rid,item=next((rr,v) for rr,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==initial.intent_id)
+>               assert item.activity_state==state and item.category==category
+E               AssertionError: assert ('ACTIVE' == 'PAUSED'
+E                 
+E                 - PAUSED
+E                 + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:92: AssertionError
+_ test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_tendency-tendency-PRIVATE_TENDENCY] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_same_c_can_pause_reactiva2')
+kind = 'private_tendency', field = 'tendency', category = 'PRIVATE_TENDENCY'
+
+    @pytest.mark.parametrize('kind,field,category',[('private_question','question','PRIVATE_QUESTION'),('private_plan','plan','PRIVATE_PLAN'),('private_tendency','tendency','PRIVATE_TENDENCY')])
+    def test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains(tmp_path,kind,field,category):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,'other','SYNTHETIC another independent own interest.',topic='lifecycle-target')
+            other_rid,other=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            formation=form(app,'target','SYNTHETIC my own optional idea.',topic='lifecycle-target',kind=kind,related=(other_rid,))
+            rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==formation.intention_id)
+            initial=item;r=app.runtime
+            for index,state in enumerate(('PAUSED','PAUSED','ACTIVE','ABANDONED')):
+                before_count=r.store.db.execute("SELECT count(*) FROM continuity_records WHERE target_id='private-intent.v1'").fetchone()[0]
+                old_rid,old=rid,item
+                class Edit:
+                    descriptor='synthetic-private-lifecycle-only'
+                    def propose(self,request):
+                        value=json.loads(AnalyticalFixturePort().propose(request));value['proposed_operations']=['DRAFT']
+                        value[kind]={'topic':old.topic,field:old.content_summary,'revises_record_id':old_rid,
+                            **({'activity_state':state} if 'activity_state' in PrivateThoughtEdit.model_fields else {})}
+                        return json.dumps(value)
+                clock.advance(SECOND)
+                result=r.subject.cognize(SubjectInput(source_key='synthetic.lifecycle.'+str(index),kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                    privacy_class='PROJECT',topic=old.topic,observed_at_us=clock.utc_now_us()),model=Edit(),authority=r.authority,policy=app.policy)
+                rid,item=next((rr,v) for rr,v in candidates(r.store,'project-work',('PROJECT',)) if v.intent_id==initial.intent_id)
+>               assert item.activity_state==state and item.category==category
+E               AssertionError: assert ('ACTIVE' == 'PAUSED'
+E                 
+E                 - PAUSED
+E                 + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:92: AssertionError
+_ test_editing_paused_contents_does_not_silently_reactivate_background_attention _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-old-ten/test_editing_paused_contents_d0')
+
+    def test_editing_paused_contents_does_not_silently_reactivate_background_attention(tmp_path):
+        from .test_private_tendency import change
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app)
+            change(app,'REST','pause-before-edit')
+            rid,idea=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            assert idea.activity_state=='PAUSED'
+            form(app,'edit-while-paused','SYNTHETIC the same private interest, now expressed more clearly.',revision=rid)
+            revised_rid,revised=next((rr,v) for rr,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==idea.intent_id)
+            clock.advance(2*SECOND);r=app.runtime
+            offered=r.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=0,quiet_window_us=SECOND)
+            offered_target=any(v.private_thought_ref and v.private_thought_ref.record_id==revised_rid for v in offered)
+            print(json.dumps({'measurement':'synthetic_paused_edit_attention','state':revised.activity_state,'offered_target':offered_target,'model_calls':0},sort_keys=True))
+>           assert revised.activity_state=='PAUSED' and not offered_target
+E           AssertionError: assert ('ACTIVE' == 'PAUSED'
+E             
+E             - PAUSED
+E             + ACTIVE)
+
+tests/person_self/test_private_lifecycle_choice.py:151: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[True-PAUSED]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[True-ABANDONED]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_question-question-PRIVATE_QUESTION]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_plan-plan-PRIVATE_PLAN]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_same_c_can_pause_reactivate_and_end_one_idea_while_other_interest_remains[private_tendency-tendency-PRIVATE_TENDENCY]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_editing_paused_contents_does_not_silently_reactivate_background_attention
+6 failed, 4 passed in 3.40s

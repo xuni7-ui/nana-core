@@ -40,10 +40,18 @@ def decode_usage_receipt(key,raw):
 
 
 def record_usage(tx,reply):
-    pair=reported_usage_pair(reply.usage)
+    record_usage_metadata(tx,reply.request_id,reply.origin,reply.usage)
+
+
+def record_usage_metadata(tx,request_id,origin,usage):
+    """A bound response may report consumption even when its wording is rejected.
+
+    Numeric usage does not accept a proposal, settle billing or refund a reserve.
+    """
+    pair=reported_usage_pair(usage)
     if pair is None:return
-    value={'version':1,'request_id':reply.request_id,'origin':reply.origin,'input_tokens':pair[0],'output_tokens':pair[1]}
-    key=PREFIX+reply.request_id;encoded=canonical(value)
+    value={'version':1,'request_id':request_id,'origin':origin,'input_tokens':pair[0],'output_tokens':pair[1]}
+    key=PREFIX+request_id;encoded=canonical(value)
     if decode_usage_receipt(key,encoded) is None:raise CoreError('USAGE_RECEIPT_INVALID')
     previous=tx.store.one('core_meta',key)
     if previous:

@@ -15,6 +15,16 @@ class PrivateIntentRef(DTO):
     revision:int=Field(ge=1)
 
 
+class LearningProgramRef(DTO):
+    """One configured original-G problem, not a lesson or execution permission."""
+    learning_key:str=Field(pattern=r'^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$')
+    spec_digest:str=Field(pattern=r'^[a-f0-9]{64}$')
+
+
+class LearningProgramOption(LearningProgramRef):
+    domain:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
+
+
 class LearningValue(DTO):
     """Sourced assessment factors, not a command or numeric reward."""
     goal_value: Literal['LOW','RELEVANT','HIGH']

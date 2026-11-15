@@ -9,9 +9,12 @@ from .contracts import RuntimeEvent,Cause
 class LivingWork:
     def __init__(self,runtime):
         self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None;self.paused=False;self.activity_source=None;self.skill_development=None
+        runtime.subject.learning_program_catalog=self._learning_program_catalog
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
             privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us,operational_guard=runtime.lease.assert_current)
+    def _learning_program_catalog(self,scope,privacy_classes):
+        return self.open_learning.program_options(scope=scope,privacy_classes=privacy_classes) if self.open_learning else ()
     def configure_agency(self,policy,port):
         r=self.runtime
         self.agency=AgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)
@@ -233,7 +236,10 @@ class LivingWork:
                 if goal and goal['state'] in {'ACTIVE','BLOCKED'}:tx.update('goals',goal_id,state='ABANDONED',version=goal['version']+1)
             return None
         project=view.target.resource.startswith(('project://','hands://'))
-        key=('development.living.step.' if project else 'synthetic.living.step.')+digest(ref.model_dump(mode='json'))
+        private_project=project and head['privacy_class'] not in {'PUBLIC','PROJECT'}
+        # A learned private method does not turn the approved material into a
+        # public input or a synthetic source. Reuse the sourced internal wake.
+        key=('local.living.step.' if private_project else 'development.living.step.' if project else 'synthetic.living.step.')+digest(ref.model_dump(mode='json'))
         prior=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(key,)).fetchone()
         if prior:
             cycle=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
@@ -244,7 +250,7 @@ class LivingWork:
             queued=r.store.db.execute('SELECT state FROM runtime_queue WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
             if queued and queued['state'] in {'IGNORED','EXPIRED'}:
                 return {'blocked':self.agency._park(work,view,'CORE_STEP_DROPPED')}
-        inp=SubjectInput(domain='DEVELOPMENT_MATERIAL' if project else 'SYNTHETIC_ONLY',source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,
+        inp=SubjectInput(domain='SOURCED_LIFE' if private_project else 'DEVELOPMENT_MATERIAL' if project else 'SYNTHETIC_ONLY',source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,
             scope=head['scope'],observed_at_us=work['due_at_us'],source_memory_ids=view.source_memory_ids[:32],
             task_class=view.task_class,privacy_class=head['privacy_class'],realization_target=view.target,goal_step=ref)
         event=RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,

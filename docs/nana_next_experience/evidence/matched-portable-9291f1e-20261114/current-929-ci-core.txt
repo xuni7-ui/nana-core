@@ -1,0 +1,553 @@
+﻿2026-11-14T18:53:19.9344702Z Current runner version: '2.338.2'
+2026-11-14T18:53:19.9366230Z ##[group]Runner Image Provisioner
+2026-11-14T18:53:19.9366958Z Hosted Compute Agent
+2026-11-14T18:53:19.9367509Z Version: 20261103.629
+2026-11-14T18:53:19.9368066Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-14T18:53:19.9368752Z Build Date: 2026-11-03T17:26:59Z
+2026-11-14T18:53:19.9369856Z Worker ID: {22faaf43-bd80-48e2-a501-308de08818bd}
+2026-11-14T18:53:19.9370493Z Region: westus2
+2026-11-14T18:53:19.9370953Z Cloud: Azure
+2026-11-14T18:53:19.9371563Z ##[endgroup]
+2026-11-14T18:53:19.9372771Z ##[group]Operating System
+2026-11-14T18:53:19.9373363Z Ubuntu
+2026-11-14T18:53:19.9373831Z 24.04.5
+2026-11-14T18:53:19.9374297Z LTS
+2026-11-14T18:53:19.9374809Z ##[endgroup]
+2026-11-14T18:53:19.9375323Z ##[group]Runner Image
+2026-11-14T18:53:19.9375860Z Image: ubuntu-24.04
+2026-11-14T18:53:19.9376378Z Version: 20261111.370.1
+2026-11-14T18:53:19.9377495Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-14T18:53:19.9378781Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+2026-11-14T18:53:19.9379722Z ##[endgroup]
+2026-11-14T18:53:19.9380699Z ##[group]GITHUB_TOKEN Permissions
+2026-11-14T18:53:19.9382496Z Contents: read
+2026-11-14T18:53:19.9383102Z Metadata: read
+2026-11-14T18:53:19.9383587Z ##[endgroup]
+2026-11-14T18:53:19.9385349Z Secret source: Actions
+2026-11-14T18:53:19.9386126Z Cache mode: write
+2026-11-14T18:53:19.9386955Z Prepare workflow directory
+2026-11-14T18:53:20.0190816Z Prepare all required actions
+2026-11-14T18:53:20.0230461Z Getting action download info
+2026-11-14T18:53:20.3558424Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-14T18:53:20.6567702Z Download action repository 'astral-sh/setup-uv@v6' (SHA:d0cc045d04ccac9d8b7881df0226f9e82c39688e)
+2026-11-14T18:53:21.0090016Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-14T18:53:21.2599633Z Complete job name: original-core-feedback
+2026-11-14T18:53:21.3431014Z ##[group]Run actions/checkout@v4
+2026-11-14T18:53:21.3432280Z with:
+2026-11-14T18:53:21.3433135Z   persist-credentials: false
+2026-11-14T18:53:21.3434085Z   fetch-depth: 0
+2026-11-14T18:53:21.3434888Z   filter: blob:none
+2026-11-14T18:53:21.3435828Z   repository: xuni7-ui/nana-core
+2026-11-14T18:53:21.3444392Z   token: ***
+2026-11-14T18:53:21.3445283Z   ssh-strict: true
+2026-11-14T18:53:21.3446109Z   ssh-user: git
+2026-11-14T18:53:21.3446900Z   clean: true
+2026-11-14T18:53:21.3447777Z   sparse-checkout-cone-mode: true
+2026-11-14T18:53:21.3448774Z   fetch-tags: false
+2026-11-14T18:53:21.3449701Z   show-progress: true
+2026-11-14T18:53:21.3450603Z   lfs: false
+2026-11-14T18:53:21.3451378Z   submodules: false
+2026-11-14T18:53:21.3452293Z   set-safe-directory: true
+2026-11-14T18:53:21.3453257Z   allow-unsafe-pr-checkout: false
+2026-11-14T18:53:21.3454489Z env:
+2026-11-14T18:53:21.3455349Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T18:53:21.3456333Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T18:53:21.3457413Z ##[endgroup]
+2026-11-14T18:53:21.6018035Z Syncing repository: xuni7-ui/nana-core
+2026-11-14T18:53:21.6021667Z ##[group]Getting Git version info
+2026-11-14T18:53:21.6023494Z Working directory is '/home/runner/work/nana-core/nana-core'
+2026-11-14T18:53:21.6026261Z [command]/usr/bin/git version
+2026-11-14T18:53:21.6085747Z git version 2.56.1
+2026-11-14T18:53:21.6105080Z ##[endgroup]
+2026-11-14T18:53:21.6120722Z Temporarily overriding HOME='/home/runner/work/_temp/728498fe-16e7-49af-aea9-bbb2e9be18e6' before making global git config changes
+2026-11-14T18:53:21.6123288Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T18:53:21.6125237Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nana-core/nana-core
+2026-11-14T18:53:21.6187648Z Deleting the contents of '/home/runner/work/nana-core/nana-core'
+2026-11-14T18:53:21.6192029Z ##[group]Initializing the repository
+2026-11-14T18:53:21.6195914Z [command]/usr/bin/git init /home/runner/work/nana-core/nana-core
+2026-11-14T18:53:21.6298991Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-14T18:53:21.6301843Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-14T18:53:21.6303549Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-14T18:53:21.6305548Z hint: call:
+2026-11-14T18:53:21.6306650Z hint:
+2026-11-14T18:53:21.6308065Z hint: 	git config --global init.defaultBranch <name>
+2026-11-14T18:53:21.6310012Z hint:
+2026-11-14T18:53:21.6311719Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-14T18:53:21.6314383Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-14T18:53:21.6316350Z hint:
+2026-11-14T18:53:21.6317611Z hint: 	git branch -m <name>
+2026-11-14T18:53:21.6319082Z hint:
+2026-11-14T18:53:21.6321014Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-14T18:53:21.6323716Z Initialized empty Git repository in /home/runner/work/nana-core/nana-core/.git/
+2026-11-14T18:53:21.6327425Z [command]/usr/bin/git remote add origin https://github.com/xuni7-ui/nana-core
+2026-11-14T18:53:21.6370606Z ##[endgroup]
+2026-11-14T18:53:21.6373406Z ##[group]Disabling automatic garbage collection
+2026-11-14T18:53:21.6375773Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-14T18:53:21.6409503Z ##[endgroup]
+2026-11-14T18:53:21.6411728Z ##[group]Setting up auth
+2026-11-14T18:53:21.6417008Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T18:53:21.6451913Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T18:53:21.6804126Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T18:53:21.6842802Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T18:53:21.7045366Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T18:53:21.7081915Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T18:53:21.7289112Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-14T18:53:21.7331237Z ##[endgroup]
+2026-11-14T18:53:21.7333064Z ##[group]Fetching the repository
+2026-11-14T18:53:21.7343353Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules --filter=blob:none origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-14T18:53:22.1683274Z From https://github.com/xuni7-ui/nana-core
+2026-11-14T18:53:22.1684135Z  * [new branch]      delivery/nana-space-next-apk -> origin/delivery/nana-space-next-apk
+2026-11-14T18:53:22.1685009Z  * [new branch]      delivery/nana-v4-403-verified-zip -> origin/delivery/nana-v4-403-verified-zip
+2026-11-14T18:53:22.1686007Z  * [new branch]      dev/nana-core-affective-autonomy-v1-codex -> origin/dev/nana-core-affective-autonomy-v1-codex
+2026-11-14T18:53:22.1687262Z  * [new branch]      dev/nana-core-cloud-daily-life-shared-presence-v1-codex -> origin/dev/nana-core-cloud-daily-life-shared-presence-v1-codex
+2026-11-14T18:53:22.1688489Z  * [new branch]      dev/nana-core-cloud-first-life-launch-v1-codex -> origin/dev/nana-core-cloud-first-life-launch-v1-codex
+2026-11-14T18:53:22.1689687Z  * [new branch]      dev/nana-core-continuous-runtime-codex -> origin/dev/nana-core-continuous-runtime-codex
+2026-11-14T18:53:22.1690696Z  * [new branch]      dev/nana-core-continuous-self-codex -> origin/dev/nana-core-continuous-self-codex
+2026-11-14T18:53:22.1691921Z  * [new branch]      dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex -> origin/dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex
+2026-11-14T18:53:22.1693707Z  * [new branch]      dev/nana-core-engineering-quality-portable-v2-codex -> origin/dev/nana-core-engineering-quality-portable-v2-codex
+2026-11-14T18:53:22.1695043Z  * [new branch]      dev/nana-core-execution-context-routing-v1-codex -> origin/dev/nana-core-execution-context-routing-v1-codex
+2026-11-14T18:53:22.1696205Z  * [new branch]      dev/nana-core-first-life-android-v2-codex -> origin/dev/nana-core-first-life-android-v2-codex
+2026-11-14T18:53:22.1697419Z  * [new branch]      dev/nana-core-first-life-unified-release-v1-codex -> origin/dev/nana-core-first-life-unified-release-v1-codex
+2026-11-14T18:53:22.1698776Z  * [new branch]      dev/nana-core-h1-live-semantic-provider-v1-codex -> origin/dev/nana-core-h1-live-semantic-provider-v1-codex
+2026-11-14T18:53:22.1700284Z  * [new branch]      dev/nana-core-h1-semantic-grounding-v1-codex -> origin/dev/nana-core-h1-semantic-grounding-v1-codex
+2026-11-14T18:53:22.1701465Z  * [new branch]      dev/nana-core-h2-live-real-screen-v1-codex -> origin/dev/nana-core-h2-live-real-screen-v1-codex
+2026-11-14T18:53:22.1702507Z  * [new branch]      dev/nana-core-h2-perception-ingress-v1-codex -> origin/dev/nana-core-h2-perception-ingress-v1-codex
+2026-11-14T18:53:22.1703767Z  * [new branch]      dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex -> origin/dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex
+2026-11-14T18:53:22.1704989Z  * [new branch]      dev/nana-core-living-release-v4-codex -> origin/dev/nana-core-living-release-v4-codex
+2026-11-14T18:53:22.1706130Z  * [new branch]      dev/nana-core-next-experience-codex -> origin/dev/nana-core-next-experience-codex
+2026-11-14T18:53:22.1707291Z  * [new branch]      dev/nana-core-next-stage-readiness-codex -> origin/dev/nana-core-next-stage-readiness-codex
+2026-11-14T18:53:22.1708625Z  * [new branch]      dev/nana-core-provider-capability-routing-v1-codex -> origin/dev/nana-core-provider-capability-routing-v1-codex
+2026-11-14T18:53:22.1710578Z  * [new branch]      dev/nana-core-real-action-experience-evolution-v1-codex -> origin/dev/nana-core-real-action-experience-evolution-v1-codex
+2026-11-14T18:53:22.1712251Z  * [new branch]      dev/nana-core-real-cognition-lived-growth-v2-codex -> origin/dev/nana-core-real-cognition-lived-growth-v2-codex
+2026-11-14T18:53:22.1713189Z  * [new branch]      dev/nana-core-real-cognition-world-loop-v1-codex -> origin/dev/nana-core-real-cognition-world-loop-v1-codex
+2026-11-14T18:53:22.1714085Z  * [new branch]      dev/nana-core-real-life-growth-and-presence-v1-codex -> origin/dev/nana-core-real-life-growth-and-presence-v1-codex
+2026-11-14T18:53:22.1714951Z  * [new branch]      dev/nana-core-real-living-integration-v1-codex -> origin/dev/nana-core-real-living-integration-v1-codex
+2026-11-14T18:53:22.1715773Z  * [new branch]      dev/nana-core-relational-autonomy-v1-codex -> origin/dev/nana-core-relational-autonomy-v1-codex
+2026-11-14T18:53:22.1716614Z  * [new branch]      dev/nana-core-source-navigation-audit-codex -> origin/dev/nana-core-source-navigation-audit-codex
+2026-11-14T18:53:22.1717484Z  * [new branch]      dev/nana-core-universal-model-setup-b -> origin/dev/nana-core-universal-model-setup-b
+2026-11-14T18:53:22.1718207Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind -> origin/dev/nana-core-v1-astrbot-shadow-bind
+2026-11-14T18:53:22.1718994Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind-codex -> origin/dev/nana-core-v1-astrbot-shadow-bind-codex
+2026-11-14T18:53:22.1719975Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind-r03 -> origin/dev/nana-core-v1-astrbot-shadow-bind-r03
+2026-11-14T18:53:22.1720680Z  * [new branch]      dev/nana-core-v1-cloud-bridge -> origin/dev/nana-core-v1-cloud-bridge
+2026-11-14T18:53:22.1721345Z  * [new branch]      dev/nana-core-v1-dev-validation -> origin/dev/nana-core-v1-dev-validation
+2026-11-14T18:53:22.1722369Z  * [new branch]      dev/nana-core-v1-first-real-shadow -> origin/dev/nana-core-v1-first-real-shadow
+2026-11-14T18:53:22.1723659Z  * [new branch]      dev/nana-core-v1-phase3-entry -> origin/dev/nana-core-v1-phase3-entry
+2026-11-14T18:53:22.1724547Z  * [new branch]      dev/nana-core-v1-r04-single-message-shadow-codex -> origin/dev/nana-core-v1-r04-single-message-shadow-codex
+2026-11-14T18:53:22.1725462Z  * [new branch]      dev/nana-core-v1-r041-short-lived-host-bridge-codex -> origin/dev/nana-core-v1-r041-short-lived-host-bridge-codex
+2026-11-14T18:53:22.1726314Z  * [new branch]      dev/nana-core-v1-r042-real-host-preflight -> origin/dev/nana-core-v1-r042-real-host-preflight
+2026-11-14T18:53:22.1727103Z  * [new branch]      dev/nana-core-v1-r042-trust-onboarding-codex -> origin/dev/nana-core-v1-r042-trust-onboarding-codex
+2026-11-14T18:53:22.1727919Z  * [new branch]      dev/nana-core-v1-r043-first-real-shadow-candidate -> origin/dev/nana-core-v1-r043-first-real-shadow-candidate
+2026-11-14T18:53:22.1728735Z  * [new branch]      dev/nana-core-v1-r044-preprod-redteam-codex -> origin/dev/nana-core-v1-r044-preprod-redteam-codex
+2026-11-14T18:53:22.1729777Z  * [new branch]      dev/nana-core-v1-r045-first-real-shadow-release-candidate -> origin/dev/nana-core-v1-r045-first-real-shadow-release-candidate
+2026-11-14T18:53:22.1730546Z  * [new branch]      dev/nana-core-v1-s0-s4  -> origin/dev/nana-core-v1-s0-s4
+2026-11-14T18:53:22.1731083Z  * [new branch]      dev/nana-core-v1-s5     -> origin/dev/nana-core-v1-s5
+2026-11-14T18:53:22.1731605Z  * [new branch]      dev/nana-core-v1-s6     -> origin/dev/nana-core-v1-s6
+2026-11-14T18:53:22.1732200Z  * [new branch]      dev/nana-core-v1-shadow-bootstrap -> origin/dev/nana-core-v1-shadow-bootstrap
+2026-11-14T18:53:22.1732879Z  * [new branch]      dev/nana-core-v1-shadow-host-compat -> origin/dev/nana-core-v1-shadow-host-compat
+2026-11-14T18:53:22.1733664Z  * [new branch]      dev/nana-core-vision-first-shared-growth-v2-codex -> origin/dev/nana-core-vision-first-shared-growth-v2-codex
+2026-11-14T18:53:22.1734601Z  * [new branch]      dev/nana-provider-config-parse-cache-b -> origin/dev/nana-provider-config-parse-cache-b
+2026-11-14T18:53:22.1735282Z  * [new branch]      dev/nana-provider-presets-b -> origin/dev/nana-provider-presets-b
+2026-11-14T18:53:22.1735957Z  * [new branch]      dev/nana-space-core-integration-v1-codex -> origin/dev/nana-space-core-integration-v1-codex
+2026-11-14T18:53:22.1736601Z  * [new branch]      dev/nana-space-v1-codex -> origin/dev/nana-space-v1-codex
+2026-11-14T18:53:22.1737143Z  * [new branch]      dev/nana-space-v3-cotex -> origin/dev/nana-space-v3-cotex
+2026-11-14T18:53:22.1737748Z  * [new branch]      feature/nanalink-unified-platform -> origin/feature/nanalink-unified-platform
+2026-11-14T18:53:22.1738492Z  * [new branch]      governance/delivery-archive-ambiguity-20261111 -> origin/governance/delivery-archive-ambiguity-20261111
+2026-11-14T18:53:22.1739273Z  * [new branch]      governance/grant-port-navigation-20261111 -> origin/governance/grant-port-navigation-20261111
+2026-11-14T18:53:22.1740214Z  * [new branch]      governance/integration-first-d2d5e8c -> origin/governance/integration-first-d2d5e8c
+2026-11-14T18:53:22.1740966Z  * [new branch]      governance/portable-platform-guide-20261111 -> origin/governance/portable-platform-guide-20261111
+2026-11-14T18:53:22.1741775Z  * [new branch]      governance/portable-qualification-paths-20261111 -> origin/governance/portable-qualification-paths-20261111
+2026-11-14T18:53:22.1742551Z  * [new branch]      governance/repository-layout-20261111 -> origin/governance/repository-layout-20261111
+2026-11-14T18:53:22.1743266Z  * [new branch]      governance/repository-refresh-20261111 -> origin/governance/repository-refresh-20261111
+2026-11-14T18:53:22.1743999Z  * [new branch]      governance/selector-clarification-0742f0d -> origin/governance/selector-clarification-0742f0d
+2026-11-14T18:53:22.1744710Z  * [new branch]      governance/source-checkout-20261111 -> origin/governance/source-checkout-20261111
+2026-11-14T18:53:22.1745285Z  * [new branch]      main                    -> origin/main
+2026-11-14T18:53:22.1745955Z  * [new branch]      research/nana-temporal-source-b -> origin/research/nana-temporal-source-b
+2026-11-14T18:53:22.1747285Z [command]/usr/bin/git branch --list --remote origin/dev/nana-core-next-experience-codex
+2026-11-14T18:53:22.1781268Z   origin/dev/nana-core-next-experience-codex
+2026-11-14T18:53:22.1788965Z [command]/usr/bin/git rev-parse refs/remotes/origin/dev/nana-core-next-experience-codex
+2026-11-14T18:53:22.1818520Z 9291f1e5f76f799b8b4bda056418dd390d1a57ea
+2026-11-14T18:53:22.1821008Z ##[endgroup]
+2026-11-14T18:53:22.1821571Z ##[group]Determining the checkout info
+2026-11-14T18:53:22.1822461Z ##[endgroup]
+2026-11-14T18:53:22.1825463Z [command]/usr/bin/git sparse-checkout disable
+2026-11-14T18:53:22.1882028Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-14T18:53:22.1914698Z ##[group]Checking out the ref
+2026-11-14T18:53:22.1917318Z [command]/usr/bin/git checkout --progress --force -B dev/nana-core-next-experience-codex refs/remotes/origin/dev/nana-core-next-experience-codex
+2026-11-14T18:53:52.2304218Z Updating files:   0% (1/4633)
+2026-11-14T18:53:52.5353821Z Updating files:   0% (23/4633)
+2026-11-14T18:53:53.2292906Z Updating files:   1% (47/4633)
+2026-11-14T18:53:53.2403784Z Updating files:   1% (77/4633)
+2026-11-14T18:53:53.2480308Z Updating files:   2% (93/4633)
+2026-11-14T18:53:53.2511286Z Updating files:   3% (139/4633)
+2026-11-14T18:53:53.2930553Z Updating files:   4% (186/4633)
+2026-11-14T18:53:53.3056305Z Updating files:   5% (232/4633)
+2026-11-14T18:53:53.3100417Z Updating files:   6% (278/4633)
+2026-11-14T18:53:53.3426657Z Updating files:   7% (325/4633)
+2026-11-14T18:53:54.2015891Z Updating files:   8% (371/4633)
+2026-11-14T18:53:54.4071655Z Updating files:   8% (391/4633)
+2026-11-14T18:53:54.4101556Z Updating files:   9% (417/4633)
+2026-11-14T18:53:54.4125175Z Updating files:  10% (464/4633)
+2026-11-14T18:53:54.4150735Z Updating files:  11% (510/4633)
+2026-11-14T18:53:54.4173141Z Updating files:  12% (556/4633)
+2026-11-14T18:53:54.4202058Z Updating files:  13% (603/4633)
+2026-11-14T18:53:54.4227584Z Updating files:  14% (649/4633)
+2026-11-14T18:53:54.4252991Z Updating files:  15% (695/4633)
+2026-11-14T18:53:54.4278045Z Updating files:  16% (742/4633)
+2026-11-14T18:53:54.4303395Z Updating files:  17% (788/4633)
+2026-11-14T18:53:54.4317048Z Updating files:  18% (834/4633)
+2026-11-14T18:53:54.4366644Z Updating files:  19% (881/4633)
+2026-11-14T18:53:54.4382313Z Updating files:  20% (927/4633)
+2026-11-14T18:53:54.4396905Z Updating files:  21% (973/4633)
+2026-11-14T18:53:54.4420059Z Updating files:  22% (1020/4633)
+2026-11-14T18:53:54.4437708Z Updating files:  23% (1066/4633)
+2026-11-14T18:53:54.4453690Z Updating files:  24% (1112/4633)
+2026-11-14T18:53:54.4479366Z Updating files:  25% (1159/4633)
+2026-11-14T18:53:54.4495533Z Updating files:  26% (1205/4633)
+2026-11-14T18:53:54.4624471Z Updating files:  27% (1251/4633)
+2026-11-14T18:53:54.4676305Z Updating files:  28% (1298/4633)
+2026-11-14T18:53:54.4703283Z Updating files:  29% (1344/4633)
+2026-11-14T18:53:54.4734163Z Updating files:  30% (1390/4633)
+2026-11-14T18:53:54.4750655Z Updating files:  31% (1437/4633)
+2026-11-14T18:53:54.4771256Z Updating files:  32% (1483/4633)
+2026-11-14T18:53:54.4785620Z Updating files:  33% (1529/4633)
+2026-11-14T18:53:54.4801339Z Updating files:  34% (1576/4633)
+2026-11-14T18:53:54.4817272Z Updating files:  35% (1622/4633)
+2026-11-14T18:53:54.4840631Z Updating files:  36% (1668/4633)
+2026-11-14T18:53:54.4857854Z Updating files:  37% (1715/4633)
+2026-11-14T18:53:54.4878789Z Updating files:  38% (1761/4633)
+2026-11-14T18:53:54.4898934Z Updating files:  39% (1807/4633)
+2026-11-14T18:53:54.4914466Z Updating files:  40% (1854/4633)
+2026-11-14T18:53:54.4934847Z Updating files:  41% (1900/4633)
+2026-11-14T18:53:54.4952851Z Updating files:  42% (1946/4633)
+2026-11-14T18:53:54.4967971Z Updating files:  43% (1993/4633)
+2026-11-14T18:53:54.4982285Z Updating files:  44% (2039/4633)
+2026-11-14T18:53:54.4998781Z Updating files:  45% (2085/4633)
+2026-11-14T18:53:54.5022120Z Updating files:  46% (2132/4633)
+2026-11-14T18:53:54.5046114Z Updating files:  47% (2178/4633)
+2026-11-14T18:53:54.5061542Z Updating files:  48% (2224/4633)
+2026-11-14T18:53:54.5076035Z Updating files:  49% (2271/4633)
+2026-11-14T18:53:54.5089980Z Updating files:  50% (2317/4633)
+2026-11-14T18:53:54.5110391Z Updating files:  51% (2363/4633)
+2026-11-14T18:53:54.5129039Z Updating files:  52% (2410/4633)
+2026-11-14T18:53:54.5147944Z Updating files:  53% (2456/4633)
+2026-11-14T18:53:54.5164237Z Updating files:  54% (2502/4633)
+2026-11-14T18:53:54.5179982Z Updating files:  55% (2549/4633)
+2026-11-14T18:53:54.5194505Z Updating files:  56% (2595/4633)
+2026-11-14T18:53:54.5209231Z Updating files:  57% (2641/4633)
+2026-11-14T18:53:54.5225455Z Updating files:  58% (2688/4633)
+2026-11-14T18:53:54.5250219Z Updating files:  59% (2734/4633)
+2026-11-14T18:53:54.5260306Z Updating files:  60% (2780/4633)
+2026-11-14T18:53:54.5270098Z Updating files:  61% (2827/4633)
+2026-11-14T18:53:54.5286064Z Updating files:  62% (2873/4633)
+2026-11-14T18:53:54.5301971Z Updating files:  63% (2919/4633)
+2026-11-14T18:53:54.5343870Z Updating files:  64% (2966/4633)
+2026-11-14T18:53:54.5361457Z Updating files:  65% (3012/4633)
+2026-11-14T18:53:54.5385936Z Updating files:  66% (3058/4633)
+2026-11-14T18:53:54.5407322Z Updating files:  67% (3105/4633)
+2026-11-14T18:53:54.5425867Z Updating files:  68% (3151/4633)
+2026-11-14T18:53:54.5442406Z Updating files:  69% (3197/4633)
+2026-11-14T18:53:54.5462554Z Updating files:  70% (3244/4633)
+2026-11-14T18:53:54.5483132Z Updating files:  71% (3290/4633)
+2026-11-14T18:53:54.5500885Z Updating files:  72% (3336/4633)
+2026-11-14T18:53:54.5525126Z Updating files:  73% (3383/4633)
+2026-11-14T18:53:54.5548474Z Updating files:  74% (3429/4633)
+2026-11-14T18:53:54.5603924Z Updating files:  75% (3475/4633)
+2026-11-14T18:53:54.5623814Z Updating files:  76% (3522/4633)
+2026-11-14T18:53:54.5655669Z Updating files:  77% (3568/4633)
+2026-11-14T18:53:54.5679766Z Updating files:  78% (3614/4633)
+2026-11-14T18:53:54.5704506Z Updating files:  79% (3661/4633)
+2026-11-14T18:53:54.5731711Z Updating files:  80% (3707/4633)
+2026-11-14T18:53:54.5764536Z Updating files:  81% (3753/4633)
+2026-11-14T18:53:54.5793767Z Updating files:  82% (3800/4633)
+2026-11-14T18:53:54.5816200Z Updating files:  83% (3846/4633)
+2026-11-14T18:53:54.5846017Z Updating files:  84% (3892/4633)
+2026-11-14T18:53:54.5872072Z Updating files:  85% (3939/4633)
+2026-11-14T18:53:54.5892772Z Updating files:  86% (3985/4633)
+2026-11-14T18:53:54.5910704Z Updating files:  87% (4031/4633)
+2026-11-14T18:53:54.5931029Z Updating files:  88% (4078/4633)
+2026-11-14T18:53:54.5955091Z Updating files:  89% (4124/4633)
+2026-11-14T18:53:54.5975884Z Updating files:  90% (4170/4633)
+2026-11-14T18:53:54.5998262Z Updating files:  91% (4217/4633)
+2026-11-14T18:53:54.6018812Z Updating files:  92% (4263/4633)
+2026-11-14T18:53:54.6042624Z Updating files:  93% (4309/4633)
+2026-11-14T18:53:54.6063228Z Updating files:  94% (4356/4633)
+2026-11-14T18:53:54.6085635Z Updating files:  95% (4402/4633)
+2026-11-14T18:53:54.6108232Z Updating files:  96% (4448/4633)
+2026-11-14T18:53:54.6130676Z Updating files:  97% (4495/4633)
+2026-11-14T18:53:54.6232892Z Updating files:  98% (4541/4633)
+2026-11-14T18:53:54.6254261Z Updating files:  99% (4587/4633)
+2026-11-14T18:53:54.6256109Z Updating files: 100% (4633/4633)
+2026-11-14T18:53:54.6256703Z Updating files: 100% (4633/4633), done.
+2026-11-14T18:53:54.6552631Z Switched to a new branch 'dev/nana-core-next-experience-codex'
+2026-11-14T18:53:54.6554709Z branch 'dev/nana-core-next-experience-codex' set up to track 'origin/dev/nana-core-next-experience-codex'.
+2026-11-14T18:53:54.6800335Z ##[endgroup]
+2026-11-14T18:53:54.6843361Z [command]/usr/bin/git log -1 --format=%H
+2026-11-14T18:53:54.6872823Z 9291f1e5f76f799b8b4bda056418dd390d1a57ea
+2026-11-14T18:53:54.6880959Z ##[group]Removing auth
+2026-11-14T18:53:54.6883608Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T18:53:54.6915860Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T18:53:54.7122682Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T18:53:54.7150504Z http.https://github.com/.extraheader
+2026-11-14T18:53:54.7156775Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-14T18:53:54.7193227Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T18:53:54.7409142Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T18:53:54.7443667Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T18:53:54.7646480Z ##[endgroup]
+2026-11-14T18:53:54.7874644Z ##[group]Run astral-sh/setup-uv@v6
+2026-11-14T18:53:54.7874866Z with:
+2026-11-14T18:53:54.7875041Z   activate-environment: false
+2026-11-14T18:53:54.7875296Z   working-directory: /home/runner/work/nana-core/nana-core
+2026-11-14T18:53:54.7875574Z   server-url: https://github.com
+2026-11-14T18:53:54.7877654Z   github-token: ***
+2026-11-14T18:53:54.7877838Z   enable-cache: auto
+2026-11-14T18:53:54.7878277Z   cache-dependency-glob: **/*requirements*.txt
+**/*requirements*.in
+**/*constraints*.txt
+**/*constraints*.in
+**/pyproject.toml
+**/uv.lock
+**/*.py.lock
+
+2026-11-14T18:53:54.7878735Z   restore-cache: true
+2026-11-14T18:53:54.7878912Z   save-cache: true
+2026-11-14T18:53:54.7879080Z   prune-cache: true
+2026-11-14T18:53:54.7879262Z   ignore-nothing-to-cache: false
+2026-11-14T18:53:54.7879470Z   ignore-empty-workdir: false
+2026-11-14T18:53:54.7879891Z   add-problem-matchers: true
+2026-11-14T18:53:54.7880076Z env:
+2026-11-14T18:53:54.7880236Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T18:53:54.7880486Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T18:53:54.7880686Z ##[endgroup]
+2026-11-14T18:53:54.9422444Z (node:2228) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T18:53:54.9423280Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T18:53:54.9506876Z Trying to find version for uv in: /home/runner/work/nana-core/nana-core/uv.toml
+2026-11-14T18:53:54.9507819Z Could not find file: /home/runner/work/nana-core/nana-core/uv.toml
+2026-11-14T18:53:54.9508719Z Trying to find version for uv in: /home/runner/work/nana-core/nana-core/pyproject.toml
+2026-11-14T18:53:54.9523926Z Could not determine uv version from uv.toml or pyproject.toml. Falling back to latest.
+2026-11-14T18:53:54.9525098Z Getting latest version from GitHub API...
+2026-11-14T18:53:55.1800707Z manifest-file not provided, reading from local file.
+2026-11-14T18:53:55.1834026Z manifest-file does not contain version 0.13.8, arch x86_64, platform unknown-linux-gnu. Falling back to GitHub releases.
+2026-11-14T18:53:55.1835125Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.13.8/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+2026-11-14T18:53:55.4550960Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/f52fd52b-ecd6-4655-b4c9-d77af2f1cd71 -f /home/runner/work/_temp/e037f44f-ce48-481e-b8ea-1074af435beb
+2026-11-14T18:53:56.0524209Z Added /home/runner/.local/bin to the path
+2026-11-14T18:53:56.0526205Z Added /opt/hostedtoolcache/uv/0.13.8/x86_64 to the path
+2026-11-14T18:53:56.0546410Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+2026-11-14T18:53:56.0546951Z Successfully installed uv version 0.13.8
+2026-11-14T18:53:56.0548865Z Searching files using cache dependency glob: /home/runner/work/nana-core/nana-core/**/*requirements*.txt,/home/runner/work/nana-core/nana-core/**/*requirements*.in,/home/runner/work/nana-core/nana-core/**/*constraints*.txt,/home/runner/work/nana-core/nana-core/**/*constraints*.in,/home/runner/work/nana-core/nana-core/**/pyproject.toml,/home/runner/work/nana-core/nana-core/**/uv.lock,/home/runner/work/nana-core/nana-core/**/*.py.lock
+2026-11-14T18:53:56.1206713Z /home/runner/work/nana-core/nana-core/apps/nana-space/gateway/requirements-test.txt
+2026-11-14T18:53:56.1218264Z /home/runner/work/nana-core/nana-core/apps/nana-space/gateway/requirements.txt
+2026-11-14T18:53:56.3547876Z /home/runner/work/nana-core/nana-core/pyproject.toml
+2026-11-14T18:53:56.3555651Z /home/runner/work/nana-core/nana-core/requirements.txt
+2026-11-14T18:53:56.4183266Z Found 4 files to hash.
+2026-11-14T18:53:56.5387523Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T18:53:56.7525686Z Cache hit for: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T18:53:56.7605168Z (node:2228) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-14T18:53:57.7764422Z Received 2990465 of 2990465 (100.0%), 3.8 MBs/sec
+2026-11-14T18:53:57.7764777Z Cache Size: ~3 MB (2990465 B)
+2026-11-14T18:53:57.7783623Z [command]/usr/bin/tar -xf /home/runner/work/_temp/035ec85f-fa59-4f3f-b11f-4865ab124411/cache.tzst -P -C /home/runner/work/nana-core/nana-core --use-compress-program unzstd
+2026-11-14T18:53:57.7955663Z Cache restored successfully
+2026-11-14T18:53:57.7961015Z uv cache restored from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T18:53:57.8107000Z ##[group]Run umask 077
+2026-11-14T18:53:57.8107268Z [36;1mumask 077[0m
+2026-11-14T18:53:57.8107620Z [36;1msudo git config --system --add safe.directory "$GITHUB_WORKSPACE"[0m
+2026-11-14T18:53:57.8108124Z [36;1mgit rev-parse HEAD[0m
+2026-11-14T18:53:57.8108416Z [36;1mif [ "$NANA_FULL_QUALIFICATION" = true ]; then[0m
+2026-11-14T18:53:57.8108670Z [36;1m  command -v ffmpeg[0m
+2026-11-14T18:53:57.8108880Z [36;1m  command -v gpgconf[0m
+2026-11-14T18:53:57.8109076Z [36;1m  command -v bwrap[0m
+2026-11-14T18:53:57.8109263Z [36;1mfi[0m
+2026-11-14T18:53:57.8109439Z [36;1muv python install 3.12.14[0m
+2026-11-14T18:53:57.8109968Z [36;1muv venv --python 3.12.14 .qualification-venv[0m
+2026-11-14T18:53:57.8110367Z [36;1muv pip install --python .qualification-venv/bin/python -r requirements-core-dev.lock[0m
+2026-11-14T18:53:57.8110859Z [36;1m.qualification-venv/bin/python - <<'PYDEPS' > qualification-feature-requirements.txt[0m
+2026-11-14T18:53:57.8111334Z [36;1mfrom tools.nana_portable_cloud.build import FEATURE_DEPENDENCIES[0m
+2026-11-14T18:53:57.8111689Z [36;1mfor feature in ('HOST_VAULT', 'PUBLIC_VIDEO_FRAMES'):[0m
+2026-11-14T18:53:57.8112053Z [36;1m    for package, version in sorted(FEATURE_DEPENDENCIES[feature].items()):[0m
+2026-11-14T18:53:57.8112384Z [36;1m        print(package + '==' + version)[0m
+2026-11-14T18:53:57.8112612Z [36;1mPYDEPS[0m
+2026-11-14T18:53:57.8112957Z [36;1muv pip install --python .qualification-venv/bin/python -r qualification-feature-requirements.txt[0m
+2026-11-14T18:53:57.8113605Z [36;1m.qualification-venv/bin/python -c 'import sys,sqlite3; print(sys.version, sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3,51,3)'[0m
+2026-11-14T18:53:57.8135872Z shell: /usr/bin/bash -e {0}
+2026-11-14T18:53:57.8136095Z env:
+2026-11-14T18:53:57.8136288Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T18:53:57.8136518Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T18:53:57.8136782Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T18:53:57.8137043Z ##[endgroup]
+2026-11-14T18:53:57.8276241Z 9291f1e5f76f799b8b4bda056418dd390d1a57ea
+2026-11-14T18:53:57.9254388Z Downloading cpython-3.12.14-linux-x86_64-gnu (download) (32.7MiB)
+2026-11-14T18:53:58.4213681Z  Downloaded cpython-3.12.14-linux-x86_64-gnu (download)
+2026-11-14T18:53:58.4888955Z Installed Python 3.12.14 in 655ms
+2026-11-14T18:53:58.4889357Z  + cpython-3.12.14-linux-x86_64-gnu (python3.12)
+2026-11-14T18:53:58.6780416Z Using CPython 3.12.14
+2026-11-14T18:53:58.6780739Z Creating virtual environment at: .qualification-venv
+2026-11-14T18:53:58.6785042Z Activate with: .qualification-venv/bin/activate
+2026-11-14T18:53:58.7953231Z Using Python 3.12.14 environment at: .qualification-venv
+2026-11-14T18:53:58.8880078Z Resolved 11 packages in 92ms
+2026-11-14T18:53:58.9008363Z Downloading pydantic-core (2.0MiB)
+2026-11-14T18:53:58.9008957Z Downloading pygments (1.2MiB)
+2026-11-14T18:53:58.9490353Z  Downloaded pydantic-core
+2026-11-14T18:53:58.9545004Z  Downloaded pygments
+2026-11-14T18:53:58.9911949Z Prepared 11 packages in 102ms
+2026-11-14T18:53:59.1383881Z Installed 11 packages in 147ms
+2026-11-14T18:53:59.1384291Z  + annotated-types==0.8.0
+2026-11-14T18:53:59.1384601Z  + iniconfig==2.3.1
+2026-11-14T18:53:59.1384894Z  + packaging==26.3
+2026-11-14T18:53:59.1385155Z  + pluggy==1.6.0
+2026-11-14T18:53:59.1385399Z  + pydantic==2.13.4
+2026-11-14T18:53:59.1385663Z  + pydantic-core==2.46.4
+2026-11-14T18:53:59.1385935Z  + pygments==2.21.0
+2026-11-14T18:53:59.1386188Z  + pytest==9.1.1
+2026-11-14T18:53:59.1386438Z  + setuptools==84.0.0
+2026-11-14T18:53:59.1386723Z  + typing-extensions==4.16.0
+2026-11-14T18:53:59.1387105Z  + typing-inspection==0.4.3
+2026-11-14T18:53:59.3010405Z Using Python 3.12.14 environment at: .qualification-venv
+2026-11-14T18:53:59.3752386Z Resolved 4 packages in 73ms
+2026-11-14T18:53:59.3811894Z Downloading cryptography (4.5MiB)
+2026-11-14T18:53:59.3903289Z Downloading pillow (6.6MiB)
+2026-11-14T18:53:59.4340183Z  Downloaded cryptography
+2026-11-14T18:53:59.4461812Z  Downloaded pillow
+2026-11-14T18:53:59.4838728Z Prepared 4 packages in 108ms
+2026-11-14T18:53:59.5112480Z Installed 4 packages in 26ms
+2026-11-14T18:53:59.5112837Z  + cffi==2.1.1
+2026-11-14T18:53:59.5113134Z  + cryptography==50.0.0
+2026-11-14T18:53:59.5113431Z  + pillow==12.3.0
+2026-11-14T18:53:59.5113752Z  + pycparser==3.0
+2026-11-14T18:53:59.5445504Z 3.12.14 (main, Sep 29 2026, 15:01:18) [Clang 22.1.3 ] 3.53.1
+2026-11-14T18:53:59.5960214Z ##[group]Run umask 077
+2026-11-14T18:53:59.5960582Z [36;1mumask 077[0m
+2026-11-14T18:53:59.5960809Z [36;1mecho targeted > qualification-level.txt[0m
+2026-11-14T18:53:59.5961156Z [36;1mexport PYTHONPATH="$GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE"[0m
+2026-11-14T18:53:59.5961517Z [36;1m.qualification-venv/bin/python - <<'PYTARGET'[0m
+2026-11-14T18:53:59.5961826Z [36;1mimport os, pathlib, shutil, subprocess, sys[0m
+2026-11-14T18:53:59.5962131Z [36;1mbase=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'[0m
+2026-11-14T18:53:59.5962427Z [36;1mif set(base)=={'0'}: base='HEAD^'[0m
+2026-11-14T18:53:59.5962823Z [36;1mchanged=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()[0m
+2026-11-14T18:53:59.5963958Z [36;1mif any(path in {'src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py','src/nana_core/life/live_api/provider_settings.py','src/nana_core/life/live_api/platform_settings.py','src/nana_core/life/live_api/platform_credentials.py','src/nana_core/life/live_api/memory_notes.py'} for path in changed):[0m
+2026-11-14T18:53:59.5965030Z [36;1m    subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)[0m
+2026-11-14T18:53:59.5965816Z [36;1m    subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)[0m
+2026-11-14T18:53:59.5966429Z [36;1mgroups=[[0m
+2026-11-14T18:53:59.5967706Z [36;1m  (('open_agency/learning.py','open_agency/service.py','continuity/learning.py','continuity/cognition.py','presence/living.py','subject/loop.py','subject/contracts.py','subject/opportunities.py','subject/policy.py','test_private_learning_selection.py'), ['tests/person_self/test_private_learning_selection.py','tests/open_life/test_learning_renewal.py','tests/real_life/test_project_work.py','tests/continuous_self/test_learning.py','tests/continuous_self/test_privacy.py']),[0m
+2026-11-14T18:53:59.5970016Z [36;1m  (('continuity/accounting.py','presence/resources.py','test_reported_usage.py'), ['tests/person_self/test_reported_usage.py','tests/provider_routing/test_anthropic_native.py','tests/portable_subject/test_package.py','tests/continuous_self/test_privacy.py']),[0m
+2026-11-14T18:53:59.5971549Z [36;1m  (('life/config.py','life/application.py','live_api/provider_settings.py','test_background_provider_startup.py','cloud_life/test_operations.py'), ['tests/person_self/test_background_provider_startup.py','tests/cloud_life/test_operations.py','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),[0m
+2026-11-14T18:53:59.5973261Z [36;1m  (('life/dialogue_contracts.py','life/application.py','world_loop/cognition.py','subject/context_fit.py','subject/loop.py','test_inner_communication.py','test_communication_strategy.py','qualification/inner_communication_v1.py'), ['tests/person_self/test_inner_communication.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T18:53:59.5974974Z [36;1m  (('presence/runtime.py','presence/cognition.py','subject/contracts.py','subject/ingress.py','subject/watch.py'), ['tests/continuous_runtime','tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_context.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),[0m
+2026-11-14T18:53:59.5977601Z [36;1m  (('continuity/contracts.py','continuity/memory.py','continuity/maintenance.py','world_loop/concern_source.py','world_loop/attention.py','subject/watch.py','test_concern_source.py','continuous_self/test_memory.py'), ['tests/continuous_self/test_memory.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/living_release_v4/test_concern_source.py','tests/living_autonomy/test_maintenance.py','tests/world_loop/test_independent_concern_sources.py','tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py']),[0m
+2026-11-14T18:53:59.5979510Z [36;1m  (('subject/policy.py','test_learning_renewal.py'), ['tests/open_life/test_learning_renewal.py','tests/open_autonomy/test_learning.py']),[0m
+2026-11-14T18:53:59.5980483Z [36;1m  (('subject/policy.py','test_choice_constraint_scope.py'), ['tests/person_self/test_choice_constraint_scope.py','tests/portable_subject/test_relational_reuse.py']),[0m
+2026-11-14T18:53:59.5981686Z [36;1m  (('autonomy/private_intent.py','continuity/store.py','continuity/cognition.py','subject/loop.py','test_private_tendency.py','test_private_lifecycle_choice.py'), ['tests/person_self/test_private_tendency.py','tests/person_self/test_private_lifecycle_choice.py','tests/provider_routing/test_anthropic_native.py']),[0m
+2026-11-14T18:53:59.5984222Z [36;1m  (('autonomy/private_intent.py','continuity/context.py','subject/watch.py','subject/loop.py','subject/policy.py','continuity/lived_language.py','subject/context_fit.py','presence/cognition.py','presence/runtime.py','test_private_feedback_continuation.py','test_private_feedback_formation.py','test_initial_method_tendency.py','test_private_choice_admission.py','test_attention_eligibility.py'), ['tests/person_self/test_attention_eligibility.py','tests/person_self/test_private_choice_admission.py','tests/person_self/test_initial_method_tendency.py','tests/person_self/test_private_feedback_continuation.py','tests/person_self/test_private_feedback_formation.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T18:53:59.5987087Z [36;1m  (('continuity/cognition.py','subject/loop.py','subject/policy.py','subject/contracts.py','test_deliberated_direction.py','test_deliberated_due_promise.py','test_deliberated_plan_alternative.py'), ['tests/person_self/test_deliberated_direction.py','tests/person_self/test_deliberated_due_promise.py','tests/person_self/test_deliberated_plan_alternative.py']),[0m
+2026-11-14T18:53:59.5989102Z [36;1m  (('continuity/revision.py','world_loop/cognition.py','continuity/cognition.py','subject/loop.py','test_provider_subject_cognition.py'), ['tests/person_self/test_provider_subject_cognition.py','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/world_loop/test_boundaries.py','tests/world_loop/test_model_framing.py','tests/world_loop/test_wire_reservation.py']),[0m
+2026-11-14T18:53:59.5992395Z [36;1m  (('world_loop/cognition.py','presence/cognition.py','presence/runtime.py','life/application.py','subject/loop.py','test_provider_subject_preview.py','test_provider_subject_runtime.py','test_provider_subject_seedless.py','test_provider_subject_focus.py','test_provider_subject_learning.py','continuity/learning.py','test_private_method_continuation.py'), ['tests/person_self/test_private_method_continuation.py','tests/continuous_self/test_learning.py','tests/open_life/test_learning_renewal.py','tests/person_self/test_provider_subject_learning.py','tests/person_self/test_provider_subject_focus.py','tests/person_self/test_provider_subject_preview.py','tests/person_self/test_provider_subject_runtime.py','tests/person_self/test_provider_subject_seedless.py','tests/continuous_runtime/test_coordinator.py','tests/continuous_runtime/test_generic_subject.py']),[0m
+2026-11-14T18:53:59.5995203Z [36;1m  (('continuity/store.py',), ['tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py','tests/portable_subject/test_relational_reuse.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py']),[0m
+2026-11-14T18:53:59.5997409Z [36;1m  (('subject/policy.py','subject/loop.py','subject/opportunities.py','autonomy/private_intent.py','autonomy/evaluation.py','continuity/cognition.py','test_private_intent.py','continuity/store.py','life/inspector.py'), ['tests/first_life_integration/test_private_intent.py','tests/affective_autonomy','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/portable_subject/test_providers_frontend.py','tests/vision_first/test_context_fit.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_memory_use_feedback.py']),[0m
+2026-11-14T18:53:59.5999871Z [36;1m  (('subject/experience_need.py','test_experience_need.py'), ['tests/foundation_closure/test_experience_need.py','tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/open_life/test_learning_renewal.py']),[0m
+2026-11-14T18:53:59.6001078Z [36;1m  (('open_agency/world.py',), ['tests/open_autonomy/test_learning.py','tests/precision/test_learning.py','tests/open_life/test_learning_renewal.py']),[0m
+2026-11-14T18:53:59.6002157Z [36;1m  (('world_loop/cognition.py','world_loop/anthropic.py','continuity/provider_routing.py','tests/provider_routing/'), ['tests/provider_routing','tests/world_loop','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),[0m
+2026-11-14T18:53:59.6003588Z [36;1m  (('live_api/auth.py','live_api/server.py','test_response_authorization.py'), ['tests/first_life_android_v2/test_response_authorization.py','tests/first_life_android_v2/test_auth_contract.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py']),[0m
+2026-11-14T18:53:59.6004928Z [36;1m  (('tests/independent_life/test_dialogue.py','tools/nana_first_life_android_v2/dev_serve.py'), ['tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/first_life_android_v2/test_chat_stream_http.py']),[0m
+2026-11-14T18:53:59.6005886Z [36;1m  (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),[0m
+2026-11-14T18:53:59.6007337Z [36;1m   ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_communication_strategy.py','tests/living_release_v4/test_platform_runtime.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),[0m
+2026-11-14T18:53:59.6008680Z [36;1m  (('test_platform_runtime.py',), ['tests/living_release_v4/test_platform_runtime.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T18:53:59.6010447Z [36;1m  (('continuity/context.py','continuity/retrieval_growth.py','test_retrieval_growth','test_retrieval_text_profile.py','note_query_diversity_v1.json','test_note_recall'), ['tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/independent_life/test_note_recall.py','tests/continuous_self/test_context.py','tests/person_self/test_context_selection_efficiency.py','tests/living_release_v4/test_private_context.py']),[0m
+2026-11-14T18:53:59.6012548Z [36;1m  (('live_api/provider_settings.py','live_api/provider_models.py','live_api/server.py','test_provider_models.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),[0m
+2026-11-14T18:53:59.6014003Z [36;1m  (('subject/growth_life.py','subject/loop.py','continuity/context.py','presence/cognition.py','autonomy/private_intent.py','world_loop/learning.py','test_growth_inner_choice.py'), ['tests/person_self/test_growth_inner_choice.py','tests/vision_first/test_growth.py']),[0m
+2026-11-14T18:53:59.6015024Z [36;1m  (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),[0m
+2026-11-14T18:53:59.6016161Z [36;1m  (('subject/policy.py','subject/opportunities.py','open_life/opportunities.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),[0m
+2026-11-14T18:53:59.6019281Z [36;1m  (('life/control.py','life/application.py','life/presentation.py','life/dialogue_contracts.py','world_loop/cognition.py','life/surfaces.py','life/__main__.py','live_api/bridge.py','live_api/contracts.py','live_api/server.py','test_continuous_inputs.py','test_deferred_reply_receipt.py','test_http_continuation.py','test_conversation_sequence.py','test_message_sequence_http.py'), ['tests/first_life_android_v2/test_http_continuation.py','tests/first_life_android_v2/test_deferred_reply_receipt.py','tests/first_life_android_v2/test_message_sequence_http.py','tests/first_life_android_v2/test_conversation_sequence.py','tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py','tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/person_self/test_history_bound.py','tests/person_self/test_rest_and_attribution.py','tests/provider_routing/test_anthropic_native.py']),[0m
+2026-11-14T18:53:59.6022404Z [36;1m  (('continuity/privacy.py','test_privacy_copy_increment.py'), ['tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/person_self/test_memory_use_feedback.py']),[0m
+2026-11-14T18:53:59.6023364Z [36;1m  (('bridge_wire.py','test_r044_filesystem.py'), ['tests/nana_shadow/test_r044_filesystem.py','tests/nana_shadow/test_r044_races.py','tests/nana_shadow/test_r044_privacy.py']),[0m
+2026-11-14T18:53:59.6024058Z [36;1m  (('b1_backup.py','test_rev3_operator.py'), ['tests/first_life_android_v2/test_rev3_operator.py']),[0m
+2026-11-14T18:53:59.6024785Z [36;1m  (('nana_portable_cloud/','packaging/portable/','requirements-core-dev.lock'), ['tests/engineering_quality/test_portable_missing_import.py','tests/portable_cloud_runtime']),[0m
+2026-11-14T18:53:59.6025523Z [36;1m  (('continuity/person_self.py',), ['tests/person_self'])][0m
+2026-11-14T18:53:59.6026067Z [36;1mselected=sorted({test for markers, tests in groups if any(any(marker in path for marker in markers) for path in changed) for test in tests})[0m
+2026-11-14T18:53:59.6026666Z [36;1mif not selected: selected=['tests/first_life_android_v2/test_http_integration.py'][0m
+2026-11-14T18:53:59.6027098Z [36;1mif '.github/workflows/nana-next-qualification.yml' in changed:[0m
+2026-11-14T18:53:59.6027493Z [36;1m    # Exercise the host dependency path when changing this workflow;[0m
+2026-11-14T18:53:59.6027889Z [36;1m    # this original boundary includes real PUBLIC frame decoding.[0m
+2026-11-14T18:53:59.6028285Z [36;1m    selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py'})[0m
+2026-11-14T18:53:59.6028649Z [36;1mprint('TARGETED_CHECKS',selected,flush=True)[0m
+2026-11-14T18:53:59.6028982Z [36;1massert all(pathlib.Path(test).exists() for test in selected)[0m
+2026-11-14T18:53:59.6029495Z [36;1mif any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):[0m
+2026-11-14T18:53:59.6030088Z [36;1m    # Select dependencies from actual tests, not only source-path[0m
+2026-11-14T18:53:59.6030466Z [36;1m    # guesses: original C integration can select media boundaries.[0m
+2026-11-14T18:53:59.6030793Z [36;1m    if shutil.which('ffmpeg') is None:[0m
+2026-11-14T18:53:59.6031101Z [36;1m        subprocess.run(['sudo','apt-get','update'],check=True)[0m
+2026-11-14T18:53:59.6031555Z [36;1m        subprocess.run(['sudo','apt-get','install','--yes','--no-install-recommends','ffmpeg'],check=True)[0m
+2026-11-14T18:53:59.6031988Z [36;1m    subprocess.run(['ffmpeg','-version'],check=True)[0m
+2026-11-14T18:53:59.6032381Z [36;1mif any(test in selected for test in ('tests/provider_routing','tests/world_loop')):[0m
+2026-11-14T18:53:59.6032846Z [36;1m    from nana_core.continuity.open_agency.code_skills import IsolatedSkillRunner[0m
+2026-11-14T18:53:59.6033321Z [36;1m    probe=IsolatedSkillRunner().qualify()[0m
+2026-11-14T18:53:59.6033667Z [36;1m    print('ORIGINAL_SANDBOX_FOR_AFFECTED_WORLD',probe,flush=True)[0m
+2026-11-14T18:53:59.6034060Z [36;1m    assert probe['state']=='AVAILABLE' and all(probe['checks'].values())[0m
+2026-11-14T18:53:59.6034614Z [36;1msubprocess.run([sys.executable,'-m','pytest','-q','--junitxml=qualification-core.xml','--basetemp=/tmp/nq',*selected],check=True)[0m
+2026-11-14T18:53:59.6035067Z [36;1mPYTARGET[0m
+2026-11-14T18:53:59.6052694Z shell: /usr/bin/bash -e {0}
+2026-11-14T18:53:59.6052921Z env:
+2026-11-14T18:53:59.6053117Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T18:53:59.6053393Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T18:53:59.6053659Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T18:53:59.6053978Z   NANA_CHANGE_BASE: 13bf45b3f6c893d95e822c9d0006c17d3e897717
+2026-11-14T18:53:59.6054260Z ##[endgroup]
+2026-11-14T18:53:59.7126409Z TARGETED_CHECKS ['tests/continuous_runtime', 'tests/continuous_runtime/test_coordinator.py', 'tests/continuous_runtime/test_generic_subject.py', 'tests/continuous_self/test_cognition.py', 'tests/continuous_self/test_context.py', 'tests/continuous_self/test_learning.py', 'tests/continuous_self/test_privacy.py', 'tests/first_life_integration/test_private_intent.py', 'tests/open_life/test_learning_renewal.py', 'tests/person_self/test_attention_eligibility.py', 'tests/person_self/test_communication_strategy.py', 'tests/person_self/test_growth_inner_choice.py', 'tests/person_self/test_initial_method_tendency.py', 'tests/person_self/test_private_choice_admission.py', 'tests/person_self/test_private_feedback_continuation.py', 'tests/person_self/test_private_feedback_formation.py', 'tests/person_self/test_private_learning_selection.py', 'tests/person_self/test_private_method_continuation.py', 'tests/person_self/test_provider_subject_focus.py', 'tests/person_self/test_provider_subject_learning.py', 'tests/person_self/test_provider_subject_preview.py', 'tests/person_self/test_provider_subject_runtime.py', 'tests/person_self/test_provider_subject_seedless.py', 'tests/precision/test_planning.py', 'tests/precision/test_recovery.py', 'tests/real_life/test_project_work.py', 'tests/vision_first/test_growth.py']
+2026-11-14T18:54:31.5360365Z ........................................................................ [ 26%]
+2026-11-14T18:55:03.5521037Z ........................................................................ [ 52%]
+2026-11-14T18:56:03.8616633Z ........................................................................ [ 78%]
+2026-11-14T18:56:28.2168017Z ............................................................             [100%]
+2026-11-14T18:56:28.2168539Z =============================== warnings summary ===============================
+2026-11-14T18:56:28.2169033Z tests/open_life/test_learning_renewal.py::test_renewed_failure_relearns_once_then_transfers_after_restart
+2026-11-14T18:56:28.2169954Z   tests/open_life/test_learning_renewal.py:176: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+2026-11-14T18:56:28.2170574Z     def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, record_property):
+2026-11-14T18:56:28.2170863Z 
+2026-11-14T18:56:28.2171056Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-11-14T18:56:28.2171400Z 276 passed, 1 warning in 147.33s (0:02:27)
+2026-11-14T18:56:28.3070377Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T18:56:28.3070641Z with:
+2026-11-14T18:56:28.3070897Z   name: nana-core-feedback-9291f1e5f76f799b8b4bda056418dd390d1a57ea
+2026-11-14T18:56:28.3071262Z   path: qualification-core.xml
+qualification-level.txt
+
+2026-11-14T18:56:28.3071525Z   retention-days: 14
+2026-11-14T18:56:28.3071712Z   if-no-files-found: warn
+2026-11-14T18:56:28.3071903Z   compression-level: 6
+2026-11-14T18:56:28.3072112Z   overwrite: false
+2026-11-14T18:56:28.3072292Z   include-hidden-files: false
+2026-11-14T18:56:28.3072489Z env:
+2026-11-14T18:56:28.3072650Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T18:56:28.3072857Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T18:56:28.3073102Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T18:56:28.3073348Z ##[endgroup]
+2026-11-14T18:56:28.4395955Z (node:3078) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T18:56:28.4396966Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T18:56:28.4471591Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-14T18:56:28.4474652Z The least common ancestor is /home/runner/work/nana-core/nana-core. This will be the root directory of the artifact
+2026-11-14T18:56:28.4475383Z With the provided path, there will be 2 files uploaded
+2026-11-14T18:56:28.4480103Z Artifact name is valid!
+2026-11-14T18:56:28.4480510Z Root directory input is valid!
+2026-11-14T18:56:28.8273056Z Beginning upload of artifact content to blob storage
+2026-11-14T18:56:28.8439053Z (node:3078) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-14T18:56:29.1257180Z Uploaded bytes 7658
+2026-11-14T18:56:29.2034758Z Finished uploading artifact content to blob storage!
+2026-11-14T18:56:29.2035490Z SHA256 digest of uploaded artifact zip is ab8eeb631d95115a80497ff758d82cc94615e890a7467c0b7e0d2ded8986403b
+2026-11-14T18:56:29.2036517Z Finalizing artifact upload
+2026-11-14T18:56:29.6076875Z Artifact nana-core-feedback-9291f1e5f76f799b8b4bda056418dd390d1a57ea.zip successfully finalized. Artifact ID 14127326910
+2026-11-14T18:56:29.6077977Z Artifact nana-core-feedback-9291f1e5f76f799b8b4bda056418dd390d1a57ea has been successfully uploaded! Final size is 7658 bytes. Artifact ID is 14127326910
+2026-11-14T18:56:29.6082538Z Artifact download URL: https://github.com/xuni7-ui/nana-core/actions/runs/43629019266/artifacts/14127326910
+2026-11-14T18:56:29.6271004Z Post job cleanup.
+2026-11-14T18:56:29.7320012Z Cache hit occurred on key setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498, not saving cache.
+2026-11-14T18:56:29.7321351Z (node:3091) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T18:56:29.7322173Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T18:56:29.7451107Z Post job cleanup.
+2026-11-14T18:56:29.8151438Z [command]/usr/bin/git version
+2026-11-14T18:56:29.8191689Z git version 2.56.1
+2026-11-14T18:56:29.8220628Z Temporarily overriding HOME='/home/runner/work/_temp/2f885791-7515-4a39-b59f-e282bacac5bc' before making global git config changes
+2026-11-14T18:56:29.8221709Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T18:56:29.8224241Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nana-core/nana-core
+2026-11-14T18:56:29.8258139Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T18:56:29.8288690Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T18:56:29.8513395Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T18:56:29.8551997Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T18:56:29.8783832Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T18:56:29.8826463Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T18:56:29.9746761Z Cleaning up orphan processes
+2026-11-14T18:56:30.0053836Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4, astral-sh/setup-uv@v6. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

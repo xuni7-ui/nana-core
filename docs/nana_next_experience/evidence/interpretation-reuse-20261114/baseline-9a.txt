@@ -1,0 +1,69 @@
+{"ablated": false, "formed": false, "input_bytes": 48109, "latency_us": 3113, "measurement": "synthetic_interpretation_reuse", "reserved_bytes": 60398, "self_calls": 1}
+F{"ablated": true, "formed": false, "input_bytes": 48109, "latency_us": 2875, "measurement": "synthetic_interpretation_reuse", "reserved_bytes": 60398, "self_calls": 1}
+.
+=================================== FAILURES ===================================
+_ test_initial_c_reuses_only_the_bound_interpretation_as_a_historical_hint[False] _
+
+tmp_path = PosixPath('/dev/shm/meaning-old/test_initial_c_reuses_only_the0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7f135b3a70>
+ablated = False
+
+    @pytest.mark.parametrize('ablated',[False,True])
+    def test_initial_c_reuses_only_the_bound_interpretation_as_a_historical_hint(tmp_path,monkeypatch,ablated):
+        from nana_core.continuity.subject import context_fit
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        original=context_fit.method_consideration
+        if ablated:
+            def without_hint(*args,**kwargs):
+                value=original(*args,**kwargs)
+                return {key:item for key,item in value.items() if key!='formation_meaning'} if value else None
+            monkeypatch.setattr(context_fit,'method_consideration',without_hint)
+        private='PRIVATE_INTERPRET_REUSE: I would like to listen without assuming the person needs comfort.'
+        def meaning(request):
+            own=[json.loads(b['data_json']) for b in json.loads(request['context_json'])['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+            assert not any(b['kind']=='INTERACTION_MEANING' for b in json.loads(request['context_json'])['blocks'])
+            return {'communication_proposal':{'approach':'CHAT' if own else 'LISTEN','detail':'BRIEF','follow_up':'NONE',
+                'basis_private_record_ids':[v['record_id'] for v in own],**({} if own else {'strategy_duration_seconds':3600})}}
+        def inner(request):
+            package=json.loads(request['context_json']);manifest=package['manifest']
+            hints=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='INTERACTION_MEANING'];seen.append((request,hints))
+            if hints:
+                hint=hints[0]
+                assert hint['kind']=='VENT' and hint['confidence']=='HIGH'
+                assert hint['message_memory_id']==turn['message_memory_id']
+                assert hint['temporal_scope']=='AT_METHOD_FORMATION' and hint['observed_at_us']<clock.utc_now_us()
+                assert hint['provenance']=='MODEL_PROPOSAL' and not hint['establishes_current_emotional_state']
+                assert hint['source_proposal_record_id']==first_interpret and not hint['establishes_effect']
+            return {'interpretation':'SYNTHETIC reuse existing tentative meaning while preserving uncertainty',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC my own possible concern, not a mood diagnosis',
+                    'preferred_behavior':'REFLECT' if hints else 'REST','proposed_operations':['DRAFT'] if hints else ['WAIT'],
+                    **({'private_tendency':{'topic':'meaning-reuse','tendency':private}} if hints else {})}}
+        with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();turn=app.chat('SYNTHETIC someone reports a difficult day; actual mood is unverified.',topic='meaning-reuse',privacy='PERSONAL',retain_shared_life=True,message_id='first')
+                store=app.runtime.store;first_interpret=store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL' ORDER BY rowid LIMIT 1").fetchone()[0]
+                method=store.db.execute("SELECT record_id FROM continuity_records WHERE target_id GLOB 'communication-strategy.*' AND lifecycle='ACTIVE' ORDER BY rowid DESC LIMIT 1").fetchone()[0]
+                snap=store.snapshot();writes=store.db.total_changes
+                view=context_fit.method_consideration(store,method,scope='project-work',entity_id='project-user',privacy_classes=('PERSONAL',))
+                assert view and view['input_memory_id']==turn['message_memory_id']
+                assert store.snapshot()==snap and store.db.total_changes==writes
+                for key,value in [('scope','other-scope'),('entity_id','other-person'),('privacy_classes',('PUBLIC',))]:
+                    assert context_fit.method_consideration(store,method,**{'scope':'project-work','entity_id':'project-user','privacy_classes':('PERSONAL',),key:value}) is None
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause(False);app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                assert len(seen)==1
+                measure=app.runtime.store.one('cognitive_requests',seen[0][0]['request_id'])
+                own=[v for _,v in current(app) if v.topic=='meaning-reuse']
+                print(json.dumps({'measurement':'synthetic_interpretation_reuse','ablated':ablated,'self_calls':len(seen),'formed':bool(own),'input_bytes':measure['input_bytes'],'reserved_bytes':measure['reserved_bytes'],'latency_us':measure['latency_us']},sort_keys=True))
+>               assert bool(own)==(not ablated)
+E               assert False == not False
+E                +  where False = bool([])
+
+tests/person_self/test_initial_method_tendency.py:192: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_initial_method_tendency.py::test_initial_c_reuses_only_the_bound_interpretation_as_a_historical_hint[False]
+1 failed, 1 passed, 13 deselected in 1.89s

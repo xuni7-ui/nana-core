@@ -19,6 +19,7 @@ class SubjectLoop:
         if not self.scopes or any(x not in PRIVACY_RANK for x in self.privacy_classes):
             raise CoreError('SUBJECT_SCOPE_POLICY_REQUIRED')
         self.records, self.ingress, self.growth = RecordService(store), SubjectIngress(store), Growth(store)
+        self.learning_program_catalog=None
 
     @property
     def revision(self):
@@ -118,6 +119,17 @@ class SubjectLoop:
         if method is not None:
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='OWN_METHOD_RECONSIDERATION',topic_key=method['topic'],possible_behaviors=('REFLECT','REST'))
+        learning_programs=()
+        if continued is not None and cue is None:
+            from .opportunities import ConcernCue
+            # A retained own thought is already a real reason to reconsider.
+            # WATCH stays the default; the model may choose reflection or rest.
+            # This is not a lifecycle review and does not pause the whole idea.
+            if self.learning_program_catalog is not None:
+                private_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
+                learning_programs=self.learning_program_catalog(event.scope,private_privacy)
+            cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key=continued[1].topic,
+                possible_behaviors=('WATCH','REFLECT','REST','LEARN') if learning_programs else ('WATCH','REFLECT','REST'))
         if cue is not None and event.result_for_intention_id and event.novelty=='HIGH':
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
@@ -131,7 +143,9 @@ class SubjectLoop:
             records.extend(growth_change.source_record_ids);memories.extend(growth_change.source_memory_ids)
             available,availability_refs=availability(self.store,event.entity_id,scope=event.scope,privacy_classes=self.privacy_classes)
             memories.extend(availability_refs)
-            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='COMPETENCE',topic_key=growth_change.topic,possible_behaviors=('SOCIALIZE','WATCH') if available=='AVAILABLE' else ('WATCH',),availability=available)
+            # A checked new capability can matter privately as well as socially.
+            # Preserve the old default; C may instead reflect or rest.
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='COMPETENCE',topic_key=growth_change.topic,possible_behaviors=('SOCIALIZE','WATCH','REFLECT','REST') if available=='AVAILABLE' else ('WATCH','REFLECT','REST'),availability=available)
         if cue is None and event.kind=='WAKE':
             from .opportunities import ConcernCue
             for pid in projects:
@@ -141,7 +155,7 @@ class SubjectLoop:
                     break
         if cue is not None and cue.required_preference_id and cue.required_preference_id not in {a['assertion_id'] for a in assertions}:
             cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
-        if cue is not None and len(pending)>=6 and not due:
+        if cue is not None and len(pending)>=6 and not due and continued is None and method is None and growth_change is None:
             cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         private_interests=()
         if self.store.schema_target>=13 and event.retention!='DO_NOT_REMEMBER':
@@ -152,6 +166,8 @@ class SubjectLoop:
             )
             private_interests=decision_support(self.store,event.scope,private_privacy,topic=private_topic)
             if continued is not None and continued[0] not in private_interests:private_interests=(*private_interests,continued[0])
+            if growth_change is not None:
+                private_interests=tuple(dict.fromkeys((*private_interests,*growth_change.basis_private_record_ids)))
             records.extend(private_interests)
             for rid in private_interests:memories.extend(self.records.support(rid))
             if cue and cue.private_intent_ref:
@@ -241,7 +257,7 @@ class SubjectLoop:
                 privacy_classes=self.privacy_classes,reference=event.private_thought_ref)
             if feedback is None or feedback['reference']!=event.private_thought_ref:raise CoreError('PRIVATE_FEEDBACK_REVIEW_UNAVAILABLE')
             records.extend(feedback['record_ids']);memories.extend(feedback['memory_ids'])
-        return Situation(plan_step=plan_step,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(plan_step=plan_step,learning_programs=learning_programs,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -338,6 +354,9 @@ class SubjectLoop:
                     'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,event.memory_review_id)))})
             if _deliberation is not None and _deliberation.proposal.preferred_behavior is not None:
                 situation=situation.model_copy(update={'preferred_behavior':_deliberation.proposal.preferred_behavior})
+            learning_ref=_deliberation.proposal.learning_program_ref if _deliberation is not None else None
+            if learning_ref is not None and not any((p.learning_key,p.spec_digest)==(learning_ref.learning_key,learning_ref.spec_digest) for p in situation.learning_programs):
+                raise CoreError('UNSUPPORTED_COGNITIVE_LEARNING_PROGRAM')
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
@@ -435,7 +454,7 @@ class SubjectLoop:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
                 operations = _deliberation.proposal.proposed_operations
-                from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency
+                from ..autonomy.private_intent import consider_question,consider_plan,consider_tendency,is_private_consideration
                 private_question=(consider_question(event,situation,judgment,intention,_deliberation.proposal.private_question)
                     if self.store.schema_target>=13 else None)
                 private_plan=(consider_plan(event,situation,judgment,intention,_deliberation.proposal.private_plan)
@@ -457,7 +476,7 @@ class SubjectLoop:
                     judgment = Judgment(stance='ASK' if 'ASK' in operations else 'DEFER',
                         reason='Cognitive proposal requests clarification or waiting; no unsupported truth is adopted',
                         source_ids=situation.memory_ids)
-                    if event.private_thought_ref is not None:
+                    if is_private_consideration(event):
                         # An unresolved private thought is not another external
                         # task or an outward request for clarification.
                         intention = Intention(kind='NO_ACTION', purpose='Keep the private concern open without allocating a task or asking outwardly',
@@ -546,7 +565,7 @@ class SubjectLoop:
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
                 realization_target=target,relational_decision=relational,
-                proposed_program_id=(situation.problem_frame.program_id if situation.problem_frame and judgment.stance=='ALTERNATIVE' and intention.purpose==situation.problem_frame.considered_problem else situation.cue.program_id if situation.cue else None) if candidate_id else None,
+                proposed_program_id=(learning_ref.learning_key if learning_ref is not None and intention.behavior=='LEARN' else situation.problem_frame.program_id if situation.problem_frame and judgment.stance=='ALTERNATIVE' and intention.purpose==situation.problem_frame.considered_problem else situation.cue.program_id if situation.cue else None) if candidate_id else None,
                 problem_frame=situation.problem_frame,
                 experience_need=situation.experience_need,
                 selected_memory_candidate_id=event.memory_review_id,

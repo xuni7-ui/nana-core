@@ -12,7 +12,7 @@ from .test_private_tendency import current
 from .test_private_feedback_continuation import wording
 
 
-@pytest.mark.parametrize('condition',['form','rest','no-method','withdrawn','disabled','budget','declined','source-race'])
+@pytest.mark.parametrize('condition',['form','rest','hesitate','no-method','withdrawn','disabled','budget','declined','source-race'])
 def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_another_loop(tmp_path,condition):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[];independent=[]
     private='PRIVATE_FIRST_CARE: I want to keep a tentative concern, while preferring ordinary conversation; I do not know whether their mood improved.'
@@ -40,7 +40,7 @@ def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_an
         assert any('ordinary conversation' in v.get('exact_feedback_excerpt','') and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' for v in opinions)
         assert not any(b['kind']=='PRIVATE_INTERNAL_STATE' for b in context['blocks'])
         proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC consider a new own orientation, not a verified mood or compulsory task',
-            'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['WAIT'] if condition=='rest' else ['DRAFT']}
+            'preferred_behavior':'REST' if condition=='rest' else 'REFLECT','proposed_operations':['WAIT'] if condition=='rest' else ['ASK'] if condition=='hesitate' else ['DRAFT']}
         if condition in {'form','budget'}:proposal['private_tendency']={'topic':'fresh-care','tendency':private}
         return {'interpretation':'SYNTHETIC actual feedback can matter without an already formed private tendency','subject_cognition':proposal}
     with relay(home,'VENT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
@@ -80,8 +80,9 @@ def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_an
                 'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None,
                 'fixture_cost_micro':measure['actual_cost_micro'] if measure else None,'budget':observed[0]['budget'] if observed else None,
                 'formed':bool(formed),'continuity_records':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
-            assert len(seen)==(1 if condition in {'form','rest'} else 0)
+            assert len(seen)==(1 if condition in {'form','rest','hesitate'} else 0)
             assert bool(formed)==(condition=='form')
+            if condition=='hesitate':assert not app.runtime.store.db.execute("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND kind='WAIT'").fetchone()
             if condition=='form':
                 _,item=formed[0];assert item.content_summary==private and item.epistemic_status=='OWN_TENDENCY_NOT_WORLD_FACT'
                 assert feedback in item.source_memory_ids
@@ -93,7 +94,7 @@ def test_bound_method_opinion_can_form_first_own_tendency_in_normal_d_without_an
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
             assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
             app.pause()
-            if condition in {'form','rest'}:
+            if condition in {'form','rest','hesitate'}:
                 if condition=='form':
                     restricted=app.chat('SYNTHETIC a lower privacy context',topic='fresh-care',privacy='PROJECT',message_id='restricted')
                     assert restricted['text']=='SYNTHETIC listening method' and private not in requests[-2]['context_json']

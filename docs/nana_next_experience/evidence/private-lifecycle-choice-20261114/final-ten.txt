@@ -1,0 +1,7 @@
+{"declared": true, "input_bytes": 49404, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 61693, "self_calls": 1, "state": "PAUSED", "wanted": "PAUSED"}
+.{"declared": true, "input_bytes": 49404, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 61693, "self_calls": 1, "state": "ABANDONED", "wanted": "ABANDONED"}
+.{"declared": false, "input_bytes": 49404, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 61693, "self_calls": 1, "state": "ACTIVE", "wanted": "PAUSED"}
+.{"declared": false, "input_bytes": 49404, "measurement": "synthetic_private_lifecycle_choice", "reserved_bytes": 61693, "self_calls": 1, "state": "ACTIVE", "wanted": "ABANDONED"}
+......{"measurement": "synthetic_paused_edit_attention", "model_calls": 0, "offered_target": false, "state": "PAUSED"}
+.
+10 passed in 3.51s

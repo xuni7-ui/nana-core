@@ -1,0 +1,7 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "origin_basis_count": 1, "view_available": true}
+{"closed": false, "enabled": true, "growth_self_calls": 1, "input_bytes": 55007, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": true, "question_changed": true, "question_revision": 3, "retired": false}
+{"family_allocated_bytes": 2138112, "measurement": "synthetic_private_g_episode_resources", "parent_process_cpu_seconds": 0.8486853430000001, "wall_seconds": 1.7573700550019566, "wanted": "LEARN"}
+.
+1 passed, 22 deselected in 1.91s

@@ -1,0 +1,147 @@
+{"attention_demand": "HEAVY", "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "REFLECT", "chosen_behavior": "REST", "input_bytes": 53288, "latency_us": 6146, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 65577, "self_http_calls": 1}
+F{"attention_demand": "HEAVY", "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "REST", "chosen_behavior": "REST", "input_bytes": 53288, "latency_us": 3220, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 65577, "self_http_calls": 1}
+.{"attention_demand": "HEAVY", "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "BLOCKED_REFLECT", "chosen_behavior": "REST", "input_bytes": 55701, "latency_us": 3538, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 67990, "self_http_calls": 1}
+.{"attention_demand": "HEAVY", "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "CREATE", "chosen_behavior": "REST", "input_bytes": 53288, "latency_us": 3576, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 65577, "self_http_calls": 1}
+F{"attention_demand": "HEAVY", "budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "LEARN", "chosen_behavior": "REST", "input_bytes": 53288, "latency_us": 3285, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 65577, "self_http_calls": 1}
+F
+=================================== FAILURES ===================================
+_ test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[REFLECT-HEAVY] _
+
+tmp_path = PosixPath('/tmp/nana-heavy-exact-old-restored/test_actual_runtime_can_choose0')
+choice = 'REFLECT', demand = 'HEAVY'
+
+    @pytest.mark.parametrize('demand',['LIGHT','HEAVY'])
+    @pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT','CREATE','LEARN'])
+    def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice,demand):
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        revised='PRIVATE_LIGHT_REFLECTION: I choose a brief reflection on my own concern while recognizing current load; rest remains available.'
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='REST' and m['strength']=='RELEVANT' for m in frame['motivations'])
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY'];assert len(own)==1
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC compare rest with a bounded personally meaningful reflection',
+                'preferred_behavior':'REFLECT' if choice=='BLOCKED_REFLECT' else choice,'proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
+            if choice in {'REFLECT','BLOCKED_REFLECT'}:proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
+            return {'interpretation':'SYNTHETIC sourced load is a motive, not compulsory fatigue behavior','subject_cognition':proposal}
+        with relay(home,'CHAT',subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();form(app);old=current(app)[0][1].content_summary;identity=app.runtime.identity_id
+                cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT','CREATE','LEARN'),cognitive_load='HIGH',attention_demand=demand)
+                mid=capture(app.runtime,'sourced-load',cue.model_dump(mode='json'),predicate='concern.current-private-load')
+                if choice=='BLOCKED_REFLECT':
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key='own-concern',prohibited_behaviors=('REFLECT',))
+                    capture(app.runtime,'sourced-load-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-load')
+            config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause(False);r=app.runtime;assert r.identity_id==identity
+                event=SubjectInput(source_key='synthetic.sourced-private-load-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,),novelty='HIGH',uncertainty='RELEVANT')
+                r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=clock.utc_now_us(),priority=3))
+                result=r.step();assert len(seen)==len(requests)==1
+                row=r.store.one('cognitive_requests',seen[0]['request_id'])
+                print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'attention_demand':demand,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
+>               assert result['cycle'].intention.behavior==('REST' if choice=='BLOCKED_REFLECT' else choice)
+E               AssertionError: assert 'REST' == 'REFLECT'
+E                 
+E                 - REFLECT
+E                 + REST
+
+tests/person_self/test_private_choice_admission.py:113: AssertionError
+_ test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[CREATE-HEAVY] _
+
+tmp_path = PosixPath('/tmp/nana-heavy-exact-old-restored/test_actual_runtime_can_choose3')
+choice = 'CREATE', demand = 'HEAVY'
+
+    @pytest.mark.parametrize('demand',['LIGHT','HEAVY'])
+    @pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT','CREATE','LEARN'])
+    def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice,demand):
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        revised='PRIVATE_LIGHT_REFLECTION: I choose a brief reflection on my own concern while recognizing current load; rest remains available.'
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='REST' and m['strength']=='RELEVANT' for m in frame['motivations'])
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY'];assert len(own)==1
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC compare rest with a bounded personally meaningful reflection',
+                'preferred_behavior':'REFLECT' if choice=='BLOCKED_REFLECT' else choice,'proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
+            if choice in {'REFLECT','BLOCKED_REFLECT'}:proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
+            return {'interpretation':'SYNTHETIC sourced load is a motive, not compulsory fatigue behavior','subject_cognition':proposal}
+        with relay(home,'CHAT',subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();form(app);old=current(app)[0][1].content_summary;identity=app.runtime.identity_id
+                cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT','CREATE','LEARN'),cognitive_load='HIGH',attention_demand=demand)
+                mid=capture(app.runtime,'sourced-load',cue.model_dump(mode='json'),predicate='concern.current-private-load')
+                if choice=='BLOCKED_REFLECT':
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key='own-concern',prohibited_behaviors=('REFLECT',))
+                    capture(app.runtime,'sourced-load-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-load')
+            config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause(False);r=app.runtime;assert r.identity_id==identity
+                event=SubjectInput(source_key='synthetic.sourced-private-load-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,),novelty='HIGH',uncertainty='RELEVANT')
+                r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=clock.utc_now_us(),priority=3))
+                result=r.step();assert len(seen)==len(requests)==1
+                row=r.store.one('cognitive_requests',seen[0]['request_id'])
+                print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'attention_demand':demand,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
+>               assert result['cycle'].intention.behavior==('REST' if choice=='BLOCKED_REFLECT' else choice)
+E               AssertionError: assert 'REST' == 'CREATE'
+E                 
+E                 - CREATE
+E                 + REST
+
+tests/person_self/test_private_choice_admission.py:113: AssertionError
+_ test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[LEARN-HEAVY] _
+
+tmp_path = PosixPath('/tmp/nana-heavy-exact-old-restored/test_actual_runtime_can_choose4')
+choice = 'LEARN', demand = 'HEAVY'
+
+    @pytest.mark.parametrize('demand',['LIGHT','HEAVY'])
+    @pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT','CREATE','LEARN'])
+    def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice,demand):
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        revised='PRIVATE_LIGHT_REFLECTION: I choose a brief reflection on my own concern while recognizing current load; rest remains available.'
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='REST' and m['strength']=='RELEVANT' for m in frame['motivations'])
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY'];assert len(own)==1
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC compare rest with a bounded personally meaningful reflection',
+                'preferred_behavior':'REFLECT' if choice=='BLOCKED_REFLECT' else choice,'proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
+            if choice in {'REFLECT','BLOCKED_REFLECT'}:proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
+            return {'interpretation':'SYNTHETIC sourced load is a motive, not compulsory fatigue behavior','subject_cognition':proposal}
+        with relay(home,'CHAT',subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();form(app);old=current(app)[0][1].content_summary;identity=app.runtime.identity_id
+                cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT','CREATE','LEARN'),cognitive_load='HIGH',attention_demand=demand)
+                mid=capture(app.runtime,'sourced-load',cue.model_dump(mode='json'),predicate='concern.current-private-load')
+                if choice=='BLOCKED_REFLECT':
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key='own-concern',prohibited_behaviors=('REFLECT',))
+                    capture(app.runtime,'sourced-load-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-load')
+            config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause(False);r=app.runtime;assert r.identity_id==identity
+                event=SubjectInput(source_key='synthetic.sourced-private-load-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,),novelty='HIGH',uncertainty='RELEVANT')
+                r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=clock.utc_now_us(),priority=3))
+                result=r.step();assert len(seen)==len(requests)==1
+                row=r.store.one('cognitive_requests',seen[0]['request_id'])
+                print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'attention_demand':demand,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
+>               assert result['cycle'].intention.behavior==('REST' if choice=='BLOCKED_REFLECT' else choice)
+E               AssertionError: assert 'REST' == 'LEARN'
+E                 
+E                 - LEARN
+E                 + REST
+
+tests/person_self/test_private_choice_admission.py:113: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_choice_admission.py::test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[REFLECT-HEAVY]
+FAILED tests/person_self/test_private_choice_admission.py::test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[CREATE-HEAVY]
+FAILED tests/person_self/test_private_choice_admission.py::test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[LEARN-HEAVY]
+3 failed, 2 passed, 10 deselected in 3.58s

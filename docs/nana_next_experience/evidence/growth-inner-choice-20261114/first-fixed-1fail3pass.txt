@@ -1,0 +1,69 @@
+{"condition": "active", "input_bytes": 56977, "latency_us": 7263, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 1, "reserved_bytes": 69266, "self_calls": 1}
+F{"condition": "rest", "input_bytes": 56977, "latency_us": 4438, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 0, "reserved_bytes": 69266, "self_calls": 1}
+.{"condition": "ablated", "input_bytes": 55412, "latency_us": 5493, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 0, "reserved_bytes": 67701, "self_calls": 1}
+.{"condition": "no-provider", "input_bytes": null, "latency_us": null, "measurement": "synthetic_independent_growth_to_private_choice", "private_tendencies": 0, "reserved_bytes": null, "self_calls": 0}
+.
+=================================== FAILURES ===================================
+_ test_original_g_success_can_inform_own_interest_without_mandatory_sharing[active] _
+
+tmp_path = PosixPath('/dev/shm/grow-new/test_original_g_success_can_in0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f32bab4c290>
+condition = 'active'
+
+    @pytest.mark.parametrize('condition',['active','rest','ablated','no-provider'])
+    def test_original_g_success_can_inform_own_interest_without_mandatory_sharing(tmp_path,monkeypatch,condition):
+        clock=VirtualClock();seen=[]
+        def propose(request):
+            package=json.loads(request.context_json);blocks=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='GROWTH_CHANGE']
+            frame=next(json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert 'PRIVATE_GROWTH_INTEREST_CANARY' not in request.context_json
+            seen.append((request,blocks,frame['behavior_options']))
+            use=bool(blocks) and condition!='rest'
+            return StructuredProposal(interpretation='SYNTHETIC choose privately after actual checked growth',subject_cognition=CognitiveProposal(
+                identity_id=package['manifest']['identity_id'],identity_revision=package['manifest']['identity_revision'],
+                interpretation='SYNTHETIC current skill may inspire play; no external emotion or benefit is inferred',
+                preferred_behavior='REFLECT' if use else 'REST' if condition=='rest' else 'WATCH',
+                proposed_operations=('DRAFT',) if use else ('WAIT',),
+                private_tendency={'topic':'own-growth-play','tendency':'PRIVATE_GROWTH_INTEREST_CANARY: I would like to try playful measurement in my own creative time.'} if use else None))
+        with grown(tmp_path/condition,clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            from tests.world_loop.test_model_framing import bind as bind_counter
+            bind_counter(transport)
+            if condition=='ablated':monkeypatch.setattr(growth_life,'context_projection',lambda *args,**kwargs:None,raising=False)
+            if condition!='no-provider':bind(r,transport,context_policy())
+            before={table:len(r.store.all(table)) for table in ('goals','actions','grants')}
+            clock.advance(3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            for _ in range(12):r.step()
+            for _ in range(3):r.refresh_attention();r.step()
+            values=private_intent.candidates(r.store,'world',('PUBLIC','PROJECT','PERSONAL'))
+            own=[(rid,v) for rid,v in values if v.category=='PRIVATE_TENDENCY' and v.topic=='own-growth-play']
+            measure=r.store.one('cognitive_requests',seen[0][0].request_id) if seen else None
+            print(json.dumps({'measurement':'synthetic_independent_growth_to_private_choice','condition':condition,'self_calls':state['calls'],'private_tendencies':len(own),'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None,'latency_us':measure['latency_us'] if measure else None},sort_keys=True))
+            assert state['calls']==(0 if condition=='no-provider' else 1)
+            assert bool(own)==(condition=='active')
+            assert before=={table:len(r.store.all(table)) for table in before}
+            if seen:
+                assert {'REFLECT','REST'}<=set(seen[0][2])
+                if condition!='ablated':assert seen[0][1][0]['lesson_id']==lesson and seen[0][1][0]['method']=='NUMERIC_SUM'
+            if condition=='active':
+                rid,item=own[0];identity=r.identity_id
+                assert item.activity_state=='ACTIVE' and item.disclosure_policy=='PRIVATE_FOR_NOW'
+                assert RecordService(r.store).current_support(rid)
+                # A direct independent counterexample suspends G and removes all of
+                # this source-dependent private influence, rather than a trait edit.
+                bad=LearningCase(case_id='inner-precision-counterexample',context='decimal-exactness',data=[.1,.2],expected=.3)
+                counter=source(r,'inner-counterexample',{'strategy_episode':{'episode_key':'inner-precision-counterexample','lesson_id':lesson,'case':bad.model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+                EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',)).assess(lesson,counter,authority=r.authority)
+                assert growth_life.project(r.store,view.assessment_id,scope='world',privacy_classes=('PUBLIC',)) is None
+                # Counterevidence retires the lesson; source deletion still governs
+                # erasure of an own idea whose original occurrence remains factual.
+                MemoryService(r.store,r.authority).forget(origin,r.authority)
+>               assert not private_intent.candidates(r.store,'world',('PUBLIC','PROJECT','PERSONAL'))
+E               AssertionError: assert not (('11fa4ec3-330f-40fb-be5a-5008f7b72b45', PrivateIntent(contract='PRIVATE_INTENT_V1', intent_id='3c168d98-262e-4a1b-a5...FRESH_REALIZATION_GATES', external_effect=False, budget_required=True, third_party=False, execution_authority=False)),)
+E                +  where (('11fa4ec3-330f-40fb-be5a-5008f7b72b45', PrivateIntent(contract='PRIVATE_INTENT_V1', intent_id='3c168d98-262e-4a1b-a5...FRESH_REALIZATION_GATES', external_effect=False, budget_required=True, third_party=False, execution_authority=False)),) = <function candidates at 0x7f32babe2840>(<nana_core.continuity.store.ContinuityStore object at 0x7f32baf58ce0>, 'world', ('PUBLIC', 'PROJECT', 'PERSONAL'))
+E                +    where <function candidates at 0x7f32babe2840> = private_intent.candidates
+E                +    and   <nana_core.continuity.store.ContinuityStore object at 0x7f32baf58ce0> = <nana_core.presence.runtime.NanaRuntime object at 0x7f32bab4c4d0>.store
+
+tests/person_self/test_growth_inner_choice.py:99: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_inner_choice.py::test_original_g_success_can_inform_own_interest_without_mandatory_sharing[active]
+1 failed, 3 passed in 4.94s

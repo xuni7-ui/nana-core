@@ -1,0 +1,145 @@
+{
+  "origin": "SYNTHETIC_OWNED_HTTP_AND_ISOLATED_LOCAL_EXECUTION",
+  "provider_context_budget": 32768,
+  "extra_self_calls_for_same_input": 0,
+  "input_wire_extra_bytes": 1075,
+  "self_schema_extra_bytes": 722,
+  "commercial_provider_tokens": null,
+  "actual_fees": null,
+  "samples": [
+    {
+      "source": "old",
+      "input_bytes": 49404,
+      "learning_jobs": 0,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 0,
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "wanted": "LEARN"
+    },
+    {
+      "source": "old",
+      "input_bytes": 49404,
+      "learning_jobs": 0,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 0,
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "wanted": "WATCH"
+    },
+    {
+      "source": "old",
+      "action_states": [
+        "SUCCEEDED",
+        "SUCCEEDED"
+      ],
+      "goal_state": "FAILED",
+      "measurement": "synthetic_later_private_g_use",
+      "method": "PYTHON_TOP_DEFS",
+      "wanted": "WATCH"
+    },
+    {
+      "source": "old",
+      "family_allocated_bytes": 1245184,
+      "measurement": "synthetic_private_g_episode_resources",
+      "parent_process_cpu_seconds": 0.2808674929999999,
+      "wall_seconds": 0.7655479179993563,
+      "wanted": "WATCH"
+    },
+    {
+      "source": "old",
+      "input_bytes": 49404,
+      "learning_jobs": 0,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 0,
+      "reserved_bytes": 61693,
+      "self_calls": 1,
+      "wanted": "REST"
+    },
+    {
+      "source": "old",
+      "family_allocated_bytes": 901120,
+      "measurement": "synthetic_private_g_episode_resources",
+      "parent_process_cpu_seconds": 0.18006860600000008,
+      "wall_seconds": 0.6632797080019373,
+      "wanted": "REST"
+    },
+    {
+      "source": "new",
+      "input_bytes": 50479,
+      "learning_jobs": 1,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 1,
+      "reserved_bytes": 62768,
+      "self_calls": 1,
+      "wanted": "LEARN"
+    },
+    {
+      "source": "new",
+      "action_states": [
+        "SUCCEEDED",
+        "SUCCEEDED",
+        "SUCCEEDED"
+      ],
+      "goal_state": "COMPLETED",
+      "measurement": "synthetic_later_private_g_use",
+      "method": "PYTHON_AST_API",
+      "wanted": "LEARN"
+    },
+    {
+      "source": "new",
+      "family_allocated_bytes": 1708032,
+      "measurement": "synthetic_private_g_episode_resources",
+      "parent_process_cpu_seconds": 0.4398135620000001,
+      "wall_seconds": 0.897997555002803,
+      "wanted": "LEARN"
+    },
+    {
+      "source": "new",
+      "input_bytes": 50479,
+      "learning_jobs": 0,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 1,
+      "reserved_bytes": 62768,
+      "self_calls": 1,
+      "wanted": "WATCH"
+    },
+    {
+      "source": "new",
+      "action_states": [
+        "SUCCEEDED",
+        "SUCCEEDED"
+      ],
+      "goal_state": "FAILED",
+      "measurement": "synthetic_later_private_g_use",
+      "method": "PYTHON_TOP_DEFS",
+      "wanted": "WATCH"
+    },
+    {
+      "source": "new",
+      "family_allocated_bytes": 1224704,
+      "measurement": "synthetic_private_g_episode_resources",
+      "parent_process_cpu_seconds": 0.23628646899999994,
+      "wall_seconds": 0.7211021490002167,
+      "wanted": "WATCH"
+    },
+    {
+      "source": "new",
+      "input_bytes": 50479,
+      "learning_jobs": 0,
+      "measurement": "synthetic_private_g_selection",
+      "programs_seen": 1,
+      "reserved_bytes": 62768,
+      "self_calls": 1,
+      "wanted": "REST"
+    },
+    {
+      "source": "new",
+      "family_allocated_bytes": 905216,
+      "measurement": "synthetic_private_g_episode_resources",
+      "parent_process_cpu_seconds": 0.1531894170000001,
+      "wall_seconds": 0.6392610479997529,
+      "wanted": "REST"
+    }
+  ]
+}

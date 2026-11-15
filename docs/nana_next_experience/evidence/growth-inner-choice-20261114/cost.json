@@ -1,0 +1,155 @@
+{
+  "scope": "SYNTHETIC_KERNEL_VERIFY_G_AND_OWNED_HTTP",
+  "configured_budget": {
+    "input_tokens": 65536,
+    "output_tokens": 2048,
+    "timeout_ms": 120000
+  },
+  "metrics": {
+    "old": [
+      {
+        "condition": "active",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.030470181000000096,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3866624,
+        "sqlite_family_allocated_before": 3796992
+      },
+      {
+        "condition": "rest",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.03283338899999988,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3874816,
+        "sqlite_family_allocated_before": 3813376
+      },
+      {
+        "condition": "available-rest",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.027113239999999816,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3936256,
+        "sqlite_family_allocated_before": 3837952
+      },
+      {
+        "condition": "ablated",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.026292482999999756,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3874816,
+        "sqlite_family_allocated_before": 3805184
+      },
+      {
+        "condition": "no-provider",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.027573453000000026,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3842048,
+        "sqlite_family_allocated_before": 3780608
+      }
+    ],
+    "new": [
+      {
+        "condition": "active",
+        "input_bytes": 56977,
+        "latency_us": 6799,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 1,
+        "reserved_bytes": 69266,
+        "runtime_cpu_seconds": 0.934096612,
+        "self_calls": 1,
+        "sqlite_family_allocated_after": 3981312,
+        "sqlite_family_allocated_before": 3821568
+      },
+      {
+        "chosen_behavior": "REFLECT",
+        "condition": "active",
+        "extra_provider_calls": 0,
+        "later_fixture_calls": 1,
+        "measurement": "synthetic_growth_later_choice"
+      },
+      {
+        "condition": "rest",
+        "input_bytes": 56977,
+        "latency_us": 3924,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": 69266,
+        "runtime_cpu_seconds": 0.8943414399999998,
+        "self_calls": 1,
+        "sqlite_family_allocated_after": 4014080,
+        "sqlite_family_allocated_before": 3862528
+      },
+      {
+        "condition": "available-rest",
+        "input_bytes": 58701,
+        "latency_us": 3970,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": 70990,
+        "runtime_cpu_seconds": 0.9286132719999998,
+        "self_calls": 1,
+        "sqlite_family_allocated_after": 3923968,
+        "sqlite_family_allocated_before": 3764224
+      },
+      {
+        "condition": "ablated",
+        "input_bytes": 55412,
+        "latency_us": 3230,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": 67701,
+        "runtime_cpu_seconds": 0.9111309420000007,
+        "self_calls": 1,
+        "sqlite_family_allocated_after": 3964928,
+        "sqlite_family_allocated_before": 3813376
+      },
+      {
+        "chosen_behavior": "WATCH",
+        "condition": "ablated",
+        "extra_provider_calls": 0,
+        "later_fixture_calls": 1,
+        "measurement": "synthetic_growth_later_choice"
+      },
+      {
+        "condition": "no-provider",
+        "input_bytes": null,
+        "latency_us": null,
+        "measurement": "synthetic_independent_growth_to_private_choice",
+        "private_tendencies": 0,
+        "reserved_bytes": null,
+        "runtime_cpu_seconds": 0.023295566999999906,
+        "self_calls": 0,
+        "sqlite_family_allocated_after": 3870720,
+        "sqlite_family_allocated_before": 3801088
+      }
+    ]
+  },
+  "provider_input_tokens": null,
+  "provider_output_tokens": null,
+  "commercial_cost": null,
+  "RSS": "NOT_MEASURED",
+  "ablation": "Same new source and budget, only original growth_life.context_projection disabled. Both 1SELF; normal input56977 vs ablated55412 bytes (+1565); later same one analytical fixture choice REFLECT vs WATCH. No extra commercial stages.",
+  "storage": "Actual SQLite main/WAL/SHM allocated blocks, not logical rows or reclaimed-space claim. Normal mixed runtime step delta159744 bytes, ablated151552; not isolated intrinsic state cost or long-term projection.",
+  "cpu": "process_time samples include ordinary D queue/requests across the measured 15 steps, not a production speed comparison."
+}

@@ -1,7 +1,7 @@
 """Pure, inspectable initial C policy. No clock, storage, random or executor."""
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
-from .opportunities import Behavior,ConcernCue,directions
+from .opportunities import Behavior,ConcernCue,directions,LearningProgramOption
 from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
@@ -11,6 +11,7 @@ from .experience_need import ExperienceNeed
 
 
 class Situation(DTO):
+    learning_programs:tuple[LearningProgramOption,...]=()
     preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
@@ -51,7 +52,7 @@ class Situation(DTO):
 def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     """Same read-only C projection for deliberation and D resource admission."""
     from .contracts import DeliberationFrame
-    return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,
+    return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 
@@ -241,7 +242,7 @@ def decide(event, situation, appraisal, motives):
         interested_learning = (behavior in {'LEARN', 'SEEK_CAPABILITY'}
             and (personal_interest or (cue.learning_value is not None
                 and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
-        interested_activity = personal_interest and behavior in {'EXPLORE', 'CREATE'}
+        interested_activity = personal_interest and behavior in {'EXPLORE', 'CREATE', 'REFLECT'}
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
@@ -253,11 +254,16 @@ def decide(event, situation, appraisal, motives):
         # selected direction. Shared current load and actual norms still apply.
         demanding = cue.attention_demand=='HEAVY' or bool(behavior in {'LEARN','SEEK_CAPABILITY'}
             and cue.learning_value and cue.learning_value.time_compute_cost=='HEAVY')
-        supported_light_interest = not demanding and (interested_learning or interested_activity or interested_social)
+        supported_interest = interested_learning or interested_activity or interested_social
+        supported_light_interest = not demanding and supported_interest
+        # Actual C may choose a demanding supported interest despite a current
+        # rest motive. A source's load estimate is not an execution capacity or
+        # permission boundary. Unconsidered defaults and real resource gates stay.
+        considered_interest = considered_choice and supported_interest
         # Current load remains a sourced rest motive. It does not require the
         # Subject to stop every light, supported interest or private wish to
         # connect. Actual execution and reception are admitted separately.
-        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH' and not supported_light_interest:
+        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH' and not (supported_light_interest or considered_interest):
             return ('DEFER',Judgment(stance='DEFER',reason='Current load outweighs this demanding or unsupported optional direction',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Keep the option while choosing rest for now',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity or interested_social):

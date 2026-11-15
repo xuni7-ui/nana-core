@@ -1,0 +1,31 @@
+{
+  "base_commit": "d06eae1f580e3ac2b4c8887173508f1a51547bb7",
+  "old_source_files": 298,
+  "old_source_list_sha256": "44e49a93a9425fb9308c931b794fab015193b22b8ff5d0f728641e321094ead8",
+  "old": {
+    "module": "/dev/shm/nana-g-return-d06/src/nana_core/continuity/subject/growth_life.py",
+    "legacy_projection_bytes": 307,
+    "legacy_projection_sha256": "cecadf1cb701b1cdeb65254ff1b031ec1902a6d8b373dbb7fad219ea84379cee",
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 6006,
+      "sha256": "35dc36dff881fc828c7496f4aa0530f2e542cfd4a4feb770ec1acb2834d47bbe"
+    }
+  },
+  "new": {
+    "module": "/tmp/nana-inner-refinement-work/src/nana_core/continuity/subject/growth_life.py",
+    "legacy_projection_bytes": 307,
+    "legacy_projection_sha256": "cecadf1cb701b1cdeb65254ff1b031ec1902a6d8b373dbb7fad219ea84379cee",
+    "ordinary": {
+      "bytes": 11491,
+      "sha256": "c42e0a62553771a19009802fc8a175d92e02c9fc4f08c1ae2f6052a7499aa19d"
+    },
+    "self": {
+      "bytes": 6006,
+      "sha256": "35dc36dff881fc828c7496f4aa0530f2e542cfd4a4feb770ec1acb2834d47bbe"
+    }
+  }
+}

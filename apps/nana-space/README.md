@@ -1,5 +1,7 @@
 # Nana Space V3 · Companion Experience & Control Center
 
+> **现役源码入口（2026-11-14）**：统一开发分支为 `dev/nana-core-next-experience-codex`，状态以 [PROJECT_BRAIN](../../PROJECT_BRAIN/09_STATE.md) 和实际源码为准。下方较早的V3/只读草稿分支说明保留其历史范围。宿主开放配置后，现役模型中心已接真实配置、凭据状态及目录读取；Anthropic目录支持用户显式“读取下一批”，选模仅填草稿，注册/路由/付费授权仍分别明确操作。源码与受控资格见 [续页证据](../../docs/nana_next_experience/evidence/model-catalog-continuation-20261114/README.md)，不代表旧APK或生产已更新。
+
 当前开发分支 `dev/nana-space-v3-cotex`，继承 First-Life V2 的 a07e906。
 默认 `npm run dev` / `npm run build` 使用真实 v2 客户端；没有连接时可以明确离线浏览，不编造生活记录。
 安装和状态详见 [V3 implementation](../../docs/nana_space_v3/IMPLEMENTATION.md)、[功能状态表](../../docs/nana_space_v3/STATUS.md)、[后端最小接线](../../docs/nana_space_v3/BACKEND_INTEGRATION.md)。

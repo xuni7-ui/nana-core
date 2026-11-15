@@ -1,0 +1,1099 @@
+﻿2026-11-14T12:45:28.6858788Z Current runner version: '2.338.2'
+2026-11-14T12:45:28.6880997Z ##[group]Runner Image Provisioner
+2026-11-14T12:45:28.6881725Z Hosted Compute Agent
+2026-11-14T12:45:28.6882337Z Version: 20261103.629
+2026-11-14T12:45:28.6882905Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-14T12:45:28.6883742Z Build Date: 2026-11-03T17:26:59Z
+2026-11-14T12:45:28.6884750Z Worker ID: {a180ce85-8ca8-43ff-a836-052ba8a0a3a8}
+2026-11-14T12:45:28.6885333Z Region: centralus
+2026-11-14T12:45:28.6885803Z Cloud: Azure
+2026-11-14T12:45:28.6886265Z ##[endgroup]
+2026-11-14T12:45:28.6887595Z ##[group]Operating System
+2026-11-14T12:45:28.6888138Z Ubuntu
+2026-11-14T12:45:28.6888564Z 24.04.5
+2026-11-14T12:45:28.6889045Z LTS
+2026-11-14T12:45:28.6889454Z ##[endgroup]
+2026-11-14T12:45:28.6889876Z ##[group]Runner Image
+2026-11-14T12:45:28.6890389Z Image: ubuntu-24.04
+2026-11-14T12:45:28.6890846Z Version: 20261111.370.1
+2026-11-14T12:45:28.6891927Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-14T12:45:28.6893150Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+2026-11-14T12:45:28.6893951Z ##[endgroup]
+2026-11-14T12:45:28.6895061Z ##[group]GITHUB_TOKEN Permissions
+2026-11-14T12:45:28.6897002Z Contents: read
+2026-11-14T12:45:28.6897477Z Metadata: read
+2026-11-14T12:45:28.6897933Z ##[endgroup]
+2026-11-14T12:45:28.6899603Z Secret source: Actions
+2026-11-14T12:45:28.6900379Z Cache mode: write
+2026-11-14T12:45:28.6901192Z Prepare workflow directory
+2026-11-14T12:45:28.7318777Z Prepare all required actions
+2026-11-14T12:45:28.7362076Z Getting action download info
+2026-11-14T12:45:28.9962037Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-14T12:45:29.0860187Z Download action repository 'astral-sh/setup-uv@v6' (SHA:d0cc045d04ccac9d8b7881df0226f9e82c39688e)
+2026-11-14T12:45:29.5460051Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-14T12:45:29.7830321Z Complete job name: original-core-feedback
+2026-11-14T12:45:29.8527413Z ##[group]Run actions/checkout@v4
+2026-11-14T12:45:29.8528117Z with:
+2026-11-14T12:45:29.8528638Z   persist-credentials: false
+2026-11-14T12:45:29.8529129Z   fetch-depth: 0
+2026-11-14T12:45:29.8529540Z   filter: blob:none
+2026-11-14T12:45:29.8530028Z   repository: xuni7-ui/nana-core
+2026-11-14T12:45:29.8533568Z   token: ***
+2026-11-14T12:45:29.8534022Z   ssh-strict: true
+2026-11-14T12:45:29.8534653Z   ssh-user: git
+2026-11-14T12:45:29.8535074Z   clean: true
+2026-11-14T12:45:29.8535558Z   sparse-checkout-cone-mode: true
+2026-11-14T12:45:29.8536284Z   fetch-tags: false
+2026-11-14T12:45:29.8536743Z   show-progress: true
+2026-11-14T12:45:29.8537206Z   lfs: false
+2026-11-14T12:45:29.8537620Z   submodules: false
+2026-11-14T12:45:29.8538104Z   set-safe-directory: true
+2026-11-14T12:45:29.8538591Z   allow-unsafe-pr-checkout: false
+2026-11-14T12:45:29.8539274Z env:
+2026-11-14T12:45:29.8539705Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T12:45:29.8540240Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T12:45:29.8540827Z ##[endgroup]
+2026-11-14T12:45:30.1239835Z Syncing repository: xuni7-ui/nana-core
+2026-11-14T12:45:30.1242228Z ##[group]Getting Git version info
+2026-11-14T12:45:30.1243773Z Working directory is '/home/runner/work/nana-core/nana-core'
+2026-11-14T12:45:30.1245786Z [command]/usr/bin/git version
+2026-11-14T12:45:30.1319076Z git version 2.56.1
+2026-11-14T12:45:30.1347125Z ##[endgroup]
+2026-11-14T12:45:30.1357861Z Temporarily overriding HOME='/home/runner/work/_temp/dacea95b-d9d9-48c1-b23a-d03bb791b5a2' before making global git config changes
+2026-11-14T12:45:30.1361548Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T12:45:30.1364661Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nana-core/nana-core
+2026-11-14T12:45:30.1421547Z Deleting the contents of '/home/runner/work/nana-core/nana-core'
+2026-11-14T12:45:30.1430892Z ##[group]Initializing the repository
+2026-11-14T12:45:30.1433561Z [command]/usr/bin/git init /home/runner/work/nana-core/nana-core
+2026-11-14T12:45:30.1528389Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-14T12:45:30.1531529Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-14T12:45:30.1534564Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-14T12:45:30.1537596Z hint: call:
+2026-11-14T12:45:30.1539021Z hint:
+2026-11-14T12:45:30.1540836Z hint: 	git config --global init.defaultBranch <name>
+2026-11-14T12:45:30.1542774Z hint:
+2026-11-14T12:45:30.1544807Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-14T12:45:30.1565200Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-14T12:45:30.1567840Z hint:
+2026-11-14T12:45:30.1569403Z hint: 	git branch -m <name>
+2026-11-14T12:45:30.1571052Z hint:
+2026-11-14T12:45:30.1573057Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-14T12:45:30.1576771Z Initialized empty Git repository in /home/runner/work/nana-core/nana-core/.git/
+2026-11-14T12:45:30.1582048Z [command]/usr/bin/git remote add origin https://github.com/xuni7-ui/nana-core
+2026-11-14T12:45:30.1625680Z ##[endgroup]
+2026-11-14T12:45:30.1628102Z ##[group]Disabling automatic garbage collection
+2026-11-14T12:45:30.1630347Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-14T12:45:30.1656412Z ##[endgroup]
+2026-11-14T12:45:30.1658476Z ##[group]Setting up auth
+2026-11-14T12:45:30.1660825Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T12:45:30.1696774Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T12:45:30.2041146Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T12:45:30.2067945Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T12:45:30.2232194Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T12:45:30.2262661Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T12:45:30.2425715Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-14T12:45:30.2480023Z ##[endgroup]
+2026-11-14T12:45:30.2481589Z ##[group]Fetching the repository
+2026-11-14T12:45:30.2494266Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules --filter=blob:none origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-14T12:45:30.8836555Z From https://github.com/xuni7-ui/nana-core
+2026-11-14T12:45:30.8839820Z  * [new branch]      delivery/nana-space-next-apk -> origin/delivery/nana-space-next-apk
+2026-11-14T12:45:30.8843078Z  * [new branch]      delivery/nana-v4-403-verified-zip -> origin/delivery/nana-v4-403-verified-zip
+2026-11-14T12:45:30.8846961Z  * [new branch]      dev/nana-core-affective-autonomy-v1-codex -> origin/dev/nana-core-affective-autonomy-v1-codex
+2026-11-14T12:45:30.8851102Z  * [new branch]      dev/nana-core-cloud-daily-life-shared-presence-v1-codex -> origin/dev/nana-core-cloud-daily-life-shared-presence-v1-codex
+2026-11-14T12:45:30.8854990Z  * [new branch]      dev/nana-core-cloud-first-life-launch-v1-codex -> origin/dev/nana-core-cloud-first-life-launch-v1-codex
+2026-11-14T12:45:30.8858776Z  * [new branch]      dev/nana-core-continuous-runtime-codex -> origin/dev/nana-core-continuous-runtime-codex
+2026-11-14T12:45:30.8861486Z  * [new branch]      dev/nana-core-continuous-self-codex -> origin/dev/nana-core-continuous-self-codex
+2026-11-14T12:45:30.8864866Z  * [new branch]      dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex -> origin/dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex
+2026-11-14T12:45:30.8868667Z  * [new branch]      dev/nana-core-engineering-quality-portable-v2-codex -> origin/dev/nana-core-engineering-quality-portable-v2-codex
+2026-11-14T12:45:30.8871947Z  * [new branch]      dev/nana-core-execution-context-routing-v1-codex -> origin/dev/nana-core-execution-context-routing-v1-codex
+2026-11-14T12:45:30.8875100Z  * [new branch]      dev/nana-core-first-life-android-v2-codex -> origin/dev/nana-core-first-life-android-v2-codex
+2026-11-14T12:45:30.8877978Z  * [new branch]      dev/nana-core-first-life-unified-release-v1-codex -> origin/dev/nana-core-first-life-unified-release-v1-codex
+2026-11-14T12:45:30.8881057Z  * [new branch]      dev/nana-core-h1-live-semantic-provider-v1-codex -> origin/dev/nana-core-h1-live-semantic-provider-v1-codex
+2026-11-14T12:45:30.8884819Z  * [new branch]      dev/nana-core-h1-semantic-grounding-v1-codex -> origin/dev/nana-core-h1-semantic-grounding-v1-codex
+2026-11-14T12:45:30.8888758Z  * [new branch]      dev/nana-core-h2-live-real-screen-v1-codex -> origin/dev/nana-core-h2-live-real-screen-v1-codex
+2026-11-14T12:45:30.8892744Z  * [new branch]      dev/nana-core-h2-perception-ingress-v1-codex -> origin/dev/nana-core-h2-perception-ingress-v1-codex
+2026-11-14T12:45:30.8898200Z  * [new branch]      dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex -> origin/dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex
+2026-11-14T12:45:30.8901328Z  * [new branch]      dev/nana-core-living-release-v4-codex -> origin/dev/nana-core-living-release-v4-codex
+2026-11-14T12:45:30.8904465Z  * [new branch]      dev/nana-core-next-experience-codex -> origin/dev/nana-core-next-experience-codex
+2026-11-14T12:45:30.8907889Z  * [new branch]      dev/nana-core-next-stage-readiness-codex -> origin/dev/nana-core-next-stage-readiness-codex
+2026-11-14T12:45:30.8911934Z  * [new branch]      dev/nana-core-provider-capability-routing-v1-codex -> origin/dev/nana-core-provider-capability-routing-v1-codex
+2026-11-14T12:45:30.8917625Z  * [new branch]      dev/nana-core-real-action-experience-evolution-v1-codex -> origin/dev/nana-core-real-action-experience-evolution-v1-codex
+2026-11-14T12:45:30.8922550Z  * [new branch]      dev/nana-core-real-cognition-lived-growth-v2-codex -> origin/dev/nana-core-real-cognition-lived-growth-v2-codex
+2026-11-14T12:45:30.8926192Z  * [new branch]      dev/nana-core-real-cognition-world-loop-v1-codex -> origin/dev/nana-core-real-cognition-world-loop-v1-codex
+2026-11-14T12:45:30.8929457Z  * [new branch]      dev/nana-core-real-life-growth-and-presence-v1-codex -> origin/dev/nana-core-real-life-growth-and-presence-v1-codex
+2026-11-14T12:45:30.8933205Z  * [new branch]      dev/nana-core-real-living-integration-v1-codex -> origin/dev/nana-core-real-living-integration-v1-codex
+2026-11-14T12:45:30.8937407Z  * [new branch]      dev/nana-core-relational-autonomy-v1-codex -> origin/dev/nana-core-relational-autonomy-v1-codex
+2026-11-14T12:45:30.8941075Z  * [new branch]      dev/nana-core-source-navigation-audit-codex -> origin/dev/nana-core-source-navigation-audit-codex
+2026-11-14T12:45:30.8944470Z  * [new branch]      dev/nana-core-universal-model-setup-b -> origin/dev/nana-core-universal-model-setup-b
+2026-11-14T12:45:30.8947227Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind -> origin/dev/nana-core-v1-astrbot-shadow-bind
+2026-11-14T12:45:30.8949773Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind-codex -> origin/dev/nana-core-v1-astrbot-shadow-bind-codex
+2026-11-14T12:45:30.8953297Z  * [new branch]      dev/nana-core-v1-astrbot-shadow-bind-r03 -> origin/dev/nana-core-v1-astrbot-shadow-bind-r03
+2026-11-14T12:45:30.8956637Z  * [new branch]      dev/nana-core-v1-cloud-bridge -> origin/dev/nana-core-v1-cloud-bridge
+2026-11-14T12:45:30.8959328Z  * [new branch]      dev/nana-core-v1-dev-validation -> origin/dev/nana-core-v1-dev-validation
+2026-11-14T12:45:30.8962582Z  * [new branch]      dev/nana-core-v1-first-real-shadow -> origin/dev/nana-core-v1-first-real-shadow
+2026-11-14T12:45:30.8965982Z  * [new branch]      dev/nana-core-v1-phase3-entry -> origin/dev/nana-core-v1-phase3-entry
+2026-11-14T12:45:30.8968964Z  * [new branch]      dev/nana-core-v1-r04-single-message-shadow-codex -> origin/dev/nana-core-v1-r04-single-message-shadow-codex
+2026-11-14T12:45:30.8972314Z  * [new branch]      dev/nana-core-v1-r041-short-lived-host-bridge-codex -> origin/dev/nana-core-v1-r041-short-lived-host-bridge-codex
+2026-11-14T12:45:30.8975704Z  * [new branch]      dev/nana-core-v1-r042-real-host-preflight -> origin/dev/nana-core-v1-r042-real-host-preflight
+2026-11-14T12:45:30.8978582Z  * [new branch]      dev/nana-core-v1-r042-trust-onboarding-codex -> origin/dev/nana-core-v1-r042-trust-onboarding-codex
+2026-11-14T12:45:30.8982326Z  * [new branch]      dev/nana-core-v1-r043-first-real-shadow-candidate -> origin/dev/nana-core-v1-r043-first-real-shadow-candidate
+2026-11-14T12:45:30.8986186Z  * [new branch]      dev/nana-core-v1-r044-preprod-redteam-codex -> origin/dev/nana-core-v1-r044-preprod-redteam-codex
+2026-11-14T12:45:30.8989374Z  * [new branch]      dev/nana-core-v1-r045-first-real-shadow-release-candidate -> origin/dev/nana-core-v1-r045-first-real-shadow-release-candidate
+2026-11-14T12:45:30.8991873Z  * [new branch]      dev/nana-core-v1-s0-s4  -> origin/dev/nana-core-v1-s0-s4
+2026-11-14T12:45:30.8993471Z  * [new branch]      dev/nana-core-v1-s5     -> origin/dev/nana-core-v1-s5
+2026-11-14T12:45:30.8995287Z  * [new branch]      dev/nana-core-v1-s6     -> origin/dev/nana-core-v1-s6
+2026-11-14T12:45:30.8997177Z  * [new branch]      dev/nana-core-v1-shadow-bootstrap -> origin/dev/nana-core-v1-shadow-bootstrap
+2026-11-14T12:45:30.8999397Z  * [new branch]      dev/nana-core-v1-shadow-host-compat -> origin/dev/nana-core-v1-shadow-host-compat
+2026-11-14T12:45:30.9002041Z  * [new branch]      dev/nana-core-vision-first-shared-growth-v2-codex -> origin/dev/nana-core-vision-first-shared-growth-v2-codex
+2026-11-14T12:45:30.9005071Z  * [new branch]      dev/nana-provider-config-parse-cache-b -> origin/dev/nana-provider-config-parse-cache-b
+2026-11-14T12:45:30.9007306Z  * [new branch]      dev/nana-provider-presets-b -> origin/dev/nana-provider-presets-b
+2026-11-14T12:45:30.9009536Z  * [new branch]      dev/nana-space-core-integration-v1-codex -> origin/dev/nana-space-core-integration-v1-codex
+2026-11-14T12:45:30.9011635Z  * [new branch]      dev/nana-space-v1-codex -> origin/dev/nana-space-v1-codex
+2026-11-14T12:45:30.9013298Z  * [new branch]      dev/nana-space-v3-cotex -> origin/dev/nana-space-v3-cotex
+2026-11-14T12:45:30.9015366Z  * [new branch]      feature/nanalink-unified-platform -> origin/feature/nanalink-unified-platform
+2026-11-14T12:45:30.9017834Z  * [new branch]      governance/delivery-archive-ambiguity-20261111 -> origin/governance/delivery-archive-ambiguity-20261111
+2026-11-14T12:45:30.9020468Z  * [new branch]      governance/grant-port-navigation-20261111 -> origin/governance/grant-port-navigation-20261111
+2026-11-14T12:45:30.9022894Z  * [new branch]      governance/integration-first-d2d5e8c -> origin/governance/integration-first-d2d5e8c
+2026-11-14T12:45:30.9025493Z  * [new branch]      governance/portable-platform-guide-20261111 -> origin/governance/portable-platform-guide-20261111
+2026-11-14T12:45:30.9028263Z  * [new branch]      governance/portable-qualification-paths-20261111 -> origin/governance/portable-qualification-paths-20261111
+2026-11-14T12:45:30.9030847Z  * [new branch]      governance/repository-layout-20261111 -> origin/governance/repository-layout-20261111
+2026-11-14T12:45:30.9033172Z  * [new branch]      governance/repository-refresh-20261111 -> origin/governance/repository-refresh-20261111
+2026-11-14T12:45:30.9035824Z  * [new branch]      governance/selector-clarification-0742f0d -> origin/governance/selector-clarification-0742f0d
+2026-11-14T12:45:30.9038172Z  * [new branch]      governance/source-checkout-20261111 -> origin/governance/source-checkout-20261111
+2026-11-14T12:45:30.9039858Z  * [new branch]      main                    -> origin/main
+2026-11-14T12:45:30.9041607Z  * [new branch]      research/nana-temporal-source-b -> origin/research/nana-temporal-source-b
+2026-11-14T12:45:30.9045195Z [command]/usr/bin/git branch --list --remote origin/dev/nana-core-next-experience-codex
+2026-11-14T12:45:30.9046810Z   origin/dev/nana-core-next-experience-codex
+2026-11-14T12:45:30.9049268Z [command]/usr/bin/git rev-parse refs/remotes/origin/dev/nana-core-next-experience-codex
+2026-11-14T12:45:30.9051057Z 1ca69e47184e3666f56674b2d69f3b20a9568f50
+2026-11-14T12:45:30.9053470Z ##[endgroup]
+2026-11-14T12:45:30.9054951Z ##[group]Determining the checkout info
+2026-11-14T12:45:30.9056367Z ##[endgroup]
+2026-11-14T12:45:30.9057200Z [command]/usr/bin/git sparse-checkout disable
+2026-11-14T12:45:30.9119272Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-14T12:45:30.9162929Z ##[group]Checking out the ref
+2026-11-14T12:45:30.9166507Z [command]/usr/bin/git checkout --progress --force -B dev/nana-core-next-experience-codex refs/remotes/origin/dev/nana-core-next-experience-codex
+2026-11-14T12:45:56.6503954Z Updating files:   0% (1/4508)
+2026-11-14T12:45:56.9532387Z Updating files:   1% (46/4508)
+2026-11-14T12:45:57.5218861Z Updating files:   1% (70/4508)
+2026-11-14T12:45:57.5296182Z Updating files:   2% (91/4508)
+2026-11-14T12:45:57.5321763Z Updating files:   3% (136/4508)
+2026-11-14T12:45:57.5831372Z Updating files:   4% (181/4508)
+2026-11-14T12:45:57.6037636Z Updating files:   5% (226/4508)
+2026-11-14T12:45:57.6064999Z Updating files:   6% (271/4508)
+2026-11-14T12:45:57.6150009Z Updating files:   7% (316/4508)
+2026-11-14T12:45:58.0160632Z Updating files:   8% (361/4508)
+2026-11-14T12:45:58.9273697Z Updating files:   8% (377/4508)
+2026-11-14T12:45:58.9497389Z Updating files:   8% (398/4508)
+2026-11-14T12:45:58.9757429Z Updating files:   9% (406/4508)
+2026-11-14T12:45:58.9783333Z Updating files:  10% (451/4508)
+2026-11-14T12:45:58.9802648Z Updating files:  11% (496/4508)
+2026-11-14T12:45:58.9825390Z Updating files:  12% (541/4508)
+2026-11-14T12:45:58.9845393Z Updating files:  13% (587/4508)
+2026-11-14T12:45:58.9873320Z Updating files:  14% (632/4508)
+2026-11-14T12:45:58.9891364Z Updating files:  15% (677/4508)
+2026-11-14T12:45:58.9918185Z Updating files:  16% (722/4508)
+2026-11-14T12:45:58.9935387Z Updating files:  17% (767/4508)
+2026-11-14T12:45:58.9955227Z Updating files:  18% (812/4508)
+2026-11-14T12:45:59.0004855Z Updating files:  19% (857/4508)
+2026-11-14T12:45:59.0018987Z Updating files:  20% (902/4508)
+2026-11-14T12:45:59.0029550Z Updating files:  21% (947/4508)
+2026-11-14T12:45:59.0042675Z Updating files:  22% (992/4508)
+2026-11-14T12:45:59.0061747Z Updating files:  23% (1037/4508)
+2026-11-14T12:45:59.0074035Z Updating files:  24% (1082/4508)
+2026-11-14T12:45:59.0095006Z Updating files:  25% (1127/4508)
+2026-11-14T12:45:59.0111887Z Updating files:  26% (1173/4508)
+2026-11-14T12:45:59.0122870Z Updating files:  27% (1218/4508)
+2026-11-14T12:45:59.0325161Z Updating files:  28% (1263/4508)
+2026-11-14T12:45:59.0350327Z Updating files:  29% (1308/4508)
+2026-11-14T12:45:59.0367782Z Updating files:  30% (1353/4508)
+2026-11-14T12:45:59.0398232Z Updating files:  31% (1398/4508)
+2026-11-14T12:45:59.0410755Z Updating files:  32% (1443/4508)
+2026-11-14T12:45:59.0428184Z Updating files:  33% (1488/4508)
+2026-11-14T12:45:59.0437584Z Updating files:  34% (1533/4508)
+2026-11-14T12:45:59.0448854Z Updating files:  35% (1578/4508)
+2026-11-14T12:45:59.0460490Z Updating files:  36% (1623/4508)
+2026-11-14T12:45:59.0480685Z Updating files:  37% (1668/4508)
+2026-11-14T12:45:59.0493018Z Updating files:  38% (1714/4508)
+2026-11-14T12:45:59.0504949Z Updating files:  39% (1759/4508)
+2026-11-14T12:45:59.0516509Z Updating files:  40% (1804/4508)
+2026-11-14T12:45:59.0531368Z Updating files:  41% (1849/4508)
+2026-11-14T12:45:59.0546128Z Updating files:  42% (1894/4508)
+2026-11-14T12:45:59.0555308Z Updating files:  43% (1939/4508)
+2026-11-14T12:45:59.0564639Z Updating files:  44% (1984/4508)
+2026-11-14T12:45:59.0576413Z Updating files:  45% (2029/4508)
+2026-11-14T12:45:59.0597385Z Updating files:  46% (2074/4508)
+2026-11-14T12:45:59.0617323Z Updating files:  47% (2119/4508)
+2026-11-14T12:45:59.0629159Z Updating files:  48% (2164/4508)
+2026-11-14T12:45:59.0639232Z Updating files:  49% (2209/4508)
+2026-11-14T12:45:59.0649204Z Updating files:  50% (2254/4508)
+2026-11-14T12:45:59.0663283Z Updating files:  51% (2300/4508)
+2026-11-14T12:45:59.0673431Z Updating files:  52% (2345/4508)
+2026-11-14T12:45:59.0684630Z Updating files:  53% (2390/4508)
+2026-11-14T12:45:59.0695319Z Updating files:  54% (2435/4508)
+2026-11-14T12:45:59.0706421Z Updating files:  55% (2480/4508)
+2026-11-14T12:45:59.0717328Z Updating files:  56% (2525/4508)
+2026-11-14T12:45:59.0728016Z Updating files:  57% (2570/4508)
+2026-11-14T12:45:59.0737653Z Updating files:  58% (2615/4508)
+2026-11-14T12:45:59.0749456Z Updating files:  59% (2660/4508)
+2026-11-14T12:45:59.0758262Z Updating files:  60% (2705/4508)
+2026-11-14T12:45:59.0769619Z Updating files:  61% (2750/4508)
+2026-11-14T12:45:59.0781043Z Updating files:  62% (2795/4508)
+2026-11-14T12:45:59.0826185Z Updating files:  63% (2841/4508)
+2026-11-14T12:45:59.0839217Z Updating files:  64% (2886/4508)
+2026-11-14T12:45:59.0860487Z Updating files:  65% (2931/4508)
+2026-11-14T12:45:59.0879272Z Updating files:  66% (2976/4508)
+2026-11-14T12:45:59.0894459Z Updating files:  67% (3021/4508)
+2026-11-14T12:45:59.0906045Z Updating files:  68% (3066/4508)
+2026-11-14T12:45:59.0921433Z Updating files:  69% (3111/4508)
+2026-11-14T12:45:59.0938834Z Updating files:  70% (3156/4508)
+2026-11-14T12:45:59.0953357Z Updating files:  71% (3201/4508)
+2026-11-14T12:45:59.0969514Z Updating files:  72% (3246/4508)
+2026-11-14T12:45:59.0991767Z Updating files:  73% (3291/4508)
+2026-11-14T12:45:59.1015123Z Updating files:  74% (3336/4508)
+2026-11-14T12:45:59.1069567Z Updating files:  75% (3381/4508)
+2026-11-14T12:45:59.1101962Z Updating files:  76% (3427/4508)
+2026-11-14T12:45:59.1119218Z Updating files:  77% (3472/4508)
+2026-11-14T12:45:59.1140950Z Updating files:  78% (3517/4508)
+2026-11-14T12:45:59.1162101Z Updating files:  79% (3562/4508)
+2026-11-14T12:45:59.1187291Z Updating files:  80% (3607/4508)
+2026-11-14T12:45:59.1207638Z Updating files:  81% (3652/4508)
+2026-11-14T12:45:59.1233001Z Updating files:  82% (3697/4508)
+2026-11-14T12:45:59.1257517Z Updating files:  83% (3742/4508)
+2026-11-14T12:45:59.1281769Z Updating files:  84% (3787/4508)
+2026-11-14T12:45:59.1302638Z Updating files:  85% (3832/4508)
+2026-11-14T12:45:59.1317556Z Updating files:  86% (3877/4508)
+2026-11-14T12:45:59.1333054Z Updating files:  87% (3922/4508)
+2026-11-14T12:45:59.1351576Z Updating files:  88% (3968/4508)
+2026-11-14T12:45:59.1371469Z Updating files:  89% (4013/4508)
+2026-11-14T12:45:59.1387250Z Updating files:  90% (4058/4508)
+2026-11-14T12:45:59.1407498Z Updating files:  91% (4103/4508)
+2026-11-14T12:45:59.1423132Z Updating files:  92% (4148/4508)
+2026-11-14T12:45:59.1442974Z Updating files:  93% (4193/4508)
+2026-11-14T12:45:59.1459365Z Updating files:  94% (4238/4508)
+2026-11-14T12:45:59.1477209Z Updating files:  95% (4283/4508)
+2026-11-14T12:45:59.1496205Z Updating files:  96% (4328/4508)
+2026-11-14T12:45:59.1514679Z Updating files:  97% (4373/4508)
+2026-11-14T12:45:59.1632451Z Updating files:  98% (4418/4508)
+2026-11-14T12:45:59.1648336Z Updating files:  99% (4463/4508)
+2026-11-14T12:45:59.1648862Z Updating files: 100% (4508/4508)
+2026-11-14T12:45:59.1649192Z Updating files: 100% (4508/4508), done.
+2026-11-14T12:45:59.1701330Z Switched to a new branch 'dev/nana-core-next-experience-codex'
+2026-11-14T12:45:59.1703410Z branch 'dev/nana-core-next-experience-codex' set up to track 'origin/dev/nana-core-next-experience-codex'.
+2026-11-14T12:45:59.1848517Z ##[endgroup]
+2026-11-14T12:45:59.1883217Z [command]/usr/bin/git log -1 --format=%H
+2026-11-14T12:45:59.1908455Z 1ca69e47184e3666f56674b2d69f3b20a9568f50
+2026-11-14T12:45:59.1912387Z ##[group]Removing auth
+2026-11-14T12:45:59.1915593Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T12:45:59.1940530Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T12:45:59.2110609Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T12:45:59.2130055Z http.https://github.com/.extraheader
+2026-11-14T12:45:59.2135798Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-14T12:45:59.2163277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T12:45:59.2329895Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T12:45:59.2353766Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T12:45:59.2515292Z ##[endgroup]
+2026-11-14T12:45:59.2722844Z ##[group]Run astral-sh/setup-uv@v6
+2026-11-14T12:45:59.2723070Z with:
+2026-11-14T12:45:59.2723257Z   activate-environment: false
+2026-11-14T12:45:59.2723520Z   working-directory: /home/runner/work/nana-core/nana-core
+2026-11-14T12:45:59.2723821Z   server-url: https://github.com
+2026-11-14T12:45:59.2726246Z   github-token: ***
+2026-11-14T12:45:59.2726438Z   enable-cache: auto
+2026-11-14T12:45:59.2726866Z   cache-dependency-glob: **/*requirements*.txt
+**/*requirements*.in
+**/*constraints*.txt
+**/*constraints*.in
+**/pyproject.toml
+**/uv.lock
+**/*.py.lock
+
+2026-11-14T12:45:59.2727329Z   restore-cache: true
+2026-11-14T12:45:59.2727514Z   save-cache: true
+2026-11-14T12:45:59.2727692Z   prune-cache: true
+2026-11-14T12:45:59.2727886Z   ignore-nothing-to-cache: false
+2026-11-14T12:45:59.2728118Z   ignore-empty-workdir: false
+2026-11-14T12:45:59.2728331Z   add-problem-matchers: true
+2026-11-14T12:45:59.2728534Z env:
+2026-11-14T12:45:59.2728712Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T12:45:59.2728979Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T12:45:59.2729184Z ##[endgroup]
+2026-11-14T12:45:59.4296908Z (node:2230) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T12:45:59.4297482Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T12:45:59.4395403Z Trying to find version for uv in: /home/runner/work/nana-core/nana-core/uv.toml
+2026-11-14T12:45:59.4396105Z Could not find file: /home/runner/work/nana-core/nana-core/uv.toml
+2026-11-14T12:45:59.4396758Z Trying to find version for uv in: /home/runner/work/nana-core/nana-core/pyproject.toml
+2026-11-14T12:45:59.4411745Z Could not determine uv version from uv.toml or pyproject.toml. Falling back to latest.
+2026-11-14T12:45:59.4412827Z Getting latest version from GitHub API...
+2026-11-14T12:45:59.7041691Z manifest-file not provided, reading from local file.
+2026-11-14T12:45:59.7092313Z manifest-file does not contain version 0.13.8, arch x86_64, platform unknown-linux-gnu. Falling back to GitHub releases.
+2026-11-14T12:45:59.7125794Z Downloading uv from "https://github.com/astral-sh/uv/releases/download/0.13.8/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+2026-11-14T12:46:00.0549328Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/0da099d8-bec2-42c4-81ae-9d5e84028329 -f /home/runner/work/_temp/ba3c50f0-317a-4eac-b3be-deed9ac3b716
+2026-11-14T12:46:00.6997935Z Added /home/runner/.local/bin to the path
+2026-11-14T12:46:00.7000953Z Added /opt/hostedtoolcache/uv/0.13.8/x86_64 to the path
+2026-11-14T12:46:00.7023740Z Set UV_CACHE_DIR to /home/runner/work/_temp/setup-uv-cache
+2026-11-14T12:46:00.7024246Z Successfully installed uv version 0.13.8
+2026-11-14T12:46:00.7025676Z Searching files using cache dependency glob: /home/runner/work/nana-core/nana-core/**/*requirements*.txt,/home/runner/work/nana-core/nana-core/**/*requirements*.in,/home/runner/work/nana-core/nana-core/**/*constraints*.txt,/home/runner/work/nana-core/nana-core/**/*constraints*.in,/home/runner/work/nana-core/nana-core/**/pyproject.toml,/home/runner/work/nana-core/nana-core/**/uv.lock,/home/runner/work/nana-core/nana-core/**/*.py.lock
+2026-11-14T12:46:00.7681759Z /home/runner/work/nana-core/nana-core/apps/nana-space/gateway/requirements-test.txt
+2026-11-14T12:46:00.7693913Z /home/runner/work/nana-core/nana-core/apps/nana-space/gateway/requirements.txt
+2026-11-14T12:46:01.0181360Z /home/runner/work/nana-core/nana-core/pyproject.toml
+2026-11-14T12:46:01.0189875Z /home/runner/work/nana-core/nana-core/requirements.txt
+2026-11-14T12:46:01.0855592Z Found 4 files to hash.
+2026-11-14T12:46:01.1425220Z Trying to restore uv cache from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T12:46:01.2630504Z Cache hit for: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T12:46:01.2715094Z (node:2230) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-14T12:46:01.7846611Z Received 2990465 of 2990465 (100.0%), 7.6 MBs/sec
+2026-11-14T12:46:01.7847099Z Cache Size: ~3 MB (2990465 B)
+2026-11-14T12:46:01.7876613Z [command]/usr/bin/tar -xf /home/runner/work/_temp/cd8b493a-5fbd-4428-828d-87fdfd9e7413/cache.tzst -P -C /home/runner/work/nana-core/nana-core --use-compress-program unzstd
+2026-11-14T12:46:01.8046296Z Cache restored successfully
+2026-11-14T12:46:01.8053505Z uv cache restored from GitHub Actions cache with key: setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498
+2026-11-14T12:46:01.8161237Z ##[group]Run umask 077
+2026-11-14T12:46:01.8161541Z [36;1mumask 077[0m
+2026-11-14T12:46:01.8161841Z [36;1msudo git config --system --add safe.directory "$GITHUB_WORKSPACE"[0m
+2026-11-14T12:46:01.8162188Z [36;1mgit rev-parse HEAD[0m
+2026-11-14T12:46:01.8162438Z [36;1mif [ "$NANA_FULL_QUALIFICATION" = true ]; then[0m
+2026-11-14T12:46:01.8162707Z [36;1m  command -v ffmpeg[0m
+2026-11-14T12:46:01.8162918Z [36;1m  command -v gpgconf[0m
+2026-11-14T12:46:01.8163123Z [36;1m  command -v bwrap[0m
+2026-11-14T12:46:01.8163316Z [36;1mfi[0m
+2026-11-14T12:46:01.8163531Z [36;1muv python install 3.12.14[0m
+2026-11-14T12:46:01.8163796Z [36;1muv venv --python 3.12.14 .qualification-venv[0m
+2026-11-14T12:46:01.8164479Z [36;1muv pip install --python .qualification-venv/bin/python -r requirements-core-dev.lock[0m
+2026-11-14T12:46:01.8164996Z [36;1m.qualification-venv/bin/python - <<'PYDEPS' > qualification-feature-requirements.txt[0m
+2026-11-14T12:46:01.8165480Z [36;1mfrom tools.nana_portable_cloud.build import FEATURE_DEPENDENCIES[0m
+2026-11-14T12:46:01.8165846Z [36;1mfor feature in ('HOST_VAULT', 'PUBLIC_VIDEO_FRAMES'):[0m
+2026-11-14T12:46:01.8166202Z [36;1m    for package, version in sorted(FEATURE_DEPENDENCIES[feature].items()):[0m
+2026-11-14T12:46:01.8166536Z [36;1m        print(package + '==' + version)[0m
+2026-11-14T12:46:01.8166769Z [36;1mPYDEPS[0m
+2026-11-14T12:46:01.8167123Z [36;1muv pip install --python .qualification-venv/bin/python -r qualification-feature-requirements.txt[0m
+2026-11-14T12:46:01.8167772Z [36;1m.qualification-venv/bin/python -c 'import sys,sqlite3; print(sys.version, sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3,51,3)'[0m
+2026-11-14T12:46:01.8186920Z shell: /usr/bin/bash -e {0}
+2026-11-14T12:46:01.8187155Z env:
+2026-11-14T12:46:01.8187350Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T12:46:01.8187578Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T12:46:01.8187861Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T12:46:01.8188129Z ##[endgroup]
+2026-11-14T12:46:01.8310635Z 1ca69e47184e3666f56674b2d69f3b20a9568f50
+2026-11-14T12:46:01.9269775Z Downloading cpython-3.12.14-linux-x86_64-gnu (download) (32.7MiB)
+2026-11-14T12:46:02.5100294Z  Downloaded cpython-3.12.14-linux-x86_64-gnu (download)
+2026-11-14T12:46:02.5117681Z Installed Python 3.12.14 in 675ms
+2026-11-14T12:46:02.5118107Z  + cpython-3.12.14-linux-x86_64-gnu (python3.12)
+2026-11-14T12:46:02.6599054Z Using CPython 3.12.14
+2026-11-14T12:46:02.6599548Z Creating virtual environment at: .qualification-venv
+2026-11-14T12:46:02.6602458Z Activate with: .qualification-venv/bin/activate
+2026-11-14T12:46:02.8114765Z Using Python 3.12.14 environment at: .qualification-venv
+2026-11-14T12:46:02.9387244Z Resolved 11 packages in 126ms
+2026-11-14T12:46:02.9604853Z Downloading pygments (1.2MiB)
+2026-11-14T12:46:02.9605288Z Downloading pydantic-core (2.0MiB)
+2026-11-14T12:46:03.0063133Z  Downloaded pygments
+2026-11-14T12:46:03.0083920Z  Downloaded pydantic-core
+2026-11-14T12:46:03.0087924Z Prepared 11 packages in 69ms
+2026-11-14T12:46:03.0146762Z Installed 11 packages in 5ms
+2026-11-14T12:46:03.0147116Z  + annotated-types==0.8.0
+2026-11-14T12:46:03.0147427Z  + iniconfig==2.3.1
+2026-11-14T12:46:03.0147704Z  + packaging==26.3
+2026-11-14T12:46:03.0147937Z  + pluggy==1.6.0
+2026-11-14T12:46:03.0148164Z  + pydantic==2.13.4
+2026-11-14T12:46:03.0148417Z  + pydantic-core==2.46.4
+2026-11-14T12:46:03.0148685Z  + pygments==2.21.0
+2026-11-14T12:46:03.0148916Z  + pytest==9.1.1
+2026-11-14T12:46:03.0149221Z  + setuptools==84.0.0
+2026-11-14T12:46:03.0149416Z  + typing-extensions==4.16.0
+2026-11-14T12:46:03.0149635Z  + typing-inspection==0.4.3
+2026-11-14T12:46:03.1846192Z Using Python 3.12.14 environment at: .qualification-venv
+2026-11-14T12:46:03.2824919Z Resolved 4 packages in 97ms
+2026-11-14T12:46:03.2925268Z Downloading pillow (6.6MiB)
+2026-11-14T12:46:03.2925801Z Downloading cryptography (4.5MiB)
+2026-11-14T12:46:03.3744780Z  Downloaded cryptography
+2026-11-14T12:46:03.3855266Z  Downloaded pillow
+2026-11-14T12:46:03.4620977Z Prepared 4 packages in 179ms
+2026-11-14T12:46:03.5916926Z Installed 4 packages in 129ms
+2026-11-14T12:46:03.5917445Z  + cffi==2.1.1
+2026-11-14T12:46:03.5917945Z  + cryptography==50.0.0
+2026-11-14T12:46:03.5918254Z  + pillow==12.3.0
+2026-11-14T12:46:03.5918551Z  + pycparser==3.0
+2026-11-14T12:46:03.6258600Z 3.12.14 (main, Sep 29 2026, 15:01:18) [Clang 22.1.3 ] 3.53.1
+2026-11-14T12:46:03.6328845Z ##[group]Run umask 077
+2026-11-14T12:46:03.6329235Z [36;1mumask 077[0m
+2026-11-14T12:46:03.6329449Z [36;1mecho targeted > qualification-level.txt[0m
+2026-11-14T12:46:03.6329777Z [36;1mexport PYTHONPATH="$GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE"[0m
+2026-11-14T12:46:03.6330119Z [36;1m.qualification-venv/bin/python - <<'PYTARGET'[0m
+2026-11-14T12:46:03.6330413Z [36;1mimport os, pathlib, shutil, subprocess, sys[0m
+2026-11-14T12:46:03.6330705Z [36;1mbase=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'[0m
+2026-11-14T12:46:03.6330988Z [36;1mif set(base)=={'0'}: base='HEAD^'[0m
+2026-11-14T12:46:03.6331362Z [36;1mchanged=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()[0m
+2026-11-14T12:46:03.6332417Z [36;1mif any(path in {'src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py','src/nana_core/life/live_api/provider_settings.py','src/nana_core/life/live_api/platform_settings.py','src/nana_core/life/live_api/platform_credentials.py','src/nana_core/life/live_api/memory_notes.py'} for path in changed):[0m
+2026-11-14T12:46:03.6333435Z [36;1m    subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)[0m
+2026-11-14T12:46:03.6334458Z [36;1m    subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)[0m
+2026-11-14T12:46:03.6335100Z [36;1mgroups=[[0m
+2026-11-14T12:46:03.6335970Z [36;1m  (('life/config.py','life/application.py','live_api/provider_settings.py','test_background_provider_startup.py','cloud_life/test_operations.py'), ['tests/person_self/test_background_provider_startup.py','tests/cloud_life/test_operations.py','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),[0m
+2026-11-14T12:46:03.6337685Z [36;1m  (('life/dialogue_contracts.py','life/application.py','world_loop/cognition.py','subject/context_fit.py','subject/loop.py','test_inner_communication.py','test_communication_strategy.py','qualification/inner_communication_v1.py'), ['tests/person_self/test_inner_communication.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T12:46:03.6339271Z [36;1m  (('presence/runtime.py','presence/cognition.py','subject/contracts.py','subject/ingress.py','subject/watch.py'), ['tests/continuous_runtime','tests/first_life_integration/test_private_intent.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_context.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),[0m
+2026-11-14T12:46:03.6341541Z [36;1m  (('continuity/contracts.py','continuity/memory.py','continuity/maintenance.py','world_loop/concern_source.py','world_loop/attention.py','subject/watch.py','test_concern_source.py','continuous_self/test_memory.py'), ['tests/continuous_self/test_memory.py','tests/continuous_self/test_cognition.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/living_release_v4/test_concern_source.py','tests/living_autonomy/test_maintenance.py','tests/world_loop/test_independent_concern_sources.py','tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py']),[0m
+2026-11-14T12:46:03.6343317Z [36;1m  (('subject/policy.py','test_learning_renewal.py'), ['tests/open_life/test_learning_renewal.py','tests/open_autonomy/test_learning.py']),[0m
+2026-11-14T12:46:03.6344039Z [36;1m  (('subject/policy.py','test_choice_constraint_scope.py'), ['tests/person_self/test_choice_constraint_scope.py','tests/portable_subject/test_relational_reuse.py']),[0m
+2026-11-14T12:46:03.6345075Z [36;1m  (('autonomy/private_intent.py','continuity/store.py','continuity/cognition.py','subject/loop.py','test_private_tendency.py'), ['tests/person_self/test_private_tendency.py']),[0m
+2026-11-14T12:46:03.6347227Z [36;1m  (('autonomy/private_intent.py','continuity/context.py','subject/watch.py','subject/loop.py','subject/policy.py','continuity/lived_language.py','subject/context_fit.py','presence/cognition.py','presence/runtime.py','test_private_feedback_continuation.py','test_private_feedback_formation.py','test_initial_method_tendency.py','test_private_choice_admission.py','test_attention_eligibility.py'), ['tests/person_self/test_attention_eligibility.py','tests/person_self/test_private_choice_admission.py','tests/person_self/test_initial_method_tendency.py','tests/person_self/test_private_feedback_continuation.py','tests/person_self/test_private_feedback_formation.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T12:46:03.6349651Z [36;1m  (('continuity/cognition.py','subject/loop.py','subject/policy.py','subject/contracts.py','test_deliberated_direction.py','test_deliberated_due_promise.py','test_deliberated_plan_alternative.py'), ['tests/person_self/test_deliberated_direction.py','tests/person_self/test_deliberated_due_promise.py','tests/person_self/test_deliberated_plan_alternative.py']),[0m
+2026-11-14T12:46:03.6351357Z [36;1m  (('continuity/revision.py','world_loop/cognition.py','continuity/cognition.py','subject/loop.py','test_provider_subject_cognition.py'), ['tests/person_self/test_provider_subject_cognition.py','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/world_loop/test_boundaries.py','tests/world_loop/test_model_framing.py','tests/world_loop/test_wire_reservation.py']),[0m
+2026-11-14T12:46:03.6354303Z [36;1m  (('world_loop/cognition.py','presence/cognition.py','presence/runtime.py','life/application.py','subject/loop.py','test_provider_subject_preview.py','test_provider_subject_runtime.py','test_provider_subject_seedless.py','test_provider_subject_focus.py','test_provider_subject_learning.py','continuity/learning.py','test_private_method_continuation.py'), ['tests/person_self/test_private_method_continuation.py','tests/continuous_self/test_learning.py','tests/open_life/test_learning_renewal.py','tests/person_self/test_provider_subject_learning.py','tests/person_self/test_provider_subject_focus.py','tests/person_self/test_provider_subject_preview.py','tests/person_self/test_provider_subject_runtime.py','tests/person_self/test_provider_subject_seedless.py','tests/continuous_runtime/test_coordinator.py','tests/continuous_runtime/test_generic_subject.py']),[0m
+2026-11-14T12:46:03.6356897Z [36;1m  (('continuity/store.py',), ['tests/portable_subject/test_package.py','tests/portable_subject/test_schema_genericity.py','tests/portable_subject/test_relational_reuse.py','tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py']),[0m
+2026-11-14T12:46:03.6358823Z [36;1m  (('subject/policy.py','subject/loop.py','subject/opportunities.py','autonomy/private_intent.py','autonomy/evaluation.py','continuity/cognition.py','test_private_intent.py','continuity/store.py','life/inspector.py'), ['tests/first_life_integration/test_private_intent.py','tests/affective_autonomy','tests/continuous_self/test_context.py','tests/continuous_self/test_cognition.py','tests/portable_subject/test_providers_frontend.py','tests/vision_first/test_context_fit.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_memory_use_feedback.py']),[0m
+2026-11-14T12:46:03.6360849Z [36;1m  (('subject/experience_need.py','test_experience_need.py'), ['tests/foundation_closure/test_experience_need.py','tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/open_life/test_learning_renewal.py']),[0m
+2026-11-14T12:46:03.6361941Z [36;1m  (('open_agency/world.py',), ['tests/open_autonomy/test_learning.py','tests/precision/test_learning.py','tests/open_life/test_learning_renewal.py']),[0m
+2026-11-14T12:46:03.6362984Z [36;1m  (('world_loop/cognition.py','world_loop/anthropic.py','continuity/provider_routing.py','tests/provider_routing/'), ['tests/provider_routing','tests/world_loop','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),[0m
+2026-11-14T12:46:03.6364374Z [36;1m  (('live_api/auth.py','live_api/server.py','test_response_authorization.py'), ['tests/first_life_android_v2/test_response_authorization.py','tests/first_life_android_v2/test_auth_contract.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py']),[0m
+2026-11-14T12:46:03.6365626Z [36;1m  (('tests/independent_life/test_dialogue.py','tools/nana_first_life_android_v2/dev_serve.py'), ['tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/first_life_android_v2/test_chat_stream_http.py']),[0m
+2026-11-14T12:46:03.6366527Z [36;1m  (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),[0m
+2026-11-14T12:46:03.6367792Z [36;1m   ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/person_self/test_communication_strategy.py','tests/living_release_v4/test_platform_runtime.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),[0m
+2026-11-14T12:46:03.6369042Z [36;1m  (('test_platform_runtime.py',), ['tests/living_release_v4/test_platform_runtime.py','tests/person_self/test_communication_strategy.py']),[0m
+2026-11-14T12:46:03.6370577Z [36;1m  (('continuity/context.py','continuity/retrieval_growth.py','test_retrieval_growth','test_retrieval_text_profile.py','note_query_diversity_v1.json','test_note_recall'), ['tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/independent_life/test_note_recall.py','tests/continuous_self/test_context.py','tests/person_self/test_context_selection_efficiency.py','tests/living_release_v4/test_private_context.py']),[0m
+2026-11-14T12:46:03.6372551Z [36;1m  (('live_api/provider_settings.py','live_api/provider_models.py','live_api/server.py','test_provider_models.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),[0m
+2026-11-14T12:46:03.6373623Z [36;1m  (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),[0m
+2026-11-14T12:46:03.6374662Z [36;1m  (('subject/policy.py','subject/opportunities.py','open_life/opportunities.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),[0m
+2026-11-14T12:46:03.6377544Z [36;1m  (('life/control.py','life/application.py','life/presentation.py','life/dialogue_contracts.py','world_loop/cognition.py','life/surfaces.py','life/__main__.py','live_api/bridge.py','live_api/contracts.py','live_api/server.py','test_continuous_inputs.py','test_deferred_reply_receipt.py','test_http_continuation.py','test_conversation_sequence.py','test_message_sequence_http.py'), ['tests/first_life_android_v2/test_http_continuation.py','tests/first_life_android_v2/test_deferred_reply_receipt.py','tests/first_life_android_v2/test_message_sequence_http.py','tests/first_life_android_v2/test_conversation_sequence.py','tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py','tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/person_self/test_history_bound.py','tests/person_self/test_rest_and_attribution.py','tests/provider_routing/test_anthropic_native.py']),[0m
+2026-11-14T12:46:03.6380335Z [36;1m  (('continuity/privacy.py','test_privacy_copy_increment.py'), ['tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/person_self/test_memory_use_feedback.py']),[0m
+2026-11-14T12:46:03.6381247Z [36;1m  (('bridge_wire.py','test_r044_filesystem.py'), ['tests/nana_shadow/test_r044_filesystem.py','tests/nana_shadow/test_r044_races.py','tests/nana_shadow/test_r044_privacy.py']),[0m
+2026-11-14T12:46:03.6381910Z [36;1m  (('b1_backup.py','test_rev3_operator.py'), ['tests/first_life_android_v2/test_rev3_operator.py']),[0m
+2026-11-14T12:46:03.6382598Z [36;1m  (('nana_portable_cloud/','packaging/portable/','requirements-core-dev.lock'), ['tests/engineering_quality/test_portable_missing_import.py','tests/portable_cloud_runtime']),[0m
+2026-11-14T12:46:03.6383199Z [36;1m  (('continuity/person_self.py',), ['tests/person_self'])][0m
+2026-11-14T12:46:03.6383721Z [36;1mselected=sorted({test for markers, tests in groups if any(any(marker in path for marker in markers) for path in changed) for test in tests})[0m
+2026-11-14T12:46:03.6384417Z [36;1mif not selected: selected=['tests/first_life_android_v2/test_http_integration.py'][0m
+2026-11-14T12:46:03.6384841Z [36;1mif '.github/workflows/nana-next-qualification.yml' in changed:[0m
+2026-11-14T12:46:03.6385230Z [36;1m    # Exercise the host dependency path when changing this workflow;[0m
+2026-11-14T12:46:03.6385597Z [36;1m    # this original boundary includes real PUBLIC frame decoding.[0m
+2026-11-14T12:46:03.6385979Z [36;1m    selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py'})[0m
+2026-11-14T12:46:03.6386341Z [36;1mprint('TARGETED_CHECKS',selected,flush=True)[0m
+2026-11-14T12:46:03.6386667Z [36;1massert all(pathlib.Path(test).exists() for test in selected)[0m
+2026-11-14T12:46:03.6387150Z [36;1mif any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):[0m
+2026-11-14T12:46:03.6387683Z [36;1m    # Select dependencies from actual tests, not only source-path[0m
+2026-11-14T12:46:03.6388057Z [36;1m    # guesses: original C integration can select media boundaries.[0m
+2026-11-14T12:46:03.6388373Z [36;1m    if shutil.which('ffmpeg') is None:[0m
+2026-11-14T12:46:03.6388673Z [36;1m        subprocess.run(['sudo','apt-get','update'],check=True)[0m
+2026-11-14T12:46:03.6389114Z [36;1m        subprocess.run(['sudo','apt-get','install','--yes','--no-install-recommends','ffmpeg'],check=True)[0m
+2026-11-14T12:46:03.6389536Z [36;1m    subprocess.run(['ffmpeg','-version'],check=True)[0m
+2026-11-14T12:46:03.6389914Z [36;1mif any(test in selected for test in ('tests/provider_routing','tests/world_loop')):[0m
+2026-11-14T12:46:03.6390354Z [36;1m    from nana_core.continuity.open_agency.code_skills import IsolatedSkillRunner[0m
+2026-11-14T12:46:03.6390722Z [36;1m    probe=IsolatedSkillRunner().qualify()[0m
+2026-11-14T12:46:03.6391045Z [36;1m    print('ORIGINAL_SANDBOX_FOR_AFFECTED_WORLD',probe,flush=True)[0m
+2026-11-14T12:46:03.6391415Z [36;1m    assert probe['state']=='AVAILABLE' and all(probe['checks'].values())[0m
+2026-11-14T12:46:03.6391953Z [36;1msubprocess.run([sys.executable,'-m','pytest','-q','--junitxml=qualification-core.xml','--basetemp=/tmp/nq',*selected],check=True)[0m
+2026-11-14T12:46:03.6392395Z [36;1mPYTARGET[0m
+2026-11-14T12:46:03.6404402Z shell: /usr/bin/bash -e {0}
+2026-11-14T12:46:03.6404636Z env:
+2026-11-14T12:46:03.6404826Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T12:46:03.6405051Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T12:46:03.6405312Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T12:46:03.6405630Z   NANA_CHANGE_BASE: 22a6b6516ba8cc460a98f143f8a6c491ff0b3cb0
+2026-11-14T12:46:03.6405910Z ##[endgroup]
+2026-11-14T12:46:03.7533715Z TARGETED_CHECKS ['tests/affective_autonomy', 'tests/continuous_runtime', 'tests/continuous_self/test_cognition.py', 'tests/continuous_self/test_context.py', 'tests/continuous_self/test_memory.py', 'tests/continuous_self/test_privacy.py', 'tests/continuous_self/test_privacy_copy_increment.py', 'tests/first_life_integration/test_private_intent.py', 'tests/living_autonomy/test_maintenance.py', 'tests/living_release_v4/test_concern_source.py', 'tests/person_self/test_attention_eligibility.py', 'tests/person_self/test_communication_strategy.py', 'tests/person_self/test_dialogue_integration.py', 'tests/person_self/test_initial_method_tendency.py', 'tests/person_self/test_memory_use_feedback.py', 'tests/person_self/test_private_choice_admission.py', 'tests/person_self/test_private_feedback_continuation.py', 'tests/person_self/test_private_feedback_formation.py', 'tests/person_self/test_private_tendency.py', 'tests/portable_subject/test_package.py', 'tests/portable_subject/test_providers_frontend.py', 'tests/portable_subject/test_schema_genericity.py', 'tests/precision/test_planning.py', 'tests/precision/test_recovery.py', 'tests/vision_first/test_context_fit.py', 'tests/world_loop/test_boundaries.py', 'tests/world_loop/test_independent_concern_sources.py']
+2026-11-14T12:46:03.8123513Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-11-14T12:46:03.8542162Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-11-14T12:46:03.8565079Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-11-14T12:46:03.8615058Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-11-14T12:46:03.8661450Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-11-14T12:46:03.8718061Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-11-14T12:46:03.9563679Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1450 kB]
+2026-11-14T12:46:03.9674937Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [315 kB]
+2026-11-14T12:46:03.9697489Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1713 kB]
+2026-11-14T12:46:03.9787091Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [345 kB]
+2026-11-14T12:46:03.9792199Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1883 kB]
+2026-11-14T12:46:03.9888114Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [430 kB]
+2026-11-14T12:46:03.9895659Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.6 kB]
+2026-11-14T12:46:04.0303600Z Get:14 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [702 kB]
+2026-11-14T12:46:04.0388533Z Get:15 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [772 kB]
+2026-11-14T12:46:04.0634347Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1195 kB]
+2026-11-14T12:46:04.0689117Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [238 kB]
+2026-11-14T12:46:04.0706200Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1228 kB]
+2026-11-14T12:46:04.1205455Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [248 kB]
+2026-11-14T12:46:04.1234969Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1788 kB]
+2026-11-14T12:46:04.1306724Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [411 kB]
+2026-11-14T12:46:09.8242203Z Fetched 13.1 MB in 1s (11.0 MB/s)
+2026-11-14T12:46:10.8066363Z Reading package lists...
+2026-11-14T12:46:10.8378403Z Reading package lists...
+2026-11-14T12:46:11.0328544Z Building dependency tree...
+2026-11-14T12:46:11.0332887Z Reading state information...
+2026-11-14T12:46:11.1798576Z The following additional packages will be installed:
+2026-11-14T12:46:11.1799408Z   libass9 libasyncns0 libavc1394-0 libavcodec60 libavdevice60 libavfilter9
+2026-11-14T12:46:11.1800107Z   libavformat60 libavutil58 libblas3 libbluray2 libbs2b0 libcaca0
+2026-11-14T12:46:11.1800847Z   libcdio-cdda2t64 libcdio-paranoia2t64 libcdio19t64 libchromaprint1 libcjson1
+2026-11-14T12:46:11.1802104Z   libcodec2-1.2 libdav1d7 libdc1394-25 libdecor-0-0 libflac12t64 libflite1
+2026-11-14T12:46:11.1802814Z   libgme0 libgsm1 libhwy1t64 libiec61883-0 libjack-jackd2-0 libjxl0.7
+2026-11-14T12:46:11.1803470Z   liblapack3 liblilv-0-0 libmbedcrypto7t64 libmp3lame0 libmpg123-0t64
+2026-11-14T12:46:11.1804430Z   libmysofa1 libopenal-data libopenal1 libopenmpt0t64 libopus0 libplacebo338
+2026-11-14T12:46:11.1805188Z   libpocketsphinx3 libpostproc57 libpulse0 librav1e0 libraw1394-11 librist4
+2026-11-14T12:46:11.1805886Z   librsvg2-2 librubberband2 libsamplerate0 libsdl2-2.0-0 libserd-0-0 libshine3
+2026-11-14T12:46:11.1806571Z   libsndfile1 libsndio7.0 libsord-0-0 libsoxr0 libspeex1 libsphinxbase3t64
+2026-11-14T12:46:11.1807297Z   libsratom-0-0 libsrt1.5-gnutls libssh-gcrypt-4 libsvtav1enc1d1
+2026-11-14T12:46:11.1808036Z   libswresample4 libswscale7 libtheora0 libtwolame0 libudfread0 libunibreak5
+2026-11-14T12:46:11.1808836Z   libva-drm2 libva-x11-2 libva2 libvdpau1 libvidstab1.1 libvorbisenc2 libvpl2
+2026-11-14T12:46:11.1809593Z   libvpx9 libx264-164 libx265-199 libxcb-shape0 libxv1 libxvidcore4 libzimg2
+2026-11-14T12:46:11.1810259Z   libzix-0-0 libzvbi-common libzvbi0t64 ocl-icd-libopencl1
+2026-11-14T12:46:11.1815212Z Suggested packages:
+2026-11-14T12:46:11.1815607Z   ffmpeg-doc libcuda1 libnvcuvid1 libnvidia-encode1 libbluray-bdj jackd2
+2026-11-14T12:46:11.1816008Z   libportaudio2 opus-tools pulseaudio libraw1394-doc librsvg2-bin serdi sndiod
+2026-11-14T12:46:11.1816337Z   sordi speex opencl-icd
+2026-11-14T12:46:11.1816556Z Recommended packages:
+2026-11-14T12:46:11.1816812Z   libaacs0 default-libdecor-0-plugin-1 | libdecor-0-plugin-1
+2026-11-14T12:46:11.1817158Z   pocketsphinx-en-us librsvg2-common va-driver-all | va-driver
+2026-11-14T12:46:11.1817531Z   vdpau-driver-all | vdpau-driver
+2026-11-14T12:46:11.2087910Z The following NEW packages will be installed:
+2026-11-14T12:46:11.2089294Z   ffmpeg libass9 libasyncns0 libavc1394-0 libavcodec60 libavdevice60
+2026-11-14T12:46:11.2089899Z   libavfilter9 libavformat60 libavutil58 libblas3 libbluray2 libbs2b0 libcaca0
+2026-11-14T12:46:11.2090564Z   libcdio-cdda2t64 libcdio-paranoia2t64 libcdio19t64 libchromaprint1 libcjson1
+2026-11-14T12:46:11.2091224Z   libcodec2-1.2 libdav1d7 libdc1394-25 libdecor-0-0 libflac12t64 libflite1
+2026-11-14T12:46:11.2091843Z   libgme0 libgsm1 libhwy1t64 libiec61883-0 libjack-jackd2-0 libjxl0.7
+2026-11-14T12:46:11.2114970Z   liblapack3 liblilv-0-0 libmbedcrypto7t64 libmp3lame0 libmpg123-0t64
+2026-11-14T12:46:11.2125059Z   libmysofa1 libopenal-data libopenal1 libopenmpt0t64 libopus0 libplacebo338
+2026-11-14T12:46:11.2125726Z   libpocketsphinx3 libpostproc57 libpulse0 librav1e0 libraw1394-11 librist4
+2026-11-14T12:46:11.2126438Z   librsvg2-2 librubberband2 libsamplerate0 libsdl2-2.0-0 libserd-0-0 libshine3
+2026-11-14T12:46:11.2127063Z   libsndfile1 libsndio7.0 libsord-0-0 libsoxr0 libspeex1 libsphinxbase3t64
+2026-11-14T12:46:11.2127572Z   libsratom-0-0 libsrt1.5-gnutls libssh-gcrypt-4 libsvtav1enc1d1
+2026-11-14T12:46:11.2127956Z   libswresample4 libswscale7 libtheora0 libtwolame0 libudfread0 libunibreak5
+2026-11-14T12:46:11.2128430Z   libva-drm2 libva-x11-2 libva2 libvdpau1 libvidstab1.1 libvorbisenc2 libvpl2
+2026-11-14T12:46:11.2128821Z   libvpx9 libx264-164 libx265-199 libxcb-shape0 libxv1 libxvidcore4 libzimg2
+2026-11-14T12:46:11.2129169Z   libzix-0-0 libzvbi-common libzvbi0t64 ocl-icd-libopencl1
+2026-11-14T12:46:11.2423456Z 0 upgraded, 87 newly installed, 0 to remove and 20 not upgraded.
+2026-11-14T12:46:11.2423968Z Need to get 62.8 MB of archives.
+2026-11-14T12:46:11.2424627Z After this operation, 173 MB of additional disk space will be used.
+2026-11-14T12:46:11.2425168Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-11-14T12:46:11.3098748Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libva2 amd64 2.20.0-2ubuntu0.2 [66.4 kB]
+2026-11-14T12:46:11.3604569Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libva-drm2 amd64 2.20.0-2ubuntu0.2 [7124 B]
+2026-11-14T12:46:11.3968860Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libva-x11-2 amd64 2.20.0-2ubuntu0.2 [12.0 kB]
+2026-11-14T12:46:11.5163561Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libvdpau1 amd64 1.5-2build1 [27.8 kB]
+2026-11-14T12:46:11.6189911Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libvpl2 amd64 2023.3.0-1build1 [99.8 kB]
+2026-11-14T12:46:11.7420424Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 ocl-icd-libopencl1 amd64 2.3.2-1build1 [38.5 kB]
+2026-11-14T12:46:11.8659379Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libavutil58 amd64 7:6.1.1-3ubuntu5 [401 kB]
+2026-11-14T12:46:11.9788363Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libcodec2-1.2 amd64 1.2.0-2build1 [8998 kB]
+2026-11-14T12:46:12.2272429Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libdav1d7 amd64 1.4.1-1build1 [604 kB]
+2026-11-14T12:46:12.3465173Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libgsm1 amd64 1.0.22-1build1 [27.8 kB]
+2026-11-14T12:46:12.5007337Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libhwy1t64 amd64 1.0.7-8.1build1 [584 kB]
+2026-11-14T12:46:12.7088077Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 libjxl0.7 amd64 0.7.0-10.2ubuntu6.1 [1001 kB]
+2026-11-14T12:46:12.8321267Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libmp3lame0 amd64 3.100-6build1 [142 kB]
+2026-11-14T12:46:12.9524268Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libopus0 amd64 1.4-1build1 [208 kB]
+2026-11-14T12:46:13.0807986Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 librav1e0 amd64 0.7.1-2 [1022 kB]
+2026-11-14T12:46:13.1997243Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 librsvg2-2 amd64 2.58.0+dfsg-1ubuntu0.1 [2141 kB]
+2026-11-14T12:46:13.3177878Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libshine3 amd64 3.1.1-2build1 [23.2 kB]
+2026-11-14T12:46:13.4416654Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libspeex1 amd64 1.2.1-2ubuntu2.24.04.1 [59.6 kB]
+2026-11-14T12:46:13.6042517Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsvtav1enc1d1 amd64 1.7.0+dfsg-2build1 [2425 kB]
+2026-11-14T12:46:13.6838515Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsoxr0 amd64 0.1.3-4build3 [80.0 kB]
+2026-11-14T12:46:13.8032325Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libswresample4 amd64 7:6.1.1-3ubuntu5 [63.8 kB]
+2026-11-14T12:46:13.9154368Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libtheora0 amd64 1.1.1+dfsg.1-16.1build3 [211 kB]
+2026-11-14T12:46:14.0427987Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libtwolame0 amd64 0.4.0-2build3 [52.3 kB]
+2026-11-14T12:46:14.1633631Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libvorbisenc2 amd64 1.3.7-1build3 [80.8 kB]
+2026-11-14T12:46:14.2849703Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libvpx9 amd64 1.14.0-1ubuntu2.3 [1143 kB]
+2026-11-14T12:46:14.4157381Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libx264-164 amd64 2:0.164.3108+git31e19f9-1 [604 kB]
+2026-11-14T12:46:14.5336820Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libx265-199 amd64 3.5-2build1 [1226 kB]
+2026-11-14T12:46:14.6500616Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libxvidcore4 amd64 2:1.3.7-1build1 [219 kB]
+2026-11-14T12:46:14.7615864Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libzvbi-common all 0.2.42-2 [42.4 kB]
+2026-11-14T12:46:14.8855641Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libzvbi0t64 amd64 0.2.42-2 [261 kB]
+2026-11-14T12:46:14.9178994Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libavcodec60 amd64 7:6.1.1-3ubuntu5 [5851 kB]
+2026-11-14T12:46:15.0098786Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libraw1394-11 amd64 2.1.2-2build3 [26.2 kB]
+2026-11-14T12:46:15.0401915Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libavc1394-0 amd64 0.5.4-5build3 [15.4 kB]
+2026-11-14T12:46:15.0972306Z Get:35 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libunibreak5 amd64 5.1-2build1 [25.0 kB]
+2026-11-14T12:46:15.1276328Z Get:36 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libass9 amd64 1:0.17.1-2build1 [104 kB]
+2026-11-14T12:46:15.1585585Z Get:37 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libudfread0 amd64 1.1.2-1build1 [19.0 kB]
+2026-11-14T12:46:15.1870252Z Get:38 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libbluray2 amd64 1:1.3.4-1build1 [159 kB]
+2026-11-14T12:46:15.2964951Z Get:39 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libchromaprint1 amd64 1.5.1-5 [30.5 kB]
+2026-11-14T12:46:15.3561973Z Get:40 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libgme0 amd64 0.6.3-7build1 [134 kB]
+2026-11-14T12:46:15.4759536Z Get:41 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libmpg123-0t64 amd64 1.32.5-1ubuntu1.1 [169 kB]
+2026-11-14T12:46:15.5167131Z Get:42 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopenmpt0t64 amd64 0.7.3-1.1build3 [647 kB]
+2026-11-14T12:46:15.5516415Z Get:43 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libcjson1 amd64 1.7.17-1 [24.8 kB]
+2026-11-14T12:46:15.6071526Z Get:44 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libmbedcrypto7t64 amd64 2.28.8-1 [209 kB]
+2026-11-14T12:46:15.7491232Z Get:45 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 librist4 amd64 0.2.10+dfsg-2 [74.9 kB]
+2026-11-14T12:46:15.7832200Z Get:46 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsrt1.5-gnutls amd64 1.5.3-1build2 [316 kB]
+2026-11-14T12:46:15.8402536Z Get:47 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libssh-gcrypt-4 amd64 0.10.6-2ubuntu0.5 [226 kB]
+2026-11-14T12:46:15.8746928Z Get:48 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libavformat60 amd64 7:6.1.1-3ubuntu5 [1153 kB]
+2026-11-14T12:46:15.9431326Z Get:49 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libbs2b0 amd64 3.1.0+dfsg-7build1 [10.6 kB]
+2026-11-14T12:46:15.9709636Z Get:50 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libflite1 amd64 2.2-6build3 [13.6 MB]
+2026-11-14T12:46:16.1416695Z Get:51 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libserd-0-0 amd64 0.32.2-1 [43.6 kB]
+2026-11-14T12:46:16.1696799Z Get:52 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libzix-0-0 amd64 0.4.2-2build1 [23.6 kB]
+2026-11-14T12:46:16.1975832Z Get:53 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsord-0-0 amd64 0.16.16-2build1 [15.8 kB]
+2026-11-14T12:46:16.2256891Z Get:54 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsratom-0-0 amd64 0.6.16-1build1 [17.3 kB]
+2026-11-14T12:46:16.2536697Z Get:55 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 liblilv-0-0 amd64 0.24.22-1build1 [41.0 kB]
+2026-11-14T12:46:16.2818363Z Get:56 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libmysofa1 amd64 1.3.2+dfsg-2ubuntu2 [1158 kB]
+2026-11-14T12:46:16.3193106Z Get:57 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libplacebo338 amd64 6.338.2-2build1 [2654 kB]
+2026-11-14T12:46:16.4121962Z Get:58 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libblas3 amd64 3.12.0-3build1.1 [238 kB]
+2026-11-14T12:46:16.4417127Z Get:59 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 liblapack3 amd64 3.12.0-3build1.1 [2646 kB]
+2026-11-14T12:46:16.4965339Z Get:60 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libasyncns0 amd64 0.8-6build4 [11.3 kB]
+2026-11-14T12:46:16.5247992Z Get:61 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libflac12t64 amd64 1.4.3+ds-2.1ubuntu2 [197 kB]
+2026-11-14T12:46:16.5536958Z Get:62 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libsndfile1 amd64 1.2.2-1ubuntu5.24.04.1 [209 kB]
+2026-11-14T12:46:16.5840593Z Get:63 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libpulse0 amd64 1:16.1+dfsg1-2ubuntu10.1 [292 kB]
+2026-11-14T12:46:16.6133061Z Get:64 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsphinxbase3t64 amd64 0.8+5prealpha+1-17build2 [126 kB]
+2026-11-14T12:46:16.6432592Z Get:65 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpocketsphinx3 amd64 0.8.0+real5prealpha+1-15ubuntu5 [133 kB]
+2026-11-14T12:46:16.6716108Z Get:66 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libpostproc57 amd64 7:6.1.1-3ubuntu5 [49.9 kB]
+2026-11-14T12:46:16.6997742Z Get:67 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libsamplerate0 amd64 0.2.2-4build1 [1344 kB]
+2026-11-14T12:46:16.7387720Z Get:68 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 librubberband2 amd64 3.3.0+dfsg-2build1 [130 kB]
+2026-11-14T12:46:16.7716671Z Get:69 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libswscale7 amd64 7:6.1.1-3ubuntu5 [193 kB]
+2026-11-14T12:46:16.8007532Z Get:70 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libvidstab1.1 amd64 1.1.0-2build1 [38.5 kB]
+2026-11-14T12:46:16.8290897Z Get:71 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libzimg2 amd64 3.0.5+ds1-1build1 [254 kB]
+2026-11-14T12:46:16.8581576Z Get:72 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libavfilter9 amd64 7:6.1.1-3ubuntu5 [4235 kB]
+2026-11-14T12:46:16.9243542Z Get:73 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libcaca0 amd64 0.99.beta20-4ubuntu0.2 [209 kB]
+2026-11-14T12:46:16.9529998Z Get:74 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libcdio19t64 amd64 2.1.0-4.1ubuntu1.2 [62.4 kB]
+2026-11-14T12:46:16.9809278Z Get:75 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libcdio-cdda2t64 amd64 10.2+2.0.1-1.1build2 [16.5 kB]
+2026-11-14T12:46:17.0630867Z Get:76 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libcdio-paranoia2t64 amd64 10.2+2.0.1-1.1build2 [16.6 kB]
+2026-11-14T12:46:17.0916484Z Get:77 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libdc1394-25 amd64 2.2.6-4build1 [90.1 kB]
+2026-11-14T12:46:17.1200128Z Get:78 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libiec61883-0 amd64 1.2.0-6build1 [24.5 kB]
+2026-11-14T12:46:17.1478585Z Get:79 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libjack-jackd2-0 amd64 1.9.21~dfsg-3ubuntu3 [289 kB]
+2026-11-14T12:46:17.1778190Z Get:80 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopenal-data all 1:1.23.1-4build1 [161 kB]
+2026-11-14T12:46:17.2065218Z Get:81 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libsndio7.0 amd64 1.9.0-0.3build3 [29.6 kB]
+2026-11-14T12:46:17.2346488Z Get:82 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libopenal1 amd64 1:1.23.1-4build1 [540 kB]
+2026-11-14T12:46:17.2651522Z Get:83 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libdecor-0-0 amd64 0.2.2-1build2 [16.5 kB]
+2026-11-14T12:46:17.2933101Z Get:84 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libsdl2-2.0-0 amd64 2.30.0+dfsg-1ubuntu3.1 [686 kB]
+2026-11-14T12:46:17.3248699Z Get:85 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxcb-shape0 amd64 1.15-1ubuntu2 [6100 B]
+2026-11-14T12:46:17.3530964Z Get:86 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libxv1 amd64 2:1.0.11-1.1build1 [10.7 kB]
+2026-11-14T12:46:17.3812578Z Get:87 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 libavdevice60 amd64 7:6.1.1-3ubuntu5 [82.3 kB]
+2026-11-14T12:46:17.4095547Z Get:88 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 ffmpeg amd64 7:6.1.1-3ubuntu5 [1879 kB]
+2026-11-14T12:46:17.6952064Z Fetched 62.8 MB in 6s (10.2 MB/s)
+2026-11-14T12:46:17.7225087Z Selecting previously unselected package libva2:amd64.
+2026-11-14T12:46:17.7444649Z (Reading database ... 
+2026-11-14T12:46:17.7444955Z (Reading database ... 5%
+2026-11-14T12:46:17.7445177Z (Reading database ... 10%
+2026-11-14T12:46:17.7445385Z (Reading database ... 15%
+2026-11-14T12:46:17.7445582Z (Reading database ... 20%
+2026-11-14T12:46:17.7446478Z (Reading database ... 25%
+2026-11-14T12:46:17.7446687Z (Reading database ... 30%
+2026-11-14T12:46:17.7446892Z (Reading database ... 35%
+2026-11-14T12:46:17.7447093Z (Reading database ... 40%
+2026-11-14T12:46:17.7447419Z (Reading database ... 45%
+2026-11-14T12:46:17.7447628Z (Reading database ... 50%
+2026-11-14T12:46:17.7489617Z (Reading database ... 55%
+2026-11-14T12:46:17.8868425Z (Reading database ... 60%
+2026-11-14T12:46:18.0764259Z (Reading database ... 65%
+2026-11-14T12:46:18.2375333Z (Reading database ... 70%
+2026-11-14T12:46:18.4295236Z (Reading database ... 75%
+2026-11-14T12:46:18.5364870Z (Reading database ... 80%
+2026-11-14T12:46:18.6364749Z (Reading database ... 85%
+2026-11-14T12:46:18.7878320Z (Reading database ... 90%
+2026-11-14T12:46:18.8592540Z (Reading database ... 95%
+2026-11-14T12:46:18.8592926Z (Reading database ... 100%
+2026-11-14T12:46:18.8593275Z (Reading database ... 216752 files and directories currently installed.)
+2026-11-14T12:46:18.8633575Z Preparing to unpack .../00-libva2_2.20.0-2ubuntu0.2_amd64.deb ...
+2026-11-14T12:46:18.8751468Z Unpacking libva2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:18.8941735Z Selecting previously unselected package libva-drm2:amd64.
+2026-11-14T12:46:18.9052269Z Preparing to unpack .../01-libva-drm2_2.20.0-2ubuntu0.2_amd64.deb ...
+2026-11-14T12:46:18.9061673Z Unpacking libva-drm2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:18.9223126Z Selecting previously unselected package libva-x11-2:amd64.
+2026-11-14T12:46:18.9329885Z Preparing to unpack .../02-libva-x11-2_2.20.0-2ubuntu0.2_amd64.deb ...
+2026-11-14T12:46:18.9341003Z Unpacking libva-x11-2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:18.9502872Z Selecting previously unselected package libvdpau1:amd64.
+2026-11-14T12:46:18.9603356Z Preparing to unpack .../03-libvdpau1_1.5-2build1_amd64.deb ...
+2026-11-14T12:46:18.9613054Z Unpacking libvdpau1:amd64 (1.5-2build1) ...
+2026-11-14T12:46:18.9775070Z Selecting previously unselected package libvpl2.
+2026-11-14T12:46:18.9876189Z Preparing to unpack .../04-libvpl2_2023.3.0-1build1_amd64.deb ...
+2026-11-14T12:46:18.9884606Z Unpacking libvpl2 (2023.3.0-1build1) ...
+2026-11-14T12:46:19.0227261Z Selecting previously unselected package ocl-icd-libopencl1:amd64.
+2026-11-14T12:46:19.0325378Z Preparing to unpack .../05-ocl-icd-libopencl1_2.3.2-1build1_amd64.deb ...
+2026-11-14T12:46:19.0335345Z Unpacking ocl-icd-libopencl1:amd64 (2.3.2-1build1) ...
+2026-11-14T12:46:19.0531391Z Selecting previously unselected package libavutil58:amd64.
+2026-11-14T12:46:19.0629152Z Preparing to unpack .../06-libavutil58_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:19.0638371Z Unpacking libavutil58:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:19.0828986Z Selecting previously unselected package libcodec2-1.2:amd64.
+2026-11-14T12:46:19.0927075Z Preparing to unpack .../07-libcodec2-1.2_1.2.0-2build1_amd64.deb ...
+2026-11-14T12:46:19.0937101Z Unpacking libcodec2-1.2:amd64 (1.2.0-2build1) ...
+2026-11-14T12:46:19.2546909Z Selecting previously unselected package libdav1d7:amd64.
+2026-11-14T12:46:19.2661430Z Preparing to unpack .../08-libdav1d7_1.4.1-1build1_amd64.deb ...
+2026-11-14T12:46:19.2671214Z Unpacking libdav1d7:amd64 (1.4.1-1build1) ...
+2026-11-14T12:46:19.2916370Z Selecting previously unselected package libgsm1:amd64.
+2026-11-14T12:46:19.3028191Z Preparing to unpack .../09-libgsm1_1.0.22-1build1_amd64.deb ...
+2026-11-14T12:46:19.3038058Z Unpacking libgsm1:amd64 (1.0.22-1build1) ...
+2026-11-14T12:46:19.3728554Z Selecting previously unselected package libhwy1t64:amd64.
+2026-11-14T12:46:19.3843870Z Preparing to unpack .../10-libhwy1t64_1.0.7-8.1build1_amd64.deb ...
+2026-11-14T12:46:19.3853621Z Unpacking libhwy1t64:amd64 (1.0.7-8.1build1) ...
+2026-11-14T12:46:19.4352469Z Selecting previously unselected package libjxl0.7:amd64.
+2026-11-14T12:46:19.4465162Z Preparing to unpack .../11-libjxl0.7_0.7.0-10.2ubuntu6.1_amd64.deb ...
+2026-11-14T12:46:19.4475296Z Unpacking libjxl0.7:amd64 (0.7.0-10.2ubuntu6.1) ...
+2026-11-14T12:46:19.4939953Z Selecting previously unselected package libmp3lame0:amd64.
+2026-11-14T12:46:19.5052628Z Preparing to unpack .../12-libmp3lame0_3.100-6build1_amd64.deb ...
+2026-11-14T12:46:19.5064464Z Unpacking libmp3lame0:amd64 (3.100-6build1) ...
+2026-11-14T12:46:19.5235427Z Selecting previously unselected package libopus0:amd64.
+2026-11-14T12:46:19.5346741Z Preparing to unpack .../13-libopus0_1.4-1build1_amd64.deb ...
+2026-11-14T12:46:19.5357823Z Unpacking libopus0:amd64 (1.4-1build1) ...
+2026-11-14T12:46:19.5534724Z Selecting previously unselected package librav1e0:amd64.
+2026-11-14T12:46:19.5638964Z Preparing to unpack .../14-librav1e0_0.7.1-2_amd64.deb ...
+2026-11-14T12:46:19.5648703Z Unpacking librav1e0:amd64 (0.7.1-2) ...
+2026-11-14T12:46:19.6228124Z Selecting previously unselected package librsvg2-2:amd64.
+2026-11-14T12:46:19.6334495Z Preparing to unpack .../15-librsvg2-2_2.58.0+dfsg-1ubuntu0.1_amd64.deb ...
+2026-11-14T12:46:19.6345521Z Unpacking librsvg2-2:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
+2026-11-14T12:46:19.7021410Z Selecting previously unselected package libshine3:amd64.
+2026-11-14T12:46:19.7129311Z Preparing to unpack .../16-libshine3_3.1.1-2build1_amd64.deb ...
+2026-11-14T12:46:19.7139607Z Unpacking libshine3:amd64 (3.1.1-2build1) ...
+2026-11-14T12:46:19.7296005Z Selecting previously unselected package libspeex1:amd64.
+2026-11-14T12:46:19.7401640Z Preparing to unpack .../17-libspeex1_1.2.1-2ubuntu2.24.04.1_amd64.deb ...
+2026-11-14T12:46:19.7413580Z Unpacking libspeex1:amd64 (1.2.1-2ubuntu2.24.04.1) ...
+2026-11-14T12:46:19.7570012Z Selecting previously unselected package libsvtav1enc1d1:amd64.
+2026-11-14T12:46:19.7676007Z Preparing to unpack .../18-libsvtav1enc1d1_1.7.0+dfsg-2build1_amd64.deb ...
+2026-11-14T12:46:19.7686310Z Unpacking libsvtav1enc1d1:amd64 (1.7.0+dfsg-2build1) ...
+2026-11-14T12:46:19.8382993Z Selecting previously unselected package libsoxr0:amd64.
+2026-11-14T12:46:19.8491669Z Preparing to unpack .../19-libsoxr0_0.1.3-4build3_amd64.deb ...
+2026-11-14T12:46:19.8502442Z Unpacking libsoxr0:amd64 (0.1.3-4build3) ...
+2026-11-14T12:46:19.8670003Z Selecting previously unselected package libswresample4:amd64.
+2026-11-14T12:46:19.8777230Z Preparing to unpack .../20-libswresample4_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:19.8787667Z Unpacking libswresample4:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:19.8956295Z Selecting previously unselected package libtheora0:amd64.
+2026-11-14T12:46:19.9063765Z Preparing to unpack .../21-libtheora0_1.1.1+dfsg.1-16.1build3_amd64.deb ...
+2026-11-14T12:46:19.9074347Z Unpacking libtheora0:amd64 (1.1.1+dfsg.1-16.1build3) ...
+2026-11-14T12:46:19.9257002Z Selecting previously unselected package libtwolame0:amd64.
+2026-11-14T12:46:19.9363097Z Preparing to unpack .../22-libtwolame0_0.4.0-2build3_amd64.deb ...
+2026-11-14T12:46:19.9374664Z Unpacking libtwolame0:amd64 (0.4.0-2build3) ...
+2026-11-14T12:46:19.9707151Z Selecting previously unselected package libvorbisenc2:amd64.
+2026-11-14T12:46:19.9814562Z Preparing to unpack .../23-libvorbisenc2_1.3.7-1build3_amd64.deb ...
+2026-11-14T12:46:19.9828002Z Unpacking libvorbisenc2:amd64 (1.3.7-1build3) ...
+2026-11-14T12:46:20.0012373Z Selecting previously unselected package libvpx9:amd64.
+2026-11-14T12:46:20.0117581Z Preparing to unpack .../24-libvpx9_1.14.0-1ubuntu2.3_amd64.deb ...
+2026-11-14T12:46:20.0128060Z Unpacking libvpx9:amd64 (1.14.0-1ubuntu2.3) ...
+2026-11-14T12:46:20.0505935Z Selecting previously unselected package libx264-164:amd64.
+2026-11-14T12:46:20.0611406Z Preparing to unpack .../25-libx264-164_2%3a0.164.3108+git31e19f9-1_amd64.deb ...
+2026-11-14T12:46:20.0622252Z Unpacking libx264-164:amd64 (2:0.164.3108+git31e19f9-1) ...
+2026-11-14T12:46:20.0886636Z Selecting previously unselected package libx265-199:amd64.
+2026-11-14T12:46:20.0991137Z Preparing to unpack .../26-libx265-199_3.5-2build1_amd64.deb ...
+2026-11-14T12:46:20.1001444Z Unpacking libx265-199:amd64 (3.5-2build1) ...
+2026-11-14T12:46:20.2314886Z Selecting previously unselected package libxvidcore4:amd64.
+2026-11-14T12:46:20.2429837Z Preparing to unpack .../27-libxvidcore4_2%3a1.3.7-1build1_amd64.deb ...
+2026-11-14T12:46:20.2440330Z Unpacking libxvidcore4:amd64 (2:1.3.7-1build1) ...
+2026-11-14T12:46:20.2613835Z Selecting previously unselected package libzvbi-common.
+2026-11-14T12:46:20.2726762Z Preparing to unpack .../28-libzvbi-common_0.2.42-2_all.deb ...
+2026-11-14T12:46:20.2737395Z Unpacking libzvbi-common (0.2.42-2) ...
+2026-11-14T12:46:20.3401037Z Selecting previously unselected package libzvbi0t64:amd64.
+2026-11-14T12:46:20.3512320Z Preparing to unpack .../29-libzvbi0t64_0.2.42-2_amd64.deb ...
+2026-11-14T12:46:20.3522467Z Unpacking libzvbi0t64:amd64 (0.2.42-2) ...
+2026-11-14T12:46:20.3708476Z Selecting previously unselected package libavcodec60:amd64.
+2026-11-14T12:46:20.3819976Z Preparing to unpack .../30-libavcodec60_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:20.3829828Z Unpacking libavcodec60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:20.5414744Z Selecting previously unselected package libraw1394-11:amd64.
+2026-11-14T12:46:20.5528209Z Preparing to unpack .../31-libraw1394-11_2.1.2-2build3_amd64.deb ...
+2026-11-14T12:46:20.5539173Z Unpacking libraw1394-11:amd64 (2.1.2-2build3) ...
+2026-11-14T12:46:20.5700551Z Selecting previously unselected package libavc1394-0:amd64.
+2026-11-14T12:46:20.5814452Z Preparing to unpack .../32-libavc1394-0_0.5.4-5build3_amd64.deb ...
+2026-11-14T12:46:20.5824044Z Unpacking libavc1394-0:amd64 (0.5.4-5build3) ...
+2026-11-14T12:46:20.5981610Z Selecting previously unselected package libunibreak5:amd64.
+2026-11-14T12:46:20.6087406Z Preparing to unpack .../33-libunibreak5_5.1-2build1_amd64.deb ...
+2026-11-14T12:46:20.6097025Z Unpacking libunibreak5:amd64 (5.1-2build1) ...
+2026-11-14T12:46:20.6257968Z Selecting previously unselected package libass9:amd64.
+2026-11-14T12:46:20.6358703Z Preparing to unpack .../34-libass9_1%3a0.17.1-2build1_amd64.deb ...
+2026-11-14T12:46:20.6366575Z Unpacking libass9:amd64 (1:0.17.1-2build1) ...
+2026-11-14T12:46:20.6531352Z Selecting previously unselected package libudfread0:amd64.
+2026-11-14T12:46:20.6631020Z Preparing to unpack .../35-libudfread0_1.1.2-1build1_amd64.deb ...
+2026-11-14T12:46:20.6639614Z Unpacking libudfread0:amd64 (1.1.2-1build1) ...
+2026-11-14T12:46:20.6798180Z Selecting previously unselected package libbluray2:amd64.
+2026-11-14T12:46:20.6897231Z Preparing to unpack .../36-libbluray2_1%3a1.3.4-1build1_amd64.deb ...
+2026-11-14T12:46:20.6961748Z Unpacking libbluray2:amd64 (1:1.3.4-1build1) ...
+2026-11-14T12:46:20.7134513Z Selecting previously unselected package libchromaprint1:amd64.
+2026-11-14T12:46:20.7234012Z Preparing to unpack .../37-libchromaprint1_1.5.1-5_amd64.deb ...
+2026-11-14T12:46:20.7243257Z Unpacking libchromaprint1:amd64 (1.5.1-5) ...
+2026-11-14T12:46:20.7399518Z Selecting previously unselected package libgme0:amd64.
+2026-11-14T12:46:20.7496598Z Preparing to unpack .../38-libgme0_0.6.3-7build1_amd64.deb ...
+2026-11-14T12:46:20.7504408Z Unpacking libgme0:amd64 (0.6.3-7build1) ...
+2026-11-14T12:46:20.7672027Z Selecting previously unselected package libmpg123-0t64:amd64.
+2026-11-14T12:46:20.7771208Z Preparing to unpack .../39-libmpg123-0t64_1.32.5-1ubuntu1.1_amd64.deb ...
+2026-11-14T12:46:20.7778491Z Unpacking libmpg123-0t64:amd64 (1.32.5-1ubuntu1.1) ...
+2026-11-14T12:46:20.7953447Z Selecting previously unselected package libopenmpt0t64:amd64.
+2026-11-14T12:46:20.8052400Z Preparing to unpack .../40-libopenmpt0t64_0.7.3-1.1build3_amd64.deb ...
+2026-11-14T12:46:20.8060111Z Unpacking libopenmpt0t64:amd64 (0.7.3-1.1build3) ...
+2026-11-14T12:46:20.8277317Z Selecting previously unselected package libcjson1:amd64.
+2026-11-14T12:46:20.8376821Z Preparing to unpack .../41-libcjson1_1.7.17-1_amd64.deb ...
+2026-11-14T12:46:20.8387545Z Unpacking libcjson1:amd64 (1.7.17-1) ...
+2026-11-14T12:46:20.8674185Z Selecting previously unselected package libmbedcrypto7t64:amd64.
+2026-11-14T12:46:20.8777228Z Preparing to unpack .../42-libmbedcrypto7t64_2.28.8-1_amd64.deb ...
+2026-11-14T12:46:20.8790459Z Unpacking libmbedcrypto7t64:amd64 (2.28.8-1) ...
+2026-11-14T12:46:20.8966964Z Selecting previously unselected package librist4:amd64.
+2026-11-14T12:46:20.9068351Z Preparing to unpack .../43-librist4_0.2.10+dfsg-2_amd64.deb ...
+2026-11-14T12:46:20.9078620Z Unpacking librist4:amd64 (0.2.10+dfsg-2) ...
+2026-11-14T12:46:20.9271721Z Selecting previously unselected package libsrt1.5-gnutls:amd64.
+2026-11-14T12:46:20.9372043Z Preparing to unpack .../44-libsrt1.5-gnutls_1.5.3-1build2_amd64.deb ...
+2026-11-14T12:46:20.9381913Z Unpacking libsrt1.5-gnutls:amd64 (1.5.3-1build2) ...
+2026-11-14T12:46:20.9570218Z Selecting previously unselected package libssh-gcrypt-4:amd64.
+2026-11-14T12:46:20.9669984Z Preparing to unpack .../45-libssh-gcrypt-4_0.10.6-2ubuntu0.5_amd64.deb ...
+2026-11-14T12:46:20.9680325Z Unpacking libssh-gcrypt-4:amd64 (0.10.6-2ubuntu0.5) ...
+2026-11-14T12:46:20.9861944Z Selecting previously unselected package libavformat60:amd64.
+2026-11-14T12:46:20.9962032Z Preparing to unpack .../46-libavformat60_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:20.9972858Z Unpacking libavformat60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:21.0351500Z Selecting previously unselected package libbs2b0:amd64.
+2026-11-14T12:46:21.0450084Z Preparing to unpack .../47-libbs2b0_3.1.0+dfsg-7build1_amd64.deb ...
+2026-11-14T12:46:21.0461749Z Unpacking libbs2b0:amd64 (3.1.0+dfsg-7build1) ...
+2026-11-14T12:46:21.0638993Z Selecting previously unselected package libflite1:amd64.
+2026-11-14T12:46:21.0737364Z Preparing to unpack .../48-libflite1_2.2-6build3_amd64.deb ...
+2026-11-14T12:46:21.0748068Z Unpacking libflite1:amd64 (2.2-6build3) ...
+2026-11-14T12:46:21.2563613Z Selecting previously unselected package libserd-0-0:amd64.
+2026-11-14T12:46:21.2680177Z Preparing to unpack .../49-libserd-0-0_0.32.2-1_amd64.deb ...
+2026-11-14T12:46:21.2691113Z Unpacking libserd-0-0:amd64 (0.32.2-1) ...
+2026-11-14T12:46:21.2858024Z Selecting previously unselected package libzix-0-0:amd64.
+2026-11-14T12:46:21.2972812Z Preparing to unpack .../50-libzix-0-0_0.4.2-2build1_amd64.deb ...
+2026-11-14T12:46:21.2982975Z Unpacking libzix-0-0:amd64 (0.4.2-2build1) ...
+2026-11-14T12:46:21.3144567Z Selecting previously unselected package libsord-0-0:amd64.
+2026-11-14T12:46:21.3253605Z Preparing to unpack .../51-libsord-0-0_0.16.16-2build1_amd64.deb ...
+2026-11-14T12:46:21.3262486Z Unpacking libsord-0-0:amd64 (0.16.16-2build1) ...
+2026-11-14T12:46:21.3426725Z Selecting previously unselected package libsratom-0-0:amd64.
+2026-11-14T12:46:21.3532446Z Preparing to unpack .../52-libsratom-0-0_0.6.16-1build1_amd64.deb ...
+2026-11-14T12:46:21.3541725Z Unpacking libsratom-0-0:amd64 (0.6.16-1build1) ...
+2026-11-14T12:46:21.3707562Z Selecting previously unselected package liblilv-0-0:amd64.
+2026-11-14T12:46:21.3811578Z Preparing to unpack .../53-liblilv-0-0_0.24.22-1build1_amd64.deb ...
+2026-11-14T12:46:21.3820597Z Unpacking liblilv-0-0:amd64 (0.24.22-1build1) ...
+2026-11-14T12:46:21.3982708Z Selecting previously unselected package libmysofa1:amd64.
+2026-11-14T12:46:21.4084336Z Preparing to unpack .../54-libmysofa1_1.3.2+dfsg-2ubuntu2_amd64.deb ...
+2026-11-14T12:46:21.4226423Z Unpacking libmysofa1:amd64 (1.3.2+dfsg-2ubuntu2) ...
+2026-11-14T12:46:21.4423157Z Selecting previously unselected package libplacebo338:amd64.
+2026-11-14T12:46:21.4524827Z Preparing to unpack .../55-libplacebo338_6.338.2-2build1_amd64.deb ...
+2026-11-14T12:46:21.4533150Z Unpacking libplacebo338:amd64 (6.338.2-2build1) ...
+2026-11-14T12:46:21.5373882Z Selecting previously unselected package libblas3:amd64.
+2026-11-14T12:46:21.5481093Z Preparing to unpack .../56-libblas3_3.12.0-3build1.1_amd64.deb ...
+2026-11-14T12:46:21.5509605Z Unpacking libblas3:amd64 (3.12.0-3build1.1) ...
+2026-11-14T12:46:21.5703948Z Selecting previously unselected package liblapack3:amd64.
+2026-11-14T12:46:21.5813153Z Preparing to unpack .../57-liblapack3_3.12.0-3build1.1_amd64.deb ...
+2026-11-14T12:46:21.5905019Z Unpacking liblapack3:amd64 (3.12.0-3build1.1) ...
+2026-11-14T12:46:21.6553891Z Selecting previously unselected package libasyncns0:amd64.
+2026-11-14T12:46:21.6666984Z Preparing to unpack .../58-libasyncns0_0.8-6build4_amd64.deb ...
+2026-11-14T12:46:21.6677640Z Unpacking libasyncns0:amd64 (0.8-6build4) ...
+2026-11-14T12:46:21.6838501Z Selecting previously unselected package libflac12t64:amd64.
+2026-11-14T12:46:21.6950455Z Preparing to unpack .../59-libflac12t64_1.4.3+ds-2.1ubuntu2_amd64.deb ...
+2026-11-14T12:46:21.6960993Z Unpacking libflac12t64:amd64 (1.4.3+ds-2.1ubuntu2) ...
+2026-11-14T12:46:21.7135650Z Selecting previously unselected package libsndfile1:amd64.
+2026-11-14T12:46:21.7244285Z Preparing to unpack .../60-libsndfile1_1.2.2-1ubuntu5.24.04.1_amd64.deb ...
+2026-11-14T12:46:21.7255062Z Unpacking libsndfile1:amd64 (1.2.2-1ubuntu5.24.04.1) ...
+2026-11-14T12:46:21.7551021Z Selecting previously unselected package libpulse0:amd64.
+2026-11-14T12:46:21.7659514Z Preparing to unpack .../61-libpulse0_1%3a16.1+dfsg1-2ubuntu10.1_amd64.deb ...
+2026-11-14T12:46:21.7715049Z Unpacking libpulse0:amd64 (1:16.1+dfsg1-2ubuntu10.1) ...
+2026-11-14T12:46:21.7906963Z Selecting previously unselected package libsphinxbase3t64:amd64.
+2026-11-14T12:46:21.8014646Z Preparing to unpack .../62-libsphinxbase3t64_0.8+5prealpha+1-17build2_amd64.deb ...
+2026-11-14T12:46:21.8027494Z Unpacking libsphinxbase3t64:amd64 (0.8+5prealpha+1-17build2) ...
+2026-11-14T12:46:21.8201308Z Selecting previously unselected package libpocketsphinx3:amd64.
+2026-11-14T12:46:21.8310031Z Preparing to unpack .../63-libpocketsphinx3_0.8.0+real5prealpha+1-15ubuntu5_amd64.deb ...
+2026-11-14T12:46:21.8319538Z Unpacking libpocketsphinx3:amd64 (0.8.0+real5prealpha+1-15ubuntu5) ...
+2026-11-14T12:46:21.8494039Z Selecting previously unselected package libpostproc57:amd64.
+2026-11-14T12:46:21.8603205Z Preparing to unpack .../64-libpostproc57_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:21.8613994Z Unpacking libpostproc57:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:21.8788366Z Selecting previously unselected package libsamplerate0:amd64.
+2026-11-14T12:46:21.8896557Z Preparing to unpack .../65-libsamplerate0_0.2.2-4build1_amd64.deb ...
+2026-11-14T12:46:21.8906393Z Unpacking libsamplerate0:amd64 (0.2.2-4build1) ...
+2026-11-14T12:46:21.9285486Z Selecting previously unselected package librubberband2:amd64.
+2026-11-14T12:46:21.9394710Z Preparing to unpack .../66-librubberband2_3.3.0+dfsg-2build1_amd64.deb ...
+2026-11-14T12:46:21.9405200Z Unpacking librubberband2:amd64 (3.3.0+dfsg-2build1) ...
+2026-11-14T12:46:21.9575075Z Selecting previously unselected package libswscale7:amd64.
+2026-11-14T12:46:21.9682307Z Preparing to unpack .../67-libswscale7_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:21.9691622Z Unpacking libswscale7:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:21.9861872Z Selecting previously unselected package libvidstab1.1:amd64.
+2026-11-14T12:46:21.9968387Z Preparing to unpack .../68-libvidstab1.1_1.1.0-2build1_amd64.deb ...
+2026-11-14T12:46:21.9978806Z Unpacking libvidstab1.1:amd64 (1.1.0-2build1) ...
+2026-11-14T12:46:22.0137121Z Selecting previously unselected package libzimg2:amd64.
+2026-11-14T12:46:22.0241201Z Preparing to unpack .../69-libzimg2_3.0.5+ds1-1build1_amd64.deb ...
+2026-11-14T12:46:22.0251237Z Unpacking libzimg2:amd64 (3.0.5+ds1-1build1) ...
+2026-11-14T12:46:22.0430836Z Selecting previously unselected package libavfilter9:amd64.
+2026-11-14T12:46:22.0533481Z Preparing to unpack .../70-libavfilter9_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:22.0542095Z Unpacking libavfilter9:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.1722291Z Selecting previously unselected package libcaca0:amd64.
+2026-11-14T12:46:22.1834189Z Preparing to unpack .../71-libcaca0_0.99.beta20-4ubuntu0.2_amd64.deb ...
+2026-11-14T12:46:22.1842824Z Unpacking libcaca0:amd64 (0.99.beta20-4ubuntu0.2) ...
+2026-11-14T12:46:22.2026817Z Selecting previously unselected package libcdio19t64:amd64.
+2026-11-14T12:46:22.2137304Z Preparing to unpack .../72-libcdio19t64_2.1.0-4.1ubuntu1.2_amd64.deb ...
+2026-11-14T12:46:22.2146038Z Unpacking libcdio19t64:amd64 (2.1.0-4.1ubuntu1.2) ...
+2026-11-14T12:46:22.2304918Z Selecting previously unselected package libcdio-cdda2t64:amd64.
+2026-11-14T12:46:22.2415096Z Preparing to unpack .../73-libcdio-cdda2t64_10.2+2.0.1-1.1build2_amd64.deb ...
+2026-11-14T12:46:22.2425115Z Unpacking libcdio-cdda2t64:amd64 (10.2+2.0.1-1.1build2) ...
+2026-11-14T12:46:22.2704293Z Selecting previously unselected package libcdio-paranoia2t64:amd64.
+2026-11-14T12:46:22.2811921Z Preparing to unpack .../74-libcdio-paranoia2t64_10.2+2.0.1-1.1build2_amd64.deb ...
+2026-11-14T12:46:22.2820952Z Unpacking libcdio-paranoia2t64:amd64 (10.2+2.0.1-1.1build2) ...
+2026-11-14T12:46:22.2970368Z Selecting previously unselected package libdc1394-25:amd64.
+2026-11-14T12:46:22.3076709Z Preparing to unpack .../75-libdc1394-25_2.2.6-4build1_amd64.deb ...
+2026-11-14T12:46:22.3085738Z Unpacking libdc1394-25:amd64 (2.2.6-4build1) ...
+2026-11-14T12:46:22.3447870Z Selecting previously unselected package libiec61883-0:amd64.
+2026-11-14T12:46:22.3551366Z Preparing to unpack .../76-libiec61883-0_1.2.0-6build1_amd64.deb ...
+2026-11-14T12:46:22.3560226Z Unpacking libiec61883-0:amd64 (1.2.0-6build1) ...
+2026-11-14T12:46:22.3714043Z Selecting previously unselected package libjack-jackd2-0:amd64.
+2026-11-14T12:46:22.3816480Z Preparing to unpack .../77-libjack-jackd2-0_1.9.21~dfsg-3ubuntu3_amd64.deb ...
+2026-11-14T12:46:22.3827111Z Unpacking libjack-jackd2-0:amd64 (1.9.21~dfsg-3ubuntu3) ...
+2026-11-14T12:46:22.4012023Z Selecting previously unselected package libopenal-data.
+2026-11-14T12:46:22.4114253Z Preparing to unpack .../78-libopenal-data_1%3a1.23.1-4build1_all.deb ...
+2026-11-14T12:46:22.4123032Z Unpacking libopenal-data (1:1.23.1-4build1) ...
+2026-11-14T12:46:22.4474216Z Selecting previously unselected package libsndio7.0:amd64.
+2026-11-14T12:46:22.4579794Z Preparing to unpack .../79-libsndio7.0_1.9.0-0.3build3_amd64.deb ...
+2026-11-14T12:46:22.4590390Z Unpacking libsndio7.0:amd64 (1.9.0-0.3build3) ...
+2026-11-14T12:46:22.4747686Z Selecting previously unselected package libopenal1:amd64.
+2026-11-14T12:46:22.4851583Z Preparing to unpack .../80-libopenal1_1%3a1.23.1-4build1_amd64.deb ...
+2026-11-14T12:46:22.4860731Z Unpacking libopenal1:amd64 (1:1.23.1-4build1) ...
+2026-11-14T12:46:22.5077864Z Selecting previously unselected package libdecor-0-0:amd64.
+2026-11-14T12:46:22.5179195Z Preparing to unpack .../81-libdecor-0-0_0.2.2-1build2_amd64.deb ...
+2026-11-14T12:46:22.5186502Z Unpacking libdecor-0-0:amd64 (0.2.2-1build2) ...
+2026-11-14T12:46:22.5336796Z Selecting previously unselected package libsdl2-2.0-0:amd64.
+2026-11-14T12:46:22.5437783Z Preparing to unpack .../82-libsdl2-2.0-0_2.30.0+dfsg-1ubuntu3.1_amd64.deb ...
+2026-11-14T12:46:22.5447629Z Unpacking libsdl2-2.0-0:amd64 (2.30.0+dfsg-1ubuntu3.1) ...
+2026-11-14T12:46:22.6159615Z Selecting previously unselected package libxcb-shape0:amd64.
+2026-11-14T12:46:22.6267764Z Preparing to unpack .../83-libxcb-shape0_1.15-1ubuntu2_amd64.deb ...
+2026-11-14T12:46:22.6277900Z Unpacking libxcb-shape0:amd64 (1.15-1ubuntu2) ...
+2026-11-14T12:46:22.6429614Z Selecting previously unselected package libxv1:amd64.
+2026-11-14T12:46:22.6535258Z Preparing to unpack .../84-libxv1_2%3a1.0.11-1.1build1_amd64.deb ...
+2026-11-14T12:46:22.6544171Z Unpacking libxv1:amd64 (2:1.0.11-1.1build1) ...
+2026-11-14T12:46:22.6696224Z Selecting previously unselected package libavdevice60:amd64.
+2026-11-14T12:46:22.6801104Z Preparing to unpack .../85-libavdevice60_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:22.6808141Z Unpacking libavdevice60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.6966309Z Selecting previously unselected package ffmpeg.
+2026-11-14T12:46:22.7067640Z Preparing to unpack .../86-ffmpeg_7%3a6.1.1-3ubuntu5_amd64.deb ...
+2026-11-14T12:46:22.7073814Z Unpacking ffmpeg (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.7537505Z Setting up libgme0:amd64 (0.6.3-7build1) ...
+2026-11-14T12:46:22.7563092Z Setting up libchromaprint1:amd64 (1.5.1-5) ...
+2026-11-14T12:46:22.7581839Z Setting up libssh-gcrypt-4:amd64 (0.10.6-2ubuntu0.5) ...
+2026-11-14T12:46:22.7600230Z Setting up libhwy1t64:amd64 (1.0.7-8.1build1) ...
+2026-11-14T12:46:22.7629526Z Setting up libudfread0:amd64 (1.1.2-1build1) ...
+2026-11-14T12:46:22.7647525Z Setting up libraw1394-11:amd64 (2.1.2-2build3) ...
+2026-11-14T12:46:22.7669607Z Setting up libspeex1:amd64 (1.2.1-2ubuntu2.24.04.1) ...
+2026-11-14T12:46:22.7686009Z Setting up libshine3:amd64 (3.1.1-2build1) ...
+2026-11-14T12:46:22.7874468Z Setting up libcaca0:amd64 (0.99.beta20-4ubuntu0.2) ...
+2026-11-14T12:46:22.7897261Z Setting up libvpl2 (2023.3.0-1build1) ...
+2026-11-14T12:46:22.7914978Z Setting up libx264-164:amd64 (2:0.164.3108+git31e19f9-1) ...
+2026-11-14T12:46:22.7933986Z Setting up libtwolame0:amd64 (0.4.0-2build3) ...
+2026-11-14T12:46:22.7953354Z Setting up libmbedcrypto7t64:amd64 (2.28.8-1) ...
+2026-11-14T12:46:22.7970646Z Setting up libgsm1:amd64 (1.0.22-1build1) ...
+2026-11-14T12:46:22.7989205Z Setting up libsoxr0:amd64 (0.1.3-4build3) ...
+2026-11-14T12:46:22.8006025Z Setting up libzix-0-0:amd64 (0.4.2-2build1) ...
+2026-11-14T12:46:22.8025849Z Setting up libcodec2-1.2:amd64 (1.2.0-2build1) ...
+2026-11-14T12:46:22.8044751Z Setting up libmysofa1:amd64 (1.3.2+dfsg-2ubuntu2) ...
+2026-11-14T12:46:22.8060689Z Setting up libxcb-shape0:amd64 (1.15-1ubuntu2) ...
+2026-11-14T12:46:22.8080223Z Setting up libcdio19t64:amd64 (2.1.0-4.1ubuntu1.2) ...
+2026-11-14T12:46:22.8097025Z Setting up libsvtav1enc1d1:amd64 (1.7.0+dfsg-2build1) ...
+2026-11-14T12:46:22.8112677Z Setting up libmpg123-0t64:amd64 (1.32.5-1ubuntu1.1) ...
+2026-11-14T12:46:22.8135426Z Setting up libcjson1:amd64 (1.7.17-1) ...
+2026-11-14T12:46:22.8152793Z Setting up libxvidcore4:amd64 (2:1.3.7-1build1) ...
+2026-11-14T12:46:22.8173179Z Setting up librav1e0:amd64 (0.7.1-2) ...
+2026-11-14T12:46:22.8189115Z Setting up libcdio-cdda2t64:amd64 (10.2+2.0.1-1.1build2) ...
+2026-11-14T12:46:22.8205638Z Setting up librist4:amd64 (0.2.10+dfsg-2) ...
+2026-11-14T12:46:22.8229211Z Setting up librsvg2-2:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
+2026-11-14T12:46:22.8246686Z Setting up libblas3:amd64 (3.12.0-3build1.1) ...
+2026-11-14T12:46:22.8292342Z update-alternatives: using /usr/lib/x86_64-linux-gnu/blas/libblas.so.3 to provide /usr/lib/x86_64-linux-gnu/libblas.so.3 (libblas.so.3-x86_64-linux-gnu) in auto mode
+2026-11-14T12:46:22.8309070Z Setting up libplacebo338:amd64 (6.338.2-2build1) ...
+2026-11-14T12:46:22.8326426Z Setting up libva2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:22.8345651Z Setting up libopus0:amd64 (1.4-1build1) ...
+2026-11-14T12:46:22.8363885Z Setting up libcdio-paranoia2t64:amd64 (10.2+2.0.1-1.1build2) ...
+2026-11-14T12:46:22.8381004Z Setting up libdc1394-25:amd64 (2.2.6-4build1) ...
+2026-11-14T12:46:22.8401358Z Setting up libxv1:amd64 (2:1.0.11-1.1build1) ...
+2026-11-14T12:46:22.8418189Z Setting up libunibreak5:amd64 (5.1-2build1) ...
+2026-11-14T12:46:22.8438555Z Setting up libjxl0.7:amd64 (0.7.0-10.2ubuntu6.1) ...
+2026-11-14T12:46:22.8455581Z Setting up libx265-199:amd64 (3.5-2build1) ...
+2026-11-14T12:46:22.8474487Z Setting up libsndio7.0:amd64 (1.9.0-0.3build3) ...
+2026-11-14T12:46:22.8496881Z Setting up libvidstab1.1:amd64 (1.1.0-2build1) ...
+2026-11-14T12:46:22.8514718Z Setting up libvpx9:amd64 (1.14.0-1ubuntu2.3) ...
+2026-11-14T12:46:22.8532894Z Setting up libsrt1.5-gnutls:amd64 (1.5.3-1build2) ...
+2026-11-14T12:46:22.8554700Z Setting up libflite1:amd64 (2.2-6build3) ...
+2026-11-14T12:46:22.8571867Z Setting up libdav1d7:amd64 (1.4.1-1build1) ...
+2026-11-14T12:46:22.8594552Z Setting up libva-drm2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:22.8611035Z Setting up ocl-icd-libopencl1:amd64 (2.3.2-1build1) ...
+2026-11-14T12:46:22.8627944Z Setting up libasyncns0:amd64 (0.8-6build4) ...
+2026-11-14T12:46:22.8651559Z Setting up libvdpau1:amd64 (1.5-2build1) ...
+2026-11-14T12:46:22.8676428Z Setting up libbs2b0:amd64 (3.1.0+dfsg-7build1) ...
+2026-11-14T12:46:22.8694883Z Setting up libtheora0:amd64 (1.1.1+dfsg.1-16.1build3) ...
+2026-11-14T12:46:22.8715033Z Setting up libdecor-0-0:amd64 (0.2.2-1build2) ...
+2026-11-14T12:46:22.8731779Z Setting up libzimg2:amd64 (3.0.5+ds1-1build1) ...
+2026-11-14T12:46:22.8753907Z Setting up libopenal-data (1:1.23.1-4build1) ...
+2026-11-14T12:46:22.8777544Z Setting up libflac12t64:amd64 (1.4.3+ds-2.1ubuntu2) ...
+2026-11-14T12:46:22.8799227Z Setting up libbluray2:amd64 (1:1.3.4-1build1) ...
+2026-11-14T12:46:22.8817091Z Setting up libsamplerate0:amd64 (0.2.2-4build1) ...
+2026-11-14T12:46:22.8835600Z Setting up libva-x11-2:amd64 (2.20.0-2ubuntu0.2) ...
+2026-11-14T12:46:22.8857649Z Setting up libopenmpt0t64:amd64 (0.7.3-1.1build3) ...
+2026-11-14T12:46:22.8873648Z Setting up libzvbi-common (0.2.42-2) ...
+2026-11-14T12:46:22.8890802Z Setting up libmp3lame0:amd64 (3.100-6build1) ...
+2026-11-14T12:46:22.8911581Z Setting up libvorbisenc2:amd64 (1.3.7-1build3) ...
+2026-11-14T12:46:22.8931131Z Setting up libiec61883-0:amd64 (1.2.0-6build1) ...
+2026-11-14T12:46:22.8958603Z Setting up libserd-0-0:amd64 (0.32.2-1) ...
+2026-11-14T12:46:22.8976163Z Setting up libavc1394-0:amd64 (0.5.4-5build3) ...
+2026-11-14T12:46:22.9001220Z Setting up liblapack3:amd64 (3.12.0-3build1.1) ...
+2026-11-14T12:46:22.9050458Z update-alternatives: using /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode
+2026-11-14T12:46:22.9073622Z Setting up libzvbi0t64:amd64 (0.2.42-2) ...
+2026-11-14T12:46:22.9100119Z Setting up libavutil58:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9126092Z Setting up libopenal1:amd64 (1:1.23.1-4build1) ...
+2026-11-14T12:46:22.9145445Z Setting up libass9:amd64 (1:0.17.1-2build1) ...
+2026-11-14T12:46:22.9164409Z Setting up libswresample4:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9186500Z Setting up libavcodec60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9205012Z Setting up librubberband2:amd64 (3.3.0+dfsg-2build1) ...
+2026-11-14T12:46:22.9227063Z Setting up libjack-jackd2-0:amd64 (1.9.21~dfsg-3ubuntu3) ...
+2026-11-14T12:46:22.9244997Z Setting up libsord-0-0:amd64 (0.16.16-2build1) ...
+2026-11-14T12:46:22.9261905Z Setting up libpostproc57:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9281811Z Setting up libsratom-0-0:amd64 (0.6.16-1build1) ...
+2026-11-14T12:46:22.9300292Z Setting up libsndfile1:amd64 (1.2.2-1ubuntu5.24.04.1) ...
+2026-11-14T12:46:22.9320586Z Setting up liblilv-0-0:amd64 (0.24.22-1build1) ...
+2026-11-14T12:46:22.9337002Z Setting up libswscale7:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9353499Z Setting up libpulse0:amd64 (1:16.1+dfsg1-2ubuntu10.1) ...
+2026-11-14T12:46:22.9416784Z Setting up libavformat60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:22.9433886Z Setting up libsphinxbase3t64:amd64 (0.8+5prealpha+1-17build2) ...
+2026-11-14T12:46:22.9455612Z Setting up libsdl2-2.0-0:amd64 (2.30.0+dfsg-1ubuntu3.1) ...
+2026-11-14T12:46:23.0033380Z Setting up libpocketsphinx3:amd64 (0.8.0+real5prealpha+1-15ubuntu5) ...
+2026-11-14T12:46:23.0052799Z Setting up libavfilter9:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:23.0073394Z Setting up libavdevice60:amd64 (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:23.0091665Z Setting up ffmpeg (7:6.1.1-3ubuntu5) ...
+2026-11-14T12:46:23.0116500Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-11-14T12:46:23.0139477Z Not building database; man-db/auto-update is not 'true'.
+2026-11-14T12:46:23.0153184Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+2026-11-14T12:46:23.7329362Z 
+2026-11-14T12:46:23.7330306Z Running kernel seems to be up-to-date.
+2026-11-14T12:46:23.7330724Z 
+2026-11-14T12:46:23.7330919Z No services need to be restarted.
+2026-11-14T12:46:23.7331148Z 
+2026-11-14T12:46:23.7331286Z No containers need to be restarted.
+2026-11-14T12:46:23.7331511Z 
+2026-11-14T12:46:23.7331749Z No user sessions are running outdated binaries.
+2026-11-14T12:46:23.7331991Z 
+2026-11-14T12:46:23.7332293Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-11-14T12:46:24.7110775Z ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+2026-11-14T12:46:24.7111696Z built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+2026-11-14T12:46:24.7116258Z configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+2026-11-14T12:46:24.7120214Z libavutil      58. 29.100 / 58. 29.100
+2026-11-14T12:46:24.7120534Z libavcodec     60. 31.102 / 60. 31.102
+2026-11-14T12:46:24.7120826Z libavformat    60. 16.100 / 60. 16.100
+2026-11-14T12:46:24.7121129Z libavdevice    60.  3.100 / 60.  3.100
+2026-11-14T12:46:24.7121451Z libavfilter     9. 12.100 /  9. 12.100
+2026-11-14T12:46:24.7121825Z libswscale      7.  5.100 /  7.  5.100
+2026-11-14T12:46:24.7122131Z libswresample   4. 12.100 /  4. 12.100
+2026-11-14T12:46:24.7122426Z libpostproc    57.  3.100 / 57.  3.100
+2026-11-14T12:47:02.0383687Z ........................................................................ [ 23%]
+2026-11-14T12:47:12.1094901Z ........................................................................ [ 46%]
+2026-11-14T12:47:47.8674733Z ........................................................................ [ 70%]
+2026-11-14T12:48:24.9240991Z ........................................................................ [ 93%]
+2026-11-14T12:48:27.9203558Z ...................                                                      [100%]
+2026-11-14T12:48:27.9204487Z 307 passed in 121.97s (0:02:01)
+2026-11-14T12:48:28.0277345Z ##[group]Run actions/upload-artifact@v4
+2026-11-14T12:48:28.0277685Z with:
+2026-11-14T12:48:28.0278011Z   name: nana-core-feedback-1ca69e47184e3666f56674b2d69f3b20a9568f50
+2026-11-14T12:48:28.0278473Z   path: qualification-core.xml
+qualification-level.txt
+
+2026-11-14T12:48:28.0278808Z   retention-days: 14
+2026-11-14T12:48:28.0279121Z   if-no-files-found: warn
+2026-11-14T12:48:28.0279392Z   compression-level: 6
+2026-11-14T12:48:28.0279650Z   overwrite: false
+2026-11-14T12:48:28.0279942Z   include-hidden-files: false
+2026-11-14T12:48:28.0280241Z env:
+2026-11-14T12:48:28.0280515Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-14T12:48:28.0280796Z   NANA_FULL_QUALIFICATION: false
+2026-11-14T12:48:28.0281113Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+2026-11-14T12:48:28.0281488Z ##[endgroup]
+2026-11-14T12:48:28.1673387Z (node:4282) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T12:48:28.1674652Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T12:48:28.1727838Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-14T12:48:28.1736981Z The least common ancestor is /home/runner/work/nana-core/nana-core. This will be the root directory of the artifact
+2026-11-14T12:48:28.1738050Z With the provided path, there will be 2 files uploaded
+2026-11-14T12:48:28.1739171Z Artifact name is valid!
+2026-11-14T12:48:28.1739803Z Root directory input is valid!
+2026-11-14T12:48:28.4384278Z Beginning upload of artifact content to blob storage
+2026-11-14T12:48:28.4569025Z (node:4282) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-14T12:48:28.6059702Z Uploaded bytes 8836
+2026-11-14T12:48:28.6451718Z Finished uploading artifact content to blob storage!
+2026-11-14T12:48:28.6452786Z SHA256 digest of uploaded artifact zip is 693384ffd73c6fb34533592e26e27f243cd2e9177c4a2ed3100bf3d1290e893b
+2026-11-14T12:48:28.6453716Z Finalizing artifact upload
+2026-11-14T12:48:29.0182427Z Artifact nana-core-feedback-1ca69e47184e3666f56674b2d69f3b20a9568f50.zip successfully finalized. Artifact ID 14114820932
+2026-11-14T12:48:29.0184007Z Artifact nana-core-feedback-1ca69e47184e3666f56674b2d69f3b20a9568f50 has been successfully uploaded! Final size is 8836 bytes. Artifact ID is 14114820932
+2026-11-14T12:48:29.0189375Z Artifact download URL: https://github.com/xuni7-ui/nana-core/actions/runs/43596316182/artifacts/14114820932
+2026-11-14T12:48:29.0363589Z Post job cleanup.
+2026-11-14T12:48:29.1449618Z Cache hit occurred on key setup-uv-1-x86_64-unknown-linux-gnu-3.12.3-pruned-48be3f4bf66c68801976e70bdb51925112e98f5ebf16cce9e8009b1bada25498, not saving cache.
+2026-11-14T12:48:29.1451226Z (node:4296) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-14T12:48:29.1451937Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-14T12:48:29.1554564Z Post job cleanup.
+2026-11-14T12:48:29.2445099Z [command]/usr/bin/git version
+2026-11-14T12:48:29.2456491Z git version 2.56.1
+2026-11-14T12:48:29.2543040Z Temporarily overriding HOME='/home/runner/work/_temp/05aa0efa-33ce-49a3-ad4c-c8310dc0120c' before making global git config changes
+2026-11-14T12:48:29.2582021Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-14T12:48:29.2583297Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nana-core/nana-core
+2026-11-14T12:48:29.2586207Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-14T12:48:29.2591635Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-14T12:48:29.2810149Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-14T12:48:29.2840277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-14T12:48:29.3045946Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-14T12:48:29.3084982Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-14T12:48:29.3399717Z Cleaning up orphan processes
+2026-11-14T12:48:29.3668735Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4, astral-sh/setup-uv@v6. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

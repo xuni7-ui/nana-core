@@ -1,6 +1,12 @@
 /** A sanitized view of the existing host-local ProviderConfiguration v1.
  * These UI drafts are memory-only. They neither resolve secrets nor issue requests.
  */
+export interface ProviderCatalogPage {
+  models: string[];
+  truncated: boolean;
+  nextAfterId?: string;
+  retryAfterMs?: number;
+}
 export const coreOperations = [
   "COGNITION",
   "VISION",

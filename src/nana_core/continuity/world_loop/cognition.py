@@ -382,7 +382,8 @@ class OpenAIJSONTransport:
                 if stream_envelope is None and response.headers.get_content_type()!='application/json':raise TransportFailure('PROVIDER_PARTIAL_OR_UNSUPPORTED_STREAM')
             def observe(envelope,choice):
                 observed_usage=envelope.get('usage')
-                safe_usage={k:v for k,v in observed_usage.items() if k in {'prompt_tokens','completion_tokens','total_tokens','input_tokens','output_tokens'} and type(v) is int and v>=0} if type(observed_usage) is dict else None
+                from ..accounting import reported_usage_pair
+                safe_usage={k:v for k,v in observed_usage.items() if k in {'prompt_tokens','completion_tokens','total_tokens','input_tokens','output_tokens'}} if reported_usage_pair(observed_usage) is not None else None
                 self.last_response_metadata={'finish_reason':self._measurement_id(choice.get('finish_reason')),'model_returned':self._measurement_id(envelope.get('model')),'usage':safe_usage}
                 observation['relay_response_id']=self._measurement_id(envelope.get('id'));measure()
             proposal,actual_model,usage=self._parse_response(canonical(stream_envelope).encode() if stream_envelope is not None else raw,request,observe)
@@ -837,7 +838,16 @@ class CognitionSession:
             data['parser_diagnostic']=self.transport.last_parse_diagnostic.model_dump(mode='json')
             if self.transport.last_http_observation is not None:data['http_observation']=self.transport.last_http_observation.model_dump(mode='json')
             data['provider_metadata']=self.transport.last_response_metadata
-        with self.store.transaction('world.cognition_terminal',data) as tx:tx.update('cognitive_requests',row['request_id'],state=state,error_code=code)
+        with self.store.transaction('world.cognition_terminal',data) as tx:
+            tx.update('cognitive_requests',row['request_id'],state=state,error_code=code)
+            observation=data.get('http_observation') or {}
+            status=observation.get('response_http_status')
+            # Only this request's received HTTP response can supply consumption.
+            # An interrupted/no-response call still has unknown usage and billing.
+            if observation.get('raw_response_body_sha256') and type(status) is int and 200<=status<300:
+                from ..accounting import record_usage_metadata
+                metadata=data.get('provider_metadata') or {}
+                record_usage_metadata(tx,row['request_id'],'REAL_PROVIDER' if self.transport.remote else 'SYNTHETIC',metadata.get('usage'))
         return {'state':state,'request_id':row['request_id'],'error_code':code}
     def recover(self):
         rows=self.store.db.execute("SELECT * FROM cognitive_requests WHERE state='CALLING' OR (state='PREPARED' AND owner_epoch!=?)",(self.runtime.lease.epoch,)).fetchall()

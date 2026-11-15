@@ -1,8 +1,8 @@
-## 现役revision209 — 初始方法/经历可形成首个持续倾向，无须反馈
+## 现役revision226 — 复用原反馈可选G，独立实际后续使用已受控资格
 
-原C已采纳的当前有界方法+精确保留输入经同D/SELF可形成倾向、REST或短念；不预置私心、不强迫每聊保存/思考。新可选method_ref默认None的JSON/普通及SELF模型schema与精确649一致，原Store/Scheduler/C复用；新pending旧reader仍未资格。资格后才截32机会，40个未保留来源方法不挤掉有效旧来源，原索引实用/只读/替换/源撤回有效。精确649原8场景旧3fail5pass→202相关57.49s，后补原持久template停机重启1pass1.10s；1SELF48136bytes、物理family约0.99→1.58MB，不假称只有512字存储。首错均原样解释，见evidence/initial-method-tendency-20261114/README.md。
+核对确认原D反馈SELF已有原G可选入口，不重复开发src。新增受控资格：确切话轮方法意见→同C自愿LEARN/REST→原G独立评价/transfer→同身份重启同一新批准文件实际Kernel。LEARN选AST、3动作成功/goal完成；REST旧TOP_DEFS、2动作成功但质量goal失败。相同材料SHA、预算32768/2048/120000、各1SELF及45802wirebytes，后续新增模型0；撤回意见使方法停用但原私人关切保留。12pass10.88s，首次沿用非学习lesson断言失败已留；新增LEARN分支要求唯一匹配资格lesson，原非学习断言保留。见evidence/attributed-feedback-original-g-20261115/README.md。
 
-独立649 CI43575944398/job132390224233实际装ffmpeg/HTTP边界23pass28.22s，旧7ec396pass1fail保留，不是新初始源码独立PASS。7ec匹配候选仍真实有效但不含本批，未重包/APK/CURRENT；真实模型/手机/生产/自然度/长期待。下一先实测原D资源预览默认承诺路线是否提前否决合法私人候选，及≥64混合不合资格候选挤占；复用原C/规范/资源，不简单删条件。多倾向情感/G未见迁移及全部原A–H继续。
+仅测试/证据，业务源码仍aebb02a/225；不声称新开发了原G、学会安慰/一般交流或人格成长。模型选择/反馈都是fixture，真实模型/送达/手机/生产/自然度/长期未新增，无新包/APK/CURRENT。工作副本/workspace/nana-next-refinement-work，保护磁盘20万库与旧18bc；下一S3短长情感/多动机与原186通信方法消费者更广独立评价/反例/后续迁移，全部原A–H继承。
 
 ## 现役revision196
 

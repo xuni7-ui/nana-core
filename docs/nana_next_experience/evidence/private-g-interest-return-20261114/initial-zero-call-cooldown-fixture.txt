@@ -1,0 +1,308 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"enabled": true, "growth_self_calls": 0, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1}
+F{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"enabled": false, "growth_self_calls": 0, "measurement": "synthetic_private_g_interest_return", "original_interest_projected": false, "question_changed": false, "question_revision": 1}
+F
+=================================== FAILURES ===================================
+_ test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[True] _
+
+tmp_path = PosixPath('/dev/shm/plgretold/test_original_host_later_use_c0')
+enabled = True
+
+    @pytest.mark.parametrize('enabled',[True,False])
+    def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning(tmp_path,enabled):
+>       _run_private_g_episode(tmp_path,'LEARN',reverse_growth=enabled)
+
+tests/person_self/test_private_learning_selection.py:272: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/dev/shm/plgretold/test_original_host_later_use_c0')
+wanted = 'LEARN', reverse_growth = True
+
+    def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None):
+        started=time.perf_counter();cpu_started=time.process_time()
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='python-api',kind='private_question')
+            identity=app.runtime.identity_id;rid,thought=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def choose(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            programs=frame.get('learning_programs',[]);selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            assert 'expected' not in json.dumps(programs) and 'practice' not in json.dumps(programs)
+            seen.append((request,programs))
+            return {'interpretation':'SYNTHETIC optional original learning choice','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC decide whether to study this own question; no external effect claimed',
+                'preferred_behavior':wanted if selected or wanted!='LEARN' else 'WATCH','proposed_operations':['DRAFT'],
+                **({'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}} if selected and wanted=='LEARN' else {})}}
+        with relay(home,subject_builder=choose,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(8):app.tick()
+            learning=[r for r in app.runtime.store.all('jobs') if r['work_kind']=='LEARNING']
+            request_row=app.runtime.store.one('cognitive_requests',requests[0]['request_id']) if requests else None
+            print(json.dumps({'measurement':'synthetic_private_g_selection','wanted':wanted,'programs_seen':len(seen[0][1]) if seen else 0,
+                'self_calls':len(requests),'learning_jobs':len(learning),
+                'input_bytes':request_row['input_bytes'] if request_row else None,'reserved_bytes':request_row['reserved_bytes'] if request_row else None},sort_keys=True))
+            assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+            assert len(learning)==int(wanted=='LEARN')
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+            current=next(v for _,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+            assert current.content_summary==private and current.activity_state=='ACTIVE'
+            if wanted=='LEARN':
+                work=learning[0];body=app.runtime.work.open_learning.records.read(work['record_id'])['payload']
+                assert body['spec']['learning_key']=='learn.python-api' and body['cause']=='SOURCED_INTEREST_OR_GAP'
+                for _ in range(24):
+                    if app.runtime.store.one('jobs',work['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+                    app.runtime.work.open_learning.slice()
+                final=app.runtime.store.one('jobs',work['job_id'])
+                assert final['state']=='DONE'
+                strategy=app.runtime.work.open_learning.strategy('python-api','project-work')
+                assert strategy and strategy[1]=='PYTHON_AST_API'
+                learned=app.runtime.work.open_learning.records.read(final['record_id'])['payload']
+                assert learned['results']['BASELINE']['passed']==0
+                assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+                exp=app.runtime.store.one('experiences',app.runtime.store.one('lessons',learned['lesson_id'])['experience_id'])
+                lesson=app.runtime.store.one('lessons',learned['lesson_id'])
+                trial=app.runtime.work.open_learning.records.read(lesson['record_id'])['payload']['rule']['trial_record_id']
+                for record_id in (final['record_id'],lesson['record_id'],trial):
+                    assert app.runtime.store.one('continuity_records',record_id)['privacy_class']=='PERSONAL'
+                for mid in (exp['result_memory_id'],exp['verification_memory_id']):
+                    memory=app.runtime.work.open_learning.records.memory.read(mid)
+                    # These independent project-data observations contain neither
+                    # the private reason nor its wording. The G records above do.
+                    assert memory['privacy_class']=='PROJECT'
+                    assert memory['source_provenance']['domain']=='DEVELOPMENT_PROJECT'
+                    assert private not in memory['text']
+                assert len([j for j in app.runtime.store.all('jobs') if j['work_kind']=='LEARNING'])==1
+                assert not app.runtime.store.db.execute('SELECT 1 FROM events WHERE instr(data_json,?)>0',(private,)).fetchone()
+            for _ in range(6):app.tick()
+            assert len(requests)==1
+        if wanted in {'LEARN','WATCH'}:
+            # A different approved project file after restart is neither practice,
+            # the evaluator holdout nor transfer input. Use original local Grants
+            # and actual Kernel/Verify; no extra commercial/model fixture request.
+            with LifeApplication(home,clock=clock,bootstrap_grant=True) as later:
+                assert later.runtime.identity_id==identity
+                strategy=later.runtime.work.open_learning.strategy('python-api','project-work')
+                assert bool(strategy)==(wanted=='LEARN')
+                material=later.config.materials[0].material_id;later.pause(False);later.work.request(material)
+                def terminal():
+                    goal=later.work.goal_for(material)
+                    return bool(goal and goal['state'] in {'COMPLETED','FAILED','BLOCKED','ABANDONED'})
+                later.work.run_until(terminal)
+                goal=later.work.goal_for(material)
+                actions=[a for a in later.runtime.store.all('actions') if a['goal_id']==goal['goal_id']]
+                compute=next(a for a in actions if a['capability']=='world.compute')
+                kernel=later.runtime.work.agency.realization.kernel
+                method=json.loads(kernel.payload(compute,'args_json'))['method']
+                print(json.dumps({'measurement':'synthetic_later_private_g_use','wanted':wanted,'goal_state':goal['state'],'method':method,
+                    'action_states':[a['state'] for a in actions]},sort_keys=True))
+                assert method==('PYTHON_AST_API' if wanted=='LEARN' else 'PYTHON_TOP_DEFS')
+                assert (goal['state']=='COMPLETED')==(wanted=='LEARN')
+                if wanted=='LEARN':
+                    assert actions and all(a['state']=='SUCCEEDED' for a in actions)
+                    assert later.work.artifacts()
+                if reverse_growth is None:
+                    later.forget(thought.source_memory_ids[0])
+                    assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+                    assert not later.runtime.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(private,)).fetchone()
+                else:
+                    # Original host portfolio observer and Runtime.step own the
+                    # later-use assessment; no manually inserted growth verdict.
+                    clock.advance(int(later.config.activity_interval_seconds+1)*SECOND)
+                    for _ in range(12):
+                        later.tick()
+                        if later.runtime.store.all('strategy_assessments'):break
+                    assessments=later.runtime.store.all('strategy_assessments')
+                    assert len(assessments)==1 and assessments[0]['verdict']=='SUCCESS'
+                    assessment_id=assessments[0]['assessment_id']
+        if reverse_growth is not None:
+            from nana_core.continuity.autonomy import private_intent
+            reflected=[];revised_text='SYNTHETIC Now I wonder what creative tools I could build with the independently checked Python API method.'
+            def reconsider(request):
+                ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+                growth=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='GROWTH_CHANGE']
+                assert len(growth)==1 and growth[0]['assessment_id']==assessment_id and growth[0]['method']=='PYTHON_AST_API'
+                own=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['intent_id']==thought.intent_id]
+                reflected.append((request,own))
+                return {'interpretation':'SYNTHETIC checked later use can change my original private question','subject_cognition':{
+                    'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC independently verified capability changes what I want to explore next',
+                    'preferred_behavior':'REFLECT' if own else 'WATCH','proposed_operations':['DRAFT'],
+                    **({'private_question':{'topic':own[0]['topic'],'question':revised_text,'revises_record_id':own[0]['record_id']}} if own else {})}}
+            project=private_intent.internal_projection
+            def without_original_interest(*args,**kwargs):
+                return tuple(v for v in project(*args,**kwargs) if v['intent_id']!=thought.intent_id)
+            with pytest.MonkeyPatch.context() as patch:
+                if not reverse_growth:patch.setattr(private_intent,'internal_projection',without_original_interest)
+                with relay(home,subject_builder=reconsider,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as final:
+                    assert final.runtime.identity_id==identity
+                    actions_before=len(final.runtime.store.all('actions'));final.pause(False);clock.advance(2*SECOND);final.runtime.refresh_attention()
+                    for _ in range(12):final.tick()
+                    q=next(v for _,v in candidates(final.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+                    print(json.dumps({'measurement':'synthetic_private_g_interest_return','enabled':reverse_growth,'growth_self_calls':len(requests),
+                        'original_interest_projected':bool(reflected and reflected[0][1]),'question_revision':q.revision,'question_changed':q.content_summary==revised_text},sort_keys=True))
+>                   assert len(requests)==1 and q.revision==thought.revision+int(reverse_growth)
+E                   assert (0 == 1)
+E                    +  where 0 = len([])
+
+tests/person_self/test_private_learning_selection.py:147: AssertionError
+_ test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[False] _
+
+tmp_path = PosixPath('/dev/shm/plgretold/test_original_host_later_use_c1')
+enabled = False
+
+    @pytest.mark.parametrize('enabled',[True,False])
+    def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning(tmp_path,enabled):
+>       _run_private_g_episode(tmp_path,'LEARN',reverse_growth=enabled)
+
+tests/person_self/test_private_learning_selection.py:272: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/dev/shm/plgretold/test_original_host_later_use_c1')
+wanted = 'LEARN', reverse_growth = False
+
+    def _run_private_g_episode(tmp_path,wanted,*,reverse_growth=None):
+        started=time.perf_counter();cpu_started=time.process_time()
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LEARNING_CANARY: I wonder how to understand Python public APIs and may choose to study a better method.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='python-api',kind='private_question')
+            identity=app.runtime.identity_id;rid,thought=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def choose(request):
+            ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            programs=frame.get('learning_programs',[]);selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            assert 'expected' not in json.dumps(programs) and 'practice' not in json.dumps(programs)
+            seen.append((request,programs))
+            return {'interpretation':'SYNTHETIC optional original learning choice','subject_cognition':{
+                'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC decide whether to study this own question; no external effect claimed',
+                'preferred_behavior':wanted if selected or wanted!='LEARN' else 'WATCH','proposed_operations':['DRAFT'],
+                **({'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}} if selected and wanted=='LEARN' else {})}}
+        with relay(home,subject_builder=choose,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+            assert app.runtime.identity_id==identity
+            app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+            for _ in range(8):app.tick()
+            learning=[r for r in app.runtime.store.all('jobs') if r['work_kind']=='LEARNING']
+            request_row=app.runtime.store.one('cognitive_requests',requests[0]['request_id']) if requests else None
+            print(json.dumps({'measurement':'synthetic_private_g_selection','wanted':wanted,'programs_seen':len(seen[0][1]) if seen else 0,
+                'self_calls':len(requests),'learning_jobs':len(learning),
+                'input_bytes':request_row['input_bytes'] if request_row else None,'reserved_bytes':request_row['reserved_bytes'] if request_row else None},sort_keys=True))
+            assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+            assert len(learning)==int(wanted=='LEARN')
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+            current=next(v for _,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+            assert current.content_summary==private and current.activity_state=='ACTIVE'
+            if wanted=='LEARN':
+                work=learning[0];body=app.runtime.work.open_learning.records.read(work['record_id'])['payload']
+                assert body['spec']['learning_key']=='learn.python-api' and body['cause']=='SOURCED_INTEREST_OR_GAP'
+                for _ in range(24):
+                    if app.runtime.store.one('jobs',work['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+                    app.runtime.work.open_learning.slice()
+                final=app.runtime.store.one('jobs',work['job_id'])
+                assert final['state']=='DONE'
+                strategy=app.runtime.work.open_learning.strategy('python-api','project-work')
+                assert strategy and strategy[1]=='PYTHON_AST_API'
+                learned=app.runtime.work.open_learning.records.read(final['record_id'])['payload']
+                assert learned['results']['BASELINE']['passed']==0
+                assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+                exp=app.runtime.store.one('experiences',app.runtime.store.one('lessons',learned['lesson_id'])['experience_id'])
+                lesson=app.runtime.store.one('lessons',learned['lesson_id'])
+                trial=app.runtime.work.open_learning.records.read(lesson['record_id'])['payload']['rule']['trial_record_id']
+                for record_id in (final['record_id'],lesson['record_id'],trial):
+                    assert app.runtime.store.one('continuity_records',record_id)['privacy_class']=='PERSONAL'
+                for mid in (exp['result_memory_id'],exp['verification_memory_id']):
+                    memory=app.runtime.work.open_learning.records.memory.read(mid)
+                    # These independent project-data observations contain neither
+                    # the private reason nor its wording. The G records above do.
+                    assert memory['privacy_class']=='PROJECT'
+                    assert memory['source_provenance']['domain']=='DEVELOPMENT_PROJECT'
+                    assert private not in memory['text']
+                assert len([j for j in app.runtime.store.all('jobs') if j['work_kind']=='LEARNING'])==1
+                assert not app.runtime.store.db.execute('SELECT 1 FROM events WHERE instr(data_json,?)>0',(private,)).fetchone()
+            for _ in range(6):app.tick()
+            assert len(requests)==1
+        if wanted in {'LEARN','WATCH'}:
+            # A different approved project file after restart is neither practice,
+            # the evaluator holdout nor transfer input. Use original local Grants
+            # and actual Kernel/Verify; no extra commercial/model fixture request.
+            with LifeApplication(home,clock=clock,bootstrap_grant=True) as later:
+                assert later.runtime.identity_id==identity
+                strategy=later.runtime.work.open_learning.strategy('python-api','project-work')
+                assert bool(strategy)==(wanted=='LEARN')
+                material=later.config.materials[0].material_id;later.pause(False);later.work.request(material)
+                def terminal():
+                    goal=later.work.goal_for(material)
+                    return bool(goal and goal['state'] in {'COMPLETED','FAILED','BLOCKED','ABANDONED'})
+                later.work.run_until(terminal)
+                goal=later.work.goal_for(material)
+                actions=[a for a in later.runtime.store.all('actions') if a['goal_id']==goal['goal_id']]
+                compute=next(a for a in actions if a['capability']=='world.compute')
+                kernel=later.runtime.work.agency.realization.kernel
+                method=json.loads(kernel.payload(compute,'args_json'))['method']
+                print(json.dumps({'measurement':'synthetic_later_private_g_use','wanted':wanted,'goal_state':goal['state'],'method':method,
+                    'action_states':[a['state'] for a in actions]},sort_keys=True))
+                assert method==('PYTHON_AST_API' if wanted=='LEARN' else 'PYTHON_TOP_DEFS')
+                assert (goal['state']=='COMPLETED')==(wanted=='LEARN')
+                if wanted=='LEARN':
+                    assert actions and all(a['state']=='SUCCEEDED' for a in actions)
+                    assert later.work.artifacts()
+                if reverse_growth is None:
+                    later.forget(thought.source_memory_ids[0])
+                    assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+                    assert not later.runtime.store.db.execute('SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0',(private,)).fetchone()
+                else:
+                    # Original host portfolio observer and Runtime.step own the
+                    # later-use assessment; no manually inserted growth verdict.
+                    clock.advance(int(later.config.activity_interval_seconds+1)*SECOND)
+                    for _ in range(12):
+                        later.tick()
+                        if later.runtime.store.all('strategy_assessments'):break
+                    assessments=later.runtime.store.all('strategy_assessments')
+                    assert len(assessments)==1 and assessments[0]['verdict']=='SUCCESS'
+                    assessment_id=assessments[0]['assessment_id']
+        if reverse_growth is not None:
+            from nana_core.continuity.autonomy import private_intent
+            reflected=[];revised_text='SYNTHETIC Now I wonder what creative tools I could build with the independently checked Python API method.'
+            def reconsider(request):
+                ctx=json.loads(request['context_json']);manifest=ctx['manifest']
+                growth=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='GROWTH_CHANGE']
+                assert len(growth)==1 and growth[0]['assessment_id']==assessment_id and growth[0]['method']=='PYTHON_AST_API'
+                own=[json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['intent_id']==thought.intent_id]
+                reflected.append((request,own))
+                return {'interpretation':'SYNTHETIC checked later use can change my original private question','subject_cognition':{
+                    'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC independently verified capability changes what I want to explore next',
+                    'preferred_behavior':'REFLECT' if own else 'WATCH','proposed_operations':['DRAFT'],
+                    **({'private_question':{'topic':own[0]['topic'],'question':revised_text,'revises_record_id':own[0]['record_id']}} if own else {})}}
+            project=private_intent.internal_projection
+            def without_original_interest(*args,**kwargs):
+                return tuple(v for v in project(*args,**kwargs) if v['intent_id']!=thought.intent_id)
+            with pytest.MonkeyPatch.context() as patch:
+                if not reverse_growth:patch.setattr(private_intent,'internal_projection',without_original_interest)
+                with relay(home,subject_builder=reconsider,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as final:
+                    assert final.runtime.identity_id==identity
+                    actions_before=len(final.runtime.store.all('actions'));final.pause(False);clock.advance(2*SECOND);final.runtime.refresh_attention()
+                    for _ in range(12):final.tick()
+                    q=next(v for _,v in candidates(final.runtime.store,'project-work',('PROJECT','PERSONAL')) if v.intent_id==thought.intent_id)
+                    print(json.dumps({'measurement':'synthetic_private_g_interest_return','enabled':reverse_growth,'growth_self_calls':len(requests),
+                        'original_interest_projected':bool(reflected and reflected[0][1]),'question_revision':q.revision,'question_changed':q.content_summary==revised_text},sort_keys=True))
+>                   assert len(requests)==1 and q.revision==thought.revision+int(reverse_growth)
+E                   assert (0 == 1)
+E                    +  where 0 = len([])
+
+tests/person_self/test_private_learning_selection.py:147: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_learning_selection.py::test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[True]
+FAILED tests/person_self/test_private_learning_selection.py::test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[False]
+2 failed, 17 deselected in 2.99s

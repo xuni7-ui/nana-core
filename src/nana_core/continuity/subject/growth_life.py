@@ -5,11 +5,13 @@ and a distinct later verified use may become C attention, not mandatory sharing.
 """
 import json
 from typing import Literal
+from pydantic import Field,model_serializer
 from ...contracts import DTO,CoreError
 from ...storage import digest
 from ..records import RecordService
 
 class GrowthChangeView(DTO):
+    basis_private_record_ids:tuple[str,...]=Field(default=(),max_length=1)
     derived: Literal[True] = True
     assessment_id: str
     lesson_id: str
@@ -21,6 +23,12 @@ class GrowthChangeView(DTO):
     source_memory_ids: tuple[str,...]
     as_of_us: int
     state_token: str
+
+    @model_serializer(mode='wrap')
+    def compatible_origin(self,handler):
+        value=handler(self)
+        if not self.basis_private_record_ids:value.pop('basis_private_record_ids',None)
+        return value
 
 def project(store,assessment_id,*,scope,privacy_classes):
     if store.schema_target<13:return None
@@ -48,9 +56,32 @@ def project(store,assessment_id,*,scope,privacy_classes):
         if body.get('strategy_episode')==review['episode']:verified.append(mid)
     if not verified:return None
     refs=(row['record_id'],lesson['record_id'])
+    basis=()
+    work=store.one('jobs',trial.get('work_id')) if trial.get('work_id') else None
+    if work and work['work_kind']=='LEARNING':
+        head=store.one('continuity_records',work['record_id'])
+        if (head and head['scope']==scope and head['privacy_class'] in privacy_classes
+                and head['lifecycle']=='ACTIVE' and records.current_support(head['record_id'])):
+            body=records.read(head['record_id'])['payload'];origin=body.get('origin_private_thought_ref')
+            binding=body.get('context_binding')
+            if (body.get('lesson_id')==lesson['lesson_id'] and type(origin) is dict and type(binding) is dict
+                    and type(binding.get('entity_id')) is str and type(binding.get('topic')) is str):
+                from .opportunities import PrivateIntentRef
+                from ..autonomy.private_intent import internal_projection,growth_origin_target
+                from .context_fit import depth_boundary
+                try:reference=PrivateIntentRef.model_validate_json(json.dumps(origin))
+                except ValueError:reference=None
+                current=growth_origin_target(store,reference,scope=scope,privacy_classes=privacy_classes,topic=binding['topic']) if reference else None
+                selected=internal_projection(store,(current[0],),scope=scope,privacy_classes=privacy_classes,include_associations=False) if current else ()
+                if (selected and not depth_boundary(store,binding['entity_id'],scope,binding['topic'],privacy_classes,purpose='COGNITION')[0]):
+                    basis=(current[0],)
+    # Opportunity identity follows the checked outcome, never its current
+    # private projection; revising the thought must not repeat this same wake.
+    state_token=digest([refs,lesson['revision']])
+    refs=(*refs,*basis)
     mids=tuple(dict.fromkeys(m for r in refs for m in records.support(r)))
     if len(mids)>32:return None
-    return GrowthChangeView(assessment_id=assessment_id,lesson_id=lesson['lesson_id'],experience_id=lesson['experience_id'],topic='growth.'+digest(lesson['task_class'])[:24],scope=scope,method=rule['method'],source_record_ids=refs,source_memory_ids=mids,as_of_us=store.clock.utc_now_us(),state_token=digest([refs,lesson['revision']]))
+    return GrowthChangeView(basis_private_record_ids=basis,assessment_id=assessment_id,lesson_id=lesson['lesson_id'],experience_id=lesson['experience_id'],topic='growth.'+digest(lesson['task_class'])[:24],scope=scope,method=rule['method'],source_record_ids=refs,source_memory_ids=mids,as_of_us=store.clock.utc_now_us(),state_token=state_token)
 
 def opportunities(store,*,scope,privacy_classes):
     if store.schema_target<13:return ()
@@ -60,6 +91,23 @@ def opportunities(store,*,scope,privacy_classes):
         view=project(store,row[0],scope=scope,privacy_classes=privacy_classes)
         if view and view.lesson_id not in lessons:result.append(view);lessons.add(view.lesson_id)
     return tuple(result)
+
+def context_projection(store,subject_event_id,*,scope,entity_id,privacy_classes,selected_record_ids):
+    """Only the actual C-selected, independently qualified growth occurrence.
+
+    No history scan and no inferred mood, interest, adopted goal or permission.
+    Ordinary expression contexts have no subject frame and never call this.
+    """
+    if store.schema_target<13:return None
+    source=store.one('subject_events',subject_event_id)
+    if not source or source['scope']!=scope or source['entity_id']!=entity_id or not source['record_id']:return None
+    head=store.one('continuity_records',source['record_id']);records=RecordService(store)
+    if not head or head['privacy_class'] not in privacy_classes or not records.current_support(head['record_id']):return None
+    event=records.read(head['record_id'])['payload']['input']
+    if event['origin']!='SELF_WAKE' or not event.get('growth_assessment_id'):return None
+    value=project(store,event['growth_assessment_id'],scope=scope,privacy_classes=privacy_classes)
+    if value and set(value.source_record_ids)<=set(selected_record_ids):return value
+    return None
 
 def availability(store,entity_id,*,scope,privacy_classes):
     """Use existing recipient observations. Silence is not low social appetite."""

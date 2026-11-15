@@ -1,0 +1,11 @@
+{
+  "source_commit": "9291f1e5f76f799b8b4bda056418dd390d1a57ea",
+  "core_sha256": "1b71be7c7527f30d5458e9e2bf8605740122ea7887c22665f51df815d70937ef",
+  "web_sha256": "cf6a1916709531f7dee909ad3c139f88f623d1588b96d1d03e977565297fd8e6",
+  "web_bytes": 628308,
+  "core_files": 285,
+  "web_two_archives_match": true,
+  "APK": "NOT_BUILT",
+  "CURRENT_updated": false,
+  "production_changed": false
+}

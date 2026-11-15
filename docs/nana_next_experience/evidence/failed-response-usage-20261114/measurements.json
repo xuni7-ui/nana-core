@@ -1,0 +1,151 @@
+{
+  "origin": "SYNTHETIC_FIXTURE_NOT_COMMERCIAL_USAGE",
+  "samples": [
+    {
+      "source": "old",
+      "calls": 1,
+      "input_tokens": null,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "partial",
+      "output_tokens": null,
+      "reported_calls": 0,
+      "state": "FAILED"
+    },
+    {
+      "source": "old",
+      "calls": 1,
+      "input_tokens": null,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "refusal",
+      "output_tokens": null,
+      "reported_calls": 0,
+      "state": "FAILED"
+    },
+    {
+      "source": "old",
+      "calls": 1,
+      "input_tokens": null,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "malformed",
+      "output_tokens": null,
+      "reported_calls": 0,
+      "state": "FAILED"
+    },
+    {
+      "source": "old",
+      "calls": 1,
+      "input_tokens": null,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "rate_limit",
+      "output_tokens": null,
+      "reported_calls": 0,
+      "state": "FAILED"
+    },
+    {
+      "source": "old",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "ok",
+      "output_tokens": 4,
+      "state": "PROPOSED"
+    },
+    {
+      "source": "old",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "thinking",
+      "output_tokens": 4,
+      "state": "PROPOSED"
+    },
+    {
+      "source": "new",
+      "calls": 1,
+      "input_tokens": 10,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "partial",
+      "output_tokens": 10,
+      "reported_calls": 1,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "calls": 1,
+      "input_tokens": 10,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "refusal",
+      "output_tokens": 10,
+      "reported_calls": 1,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "calls": 1,
+      "input_tokens": 10,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "malformed",
+      "output_tokens": 10,
+      "reported_calls": 1,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "calls": 1,
+      "input_tokens": null,
+      "measurement": "synthetic_failed_provider_usage",
+      "mode": "rate_limit",
+      "output_tokens": null,
+      "reported_calls": 0,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "ok",
+      "output_tokens": 4,
+      "state": "PROPOSED"
+    },
+    {
+      "source": "new",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "thinking",
+      "output_tokens": 4,
+      "state": "PROPOSED"
+    },
+    {
+      "source": "new",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "truncated",
+      "output_tokens": 4,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "tool",
+      "output_tokens": 4,
+      "state": "FAILED"
+    },
+    {
+      "source": "new",
+      "http_calls": 1,
+      "input_tokens": 15,
+      "measurement": "synthetic_native_response_usage",
+      "mode": "refusal",
+      "output_tokens": 4,
+      "state": "FAILED"
+    }
+  ],
+  "extra_model_stages": 0,
+  "actual_provider_usage": null,
+  "actual_fees": null
+}

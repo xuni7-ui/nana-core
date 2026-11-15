@@ -1,0 +1,3 @@
+{"closed_thoughts": 64, "collector_opportunities": 1, "configured_input_tokens": 32768, "input_bytes": 52351, "latency_us": 3408, "measurement": "synthetic_mixed_attention_eligibility", "open_method_offered": true, "reserved_bytes": 64640, "self_http_calls": 1, "total_http_calls": 3}
+..
+2 passed in 6.58s

@@ -1,0 +1,34 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f89c18e85c0>
+
+    def test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound(monkeypatch):
+        from urllib.parse import urlsplit,parse_qs
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        class Opener:
+            def open(self,request,timeout):
+                url=urlsplit(request.full_url);query=parse_qs(url.query)
+                assert url.hostname=='catalog.example' and url.path=='/v1/models'
+                assert set(query)<= {'after_id'} and 0<timeout<=10
+                assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.get_header('Authorization') is None and request.data is None
+                index=int(query['after_id'][0].rsplit('-',1)[1])+1 if query else 1
+                calls.append(index);last='native.page-'+str(index)
+                return Response(json.dumps({'data':[{'id':last}],'has_more':index<10,'last_id':last}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        first=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+>       assert first['truncated'] and first.get('next_after_id')=='native.page-8'
+E       AssertionError: assert (True and None == 'native.page-8')
+E        +  where None = <built-in method get of dict object at 0x7f89c16acb40>('next_after_id')
+E        +    where <built-in method get of dict object at 0x7f89c16acb40> = {'models': ['native.page-1', 'native.page-2', 'native.page-3', 'native.page-4', 'native.page-5', 'native.page-6', ...], 'truncated': True}.get
+
+tests/first_life_android_v2/test_provider_models.py:196: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound
+1 failed, 17 deselected in 0.61s

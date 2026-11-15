@@ -1,0 +1,13 @@
+--- original-f93-memory.py
++++ isolated-not_exists-memory.py
+@@ -410,8 +410,8 @@
+                 # opened. Unindexed notes remain in the candidate set, including
+                 # notes written by old versions and payloads over the gram cap.
+                 prefix+=("unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m"+coverage_hint+
+-                    " WHERE "+where+USER_NOTE_HEADER_QUALIFICATION+" AND m.memory_type='SEMANTIC' EXCEPT "
+-                    "SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term=?), "
++                    " WHERE "+where+USER_NOTE_HEADER_QUALIFICATION+" AND m.memory_type='SEMANTIC' AND NOT EXISTS (SELECT 1 "
++                    "FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term=? AND memory_id=m.memory_id)), "
+                     "candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION "
+                     "SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ("+
+                     ','.join('?' for _ in grams)+")), ")

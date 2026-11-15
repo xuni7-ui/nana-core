@@ -1,0 +1,39 @@
+.............{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "partial", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "refusal", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": 10, "measurement": "synthetic_failed_provider_usage", "mode": "malformed", "output_tokens": 10, "reported_calls": 1, "state": "FAILED"}
+.{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "rate_limit", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+...F.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "ok", "output_tokens": 4, "state": "PROPOSED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "thinking", "output_tokens": 4, "state": "PROPOSED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "truncated", "output_tokens": 4, "state": "FAILED"}
+.{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "tool", "output_tokens": 4, "state": "FAILED"}
+..{"http_calls": 1, "input_tokens": 15, "measurement": "synthetic_native_response_usage", "mode": "refusal", "output_tokens": 4, "state": "FAILED"}
+...
+=================================== FAILURES ===================================
+_ test_previous_usage_does_not_leak_into_unknown_request_and_independent_request_can_continue _
+
+tmp_path = PosixPath('/dev/shm/funew2/test_previous_usage_does_not_l0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6ede5aa4e0>
+
+    def test_previous_usage_does_not_leak_into_unknown_request_and_independent_request_can_continue(tmp_path,monkeypatch):
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from tests.world_loop.helpers import fresh,capture,policy
+        with provider_harness(mode='partial') as (port,wire),fresh(tmp_path/'self.db') as runtime:
+            session=CognitionSession(runtime,port,policy());mid=capture(runtime,'separate-requests',{'fact':'SYNTHETIC independent requests'})
+            first=session.prepare('partial-response','INTERPRET',(mid,));assert session.execute(first)['state']=='FAILED'
+            before=resource_state(runtime.store,runtime.config)
+            def no_response(*args,**kwargs):raise TimeoutError('SYNTHETIC no provider response')
+            original=port.opener.open;monkeypatch.setattr(port.opener,'open',no_response)
+            second=session.prepare('no-response','INTERPRET',(mid,));assert session.execute(second)['state']=='UNKNOWN'
+            after=resource_state(runtime.store,runtime.config)
+            assert after.fixture_usage_reported_calls==1 and after.fixture_reported_input_tokens==10
+            assert after.usage_missing_or_invalid_calls==1 and after.unresolved_terminal_calls==1 and after.unknown_cost_calls==2
+>           assert after.reserved_estimated_cost_micro>before.reserved_estimated_cost_micro
+E           AssertionError: assert 0 > 0
+E            +  where 0 = ResourceState(derived=True, accounting='CONSERVATIVE_RESERVATIONS_NOT_PROVIDER_BILLING', calls=2, reserved_bytes=74055...ounting='UPSTREAM_REPORTED_NOT_BYTES_OR_BILLING;FIXTURE_SEPARATE;MISSING_NOT_ZERO', external_execution_authority=False).reserved_estimated_cost_micro
+E            +  and   0 = ResourceState(derived=True, accounting='CONSERVATIVE_RESERVATIONS_NOT_PROVIDER_BILLING', calls=1, reserved_bytes=37027...ounting='UPSTREAM_REPORTED_NOT_BYTES_OR_BILLING;FIXTURE_SEPARATE;MISSING_NOT_ZERO', external_execution_authority=False).reserved_estimated_cost_micro
+
+tests/person_self/test_reported_usage.py:197: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_reported_usage.py::test_previous_usage_does_not_leak_into_unknown_request_and_independent_request_can_continue
+1 failed, 28 passed in 7.24s

@@ -1,0 +1,80 @@
+FF...
+=================================== FAILURES ===================================
+_ test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[PAUSED] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-new/test_normal_provider_c_can_exp0')
+wanted = 'PAUSED'
+
+    @pytest.mark.parametrize('wanted',['PAUSED','ABANDONED'])
+    def test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle(tmp_path,wanted):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LIFECYCLE_CANARY: an own question I may keep, pause, or leave without declaring any external effect.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='own-lifecycle')
+            old_rid,old=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            identity=app.runtime.identity_id;source=old.source_memory_ids[0]
+        cfg=load_config(home)
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def inner(request):
+            package=json.loads(request['context_json']);manifest=package['manifest']
+            values=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+            value=next(v for v in values if v['record_id']==old_rid);assert value['activity_state']=='ACTIVE'
+            offered='activity_state' in request['expected_schema']['$defs']['PrivateTendencyProposal']['properties']
+            seen.append(request)
+            return {'interpretation':'SYNTHETIC choose the lifespan of only this own idea',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC pause or end attention without claiming an action or erasing history',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':'own-lifecycle','tendency':private,'revises_record_id':old_rid,
+                        **({'activity_state':wanted} if offered else {})}}}
+        with relay(home,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+>               rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==old.intent_id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               StopIteration
+
+tests/person_self/test_private_lifecycle_choice.py:43: StopIteration
+_ test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[ABANDONED] _
+
+tmp_path = PosixPath('/dev/shm/lifecycle-new/test_normal_provider_c_can_exp1')
+wanted = 'ABANDONED'
+
+    @pytest.mark.parametrize('wanted',['PAUSED','ABANDONED'])
+    def test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle(tmp_path,wanted):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_LIFECYCLE_CANARY: an own question I may keep, pause, or leave without declaring any external effect.'
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();form(app,text=private,topic='own-lifecycle')
+            old_rid,old=candidates(app.runtime.store,'project-work',('PROJECT',))[0]
+            identity=app.runtime.identity_id;source=old.source_memory_ids[0]
+        cfg=load_config(home)
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=cfg.revision)
+        def inner(request):
+            package=json.loads(request['context_json']);manifest=package['manifest']
+            values=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE']
+            value=next(v for v in values if v['record_id']==old_rid);assert value['activity_state']=='ACTIVE'
+            offered='activity_state' in request['expected_schema']['$defs']['PrivateTendencyProposal']['properties']
+            seen.append(request)
+            return {'interpretation':'SYNTHETIC choose the lifespan of only this own idea',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC pause or end attention without claiming an action or erasing history',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':'own-lifecycle','tendency':private,'revises_record_id':old_rid,
+                        **({'activity_state':wanted} if offered else {})}}}
+        with relay(home,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+>               rid,item=next((r,v) for r,v in candidates(app.runtime.store,'project-work',('PROJECT',)) if v.intent_id==old.intent_id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               StopIteration
+
+tests/person_self/test_private_lifecycle_choice.py:43: StopIteration
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[PAUSED]
+FAILED tests/person_self/test_private_lifecycle_choice.py::test_normal_provider_c_can_explicitly_set_one_existing_thought_lifecycle[ABANDONED]
+2 failed, 3 passed in 2.00s

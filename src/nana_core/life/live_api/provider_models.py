@@ -6,6 +6,7 @@ No credentials, remote bodies or catalog text enter Subject memory or logs.
 """
 
 import json
+import math
 import re
 import time
 import urllib.error
@@ -22,7 +23,7 @@ from .contracts import ApiError, Role
 MODEL_ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}')
 
 
-def read_catalog(profile, credential):
+def read_catalog(profile, credential, *, after_id=None):
     """Bounded explicit catalog GETs, never inference or automatic retries.
 
     Native Anthropic pagination stays on the configured URL and shares a ten
@@ -30,6 +31,10 @@ def read_catalog(profile, credential):
     Missing/invalid/repeated cursors or exhausted bounds return partial truth.
     """
     native=profile.protocol=='ANTHROPIC'
+    if after_id is not None:
+        if type(after_id) is not str or not MODEL_ID.fullmatch(after_id) or credential in after_id:
+            raise ApiError('PROVIDER_CATALOG_CURSOR_INVALID',400)
+        if not native:raise ApiError('PROVIDER_CATALOG_CURSOR_UNSUPPORTED',409)
     if profile.protocol not in {'OPENAI_COMPATIBLE_CHAT','ANTHROPIC'}:
         raise ApiError('PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED',409)
     headers={'Accept':'application/json'}
@@ -40,12 +45,16 @@ def read_catalog(profile, credential):
     base=profile.base_url.rstrip('/')+'/models'
     opener=urllib.request.build_opener(_NoRedirect())
     deadline=time.monotonic()+10
-    ids,seen_cursors=set(),set()
-    total_bytes=0;cursor=None
+    ids,seen_cursors=set(),{after_id} if after_id else set()
+    total_bytes=0;cursor=after_id;continuation=None
+    def partial():
+        result={'models':sorted(ids)[:256],'truncated':True}
+        if continuation is not None and len(ids)<=256:result['next_after_id']=continuation
+        return result
     try:
         for page in range(8):
             remaining=10 if page==0 else deadline-time.monotonic()
-            if remaining<=0:return {'models':sorted(ids)[:256],'truncated':True}
+            if remaining<=0:return partial()
             url=base if cursor is None else base+'?'+urlencode({'after_id':cursor})
             request=urllib.request.Request(url,headers=headers)
             with opener.open(request,timeout=remaining) as response:
@@ -65,14 +74,15 @@ def read_catalog(profile, credential):
             has_more=value.get('has_more',False) if native else False
             if type(has_more) is not bool:raise ApiError('PROVIDER_CATALOG_FORMAT',502)
             if not has_more:return {'models':sorted(ids)[:256],'truncated':len(ids)>256}
-            if len(ids)>=256 or total_bytes>=262144:break
+            continuation=None
             next_cursor=value.get('last_id')
             if (type(next_cursor) is not str or not MODEL_ID.fullmatch(next_cursor) or credential in next_cursor
                     or not rows or next_cursor!=rows[-1]['id'] or next_cursor in seen_cursors):break
             # A server-provided cursor is data, never a URL or a new credential
             # destination. It may advance one page, never retry an old page.
-            seen_cursors.add(next_cursor);cursor=next_cursor
-        return {'models':sorted(ids)[:256],'truncated':True}
+            seen_cursors.add(next_cursor);cursor=next_cursor;continuation=next_cursor
+            if len(ids)>=256 or total_bytes>=262144:break
+        return partial()
     except urllib.error.HTTPError as exc:
         status=exc.code
         exc.close()
@@ -81,7 +91,7 @@ def read_catalog(profile, credential):
         raise ApiError('PROVIDER_CATALOG_UNAVAILABLE',502) from None
 
 
-def discover(service, principal, provider_id, revision):
+def discover(service, principal, provider_id, revision, after_id=None):
     principal.require(Role.HOST_ADMIN)
     if not service.allow_provider_configuration or service.credential_resolver is None:
         raise ApiError('PROVIDER_CONFIGURATION_DISABLED', 403)
@@ -93,6 +103,8 @@ def discover(service, principal, provider_id, revision):
             raise ApiError('PROVIDER_CONFIG_REVISION_CONFLICT', 409)
         if not profile.enabled or profile.protocol not in {'OPENAI_COMPATIBLE_CHAT','ANTHROPIC'} or profile.locality!='REMOTE':
             raise ApiError('PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED', 409)
+        if after_id is not None and profile.protocol!='ANTHROPIC':
+            raise ApiError('PROVIDER_CATALOG_CURSOR_UNSUPPORTED',409)
         host = urlsplit(profile.base_url).hostname
         if host not in load_config(service.supervisor.home).provider_hosts:
             raise ApiError('PROVIDER_HOST_NOT_AUTHORIZED', 403)
@@ -106,12 +118,15 @@ def discover(service, principal, provider_id, revision):
             service.provider_catalog_after = now+10
         secret = service.credential_resolver.resolve(profile.secret_ref)
         try:
-            result = read_catalog(profile, secret.reveal_for_header())
+            result = (read_catalog(profile, secret.reveal_for_header()) if after_id is None
+                else read_catalog(profile, secret.reveal_for_header(),after_id=after_id))
         finally:
             secret.clear()
         if config_service.load().revision!=config.revision:
             raise ApiError('PROVIDER_CONFIG_REVISION_CONFLICT', 409)
+        result={**result,'retry_after_ms':max(0,min(10000,math.ceil((service.provider_catalog_after-time.monotonic())*1000)))}
         return service.envelope({**result, 'provider_profile_id':provider_id,
+            **({'continued_after_id':after_id} if after_id is not None else {}),
             'profile_revision':revision, 'source':'PROVIDER_CATALOG',
             'qualification':'NOT_ESTABLISHED', 'inference_calls':0,
             'configuration_changed':False}, principal=principal)

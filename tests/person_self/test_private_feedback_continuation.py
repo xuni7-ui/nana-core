@@ -27,7 +27,7 @@ def wording(request):
     return 'SYNTHETIC listening method' if choice and choice['approach']=='LISTEN' else 'SYNTHETIC ordinary-chat method'
 
 
-@pytest.mark.parametrize('choice',['revise','rest','source-race'])
+@pytest.mark.parametrize('choice',['revise','rest','source-race','revise-current','rest-current-revision','learn','rest-future'])
 def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice(tmp_path,choice):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();feedback=[];self_requests=[]
     def inner(request):
@@ -38,7 +38,16 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
         grounded=bool(own and feedback and feedback[0] in frame['source_memory_ids'] and any(
             v.get('human_judgment')=='REJECTED' and 'ordinary chat would suit' in v.get('exact_feedback_excerpt','')
             and v['effect_status']=='NOT_EVALUATED_NO_EFFECT_INFERRED' and not v['human_read_proven'] for v in opinions))
-        if grounded and choice=='rest':
+        if grounded and choice=='learn':
+            programs=frame.get('learning_programs',[])
+            selected=next((p for p in programs if p['learning_key']=='learn.python-api'),None)
+            assert selected and all(set(p)=={'learning_key','spec_digest','domain'} for p in programs)
+            return {'interpretation':'SYNTHETIC a method opinion is one opportunity; choose an independently evaluable own question, not an emotional intervention',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC voluntarily study an existing original G problem; the emotional effect remains unknown',
+                    'preferred_behavior':'LEARN','proposed_operations':['DRAFT'],
+                    'learning_program_ref':{k:selected[k] for k in ('learning_key','spec_digest')}}}
+        if grounded and choice in {'rest','rest-current-revision','rest-future'}:
             return {'interpretation':'SYNTHETIC actual opinion considered; rest rather than compulsory learning','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC choose rest without declaring that the method worked','preferred_behavior':'REST','proposed_operations':['WAIT']}}
         return {'interpretation':'SYNTHETIC reconsider a bounded explicit opinion, not emotional effectiveness','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC own care can use a different method without claiming a changed mood','proposed_operations':['DRAFT'] if grounded else ['WAIT'],**({'private_tendency':{'topic':'own-concern','tendency':'SYNTHETIC I still care, but prefer ordinary-chat after this explicit opinion; the actual emotional effect is unknown.','revises_record_id':own[0]['record_id']}} if grounded else {})}}
     with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
@@ -46,6 +55,10 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             app.pause();form(app);identity=app.runtime.identity_id;first_id,first=current(app)[0]
             before=app.chat('SYNTHETIC initial related situation',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='before')
             assert before['text']=='SYNTHETIC listening method'
+            if choice in {'revise-current','rest-current-revision'}:
+                form(app,'interim-own-view','SYNTHETIC I still care, while reconsidering my own concern independently of this feedback.',topic='own-concern',revision=first_id)
+                first_id=current(app)[0][0]
+            prior_text=current(app)[0][1].content_summary
             service=LanguageService(app.runtime.store,app.runtime.authority)
             sample=LanguageSample(sample_id='explicit-own-method-opinion',review_target=before['exchange_record_id'],mode='CASUAL',context='SYNTHETIC exact retained local conversation',candidate_response=before['text'],human_judgment='REJECTED',exact_feedback='SYNTHETIC ordinary chat would suit this conversation better.',reason_tags=('TOO_FORMAL',),provenance='PROJECT_SYNTHETIC',observed_at_us=clock.utc_now_us())
             review=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=before['exchange_record_id'])
@@ -77,6 +90,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             assert len(self_requests)==1
             new_id,tendency=current(app)[0]
             measure=app.runtime.store.one('cognitive_requests',self_requests[0]['request_id'])
+            assert feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids']
             print(json.dumps({'measurement':'synthetic_private_feedback','variant':choice,
                 'self_http_calls':len(self_requests),'http_calls_so_far':len(requests),
                 'budget':self_requests[0]['budget'],'input_bytes':measure['input_bytes'],
@@ -85,10 +99,28 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 'feedback_in_frame':feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids'],
                 'tendency_revised':new_id!=first_id,'sqlite_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists()),
                 'record_count':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
-            if choice=='revise':assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
-            else:assert new_id==first_id and tendency.content_summary==PRIVATE
+            if choice in {'revise','revise-current'}:assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
+            else:assert new_id==first_id and tendency.content_summary==prior_text
+            if choice=='learn':
+                jobs=[j for j in app.runtime.store.all('jobs') if j['work_kind']=='LEARNING'];assert len(jobs)==1
+                g=app.runtime.work.open_learning
+                for _ in range(24):
+                    if app.runtime.store.one('jobs',jobs[0]['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+                    g.slice()
+                work=app.runtime.store.one('jobs',jobs[0]['job_id']);assert work['state']=='DONE'
+                learned=g.records.read(work['record_id'])['payload']
+                assert learned['results']['BASELINE']['passed']==0
+                assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+                assert g.strategy('python-api','project-work')[1]=='PYTHON_AST_API'
+                assert len(self_requests)==1
+                print(json.dumps({'measurement':'synthetic_attributed_feedback_optional_original_g','choice':choice,
+                    'original_g_stages':list(learned['results']),'learning_jobs':len(jobs),'self_calls':len(self_requests),
+                    'learned_method':'PYTHON_AST_API','communication_effect':'NOT_EVALUATED','tendency_not_rewritten':new_id==first_id}))
             assert tendency.intent_id==first.intent_id
-            if choice=='rest':
+            if choice in {'rest','rest-current-revision'}:
+                if choice=='rest-current-revision':
+                    form(app,'independent-revision-after-opinion',prior_text+' A new own thought, not a new opinion.',topic='own-concern',revision=new_id)
+                    assert current(app)[0][0]!=new_id
                 alias=sample.model_copy(update={'sample_id':'same-opinion-alias','observed_at_us':clock.utc_now_us()})
                 language=LanguageService(app.runtime.store,app.runtime.authority)
                 alias_id=language.record(alias,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority,exchange_record_id=before['exchange_record_id'])
@@ -99,13 +131,44 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes
             app.pause()
             after=app.chat('SYNTHETIC a different later conversation',topic='own-concern',privacy='PROJECT',message_id='after')
-            assert after['text']==('SYNTHETIC ordinary-chat method' if choice=='revise' else 'SYNTHETIC listening method')
+            assert after['text']==('SYNTHETIC ordinary-chat method' if choice in {'revise','revise-current'} else 'SYNTHETIC listening method')
             assert not any('exact_feedback_excerpt' in json.loads(b['data_json']) for b in json.loads(requests[-1]['context_json'])['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK')
             assert tendency.content_summary not in requests[-1]['context_json']
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
-            assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
-            app.forget(feedback[0])
-            assert (not current(app)) if choice=='revise' else current(app)[0][1].content_summary==PRIVATE
+            if choice=='learn':
+                active=[v for v in app.runtime.store.all('lessons') if v['state']=='ACTIVE']
+                assert len(active)==1 and active[0]['lesson_id']==learned['lesson_id']
+            else:
+                assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
+                if choice!='rest-future':app.forget(feedback[0])
+                assert (not current(app)) if choice in {'revise','revise-current'} else current(app)[0][1].content_summary.startswith(prior_text)
+        if choice in {'learn','rest-future'}:
+            # The original G method must actually matter after restart, on a
+            # different approved file, under explicit isolated local Grants.
+            with LifeApplication(home,clock=clock,bootstrap_grant=True) as later:
+                assert later.runtime.identity_id==identity
+                requests_before=len(requests);material=later.config.materials[0].material_id
+                later.pause(False);later.work.request(material)
+                def terminal():
+                    goal=later.work.goal_for(material)
+                    return bool(goal and goal['state'] in {'COMPLETED','FAILED','BLOCKED','ABANDONED'})
+                later.work.run_until(terminal);goal=later.work.goal_for(material)
+                actions=[a for a in later.runtime.store.all('actions') if a['goal_id']==goal['goal_id']]
+                compute=next(a for a in actions if a['capability']=='world.compute')
+                method=json.loads(later.runtime.work.agency.realization.kernel.payload(compute,'args_json'))['method']
+                learned_choice=choice=='learn'
+                assert goal['state']==('COMPLETED' if learned_choice else 'FAILED')
+                assert method==('PYTHON_AST_API' if learned_choice else 'PYTHON_TOP_DEFS')
+                assert len(actions)==(3 if learned_choice else 2) and all(a['state']=='SUCCEEDED' for a in actions)
+                if learned_choice:assert later.work.artifacts()
+                assert len(requests)==requests_before and len(self_requests)==1
+                assert len([j for j in later.runtime.store.all('jobs') if j['work_kind']=='LEARNING'])==int(learned_choice)
+                later.forget(feedback[0])
+                assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+                assert current(later)[0][1].content_summary==prior_text
+                print(json.dumps({'measurement':'synthetic_feedback_g_later_actual_use','choice':choice,'material_sha256':later.config.materials[0].sha256,'method':method,'goal_state':goal['state'],
+                    'kernel_actions':[a['state'] for a in actions],'same_identity_restart':True,'extra_model_calls':len(requests)-requests_before,
+                    'feedback_withdrawal_disables_method_not_unrelated_own_tendency':True}))
 
 
 @pytest.mark.parametrize('condition',['unbound','withdrawn','paused','unreviewed'])

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {V2Client,object,writeBase} from '../../data/v2';
+import {V2Client,V2Error,object,writeBase} from '../../data/v2';
 import type {Envelope} from '../../data/v2.generated';
 
 /** QR payload is temporary and local to this component; never browser storage. */
@@ -21,7 +21,18 @@ export function PlatformLogin({client,status,channel,onSaved}:{client:V2Client;s
         setSession('');setQr('');
       }
       if(String(result.state).startsWith('BOUND_')) {setMessage('账号已安全保存，连接仍保持暂停；读取和发送权限继续单独管理。');await onSaved();}
-    } catch {setMessage('登录结果暂未确认。请刷新状态；不会自动重新登录、保存或发送。');}
+    } catch (error) {
+      const code=error instanceof V2Error?error.code:'';
+      if(code==='NANALINK_LOGIN_SESSION_UNAVAILABLE'||code==='NANALINK_LOGIN_SESSION_EXPIRED') {
+        setSession('');setQr('');setState('EXPIRED');setMessage('');
+      } else if(code==='NANALINK_LOGIN_ACCOUNT_MISMATCH') {
+        setState('ACCOUNT_MISMATCH');setMessage('扫码账号与已配置账号不一致。请取消后使用正确账号重新登录。');
+      } else if(code==='NANALINK_LOGIN_PAUSE_SHARED_CHANNELS_FIRST') {
+        setMessage('请先暂停使用同一账号凭据的连接，再重新登录。');
+      } else {
+        setMessage('登录结果暂未确认。请刷新状态；不会自动重新登录、保存或发送。');
+      }
+    }
     finally {setBusy(false);}
   };
   return <section aria-label="B站扫码登录">

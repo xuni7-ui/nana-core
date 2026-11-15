@@ -1,0 +1,3 @@
+{"closed_thoughts": 64, "collector_opportunities": 1, "measurement": "synthetic_mixed_attention_eligibility", "open_method_offered": true, "self_http_calls": 1, "total_http_calls": 3}
+..
+2 passed in 6.62s

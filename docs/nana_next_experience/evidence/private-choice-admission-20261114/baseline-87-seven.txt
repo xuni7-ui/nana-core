@@ -1,0 +1,184 @@
+{"basis": "initial-method", "blocked": false, "budget": null, "input_bytes": null, "latency_us": null, "measurement": "synthetic_private_admission", "preview_mode": "LIGHT_COGNITION", "preview_reason": "C_POLICY_SUFFICIENT", "reserved_bytes": null, "self_http_calls": 0}
+F{"basis": "own-tendency", "blocked": false, "budget": null, "input_bytes": null, "latency_us": null, "measurement": "synthetic_private_admission", "preview_mode": "LIGHT_COGNITION", "preview_reason": "C_POLICY_SUFFICIENT", "reserved_bytes": null, "self_http_calls": 0}
+F{"basis": "initial-method", "blocked": true, "budget": null, "input_bytes": null, "latency_us": null, "measurement": "synthetic_private_admission", "preview_mode": "LIGHT_COGNITION", "preview_reason": "C_POLICY_SUFFICIENT", "reserved_bytes": null, "self_http_calls": 0}
+.{"basis": "own-tendency", "blocked": true, "budget": null, "input_bytes": null, "latency_us": null, "measurement": "synthetic_private_admission", "preview_mode": "LIGHT_COGNITION", "preview_reason": "C_POLICY_SUFFICIENT", "reserved_bytes": null, "self_http_calls": 0}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "REFLECT", "chosen_behavior": "REST", "input_bytes": 51325, "latency_us": 3190, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 63614, "self_http_calls": 1}
+F{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "REST", "chosen_behavior": "REST", "input_bytes": 51325, "latency_us": 3902, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 63614, "self_http_calls": 1}
+.{"budget": {"cost_ceiling_micro": 0, "input_tokens": 32768, "output_tokens": 2048, "timeout_ms": 120000}, "choice": "BLOCKED_REFLECT", "chosen_behavior": "REST", "input_bytes": 53738, "latency_us": 3389, "measurement": "synthetic_sourced_load_choice", "reserved_bytes": 66027, "self_http_calls": 1}
+.
+=================================== FAILURES ===================================
+_ test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise[False-initial-method] _
+
+tmp_path = PosixPath('/dev/shm/nrecoverold/test_normal_d_can_offer_c_priv0')
+basis = 'initial-method', blocked = False
+
+    @pytest.mark.parametrize('basis',['initial-method','own-tendency'])
+    @pytest.mark.parametrize('blocked',[False,True])
+    def test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise(tmp_path,basis,blocked):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_CHOICE: I would like to reconsider my own concern while recognizing that my promise is still due.'
+        topic='initial-choice' if basis=='initial-method' else 'own-concern'
+        def meaning(request):return {'communication_proposal':{'approach':'LISTEN','detail':'BRIEF','follow_up':'NONE','strategy_duration_seconds':3600}}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='COMMITMENT' and m['strength']=='PRESSING' for m in frame['motivations'])
+            assert 'REFLECT' in frame['behavior_options']
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            assert bool(own)==(basis=='own-tendency')
+            return {'interpretation':'SYNTHETIC normal D offers a choice; source promise is neither erased nor executed',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC explicitly select own reflection rather than silently overriding the promise',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':topic,'tendency':private,**({'revises_record_id':own[0]['record_id']} if own else {})}}}
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();r=app.runtime;identity=r.identity_id
+                if basis=='initial-method':
+                    app.chat('SYNTHETIC an actual retained occurrence',topic=topic,privacy='PERSONAL',retain_shared_life=True,message_id='initial')
+                else:form(app)
+                source=capture(r,'private-choice-due',{'source':'SYNTHETIC independently adopted promise'})
+                promises=CommitmentService(r.store,r.authority)
+                cid=promises.propose(CommitmentCandidate(entity_id='project-user',scope='project-work',description='SYNTHETIC due promise still matters',support_memory_ids=(source,),due_at_us=clock.utc_now_us()-1))
+                promises.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority);promise=dict(r.store.one('commitments',cid))
+                if blocked:
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('REFLECT',))
+                    capture(r,'private-choice-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-choice')
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                from nana_core.continuity.subject import SubjectInput
+                opportunity=next(v for v in app.runtime.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=0,quiet_window_us=SECOND)
+                    if (v.communication_method_record_id is not None if basis=='initial-method' else v.private_thought_ref is not None))
+                preview_event=SubjectInput(source_key='synthetic.private-admission-preview',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+                    observed_at_us=clock.utc_now_us(),source_memory_ids=opportunity.memory_ids,task_class=opportunity.task_class,
+                    communication_method_record_id=opportunity.communication_method_record_id,private_thought_ref=opportunity.private_thought_ref)
+                snapshot=app.runtime.store.snapshot();writes=app.runtime.store.db.total_changes;calls=len(requests)
+                preview=app.runtime.cognition.preview_private(preview_event,app.runtime.subject)
+                assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes and len(requests)==calls
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_private_admission','basis':basis,'blocked':blocked,'self_http_calls':len(seen),'preview_mode':preview[0],'preview_reason':preview[1],
+                    'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None,
+                    'latency_us':measure['latency_us'] if measure else None,'budget':seen[0]['budget'] if seen else None},sort_keys=True))
+>               assert len(seen)==(0 if blocked else 1)
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+tests/person_self/test_private_choice_admission.py:70: AssertionError
+_ test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise[False-own-tendency] _
+
+tmp_path = PosixPath('/dev/shm/nrecoverold/test_normal_d_can_offer_c_priv1')
+basis = 'own-tendency', blocked = False
+
+    @pytest.mark.parametrize('basis',['initial-method','own-tendency'])
+    @pytest.mark.parametrize('blocked',[False,True])
+    def test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise(tmp_path,basis,blocked):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        private='PRIVATE_CHOICE: I would like to reconsider my own concern while recognizing that my promise is still due.'
+        topic='initial-choice' if basis=='initial-method' else 'own-concern'
+        def meaning(request):return {'communication_proposal':{'approach':'LISTEN','detail':'BRIEF','follow_up':'NONE','strategy_duration_seconds':3600}}
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='COMMITMENT' and m['strength']=='PRESSING' for m in frame['motivations'])
+            assert 'REFLECT' in frame['behavior_options']
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
+            assert bool(own)==(basis=='own-tendency')
+            return {'interpretation':'SYNTHETIC normal D offers a choice; source promise is neither erased nor executed',
+                'subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                    'interpretation':'SYNTHETIC explicitly select own reflection rather than silently overriding the promise',
+                    'preferred_behavior':'REFLECT','proposed_operations':['DRAFT'],
+                    'private_tendency':{'topic':topic,'tendency':private,**({'revises_record_id':own[0]['record_id']} if own else {})}}}
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();r=app.runtime;identity=r.identity_id
+                if basis=='initial-method':
+                    app.chat('SYNTHETIC an actual retained occurrence',topic=topic,privacy='PERSONAL',retain_shared_life=True,message_id='initial')
+                else:form(app)
+                source=capture(r,'private-choice-due',{'source':'SYNTHETIC independently adopted promise'})
+                promises=CommitmentService(r.store,r.authority)
+                cid=promises.propose(CommitmentCandidate(entity_id='project-user',scope='project-work',description='SYNTHETIC due promise still matters',support_memory_ids=(source,),due_at_us=clock.utc_now_us()-1))
+                promises.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority);promise=dict(r.store.one('commitments',cid))
+                if blocked:
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=topic,prohibited_behaviors=('REFLECT',))
+                    capture(r,'private-choice-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-choice')
+            clock.advance(601*SECOND);config=load_config(home)
+            update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                assert app.runtime.identity_id==identity
+                app.pause(False);app.runtime.refresh_attention()
+                from nana_core.continuity.subject import SubjectInput
+                opportunity=next(v for v in app.runtime.subject.background_opportunities(entity_id='project-user',now_us=clock.utc_now_us(),quiet_since_us=0,quiet_window_us=SECOND)
+                    if (v.communication_method_record_id is not None if basis=='initial-method' else v.private_thought_ref is not None))
+                preview_event=SubjectInput(source_key='synthetic.private-admission-preview',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+                    observed_at_us=clock.utc_now_us(),source_memory_ids=opportunity.memory_ids,task_class=opportunity.task_class,
+                    communication_method_record_id=opportunity.communication_method_record_id,private_thought_ref=opportunity.private_thought_ref)
+                snapshot=app.runtime.store.snapshot();writes=app.runtime.store.db.total_changes;calls=len(requests)
+                preview=app.runtime.cognition.preview_private(preview_event,app.runtime.subject)
+                assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes and len(requests)==calls
+                for _ in range(8):app.tick()
+                clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
+                for _ in range(8):app.tick()
+                measure=app.runtime.store.one('cognitive_requests',seen[0]['request_id']) if seen else None
+                print(json.dumps({'measurement':'synthetic_private_admission','basis':basis,'blocked':blocked,'self_http_calls':len(seen),'preview_mode':preview[0],'preview_reason':preview[1],
+                    'input_bytes':measure['input_bytes'] if measure else None,'reserved_bytes':measure['reserved_bytes'] if measure else None,
+                    'latency_us':measure['latency_us'] if measure else None,'budget':seen[0]['budget'] if seen else None},sort_keys=True))
+>               assert len(seen)==(0 if blocked else 1)
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+tests/person_self/test_private_choice_admission.py:70: AssertionError
+_ test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[REFLECT] _
+
+tmp_path = PosixPath('/dev/shm/nrecoverold/test_actual_runtime_can_choose0')
+choice = 'REFLECT'
+
+    @pytest.mark.parametrize('choice',['REFLECT','REST','BLOCKED_REFLECT'])
+    def test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest(tmp_path,choice):
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        revised='PRIVATE_LIGHT_REFLECTION: I choose a brief reflection on my own concern while recognizing current load; rest remains available.'
+        def inner(request):
+            seen.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            assert any(m['source']=='REST' and m['strength']=='RELEVANT' for m in frame['motivations'])
+            own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY'];assert len(own)==1
+            proposal={'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],
+                'interpretation':'SYNTHETIC compare rest with a bounded personally meaningful reflection',
+                'preferred_behavior':'REST' if choice=='REST' else 'REFLECT','proposed_operations':['WAIT'] if choice=='REST' else ['DRAFT']}
+            if choice!='REST':proposal['private_tendency']={'topic':'own-concern','tendency':revised,'revises_record_id':own[0]['record_id']}
+            return {'interpretation':'SYNTHETIC sourced load is a motive, not compulsory fatigue behavior','subject_cognition':proposal}
+        with relay(home,'CHAT',subject_builder=inner,context_limit=65536) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();form(app);old=current(app)[0][1].content_summary;identity=app.runtime.identity_id
+                cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='PRIVATE_INTEREST',topic_key='own-concern',possible_behaviors=('REST','REFLECT'),cognitive_load='HIGH')
+                mid=capture(app.runtime,'sourced-load',cue.model_dump(mode='json'),predicate='concern.current-private-load')
+                if choice=='BLOCKED_REFLECT':
+                    norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key='own-concern',prohibited_behaviors=('REFLECT',))
+                    capture(app.runtime,'sourced-load-norm',norm.model_dump(mode='json'),predicate='concern.constraint.private-load')
+            config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_context_tokens':32768,'provider_background_cognition':True}),expected_revision=config.revision)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause(False);r=app.runtime;assert r.identity_id==identity
+                event=SubjectInput(source_key='synthetic.sourced-private-load-choice',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,),novelty='HIGH',uncertainty='RELEVANT')
+                r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=clock.utc_now_us(),priority=3))
+                result=r.step();assert len(seen)==len(requests)==1
+                row=r.store.one('cognitive_requests',seen[0]['request_id'])
+                print(json.dumps({'measurement':'synthetic_sourced_load_choice','choice':choice,'self_http_calls':len(seen),'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'latency_us':row['latency_us'],'budget':seen[0]['budget'],'chosen_behavior':result['cycle'].intention.behavior},sort_keys=True))
+>               assert result['cycle'].intention.behavior==('REFLECT' if choice=='REFLECT' else 'REST')
+E               AssertionError: assert 'REST' == 'REFLECT'
+E                 
+E                 - REFLECT
+E                 + REST
+
+tests/person_self/test_private_choice_admission.py:112: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_choice_admission.py::test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise[False-initial-method]
+FAILED tests/person_self/test_private_choice_admission.py::test_normal_d_can_offer_c_private_reflection_against_due_promise_but_preserves_norm_and_promise[False-own-tendency]
+FAILED tests/person_self/test_private_choice_admission.py::test_actual_runtime_can_choose_light_own_reflection_with_sourced_load_without_compulsory_rest[REFLECT]
+3 failed, 4 passed, 1 deselected in 4.62s

@@ -1,0 +1,82 @@
+{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "view_available": true}
+F{"input_bytes": 50479, "learning_jobs": 1, "measurement": "synthetic_private_g_selection", "programs_seen": 1, "reserved_bytes": 62768, "self_calls": 1, "wanted": "LEARN"}
+{"action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "goal_state": "COMPLETED", "measurement": "synthetic_later_private_g_use", "method": "PYTHON_AST_API", "wanted": "LEARN"}
+{"matching_opportunities": 1, "measurement": "synthetic_private_g_growth_offer", "view_available": true}
+F
+=================================== FAILURES ===================================
+_ test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[True] _
+
+tmp_path = PosixPath('/dev/shm/plgretvalid/test_original_host_later_use_c0')
+enabled = True
+
+    @pytest.mark.parametrize('enabled',[True,False])
+    def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning(tmp_path,enabled):
+>       _run_private_g_episode(tmp_path,'LEARN',reverse_growth=enabled)
+
+tests/person_self/test_private_learning_selection.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_private_learning_selection.py:150: in _run_private_g_episode
+    clock.advance(final.runtime.config.cognition_cooldown_us+SECOND);final.runtime.refresh_attention()
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/runtime.py:199: in refresh_attention
+    self.lease.assert_current()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7efc76d56f90>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+_ test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[False] _
+
+tmp_path = PosixPath('/dev/shm/plgretvalid/test_original_host_later_use_c1')
+enabled = False
+
+    @pytest.mark.parametrize('enabled',[True,False])
+    def test_original_host_later_use_can_reconsider_the_interest_that_chose_learning(tmp_path,enabled):
+>       _run_private_g_episode(tmp_path,'LEARN',reverse_growth=enabled)
+
+tests/person_self/test_private_learning_selection.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_private_learning_selection.py:150: in _run_private_g_episode
+    clock.advance(final.runtime.config.cognition_cooldown_us+SECOND);final.runtime.refresh_attention()
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/runtime.py:199: in refresh_attention
+    self.lease.assert_current()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7efc76c52c00>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_private_learning_selection.py::test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[True]
+FAILED tests/person_self/test_private_learning_selection.py::test_original_host_later_use_can_reconsider_the_interest_that_chose_learning[False]
+2 failed, 17 deselected in 3.00s

@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-d141-rollback-build/nana-first-life-portable-v1.tar.gz",
+  "sha256": "5f26de2a6481c990e8dc8b7b1061dee6aaa2a65f352ad3e9441d3a1729226a55",
+  "source_commit": "d1419869c4bb0952cbad5c71622fa4da2d848e60",
+  "bundle_files": 285,
+  "new_provider_calls": 0
+}

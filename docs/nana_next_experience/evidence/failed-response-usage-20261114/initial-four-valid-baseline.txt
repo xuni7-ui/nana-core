@@ -1,0 +1,107 @@
+{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "partial", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+F{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "refusal", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+F{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "malformed", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+F{"calls": 1, "input_tokens": null, "measurement": "synthetic_failed_provider_usage", "mode": "rate_limit", "output_tokens": null, "reported_calls": 0, "state": "FAILED"}
+.
+=================================== FAILURES ===================================
+_ test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[partial-True] _
+
+tmp_path = PosixPath('/dev/shm/fuoldv2/test_rejected_provider_wording0')
+mode = 'partial', reported = True
+
+    @pytest.mark.parametrize('mode,reported',[('partial',True),('refusal',True),('malformed',True),('rate_limit',False)])
+    def test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund(tmp_path,mode,reported):
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.accounting import PREFIX
+        from nana_core.continuity.memory import MemoryService
+        from tests.world_loop.helpers import fresh,capture,policy
+        import json
+        home=tmp_path/'self.db'
+        with provider_harness(mode=mode) as (port,wire):
+            with fresh(home) as runtime:
+                clock=runtime.clock;identity=runtime.identity_id
+                session=CognitionSession(runtime,port,policy())
+                mid=capture(runtime,'failed-usage-source',{'fact':'SYNTHETIC failed wording does not erase paid work'})
+                cid=session.prepare('failed-usage-'+mode,'INTERPRET',(mid,))
+                outcome=session.execute(cid)
+                assert outcome['state']=='FAILED' and wire['calls']==1
+                before=resource_state(runtime.store,runtime.config)
+                saved=runtime.store.one('core_meta',PREFIX+cid)
+                print(json.dumps({'measurement':'synthetic_failed_provider_usage','mode':mode,'state':outcome['state'],
+                    'reported_calls':before.fixture_usage_reported_calls,'input_tokens':before.fixture_reported_input_tokens,
+                    'output_tokens':before.fixture_reported_output_tokens,'calls':wire['calls']},sort_keys=True))
+>               assert bool(saved)==reported
+E               assert False == True
+E                +  where False = bool(None)
+
+tests/person_self/test_reported_usage.py:130: AssertionError
+_ test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[refusal-True] _
+
+tmp_path = PosixPath('/dev/shm/fuoldv2/test_rejected_provider_wording1')
+mode = 'refusal', reported = True
+
+    @pytest.mark.parametrize('mode,reported',[('partial',True),('refusal',True),('malformed',True),('rate_limit',False)])
+    def test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund(tmp_path,mode,reported):
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.accounting import PREFIX
+        from nana_core.continuity.memory import MemoryService
+        from tests.world_loop.helpers import fresh,capture,policy
+        import json
+        home=tmp_path/'self.db'
+        with provider_harness(mode=mode) as (port,wire):
+            with fresh(home) as runtime:
+                clock=runtime.clock;identity=runtime.identity_id
+                session=CognitionSession(runtime,port,policy())
+                mid=capture(runtime,'failed-usage-source',{'fact':'SYNTHETIC failed wording does not erase paid work'})
+                cid=session.prepare('failed-usage-'+mode,'INTERPRET',(mid,))
+                outcome=session.execute(cid)
+                assert outcome['state']=='FAILED' and wire['calls']==1
+                before=resource_state(runtime.store,runtime.config)
+                saved=runtime.store.one('core_meta',PREFIX+cid)
+                print(json.dumps({'measurement':'synthetic_failed_provider_usage','mode':mode,'state':outcome['state'],
+                    'reported_calls':before.fixture_usage_reported_calls,'input_tokens':before.fixture_reported_input_tokens,
+                    'output_tokens':before.fixture_reported_output_tokens,'calls':wire['calls']},sort_keys=True))
+>               assert bool(saved)==reported
+E               assert False == True
+E                +  where False = bool(None)
+
+tests/person_self/test_reported_usage.py:130: AssertionError
+_ test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[malformed-True] _
+
+tmp_path = PosixPath('/dev/shm/fuoldv2/test_rejected_provider_wording2')
+mode = 'malformed', reported = True
+
+    @pytest.mark.parametrize('mode,reported',[('partial',True),('refusal',True),('malformed',True),('rate_limit',False)])
+    def test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund(tmp_path,mode,reported):
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.accounting import PREFIX
+        from nana_core.continuity.memory import MemoryService
+        from tests.world_loop.helpers import fresh,capture,policy
+        import json
+        home=tmp_path/'self.db'
+        with provider_harness(mode=mode) as (port,wire):
+            with fresh(home) as runtime:
+                clock=runtime.clock;identity=runtime.identity_id
+                session=CognitionSession(runtime,port,policy())
+                mid=capture(runtime,'failed-usage-source',{'fact':'SYNTHETIC failed wording does not erase paid work'})
+                cid=session.prepare('failed-usage-'+mode,'INTERPRET',(mid,))
+                outcome=session.execute(cid)
+                assert outcome['state']=='FAILED' and wire['calls']==1
+                before=resource_state(runtime.store,runtime.config)
+                saved=runtime.store.one('core_meta',PREFIX+cid)
+                print(json.dumps({'measurement':'synthetic_failed_provider_usage','mode':mode,'state':outcome['state'],
+                    'reported_calls':before.fixture_usage_reported_calls,'input_tokens':before.fixture_reported_input_tokens,
+                    'output_tokens':before.fixture_reported_output_tokens,'calls':wire['calls']},sort_keys=True))
+>               assert bool(saved)==reported
+E               assert False == True
+E                +  where False = bool(None)
+
+tests/person_self/test_reported_usage.py:130: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_reported_usage.py::test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[partial-True]
+FAILED tests/person_self/test_reported_usage.py::test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[refusal-True]
+FAILED tests/person_self/test_reported_usage.py::test_rejected_provider_wording_keeps_bound_numeric_usage_without_success_or_refund[malformed-True]
+3 failed, 1 passed, 13 deselected in 0.53s

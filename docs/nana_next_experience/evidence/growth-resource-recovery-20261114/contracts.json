@@ -1,0 +1,7 @@
+{
+  "base_commit": "13bf45b3f6c893d95e822c9d0006c17d3e897717",
+  "verified_old_runtime_files": 298,
+  "old_source_list_sha256": "4d8bf57ab19716df926ddad0740ff15f9fd5810f618952dc7dcff8337f03ef82",
+  "runtime_config_changed": false,
+  "new_prompt_or_model_stage": false
+}

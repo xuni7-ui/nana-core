@@ -1,0 +1,1303 @@
+{
+  "scope": "OWNED_SYNTHETIC_SQL_SHAPE_DIAGNOSTIC_NOT_FULL_QUALIFICATION",
+  "base_commit": "f93bcfa",
+  "base_memory_sha256": "2477b1772591b3368a82b4bfc5e818843bc869b5db1de10e50cf73a0d39a239b",
+  "timeout_ms": 100,
+  "cases": [
+    "astronomy0.absent",
+    "astronomy2.eligible"
+  ],
+  "temperature": "SHARED_CONNECTION_ALTERNATING_WARM_NOT_OS_COLD",
+  "arms": {
+    "not_exists": {
+      "prototype_source_sha256": "f82be16d4538ececcade2e367545e3d2605e9b08c849fe841f9a226c4d0e7717",
+      "prototype": {
+        "correct": 6,
+        "false_result_cases": 0,
+        "missed_cases": 0,
+        "timeouts": 0,
+        "timings_ms": [
+          24.074924000160536,
+          24.959873999250703,
+          28.31047600011516,
+          24.63491399976192,
+          28.570028998728958,
+          25.544851001541247
+        ],
+        "outcomes": [
+          {
+            "case": "astronomy0.absent",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          }
+        ],
+        "p50_ms": 25.252362500395975,
+        "p95_ms": 28.505140749075508
+      },
+      "original_except": {
+        "correct": 6,
+        "false_result_cases": 0,
+        "missed_cases": 0,
+        "timeouts": 0,
+        "timings_ms": [
+          18.485178999981144,
+          17.637853999985964,
+          17.47338099994522,
+          18.087870001181727,
+          18.88533099918277,
+          18.109882999851834
+        ],
+        "outcomes": [
+          {
+            "case": "astronomy0.absent",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          }
+        ],
+        "p50_ms": 18.09887650051678,
+        "p95_ms": 18.785292999382364
+      },
+      "plans": [
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' EXCEPT SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete'), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:bea')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('beacon-astronomy0-absent'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              17,
+              14,
+              0,
+              "MERGE (EXCEPT)"
+            ],
+            [
+              19,
+              17,
+              0,
+              "LEFT"
+            ],
+            [
+              26,
+              19,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              57,
+              19,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              66,
+              17,
+              0,
+              "RIGHT"
+            ],
+            [
+              69,
+              66,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              100,
+              11,
+              49,
+              "SCAN unindexed"
+            ],
+            [
+              106,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              115,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              118,
+              115,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              169,
+              3,
+              59,
+              "SCAN c"
+            ],
+            [
+              171,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              197,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              228,
+              0,
+              45,
+              "SCAN v"
+            ],
+            [
+              230,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              254,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' AND NOT EXISTS (SELECT 1 FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete' AND memory_id=m.memory_id)), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:bea')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('beacon-astronomy0-absent'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              21,
+              14,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              47,
+              14,
+              0,
+              "CORRELATED SCALAR SUBQUERY 1"
+            ],
+            [
+              51,
+              47,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=? AND memory_id=?)"
+            ],
+            [
+              73,
+              11,
+              36,
+              "SCAN unindexed"
+            ],
+            [
+              79,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              88,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              91,
+              88,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              142,
+              3,
+              54,
+              "SCAN c"
+            ],
+            [
+              144,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              170,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              201,
+              0,
+              40,
+              "SCAN v"
+            ],
+            [
+              203,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              227,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' AND NOT EXISTS (SELECT 1 FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete' AND memory_id=m.memory_id)), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:caf')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('café-astronomy2-eligible'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              21,
+              14,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              47,
+              14,
+              0,
+              "CORRELATED SCALAR SUBQUERY 1"
+            ],
+            [
+              51,
+              47,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=? AND memory_id=?)"
+            ],
+            [
+              73,
+              11,
+              36,
+              "SCAN unindexed"
+            ],
+            [
+              79,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              88,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              91,
+              88,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              142,
+              3,
+              54,
+              "SCAN c"
+            ],
+            [
+              144,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              170,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              201,
+              0,
+              40,
+              "SCAN v"
+            ],
+            [
+              203,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              227,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' EXCEPT SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete'), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:caf')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('café-astronomy2-eligible'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              17,
+              14,
+              0,
+              "MERGE (EXCEPT)"
+            ],
+            [
+              19,
+              17,
+              0,
+              "LEFT"
+            ],
+            [
+              26,
+              19,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              57,
+              19,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              66,
+              17,
+              0,
+              "RIGHT"
+            ],
+            [
+              69,
+              66,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              100,
+              11,
+              49,
+              "SCAN unindexed"
+            ],
+            [
+              106,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              115,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              118,
+              115,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              169,
+              3,
+              59,
+              "SCAN c"
+            ],
+            [
+              171,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              197,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              228,
+              0,
+              45,
+              "SCAN v"
+            ],
+            [
+              230,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              254,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        }
+      ]
+    },
+    "not_in": {
+      "prototype_source_sha256": "ea00392afd582b37a1e502d8d2b0f25081ff6972fd732a6ce1b12fe84dc29abe",
+      "prototype": {
+        "correct": 6,
+        "false_result_cases": 0,
+        "missed_cases": 0,
+        "timeouts": 0,
+        "timings_ms": [
+          31.007538998892414,
+          31.01934600090317,
+          30.09432600083528,
+          29.79614400101127,
+          30.2993899986177,
+          30.62410099846602
+        ],
+        "outcomes": [
+          {
+            "case": "astronomy0.absent",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          }
+        ],
+        "p50_ms": 30.46174549854186,
+        "p95_ms": 31.01639425040048
+      },
+      "original_except": {
+        "correct": 6,
+        "false_result_cases": 0,
+        "missed_cases": 0,
+        "timeouts": 0,
+        "timings_ms": [
+          17.609501999686472,
+          17.638354998780414,
+          20.052959000167903,
+          18.070504998831893,
+          18.1314849996852,
+          20.7426109991502
+        ],
+        "outcomes": [
+          {
+            "case": "astronomy0.absent",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy0.absent",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 0,
+            "expected": 0,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 0,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 1,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          },
+          {
+            "case": "astronomy2.eligible",
+            "rep": 2,
+            "correct": true,
+            "timeout": false,
+            "returned": 1,
+            "expected": 1,
+            "false_results": 0
+          }
+        ],
+        "p50_ms": 18.100994999258546,
+        "p95_ms": 20.570197999404627
+      },
+      "plans": [
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' EXCEPT SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete'), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:bea')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('beacon-astronomy0-absent'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              17,
+              14,
+              0,
+              "MERGE (EXCEPT)"
+            ],
+            [
+              19,
+              17,
+              0,
+              "LEFT"
+            ],
+            [
+              26,
+              19,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              57,
+              19,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              66,
+              17,
+              0,
+              "RIGHT"
+            ],
+            [
+              69,
+              66,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              100,
+              11,
+              49,
+              "SCAN unindexed"
+            ],
+            [
+              106,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              115,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              118,
+              115,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              169,
+              3,
+              59,
+              "SCAN c"
+            ],
+            [
+              171,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              197,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              228,
+              0,
+              45,
+              "SCAN v"
+            ],
+            [
+              230,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              254,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' AND m.memory_id NOT IN (SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete')), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:bea')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('beacon-astronomy0-absent'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              21,
+              14,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              49,
+              14,
+              0,
+              "LIST SUBQUERY 1"
+            ],
+            [
+              52,
+              49,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              60,
+              49,
+              0,
+              "CREATE BLOOM FILTER"
+            ],
+            [
+              84,
+              11,
+              36,
+              "SCAN unindexed"
+            ],
+            [
+              90,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              99,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              102,
+              99,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              153,
+              3,
+              54,
+              "SCAN c"
+            ],
+            [
+              155,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              181,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              212,
+              0,
+              40,
+              "SCAN v"
+            ],
+            [
+              214,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              238,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' AND m.memory_id NOT IN (SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete')), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:caf')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('café-astronomy2-eligible'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              21,
+              14,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              49,
+              14,
+              0,
+              "LIST SUBQUERY 1"
+            ],
+            [
+              52,
+              49,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              60,
+              49,
+              0,
+              "CREATE BLOOM FILTER"
+            ],
+            [
+              84,
+              11,
+              36,
+              "SCAN unindexed"
+            ],
+            [
+              90,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              99,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              102,
+              99,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              153,
+              3,
+              54,
+              "SCAN c"
+            ],
+            [
+              155,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              181,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              212,
+              0,
+              40,
+              "SCAN v"
+            ],
+            [
+              214,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              238,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        },
+        {
+          "sql": "WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m INDEXED BY memory_note_gram_coverage WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND m.memory_type='SEMANTIC' EXCEPT SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term='@note-literal3-v1:complete'), candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ('@note-literal3-v1:caf')), visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.lifecycle='ACTIVE' AND m.scope IN ('bench') AND m.privacy_class IN ('PROJECT') AND m.assessment IN ('CURRENT','UNASSESSED') AND m.entity_id IN ('bench') AND m.memory_type IN ('SEMANTIC') AND substr(m.predicate_key,1,10)='user-note.' AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT' AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT' AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION' AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (instr(lower(CAST(a.payload AS TEXT)),lower('café-astronomy2-eligible'))>0) ORDER BY v.ordinal DESC LIMIT 4",
+          "plan": [
+            [
+              3,
+              0,
+              0,
+              "MATERIALIZE visible"
+            ],
+            [
+              6,
+              3,
+              0,
+              "MATERIALIZE candidate_ids"
+            ],
+            [
+              9,
+              6,
+              0,
+              "MERGE (UNION)"
+            ],
+            [
+              11,
+              9,
+              0,
+              "LEFT"
+            ],
+            [
+              14,
+              11,
+              0,
+              "MATERIALIZE unindexed"
+            ],
+            [
+              17,
+              14,
+              0,
+              "MERGE (EXCEPT)"
+            ],
+            [
+              19,
+              17,
+              0,
+              "LEFT"
+            ],
+            [
+              26,
+              19,
+              59,
+              "SEARCH m USING INDEX memory_note_gram_coverage (entity_id=? AND scope=? AND privacy_class=? AND lifecycle=? AND assessment=?)"
+            ],
+            [
+              57,
+              19,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              66,
+              17,
+              0,
+              "RIGHT"
+            ],
+            [
+              69,
+              66,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              100,
+              11,
+              49,
+              "SCAN unindexed"
+            ],
+            [
+              106,
+              11,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ],
+            [
+              115,
+              9,
+              0,
+              "RIGHT"
+            ],
+            [
+              118,
+              115,
+              56,
+              "SEARCH memory_terms USING COVERING INDEX memory_terms_term_lookup (term=?)"
+            ],
+            [
+              169,
+              3,
+              59,
+              "SCAN c"
+            ],
+            [
+              171,
+              3,
+              46,
+              "SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)"
+            ],
+            [
+              197,
+              3,
+              46,
+              "SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)"
+            ],
+            [
+              228,
+              0,
+              45,
+              "SCAN v"
+            ],
+            [
+              230,
+              0,
+              46,
+              "SEARCH a USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)"
+            ],
+            [
+              254,
+              0,
+              0,
+              "USE TEMP B-TREE FOR ORDER BY"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "same_store_rows": 200000,
+  "extra_model_calls": 0,
+  "provider_tokens": null,
+  "commercial_cost": null
+}

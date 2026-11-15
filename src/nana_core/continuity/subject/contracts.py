@@ -3,7 +3,7 @@ from typing import Literal,get_args
 from pydantic import Field, model_validator,model_serializer
 from ...contracts import DTO
 from .social import SocialInteractionProposal
-from .opportunities import Behavior,SyntheticActionProposal,PrivateIntentRef
+from .opportunities import Behavior,SyntheticActionProposal,PrivateIntentRef,LearningProgramOption
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 from ..extensions import SurfaceEnvelope
 from ..agency_contracts import GoalStepRef,GoalReviewRef
@@ -193,11 +193,13 @@ class DeliberationFrame(DTO):
     source_memory_ids: tuple[str, ...]
     source_record_ids: tuple[str, ...]
     behavior_options:tuple[Behavior,...]=Field(default=(),max_length=8)
+    learning_programs:tuple[LearningProgramOption,...]=Field(default=(),max_length=16)
 
     @model_serializer(mode='wrap')
     def compatible_options(self,handler):
         result=handler(self)
         if not self.behavior_options:result.pop('behavior_options',None)
+        if not self.learning_programs:result.pop('learning_programs',None)
         return result
 
 
