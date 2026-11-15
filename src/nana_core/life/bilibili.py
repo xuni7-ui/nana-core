@@ -575,7 +575,10 @@ class BilibiliReadPort:
         frames = reading.frames
         reading = PublicReading(reading.reference, reading.kind, reading.observed_at_us,
             {**reading.payload, "kernel_action_id": invocation.action_id, "kernel_args_hash": invocation.args_hash}, reading.origin)
-        memory_id = self.sources.ingest(reading)
+        # The selected source remains an original dependency of the resulting
+        # experience. A withdrawal during I/O wins before retaining the result.
+        self._bound(invocation)
+        memory_id = self.sources.ingest(reading, parents=(body['source_memory_id'],))
         frame_ids = ()
         if frames:
             from .bilibili_frames import BilibiliFrameService
