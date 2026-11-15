@@ -23,3 +23,7 @@ User instruction of 2026-11-08 extends `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMEN
 Freeze representative before/after cases before choosing an implementation, including same memory in explicit request, natural allusion, implicit relevance and an explicit refusal/withhold; source correction/withdrawal, undelivered/UNKNOWN output, unrelated third-party feedback, scope/privacy and rest. Verify source links and memory fact credibility unchanged by expression preferences. Use existing C/Experience/Language/S8 paths and original Store; compare under identical context, model, tools, privacy, token and latency budgets. Require future different-case behavior and restart, contrast not merely added fields, and report offline, real model and human/phone results separately. No fake conversation, hidden LLM call, forced learning or account send. Preserve previously qualified backup, 48h soft window, consolidation, and pending UNKNOWN recovery work.
 
 An end-to-end improvement is NOT_RUN. This record adds user scope and a source-backed gap map; it is not an implemented feature, validation result or a new release. Continue with original recovery/host issue and this work without rebuilding APK for backend-only changes.
+
+## 2026-11-15 · 两码点源笔记复用L3与末尾键
+
+原Store每可索引笔记一个派生End键，两码点候选稀少时复用、常见时65去重授权头选计划并CASE保护正文/rowid取最新。Native同100ms/limit4：1k/10k均48/48；100k旧6/48与42timeout→48/48/0误返0timeout，P95100.46→46.68ms；74相关通过。原型拒绝/首败全存evidence/literal-two-prefix-20261115；100k缓存真实+15.47MiB，源主表/身份保持，不是物理回收或生产回填。旧缺键安全回退，在线有界补项/更广语义/真实Core-Iris绑定/物理隐私及最终安装仍待，不改G16/32。

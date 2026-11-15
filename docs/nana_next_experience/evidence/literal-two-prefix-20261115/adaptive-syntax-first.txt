@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-next-refinement-work/tools/nana_next_experience/literal_two_prefix_probe.py", line 165, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/nana-next-refinement-work/tools/nana_next_experience/literal_two_prefix_probe.py", line 148, in main
+    try:ids=sorted(m['memory_id'] for m in service.literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=terms,limit=4,timeout_ms=100))
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<isolated-prefix-tail-literal>", line 51, in literal_notes
+  File "/workspace/nana-next-refinement-work/tools/nana_next_experience/literal_two_prefix_probe.py", line 59, in adaptive_rows
+    probe=db.execute(prefix+'SELECT m.memory_id FROM '+memory_from+
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: near "SELECT": syntax error

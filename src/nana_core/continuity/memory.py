@@ -19,6 +19,18 @@ PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
 NOTE_GRAM_PREFIX = '@note-literal3-v1:'
 NOTE_GRAM_COMPLETE = NOTE_GRAM_PREFIX + 'complete'
 NOTE_GRAM_MAX_CHARS = 4096
+# One derived end key completes two-codepoint prefix lookup. Legacy/long
+# payloads without it stay in the exact scan fallback; old readers ignore it.
+NOTE_END_PREFIX = '@note-literal2-end-v1:'
+
+
+def _prefix_upper(prefix):
+    for i in range(len(prefix)-1,-1,-1):
+        if ord(prefix[i])<0x10ffff:
+            code=ord(prefix[i])+1
+            if 0xd800<=code<=0xdfff:code=0xe000
+            return prefix[:i]+chr(code)
+    raise ValueError('literal namespace has no successor')
 
 # Same qualification before ranking/LIMIT for literal lookup and G snapshots.
 USER_NOTE_HEADER_QUALIFICATION = (
@@ -393,9 +405,11 @@ class MemoryService:
             raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
         # A substring match must contain its first normalized trigram. This is
         # only a candidate accelerator: final literal/source checks stay exact.
-        # Two-character queries and missing legacy indexes retain the old path.
+        # Two-codepoint queries reuse prefix grams plus one payload end key.
+        # Missing/legacy cache entries retain exact scanning, never false absence.
         grams=tuple(dict.fromkeys(NOTE_GRAM_PREFIX+t.casefold()[:3] for t in terms))
         accelerated=bool(term_index and all(len(t.casefold())>=3 for t in terms))
+        short=bool(term_index and any(len(t.casefold())==2 for t in terms) and all(len(t.casefold())>=2 for t in terms))
         coverage=db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name='memory_note_gram_coverage'").fetchone()
         if coverage and coverage[0]!=REBUILDABLE_LOOKUP_INDEXES['memory_note_gram_coverage']:
             raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
@@ -405,7 +419,11 @@ class MemoryService:
             prefix="WITH "
             memory_from="memories m"+hint
             parameters=[]
-            if accelerated:
+            rows=None
+            if short:
+                prefix,memory_from,parameters,posting=self._short_note_candidates(where,args,coverage_hint,terms)
+                rows=self._broad_note_matches(prefix,memory_from,parameters,posting,where,args,match,terms,limit)
+            elif accelerated:
                 # EXCEPT is index-only: no payload from an unqualified header is
                 # opened. Unindexed notes remain in the candidate set, including
                 # notes written by old versions and payloads over the gram cap.
@@ -419,16 +437,17 @@ class MemoryService:
                 # Candidate-first primary-key probes avoid rejoining every note
                 # to evidence before the selective gram set is considered.
                 memory_from="candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id"
-            rows = db.execute(
-                prefix+"visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM "
-                + memory_from + " CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
-                + where
-                + USER_NOTE_QUALIFICATION + ") "
-                "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
-                + match
-                + ") ORDER BY v.ordinal DESC LIMIT ?",
-                (*parameters, *args, *terms, limit),
-            ).fetchall()
+            if rows is None:
+                rows = db.execute(
+                    prefix+"visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM "
+                    + memory_from + " CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
+                    + where
+                    + USER_NOTE_QUALIFICATION + ") "
+                    "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
+                    + match
+                    + ") ORDER BY v.ordinal DESC LIMIT ?",
+                    (*parameters, *args, *terms, limit),
+                ).fetchall()
         except sqlite3.OperationalError as exc:
             if "interrupt" in str(exc).lower():
                 raise CoreError("NOTE_RECALL_TIME_BOUND") from None
@@ -444,6 +463,63 @@ class MemoryService:
             if is_user_note(current):
                 result.append(current)
         return result
+
+    def _short_note_candidates(self,where,args,coverage_hint,terms):
+        clauses=[];values=[];exact=[]
+        for term in terms:
+            normalized=term.casefold()
+            if len(normalized)>=3:
+                exact.append(NOTE_GRAM_PREFIX+normalized[:3])
+            else:
+                prefix=NOTE_GRAM_PREFIX+normalized
+                upper=_prefix_upper(prefix)
+                if prefix<=NOTE_GRAM_COMPLETE<upper:
+                    clauses.extend(('(term>=? AND term<?)','(term>? AND term<?)'))
+                    values.extend((prefix,NOTE_GRAM_COMPLETE,NOTE_GRAM_COMPLETE,upper))
+                else:
+                    clauses.append('(term>=? AND term<?)');values.extend((prefix,upper))
+                exact.append(NOTE_END_PREFIX+normalized)
+        if exact:
+            clauses.append('term IN ('+','.join('?' for _ in exact)+')');values.extend(exact)
+        # A single end-key row is also per-payload coverage, including one-char
+        # notes. No new table/index/version or eager history rebuild is needed.
+        prefix=('WITH unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m'+coverage_hint+
+            ' WHERE '+where+USER_NOTE_HEADER_QUALIFICATION+" AND m.memory_type='SEMANTIC' EXCEPT "
+            'SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term>=? AND term<?), '
+            'candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION '
+            'SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE '+' OR '.join(clauses)+'), ')
+        return prefix,'candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id',[
+            *args,NOTE_END_PREFIX,_prefix_upper(NOTE_END_PREFIX),*values],(' OR '.join(clauses),values)
+
+    def _broad_note_matches(self,prefix,memory_from,parameters,posting,where,args,match,terms,limit):
+        db=self.store.db;qualification=where+USER_NOTE_QUALIFICATION
+        # Cardinality chooses a plan; 65 is not a recall/adoption/history limit.
+        # Qualify source/role/scope/privacy before the probe, without reading text.
+        clause,values=posting
+        direct=db.execute('SELECT DISTINCT m.memory_id FROM memory_terms t INDEXED BY memory_terms_term_lookup '
+            'CROSS JOIN memories m ON m.memory_id=t.memory_id CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id '
+            'WHERE ('+clause+') AND '+qualification+' LIMIT 65',(*values,*args)).fetchall()
+        probe=direct if len(direct)>=65 else db.execute(prefix[:-2]+' SELECT m.memory_id FROM '+memory_from+
+            ' CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE '+qualification+' LIMIT 65',
+            (*parameters,*args)).fetchall()
+        if len(probe)<65:
+            if not probe:return []
+            ids=tuple(row['memory_id'] for row in probe)
+            # The small qualified set is complete. Recheck sources before text,
+            # without recomputing the full coverage/prefix candidate query.
+            return db.execute('WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m '
+                'CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.memory_id IN ('+
+                ','.join('?' for _ in ids)+') AND '+qualification+') SELECT v.memory_id FROM visible v JOIN artifacts a '
+                'ON a.artifact_id=v.payload_artifact_id WHERE ('+match+') ORDER BY v.ordinal DESC LIMIT ?',
+                (*ids,*args,*terms,limit)).fetchall()
+        # Broad literals should not materialize every payload. CASE is a real
+        # short-circuit barrier: even reordered predicates cannot read a body
+        # before the complete original authorization/source check. Ordering on
+        # original rowid preserves the same newest-first exact result semantics.
+        return db.execute('SELECT m.memory_id FROM memories m NOT INDEXED CROSS JOIN continuity_evidence e '
+            'ON e.evidence_id=m.source_evidence_id WHERE '+qualification+' AND CASE WHEN ('+qualification+
+            ') THEN coalesce((SELECT ('+match+') FROM artifacts a WHERE a.artifact_id=m.payload_artifact_id),0) ELSE 0 END '
+            'ORDER BY m.rowid DESC LIMIT ?',(*args,*args,*terms,limit)).fetchall()
 
     def conflict_bundle(self, row, privacy_classes):
         headers = self.store.db.execute("SELECT * FROM memories WHERE entity_id=? AND scope=? AND predicate_key=? "
@@ -507,6 +583,7 @@ class MemoryService:
             normalized=text.casefold()
             terms.update(NOTE_GRAM_PREFIX+normalized[i:i+3] for i in range(max(0,len(normalized)-2)))
             terms.add(NOTE_GRAM_COMPLETE)
+            terms.add(NOTE_END_PREFIX+normalized[-2:])
         self.store.db.executemany("INSERT OR IGNORE INTO memory_terms VALUES(?,?)",
                                  ((memory_id, t) for t in terms))
 

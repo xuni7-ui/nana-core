@@ -33,6 +33,7 @@ def render_from_supplied_sources(request):
     [
         ("ORION", "SYNTHETIC ORION delivery-window is Thursday.", "SYNTHETIC ORION delivery-window is Friday."),
         ("项目约定", "合成资料：项目约定在周四。", "合成资料：项目约定在周五。"),
+        ("归途", "合成资料：归途见面约在周四。", "合成资料：归途见面约在周五。"),
     ],
 )
 def test_note_selected_after_restart_model_change_correction_and_withdrawal(tmp_path, term, statement, correction):
@@ -195,3 +196,84 @@ def test_non_note_rows_do_not_consume_literal_recall_limit(tmp_path,source_domai
                 epistemic_kind='STATEMENT',source_evidence_id=eid,text='SYNTHETIC ORCHID other-source statement',predicate_key=f'user-note.other-{n}'))
         found=memory.literal_notes(entity_ids=('project-user',),scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'),terms=('ORCHID',))
         assert [row['memory_id'] for row in found]==[valid]
+
+
+@pytest.fixture
+def literal_store(tmp_path):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.memory import MemoryService
+    authority=OperatorAuthority()
+    with ContinuityStore(tmp_path/'literal'/'self.db',ManualClock(),schema_target=13) as store:
+        IdentityService(store,authority);memory=MemoryService(store,authority)
+        for entity in ('bench','other'):memory.entity(entity,'PERSON')
+        yield store,memory,authority
+
+
+def test_common_short_literal_reads_only_four_newest_authorized_bodies(literal_store):
+    import inspect,textwrap
+    from nana_core.continuity import memory as module
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    from tools.nana_next_experience.memory_diverse_compare import add
+    store,memory,_=literal_store;good=[];allowed=set();reads=[]
+    for i in range(70):
+        mid=add(memory,'common.good.'+str(i),'SYNTHETIC current co report '+str(i));good.append(mid)
+        allowed.add(store.one('memories',mid)['payload_artifact_id'])
+    for i in range(80):
+        for name,kw in [('private',{'privacy':'PERSONAL'}),('scope',{'scope':'elsewhere'}),('entity',{'entity':'other'})]:
+            add(memory,'common.'+name+'.'+str(i),'SYNTHETIC forbidden co text',**kw)
+        # A semantic/DIRECT/user-note header alone does not grant source consent.
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='SYNTHETIC_ONLY',source_namespace='synthetic.other-source',
+            source_reference='note:common.lookalike.'+str(i),source_kind='USER_STATEMENT'),text='SYNTHETIC unqualified co body',privacy_class='PROJECT',observed_time_us=101))
+        memory.add(MemoryCandidate(entity_id='bench',scope='bench',memory_type=MemoryType.SEMANTIC,epistemic_kind='STATEMENT',
+            source_evidence_id=eid,text='SYNTHETIC unqualified co body',predicate_key='user-note.common.lookalike.'+str(i)))
+    def observed(aid,payload):
+        assert aid in allowed,'unqualified/private artifact body was evaluated'
+        reads.append(aid);return payload.decode()
+    store.db.create_function('observed_body',2,observed)
+    source=textwrap.dedent(inspect.getsource(module.MemoryService.literal_notes)).replace('CAST(a.payload AS TEXT)','observed_body(a.artifact_id,a.payload)')
+    namespace=dict(vars(module));exec(compile(source,'<instrumented-original-literal-body-read>','exec'),namespace)
+    class Traced(module.MemoryService):literal_notes=namespace['literal_notes']
+    found=Traced(store).literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=('co',),limit=4)
+    assert [m['memory_id'] for m in found]==list(reversed(good[-4:]))
+    assert len(reads)==4
+
+
+@pytest.mark.parametrize('term',['归途','🦊🌙','a\ud7ff','\U0010ffff\U0010ffff','a%'])
+def test_short_literal_tail_legacy_gap_correction_and_withdrawal_are_exact(literal_store,term):
+    from tools.nana_next_experience.memory_diverse_compare import add
+    from nana_core.continuity.memory import NOTE_END_PREFIX
+    store,memory,authority=literal_store;text='SYNTHETIC an independent ending '+term
+    mid=add(memory,'short.boundary',text,predicate='user-note.short.boundary')
+    keys=[r[0] for r in store.db.execute('SELECT term FROM memory_terms WHERE memory_id=?',(mid,)) if r[0].startswith(NOTE_END_PREFIX)]
+    assert keys==[NOTE_END_PREFIX+text.casefold()[-2:]]
+    query=lambda:memory.literal_notes(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=(term,),limit=4)
+    assert [m['memory_id'] for m in query()]==[mid]
+    # Only a derived cache row is absent. No old fact is deleted or reclassified.
+    store.db.execute('DELETE FROM memory_terms WHERE memory_id=? AND term=?',(mid,keys[0]))
+    assert [m['memory_id'] for m in query()]==[mid]
+    updated=add(memory,'short.corrected','SYNTHETIC changed detail',predicate='user-note.short.boundary',correction=mid)
+    assert query()==[]
+    memory.forget(updated,authority);assert query()==[]
+    assert not store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=?',(updated,)).fetchone()
+
+
+def test_short_literal_long_unindexed_and_old_cache_reader_remain_supported(literal_store):
+    from tools.nana_next_experience.memory_diverse_compare import add
+    from tools.nana_next_experience.literal_two_prefix_probe import original
+    from nana_core.continuity.memory import NOTE_END_PREFIX
+    store,memory,authority=literal_store
+    a=add(memory,'short.legacy','SYNTHETIC a distant 星月')
+    b=add(memory,'short.long','SYNTHETIC '+('x'*4100)+' 归途')
+    assert not any(r[0].startswith(NOTE_END_PREFIX) for r in store.db.execute('SELECT term FROM memory_terms WHERE memory_id=?',(b,)))
+    terms=('星月','归途');kwargs=dict(entity_ids=('bench',),scopes=('bench',),privacy_classes=('PROJECT',),terms=terms,limit=4)
+    assert [m['memory_id'] for m in memory.literal_notes(**kwargs)]==[b,a]
+    old=original.MemoryService(store,authority)
+    assert [m['memory_id'] for m in old.literal_notes(**kwargs)]==[b,a]
+    # The original reader's own rebuild may discard new derived keys; the new
+    # reader must still find old and long notes exactly, without schema changes.
+    old.rebuild_index()
+    assert [m['memory_id'] for m in memory.literal_notes(**kwargs)]==[b,a]
+    store.db.execute('DROP INDEX memory_terms_term_lookup')
+    assert [m['memory_id'] for m in memory.literal_notes(**kwargs)]==[b,a]

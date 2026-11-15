@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 232,
-  "as_of_us": 1794743066918650,
+  "revision": 233,
+  "as_of_us": 1794748057842691,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -19,27 +19,27 @@
     "原Anthropic目录可显式续页，保留每批8页/256ID/256KiB/10s与原Vault/CAS/鉴权；BFF/SDK/Web/Java分支传cursor，回显校验拒旧桥假翻页，选模同步原生草稿。103后端/TS-Vite/93单测/四视口16浏览器通过，Java/手机未资格，未新APK。",
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
-    "表达反馈按原证据群/已评价状态先筛后各32，合成量不再挤用户意见/反例；lesson先scope/隐私后16，示例同群。383旧7fail10pass→17pass/168相关55.68s；正常C聊天旧fail→pass，同2阶段/+3263bytes非Token，无新表/index。原1k–200k literal成果保留。",
+    "原literal两码点复用L3+每笔记一End键，授权头选计划/CASE后读正文，旧缺键回退。Native同100ms：1k/10k各48/48；100k旧6/48-42timeout→48/48无误返/超时，P95100.46→46.68ms，74相关27.32s。100k缓存+15.47MiB非回收，原20万成果未动。",
     "原有源联系/quiet多倾向共存/142相关保留；原C首次明确EXPLORE/CREATE/REFLECT可竞争，不必先保存兴趣。41d7旧7fail17pass→24pass；相关222过/2路径错改短目录原2过。完整SELF请求逐字段同，各1次/input26757bytes，旧IGNORE→CREATE；原候选+4KiB，真实0。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
-    "原G WORDLIKE/TEXT仍独立16/32；20万新恢复库144/144仅有限literal本轮资格，旧2timeout不抹除；2字符/大量未索引/更广语义检索学习、真实Core-Iris绑定/长期迁移及最终匹配安装回退仍待，不把扩大范围等同成长。",
+    "原G WORDLIKE/TEXT仍独立16/32；两码点1k/10k/100k有限literal本批资格，旧20万144/144与2timeout历史不动；在线有界旧库补项/大量未索引/更广语义学习、Core-Iris活索引绑定/长期迁移及匹配安装回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一S2两码点短线索：原literal3不能加速，先只读/隔离prefix+末端补项对照，复用索引不新全量bigram、不动原20万库。内心情感多时间尺度/不同情境反证/S8更广迁移、正常D/真实交流、物理隐私/Token费用/多端及全部A–H仍优先推进。"
+    "下一继续原情感意义/多时间尺度及自然交流方法的可靠反证→后续C取舍/S8独立迁移；S2旧库有界补项/广语义/真实绑定及物理隐私、Token费用、多端产品/匹配发行和全部A–H继续。233不是生产/真实模型/长期总资格，磁盘尚约1GiB，勿新增大库。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/literal-two-prefix-20261115/README.md",
     "docs/nana_next_experience/evidence/first-g-new-question-20261115/README.md",
     "docs/nana_next_experience/evidence/first-optional-learning-20261115/README.md",
     "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md",
     "docs/nana_next_experience/evidence/coexisting-social-tendencies-20261115/README.md",
     "docs/nana_next_experience/evidence/social-quiet-current-choice-20261115/README.md",
     "docs/nana_next_experience/evidence/language-feedback-populations-20261115/README.md",
-    "docs/nana_next_experience/evidence/attributed-feedback-original-g-20261115/README.md",
-    "docs/nana_next_experience/evidence/private-feedback-current-basis-20261115/README.md"
+    "docs/nana_next_experience/evidence/attributed-feedback-original-g-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2885,3 +2885,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - 2026-11-15 首次可选学习原G证据锚：`docs/nana_next_experience/evidence/first-optional-learning-20261115/source.sha256` SHA256 `34987178ee5f96f799b167f433693e4bfbd90b5ede55cf69b1380d2cda23003d`；不含自身与09，采集时刻。
 
 - 2026-11-15 原G形成新私问资格锚：`docs/nana_next_experience/evidence/first-g-new-question-20261115/source.sha256` SHA256 `fe3eaead153099f60e47d622e48ab3766559060313cc221403ba59a8cee4ff3d`；不含自身与09，采集时刻。
+
+- 2026-11-15 两码点literal证据锚：`docs/nana_next_experience/evidence/literal-two-prefix-20261115/source.sha256` SHA256 `81bbfa421c1d9d467b1e319eab903b24413eaae5dca832ed5383fbd58a152217`；不含自身与09，采集时刻。

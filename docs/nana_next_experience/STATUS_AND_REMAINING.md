@@ -1,10 +1,10 @@
-## 现役revision232 — 原G后来成功→正常D→新私问→重启后新取舍
+## 现役revision233 — 原Store两码点literal接线，同预算十万条不再超时
 
-只补原机制组合资格，不改src：无旧private origin的首次G→另一材料实际Kernel AST成功→原宿主observer SUCCESS→正常D/同C一次SELF形成新PRIVATE_QUESTION。消融只关成长投影、同预算/机会仍一次SELF但无新问题。再重启同Store/identity，相同LOW/REPEATED新cue有问题LEARN、消融IGNORE，后一步0模型、不新Gjob；其他原私人活动完整保留。来源撤回后方法/新疑问影响失效，未重发。57同文件10.17s，随后只补撤回两项2pass3.02s，首次“整个Store应无其他私活动”夹具错误2fail保留。见evidence/first-g-new-question-20261115/README.md。
+原memory_terms每可索引笔记补一个派生End键，复用L3前缀；稀少候选只算一次，常见词先65个去重授权头选计划，再按rowid/CASE护栏读正文，65不是结果/生活上限。无新生产表/索引/Model调用，旧/长/缺键安全回退。Native同limit4/100ms：1k/10k各48/48；100k旧6/48/42timeout→新48/48/0误返0timeout，P95100.46→46.68ms。74相关27.32s含原G16/32/TEXT、隐私/副本/恢复、正常两字商业链重启/换fixture模型/纠错撤回。仪器化同源正文70→4，私域/错来源干扰0读取。见evidence/literal-two-prefix-20261115/README.md。
 
-成长SELF开启54276/消融55592inputbytes是fitted上下文不同，非Token节省；初始学习各1SELF/49288bytes，Kernel/后续C run0模型，真实模型/账号/手机/生产/真人自然度/实际跨日长期0。原src仍49d6df5业务代码，未新包/APK/安装，CURRENT266+409，929候选只对自己源码。
+100k只补99979派生键、2.489s、实分配+15.47MiB，源主表/identity不变且查询主库写禁；非物理回收/生产回填。初始co夹具真值错/较慢原型/语法首错/10万三timeout/原DTO缺字段首错均保留。原20万保留库未打开/修改，Core-Iris活库绑定/大批旧缺键/更广语义仍未资格；在线有界旧库补项尚待。前继49d独立670仅其targeted，当前非全仓/新安装/真实模型/手机/生产/自然度/跨日，CURRENT266+409。
 
-下一S2两码点短线索literal：先只读核对L3索引，隔离prefix+末端补项，尝试复用而非新增全量bigram，不动原20万库；随后内心情感多时间尺度/不同情境反证/S8更广迁移、自然交流/投递、物理隐私/真实Token费用/模型多端/匹配发行与全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
+下一回原情感多时间尺度/自然交流策略可靠反证→后来C选择/G独立迁移；旧库有界补项/更广语义/物理隐私/真实Token费用/模型多端及全部A–H继续。工作树/workspace/nana-next-refinement-work，根盘尚约1GiB，勿再建大库；各隔离语料保留路径见corpora.json。22:25/明早05:00北京时间续办已设，当前未冻结。
 
 ## 现役revision196
 
