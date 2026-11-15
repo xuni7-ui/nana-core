@@ -32,11 +32,23 @@ def test_original_source_withdrawal_removes_watch_and_frame_experiences(tmp_path
         receipt = json.loads(read.kernel.payload(runtime.store.one('actions', action), 'result_json'))
         video, frames = receipt['source_memory_id'], receipt['frame_memory_ids']
         assert len(frames) == 3 and not platform['posts']
+        identity = runtime.identity_id
         memory = MemoryService(runtime.store, runtime.authority)
         memory.forget(source, runtime.authority)
         for mid in (video, *frames):
             with pytest.raises(CoreError):
                 memory.read(mid)
+        with pytest.raises(CoreError):
+            read.kernel.payload(runtime.store.one('actions', action), 'result_json')
+    with fresh(tmp_path/'subject.db', Clock()) as reopened:
+        assert reopened.identity_id == identity
+        memory = MemoryService(reopened.store)
+        for mid in (video, *frames):
+            with pytest.raises(CoreError):
+                memory.read(mid)
+        from nana_core.actions import ActionKernel
+        with pytest.raises(CoreError):
+            ActionKernel(reopened.store, None, reopened.authority).payload(reopened.store.one('actions', action), 'result_json')
 
 
 def test_source_withdrawn_during_fetch_is_not_retained_or_replayed(tmp_path):
