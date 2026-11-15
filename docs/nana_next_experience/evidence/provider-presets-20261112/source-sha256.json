@@ -1,0 +1,9 @@
+{
+  "base_A": "071669bd62a1a8f5fa812775ae8518c12b727ebc",
+  "files": {
+    "apps/nana-space/src/data/provider-center.ts": "0a11a7915023f56d789dd224e365c02f7f13893d9d20b8c213c3c5ac79891ebb",
+    "apps/nana-space/src/features/next/ModelSetup.tsx": "83a0968c93956a0d8d9463f17f9ffd06e2327b2e72fd349590088f0e88864326",
+    "apps/nana-space/tests/provider-center.test.ts": "c27c54c8f098470767557113cac45225386b0f08a5c89e34f039f4eaab0f41a5",
+    "apps/nana-space/tests/v3.spec.ts": "6c44f9ac119b7176143ff55479e7c937a2fc4cfd399187e665eace4682a7fec8"
+  }
+}

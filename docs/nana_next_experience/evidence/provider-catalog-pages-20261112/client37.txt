@@ -1,0 +1,18 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts --run tests/model-catalog.test.ts tests/v2-client.test.ts tests/native-continuation.test.ts tests/provider-commands.test.ts tests/provider-center.test.ts
+
+
+ RUN  v3.2.7 /workspace/nana-core/apps/nana-space
+
+ ✓ tests/v2-client.test.ts (9 tests) 19ms
+ ✓ tests/provider-center.test.ts (15 tests) 12ms
+ ✓ tests/native-continuation.test.ts (6 tests) 111ms
+ ✓ tests/provider-commands.test.ts (4 tests) 10ms
+ ✓ tests/model-catalog.test.ts (3 tests) 10ms
+
+ Test Files  5 passed (5)
+      Tests  37 passed (37)
+   Start at  05:01:36
+   Duration  1.75s (transform 207ms, setup 0ms, collect 289ms, tests 163ms, environment 1ms, prepare 384ms)
+

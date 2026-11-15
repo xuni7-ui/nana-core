@@ -1,0 +1,48 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /tmp/nana-B-merged-web
+
+ ✓ tests/adapters.test.ts (12 tests) 1495ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  442ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  818ms
+ ✓ tests/native-continuation.test.ts (6 tests) 108ms
+ ✓ tests/chat-stream.test.ts (9 tests) 68ms
+ ✓ tests/v2-client.test.ts (9 tests) 14ms
+ ✓ tests/living.test.ts (20 tests) 14ms
+ ✓ tests/live.test.ts (4 tests) 9ms
+ ✓ tests/feedback.test.ts (3 tests) 7ms
+ ✓ tests/memory-center.test.ts (10 tests) 12ms
+ ✓ tests/provider-center.test.ts (16 tests) 10ms
+ ❯ tests/model-catalog.test.ts (4 tests | 1 failed) 10ms
+   ✓ catalog completion remains unknown on older servers and capabilities are never inferred 2ms
+   ✓ pages merge with deduplication and a revision binding; retries preserve prior results 1ms
+   ✓ multi-page cycles and long duplicate-only catalogs cannot grow an unlimited list 2ms
+   × catalog wait is optional and bounded; unknown metadata does not discard usable model choices 4ms
+     → 服务商模型列表格式无效，请手动填写模型名称。
+ ✓ tests/provider-commands.test.ts (4 tests) 6ms
+ ✓ tests/local-speech.test.ts (2 tests) 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-catalog.test.ts > catalog wait is optional and bounded; unknown metadata does not discard usable model choices
+Error: 服务商模型列表格式无效，请手动填写模型名称。
+ ❯ readModelCatalog src/data/model-catalog.ts:23:11
+     21|       (raw.retry_after_ms !== undefined && (typeof raw.retry_after_ms …
+     22|         !Number.isSafeInteger(raw.retry_after_ms) || raw.retry_after_m…
+     23|     throw new Error("服务商模型列表格式无效，请手动填写模型名称。");
+       |           ^
+     24|   const next = raw.next_after_id;
+     25|   if (next != null && (typeof next !== "string" || !modelId.test(next)…
+ ❯ tests/model-catalog.test.ts:41:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 11 passed (12)
+      Tests  1 failed | 98 passed (99)
+   Start at  16:00:02
+   Duration  4.60s (transform 350ms, setup 0ms, collect 569ms, tests 1.76s, environment 2ms, prepare 697ms)
+

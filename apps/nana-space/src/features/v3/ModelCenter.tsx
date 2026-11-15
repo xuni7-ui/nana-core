@@ -33,6 +33,7 @@ import {
   routeCommand,
 } from "../../data/provider-commands";
 import { credentialProfiles, vaultMetadata } from "../../data/living";
+import { mergeModelCatalog, type ModelCatalog, type ModelCatalogPage } from "../../data/model-catalog";
 
 interface Props {
   settings: unknown;
@@ -44,7 +45,7 @@ interface Props {
   onBindCredential?: (providerId: string, revision: number) => Promise<void>;
   onRevokeCredential?: (providerId: string, revision: number) => Promise<void>;
   credentialStatus?: unknown;
-  onDiscover?: (providerId: string, revision: number, afterId?: string) => Promise<ProviderCatalogPage>;
+  onDiscover?: (providerId: string, revision: number, afterId?: string) => Promise<ModelCatalogPage>;
 }
 const secretLabels = {
   AVAILABLE: "安全凭据可用",
@@ -77,23 +78,28 @@ export function ModelCenter({
   const credentials = credentialProfiles(credentialStatus);
   const [providerId, setProviderId] = useState("");
   const [modelId, setModelId] = useState("");
-  const [catalog, setCatalog] = useState<Record<string, ProviderCatalogPage & {revision:number}>>({});
-  const [catalogReadyAt, setCatalogReadyAt] = useState(0);
-  const catalogWaiting = catalogReadyAt > Date.now();
-  useEffect(() => {
-    if (!catalogReadyAt) return;
-    const timer = window.setTimeout(() => setCatalogReadyAt(0), Math.max(0, catalogReadyAt - Date.now()));
-    return () => window.clearTimeout(timer);
-  }, [catalogReadyAt]);
+  const [catalog, setCatalog] = useState<Record<string, ModelCatalog>>({});
   const [discovering, setDiscovering] = useState<string | null>(null);
+  const [catalogReadAfter, setCatalogReadAfter] = useState(0);
+  const [catalogClock, setCatalogClock] = useState(0);
+  const catalogWaitSeconds = Math.ceil(Math.max(0, catalogReadAfter - catalogClock) / 1000);
+  useEffect(() => {
+    const remaining = catalogReadAfter - Date.now();
+    if (remaining <= 0) return;
+    const timer = window.setTimeout(() => setCatalogClock(Date.now()), Math.min(1000, remaining));
+    return () => window.clearTimeout(timer);
+  }, [catalogReadAfter, catalogClock]);
   const discover = async (id: string, revision: number, afterId?: string) => {
-    if (!onDiscover || discovering || catalogWaiting) return;
+    if (!onDiscover || discovering || Date.now() < catalogReadAfter) return;
     setDiscovering(id);
     try {
       const page = await onDiscover(id, revision, afterId);
-      setCatalog(current => ({...current, [id]: {...page,revision}}));
-      setCatalogReadyAt(page.retryAfterMs ? Date.now()+page.retryAfterMs : 0);
-      if (!page.models.length) onNotice("服务商返回的模型列表为空，也可以直接填写模型名称。");
+      const now = Date.now();
+      setCatalogClock(now);
+      setCatalogReadAfter(now + (page.retryAfterMs ?? 0));
+      const merged = mergeModelCatalog(catalog[id], page, revision, afterId);
+      setCatalog(current => ({...current, [id]: merged}));
+      if (!merged.models.length) onNotice("服务商返回的模型列表为空，也可以直接填写模型名称。");
     } catch (error) { onNotice(error instanceof Error ? error.message : "模型列表读取失败，请稍后手动重试。"); }
     finally { setDiscovering(null); }
   };
@@ -175,23 +181,28 @@ export function ModelCenter({
       )}
       {onDiscover && view.providers.length > 0 && <section className="v3-card" aria-label="读取服务商模型">
         <h3>从服务商读取模型</h3><p className="v3-muted">使用服务器已保存的凭据读取列表。不会生成回复或切换路由；列表中的模型仍需配置并验证。</p>
-        {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => <div key={p.id}>
-          <button className="v3-button soft" disabled={busy || discovering !== null || catalogWaiting} onClick={() => void discover(p.id, p.revision!)}>
+        {catalogWaitSeconds > 0 && <p role="status" className="v3-muted">{catalogWaitSeconds} 秒后可再次读取，已读模型可以继续选择。</p>}
+        {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => {
+          const loaded = catalog[p.id]?.revision === p.revision ? catalog[p.id] : undefined;
+          return <div key={p.id}>
+          <button className="v3-button soft" disabled={busy || discovering !== null || catalogWaitSeconds > 0} onClick={() => void discover(p.id, p.revision!)}>
             {discovering === p.id ? "正在读取…" : `读取 ${p.name} 模型`}
           </button>
-          {catalog[p.id]?.revision === p.revision && <label>服务商返回的模型<select key={catalog[p.id].nextAfterId || "last-page"} defaultValue="" onChange={e => {
-            if (!e.target.value) return;
-            setDraft(current => ({...current, modelId:e.target.value, alias:e.target.value, protocol:p.protocol,
-              ...(p.protocol === "ANTHROPIC" ? {operation:"COGNITION" as const} : {})}));
+          {loaded && <><label>服务商返回的模型<select defaultValue="" onChange={e => {
+            const selected=e.target.value;
+            if (!selected) return;
+            setDraft(current=>({...newProviderDraft(p.protocol === "ANTHROPIC" ? "anthropic" : "compatible"),
+              displayName:p.name, protocol:p.protocol, baseUrl:p.baseUrl, modelId:selected, alias:selected,
+              operation:p.protocol === "ANTHROPIC" ? "COGNITION" : current.protocol === p.protocol ? current.operation : "COGNITION"}));
             setProviderId(p.id); setModelId("model.catalog-"+crypto.randomUUID().replaceAll("-", "").slice(0,16));
             setEditor(true); setProposal(""); setValidation([]);
-          }}><option value="">选择后填入配置草稿</option>{catalog[p.id].models.map(id => <option key={id} value={id}>{id}</option>)}</select></label>}
-          {catalog[p.id]?.revision === p.revision && catalog[p.id].nextAfterId && <button className="v3-button ghost"
-            aria-label={`读取 ${p.name} 下一批模型`} disabled={busy || discovering !== null || catalogWaiting}
-            onClick={() => void discover(p.id, p.revision!, catalog[p.id].nextAfterId)}>
-            {catalogWaiting ? "稍后可读取下一批" : "读取下一批"}
-          </button>}
-        </div>)}
+          }}><option value="">选择后填入配置草稿</option>{loaded.models.map(id => <option key={id} value={id}>{id}</option>)}</select></label>
+          <p role="status" className="v3-muted">已读取 {loaded.models.length} 个模型。{loaded.truncated
+            ? loaded.nextAfterId ? "服务商还有后续页面。" : "列表尚未完整，可手动填写未显示的模型名称。"
+            : "服务商当前列表已读完。"} 列表不代表模型能力已经验证。</p>
+          {loaded.nextAfterId && <button className="v3-button soft" aria-label={`读取 ${p.name} 下一批模型`} disabled={busy || discovering !== null || catalogWaitSeconds > 0}
+            onClick={() => void discover(p.id, p.revision!, loaded.nextAfterId)}>读取下一页</button>}</>}
+        </div>})}
       </section>}
       <div className="v3-model-toolbar">
         <div className="v3-segmented" aria-label="模型中心分类">

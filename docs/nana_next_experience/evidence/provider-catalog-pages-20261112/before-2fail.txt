@@ -1,0 +1,57 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_native_catalog_explicit_page_uses_upstream_order_for_cursor _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fbfb62855b0>
+
+    def test_native_catalog_explicit_page_uses_upstream_order_for_cursor(monkeypatch):
+        calls = []
+        class Response(io.BytesIO):
+            status = 200
+            headers = Message()
+        Response.headers['Content-Type'] = 'application/json'
+        class Opener:
+            def open(self, request, timeout):
+                calls.append(request.full_url)
+                assert request.get_header('X-api-key') == 'TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.data is None
+                # The last upstream ID differs from the last sorted display ID.
+                return Response(json.dumps({'data': [{'id': 'z-model'}, {'id': 'a/model:1'}],
+                    'has_more': True, 'last_id': 'a/model:1'}).encode())
+        monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
+>       result = provider_models.read_catalog(profile(protocol='ANTHROPIC'), 'TEST_ONLY_NOT_SECRET_CATALOG', after_id='previous/model:1')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: read_catalog() got an unexpected keyword argument 'after_id'
+
+tests/first_life_android_v2/test_provider_models.py:125: TypeError
+___ test_authenticated_catalog_page_keeps_host_revision_and_authority_checks ___
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fbfb6040bf0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fbfb6336630>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fbfb644f7d0>
+
+    def test_authenticated_catalog_page_keeps_host_revision_and_authority_checks(running, monkeypatch):
+        server, service = running
+        headers = login(server, service)
+        service.allow_provider_configuration = True
+        service.credential_resolver = MemorySecretResolver()
+        service.credential_resolver.bind('catalog.main', 'TEST_ONLY_NOT_SECRET_CATALOG')
+        cfg, authority = config_service(service.supervisor.home/'providers.json')
+        update(cfg, authority, 'UPSERT_PROVIDER', provider=profile(protocol='ANTHROPIC'))
+        life = load_config(service.supervisor.home)
+        update_config(service.supervisor.home, life.model_copy(update={
+            'revision': life.revision+1, 'provider_hosts': ('catalog.example',)}), expected_revision=life.revision)
+        before = (service.supervisor.home/'providers.json').read_bytes()
+        calls = []
+        def read(p, value, *, after_id=None):
+            calls.append(after_id)
+            return {'models': ['page-two'], 'truncated': False, 'next_after_id': None}
+        monkeypatch.setattr(provider_models, 'read_catalog', read)
+        path = 'providers/models?provider_profile_id=catalog.main&profile_revision=1&after_id=page%2Fone%3A1'
+>       assert http(server, path)[0] == 401 and not calls
+E       assert (400 == 401)
+
+tests/first_life_android_v2/test_provider_models.py:169: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_explicit_page_uses_upstream_order_for_cursor
+FAILED tests/first_life_android_v2/test_provider_models.py::test_authenticated_catalog_page_keeps_host_revision_and_authority_checks
+2 failed, 13 deselected in 2.70s

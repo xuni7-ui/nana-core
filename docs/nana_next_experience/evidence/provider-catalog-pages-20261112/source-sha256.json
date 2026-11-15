@@ -1,0 +1,18 @@
+{
+  "base": "f7c30787ab8b72ce7e21f0ef21ef9e7b257ff223",
+  "inherited_A": "f583f187152c452b9638ff2d6c96b91bd4fe68da",
+  "files": {
+    "src/nana_core/life/live_api/provider_models.py": "35fbf2673f321ef3b31b54f7eab660809db6ae26c7bf44338668ab6ceb0007db",
+    "src/nana_core/life/live_api/server.py": "97bda0a44ca23e4019efa37430555c656a27c4753df8303cd7e2736ea15b01dc",
+    "apps/nana-space/src/data/model-catalog.ts": "f0ad92e92dcd57eab8490706649b867174c1b996b8f32cd507d651908a63fcaf",
+    "apps/nana-space/src/data/v2.ts": "f0bf7bf7c6f39c217a01581049dc64cc8cd4fd1c147fb1e345b78ecf14f8431d",
+    "apps/nana-space/src/features/LiveSpace.tsx": "cd97dcd073b28540f2cfbb7b90b2586af801fd2241560653cdb21557ce268464",
+    "apps/nana-space/src/features/v3/ModelCenter.tsx": "958dbef1e876bb76afa536572917b394d5258aff6c4a7f914e2c889038a18e22",
+    "apps/nana-space/android/app/src/main/java/life/nana/space/NanaHostPlugin.java": "2d46e66a9270b87d24fdf6f1c31b66d0933b895f47f9c14bc9de4cdb68cd1571",
+    "tests/first_life_android_v2/test_provider_models.py": "d02a900eb05114ddacbd10989ba55a47629b9916ba7304b4dc0fa025742fb675",
+    "apps/nana-space/tests/model-catalog.test.ts": "90e291dd1bff577491be72a607d219c35fc7039b2012d10e084abae637f3bde7",
+    "apps/nana-space/tests/v2-client.test.ts": "e43b0b470e2a8c55e4a2c737fd7d495d03f75ace9d5da2824e8abaf36f3a63b8",
+    "apps/nana-space/tests/native-continuation.test.ts": "14875a6f81eec4d911eee1edefd4e79bee95f058c3028755d3a6b3b8c0f25327",
+    "apps/nana-space/tests/v3.spec.ts": "fd5fa884972a258eabc2f39a0a26e71ac58a4b4b1feeb2be0e2a68eb10d072e8"
+  }
+}

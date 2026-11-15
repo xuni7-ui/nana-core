@@ -1,0 +1,164 @@
+......FF......F..............F.                                          [100%]
+=================================== FAILURES ===================================
+_____ test_native_catalog_uses_native_headers_and_reports_remaining_pages ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3ffba12f90>
+
+    def test_native_catalog_uses_native_headers_and_reports_remaining_pages(monkeypatch):
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        class Opener:
+            def open(self,request,timeout):
+                calls.append(request)
+                assert request.full_url=='https://catalog.example/v1/models' and request.get_method()=='GET'
+                assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.get_header('Anthropic-version')=='2026-10-21'
+                assert request.get_header('Authorization') is None and request.data is None
+                return Response(json.dumps({'data':[{'type':'model','id':'native.synthetic'}],'has_more':True}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+>       result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_provider_models.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/live_api/provider_models.py:62: in read_catalog
+    with opener.open(request,timeout=remaining) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <first_life_android_v2.test_provider_models.test_native_catalog_uses_native_headers_and_reports_remaining_pages.<locals>.Opener object at 0x7f3ffba13ef0>
+request = <urllib.request.Request object at 0x7f3ffba139e0>, timeout = 10
+
+    def open(self,request,timeout):
+        calls.append(request)
+>       assert request.full_url=='https://catalog.example/v1/models' and request.get_method()=='GET'
+E       AssertionError: assert ('https://cata...els?limit=256' == 'https://cata...ple/v1/models'
+E         
+E         - https://catalog.example/v1/models
+E         + https://catalog.example/v1/models?limit=256
+E         ?                                  ++++++++++)
+
+tests/first_life_android_v2/test_provider_models.py:100: AssertionError
+_ test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3ffba349e0>
+
+    def test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference(monkeypatch):
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        pages=[{'data':[{'id':'native.alpha'},{'id':'native.beta'}],'has_more':True,'last_id':'native.beta'},
+               {'data':[{'id':'native.beta'},{'id':'native.gamma'}],'has_more':False,'last_id':'native.gamma'}]
+        class Opener:
+            def open(self,request,timeout):
+                assert request.full_url==('https://catalog.example/v1/models' if not calls else 'https://catalog.example/v1/models?after_id=native.beta')
+                assert request.get_method()=='GET' and request.data is None and 0<timeout<=10
+                assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.get_header('Authorization') is None
+                calls.append(request.full_url)
+                return Response(json.dumps(pages[len(calls)-1]).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+>       result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_provider_models.py:127: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/live_api/provider_models.py:62: in read_catalog
+    with opener.open(request,timeout=remaining) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <first_life_android_v2.test_provider_models.test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference.<locals>.Opener object at 0x7f3ffba12570>
+request = <urllib.request.Request object at 0x7f3ffba13140>, timeout = 10
+
+    def open(self,request,timeout):
+>       assert request.full_url==('https://catalog.example/v1/models' if not calls else 'https://catalog.example/v1/models?after_id=native.beta')
+E       AssertionError: assert 'https://cata...els?limit=256' == 'https://cata...ple/v1/models'
+E         
+E         - https://catalog.example/v1/models
+E         + https://catalog.example/v1/models?limit=256
+E         ?                                  ++++++++++
+
+tests/first_life_android_v2/test_provider_models.py:120: AssertionError
+_ test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3ffba145c0>
+
+    def test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound(monkeypatch):
+        from urllib.parse import urlsplit,parse_qs
+        calls=[]
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        class Opener:
+            def open(self,request,timeout):
+                url=urlsplit(request.full_url);query=parse_qs(url.query)
+                assert url.hostname=='catalog.example' and url.path=='/v1/models'
+                assert set(query)<= {'after_id'} and 0<timeout<=10
+                assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+                assert request.get_header('Authorization') is None and request.data is None
+                index=int(query['after_id'][0].rsplit('-',1)[1])+1 if query else 1
+                calls.append(index);last='native.page-'+str(index)
+                return Response(json.dumps({'data':[{'id':last}],'has_more':index<10,'last_id':last}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+>       first=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_provider_models.py:195: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/live_api/provider_models.py:62: in read_catalog
+    with opener.open(request,timeout=remaining) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <first_life_android_v2.test_provider_models.test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound.<locals>.Opener object at 0x7f3ffba14f50>
+request = <urllib.request.Request object at 0x7f3ffba148c0>, timeout = 10
+
+    def open(self,request,timeout):
+        url=urlsplit(request.full_url);query=parse_qs(url.query)
+        assert url.hostname=='catalog.example' and url.path=='/v1/models'
+>       assert set(query)<= {'after_id'} and 0<timeout<=10
+E       AssertionError: assert ({'limit'} <= {'after_id'}
+E         
+E         Extra items in the left set:
+E         'limit')
+
+tests/first_life_android_v2/test_provider_models.py:188: AssertionError
+____ test_compatible_partial_catalog_does_not_invent_a_pagination_protocol _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3ffbb0e930>
+
+    def test_compatible_partial_catalog_does_not_invent_a_pagination_protocol(monkeypatch):
+        calls = []
+        class Response(io.BytesIO):
+            status = 200
+            headers = Message()
+        Response.headers['Content-Type'] = 'application/json'
+        class Opener:
+            def open(self, request, timeout):
+                calls.append(request.full_url)
+                return Response(json.dumps({'data': [{'id': f'model-{n:03d}'} for n in range(300)],
+                    'has_more': True, 'last_id': 'unqualified-cursor'}).encode())
+        monkeypatch.setattr(provider_models.urllib.request, 'build_opener', lambda handler: Opener())
+        result = provider_models.read_catalog(profile(), 'TEST_ONLY_NOT_SECRET_CATALOG')
+        assert len(result['models']) == 256 and result['truncated'] is True and result.get('next_after_id') is None
+        assert calls == ['https://catalog.example/v1/models']
+>       with pytest.raises(ApiError, match='PROVIDER_CATALOG_QUERY_REQUIRED'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'PROVIDER_CATALOG_QUERY_REQUIRED'
+E         Actual message: 'PROVIDER_CATALOG_CURSOR_UNSUPPORTED'
+
+tests/first_life_android_v2/test_provider_models.py:358: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_uses_native_headers_and_reports_remaining_pages
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_follows_returned_cursor_with_native_headers_and_no_inference
+FAILED tests/first_life_android_v2/test_provider_models.py::test_native_catalog_exposes_safe_continuation_and_resumes_after_its_page_bound
+FAILED tests/first_life_android_v2/test_provider_models.py::test_compatible_partial_catalog_does_not_invent_a_pagination_protocol
+4 failed, 27 passed in 5.76s

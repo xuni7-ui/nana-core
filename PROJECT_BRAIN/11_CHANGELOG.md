@@ -3780,3 +3780,32 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 - 2026-11-15｜NEXT_EXPERIENCE 累计匹配安装：fee8双Core3b7e2d9e…/Web251bb84b…编译93，delivery4cb88e1、真实新克隆13文件/双离线安装、16高级/152安装模块、原BFF-G-虚拟72h及静止fee8-929-fee8通过；CI291仅targeted。首夹具symlink/已停host守卫拒绝全保留，真实0/CURRENT266+409不动，无APK。证据matched-portable-fee8f42-20261115，下一原维护有界补End键及原A–H。
 
 - 2026-11-15｜NEXT_EXPERIENCE S2/S4/S8：原维护SCAN同片/周回看补旧完整gram缺End键，每笔记1写、无新scanner或模型；旧fee8同输入2fail2pass→4过/64相关27.24s，正常D前台优先1过，重启/隔离/源头不改。首对齐夹具错与61pass1fail全保留，未放宽断言；fee8候选不含后继，不重包APK/CURRENT。证据note-end-bounded-maintenance-20261115；下一B d409实际13ahead59behind产品成果择取集成，原A–H继承。
+
+### 2026-11-12 · Codex B 通用模型目录的显式分页
+
+[源码/实测] B-P/P1，DOMAIN S5-C03、S1-C04 / Platform axis Advanced。原目录丢弃 truncated/没有下一页及选模型未继承协议现已接通；Anthropic 原分页每次一页，兼容协议不猜分页，失败保留已读、ID/revision/循环/1024模型16页有界，SDK/Android有限映射同游标。原认证/授权域名/Vault/10s节流/不推理不自动重发保持，无新依赖/持久化/第二主体。37客户端/16四视口、51相关后端与最终16目录定向通过；继承A后目录/原HTTP集成28通过29.25s，Web编译通过；原始2fail/浏览器定位首错和环境依赖差额保留。源码表锚924f4ef2547df6976f7a395118feba2ac241e6c5cb94b74bf8b0fb2bbe1fcf43，详见docs/nana_next_experience/evidence/provider-catalog-pages-20261112/README.md。开发中正常快进保留A f583f18全部源码与两份账本，A原C内心生活继续；B两条最小队列见docs/nana_next_experience/CODEX_B_QUEUE.md。未改CURRENT/APK/生产，未宣称真实provider/Java/手机/最终安装/长期自然度或全仓通过；PR/CI与合并以实际回执为准。
+
+
+### 2026-11-12 · Codex B 模型预设共用与简易配置续办
+
+[源码/实测] 独立分支基线A 071669b，B-P/P1/DOMAIN S5-C03 Advanced；简易向导与高级编辑器共用既有providerPresets/factory，OpenAI/Anthropic/DeepSeek沿用原已知地址预填，其他地域仍显式手填；9项既有兼容协议可在简易入口选，未接通native/LOCAL不冒充可用。原CAS/UNKNOWN/凭据/预算/路由权限不变，无新API/依赖/持久化。20单测、36四视口fixture及TS/Vite通过；证据provider-presets-20261112，源码锚4dd8790ff9922b2b9c5c3239d04882265ebedd3ada7adfa24a5d055d5d834db6。R1查询感知控制否定此窄图展开并关闭PR15，实验分支/反例保留；PR14待A评估，B不重试被拒合并。核心、CURRENT/APK、真实provider/手机/生产未改；两条最小队列继续。
+
+
+### 2026-11-13 · Codex B 模型配置单一集成候选
+
+[源码/实测] S5-C03/S1-C04 Advanced，工程工作线NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY继承旧B成果。基于A d29120b正常合并B14/16，保留A目录8页/256KiB/10秒/256 ID预算与通用文案；B显式续页及协议继承和共用预设可共同工作。38客户端、56四视口fixture、44本地认证HTTP/目录/授权通过及TS/Vite通过；无推理/新依赖/配置权威/数据迁移。PR14单一待A集成候选，PR16纳入后关闭独立推进，分支保留。证据model-configuration-integration-20261113，源码锚1ed8ff4c070d84ff40c4892e45bdb010cc5b5b32530eaf02511e2aff782dc54d。未改A主体语义/CURRENT/生产，不冒真实Provider/手机/Java或发行资格；下一目录等待体验及有证据的基础设施性能对照。
+
+
+### 2026-11-13 · B 目录等待体验
+
+[源码/实测] S5-C03/S1-C04 Advanced，成功目录响应返回原共享节流剩余ms，模型中心显示倒计时并避免已知立即429，已读选择不阻塞，无自动重试/新限制/推理调用。19客户端、24目录HTTP及TS/Vite通过；相关四视口12通过，新场景测试时钟竞态修正后4通过，未放宽行为断言。证据catalog-wait-20261113，源码锚ff4a0b44cb5078728c16f6cf3850987c8459702540e770f5e82f841f3dbae61b。PR14更新候选，PR16实际已关闭且功能保留；非A合并/真实手机/Provider/生产。下一隔离验证重复Provider配置解析成本。
+
+[2026-11-13 B接续核对] A推进至b016e6c，前台/静默恢复修复正常合并至B候选；完整保留A CURRENT178及账本前缀、B追加。模型配置源码及catalog-wait指纹未变，无新接口重叠，复用刚完成的定向验证，不重复构建/发行。原C/continuity/presence相对A无B差额。
+
+[2026-11-13 B交接] PR14模型配置候选已含PR16（实际关闭），等待体验通过；正常继承最新A6655a28，模型6文件指纹不变且continuity/presence相对A无差额，复用定向验证。独立Provider解析复用draft PR17（6ebd6fd）已有同条件数值/冷miss反例/89+原媒体3路径验证，A按实际负载决定；B下一普通Web连接测试与凭据配置差额，不等待回复或扩大缓存层。
+
+[2026-11-13 B批次对齐] 最新核对A45e7432，仅原主体topic appraisal及其资格；正常合并保留A账本前缀，B产品源码指纹不变，无接口重叠，不重复模型配置/发行验证。
+
+- 2026-11-16 CST｜NEXT_EXPERIENCE A吸收PR14 B-d409共享预设/目录累积等待与Native remaining limit，正常双亲merge保留双方历史及A当前09/C-D-G/echo/错误码/权限预算。31目录/79认证HTTP/TS-Vite99单测/28四视口，首失败完整保留；无实际Provider/手机/生产或新包APK/CURRENT。新用户全局兼容/视觉任务入原task_inputs/08；下一评PR17与PR18新来源契约，B视觉/NanaLink平台不抢占。
+
+- 同一240集成末次：旧A通过而B候选清空VISION用途的实际浏览器回退已修；末次16影响视口/TS-Vite，兼容端不足256仍有后续不误报full（原2fail1pass→目录34pass7.33s），旧类型名保留别名。资格分列，不重叠加数，不重包/APK。

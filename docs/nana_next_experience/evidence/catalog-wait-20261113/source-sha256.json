@@ -1,0 +1,8 @@
+{
+  "apps/nana-space/src/data/model-catalog.ts": "0d06f1918ac19598397fe5239f1e47192e6efe926efbc38e27a87fbe5a06a148",
+  "apps/nana-space/src/features/v3/ModelCenter.tsx": "2d32cda77020c03900b8ca8d95daeaa9e6e95e21756e3cd6dbfaa01a49ddc4f1",
+  "apps/nana-space/tests/model-catalog.test.ts": "e52fb48b241a384a8ade60aa1faa7b9dd4c79bf2ba82fb6095f04774d030f8f5",
+  "apps/nana-space/tests/v3.spec.ts": "7431044a74e49a73175df418ac5540296cb2325b348cd08659c9898a0625d572",
+  "src/nana_core/life/live_api/provider_models.py": "804050588af9f14c72fdbf636db9e0c94542534748b81f6dac4a175696d56cd1",
+  "tests/first_life_android_v2/test_provider_models.py": "51c06cde74c55f8dd844afe06c90d0959af1b66d9e1204773ac3a3eb2a270982"
+}

@@ -1,0 +1,39 @@
+[WebServer] (node:17081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:17099) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/v3.spec.ts:1930:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent (7.3s)
+
+
+  1) [desktop] › tests/v3.spec.ts:1930:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('供应商配置草稿', { exact: true }).getByRole('combobox', { name: '用途', exact: true })
+    Expected: "VISION"
+    Received: "COGNITION"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('供应商配置草稿', { exact: true }).getByRole('combobox', { name: '用途', exact: true }) with timeout 5000ms
+      - waiting for getByLabel('供应商配置草稿', { exact: true }).getByRole('combobox', { name: '用途', exact: true })
+        14 × locator resolved to <select>…</select>
+           - unexpected value "COGNITION"
+
+
+      1938 |   await catalog.getByRole('button',{name:/读取 .* 模型/}).click();
+      1939 |   await catalog.getByRole('combobox').selectOption('catalog.new');
+    > 1940 |   await expect(draft.getByRole('combobox',{name:'用途',exact:true})).toHaveValue('VISION');
+           |                                                                    ^
+      1941 |   await expect(draft.getByLabel('远端 Model ID',{exact:true})).toHaveValue('catalog.new');
+      1942 |   expect(state.requests.filter(row=>row.method!=='GET')).toEqual([]);
+      1943 |   await noHorizontalOverflow(page);
+        at /tmp/nana-B-merged-web/tests/v3.spec.ts:1940:68
+
+    Error Context: test-results/v3-SYNTHETIC-model-catalog-1d8a2-eeps-explicit-visual-intent-desktop/error-context.md
+
+  1 failed
+    [desktop] › tests/v3.spec.ts:1930:1 › SYNTHETIC model catalog: compatible selection keeps explicit visual intent 

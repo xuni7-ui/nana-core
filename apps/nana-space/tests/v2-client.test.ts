@@ -93,6 +93,14 @@ test("new finite provider and backup routes use original session and unknown wri
   await client.providerModels("catalog.main",7,"native.page/8");
   expect(String(request.mock.calls.at(-1)?.[0])).toBe("/api/nana-space/v2/providers/models?provider_profile_id=catalog.main&profile_revision=7&after_id=native.page%2F8");
   await expect(client.providerModels("catalog.main",7,"native.page/8")).rejects.toThrow("PROVIDER_CATALOG_CONTINUATION_UNSUPPORTED");
+  request.mockImplementationOnce(async () => new Response(JSON.stringify({...sample(),data:{continued_after_id:"model/previous:1"}}),{status:200}));
+  await client.providerModels("catalog.main", 7, "model/previous:1");
+  expect(String(request.mock.calls.at(-1)?.[0])).toBe(
+    "/api/nana-space/v2/providers/models?provider_profile_id=catalog.main&profile_revision=7&after_id=model%2Fprevious%3A1",
+  );
+  const count=request.mock.calls.length;
+  await expect(client.providerModels("catalog.main",7,"x&profile_revision=8")).rejects.toMatchObject({code:"PROVIDER_CATALOG_QUERY_REQUIRED"});
+  expect(request.mock.calls.length).toBe(count);
   await expect(
     client.write("providers.command", {
       client_request_id: "new",

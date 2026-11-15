@@ -139,3 +139,25 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 
 Only PROJECT_BRAIN/01_CAPABILITY_MATRIX.md,07_ROADMAP.md,08_TASKS.md,09_STATE.md,10_DECISIONS.md,11_CHANGELOG.md; docs/nana_cloud_first_life_launch_v1_status.md; docs/nana_master_framework_foundation_audit_v1_report.md; named JSON/txt/md evidence in docs/nana_master_framework_foundation_audit_v1_evidence/; tools/nana_foundation_audit/check.py and probe_topic_scope.py; this whitelist.
 Master Framework, application source/tests, runtime configs/DBs, credentials, outside-repo preserved draft and old bundle are excluded. Exact staged names/hashes checked before commit.
+
+## 2026-11-12 · Codex B 显式目录分页（用户持续开发/提交授权）
+
+- 本批恰为 `docs/nana_next_experience/evidence/provider-catalog-pages-20261112/source-sha256.json` 中逐项登记的 12 份源码/测试文件；复用原 Core API、Web SDK 和 Android 有限映射，不复制第三方源码。
+- `docs/nana_next_experience/evidence/provider-catalog-pages-20261112/{README.md,source-sha256.json,before-2fail.txt,browser-first.txt,related51.txt,catalog16.txt,client37.txt,browser16.txt,after-fast-forward.txt,after-a463.txt,after-a071.txt,after-bd48.txt,prerequisite-failures.txt}`：仅源码指纹/合成测试与已知环境失败记录。
+- `docs/nana_next_experience/CODEX_B_QUEUE.md`、`PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}`（保留 A 原文，仅追加）及本白名单。
+- 不含依赖目录、构建产物、数据库、运行配置、凭据、私人历史或 APK；保持原许可现状，逐文件扫描后本地提交/开发分支 push 与小范围 PR。
+
+
+## 2026-11-12 · Codex B 供应商预设共用
+
+持续开发/提交授权：apps/nana-space/src/{data/provider-center.ts,features/next/ModelSetup.tsx}，对应tests/{provider-center.test.ts,v3.spec.ts}；docs/nana_next_experience/evidence/provider-presets-20261112/{README.md,source-sha256.json,unit20.txt,browser36.txt,build.txt}；CODEX_B_QUEUE.md、PROJECT_BRAIN/{09_STATE.md,11_CHANGELOG.md}追加及本清单。仅原创代码、已知公开端点元数据与合成证据，无Key/DB/私史/依赖或二进制。
+
+
+## 2026-11-13 · B 模型配置集成
+
+沿用用户开发/提交/推送/PR持续授权；model-configuration-integration-20261113/{README.md,validation.json,source-sha256.json}及其逐项登记源码/测试，CODEX_B_QUEUE.md与09/11仅追加及本白名单。无第三方源码、凭据、数据或构建产物。
+
+
+## 2026-11-13 · B 目录等待提示
+
+持续授权范围：catalog-wait-20261113/{README.md,source-sha256.json}及指纹中6份源码/测试；CODEX_B_QUEUE.md、09/11追加、本清单。沿用原凭据/10秒节流，无真实Key/私史/依赖/构建产物。

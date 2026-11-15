@@ -8,7 +8,29 @@ import {
   readProviderSettings,
   safeProviderUrl,
   validateProviderDraft,
+  modelSetupPresets,
 } from "../src/data/provider-center";
+
+test("simple and advanced provider drafts share known addresses and adapted protocols", () => {
+  for(const [id,url,protocol] of [
+    ['openai','https://api.openai.com/v1','OPENAI_COMPATIBLE_CHAT'],
+    ['anthropic','https://api.anthropic.com/v1','ANTHROPIC'],
+    ['deepseek','https://api.deepseek.com','OPENAI_COMPATIBLE_CHAT'],
+  ]) {
+    const draft=newProviderDraft(id);
+    expect(draft.baseUrl).toBe(url);expect(draft.protocol).toBe(protocol);
+    expect(validateProviderDraft(draft,'PROVIDER')).toEqual([]);
+  }
+  expect(newProviderDraft('deepseek').modelId).toBe('deepseek-chat');
+  expect(newProviderDraft('anthropic').modelId).toBe('');
+  expect(newProviderDraft('compatible').baseUrl).toBe('');
+  expect(newProviderDraft('qwen').baseUrl).toBe(''); // No guessed regional endpoint.
+  expect(modelSetupPresets.map(p=>p.id)).toContain('qwen');
+  expect(modelSetupPresets.map(p=>p.id)).not.toContain('gemini');
+  expect(modelSetupPresets.map(p=>p.id)).not.toContain('ollama');
+  const first=newProviderDraft('openai');first.baseUrl='https://custom.example/v1';
+  expect(newProviderDraft('openai').baseUrl).toBe('https://api.openai.com/v1');
+});
 const config = () => ({
   schema_version: 1,
   revision: 4,

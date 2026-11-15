@@ -1,0 +1,40 @@
+
+> @nana/space@4.0.3 build
+> tsc -b && vite build --mode live
+
+vite v6.4.5 building for live...
+transforming...
+✓ 1787 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.73 kB │ gzip:  0.47 kB
+dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+dist/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+dist/assets/clock-3-Cv2x-uaa.js          0.35 kB │ gzip:  0.27 kB
+dist/assets/eye-Ds4-EsCb.js              0.42 kB │ gzip:  0.30 kB
+dist/assets/lock-keyhole-pgQDz3gL.js     0.42 kB │ gzip:  0.32 kB
+dist/assets/shield-check-CwloFD_M.js     0.48 kB │ gzip:  0.35 kB
+dist/assets/radio-DNt9R5JR.js            0.83 kB │ gzip:  0.40 kB
+dist/assets/refresh-cw-DVUo660V.js       0.84 kB │ gzip:  0.42 kB
+dist/assets/sparkles-U9oiiRYw.js         0.92 kB │ gzip:  0.44 kB
+dist/assets/smartphone-Dt5NNxFR.js       1.08 kB │ gzip:  0.46 kB
+dist/assets/plus-DYTvC9XL.js             1.16 kB │ gzip:  0.46 kB
+dist/assets/Avatar-D9T6lwh1.js           1.57 kB │ gzip:  0.92 kB
+dist/assets/upload-LPqK03d1.js           1.69 kB │ gzip:  0.67 kB
+dist/assets/ui-Ch-liJrD.js               1.69 kB │ gzip:  0.64 kB
+dist/assets/sun-zSqG8vSF.js              1.85 kB │ gzip:  0.59 kB
+dist/assets/monitor-sKsgPJ1x.js          1.94 kB │ gzip:  0.70 kB
+dist/assets/x-BH3akDB9.js                2.42 kB │ gzip:  0.83 kB
+dist/assets/preferences-COI6p0IH.js      3.31 kB │ gzip:  1.24 kB
+dist/assets/ChatPage-CNi8xraE.js         7.31 kB │ gzip:  3.42 kB
+dist/assets/SettingsPage-DBwPlEjN.js    10.20 kB │ gzip:  4.67 kB
+dist/assets/RuntimePage-B9qqrkRf.js     16.46 kB │ gzip:  6.42 kB
+dist/assets/CoreApp-q74jvDZh.js         19.67 kB │ gzip:  8.37 kB
+dist/assets/ExplorePages-DZS2AdYE.js    27.19 kB │ gzip:  8.98 kB
+dist/assets/index-Ddicdxz5.js          120.23 kB │ gzip: 37.21 kB
+dist/assets/LiveSpace-D26LQUhH.js      188.98 kB │ gzip: 63.08 kB
+dist/assets/index-D3A6Ibky.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.83s

@@ -1,0 +1,60 @@
+FF.                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor[True-True] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3987863890>
+has_more = True, partial = True
+
+    @pytest.mark.parametrize('has_more,partial',[(True,True),('unknown',True),(False,False)])
+    def test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor(monkeypatch,has_more,partial):
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        calls=[]
+        class Opener:
+            def open(self,request,timeout):
+                calls.append(request.full_url)
+                return Response(json.dumps({'data':[{'id':'visible.one'}],'has_more':has_more,'last_id':'not-a-universal-cursor'}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        result=provider_models.read_catalog(profile(),'TEST_ONLY_NOT_SECRET_CATALOG')
+>       assert result=={'models':['visible.one'],'truncated':partial}
+E       AssertionError: assert {'models': ['...cated': False} == {'models': ['...ncated': True}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'truncated': False} != {'truncated': True}
+E         Use -v to get more diff
+
+tests/first_life_android_v2/test_provider_models.py:400: AssertionError
+_ test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor[unknown-True] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3987863560>
+has_more = 'unknown', partial = True
+
+    @pytest.mark.parametrize('has_more,partial',[(True,True),('unknown',True),(False,False)])
+    def test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor(monkeypatch,has_more,partial):
+        class Response(io.BytesIO):
+            status=200
+            headers=Message()
+        Response.headers['Content-Type']='application/json'
+        calls=[]
+        class Opener:
+            def open(self,request,timeout):
+                calls.append(request.full_url)
+                return Response(json.dumps({'data':[{'id':'visible.one'}],'has_more':has_more,'last_id':'not-a-universal-cursor'}).encode())
+        monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+        result=provider_models.read_catalog(profile(),'TEST_ONLY_NOT_SECRET_CATALOG')
+>       assert result=={'models':['visible.one'],'truncated':partial}
+E       AssertionError: assert {'models': ['...cated': False} == {'models': ['...ncated': True}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'truncated': False} != {'truncated': True}
+E         Use -v to get more diff
+
+tests/first_life_android_v2/test_provider_models.py:400: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor[True-True]
+FAILED tests/first_life_android_v2/test_provider_models.py::test_compatible_declared_or_unknown_more_stays_partial_without_guessing_a_cursor[unknown-True]
+2 failed, 1 passed in 0.64s

@@ -431,6 +431,8 @@ export class V2Client {
       : await this.request("providers/runtime"));
   }
   async providerModels(providerId: string, revision: number, afterId?: string): Promise<Envelope> {
+    if (afterId !== undefined && !/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(afterId))
+      throw new V2Error("PROVIDER_CATALOG_QUERY_REQUIRED");
     const result = this.accept(isNative()
       ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision, ...(afterId === undefined ? {} : {after_id:afterId})}})
       : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}${afterId === undefined ? "" : `&after_id=${encodeURIComponent(afterId)}`}`));

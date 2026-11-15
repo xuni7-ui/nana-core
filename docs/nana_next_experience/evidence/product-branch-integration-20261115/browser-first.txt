@@ -1,0 +1,43 @@
+[WebServer] (node:15004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 28 tests using 1 worker
+
+(node:15024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:884:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (2.1s)
+  ✓   2 [desktop] › tests/v3.spec.ts:913:1 › SYNTHETIC catalog cooldown: server wait prevents redundant reads without blocking model choices (1.6s)
+  ✓   3 [desktop] › tests/v3.spec.ts:944:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (1.7s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1010:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (1.3s)
+  ✓   5 [desktop] › tests/v3.spec.ts:1478:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.6s)
+  ✓   6 [desktop] › tests/v3.spec.ts:1884:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.4s)
+  ✓   7 [desktop] › tests/v3.spec.ts:1911:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.4s)
+(node:15441) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [phone-360] › tests/v3.spec.ts:884:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (2.0s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:913:1 › SYNTHETIC catalog cooldown: server wait prevents redundant reads without blocking model choices (1.4s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:944:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (1.7s)
+  ✓  11 [phone-360] › tests/v3.spec.ts:1010:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (1.2s)
+  ✓  12 [phone-360] › tests/v3.spec.ts:1478:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.5s)
+  ✓  13 [phone-360] › tests/v3.spec.ts:1884:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.3s)
+  ✓  14 [phone-360] › tests/v3.spec.ts:1911:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.3s)
+(node:15818) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [phone-390] › tests/v3.spec.ts:884:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.6s)
+  ✓  16 [phone-390] › tests/v3.spec.ts:913:1 › SYNTHETIC catalog cooldown: server wait prevents redundant reads without blocking model choices (1.3s)
+  ✓  17 [phone-390] › tests/v3.spec.ts:944:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (1.5s)
+  ✓  18 [phone-390] › tests/v3.spec.ts:1010:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (1.2s)
+  ✓  19 [phone-390] › tests/v3.spec.ts:1478:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.4s)
+  ✓  20 [phone-390] › tests/v3.spec.ts:1884:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.2s)
+  ✓  21 [phone-390] › tests/v3.spec.ts:1911:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.3s)
+(node:16225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 [phone-412] › tests/v3.spec.ts:884:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.6s)
+  ✓  23 [phone-412] › tests/v3.spec.ts:913:1 › SYNTHETIC catalog cooldown: server wait prevents redundant reads without blocking model choices (1.2s)
+  ✓  24 [phone-412] › tests/v3.spec.ts:944:1 › SYNTHETIC native catalog: explicit next page, failed page preserves choices and selected protocol (1.3s)
+  ✓  25 [phone-412] › tests/v3.spec.ts:1010:1 › SYNTHETIC model catalog: partial results stay honest and permit an unlisted model draft (1.2s)
+  ✓  26 [phone-412] › tests/v3.spec.ts:1478:1 › SYNTHETIC provider presets: both editors fill known endpoints and manual regions stay explicit (1.5s)
+  ✓  27 [phone-412] › tests/v3.spec.ts:1884:1 › SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft (1.3s)
+  ✓  28 [phone-412] › tests/v3.spec.ts:1911:1 › SYNTHETIC model catalog: a legacy bridge that drops continuation cannot fake a next batch (1.3s)
+
+  28 passed (47.6s)

@@ -1,0 +1,25 @@
+Initial invalid test path (no tests executed):
+ERROR: file or directory not found: tests/first_life_android_v2/test_provider_configuration.py
+
+
+no tests ran in 0.00s
+
+Fresh environment missing existing Vault dependency (no tests executed):
+
+==================================== ERRORS ====================================
+_______ ERROR collecting tests/living_release_v4/test_provider_vault.py ________
+ImportError while importing test module '/workspace/nana-core/tests/living_release_v4/test_provider_vault.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_provider_vault.py:11: in <module>
+    from nana_core.life.provider_vault import DurableSecretResolver
+src/nana_core/life/provider_vault.py:20: in <module>
+    from cryptography.exceptions import InvalidTag
+E   ModuleNotFoundError: No module named 'cryptography'
+=========================== short test summary info ============================
+ERROR tests/living_release_v4/test_provider_vault.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 1.05s

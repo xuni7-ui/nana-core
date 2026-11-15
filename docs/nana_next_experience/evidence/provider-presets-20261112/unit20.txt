@@ -1,0 +1,14 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts --run tests/provider-center.test.ts tests/provider-commands.test.ts
+
+
+ RUN  v3.2.7 /workspace/work/nana-provider-presets/apps/nana-space
+
+ ✓ tests/provider-center.test.ts (16 tests) 18ms
+ ✓ tests/provider-commands.test.ts (4 tests) 9ms
+
+ Test Files  2 passed (2)
+      Tests  20 passed (20)
+   Start at  10:14:38
+   Duration  884ms (transform 117ms, setup 0ms, collect 154ms, tests 27ms, environment 0ms, prepare 211ms)

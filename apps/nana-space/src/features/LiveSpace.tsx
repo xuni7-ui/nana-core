@@ -66,6 +66,7 @@ import {
 } from "./v3/LifeViews";
 import { ChatPane, type Turn } from "./v3/ChatPane";
 import { ModelSetup, type ModelSetupPhase } from "./next/ModelSetup";
+import { readModelCatalog } from "../data/model-catalog";
 import { ProviderRuntimeSettings, type RuntimeBudgetInput } from "./next/ProviderRuntimeSettings";
 import { DataConsole } from "./next/DataConsole";
 import { readProviderSettings, type ProviderDraft } from "../data/provider-center";
@@ -127,6 +128,8 @@ const reasons: Record<string, string> = {
   PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED: "该供应商暂不支持自动读取，请直接填写模型名称。",
   PROVIDER_CATALOG_WAIT: "刚刚已读取过模型列表，请稍等几秒。",
   PROVIDER_CATALOG_FORMAT: "服务商返回的列表格式不兼容，请直接填写模型名称。",
+  PROVIDER_CATALOG_BOUND: "服务商列表超出单次读取范围，请手动填写模型名称。",
+  PROVIDER_CATALOG_QUERY_REQUIRED: "模型分页信息无效，请重新读取列表。",
   PROVIDER_RUNTIME_CONFIGURATION_DISABLED: "宿主尚未开放运行预算设置。",
   LIFE_CONFIG_REVISION_CONFLICT: "运行配置已变化，请刷新核对后重新选择。",
   PROVIDER_RUNTIME_PROFILE_UNSUPPORTED: "请选择已启用且具有当前协议适配的远程服务商。",
@@ -1826,15 +1829,11 @@ export function LiveSpace() {
                   try {
                     const result = await client.current.providerModels(id, revision, afterId);
                     if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
-                    const data = object(result.data);
-                    const models = data.models;
-                    if (!Array.isArray(models) || models.length > 256 || !models.every(x => typeof x === "string" && /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(x)) || typeof data.truncated !== "boolean") throw new V2Error("PROVIDER_CATALOG_FORMAT");
-                    const next = data.next_after_id;
-                    const retry = data.retry_after_ms;
-                    if (next !== undefined && (typeof next !== "string" || !/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(next) || data.truncated !== true)) throw new V2Error("PROVIDER_CATALOG_FORMAT");
-                    if (retry !== undefined && (typeof retry !== "number" || !Number.isSafeInteger(retry) || retry < 0 || retry > 10000)) throw new V2Error("PROVIDER_CATALOG_FORMAT");
-                    if (data.truncated) setNotice(next ? "当前读取到一批模型，可以继续读取下一批。" : "当前只读取到部分模型。列表里没有找到时，仍可直接填写服务商提供的模型名称。");
-                    return {models: models as string[], truncated: data.truncated === true, nextAfterId: next as string | undefined, retryAfterMs: retry as number | undefined};
+                    const value = object(result.data);
+                    if(value.provider_profile_id !== id || value.profile_revision !== revision)
+                      throw new V2Error("PROVIDER_CONFIG_REVISION_CONFLICT");
+                    return readModelCatalog(value);
+
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}

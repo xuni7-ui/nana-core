@@ -55,7 +55,9 @@ def read_catalog(profile, credential, *, after_id=None):
         for page in range(8):
             remaining=10 if page==0 else deadline-time.monotonic()
             if remaining<=0:return partial()
-            url=base if cursor is None else base+'?'+urlencode({'after_id':cursor})
+            limit=256-len(ids)
+            query={'limit':str(limit),**({'after_id':cursor} if cursor is not None else {})}
+            url=base+'?'+urlencode(query) if native else base
             request=urllib.request.Request(url,headers=headers)
             with opener.open(request,timeout=remaining) as response:
                 if response.status!=200 or response.headers.get_content_type()!='application/json':
@@ -71,8 +73,15 @@ def read_catalog(profile, credential, *, after_id=None):
                 if type(model_id) is not str or not MODEL_ID.fullmatch(model_id) or credential in model_id:
                     raise ApiError('PROVIDER_CATALOG_MODEL_INVALID',502)
                 ids.add(model_id)
-            has_more=value.get('has_more',False) if native else False
+            has_more=value.get('has_more',False)
+            if not native:
+                # Nonstandard compatible catalogs can report more data, but
+                # do not establish a universal protocol for continuing it.
+                return {'models':sorted(ids)[:256],'truncated':len(ids)>256 or has_more is not False}
             if type(has_more) is not bool:raise ApiError('PROVIDER_CATALOG_FORMAT',502)
+            if native and len(rows)>limit:
+                continuation=None
+                return partial()  # Upstream ignored capacity; no cursor may skip undisplayed IDs.
             if not has_more:return {'models':sorted(ids)[:256],'truncated':len(ids)>256}
             continuation=None
             next_cursor=value.get('last_id')
