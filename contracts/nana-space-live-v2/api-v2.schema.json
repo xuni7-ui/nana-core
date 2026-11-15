@@ -1,5 +1,88 @@
 {
   "$defs": {
+    "AdapterCommandRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "channel_id": {
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "INSTALL",
+            "UNINSTALL",
+            "ENABLE",
+            "DISABLE",
+            "UPGRADE",
+            "ROLLBACK"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        },
+        "management_revision": {
+          "minimum": 1,
+          "title": "Management Revision",
+          "type": "integer"
+        },
+        "configuration_revision": {
+          "minimum": 1,
+          "title": "Configuration Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "channel_id",
+        "operation",
+        "management_revision",
+        "configuration_revision"
+      ],
+      "title": "AdapterCommandRequest",
+      "type": "object"
+    },
     "Binding": {
       "additionalProperties": false,
       "properties": {
@@ -1632,6 +1715,99 @@
       "title": "PlatformCredentialRequest",
       "type": "object"
     },
+    "PlatformLoginRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "action": {
+          "enum": [
+            "BEGIN",
+            "POLL",
+            "COMMIT",
+            "CANCEL"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "channel_id": {
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "configuration_revision": {
+          "minimum": 1,
+          "title": "Configuration Revision",
+          "type": "integer"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{24,64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "expected_vault_revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Vault Revision"
+        },
+        "consent": {
+          "default": false,
+          "title": "Consent",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "action",
+        "channel_id",
+        "configuration_revision"
+      ],
+      "title": "PlatformLoginRequest",
+      "type": "object"
+    },
     "PlatformSetupRequest": {
       "additionalProperties": false,
       "properties": {
@@ -1663,6 +1839,7 @@
         "method": {
           "enum": [
             "qq.onebot",
+            "qq.official",
             "bilibili.account"
           ],
           "title": "Method",
@@ -1674,12 +1851,12 @@
           "type": "string"
         },
         "peer_id": {
-          "pattern": "^[0-9]{1,20}$",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
           "title": "Peer Id",
           "type": "string"
         },
         "sender_id": {
-          "pattern": "^[0-9]{1,20}$",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
           "title": "Sender Id",
           "type": "string"
         },

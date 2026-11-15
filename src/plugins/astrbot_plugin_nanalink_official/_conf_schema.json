@@ -1,0 +1,5 @@
+{
+  "enabled": {"type":"bool","default":false,"description":"启用前须完成宿主独占路由及账号授权"},
+  "read_authorized": {"type":"bool","default":false,"description":"已明确授权配置中各消息来源的读取范围"},
+  "host_config": {"type":"string","default":"","description":"宿主侧只含引用和路由的配置路径"}
+}

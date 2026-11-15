@@ -82,7 +82,7 @@ class PlatformEvents:
             message = str(body["message_id"])
             valid = (
                 re.fullmatch(r"-?[0-9]{1,20}", message)
-                if platform == "qq"
+                if platform == "qq" and body.get("backend") != "official"
                 else re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", message)
             )
             if body.get("post_type") != "message" or not valid:

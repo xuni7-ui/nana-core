@@ -44,11 +44,15 @@ class GatewayService:
         platform_event_secret_refs=None,
         nanalink_observers=(),
         nanalink_bilibili_sources=(),
+        allow_platform_login=False,
     ):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
         self.allow_provider_runtime_budget = allow_provider_runtime_budget
         self.credential_resolver = credential_resolver
+        self.allow_platform_login = allow_platform_login
+        from ...nanalink.login import LoginBroker
+        self.platform_login = LoginBroker()
         self.binding = supervisor.binding
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")

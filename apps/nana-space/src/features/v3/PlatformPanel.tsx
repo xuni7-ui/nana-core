@@ -1,3 +1,5 @@
+import { AdapterManagement } from "./AdapterManagement";
+import { PlatformLogin } from "./PlatformLogin";
 import { NanaLinkSetup } from "./NanaLinkSetup";
 import { linkHealth, healthWords } from "../../data/nanalink";
 import { useEffect, useState } from "react";
@@ -26,6 +28,9 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
   }, [client]);
   const data = status ? object(status.data) : {};
   const rows = platformChannels(data);
+  const optionalObject=(value:unknown):Record<string,unknown> => value && typeof value==='object' && !Array.isArray(value) ? value as Record<string,unknown> : {};
+  const sessionViews=optionalObject(data.nanalink).sessions;
+  const managed=(channel:string)=>optionalObject((Array.isArray(sessionViews)?sessionViews:[]).map(optionalObject).find(v=>v.platform==='qq'&&v.channel_id===channel)?.management);
   const toggle = async (row: PlatformChannel) => {
     if (!status || busy || !canManage) return;
     setBusy(true); setMessage("");
@@ -70,6 +75,10 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
         : row.state === "NOT_OBSERVED" ? "尚无本次运行的投递记录" : "最近状态待核对"}</p>
       <button className="v3-button soft" disabled={busy || !canManage || row.read_authorized !== true}
         onClick={() => void toggle(row)}>{row.enabled ? "暂停入口" : "启用已授权入口"}</button>
+      {canManage && row.platform==='qq' && status && typeof managed(row.channel_id).revision==='number' &&
+        <AdapterManagement client={client} status={status} channel={row.channel_id} readAuthorized={row.read_authorized} view={managed(row.channel_id)} onSaved={refresh}/>}
+      {canManage && row.platform==='bilibili' && !row.enabled && optionalObject(data.login).bilibili_qr===true && status &&
+        <PlatformLogin client={client} status={status} channel={row.channel_id} onSaved={refresh}/>}
       {canManage && isNative() && <div className="v3-inline">
         {(row.platform === "qq" ? ["AUTH"] as const : ["COOKIE", "CSRF"] as const).map(slot => <span key={slot}>
           <button className="v3-button soft" disabled={busy} onClick={() => void credential(row, slot)}>

@@ -1749,8 +1749,8 @@ for (const outcome of ['VERIFIED','UNKNOWN'] as const) test(`NanaLink phone setu
   await open(page,'devices');await page.getByRole('button',{name:'添加平台连接'}).click();
   await expect(page.getByLabel('连接平台')).toBeVisible();
   await page.getByLabel('QQ连接方式').selectOption('official');
-  await expect(page.getByText('官方Bot沿用现有AstrBot适配和补丁。',{exact:false})).toBeVisible();
-  await expect(page.getByRole('button',{name:'保存连接配置'})).toHaveCount(0);
+  await expect(page.getByText('官方Bot复用已授权宿主会话',{exact:false})).toBeVisible();
+  await expect(page.getByRole('button',{name:'保存连接配置'})).toBeVisible();
   await page.getByLabel('QQ连接方式').selectOption('onebot');
   await page.getByLabel('平台账号',{exact:true}).fill('42');await page.getByLabel('会话对象',{exact:true}).fill('43');
   await expect(page.getByLabel('OneBot服务地址')).not.toBeVisible();

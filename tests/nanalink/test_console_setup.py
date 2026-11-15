@@ -62,3 +62,16 @@ def test_config_write_ack_loss_is_unknown_and_not_replayed(running,monkeypatch):
     rev=load_config(service.supervisor.home).revision
     assert http(server,'platform/setup','POST',request,headers)[1]['data']['state']=='UNKNOWN'
     assert load_config(service.supervisor.home).revision==rev
+
+
+def test_official_phone_setup_native_identity_separate_from_onebot(running):
+    server,service=running;headers=login(server,service);service.allow_provider_configuration=True
+    request={**body(service,'setup.official'), 'method':'qq.official','peer_id':'native_peer','sender_id':'native_peer'}
+    result=http(server,'platform/setup','POST',request,headers)[1]
+    assert result['data']['state']=='VERIFIED',result
+    config=load_config(service.supervisor.home);channel=config.qq_channels[0]
+    assert channel.backend=='official' and channel.target_id=='native_peer'
+    assert config.surface_bindings[-1].platform=='qq.official'
+    assert not channel.enabled and channel.activation is None and not channel.private_read_authorized
+    request.update({**base(service,'setup.invalid.onebot'),'method':'qq.onebot','configuration_revision':config.revision})
+    assert http(server,'platform/setup','POST',request,headers)[0]==400

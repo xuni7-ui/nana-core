@@ -10,6 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', required=True)
     parser.add_argument('--adapter-vault', required=True, help='isolated adapter-only host vault; never the full Core vault')
+    parser.add_argument('--management-state', help='private host infrastructure file for persistent pause/version selection')
     parser.add_argument('--check', action='store_true', help='validate config without resolving secrets or opening connections')
     args = parser.parse_args()
     raw = Path(args.config).read_bytes()
@@ -23,7 +24,7 @@ def main():
     async def run():
         from ..life.provider_vault import DurableSecretResolver
         resolver = DurableSecretResolver(args.adapter_vault, initialize=False)
-        sidecar = OneBotSidecar(config, resolver)
+        sidecar = OneBotSidecar(config, resolver, management_state=args.management_state)
         done = asyncio.Event()
         loop = asyncio.get_running_loop()
         for sig in (signal.SIGINT, signal.SIGTERM):

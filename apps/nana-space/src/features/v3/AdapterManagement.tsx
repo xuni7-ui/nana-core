@@ -1,0 +1,36 @@
+import {useState} from 'react';
+import {V2Client,object,writeBase} from '../../data/v2';
+import type {Envelope} from '../../data/v2.generated';
+
+export function AdapterManagement({client,status,channel,readAuthorized,view,onSaved}:{client:V2Client;status:Envelope;channel:string;readAuthorized:boolean;view:Record<string,unknown>;onSaved:()=>Promise<void>}) {
+  const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[version,setVersion]=useState('');
+  const choices=Array.isArray(view.approved_versions)?view.approved_versions.filter((v):v is string=>typeof v==='string'):[];
+  const installed=view.installed===true,enabled=view.enabled===true;
+  const command=async(operation:string)=>{
+    if(busy)return;setBusy(true);setMessage('');
+    try {
+      const data=object(status.data);
+      const result=object((await client.manageAdapter({...writeBase(status,crypto.randomUUID()),operation,
+        channel_id:channel,configuration_revision:data.configuration_revision,management_revision:view.revision,
+        version:operation==='INSTALL'||operation==='UPGRADE'?(version||String(view.current)):null})).data);
+      setMessage(result.state==='VERIFIED'?'连接器设置已应用。':result.state==='UNKNOWN'?'连接器结果待核对，请刷新；不会自动重试。':'设置未应用，请刷新后检查版本或权限。');
+      await onSaved();
+    } catch {setMessage('连接器结果待核对。请刷新查看，勿重复执行。');}
+    finally {setBusy(false);}
+  };
+  return <details><summary>管理此连接器 · {String(view.current)}</summary>
+    <p>{installed?'已安装':'已移除'} · {enabled?'运行中':'已暂停'}{view.uncertain===true?' · 上次操作待核对':''}</p>
+    {view.persistent!==true&&<p className="v3-muted">设置只在本次运行生效；重启后遵循宿主配置。</p>}
+    {choices.length>1&&<label>宿主批准的版本 <select aria-label="连接器版本" value={version||String(view.current)} onChange={e=>setVersion(e.target.value)}>
+      {choices.map(v=><option key={v}>{v}</option>)}
+    </select></label>}
+    {installed?<>
+      <button className="v3-button soft" disabled={busy||(!enabled&&!readAuthorized)} onClick={()=>void command(enabled?'DISABLE':'ENABLE')}>{enabled?'暂停连接器':'恢复已授权连接器'}</button>
+      {!enabled&&choices.length>1&&<button className="v3-button soft" disabled={busy||!version||version===view.current} onClick={()=>void command('UPGRADE')}>使用所选版本</button>}
+      {!enabled&&view.previous&&<button className="v3-button soft" disabled={busy} onClick={()=>void command('ROLLBACK')}>回退上一版本</button>}
+      {!enabled&&<button className="v3-button soft" disabled={busy} onClick={()=>void command('UNINSTALL')}>移除此连接器</button>}
+    </>:<button className="v3-button soft" disabled={busy} onClick={()=>void command('INSTALL')}>安装已批准的连接器</button>}
+    <p className="v3-muted">只使用宿主已安装并批准的版本。升级前暂停并排空输入；恢复连接不会授予发送权限。</p>
+    {message&&<p role="status">{message}</p>}
+  </details>;
+}

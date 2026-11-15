@@ -153,6 +153,20 @@ class OneBotHTTPTransport:
             "target_id": str(peer), "independent_readback": True, "platform_origin": self.realm})
 
 
+def qq_transport_type(transport):
+    from .official_transport import OfficialQQHTTPTransport
+    return type(transport) in {OneBotHTTPTransport, OfficialQQHTTPTransport}
+
+
+def qq_platform(transport):
+    from .official_transport import OfficialQQHTTPTransport
+    return 'qq.official' if type(transport) is OfficialQQHTTPTransport else 'qq.onebot'
+
+
+def qq_peer_pattern(transport):
+    return r'[A-Za-z0-9_-]{1,128}' if qq_platform(transport) == 'qq.official' else r'[0-9]{1,20}'
+
+
 class QQRegistry:
     """Original world.contact taxonomy, exact resources, never an extra Grant."""
     definitions = MappingProxyType({"world.contact": ContactArgs})
@@ -201,7 +215,7 @@ class QQCapabilityPort:
     evidence_namespace = "recorded.platform.qq.delivery"
 
     def __init__(self, store, transport, targets, *, host_enabled=False, app=None, activation=None, delivery=None):
-        if host_enabled is not True or type(transport) is not OneBotHTTPTransport:
+        if host_enabled is not True or not qq_transport_type(transport):
             raise CoreError("QQ_HOST_BINDING_REQUIRED")
         self.store, self.transport = store, transport
         self.identity_id = store.identity["identity_id"]
@@ -217,7 +231,7 @@ class QQCapabilityPort:
             if (not re.fullmatch(r"^project://qq/[A-Za-z0-9/._:-]{1,120}$", resource)
                     or type(target) not in {tuple, list} or len(target) != 2
                     or target[0] not in {"private", "group"}
-                    or not re.fullmatch(r"[0-9]{1,20}", str(target[1]))):
+                    or not re.fullmatch(qq_peer_pattern(transport), str(target[1]))):
                 raise CoreError("QQ_FINITE_TARGET_BINDING_REQUIRED")
         self.registry = QQRegistry(self.targets)
         self.candidates = {}
@@ -235,7 +249,7 @@ class QQCapabilityPort:
             raise CoreError("QQ_CANONICAL_ACTIVATION_REQUIRED")
         from .platform_authority import require_platform_authority
         require_platform_authority(self.app, self.activation, channel="qq", exclusive_writer=True,
-                                   account_id=self.transport.account_id)
+                                   account_id=self.transport.account_id, expected_platform=qq_platform(self.transport))
 
     def bind_candidate(self, text, cycle_record_id, *, privacy):
         if privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
@@ -367,19 +381,19 @@ class QQIngress:
 
     def __init__(self, app, transport, binding_id, sender_id, *, privacy="PROJECT", private_read_authorized=False,
                  target_kind="private", target_id=None, activation=None):
-        if type(transport) is not OneBotHTTPTransport:
+        if not qq_transport_type(transport):
             raise CoreError("ONEBOT_TYPED_TRANSPORT_REQUIRED")
         if privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
             raise CoreError("QQ_PRIVACY_DENIED")
         if privacy == "PERSONAL" and private_read_authorized is not True:
             raise CoreError("QQ_PRIVATE_INGRESS_NOT_AUTHORIZED")
         binding = app.surfaces._binding(binding_id)
-        if binding.mode != "PLATFORM_ADAPTER_NO_SEND" or binding.platform != "qq.onebot":
+        if binding.mode != "PLATFORM_ADAPTER_NO_SEND" or binding.platform != qq_platform(transport):
             raise CoreError("QQ_PLATFORM_BINDING_REQUIRED")
         if privacy not in binding.permitted_privacy:
             raise CoreError("SURFACE_PRIVACY_NOT_BOUND")
-        if (not re.fullmatch(r"[0-9]{1,20}", str(sender_id)) or target_kind not in {"private", "group"}
-                or (target_id is not None and not re.fullmatch(r"[0-9]{1,20}", str(target_id)))
+        if (not re.fullmatch(qq_peer_pattern(transport), str(sender_id)) or target_kind not in {"private", "group"}
+                or (target_id is not None and not re.fullmatch(qq_peer_pattern(transport), str(target_id)))
                 or (target_kind == "group" and target_id is None)):
             raise CoreError("QQ_TRUSTED_PEER_BINDING_REQUIRED")
         self.app, self.transport = app, transport
@@ -398,10 +412,11 @@ class QQIngress:
         if type(self.activation) is not PlatformActivation or self.activation.binding_id != self.binding_id:
             raise CoreError("QQ_CANONICAL_ACTIVATION_REQUIRED")
         require_platform_authority(self.app, self.activation, channel="qq", exclusive_writer=False,
-                                   account_id=self.transport.account_id)
+                                   account_id=self.transport.account_id, expected_platform=qq_platform(self.transport))
 
     def receive(self, message_id, *, reply_target=None):
         from .surfaces import SurfaceObservation
+        from .official_transport import qq_event_id
         self._authority()
         self.transport.account()
         row = self.transport.get_message(message_id)
@@ -413,10 +428,11 @@ class QQIngress:
         peer = str(row.get("group_id")) if kind == "group" else self.sender_id
         if kind != self.target_kind or peer != self.target_id:
             raise CoreError("QQ_PEER_UNBOUND")
-        if not re.fullmatch(r"[0-9]{1,20}", peer) or type(row.get("time")) is not int:
+        if not re.fullmatch(qq_peer_pattern(self.transport), peer) or type(row.get("time")) is not int:
             raise CoreError("QQ_EVENT_METADATA_INVALID")
         result = self.app.surfaces.receive(SurfaceObservation(binding_id=self.binding_id,
-            event_id="qq:" + str(message_id), thread_id="qq." + kind + "." + peer,
+            event_id=qq_event_id(self.transport, message_id),
+            thread_id="qq." + kind + "." + (digest(peer)[:32] if qq_platform(self.transport)=="qq.official" else peer),
             occurred_at_us=row["time"] * 1_000_000, text=message_text(row.get("message")), privacy_class=self.privacy,
             origin=self.transport.realm), reply_target=reply_target)
         source = result.get("source_key")

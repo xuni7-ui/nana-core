@@ -29,6 +29,8 @@ def status(service, principal):
         value = result["result"]
         current = load_config(service.supervisor.home)
         value['configuration_revision'] = current.revision
+        value['login'] = {'bilibili_qr':bool(service.allow_platform_login and service.allow_provider_configuration and service.credential_resolver),
+                          'qq_official':'EXISTING_AUTHORIZED_HOST', 'qq_onebot':'EXTERNAL_CLIENT_LOGIN'}
         existing = {(r['platform'], r['channel_id']) for r in value['channels']}
         for platform, channels in (('qq', current.qq_channels), ('bilibili', current.bilibili_channels)):
             for channel in channels:
@@ -40,6 +42,7 @@ def status(service, principal):
             items = current.qq_channels if row['platform'] == 'qq' else current.bilibili_channels
             channel = next((c for c in items if c.channel_id == row['channel_id']), None)
             if channel is not None:
+                row['backend'] = getattr(channel, 'backend', 'account')
                 row['account_label'] = '账号尾号 ' + str(channel.account_id)[-4:]
                 row['conversation_kind'] = channel.target_kind if row['platform'] == 'qq' else channel.kind
         value["event_ingress"] = service.platform_events.view()

@@ -13,6 +13,12 @@
 
 证据：[验收](../docs/nanalink/evidence/README.md)；使用/回退：[NanaLink](../docs/nanalink/README.md)；[继承](../docs/nanalink/INHERITANCE.md)。源码输入指纹：[manifest](../manifests/nanalink-01.sha256)，自身锚点SHA256 `097b893986b82a338c9405bc454e27ddab0b2d51dc107d4424b7f8cc056ab295`；不含其自身或可变PROJECT_BRAIN账本。成本：2000入队+2000重复约0.207s/CPU0.103ms每入队，8MiB重复媒体只保留一份；真实模型/Token/外发0，不能据此推断有效认知成本收益。
 
+### C 后继工作检查点（2026-11-15）
+
+[实测] 在 `4ccd7b2` 后开发 QQ 官方单次发送/原生身份和独立宿主桥、B站扫码与原 vault 双凭据原子保存、批准版本的连接器管理及 Android 路由。相关 82 项 Python 通过，原 vault 等另 8 项通过；前端 93 项和构建通过。手机浏览器回归发现可选字段崩溃并修复，桌面与三种手机宽度12项通过；源码未声明生产或真实账号上线。原 A 远端最新观测 `aebb02a4ede90eadbe75a0504eeda4f6a4549eb0`，本工作仍基于 `87c32b3`，尚未合入该增量。
+
+[未完成] 私人 B站订阅动态须原记忆来源授权契约，QQ 非文本行动须原 C 明确选择媒体；独立草稿及最小提案见 `docs/nanalink/CONTRACT_EXTENSIONS.md`。还需真实授权、账号联调、手机实机、生产和长期成本数据。当前源码指纹 `manifests/nanalink-01.sha256` 锚点 `9da4bcafd52807ba5c94a23f962e0e16f1d4a0990b21ab3840a31b6dfa5e1d40`，不含账本和自身。
+
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->
 {

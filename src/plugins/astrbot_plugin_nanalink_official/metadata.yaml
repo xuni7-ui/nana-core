@@ -1,0 +1,7 @@
+name: astrbot_plugin_nanalink_official
+display_name: NanaLink QQ官方入口
+author: Nana
+version: v1.0.0
+desc: 默认停用的官方QQ事件移交；复用现有宿主登录，接入唯一Core，不自动回复或发送
+entry: main
+astrbot_version: ">=4.28.0"

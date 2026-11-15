@@ -18,7 +18,7 @@ class RecipientState(DTO):
 class ReplyWindowBinding(DTO):
     resource:str=Field(pattern=URI)
     binding_id:str=Field(min_length=1,max_length=96)
-    platform:Literal['qq.onebot','bilibili.account']
+    platform:Literal['qq.onebot','qq.official','bilibili.account']
     thread_id:str=Field(min_length=1,max_length=128)
 
 class DeliveryPolicy(DTO):

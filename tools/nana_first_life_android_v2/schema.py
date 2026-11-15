@@ -7,6 +7,8 @@ from nana_core.life.live_api import contracts as c
 from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest, ProviderRuntimeBudgetRequest
 from nana_core.life.live_api.platform_settings import PlatformConfigurationRequest
 from nana_core.life.live_api.platform_setup import PlatformSetupRequest
+from nana_core.life.live_api.platform_login import PlatformLoginRequest
+from nana_core.life.live_api.platform_adapters import AdapterCommandRequest
 from nana_core.life.live_api.platform_credentials import PlatformCredentialRequest
 from nana_core.life.live_api.memory_notes import MemoryNoteRequest
 
@@ -31,6 +33,8 @@ MODELS = [
     CredentialBindingRequest,
     PlatformConfigurationRequest,
     PlatformSetupRequest,
+    PlatformLoginRequest,
+    AdapterCommandRequest,
     PlatformCredentialRequest,
 ]
 
@@ -111,6 +115,8 @@ def generate():
         "/platform/status": ["get"],
         "/platform/commands": ["post"],
         "/platform/setup": ["post"],
+        "/platform/login": ["post"],
+        "/platform/adapters": ["post"],
         "/platform/credential": ["post"],
         "/privacy/withdrawal": ["post"],
     }.items():

@@ -7,7 +7,7 @@ No credential discovery, new Subject, Store, scheduler or automatic Grant.
 """
 
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_validator, model_serializer
 
 from ..contracts import CoreError, DTO
 from ..storage import digest
@@ -45,9 +45,10 @@ class QQChannelBinding(DTO):
     binding_id: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,96}$")
     endpoint: str = Field(min_length=1, max_length=256)
     account_id: str = Field(pattern=r"^[0-9]{1,20}$")
-    sender_id: str = Field(pattern=r"^[0-9]{1,20}$")
+    backend: Literal["onebot", "official"] = "onebot"
+    sender_id: str = Field(pattern=r"^[A-Za-z0-9_-]{1,128}$")
     target_kind: Literal["private", "group"] = "private"
-    target_id: str = Field(pattern=r"^[0-9]{1,20}$")
+    target_id: str = Field(pattern=r"^[A-Za-z0-9_-]{1,128}$")
     credential_ref: str | None = Field(default=None, pattern=r"^[A-Za-z0-9._:-]{1,128}$")
     enabled: bool = False
     read_authorized: bool = False
@@ -57,11 +58,28 @@ class QQChannelBinding(DTO):
     activation: PlatformActivation | None = None
     max_events_per_hour: int = Field(default=24, ge=0, le=128)
 
+    @model_validator(mode='after')
+    def backend_ids(self):
+        import re
+        if self.backend == 'onebot' and any(not re.fullmatch(r'[0-9]{1,20}', value) for value in (self.sender_id, self.target_id)):
+            raise ValueError('OneBot numeric IDs required')
+        return self
+
+    @model_serializer(mode='wrap')
+    def old_config_compatible(self, handler):
+        value = handler(self)
+        if self.backend == 'onebot':
+            value.pop('backend', None)
+        return value
+
 
 class QQReplyWorkflow:
     def __init__(self, app, channel, transport):
         self.app, self.runtime, self.channel, self.transport = app, app.runtime, channel, transport
         self.store = app.runtime.store
+        from .platform_bridge import qq_platform
+        if qq_platform(transport) != 'qq.' + channel.backend:
+            raise CoreError('QQ_BACKEND_TRANSPORT_MISMATCH')
         self.resource = "project://qq/" + channel.channel_id
         self.target = RealizationTarget(
             capability="world.contact", resource=self.resource, operation="CONTACT", resource_class="ORDINARY"
@@ -77,6 +95,7 @@ class QQReplyWorkflow:
             target_id=channel.target_id,
             activation=channel.activation,
         )
+        from .platform_bridge import qq_platform
         delivery = DeliveryAdmission(
             self.store,
             DeliveryPolicy(
@@ -86,8 +105,8 @@ class QQReplyWorkflow:
                     ReplyWindowBinding(
                         resource=self.resource,
                         binding_id=channel.binding_id,
-                        platform="qq.onebot",
-                        thread_id="qq." + channel.target_kind + "." + channel.target_id,
+                        platform=qq_platform(transport),
+                        thread_id="qq." + channel.target_kind + "." + (digest(channel.target_id)[:32] if channel.backend=="official" else channel.target_id),
                     ),
                 ),
             ),
@@ -109,8 +128,9 @@ class QQReplyWorkflow:
         if not self.channel.enabled or not self.channel.read_authorized:
             raise CoreError("QQ_CHANNEL_DISABLED_OR_NOT_AUTHORIZED")
         binding = self.app.surfaces._binding(self.channel.binding_id)
+        from .official_transport import qq_event_id
         event_key = "local.surface." + digest(
-            [binding.platform, binding.adapter, binding.surface, digest([binding.binding_id, "qq:" + str(message_id)])]
+            [binding.platform, binding.adapter, binding.surface, digest([binding.binding_id, qq_event_id(self.transport, message_id)])]
         )
         prior = self.store.db.execute(
             "SELECT c.* FROM subject_cycles c JOIN subject_events e ON e.subject_event_id=c.subject_event_id "
@@ -238,7 +258,9 @@ class PlatformRuntime:
                 raise CoreError("QQ_CREDENTIAL_UNAVAILABLE")
             credential = SecretReference(self.resolver, channel.credential_ref)
         try:
-            transport = OneBotHTTPTransport(
+            from .official_transport import OfficialQQHTTPTransport
+            transport_type = OfficialQQHTTPTransport if channel.backend == "official" else OneBotHTTPTransport
+            transport = transport_type(
                 channel.endpoint,
                 channel.account_id,
                 credential=credential,

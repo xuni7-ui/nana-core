@@ -180,7 +180,7 @@ class DurableSecretResolver(MemorySecretResolver):
             if os.path.exists(name):
                 os.unlink(name)
 
-    def _update(self, reference, value, expected_revision):
+    def _update_many(self, changes, expected_revision):
         with self.__lock:
             fd = os.open(self.__directory / "vault.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
             try:
@@ -189,15 +189,26 @@ class DurableSecretResolver(MemorySecretResolver):
                 revision, values = self._load()
                 if expected_revision is not None and expected_revision != revision:
                     raise CoreError("PROVIDER_VAULT_REVISION_CONFLICT")
-                if value is None:
-                    values.pop(reference, None)
-                else:
-                    values[reference] = value
+                for reference, value in changes.items():
+                    if value is None:
+                        values.pop(reference, None)
+                    else:
+                        values[reference] = value
                 self._validate_values(values)
                 self._publish(revision + 1, values)
                 self._refresh()
             finally:
                 os.close(fd)
+
+    def _update(self, reference, value, expected_revision):
+        self._update_many({reference: value}, expected_revision)
+
+    def bind_many(self, values, *, expected_revision=None):
+        """One CAS/atomic ciphertext publish for a coupled account credential."""
+        if type(values) is not dict or not 1 <= len(values) <= 12:
+            raise CoreError('SECRET_BINDING_INVALID')
+        self._validate_values(values)
+        self._update_many(values, expected_revision)
 
     def bind(self, reference, value, *, expected_revision=None):
         self._validate_values({reference: value})

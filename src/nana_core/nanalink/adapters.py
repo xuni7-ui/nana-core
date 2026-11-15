@@ -67,10 +67,11 @@ class CoreWorkflowAdapter:
 
 def qq_adapter(workflow):
     return CoreWorkflowAdapter(workflow, platform='qq', account_id=workflow.channel.account_id,
-                               adapter_id='qq.onebot', capabilities=(
+                               adapter_id='qq.official' if workflow.channel.backend == 'official' else 'qq.onebot', capabilities=(
         Capability(name='message.receive', available=workflow.channel.read_authorized),
         Capability(name='message.text.send', available=workflow.channel.send_authorized),
-        Capability(name='message.readback', available=True),
+        Capability(name='message.readback', available=workflow.channel.backend != 'official',
+                   reason='C2C_GROUP_API_NOT_AVAILABLE' if workflow.channel.backend == 'official' else ''),
         Capability(name='media.reference', available=True),
     ))
 

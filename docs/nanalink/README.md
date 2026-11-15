@@ -73,3 +73,13 @@ docker build -f deployment/nanalink/Dockerfile -t nana-link:1.0.0-dev .
 - 媒体支持统一段、惰性引用和流式缓存；原QQ行动端口仍只发送文字。编辑/撤回/动态发布等没有原权限端口时返回UNSUPPORTED，不能将类型存在说成真实动作已可用。
 - B站评论/私信包装原工作流；字幕/采帧/自主视频阅读保留原`BilibiliLife`。C.4通知复用旧纯normalize的可核对分发快照（`tools/nanalink_sync_c4.py --check`），不启动旧Agent/pump/LLM。可选BFF `nanalink_bilibili_sources:["channel-id"]` 复用原事件worker请求原owner的`bilibili-notifications`；每300秒最多3次来源读取、12轮/小时，必须原channel enabled/read/private-read/activation均许可。消息再经原工作流独立回读及原C决定，历史UNKNOWN不重放。动态发布/事件源尚无受控端口，不宣称可用。
 - 原Core收发/权限/媒体机制按历史受控范围继承；本C开发验收见evidence，不升级整个工程First-Life/Beta。
+
+## 后继开发候选（2026-11-15）
+
+QQ 官方 Bot 增加独立的 `qq.official` 适配器、原生 opaque 身份与单次 REST 请求路径，AstrBot 宿主插件默认停用。宿主须明确配置账号、独占路由、专用 HMAC、适配器 vault，并在真实授权后运行；botpy 登录会话由宿主维护，插件只转发有限字段与短期令牌。官方 C2C/群没有已资格独立回读，ACK 后 Core 保持 UNKNOWN，不自动重发；不要使用 AstrBot 的自动重试发送接口。旧版配置不含 backend 时仍是 OneBot；旧版 reader 使用前须移除 official 配置。
+
+BFF 新增默认关闭的 `allow_platform_login`，宿主同时启用平台配置及隔离 vault 才能由管理用户在手机上发起 B站扫码；核对账号后经现有 vault 原子保存 cookie 与 CSRF，入口仍暂停。二维码和临时凭据保存在受限 RAM，不进入操作账本。浏览器和 Android 均增加路由，但旧 APK 没有新路由，需要重新构建，实机未验收。QQ 官方走已有宿主登录。
+
+连接器管理只接受宿主批准且已安装的版本；支持停用、离线替换、回退、移除与恢复，默认不下载包。侧车启动时指定 `--management-state` 为私有目录文件可持久保存版本与暂停状态；未指定则仅本次运行有效。异常结果需刷新核对，不重试。连接器管理不授予消息权限。当前随侧车内置目录仅含当前版本，其他版本必须由宿主明确提供工厂与固定版本。
+
+B站订阅动态的私人来源归因和 QQ 非文本行动尚需原主体契约；详见 [最小提案](CONTRACT_EXTENSIONS.md)。此候选仅完成源码与合成测试，真实账号、外发、实机、生产及长期成本仍未验收。

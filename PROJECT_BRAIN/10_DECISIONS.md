@@ -1946,3 +1946,8 @@ Runtime4205f31 adds explicit stopped-owner recovery through original exclusive S
 ### C-NANALINK-002 · 2026-11-14 · 最小兼容增量与交付边界
 
 先完成独立WS→原HTTP层，原C/记忆/权限契约无语义变更。新增原owner metadata通知操作、原Bili两个只读路径、负OneBot ID；BFF setup仅准备暂停配置，两个host opt-in字段默认空且省略。原Store预算/UNKNOWN/Grant继续权威；新host字段给旧BFF回退须恢复旧host配置。详细最小增量、测试和剩余源码/实账号资格见docs/nanalink/evidence/README.md。官方QQ与完整QR/包管理未完成，不为宣称P2/P5通过制造空壳。
+
+
+### C-NANALINK-003 · 2026-11-15 · 官方QQ回执及受控连接管理
+
+官方QQ原生身份独立命名，使用单次发送；没有独立回读时 ACK 不升级为送达，保持 UNKNOWN。扫码登录用户显式触发，凭据成对原子写入既有 vault，连接仍停用。适配器版本仅由宿主批准，换版离线执行；私人平台观察和媒体选择先以独立层与契约提案交 A 协作，不伪造授权或主体意图。

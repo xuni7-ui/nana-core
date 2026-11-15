@@ -3,6 +3,7 @@
 No login, account I/O, read permission, activation, Grant or send authorization.
 Those remain original explicit host/account gates. No second configuration Store.
 """
+import re
 from typing import Literal
 from pydantic import Field, model_validator
 from ...contracts import CoreError
@@ -15,10 +16,10 @@ from .contracts import WriteRequest, Role, ApiError
 
 
 class PlatformSetupRequest(WriteRequest):
-    method: Literal['qq.onebot', 'bilibili.account']
+    method: Literal['qq.onebot', 'qq.official', 'bilibili.account']
     account_id: str = Field(pattern=r'^[0-9]{1,20}$')
-    peer_id: str = Field(pattern=r'^[0-9]{1,20}$')
-    sender_id: str = Field(pattern=r'^[0-9]{1,20}$')
+    peer_id: str = Field(pattern=r'^[A-Za-z0-9_-]{1,128}$')
+    sender_id: str = Field(pattern=r'^[A-Za-z0-9_-]{1,128}$')
     kind: Literal['private', 'group', 'dm', 'comment']
     endpoint: str = Field(default='http://127.0.0.1:18790', max_length=256)
     configuration_revision: int = Field(ge=1)
@@ -26,7 +27,9 @@ class PlatformSetupRequest(WriteRequest):
     @model_validator(mode='after')
     def compatible(self):
         from ...nanalink.onebot import safe_endpoint
-        if self.method == 'qq.onebot':
+        if self.method.startswith('qq.'):
+            if self.method == 'qq.onebot' and any(not re.fullmatch(r'[0-9]{1,20}', v) for v in (self.peer_id, self.sender_id)):
+                raise ValueError('OneBot numeric IDs required')
             if self.kind not in {'private', 'group'} or self.kind == 'private' and self.sender_id != self.peer_id:
                 raise ValueError('QQ peer binding')
             safe_endpoint(self.endpoint, schemes=('http', 'https'))
@@ -53,7 +56,7 @@ def setup(service, principal, body):
             raise ApiError('PLATFORM_CONFIG_REVISION_CONFLICT', 409)
         if len(current.surface_bindings) >= 16:
             raise ApiError('PLATFORM_BINDING_CAPACITY', 409)
-        channels = current.qq_channels if body.method == 'qq.onebot' else current.bilibili_channels
+        channels = current.qq_channels if body.method.startswith('qq.') else current.bilibili_channels
         if len(channels) >= 16 or any(c.channel_id == channel_id for c in channels):
             raise ApiError('PLATFORM_CHANNEL_ALREADY_PREPARED_OR_CAPACITY', 409)
 
@@ -64,8 +67,9 @@ def setup(service, principal, body):
                    surface='chat.' + body.kind, adapter=body.method,
                    entity_id=service.binding.entity_id, scope=service.binding.scope,
                    mode='PLATFORM_ADAPTER_NO_SEND', permitted_privacy=(privacy,))
-        if body.method == 'qq.onebot':
+        if body.method.startswith('qq.'):
             channel = QQChannelBinding(channel_id=channel_id, binding_id=binding_id, endpoint=body.endpoint,
+                       backend=body.method.split('.')[1],
                        account_id=body.account_id, sender_id=body.sender_id, target_id=body.peer_id,
                        target_kind=body.kind, privacy_class=privacy,
                        credential_ref='nanalink.qq.' + body.account_id)

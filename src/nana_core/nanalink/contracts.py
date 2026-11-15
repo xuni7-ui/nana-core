@@ -96,4 +96,4 @@ class SessionHealth(DTO):
     last_heartbeat_us: int | None = None
     reconnects: int = 0
     error: str | None = Field(default=None, pattern=r'^[A-Z][A-Z0-9_]{0,95}$')
-    compatibility: Literal['UNVERIFIED', 'ONEBOT11_MINIMUM', 'NATIVE_CORE', 'RSS_ATOM'] = 'UNVERIFIED'
+    compatibility: Literal['UNVERIFIED', 'ONEBOT11_MINIMUM', 'NATIVE_CORE', 'RSS_ATOM', 'QQ_OFFICIAL_V2'] = 'UNVERIFIED'

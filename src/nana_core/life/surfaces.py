@@ -76,7 +76,7 @@ class SurfaceSession:
         if reply_target is not None:
             from ..continuity.autonomy.contracts import RealizationTarget
             if type(reply_target) is not RealizationTarget:raise CoreError('SURFACE_TRUSTED_REPLY_TARGET_REQUIRED')
-            allowed = (b.platform=='qq.onebot' and reply_target.capability=='world.contact' and reply_target.operation=='CONTACT') or (
+            allowed = (b.platform in {'qq.onebot','qq.official'} and reply_target.capability=='world.contact' and reply_target.operation=='CONTACT') or (
                 b.platform=='bilibili.account' and reply_target.capability in {'bilibili.dm.send','bilibili.comment.send'} and reply_target.operation=='WRITE')
             if (b.mode!='PLATFORM_ADAPTER_NO_SEND'
                     or not allowed or reply_target.resource_class!='ORDINARY'):

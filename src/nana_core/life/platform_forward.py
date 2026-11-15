@@ -26,7 +26,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-def forward(base, platform, channel, message_id, resolver, reference):
+def forward(base, platform, channel, message_id, resolver, reference, *, backend="onebot"):
     try:
         url = urllib.parse.urlsplit(base)
         local = url.scheme == "http" and url.hostname in {"127.0.0.1", "::1"}
@@ -49,10 +49,13 @@ def forward(base, platform, channel, message_id, resolver, reference):
     if (
         platform not in {"qq", "bilibili"}
         or not re.fullmatch(r"[a-z][a-z0-9._-]{0,63}", channel)
-        or not re.fullmatch(r"-?[0-9]{1,20}" if platform == "qq" else r"[A-Za-z0-9._:-]{1,128}", message_id)
+        or not re.fullmatch(r"-?[0-9]{1,20}" if platform == "qq" and backend == "onebot" else r"[A-Za-z0-9._:-]{1,128}", message_id)
     ):
         raise CoreError("PLATFORM_FORWARD_METADATA_INVALID")
-    raw = json.dumps({"post_type": "message", "message_id": message_id}, separators=(",", ":")).encode()
+    payload = {"post_type": "message", "message_id": message_id}
+    if platform == "qq" and backend == "official":
+        payload["backend"] = "official"
+    raw = json.dumps(payload, separators=(",", ":")).encode()
     credential = resolver.resolve(reference)
     try:
         key = credential.reveal_for_header()
