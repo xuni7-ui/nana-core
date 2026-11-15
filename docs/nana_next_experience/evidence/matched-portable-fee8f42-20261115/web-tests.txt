@@ -1,0 +1,26 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /tmp/nana-fee8-web
+
+ ✓ tests/living.test.ts (20 tests) 17ms
+ ✓ tests/adapters.test.ts (12 tests) 1454ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  443ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  814ms
+ ✓ tests/v2-client.test.ts (9 tests) 21ms
+ ✓ tests/memory-center.test.ts (10 tests) 9ms
+ ✓ tests/chat-stream.test.ts (9 tests) 71ms
+ ✓ tests/provider-center.test.ts (15 tests) 8ms
+ ✓ tests/native-continuation.test.ts (5 tests) 110ms
+ ✓ tests/live.test.ts (4 tests) 11ms
+ ✓ tests/provider-commands.test.ts (4 tests) 6ms
+ ✓ tests/feedback.test.ts (3 tests) 10ms
+ ✓ tests/local-speech.test.ts (2 tests) 5ms
+
+ Test Files  11 passed (11)
+      Tests  93 passed (93)
+   Start at  15:15:08
+   Duration  4.71s (transform 407ms, setup 0ms, collect 606ms, tests 1.72s, environment 2ms, prepare 784ms)
+

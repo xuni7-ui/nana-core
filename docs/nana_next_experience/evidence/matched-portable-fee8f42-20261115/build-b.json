@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-fee8-build-b/nana-first-life-portable-v1.tar.gz",
+  "sha256": "3b7e2d9e0e332a34397b4829edca834c50c61be8be975e792db374c69b81535e",
+  "source_commit": "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+  "bundle_files": 285,
+  "new_provider_calls": 0
+}

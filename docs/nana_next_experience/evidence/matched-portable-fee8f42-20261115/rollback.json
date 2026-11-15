@@ -1,0 +1,19 @@
+{
+  "source_commits": [
+    "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+    "9291f1e5f76f799b8b4bda056418dd390d1a57ea",
+    "fee8f422a667ec42f2dd608472d3617ad2b14e89"
+  ],
+  "same_identity_private_tendency_and_G_jobs": true,
+  "new_cycles_requests_actions_during_return": 0,
+  "counts": {
+    "actions": 9,
+    "cognitive_requests": 0,
+    "jobs": 4,
+    "subject_cycles": 18
+  },
+  "original_host_alive_for_all_stopped_owner_opens": true,
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "scope": "STOPPED_DEV_BINARY_COMPATIBILITY_NOT_266_OR_PRODUCTION_MIGRATION"
+}

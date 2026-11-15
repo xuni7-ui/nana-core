@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/workspace/nana-fee8-rollback-probe.py", line 7, in <module>
+    with LifeApplication(a.home) as app:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-fee8-input/verified-929/src/nana_core/life/application.py", line 82, in __init__
+    self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,browser_endpoint=self.config.owned_browser_endpoint)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-fee8-input/verified-929/src/nana_core/continuity/hands/service.py", line 44, in __init__
+    self.runtime=runtime;self.port=OwnedApplicationPort(runtime.identity_id,load_target(profile),host_enabled=True);self.next_at=0;self.interval=500_000
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana-fee8-input/verified-929/src/nana_core/continuity/hands/port.py", line 23, in __init__
+    self.assert_owned()
+  File "/tmp/nana-fee8-input/verified-929/src/nana_core/continuity/hands/port.py", line 34, in assert_owned
+    except OSError:raise CoreError('HANDS_TARGET_CONTEXT_UNAVAILABLE') from None
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+nana_core.contracts.CoreError: HANDS_TARGET_CONTEXT_UNAVAILABLE

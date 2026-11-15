@@ -1,0 +1,22 @@
+{
+  "method": "FRESH_REMOTE_GITHUB_BARE_CLONE_AND_EXPLICIT_GIT_BLOBS_NOT_ACTIONS_ARTIFACT",
+  "delivery_commit": "4cb88e14ffa705e9d9e83b6b39295adedd4b0953",
+  "files_downloaded": 13,
+  "all_sha256_match": true,
+  "source_commit": "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+  "core_sha256": "3b7e2d9e0e332a34397b4829edca834c50c61be8be975e792db374c69b81535e",
+  "web_sha256": "251bb84b6d00654d66c47448f1a8a62114e8f95386156ec51436f536b6c5cd83",
+  "existing_CURRENT": {
+    "client_manifest": "MANIFEST-409.json",
+    "client_manifest_sha256": "4e93d09bf99a44fc5dda5504b0a8a3203ae1ab11bf6a86ee2044b2f4e4c97b71",
+    "server_manifest": "server-409-living-266/MANIFEST.json",
+    "server_manifest_sha256": "fba50d5bc26241692a215a93112a7549a75348484f5f878a64a3d7210512e03c",
+    "apk_version_code": 409,
+    "frontend_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+    "runtime_source": "266272a92b5837b2458c107163bd95ea8e0d7fe4",
+    "compatibility": "EXISTING_HTTP_V2_CLIENT_AND_MATCHED_SERVER",
+    "qualification": "INSTALLED_DEV_PASS_NOT_REAL_HOST_PHONE_OR_HUMAN",
+    "production_activation": false
+  },
+  "used_local_reference_or_alternates": false
+}
