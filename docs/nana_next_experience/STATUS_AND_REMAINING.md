@@ -1,8 +1,8 @@
-## 现役revision236 — 旧缺口与已验证能力不再矛盾
+## 现役revision237 — 短暂倾向与长期兴趣可由C分别重评
 
-原S3 motive跟随原G独立后来复用的实际SETTLED结果：COMPETENCE/AVAILABLE替代历史cue的当前缺口描述；原cue/OPEN-UNKNOWN/默认WATCH与明确自主学习保留，不造情绪总分/快乐/人格结论。精确f696旧1fail1pass→2同源HTTP通过、123相关68.30s；同提议器根据当前动机选择REFLECT，反例仍LEARN，各1SELF/0新Gjob-actions，wire57457→55509(-1948)bytes非Token。见evidence/checked-competence-motive-20261115/README.md。
+原PRIVATE_TENDENCY_V4内投影增加由Core时钟计算elapsed_since_update_us（回拨0），不改原持久契约/不设TTL或固定衰减/不新增唤醒。精确dd756旧1实际短倾向行为错+1缺字段→2同源HTTP通过，74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT、长期兴趣仍LISTEN，去字段消融/来源撤回有效，原记录仍ACTIVE不改。每普通chat仍原2HTTP，单项投影+39bytes非Token，私文不入SOCIAL/公开回复。见evidence/tendency-elapsed-context-20261115/README.md；不是自主情感消退/真实模型/跨日完成。
 
-下一核原PRIVATE_TENDENCY_V4短情境倾向的有效注意条件：现只有生命周期/时间戳，先真实旧行为/Context/D映射，再最小原契约扩展、重启/撤回/同预算消融；不机械衰减/删长期兴趣。原A–H全部继承，CURRENT266+409；本批非全仓/新包/安装/APK/真实模型/手机/生产/自然度/实际跨日资格。Issue2/4远端仍OPEN，只是元数据，源码收口以实际调用/原回执核对。
+下一实核原builder/封签wheelhouse，针对自929以来累计C/G/记忆End键隐私等做一次匹配Core候选/实际离线安装资格；依赖若缺只暂停该资格，不重复403。CURRENT266+409不动、APK最后必要构建。全部A–H/多时间尺度情感/可靠反馈/G广迁移/模型产品/物理存储隐私/最终发行仍继承，当前非全仓/新安装/手机/生产/自然度/长期。
 
 ## 现役revision196
 

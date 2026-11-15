@@ -2,15 +2,15 @@
 
 ## C WORKSTREAM — NANA-LINK-01
 
-[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `dd756e591658b7b15e9471711a5c5e03617f6fa3`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；80e1145 的匹配 GitHub CI 43713530184 通过，不代替当前后继源码 CI；A 增量已按文件合入并保留记忆检索改进。
+[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `fee8f422a667ec42f2dd608472d3617ad2b14e89`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；80e1145 的匹配 GitHub CI 43713530184 通过，不代替当前后继源码 CI；A 增量已按文件合入并保留记忆检索改进。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
 - 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；BFF 只读投影在配置变化时先通过原 IPC 同步 owner 隐私安全点，owner 不可用则安全失败；事务安全点和实际HTTP反例通过。无第二记忆库。
 - QQ 媒体：原行动目标新增可选 v1 媒体选择，旧无媒体 wire 不变；当前端口返回 UNSUPPORTED，防止漏附件误发。原 C 选择、图片/表情发送、来源撤回验证及 Kernel 回执闭环尚未完成；B站→QQ 及模拟手机直连原 Core 已完成有限来源检索和原 Kernel 回读场景，未经过手机 HTTP/Android 路由；长期/自然度/真实账号尚未资格。
-- 验证：A f696 合并与来源/BFF相关108项通过，BFF owner不可用503反例单项通过；A dd756e5 后继主体/来源/笔记24项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。隔离 Android SDK/JDK/Gradle 下 `80e1145` 输入 debug APK 构建成功并验证签名，SHA256 `062b4c8f2a3c27fd123555e97fa95d325cdcb212810a4c2f5897530f1a4fa15c`；第二次源码归档构建 ZIP 条目内容相同但 APK 最终字节不同，原因有打包顺序差异；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
-- 后续：完成 QQ 原 C 媒体选择和授权发送/Verify，接入可信平台来源变化撤回，扩大跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据。
+- 验证：A f696 合并与来源/BFF相关108项通过，BFF owner不可用503反例单项通过；A fee8f42 后继主体/来源/笔记24项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。隔离 Android SDK/JDK/Gradle 下 `80e1145` 输入 debug APK 构建成功并验证签名，SHA256 `062b4c8f2a3c27fd123555e97fa95d325cdcb212810a4c2f5897530f1a4fa15c`；第二次源码归档构建 ZIP 条目内容相同但 APK 最终字节不同，原因有打包顺序差异；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
+- 后续：完成 QQ 原 C 媒体选择和授权发送/Verify，接入可信平台来源变化撤回，扩大跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据；合成撤回后使用 da752a7 旧源码打开同一 Store、核对身份与 DELETED 墓碑通过，不代表真实数据或完整历史资格。
 
-证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `c327214a11cda302ee66a3cd6279f441552594f693b36963b4c1cf5e78d7a532`，不含自身/账本。后继基础设施 2000 入队及2000重复用时0.154s、峰值RSS 26620KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
+证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `309bdd25c8ec740c2391617e20fb4daa6c84ddd8dd2e8d98fe5e70d2b6e840c0`，不含自身/账本。后继基础设施 2000 入队及2000重复用时0.154s、峰值RSS 26620KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
 
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -19,8 +19,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 236,
-  "as_of_us": 1794754668149511,
+  "revision": 237,
+  "as_of_us": 1794755148447492,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -32,7 +32,7 @@
     "原C可精确修订现有Question/Plan/Tendency的ACTIVE/PAUSED/ABANDONED，省略状态不再暗自恢复暂置想法；同思想/身份重启、撤回及其他兴趣保留。精确d141旧6fail4pass→10pass，248相关79.12s；各1SELF/+960inputbytes非Token，非SELF schema不变。",
     "同一私人关切合法修订后，原有界方法仍为C可重考虑假设，明确话轮反馈可进当前关切→后续CHAT；去重不随关切版本变。精确244旧2fail→116相关81.68s，各1SELF/+2301bytes非Token；原INTERPRET意义复用保留，读/情绪效果未知。",
     "原literal两码点复用L3+每笔记一End键，授权头选计划/CASE后读正文，旧缺键回退。Native同100ms：1k/10k各48/48；100k旧6/48-42timeout→48/48无误返/超时，P95100.46→46.68ms，74相关27.32s。100k缓存+15.47MiB非回收，原20万成果未动。",
-    "原Need因果窗口235保留：40无关失败/评价不压当前SETTLED，57相关；现真实SETTLED只投影COMPETENCE/AVAILABLE，不延续旧缺口动机。f696旧1fail1pass→2同HTTP/123相关68.30s，后续REFLECT/反例LEARN；各1SELF，wire57457→55509bytes非Token，G不重训/原cue不改。"
+    "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
   ],
   "open_gates": [
     "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
@@ -41,17 +41,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一原PRIVATE_TENDENCY_V4仅生命周期/时间戳，短暂情境倾向无独立注意有效条件：先核原Context/D消费者及旧行为，最小兼容扩展/消融，不固定衰减或删长期兴趣。情感/S8通信/原A–H/存储隐私/Token模型产品及匹配发行继续；236非全仓/真实/长期。"
+    "下一复用原builder/封签wheelhouse做累计237匹配Core候选与实际离线安装兼容（G/C/End键隐私），先实核资产；不重打APK/不动CURRENT。V4 elapsed只是重评时间线索，非情绪消退/长期资格。多时间尺度/可靠反馈/G广迁移及原A–H/模型产品/物理语义/最终发行继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/README.md",
     "docs/nana_next_experience/evidence/checked-competence-motive-20261115/README.md",
     "docs/nana_next_experience/evidence/need-causal-populations-20261115/README.md",
     "docs/nana_next_experience/evidence/settled-capability-current-choice-20261115/README.md",
     "docs/nana_next_experience/evidence/literal-two-prefix-20261115/README.md",
     "docs/nana_next_experience/evidence/first-g-new-question-20261115/README.md",
     "docs/nana_next_experience/evidence/first-optional-learning-20261115/README.md",
-    "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md",
-    "docs/nana_next_experience/evidence/coexisting-social-tendencies-20261115/README.md"
+    "docs/nana_next_experience/evidence/first-considered-interest-20261115/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2905,3 +2905,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - revision235 fingerprint anchor: `8d5c1fd45cd1ebb6e0f4ae53e6e8c8aef540199af5de67f108a7afb9507229ce` → `docs/nana_next_experience/evidence/need-causal-populations-20261115/source.sha256`; same dev source successor, no production selection.
 
 - revision236 fingerprint anchor: `35dd57c69f52e684536ed53cb037ec809f4fb9c677e91fa6d1427a3b02fc2156` → `docs/nana_next_experience/evidence/checked-competence-motive-20261115/source.sha256`; same active development branch, no production selection.
+
+- revision237 fingerprint anchor: `38c3e7728b46040e6c1312c49f2caae7219fb6713bb1306b894eb4ba3933dfa9` → `docs/nana_next_experience/evidence/tendency-elapsed-context-20261115/source.sha256`; derived projection only, original private payload contracts unchanged.

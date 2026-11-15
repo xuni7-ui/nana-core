@@ -3877,3 +3877,10 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 ### C-NANALINK · 2026-11-15 · 继承 A 已核验能力动机
 
 对齐 A dd756e5：保留原已核验能力动机、原A账本和C来源/安全点；主体动机、私人平台源、实际HTTP及原笔记检索24项定向通过。平台删除/取消关注、QQ图片与表情的原C选择和原Kernel执行仍未实现，不标 DEV_COMPLETE。
+
+- 2026-11-15｜NEXT_EXPERIENCE S1/S2/S3/S6/S7：原V4私倾向有Core elapsed投影，不改存储契约/不自动衰减/不加唤醒。dd756旧1行为错+1缺字段→2同源HTTP/74相关40.35s；虚拟49h同身份重启短倾向CHAT/长期LISTEN、去字段消融/撤回/回拨有效，原记录不变。每chat仍2HTTP/+39投影bytes非Token，真实0/CURRENT未动；证据tendency-elapsed-context-20261115，下一累计匹配Core候选安装及原A–H。
+
+
+### C-NANALINK · 2026-11-15 · A 对齐及旧 reader 合成回退
+
+合入 A fee8f42 的原私人倾向时间上下文及原账本；主体时间、私人来源、手机HTTP及原笔记24项通过。隔离 Store 先在新版撤回合成私人来源，再用 da752a7 旧源码启动，身份一致、DELETED 墓碑阻止读取；脚本和证据入 docs/nanalink/evidence/private-platform-source-20261115。Android/Web 相对80e1145无差异，该测试包不代表当前 Core 已打包或实机；QQ媒体执行与平台取消关注信号仍未完成。

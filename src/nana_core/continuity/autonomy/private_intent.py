@@ -212,6 +212,10 @@ def internal_projection(store,record_ids,*,scope,privacy_classes,include_associa
             'updated_at_us':getattr(item,'updated_at_us',head['created_at_us']),
             'epistemic_status':getattr(item,'epistemic_status','OWN_TENDENCY_NOT_WORLD_FACT'),'disclosure_policy':item.disclosure_policy,
             'recipient_disclosure':False,'execution_authority':False})
+        if isinstance(item,PrivateTendency):
+            # A trusted elapsed interval lets C reconsider a situational feeling
+            # without expiring enduring interests or scheduling another call.
+            out[-1]['elapsed_since_update_us']=max(0,store.clock.utc_now_us()-item.updated_at_us)
     if include_associations:
         selected=tuple(out);by_id={item['record_id']:item for item in out}
         for item in selected:

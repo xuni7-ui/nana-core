@@ -19,3 +19,5 @@ QQ 媒体只新增原 RealizationTarget 的可选版本化媒体选择，旧无�
 原 owner 隐私安全点的合成微基准：对同一个 PERSONAL 记忆做三组各1000次读取，开启配置版本守卫的中位数约37.995ms，关闭时约25.893ms，均为热缓存单进程夹具；峰值 RSS 53296KiB，网络和模型调用均为零。它只用于估计该守卫的本地开销，不能代表实际用户响应或 Token 成本。BFF 的独立只读 Inspector 并不运行 owner 安全点；配置从外部变更后、owner 下一次安全点之前的 Inspector 可见性尚需单独资格，不得将这一安全点描述为全链即时撤回。
 
 BFF 后继：当宿主配置版本变化且原 Store 有平台来源，Nana Space 只读投影先通过原 UDS 请求 owner 隐私安全点；owner 不可用或配置持续竞争时安全失败。实际 owned HTTP 测试在 owner 在线时撤销私人读取，先模拟安全点不可用并得到503且不返回来源，再恢复 owner 验证原记忆 DELETED、后续对话不可引用。此结果针对合成输入和测试控制路径；平台取消关注、删除的可信变更信号仍未实现。
+
+隔离回退补验：在含 A `fee8f42` 增量的开发工作树，新 owner 先保存并通过原 forget 撤回一条合成 PERSONAL 来源，关闭 owner 后用 `da752a7030cd9ba4d6a657720b762020a49242f5` 的独立 Git 归档重新打开同一临时 Store。旧 reader 成功启动、主体 identity 一致，原记忆行保持 DELETED，直接读取返回 MEMORY_UNAVAILABLE；过程未访问真实账号或发送。入口 `tools/nanalink_rollback_qualification.py --old-source <已核对旧源码目录>`；该测试不覆盖任意旧包、全量历史重放、恢复备份或生产数据。
