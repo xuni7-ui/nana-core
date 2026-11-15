@@ -1,0 +1,20 @@
+ERROR: found no collectors for /workspace/nana-next-refinement-work/tests/person_self/test_deliberated_replan_choice.py::test_original_self_can_decline_replan_without_a_second_cue_or_model_phase
+
+
+==================================== ERRORS ====================================
+_____ ERROR collecting tests/person_self/test_deliberated_replan_choice.py _____
+ImportError while importing test module '/workspace/nana-next-refinement-work/tests/person_self/test_deliberated_replan_choice.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_deliberated_replan_choice.py:7: in <module>
+    from .test_deliberated_goal_review import adopted,review
+tests/person_self/test_deliberated_goal_review.py:9: in <module>
+    from tests.open_autonomy.helpers import fresh,configure,objective,capture,cue,send
+E   ModuleNotFoundError: No module named 'tests'
+=========================== short test summary info ============================
+ERROR tests/person_self/test_deliberated_replan_choice.py
+1 error in 0.04s
+{"loaded_core_modules": 121, "all_from_exact_cc8_copy": true, "pytest_exit": 4}

@@ -1,0 +1,4 @@
+.......{"measurement": "original-replan-self-attempt", "http_calls": 1, "request_json_bytes": 23585, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "real_model_calls": 0}
+{"measurement": "original-replan-self", "http_calls": 1, "request_json_bytes": 23585, "budget": {"input_tokens": 65536, "output_tokens": 2048, "timeout_ms": 120000, "cost_ceiling_micro": 0}, "behavior": "REST", "real_model_calls": 0}
+..
+9 passed in 0.75s

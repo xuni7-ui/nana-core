@@ -1,0 +1,157 @@
+FF...F.F                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_original_replan_review_respects_current_choice_and_norms[REST-LOW-prohibited0-REST] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-56/test_original_replan_review_re0')
+preference = 'REST', load = 'LOW', prohibited = (), expected = 'REST'
+
+    @pytest.mark.parametrize('preference,load,prohibited,expected',[
+        ('REST','LOW',(),'REST'),('CREATE','LOW',(),'CREATE'),('LEARN','HIGH',(),'LEARN'),
+        (None,'LOW',(),'LEARN'),(None,'HIGH',(),'REST'),
+        ('LEARN','LOW',('LEARN',),'REST'),('REST','LOW',('REST',),'LEARN'),
+    ])
+    def test_original_replan_review_respects_current_choice_and_norms(tmp_path,preference,load,prohibited,expected):
+        seen=[]
+        class Current:
+            descriptor='synthetic-replan-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path,schema_target=13) as r:
+            _,goal=adopted(r,tmp_path);identity=r.identity_id
+            event=replan(r,goal,load=load,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='synthetic-current-replan',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            plan_before=r.store.one('goals',goal['goal_id']);jobs_before=r.store.all('jobs');grants_before=r.store.all('grants')
+            result=r.subject.cognize(event,model=Current(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'LEARN' == 'REST'
+E             
+E             - REST
+E             + LEARN
+
+tests/person_self/test_deliberated_replan_choice.py:40: AssertionError
+_ test_original_replan_review_respects_current_choice_and_norms[CREATE-LOW-prohibited1-CREATE] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-56/test_original_replan_review_re1')
+preference = 'CREATE', load = 'LOW', prohibited = (), expected = 'CREATE'
+
+    @pytest.mark.parametrize('preference,load,prohibited,expected',[
+        ('REST','LOW',(),'REST'),('CREATE','LOW',(),'CREATE'),('LEARN','HIGH',(),'LEARN'),
+        (None,'LOW',(),'LEARN'),(None,'HIGH',(),'REST'),
+        ('LEARN','LOW',('LEARN',),'REST'),('REST','LOW',('REST',),'LEARN'),
+    ])
+    def test_original_replan_review_respects_current_choice_and_norms(tmp_path,preference,load,prohibited,expected):
+        seen=[]
+        class Current:
+            descriptor='synthetic-replan-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path,schema_target=13) as r:
+            _,goal=adopted(r,tmp_path);identity=r.identity_id
+            event=replan(r,goal,load=load,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='synthetic-current-replan',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            plan_before=r.store.one('goals',goal['goal_id']);jobs_before=r.store.all('jobs');grants_before=r.store.all('grants')
+            result=r.subject.cognize(event,model=Current(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'LEARN' == 'CREATE'
+E             
+E             - CREATE
+E             + LEARN
+
+tests/person_self/test_deliberated_replan_choice.py:40: AssertionError
+_ test_original_replan_review_respects_current_choice_and_norms[LEARN-LOW-prohibited5-REST] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-56/test_original_replan_review_re5')
+preference = 'LEARN', load = 'LOW', prohibited = ('LEARN',), expected = 'REST'
+
+    @pytest.mark.parametrize('preference,load,prohibited,expected',[
+        ('REST','LOW',(),'REST'),('CREATE','LOW',(),'CREATE'),('LEARN','HIGH',(),'LEARN'),
+        (None,'LOW',(),'LEARN'),(None,'HIGH',(),'REST'),
+        ('LEARN','LOW',('LEARN',),'REST'),('REST','LOW',('REST',),'LEARN'),
+    ])
+    def test_original_replan_review_respects_current_choice_and_norms(tmp_path,preference,load,prohibited,expected):
+        seen=[]
+        class Current:
+            descriptor='synthetic-replan-choice'
+            def propose(self,request):
+                seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request))
+                if preference:value['preferred_behavior']=preference
+                return json.dumps(value)
+        path=tmp_path/'self.db'
+        with fresh(path,schema_target=13) as r:
+            _,goal=adopted(r,tmp_path);identity=r.identity_id
+            event=replan(r,goal,load=load,prohibited=prohibited)
+            policy=ContextPolicy(policy_id='synthetic-current-replan',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            plan_before=r.store.one('goals',goal['goal_id']);jobs_before=r.store.all('jobs');grants_before=r.store.all('grants')
+            result=r.subject.cognize(event,model=Current(),authority=r.authority,policy=policy)
+>           assert result.intention.behavior==expected
+E           AssertionError: assert 'LEARN' == 'REST'
+E             
+E             - REST
+E             + LEARN
+
+tests/person_self/test_deliberated_replan_choice.py:40: AssertionError
+__ test_original_self_can_decline_replan_without_a_second_cue_or_model_phase ___
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-56/test_original_self_can_decline0')
+
+    def test_original_self_can_decline_replan_without_a_second_cue_or_model_phase(tmp_path):
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        seen=[]
+        def propose(request):
+            seen.append(request);manifest=json.loads(request.context_json)['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC optional supported plan review',
+                subject_cognition=CognitiveProposal(identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                    interpretation='SYNTHETIC keep the plan and rest instead of revising it now',preferred_behavior='REST',proposed_operations=('DRAFT',)))
+        with fresh(tmp_path/'self.db',schema_target=13) as r,provider_harness(proposer=propose) as (transport,metrics):
+            _,goal=adopted(r,tmp_path);event=replan(r,goal,no_cue=True)
+            policy=ContextPolicy(policy_id='synthetic-native-replan',allowed_scopes=('lab',),readable_privacy=('PERSONAL',))
+            grants_before=r.store.all('grants')
+            port=CognitionSession(r,transport,policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=65536))
+>           result=r.subject.cognize(event,model=port,authority=r.authority,policy=policy)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_replan_choice.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:726: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:152: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7f8276d6d1f0>
+frozen = FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"i...14f4bd00a90e5dfd13b371eaa186042c"}', context_digest='152b0ab1fda6478b165fd439d89267fa14f4bd00a90e5dfd13b371eaa186042c')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        tasks=[json.loads(b.data_json) for b in context.blocks if b.kind=='TASK_CONSTRAINTS']
+        if len(tasks)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            **subject_focus_inputs(frame.subject_event_id,self.privacy_class,tasks[0]['task'],frozen.task_class))
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: UNSUPPORTED_COGNITIVE_BEHAVIOR
+
+src/nana_core/continuity/world_loop/cognition.py:923: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_replan_choice.py::test_original_replan_review_respects_current_choice_and_norms[REST-LOW-prohibited0-REST]
+FAILED tests/person_self/test_deliberated_replan_choice.py::test_original_replan_review_respects_current_choice_and_norms[CREATE-LOW-prohibited1-CREATE]
+FAILED tests/person_self/test_deliberated_replan_choice.py::test_original_replan_review_respects_current_choice_and_norms[LEARN-LOW-prohibited5-REST]
+FAILED tests/person_self/test_deliberated_replan_choice.py::test_original_self_can_decline_replan_without_a_second_cue_or_model_phase
+4 failed, 4 passed in 0.82s

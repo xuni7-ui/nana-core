@@ -205,3 +205,7 @@ living.py局部元数据/单slice缓存、test_memory_review_condition.py、现�
 ## 2026-11-16 A原H1帧语义定位
 
 world_loop/semantics.py原H1来源元数据、test_bilibili_frames.py原场景和两反例、既有CI选择与原codec资格、09/11/ACTIVE/STATUS及evidence/frame-semantic-source-locator-20261116/原公开合成日志/指纹、本白名单。无第三方复制/DB/私史/账号/配置/密钥/二进制/付费或新增执行权限。
+
+## 2026-11-16 A原REPLAN当前选择
+
+subject/{policy,loop}.py及presence/living.py原consumer局部、test_deliberated_replan_choice.py、现有CI组、09/11/ACTIVE/STATUS与evidence/deliberated-replan-choice-20261116/原受控日志/独立基线脚本/指纹、本白名单。无运行Store/配置/私史/账户/凭据/第三方复制/二进制/新执行权限或收费。

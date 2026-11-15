@@ -1,5 +1,6 @@
 """Pure, inspectable initial C policy. No clock, storage, random or executor."""
 from ...contracts import DTO
+from typing import Literal
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import Behavior,ConcernCue,directions,LearningProgramOption
 from ..relational.contracts import SocialAppetiteView
@@ -48,10 +49,13 @@ class Situation(DTO):
     adopted_program_ids: tuple[str,...] = ()
     separate_delivery: bool = False
     goal_review_id: str | None = None
+    goal_review_purpose:Literal['REPLAN','LIFECYCLE']|None=None
 
 
 def offered_directions(situation):
     if situation.memory_review_id:return ('MAINTAIN','REST')
+    if situation.goal_review_purpose=='REPLAN':
+        return tuple(dict.fromkeys((*(directions(situation.cue) if situation.cue else ()), 'LEARN','REST')))
     return directions(situation.cue) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ()
 
 
@@ -79,6 +83,8 @@ def appraise(event: SubjectInput, situation: Situation):
         reasons.append('A relevant own private idea remains available; this is not disclosure permission')
     if situation.memory_review_id:
         reasons.append('an original bounded source-linked consolidation candidate is available; adoption is optional and never deletes its sources')
+    if situation.goal_review_id:
+        reasons.append('a supported adopted goal is available for review; reconsidering its plan is optional')
     if not reasons:
         reasons.append('evaluate input without assuming it is an adopted goal')
     if situation.context_fit:reasons.append(situation.context_fit.reason)
@@ -86,7 +92,7 @@ def appraise(event: SubjectInput, situation: Situation):
         reasons.append('a current source-backed concern offers options; it is not an adopted intention')
     assessment=situation.cue.opportunity_assessment if situation.cue else None
     return Appraisal(novelty='LOW' if assessment and assessment.novelty=='REPEATED' else event.novelty,
-        goal_relevance='RELEVANT' if situation.project_ids or situation.plan_step or situation.adopted_program_ids else 'NONE',
+        goal_relevance='RELEVANT' if situation.project_ids or situation.plan_step or situation.goal_review_id or situation.adopted_program_ids else 'NONE',
         relationship_relevance='RELEVANT' if situation.familiar or event.relationship_kind else 'LOW',
         self_relevance='RELEVANT' if event.preference_signal else 'LOW',
         unfinished_tension='HIGH' if situation.due_commitment_ids else 'RELEVANT' if situation.unresolved_interest else 'NONE',
@@ -103,6 +109,8 @@ def motivate(event, situation, appraisal):
         motives.append(Motivation(source='PRIVATE_INTEREST',strength='RELEVANT',source_ids=situation.private_interest_records))
     if situation.plan_step:
         motives.append(Motivation(source='ADOPTED_GOAL',strength='RELEVANT',source_ids=(situation.plan_step.goal_id,situation.plan_step.record_id)))
+    elif situation.goal_review_id:
+        motives.append(Motivation(source='ADOPTED_GOAL',strength='RELEVANT',source_ids=(situation.goal_review_id,)))
     if situation.due_commitment_ids:
         motives.append(Motivation(source='COMMITMENT', strength='PRESSING', source_ids=situation.due_commitment_ids))
     if situation.project_ids:
@@ -236,8 +244,15 @@ def decide(event, situation, appraisal, motives):
         quiet=behavior in {'REST',None}
         return ('DEFER' if quiet else 'FOCUS_NOW',Judgment(stance='DEFER' if quiet else 'AGREE',reason='Review sourced goal ownership, current load and urgency without inventing work or replaying its plan',source_ids=sources),
             Intention(kind='GOAL_CANDIDATE' if behavior=='CONTINUE_PROJECT' else 'NO_ACTION',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
-    if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
-        return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
+    if situation.goal_review_id:
+        reviewing=not considered_choice or situation.preferred_behavior=='LEARN'
+        loaded=bool(situation.cue and situation.cue.cognitive_load=='HIGH')
+        if (considered_choice and situation.preferred_behavior=='REST') or (reviewing and
+                ('LEARN' in situation.prohibited_behaviors or (loaded and not considered_choice))):
+            return ('DEFER',Judgment(stance='DEFER',reason='Keep the supported goal while declining optional plan revision under current choice, load or norms',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Leave the existing goal and plan available without forcing revision',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST' if 'REST' not in situation.prohibited_behaviors else None))
+        if reviewing:
+            return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='Consider the supported goal and available methods; revised-plan adoption remains separately checked',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using available independently checked methods',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
     maintain_chosen=considered_choice and situation.preferred_behavior=='MAINTAIN'
     rest_chosen=considered_choice and situation.preferred_behavior=='REST'
     if situation.memory_review_id and (rest_chosen or 'MAINTAIN' in situation.prohibited_behaviors

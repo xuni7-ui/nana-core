@@ -54,7 +54,10 @@ class LivingWork:
                     current=self.runtime.store.one('subject_intentions',cycle.intention_id)
                     if current and current['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='COMPLETED')
                 return {'goal_id':ref.goal_id,'lifecycle_review':selected,'not_plan_replay':True}
-            if cycle.evaluation and cycle.evaluation.normative=='ENDORSED' and cycle.intention.kind=='GOAL_CANDIDATE':
+            # A different creative/capability candidate is not a decision to
+            # revise this goal. Preserve legacy/reframing continuation paths.
+            if (cycle.evaluation and cycle.evaluation.normative=='ENDORSED' and cycle.intention.kind=='GOAL_CANDIDATE'
+                    and cycle.intention.behavior in {None,'LEARN','CONTINUE_PROJECT'}):
                 ref=event.goal_review
                 if self.runtime.store.db.execute("SELECT 1 FROM events WHERE source_namespace='open.plan-review-deferred' AND source_key=?",(cycle.cycle_id,)).fetchone():return {'goal_id':ref.goal_id,'replan':'CURRENT_STATE_REVIEW_REQUIRED'}
                 try:self.agency.revise(ref.goal_id,expected_version=ref.version,cause_memory_id=ref.cause_memory_id,authority=self.runtime.authority)

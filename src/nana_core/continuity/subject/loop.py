@@ -238,6 +238,13 @@ class SubjectLoop:
             _,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,
                 privacy_classes=self.privacy_classes).candidate(event.memory_review_id)
             records.append(event.memory_review_id);memories.extend(body['memory_ids'])
+        goal_review_id=None
+        if event.goal_review:
+            goal=self.store.one('goals',event.goal_review.goal_id)
+            if self.store.schema_target<12 or not goal or goal['version']!=event.goal_review.version or goal['state'] not in {'FAILED','BLOCKED','ACTIVE','SUSPENDED'}:raise CoreError('STALE_GOAL_REVIEW')
+            rid=json.loads(goal['body_json'])['record_id']
+            if not self.visible(rid,event.scope):raise CoreError('GOAL_SOURCE_UNAVAILABLE')
+            goal_review_id=goal['goal_id'];records.append(rid)
         contextual_event=event
         if event.goal_step or event.goal_review:
             binding=plan_binding(self.store,None,scope=event.scope,privacy_classes=self.privacy_classes,goal_id=plan_step.goal_id if plan_step else event.goal_review.goal_id)
@@ -270,7 +277,7 @@ class SubjectLoop:
             learning_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
             learning_programs=self.learning_program_catalog(event.scope,learning_privacy)
             learning_selection_optional=bool(learning_programs)
-        return Situation(memory_review_id=event.memory_review_id,plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        return Situation(goal_review_id=goal_review_id,goal_review_purpose=event.goal_review.purpose if goal_review_id else None,memory_review_id=event.memory_review_id,plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -371,7 +378,7 @@ class SubjectLoop:
                 if self.store.schema_target<12 or not goal or goal['version']!=event.goal_review.version or goal['state'] not in {'FAILED','BLOCKED','ACTIVE','SUSPENDED'}:raise CoreError('STALE_GOAL_REVIEW')
                 rid=json.loads(goal['body_json'])['record_id']
                 if not self.visible(rid,event.scope):raise CoreError('GOAL_SOURCE_UNAVAILABLE')
-                situation=situation.model_copy(update={'goal_review_id':goal['goal_id'],'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
+                situation=situation.model_copy(update={'goal_review_id':goal['goal_id'],'goal_review_purpose':event.goal_review.purpose,'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
             if event.memory_review_id:
                 from ..maintenance import MaintenanceService
                 head,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,privacy_classes=self.privacy_classes).candidate(event.memory_review_id)

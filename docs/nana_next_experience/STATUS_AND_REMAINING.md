@@ -1,8 +1,8 @@
-## 现役revision250 — 帧语义保留原视频位置
+## 现役revision251 — 计划复查也可以暂不进行
 
-原H1帧语义补原source_locator，publisher视频时间10秒与图内span0分开，模型标签仍推测。旧精确f5缺字段→最终6过3.15s/前59相关过（2夹具首错保留）及2边界过；后续正常INTERPRET确读→原Concern/C EXPLORE，重复VISION复用/来源撤回有效。每新语义+262bytes、VISION1/INTERPRET1不增阶段，非真实Token/模型质量或新成长。
+原REPLAN复查现前模型验证目标/版本/来源，原Frame可选LEARN/REST与当前兴趣，C明确REST/CREATE不被强制复查；LEARN规范生效，原consumer按实际方向防止CREATE候选误修旧目标。旧4fail4pass→9过.75s、116相关22.69s；同身份/重放/stale前模型拒绝/Goal-job-旧Grant保持通过。精确cc8源322文件/131实际模块旧SELF拒REST→新REST，各1HTTP/同预算/request JSON+219bytes非Token，真实0。
 
-下一继续原C情感/多动机/G独立迁移及全部A–H；BiliLife首帧限制/多帧覆盖与共享预算尚待B固定交接，A负责原生融合、不重复其算法。9a候选不含245–250，CURRENT266+409与原APK不变；真实模型/手机/账号/生产/自然度/实际长期未新增。 证据evidence/frame-semantic-source-locator-20261116/README.md。
+下一继续原C情感/持续策略与可靠反馈/G独立未见迁移，B视觉固定交接后原生融合；所有原A–H继承。9a候选不含245–251，CURRENT266+409/原APK不动；新CI待实际，真实模型/手机/生产/自然度/长期未新增。 证据evidence/deliberated-replan-choice-20261116/README.md。
 
 ## 现役revision196
 

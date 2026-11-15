@@ -1,0 +1,7 @@
+# 原REPLAN复查的当前选择
+
+基线cc8cf637419be378176ff025ded29d149987d46e/Brain250已推干净。原GoalReviewRef有REPLAN/LIFECYCLE，前批修LIFECYCLE，普通REPLAN低负荷分支仍无条件GOAL_CANDIDATE/LEARN；高负荷明确LEARN仍被普通休息覆盖。先复用原adopted/GoalReviewRef/SubjectLoop/cognize/after_cycle真实测试基线。
+
+拟保留原REPLAN默认、目标版本与来源/规范/G资格/Planner/Grant，给原Frame可考虑的原LEARN/REST与当前cue候选，明确REST或其他当前兴趣可以不修订计划；明确复查可与负荷竞争。新Situation仅反映原GoalReviewRef的目的，不新增持久schema或第二Planner/动机权威。LEARN在此仍原计划复查候选，不冒称已发生S8学习。回退原policy.py/loop.py，旧目标与计划不重写。
+
+实测补充：最终旧4fail4pass，高负荷明确LEARN本来通过，不把最初HIGH压制推测当作已复现缺口；真实差额是REST/CREATE被REPLAN覆盖、LEARN规范被绕过、普通SELF无cue的REST被拒绝。实际消费者还按GOAL_CANDIDATE类型无条件revise旧目标，CREATE也属于该类型，因此局部修正living.py的原方向判定；回退包含该文件，无持久迁移。
