@@ -1,0 +1,9 @@
+{
+  "delivery_commit": "efc710d295a794bbeb03f2463ff3d9a5237ef60f",
+  "downloaded_files": 11,
+  "all_manifest_sha256_match": true,
+  "fresh_github_bare_clone": true,
+  "git_alternates_or_reference": false,
+  "reused_local_artifact_copy": false,
+  "path": "/tmp/nana-9a-downloaded"
+}

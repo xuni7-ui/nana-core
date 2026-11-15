@@ -1,0 +1,5 @@
+run=43761963002 job=132958668880 head=486ed54626b27a4f2fac10c5fca6c37075b1ebb7
+Source: GitHub connector decoded job logs; excerpt only, not a full-repository result.
+2026-11-15T21:09:44.8560022Z [36;1mecho targeted > qualification-level.txt[0m
+2026-11-15T21:20:17.5906360Z =============================== warnings summary ===============================
+2026-11-15T21:20:17.5913742Z 1073 passed, 3 warnings in 628.64s (0:10:28)

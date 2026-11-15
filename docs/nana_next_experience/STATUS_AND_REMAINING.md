@@ -1,8 +1,8 @@
-## 现役revision243 — 修复授权平台来源被通用人口挤占
+## 现役revision244 — 原交付分支的匹配Core/BFF/Web受控候选
 
-原MemoryService查询按精确source namespace在排名/LIMIT前筛选，修复65其他有效同词来源挤掉一条授权平台观察。固定486原263模块Git blob一致旧2失败→新2通过1.81s、72相关24.02s。原64候选/4输出不扩；49虚拟h/同身份/临时摘录清空后私人倾向影响C，选择入口投影消融LISTEN→CHAT，平台来源撤回只移除知识；原始失败/严格拒绝记录保留。装配同输入各10次read88→25/中位12.48→9.49ms、db写0；同两HTTP预算，SOCIAL request JSON+2207bytes非Token。见evidence/platform-context-population-20261116/README.md。
+固定9a/Brain243 Core302文件双构建cda06320…、同源Web70输入核对/双归档9c593456…，现有delivery efc710d归档。真实GitHub新克隆11件全SHA、两槽实际离线安装BFF/反馈/十视图/原Store纠错重启撤回通过；安装2连续性/144 Core模块、撤回新来源后停机9a-fee8-9a保持同身份/私念/0新认知动作。486独立CI1073/3warn628.64s只是targeted；全仓/portable CI SKIP，9a CI待实际。非新APK/手机/真实模型/平台/生产/实际长期，CURRENT266+409不变。
 
-下一固定最新匹配Core/BFF/Web候选，验证新来源撤回后的旧reader/返回；原S3/S8更广因果、B视觉候选、真实Token/原A–H与最终发行继续。没有实际语义压缩器/真实49h/手机/模型/生产资格，CURRENT266+409。
+下一先复现原BiliFrame把终态UNKNOWN当活跃互斥的两处guard，沿原账本/预算/同请求不重放修正；原情感/S8/自然交流/两仓视觉固定成果与全部原A–H继续。证据evidence/matched-integration-9a31e15-20261116/README.md。不重复打包本候选/APK，下批新源码不能冒充包含于9a。
 
 ## 现役revision196
 

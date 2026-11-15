@@ -1,0 +1,17 @@
+{
+  "source": "9a31e15ff490559fda95c89f5cf379f67d8c0f8e",
+  "old_reader": "fee8f422a667ec42f2dd608472d3617ad2b14e89",
+  "same_identity_lineage_private_revision_and_content_digest": true,
+  "source_withdrawn_before_old_reader": true,
+  "withdrawn_source_rejected_all_three": true,
+  "counts_unchanged_during_binary_return": {
+    "subject_cycles": 1,
+    "cognitive_requests": 0,
+    "actions": 0,
+    "jobs": 0
+  },
+  "real_model_calls": 0,
+  "real_platform_calls": 0,
+  "production_changed": false,
+  "scope": "STOPPED_SYNTHETIC_DEV_NOT_266_OR_PRODUCTION"
+}

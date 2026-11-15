@@ -177,3 +177,7 @@ B30459原12份文件正常合并，A保留当前09/双方11与既有白名单；
 ## 2026-11-16 A平台召回与主体连续性
 
 memory.py/context.py、tests/nanalink/test_platform_context_population.py、原09/11/ACTIVE/STATUS及evidence/platform-context-population-20261116/的原合成日志/独立对照工具/指纹、本白名单；不含DB/运行配置/真实账户/凭据/二进制或上游复制。
+
+## 2026-11-16 A匹配9a候选回执
+
+09/11/ACTIVE/STATUS、本白名单及evidence/matched-integration-9a31e15-20261116/原公开合成安装/下载/回退/CI摘录/脚本和指纹。二进制仅原delivery固定efc候选，不重复放dev；无DB/私史/真实账号/密钥/新授权。

@@ -1,0 +1,6 @@
+INSTALLED_RUNTIME_DEPENDENCIES_VERIFIED
+.{"checkpoint": "restart-followup", "text": "SYNTHETIC LISTEN SOURCE_KNOWN", "requests_seen": 4, "last_two_request_json_bytes": [16918, 16696], "budgets": [{"cost_ceiling_micro": 0, "input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000}, {"cost_ceiling_micro": 0, "input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000}]}
+{"source": "retained_platform", "virtual_hours": 49, "model_calls": 8, "real_model_calls": 0, "private_ablation": "SYNTHETIC CHAT SOURCE_KNOWN", "after_withdrawal": "SYNTHETIC LISTEN SOURCE_UNAVAILABLE", "budget": {"cost_ceiling_micro": 0, "input_tokens": 16384, "output_tokens": 2048, "timeout_ms": 120000}, "request_json_bytes": [18097, 17896, 16918, 16696, 17389, 18290, 19214, 16961]}
+.
+2 passed in 2.07s
+INSTALLED_ORIGINS {"modules": 144, "all_from_installed_9a": true, "repo_pythonpath": false, "exit_code": 0}

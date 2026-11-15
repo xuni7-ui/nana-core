@@ -1,0 +1,18 @@
+{
+  "source": "9a31e15ff490559fda95c89f5cf379f67d8c0f8e",
+  "build_a": {
+    "archive": "/tmp/nana-9a-build-a/nana-first-life-portable-v1.tar.gz",
+    "sha256": "cda06320fce1b3142a0bb3b66c7cf52f981dc4f943da6826ccdec007b6b434c8",
+    "source_commit": "9a31e15ff490559fda95c89f5cf379f67d8c0f8e",
+    "bundle_files": 302,
+    "new_provider_calls": 0
+  },
+  "build_b": {
+    "archive": "/tmp/nana-9a-build-b/nana-first-life-portable-v1.tar.gz",
+    "sha256": "cda06320fce1b3142a0bb3b66c7cf52f981dc4f943da6826ccdec007b6b434c8",
+    "source_commit": "9a31e15ff490559fda95c89f5cf379f67d8c0f8e",
+    "bundle_files": 302,
+    "new_provider_calls": 0
+  },
+  "identical": true
+}
