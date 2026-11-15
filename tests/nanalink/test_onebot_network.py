@@ -254,3 +254,45 @@ def test_bad_event_during_pending_rpc_preserves_correlated_response():
         assert response['message_id'] == 1 and event.message_id == '4'
         assert net['adapter'].metrics['invalid_events'] == 1 and state['connections'] == 1
         assert not state['sent'] and net['adapter'].health().login == 'AUTHENTICATED'
+
+
+def test_disconnect_during_recovery_handoff_is_not_lost():
+    async def run():
+        adapter = OneBotAdapter('42', mode='websocket', endpoint='ws://127.0.0.1:12345')
+        reconnected = asyncio.Event()
+        calls = []
+        async def open_fixture():
+            calls.append(1)
+            if len(calls) == 1:
+                # Reader observed a close while the recovery task was still set.
+                adapter._health = adapter._health.model_copy(update={'connection':'DISCONNECTED', 'login':'UNKNOWN'})
+            else:
+                adapter._health = adapter._health.model_copy(update={'connection':'CONNECTED', 'login':'AUTHENTICATED'})
+                reconnected.set()
+        adapter._open_ws = open_fixture
+        adapter.recovery = asyncio.create_task(adapter._recover())
+        try:
+            await asyncio.wait_for(reconnected.wait(), 2)
+            assert len(calls) == 2 and adapter.health().login == 'AUTHENTICATED'
+        finally:
+            adapter.closed = True
+            if adapter.recovery is not None:
+                adapter.recovery.cancel()
+                await asyncio.gather(adapter.recovery, return_exceptions=True)
+    asyncio.run(run())
+
+
+def test_account_reply_cannot_mark_a_disconnected_websocket_online():
+    from types import SimpleNamespace
+    async def run():
+        adapter = OneBotAdapter('42', mode='websocket', endpoint='ws://127.0.0.1:12345')
+        adapter.ws = SimpleNamespace(closed=False)
+        adapter._health = adapter._health.model_copy(update={'connection':'CONNECTING'})
+        async def reply_after_close(*args, **kwargs):
+            adapter._health = adapter._health.model_copy(update={'connection':'DISCONNECTED', 'login':'UNKNOWN'})
+            return {'user_id':42}
+        adapter.rpc = reply_after_close
+        with pytest.raises(CoreError, match='ONEBOT_SESSION_UNAVAILABLE'):
+            await adapter._account()
+        assert adapter.health().login != 'AUTHENTICATED'
+    asyncio.run(run())

@@ -180,7 +180,11 @@ class OneBotAdapter:
             raise
 
     async def _account(self):
+        expected_ws = self.ws if self.mode != 'http' else None
         row = await self.rpc('get_login_info', {}, _identity_probe=True)
+        if (self.mode != 'http' and (expected_ws is None or self.ws is not expected_ws
+                or expected_ws.closed or self._health.connection == 'DISCONNECTED')):
+            raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
         if str(row.get('user_id')) != self.account.account_id:
             self._health = self._health.model_copy(update={'login': 'REQUIRED', 'error': 'ACCOUNT_MISMATCH'})
             raise CoreError('ONEBOT_ACCOUNT_BINDING_CHANGED')
@@ -202,6 +206,7 @@ class OneBotAdapter:
         if self.mode != 'reverse-websocket' or self.closed or self.ws is not None and not self.ws.closed:
             raise CoreError('ONEBOT_REVERSE_SESSION_CONFLICT')
         self.ws = ws
+        self._health = self._health.model_copy(update={'connection': 'CONNECTING', 'login': 'UNKNOWN'})
         self.reader = asyncio.create_task(self._read(ws))
         try:
             await self._account()
@@ -261,6 +266,11 @@ class OneBotAdapter:
                     delay = min(delay * 2, 30)
         finally:
             self.recovery = None
+            # The new reader may observe a close before this recovery task has
+            # released its slot. Re-arm the infrastructure recovery once the
+            # slot is free; never replay any in-flight operation.
+            if not self.closed and self.mode == 'websocket' and self._health.connection == 'DISCONNECTED':
+                self.recovery = asyncio.create_task(self._recover())
 
     def offer(self, row):
         if str(row.get('self_id')) != self.account.account_id:
