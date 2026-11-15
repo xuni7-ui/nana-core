@@ -12,6 +12,7 @@ from .experience_need import ExperienceNeed
 
 class Situation(DTO):
     learning_programs:tuple[LearningProgramOption,...]=()
+    learning_selection_optional:bool=False
     preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
@@ -53,6 +54,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     """Same read-only C projection for deliberation and D resource admission."""
     from .contracts import DeliberationFrame
     return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
+        learning_selection_optional=True if situation.learning_selection_optional else None,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(directions(situation.cue))) if situation.cue else ('REFLECT','REST') if situation.reflection_experience_id else ())
 
@@ -247,7 +249,7 @@ def decide(event, situation, appraisal, motives):
         # Generic utility/novelty does not erase a current source-backed personal
         # interest. Enjoyment need not promise learning or task productivity.
         interested_learning = (behavior in {'LEARN', 'SEEK_CAPABILITY'}
-            and (personal_interest or (cue.learning_value is not None
+            and (personal_interest or considered_choice or (cue.learning_value is not None
                 and cue.learning_value.interest in {'RELEVANT', 'HIGH'})))
         # A present considered wish may be new: neither prior adoption nor
         # storing a private thought is the admission price for optional thought,

@@ -144,3 +144,122 @@ def test_first_considered_activity_uses_existing_self_request_without_a_new_call
         assert not r.store.all('goals') and not r.store.all('self_assertions') and not current(app)
         assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('runtime_cognition_calls')
         assert seen[0].budget.timeout_ms==120000 and seen[0].cognitive_role=='SELF'
+
+
+@pytest.mark.parametrize('behavior',['LEARN','SEEK_CAPABILITY'])
+@pytest.mark.parametrize('generic_value',['LOW','RELEVANT'])
+@pytest.mark.parametrize('guard',['current','rest','unconsidered','norm','risk','heavy'])
+def test_first_deliberated_learning_wish_can_reconsider_low_instrumental_value_and_an_available_alternative(app,behavior,generic_value,guard):
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment
+    r=app.runtime;seen=[]
+    cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='new-study-for-itself',
+        possible_behaviors=(behavior,'REST'),resource_class='ORDINARY',cognitive_load='HIGH' if guard=='heavy' else 'LOW',
+        opportunity_assessment=OpportunityAssessment(value=generic_value,novelty='NEW'),learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE',
+            risk='HIGH' if guard=='risk' else 'LOW',time_compute_cost='HEAVY' if guard=='heavy' else 'LIGHT'))
+    mid=capture(r,'first-low-utility-learning',cue.model_dump(mode='json'),predicate='concern.first-low-utility-learning')
+    if guard=='norm':
+        norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=(behavior,))
+        capture(r,'first-low-utility-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-low-utility')
+    class Choosing:
+        descriptor='synthetic-new-learning-choice'
+        def propose(self,request):
+            seen.append(request);value=json.loads(AnalyticalFixturePort().propose(request));value.update(preferred_behavior=None if guard=='unconsidered' else 'REST' if guard=='rest' else behavior,proposed_operations=['DRAFT']);return json.dumps(value)
+    event=SubjectInput(source_key='synthetic.first-low-utility-learning',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+        privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+    result=r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy)
+    expected=('IGNORE' if generic_value=='LOW' else 'WATCH') if guard=='unconsidered' else 'REST' if guard in {'rest','norm','risk'} else behavior
+    assert result.intention.behavior==expected
+    assert r.subject.cognize(event,model=Choosing(),authority=r.authority,policy=app.policy).cycle_id==result.cycle_id
+    assert len(seen)==1 and not r.store.all('goals') and not r.store.all('self_assertions') and not r.store.all('actions') and not r.store.all('grants')
+    assert json.loads(r.subject.records.memory.read(mid)['text'])==cue.model_dump(mode='json')
+
+
+@pytest.mark.parametrize('wanted',['LEARN','REST'])
+def test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan(tmp_path,monkeypatch,wanted):
+    from nana_core.continuity.autonomy.private_intent import candidates
+    from nana_core.continuity.subject.opportunities import OpportunityAssessment,LearningProgramRef
+    from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+    from nana_core.continuity.world_loop.harness import provider_harness
+    import itertools,uuid,time
+    wall_started=time.perf_counter();cpu_started=time.process_time()
+    ids=itertools.count(300000);monkeypatch.setattr('nana_core.storage.sqlite_store.uuid.uuid4',lambda:uuid.UUID(int=next(ids)))
+    home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+    def choose(request):
+        ctx=json.loads(request.context_json);manifest=ctx['manifest']
+        frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+        programs=frame.get('learning_programs',[])
+        offered=next((v for v in programs if v['learning_key']=='learn.python-api'),None)
+        if offered:assert set(offered)=={'learning_key','spec_digest','domain'}
+        assert 'practice' not in json.dumps(programs) and 'expected' not in json.dumps(programs)
+        seen.append(request)
+        return StructuredProposal(interpretation='SYNTHETIC new learning wish is optional, not a fixed task priority',subject_cognition=CognitiveProposal(
+            identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose learning or rest without creating a permanent interest',
+            preferred_behavior=wanted,proposed_operations=('DRAFT',),learning_program_ref=LearningProgramRef(learning_key=offered['learning_key'],spec_digest=offered['spec_digest']) if wanted=='LEARN' and offered else None))
+    with provider_harness(proposer=choose) as (transport,state),LifeApplication(home,clock=clock) as app:
+        app.pause();r=app.runtime;identity=r.identity_id
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-python-study',resource_class='ORDINARY',
+            possible_behaviors=('LEARN','REST'),opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+            learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+        mid=capture(r,'first-python-study',cue.model_dump(mode='json'),predicate='concern.first-python-study')
+        event=SubjectInput(source_key='synthetic.first-python-study',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+            privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+        port=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=32768))
+        result=r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+        r.work.after_cycle(result,event)
+        work=[j for j in r.store.all('jobs') if j['work_kind']=='LEARNING'];rows=r.store.all('cognitive_requests')
+        print(json.dumps({'measurement':'synthetic_first_optional_g','wanted':wanted,'behavior':result.intention.behavior,
+            'self_calls':state['calls'],'input_bytes':rows[0]['input_bytes'],'reserved_bytes':rows[0]['reserved_bytes'],
+            'learning_jobs':len(work),'program_count':len(next(json.loads(b['data_json']) for b in json.loads(seen[0].context_json)['blocks'] if b['kind']=='SUBJECT_APPRAISAL').get('learning_programs',[])),'real_provider_calls':0}))
+        assert result.intention.behavior==wanted and len(work)==int(wanted=='LEARN')
+        assert len(rows)==1 and state['calls']==1 and not candidates(r.store,'project-work',('PROJECT','PERSONAL'))
+        assert not r.store.all('actions') and not r.store.all('grants')
+        if work:
+            for _ in range(24):
+                if r.store.one('jobs',work[0]['job_id'])['state'] in {'DONE','BLOCKED','CANCELLED'}:break
+                r.work.open_learning.slice()
+            final=r.store.one('jobs',work[0]['job_id']);assert final['state']=='DONE'
+            learned=r.work.open_learning.records.read(final['record_id'])['payload']
+            assert learned['results']['BASELINE']['passed']==0
+            assert learned['results']['EVALUATE']['all_passed'] and learned['results']['TRANSFER']['all_passed']
+    # Original explicit isolated DEV authority. The following approved recurrence
+    # material is separate from G practice/heldout/transfer; use actual Kernel.
+    with LifeApplication(home,clock=clock,bootstrap_grant=True) as later:
+        assert later.runtime.identity_id==identity
+        material=later.config.materials[0].material_id;later.pause(False);later.work.request(material)
+        later.work.run_until(lambda:bool((g:=later.work.goal_for(material)) and g['state'] in {'COMPLETED','FAILED','BLOCKED','ABANDONED'}))
+        goal=later.work.goal_for(material);actions=[a for a in later.runtime.store.all('actions') if a['goal_id']==goal['goal_id']]
+        compute=next(a for a in actions if a['capability']=='world.compute');kernel=later.runtime.work.agency.realization.kernel
+        method=json.loads(kernel.payload(compute,'args_json'))['method']
+        print(json.dumps({'measurement':'synthetic_first_g_future','wanted':wanted,'method':method,'goal_state':goal['state'],
+            'action_states':[a['state'] for a in actions],'later_model_calls':len(later.runtime.store.all('cognitive_requests'))-1}))
+        assert method==('PYTHON_AST_API' if wanted=='LEARN' else 'PYTHON_TOP_DEFS')
+        assert (goal['state']=='COMPLETED')==(wanted=='LEARN')
+        assert all(a['state']=='SUCCEEDED' for a in actions) and len(later.runtime.store.all('cognitive_requests'))==1
+        from pathlib import Path
+        db=Path(later.runtime.store.db.execute('PRAGMA database_list').fetchone()[2])
+        family=[Path(str(db)+suffix) for suffix in ('','-wal','-shm')]
+        print(json.dumps({'measurement':'synthetic_first_g_resources','wanted':wanted,'wall_seconds':time.perf_counter()-wall_started,
+            'parent_process_cpu_seconds':time.process_time()-cpu_started,'family_allocated_bytes':sum(p.stat().st_blocks*512 for p in family if p.exists())}))
+        if wanted=='LEARN':
+            later.forget(mid)
+            assert later.runtime.work.open_learning.strategy('python-api','project-work') is None
+
+
+@pytest.mark.parametrize('condition',['offered','norm','not-learning','unconfigured','no-retention'])
+def test_first_learning_catalog_reuses_original_readonly_scope_and_current_options(app,condition):
+    r=app.runtime
+    if condition=='unconfigured':r.work.configure_open_learning(())
+    cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-catalog-option',
+        possible_behaviors=('CREATE','REST') if condition=='not-learning' else ('LEARN','REST'),resource_class='ORDINARY')
+    mid=capture(r,'first-catalog-option',cue.model_dump(mode='json'),predicate='concern.first-catalog-option')
+    if condition=='norm':
+        norm=ConcernCue(cue_kind='CONSTRAINT',motivation_source='NORM',topic_key=cue.topic_key,prohibited_behaviors=('LEARN',))
+        capture(r,'first-catalog-norm',norm.model_dump(mode='json'),predicate='concern.constraint.first-catalog')
+    event=SubjectInput(source_key='synthetic.first-catalog-option',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',privacy_class='PERSONAL',
+        retention='DO_NOT_REMEMBER' if condition=='no-retention' else 'MAY_REMEMBER',observed_at_us=r.clock.utc_now_us(),source_memory_ids=() if condition=='no-retention' else (mid,))
+    source=r.subject.ingress.ingest(event);changes=r.store.db.total_changes
+    view=r.subject.situation(event,source)
+    assert bool(view.learning_programs)==(condition=='offered')
+    assert view.learning_selection_optional==bool(view.learning_programs)
+    assert all(set(p.model_dump(mode='json'))=={'learning_key','spec_digest','domain'} for p in view.learning_programs)
+    assert r.store.db.total_changes==changes and not r.store.all('cognitive_requests')

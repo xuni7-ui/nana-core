@@ -1,0 +1,8 @@
+{"measurement": "synthetic_first_optional_g", "wanted": "LEARN", "behavior": "LEARN", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 1, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "LEARN", "method": "PYTHON_AST_API", "goal_state": "COMPLETED", "action_states": ["SUCCEEDED", "SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "LEARN", "wall_seconds": 0.46483665499908966, "parent_process_cpu_seconds": 0.35366249100000013, "family_allocated_bytes": 3698688}
+.{"measurement": "synthetic_first_optional_g", "wanted": "REST", "behavior": "REST", "self_calls": 1, "input_bytes": 49288, "reserved_bytes": 61577, "learning_jobs": 0, "program_count": 1, "real_provider_calls": 0}
+{"measurement": "synthetic_first_g_future", "wanted": "REST", "method": "PYTHON_TOP_DEFS", "goal_state": "FAILED", "action_states": ["SUCCEEDED", "SUCCEEDED"], "later_model_calls": 0}
+{"measurement": "synthetic_first_g_resources", "wanted": "REST", "wall_seconds": 0.26294796700130973, "parent_process_cpu_seconds": 0.19465458000000013, "family_allocated_bytes": 2863104}
+.
+2 passed, 53 deselected in 0.89s

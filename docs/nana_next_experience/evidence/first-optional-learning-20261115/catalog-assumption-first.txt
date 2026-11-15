@@ -1,0 +1,180 @@
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 56756)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tests/person_self/test_deliberated_direction.py", line 187, in choose
+    offered=next(v for v in frame['learning_programs'] if v['learning_key']=='learn.python-api')
+                            ~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'learning_programs'
+----------------------------------------
+F----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 60034)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tests/person_self/test_deliberated_direction.py", line 187, in choose
+    offered=next(v for v in frame['learning_programs'] if v['learning_key']=='learn.python-api')
+                            ~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'learning_programs'
+----------------------------------------
+F
+=================================== FAILURES ===================================
+_ test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan[LEARN] _
+
+tmp_path = PosixPath('/workspace/scratch/nana-first-learning-g/test_first_learning_choice_can0')
+wanted = 'LEARN'
+
+    @pytest.mark.parametrize('wanted',['LEARN','REST'])
+    def test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan(tmp_path,wanted):
+        from nana_core.continuity.autonomy.private_intent import candidates
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment,LearningProgramRef
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        def choose(request):
+            ctx=json.loads(request.context_json);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            offered=next(v for v in frame['learning_programs'] if v['learning_key']=='learn.python-api')
+            assert set(offered)=={'learning_key','spec_digest','domain'}
+            assert 'practice' not in json.dumps(frame['learning_programs']) and 'expected' not in json.dumps(frame['learning_programs'])
+            seen.append(request)
+            return StructuredProposal(interpretation='SYNTHETIC new learning wish is optional, not a fixed task priority',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose learning or rest without creating a permanent interest',
+                preferred_behavior=wanted,proposed_operations=('DRAFT',),learning_program_ref=LearningProgramRef(learning_key=offered['learning_key'],spec_digest=offered['spec_digest']) if wanted=='LEARN' else None))
+        with provider_harness(proposer=choose) as (transport,state),LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;identity=r.identity_id
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-python-study',resource_class='ORDINARY',
+                possible_behaviors=('LEARN','REST'),opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+                learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+            mid=capture(r,'first-python-study',cue.model_dump(mode='json'),predicate='concern.first-python-study')
+            event=SubjectInput(source_key='synthetic.first-python-study',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+            port=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=32768))
+>           result=r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:689: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:140: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7f17ae5dfd10>
+frozen = FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"i...6959ef5f5a1d28534b786a4d37e40e72"}', context_digest='73379a6aae4da4d3f04a5d6a1be3a83b6959ef5f5a1d28534b786a4d37e40e72')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        tasks=[json.loads(b.data_json) for b in context.blocks if b.kind=='TASK_CONSTRAINTS']
+        if len(tasks)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            **subject_focus_inputs(frame.subject_event_id,self.privacy_class,tasks[0]['task'],frozen.task_class))
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: PROVIDER_INVALID_REPLY
+
+src/nana_core/continuity/world_loop/cognition.py:923: CoreError
+_ test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan[REST] _
+
+tmp_path = PosixPath('/workspace/scratch/nana-first-learning-g/test_first_learning_choice_can1')
+wanted = 'REST'
+
+    @pytest.mark.parametrize('wanted',['LEARN','REST'])
+    def test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan(tmp_path,wanted):
+        from nana_core.continuity.autonomy.private_intent import candidates
+        from nana_core.continuity.subject.opportunities import OpportunityAssessment,LearningProgramRef
+        from nana_core.continuity.world_loop.cognition import CognitionSession,CognitionBudget,StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        home=tmp_path/'home';initialize(home);clock=VirtualClock();seen=[]
+        def choose(request):
+            ctx=json.loads(request.context_json);manifest=ctx['manifest']
+            frame=next(json.loads(b['data_json']) for b in ctx['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            offered=next(v for v in frame['learning_programs'] if v['learning_key']=='learn.python-api')
+            assert set(offered)=={'learning_key','spec_digest','domain'}
+            assert 'practice' not in json.dumps(frame['learning_programs']) and 'expected' not in json.dumps(frame['learning_programs'])
+            seen.append(request)
+            return StructuredProposal(interpretation='SYNTHETIC new learning wish is optional, not a fixed task priority',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],interpretation='SYNTHETIC choose learning or rest without creating a permanent interest',
+                preferred_behavior=wanted,proposed_operations=('DRAFT',),learning_program_ref=LearningProgramRef(learning_key=offered['learning_key'],spec_digest=offered['spec_digest']) if wanted=='LEARN' else None))
+        with provider_harness(proposer=choose) as (transport,state),LifeApplication(home,clock=clock) as app:
+            app.pause();r=app.runtime;identity=r.identity_id
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='first-python-study',resource_class='ORDINARY',
+                possible_behaviors=('LEARN','REST'),opportunity_assessment=OpportunityAssessment(value='LOW',novelty='REPEATED'),
+                learning_value=LearningValue(goal_value='LOW',future_reuse='LOW',interest='LOW',alternative='AVAILABLE'))
+            mid=capture(r,'first-python-study',cue.model_dump(mode='json'),predicate='concern.first-python-study')
+            event=SubjectInput(source_key='synthetic.first-python-study',kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
+                privacy_class='PERSONAL',observed_at_us=clock.utc_now_us(),source_memory_ids=(mid,))
+            port=CognitionSession(r,transport,app.policy).subject_port(privacy_class='PERSONAL',budget=CognitionBudget(input_tokens=32768))
+>           result=r.subject.cognize(event,model=port,authority=r.authority,policy=app.policy)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_deliberated_direction.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:689: in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/cognition.py:140: in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.SubjectCognitionPort object at 0x7f17ae62d2e0>
+frozen = FrozenModelInput(schema_version=2, task_class='subject_deliberation', context_json='{"manifest":{"schema_version":1,"i...664c5db818652c6cf0153e28c2ff2611"}', context_digest='6c268a1d5397eeb9f939a175743f4246664c5db818652c6cf0153e28c2ff2611')
+
+    def propose(self,frozen):
+        from ..context import ContextPackage
+        from ..subject.contracts import DeliberationFrame
+        context=ContextPackage.model_validate_json(frozen.context_json)
+        if context.content_digest!=frozen.context_digest:raise CoreError('CONTEXT_TAMPERED')
+        frames=[DeliberationFrame.model_validate_json(b.data_json) for b in context.blocks if b.kind=='SUBJECT_APPRAISAL']
+        if len(frames)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        frame=frames[0]
+        tasks=[json.loads(b.data_json) for b in context.blocks if b.kind=='TASK_CONSTRAINTS']
+        if len(tasks)!=1:raise CoreError('SUBJECT_CONTEXT_BINDING_REQUIRED')
+        request_id=self.session.prepare('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,
+            subject_frame=frame,budget=self.budget,
+            **subject_focus_inputs(frame.subject_event_id,self.privacy_class,tasks[0]['task'],frozen.task_class))
+        result=self.session.execute(request_id)
+>       if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: PROVIDER_INVALID_REPLY
+
+src/nana_core/continuity/world_loop/cognition.py:923: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan[LEARN]
+FAILED tests/person_self/test_deliberated_direction.py::test_first_learning_choice_can_use_original_g_and_change_a_different_later_kernel_plan[REST]
+2 failed, 48 deselected in 0.61s

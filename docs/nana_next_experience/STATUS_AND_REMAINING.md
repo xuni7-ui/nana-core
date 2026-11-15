@@ -1,10 +1,10 @@
-## 现役revision230 — 首次当前取舍不用先保存兴趣
+## 现役revision231 — 首次可选学习接原G并影响实际后来方法
 
-原C当前明确EXPLORE/CREATE/REFLECT不再以“尚无adopted/private兴趣”被LOW/REPEATED直接改IGNORE；无明确选择、REST、当前规范、高风险澄清与实际预算保持。只改原policy一处条件，不新字段/阶段/Store，未自动形成长期偏好或正式Goal。精确41d7旧7fail17pass→24pass3.19s；222相关通过/2个Unix路径启动失败保留，仅短目录原2项3.18s通过。完整受控SELF request逐字段相同、各1调用/input26757bytes/reserve39046，旧IGNORE→新CREATE；原候选记账+1页4KiB，见evidence/first-considered-interest-20261115/README.md。
+原C当前LEARN/SEEK_CAPABILITY可重考虑LOW/REPEATED和已有替代；原G有界只读目录接普通LEARN机会，Frame仅新路径提示可暂不绑定程序，原私人G精确ref/来源与scope/privacy不改。普通愿望无ref不启动G，未新增private/稳定偏好/执行权。旧四场景4fail；联调79pass24.27s/153相关61.83s，所有首败保留（含目录缺消费者、8项过强ref回归与5夹具契约错）。见evidence/first-optional-learning-20261115/README.md。
 
-此前联系/quiet四种有源倾向共存、同身份虚拟49h/142相关资格继承；原CI疑似重叠实collect102/102唯一、与仅folder同，故未另建流程。当前非全仓/真实模型/手机/生产/真人自然度/跨日成长；无新包/APK/匹配安装，CURRENT266+409，929候选只对自己源码。
+实际owned HTTP1SELF→原C明确LEARN/精确当前G→原独立评价/迁移→同身份重启新批准材料实际Kernel AST/Goal完成；REST同输入预算不学/旧方法Goal失败，后来0模型、来源撤回使方法失效。新两者input49288bytes，旧48980/+308为目录提示非Token；单例G路径墙钟+0.20s/家族分配+816KiB，非P95/长期。前继41d/088独立CI478/486仅各自targeted，client/full/portable SKIP；当前真实模型/账号/手机/生产/自然度/跨日长期0，无新包APK/CURRENT，仍266+409。
 
-下一原情感意义/多时间尺度及可靠反馈如何修订倾向并影响不同后续C选择/G独立反例；首次兴趣不等于长期成长。正常D全部自主机会、真实投递、广检索/物理隐私/Token费用超时/模型多端/最终发行与全部A–H继续。今晚22:25/明早05:00北京时间续办已设，当前未冻结。
+下一原G无旧private origin→后来成功→原D/同C能否自生新疑问/兴趣；先核对growth_life/正常机会基线，复用G和Source，不人为先造目标。原情感意义/多时间尺度/反例、广检索/物理隐私/Token费用超时/模型多端/最终发行及全部A–H继续。22:25/明早05:00北京时间续办已设，当前未冻结。
 
 ## 现役revision196
 
