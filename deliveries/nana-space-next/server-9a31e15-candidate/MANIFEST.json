@@ -1,0 +1,43 @@
+{
+  "status": "CONTROLLED_INTEGRATION_CANDIDATE_NOT_CURRENT_OR_PRODUCTION",
+  "source_commit": "9a31e15ff490559fda95c89f5cf379f67d8c0f8e",
+  "brain_revision_at_source": 243,
+  "core_sha256": "cda06320fce1b3142a0bb3b66c7cf52f981dc4f943da6826ccdec007b6b434c8",
+  "web_sha256": "9c5934560e84960c1a887692a6173690f237d75989afc842b8604cbd3d9a89c7",
+  "bundle_files": 302,
+  "selected_core_files": 263,
+  "two_core_builds_identical": true,
+  "two_web_archives_identical": true,
+  "web_inputs_verified_git_blobs": 70,
+  "web_unit_tests": 100,
+  "browser_scenarios": 24,
+  "actual_python": "3.12.14",
+  "actual_sqlite": "3.53.1",
+  "dependencies": {
+    "pydantic": "2.13.4",
+    "pydantic-core": "2.46.4",
+    "annotated-types": "0.8.0",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.3",
+    "cryptography": "50.0.0",
+    "cffi": "2.1.1",
+    "pycparser": "3.0",
+    "pillow": "12.3.0"
+  },
+  "features": [
+    "HOST_VAULT",
+    "PUBLIC_VIDEO_FRAMES"
+  ],
+  "optional_sidecar_stack_packaged": false,
+  "optional_qr_dependency_packaged": false,
+  "offline_install": "PASS_LOCAL_FIRST_SLOT",
+  "installed_continuity_cases": 2,
+  "installed_core_modules_checked": 144,
+  "stopped_reader_rollback": "9a_fee8_9a_AFTER_NEW_SOURCE_WITHDRAWAL_PASS_NOT_266",
+  "fresh_remote_download_and_second_install": "PENDING_SEPARATE_DEV_RECEIPT",
+  "real_model_calls": 0,
+  "real_account_calls": 0,
+  "phone_production_naturalness_actual_longterm": "NOT_RUN",
+  "apk_rebuilt": false,
+  "current_selection_changed": false
+}
