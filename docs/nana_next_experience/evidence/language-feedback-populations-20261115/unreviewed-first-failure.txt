@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample ___
+
+app = <nana_core.life.application.LifeApplication object at 0x7f43ea0362a0>
+
+    def test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample(app):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+        service=LanguageService(app.runtime.store,app.runtime.authority)
+        for n in range(40):
+            draft=sample(app,100+n,provenance='USER_PROVIDED_REVIEW').model_copy(update={'human_judgment':'UNREVIEWED'})
+            service.record(draft,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority)
+            record(app,200+n)
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+E       AssertionError: assert ('PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC)
+
+tests/person_self/test_learning.py:165: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample
+1 failed, 15 deselected in 0.58s

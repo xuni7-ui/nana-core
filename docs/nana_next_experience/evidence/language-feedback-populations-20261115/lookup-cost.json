@@ -1,0 +1,46 @@
+{
+  "old": [
+    {
+      "measurement": "synthetic_language_population_window",
+      "newer_fixture_reviews": 0,
+      "evidence_level": "USER_PROVIDED_REVIEW",
+      "eligible": false,
+      "wall_seconds": 0.0007867050003369513,
+      "cpu_seconds": 0.000786127999999886,
+      "writes": 0,
+      "provider_requests": 0
+    },
+    {
+      "measurement": "synthetic_language_population_window",
+      "newer_fixture_reviews": 40,
+      "evidence_level": "PROJECT_SYNTHETIC",
+      "eligible": true,
+      "wall_seconds": 0.005025840999678621,
+      "cpu_seconds": 0.005026459000000205,
+      "writes": 0,
+      "provider_requests": 0
+    }
+  ],
+  "new": [
+    {
+      "measurement": "synthetic_language_population_window",
+      "newer_fixture_reviews": 0,
+      "evidence_level": "USER_PROVIDED_REVIEW",
+      "eligible": false,
+      "wall_seconds": 0.0011623070004134206,
+      "cpu_seconds": 0.0011617030000001805,
+      "writes": 0,
+      "provider_requests": 0
+    },
+    {
+      "measurement": "synthetic_language_population_window",
+      "newer_fixture_reviews": 40,
+      "evidence_level": "USER_PROVIDED_REVIEW",
+      "eligible": false,
+      "wall_seconds": 0.005336108999927092,
+      "cpu_seconds": 0.005335588999999974,
+      "writes": 0,
+      "provider_requests": 0
+    }
+  ]
+}

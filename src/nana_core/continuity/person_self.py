@@ -30,18 +30,28 @@ class ConversationDecision(DTO):
     execution_authority: Literal[False] = False
 
 
-def rows(store, kind, scope, privacy, *, limit=32, target=None):
+def rows(store, kind, scope, privacy, *, limit=32, target=None, sample_provenance=None):
     """Indexed bounded headers first; never open a denied payload."""
     if not privacy:
         return ()
     storage={'PERSONAL_ADOPTION':'ASSERTION','CONVERSATION_EXCHANGE':'RELATIONSHIP_EVENT','LIVED_LANGUAGE_SAMPLE':'EXPERIENCE_CANDIDATE'}[kind]
-    sql = 'SELECT * FROM continuity_records WHERE record_kind=? AND scope=?'
+    if sample_provenance is not None and (kind!='LIVED_LANGUAGE_SAMPLE' or sample_provenance not in {'USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC'}):
+        raise CoreError('LANGUAGE_SAMPLE_POPULATION_REQUIRED')
+    table='continuity_records'
+    if sample_provenance is not None:table+=' JOIN artifacts a ON a.artifact_id=continuity_records.payload_artifact_id'
+    sql = 'SELECT continuity_records.* FROM '+table+' WHERE continuity_records.record_kind=? AND scope=?'
     sql += ' AND lifecycle=? AND privacy_class IN ('+','.join('?' for _ in privacy)+')'
     args = [storage, scope, 'ACTIVE', *privacy]
     if target is not None:
         sql += ' AND target_id=?'
         args.append(target)
-    sql += ' ORDER BY rowid DESC LIMIT ?'
+    if sample_provenance is not None:
+        # Qualification populations are selected before their existing bounded
+        # window. Fixture volume must not hide a real opinion by truncation.
+        sql += " AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) THEN json_extract(CAST(a.payload AS TEXT),'$.sample.provenance') END=?"
+        sql += " AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) THEN json_extract(CAST(a.payload AS TEXT),'$.sample.human_judgment') END!='UNREVIEWED'"
+        args.append(sample_provenance)
+    sql += ' ORDER BY continuity_records.rowid DESC LIMIT ?'
     args.append(limit)
     records = RecordService(store)
     out = []

@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_active_human_expression_policy_projects_only_its_own_evidence_population _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2aaf056660>
+
+    def test_active_human_expression_policy_projects_only_its_own_evidence_population(app):
+        record(app,1,provenance='USER_PROVIDED_REVIEW');_,eid=record(app,2,provenance='USER_PROVIDED_REVIEW')
+        lid=activate(app,eid)
+        for n in range(40):record(app,100+n,tags=('TOO_TERSE',))
+        view=context(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+        assert view['policy']['lesson_id']==lid and view['policy']['evidence_level']=='USER_PROVIDED_REVIEW'
+>       assert view['examples'] and all(e['provenance']=='USER_PROVIDED_REVIEW' for e in view['examples'])
+E       AssertionError: assert ([{'context': 'A project-owned casual contrast case', 'candidate_response': 'First, I will summarize your requirements ...rial period.', 'human_judgment': 'REJECTED', 'exact_feedback': 'Project fixture: too much procedural meta-talk.', ...}] and False)
+E        +  where False = all(<generator object test_active_human_expression_policy_projects_only_its_own_evidence_population.<locals>.<genexpr> at 0x7f2aaecddd80>)
+
+tests/person_self/test_learning.py:174: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_active_human_expression_policy_projects_only_its_own_evidence_population
+1 failed, 16 deselected in 0.47s

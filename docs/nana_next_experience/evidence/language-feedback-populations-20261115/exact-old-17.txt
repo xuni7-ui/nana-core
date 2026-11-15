@@ -1,0 +1,156 @@
+.........{"measurement": "synthetic_language_population_window", "newer_fixture_reviews": 0, "evidence_level": "USER_PROVIDED_REVIEW", "eligible": false, "wall_seconds": 0.0007867050003369513, "cpu_seconds": 0.000786127999999886, "writes": 0, "provider_requests": 0}
+.{"measurement": "synthetic_language_population_window", "newer_fixture_reviews": 40, "evidence_level": "PROJECT_SYNTHETIC", "eligible": true, "wall_seconds": 0.005025840999678621, "cpu_seconds": 0.005026459000000205, "writes": 0, "provider_requests": 0}
+FFFFFFF
+=================================== FAILURES ===================================
+______ test_one_human_review_is_not_outvoted_by_many_fixture_reviews[40] _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146dcaae0>
+later_fixtures = 40
+
+    @pytest.mark.parametrize('later_fixtures',[0,40])
+    def test_one_human_review_is_not_outvoted_by_many_fixture_reviews(app,later_fixtures):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1);record(app,2);record(app,3)
+        record(app,4,provenance='USER_PROVIDED_REVIEW')
+        for n in range(later_fixtures):record(app,100+n)
+        import time,json
+        writes=app.runtime.store.db.total_changes;wall=time.perf_counter();cpu=time.process_time()
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+        print(json.dumps({'measurement':'synthetic_language_population_window','newer_fixture_reviews':later_fixtures,
+            'evidence_level':result['evidence_level'],'eligible':result['eligible'],'wall_seconds':time.perf_counter()-wall,
+            'cpu_seconds':time.process_time()-cpu,'writes':app.runtime.store.db.total_changes-writes,'provider_requests':len(app.runtime.store.all('cognitive_requests'))}))
+        assert app.runtime.store.db.total_changes==writes
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+E       AssertionError: assert ('PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC)
+
+tests/person_self/test_learning.py:130: AssertionError
+_ test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification[counter] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146e1f530>
+human_case = 'counter'
+
+    @pytest.mark.parametrize('human_case',['counter','qualified'])
+    def test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification(app,human_case):
+        from nana_core.continuity.lived_language import learnable
+        if human_case=='counter':
+            record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+        else:
+            record(app,1,provenance='USER_PROVIDED_REVIEW');record(app,2,provenance='USER_PROVIDED_REVIEW')
+        for n in range(40):record(app,100+n,tags=('TOO_VERBOSE',) if human_case=='counter' else ('TOO_TERSE',))
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW'
+E       AssertionError: assert 'PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC
+
+tests/person_self/test_learning.py:142: AssertionError
+_ test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification[qualified] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146c96270>
+human_case = 'qualified'
+
+    @pytest.mark.parametrize('human_case',['counter','qualified'])
+    def test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification(app,human_case):
+        from nana_core.continuity.lived_language import learnable
+        if human_case=='counter':
+            record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+        else:
+            record(app,1,provenance='USER_PROVIDED_REVIEW');record(app,2,provenance='USER_PROVIDED_REVIEW')
+        for n in range(40):record(app,100+n,tags=('TOO_VERBOSE',) if human_case=='counter' else ('TOO_TERSE',))
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW'
+E       AssertionError: assert 'PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC
+
+tests/person_self/test_learning.py:142: AssertionError
+_ test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson[scope] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146c96bd0>
+crowding = 'scope'
+
+    @pytest.mark.parametrize('crowding',['scope','privacy'])
+    def test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson(app,crowding):
+        record(app,1);_,eid=record(app,2);local=activate(app,eid)
+        r=app.runtime;language=LanguageService(r.store,r.authority)
+        for n in range(17):
+            review=language.record(sample(app,100+n),scope='another-project' if crowding=='scope' else 'project-work',
+                entity_id='project-user',privacy='PERSONAL' if crowding=='privacy' else 'PROJECT',authority=r.authority)
+            experience=language.experience(review,r.authority)
+            if n>=1:activate(app,experience)
+        before=r.store.snapshot();writes=r.store.db.total_changes
+        policy=expression_policy(r.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+>       assert policy['lesson_id']==local
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'lesson_id'
+
+tests/person_self/test_learning.py:157: KeyError
+_ test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson[privacy] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2147018da0>
+crowding = 'privacy'
+
+    @pytest.mark.parametrize('crowding',['scope','privacy'])
+    def test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson(app,crowding):
+        record(app,1);_,eid=record(app,2);local=activate(app,eid)
+        r=app.runtime;language=LanguageService(r.store,r.authority)
+        for n in range(17):
+            review=language.record(sample(app,100+n),scope='another-project' if crowding=='scope' else 'project-work',
+                entity_id='project-user',privacy='PERSONAL' if crowding=='privacy' else 'PROJECT',authority=r.authority)
+            experience=language.experience(review,r.authority)
+            if n>=1:activate(app,experience)
+        before=r.store.snapshot();writes=r.store.db.total_changes
+        policy=expression_policy(r.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+>       assert policy['lesson_id']==local
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'lesson_id'
+
+tests/person_self/test_learning.py:157: KeyError
+___ test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample ___
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146d1cb30>
+
+    def test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample(app):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+        service=LanguageService(app.runtime.store,app.runtime.authority)
+        for n in range(40):
+            draft=sample(app,100+n,provenance='USER_PROVIDED_REVIEW').model_copy(update={'human_judgment':'UNREVIEWED'})
+            service.record(draft,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority)
+            record(app,200+n)
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+E       AssertionError: assert ('PROJECT_SYNTHETIC' == 'USER_PROVIDED_REVIEW'
+E         
+E         - USER_PROVIDED_REVIEW
+E         + PROJECT_SYNTHETIC)
+
+tests/person_self/test_learning.py:171: AssertionError
+_ test_active_human_expression_policy_projects_only_its_own_evidence_population _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f2146d1d7c0>
+
+    def test_active_human_expression_policy_projects_only_its_own_evidence_population(app):
+        record(app,1,provenance='USER_PROVIDED_REVIEW');_,eid=record(app,2,provenance='USER_PROVIDED_REVIEW')
+        lid=activate(app,eid)
+        for n in range(40):record(app,100+n,tags=('TOO_TERSE',))
+        view=context(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+>       assert view['policy']['lesson_id']==lid and view['policy']['evidence_level']=='USER_PROVIDED_REVIEW'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'lesson_id'
+
+tests/person_self/test_learning.py:179: KeyError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_one_human_review_is_not_outvoted_by_many_fixture_reviews[40]
+FAILED tests/person_self/test_learning.py::test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification[counter]
+FAILED tests/person_self/test_learning.py::test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification[qualified]
+FAILED tests/person_self/test_learning.py::test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson[scope]
+FAILED tests/person_self/test_learning.py::test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson[privacy]
+FAILED tests/person_self/test_learning.py::test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample
+FAILED tests/person_self/test_learning.py::test_active_human_expression_policy_projects_only_its_own_evidence_population
+7 failed, 10 passed in 3.83s

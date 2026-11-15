@@ -1,8 +1,10 @@
-## 现役revision226 — 复用原反馈可选G，独立实际后续使用已受控资格
+## 现役revision227 — 合成评论不再挤掉用户证据群，范围资格在截断前
 
-核对确认原D反馈SELF已有原G可选入口，不重复开发src。新增受控资格：确切话轮方法意见→同C自愿LEARN/REST→原G独立评价/transfer→同身份重启同一新批准文件实际Kernel。LEARN选AST、3动作成功/goal完成；REST旧TOP_DEFS、2动作成功但质量goal失败。相同材料SHA、预算32768/2048/120000、各1SELF及45802wirebytes，后续新增模型0；撤回意见使方法停用但原私人关切保留。12pass10.88s，首次沿用非学习lesson断言失败已留；新增LEARN分支要求唯一匹配资格lesson，原非学习断言保留。见evidence/attributed-feedback-original-g-20261115/README.md。
+原learnable改为各证据群/已评价状态先过滤，再各取原32；合成评论量不能遮住用户意见/反例，UNREVIEWED不挤已评价。原expression_policy先scope/privacy/current再16，已采纳策略最多2示例来自同群。精确383旧7fail10pass→17pass4.20s，168相关55.68s；后补正常原INTERPRET/C/SOCIAL聊天旧fail→新pass，实际USER方法+2同群示例进入生成。预算/120s不变、同2阶段/+3263wirebytes非Token；只读查询单例约5.026→5.336ms、写0，不当P95。无新表/index/依赖/Prompt/schema，16/32笔记范围不改。首错均保留，见evidence/language-feedback-populations-20261115/README.md。
 
-仅测试/证据，业务源码仍aebb02a/225；不声称新开发了原G、学会安慰/一般交流或人格成长。模型选择/反馈都是fixture，真实模型/送达/手机/生产/自然度/长期未新增，无新包/APK/CURRENT。工作副本/workspace/nana-next-refinement-work，保护磁盘20万库与旧18bc；下一S3短长情感/多动机与原186通信方法消费者更广独立评价/反例/后续迁移，全部原A–H继承。
+前继383独立69pass59.28s仅前继；未新包/APK/手机/生产/自然度/长期，真实Provider0，USER标签是合成夹具而非真人来源。当前源码不在929候选，CURRENT266+409保持。两个续办已按北京时间今日11-15 22:25/明日11-16 05:00设置，不冻结当前进度。工作副本仍/workspace/nana-next-refinement-work，保护磁盘20万库/旧18bc。
+
+下一原S3短长情感/多动机及同群更长历史/独立发生采样、通信方法更广后续评价/反例迁移；不将分群窗口或单次意见当长期成长。原G/反馈接线继续复用，跨topic/存储隐私/Token费用超时/模型多端/全部A–H继承。
 
 ## 现役revision196
 

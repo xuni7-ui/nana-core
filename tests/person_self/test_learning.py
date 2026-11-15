@@ -114,9 +114,94 @@ def test_unreviewed_example_is_not_a_human_counterexample(app):
     assert learnable(r.store,'project-work',('PROJECT',))['eligible']
 
 
-def test_one_human_review_is_not_outvoted_by_many_fixture_reviews(app):
+@pytest.mark.parametrize('later_fixtures',[0,40])
+def test_one_human_review_is_not_outvoted_by_many_fixture_reviews(app,later_fixtures):
     from nana_core.continuity.lived_language import learnable
     record(app,1);record(app,2);record(app,3)
     record(app,4,provenance='USER_PROVIDED_REVIEW')
+    for n in range(later_fixtures):record(app,100+n)
+    import time,json
+    writes=app.runtime.store.db.total_changes;wall=time.perf_counter();cpu=time.process_time()
+    result=learnable(app.runtime.store,'project-work',('PROJECT',))
+    print(json.dumps({'measurement':'synthetic_language_population_window','newer_fixture_reviews':later_fixtures,
+        'evidence_level':result['evidence_level'],'eligible':result['eligible'],'wall_seconds':time.perf_counter()-wall,
+        'cpu_seconds':time.process_time()-cpu,'writes':app.runtime.store.db.total_changes-writes,'provider_requests':len(app.runtime.store.all('cognitive_requests'))}))
+    assert app.runtime.store.db.total_changes==writes
+    assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+
+
+@pytest.mark.parametrize('human_case',['counter','qualified'])
+def test_fixture_volume_cannot_erase_a_human_counterexample_or_overrule_human_qualification(app,human_case):
+    from nana_core.continuity.lived_language import learnable
+    if human_case=='counter':
+        record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+    else:
+        record(app,1,provenance='USER_PROVIDED_REVIEW');record(app,2,provenance='USER_PROVIDED_REVIEW')
+    for n in range(40):record(app,100+n,tags=('TOO_VERBOSE',) if human_case=='counter' else ('TOO_TERSE',))
+    result=learnable(app.runtime.store,'project-work',('PROJECT',))
+    assert result['evidence_level']=='USER_PROVIDED_REVIEW'
+    assert result['eligible']==(human_case=='qualified')
+
+
+@pytest.mark.parametrize('crowding',['scope','privacy'])
+def test_unrelated_active_expression_lessons_do_not_hide_an_eligible_local_lesson(app,crowding):
+    record(app,1);_,eid=record(app,2);local=activate(app,eid)
+    r=app.runtime;language=LanguageService(r.store,r.authority)
+    for n in range(17):
+        review=language.record(sample(app,100+n),scope='another-project' if crowding=='scope' else 'project-work',
+            entity_id='project-user',privacy='PERSONAL' if crowding=='privacy' else 'PROJECT',authority=r.authority)
+        experience=language.experience(review,r.authority)
+        if n>=1:activate(app,experience)
+    before=r.store.snapshot();writes=r.store.db.total_changes
+    policy=expression_policy(r.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+    assert policy['lesson_id']==local
+    assert all(r.store.one('continuity_records',rid)['scope']=='project-work' and r.store.one('continuity_records',rid)['privacy_class']=='PROJECT' for rid in policy['source_record_ids'])
+    assert r.store.snapshot()==before and r.store.db.total_changes==writes
+
+
+def test_unreviewed_volume_does_not_hide_prior_reviewed_human_counterexample(app):
+    from nana_core.continuity.lived_language import learnable
+    record(app,1,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+    service=LanguageService(app.runtime.store,app.runtime.authority)
+    for n in range(40):
+        draft=sample(app,100+n,provenance='USER_PROVIDED_REVIEW').model_copy(update={'human_judgment':'UNREVIEWED'})
+        service.record(draft,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=app.runtime.authority)
+        record(app,200+n)
     result=learnable(app.runtime.store,'project-work',('PROJECT',))
     assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
+
+
+def test_active_human_expression_policy_projects_only_its_own_evidence_population(app):
+    record(app,1,provenance='USER_PROVIDED_REVIEW');_,eid=record(app,2,provenance='USER_PROVIDED_REVIEW')
+    lid=activate(app,eid)
+    for n in range(40):record(app,100+n,tags=('TOO_TERSE',))
+    view=context(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+    assert view['policy']['lesson_id']==lid and view['policy']['evidence_level']=='USER_PROVIDED_REVIEW'
+    assert view['examples'] and all(e['provenance']=='USER_PROVIDED_REVIEW' for e in view['examples'])
+    assert not view['human_naturalness_qualified']
+
+
+def test_normal_dialogue_retains_human_policy_after_dense_synthetic_feedback(tmp_path):
+    import json
+    from .conftest import initialize
+    from tests.independent_life.test_dialogue import relay
+    from nana_core.presence.authority import VirtualClock
+    home=tmp_path/'home';initialize(home);seen=[]
+    def render(request):
+        blocks=json.loads(request['context_json'])['blocks']
+        policies=[json.loads(b['data_json'])['policy'] for b in blocks if b['kind']=='LIVED_LANGUAGE']
+        examples=[e for b in blocks if b['kind']=='LANGUAGE_EXAMPLES' for e in json.loads(b['data_json'])['examples']]
+        seen.append((policies,examples))
+        correct=bool(policies and policies[0].get('evidence_level')=='USER_PROVIDED_REVIEW')
+        if correct:assert all(e['provenance']=='USER_PROVIDED_REVIEW' for e in examples)
+        return 'SYNTHETIC original human-reviewed method' if correct else 'SYNTHETIC lost human-reviewed method'
+    with relay(home,'CHAT',renderer=render,context_limit=65536) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause();record(app,1,provenance='USER_PROVIDED_REVIEW');_,eid=record(app,2,provenance='USER_PROVIDED_REVIEW');lid=activate(app,eid)
+        for n in range(40):record(app,100+n,tags=('TOO_TERSE',))
+        answer=app.chat('SYNTHETIC a different casual conversation',privacy='PROJECT',message_id='human-policy-after-fixtures')
+        assert answer['text']=='SYNTHETIC original human-reviewed method'
+        assert answer['mode']=='CHAT' and len(requests)==2 and [r['cognitive_role'] for r in requests]==['INTERPRET','SOCIAL']
+        assert seen and seen[0][0][0]['lesson_id']==lid
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        print(json.dumps({'measurement':'synthetic_original_dialogue_population','roles':[r['cognitive_role'] for r in requests],
+            'policy_evidence_level':seen[0][0][0]['evidence_level'],'projected_example_count':len(seen[0][1]),'human_naturalness':'NOT_RUN','real_provider_calls':0}))
