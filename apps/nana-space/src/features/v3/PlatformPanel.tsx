@@ -62,6 +62,11 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
   return <V3Card title="NanaLink · 平台连接" eyebrow="ONE CORE · LIVE CHANNELS">
     <p className="v3-muted">每个入口都回到同一个主体。连接设置、读取许可与发送授权分别核验。</p>
     <NanaLinkSetup client={client} status={status} canManage={canManage} onSaved={refresh}/>
+    <details><summary>平台能做什么</summary>
+      <p>QQ：授权后可接收和发送文字；图片、表情的自主发送尚未接通。官方 Bot 回执不能单独证明送达。</p>
+      <p>哔哩哔哩：可按授权接收评论和通知，观看支持的公开视频资料；动态来源和视频帧需宿主另行启用。</p>
+      <p>是否参与或回应由奈奈的原主体决定，现实行动仍须相应授权；连接成功不会自动授予发送权限。</p>
+    </details>
     {!rows.length && <p className="v3-muted">还没有平台连接。可以先保存账号与会话配置，再完成对应平台授权。</p>}
     {rows.map(row => <article className="v3-card" key={`${row.platform}.${row.channel_id}`}>
       <h3>{row.platform === "qq" ? "QQ" : "哔哩哔哩"} · {row.account_label || String(row.channel_id)}{row.conversation_kind ? " · " + (({private:"私聊",group:"群聊",dm:"私信",comment:"评论"} as Record<string,string>)[row.conversation_kind] || "") : ""}</h3>

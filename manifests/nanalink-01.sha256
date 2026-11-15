@@ -8,7 +8,7 @@ c0b11bec2eac55237b21fa49c668926e18a3ea5ee95231503ddbca3043cffb90  .gitignore
 b742a893ccc6e732694ecd83564502200663df3071263b260bc33539d07fe62b  apps/nana-space/src/features/v3/AdapterManagement.tsx
 11ca0f74193b17fb764eed793c711ad3353732fcb69a7ce2c94f03bf7ebf0d55  apps/nana-space/src/features/v3/NanaLinkSetup.tsx
 d8e2f0d80d0c904ff92aaaabb179bad3c25ae1e1b441775e092d597db203b058  apps/nana-space/src/features/v3/PlatformLogin.tsx
-930a63c07907a0bb62b880efc31d23fec6ca3ad7c8f9262e43bf9a7b57cf8c3a  apps/nana-space/src/features/v3/PlatformPanel.tsx
+d748c659a17d037e1b51577480b4373de79042d7397bcece0cb974b38f34f6c1  apps/nana-space/src/features/v3/PlatformPanel.tsx
 8384b17e84d4b504f856c2da353d65c1690aa9090d26a19474ed0894babe795d  apps/nana-space/src/features/v3/v3.css
 bb20c12168baff92630feb8a36a3542cb952e78f5079759cc428366a1434b545  apps/nana-space/tests/nanalink-health.test.ts
 80df6c85f92a30aea5acfe2492fb2c8059e578a529bc281db720370f326c479c  apps/nana-space/tests/v3.spec.ts
