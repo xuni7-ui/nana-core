@@ -4017,3 +4017,5 @@ QQ 官方 host 会话过期时本地健康投影显示需重新授权，不联�
 - 2026-11-16 CST｜revision244：固定9a/Brain243 Core302文件双构建cda06320…、同源Web70输入核对/双归档9c593456…，现有delivery efc710d归档。真实GitHub新克隆11件全SHA、两槽实际离线安装BFF/反馈/十视图/原Store纠错重启撤回通过；安装2连续性/144 Core模块、撤回新来源后停机9a-fee8-9a保持同身份/私念/0新认知动作。486独立CI1073/3warn628.64s只是targeted；全仓/portable CI SKIP，9a CI待实际。非新APK/手机/真实模型/平台/生产/实际长期，CURRENT266+409不变。 交付0f仅日志/efc制品补齐历史保留，指纹锚3d7034517a9f8b91bc480a8aa977e7bb9abe02ebaea5f43f4533128a9d519992。
 
 - 2026-11-16 CST｜revision245：原BiliFrameService两处改用既有unresolved_live_calls：旧UNKNOWN保留原账项/预留且不重发，其他独立帧可在原预算内继续；实际b977旧2fail1pass→新3pass2.08s，32相关14.00s。跨正常重开、总额度2拒第三帧、真正CALLING仍互斥、撤回不再调模型均受控通过，真实0/无新增阶段。原9a匹配包/efc交付不含245，CURRENT266+409不动；另9a独立CI290/1warn129.55s为targeted，非245CI/全仓/安装。 指纹锚c1e468fc3912f43690c6939ad6bbc426ed4ee6386de31abd4e998bd18116cc78。
+
+- 2026-11-16 CST｜revision246：原已采纳plan_step不再仅因HIGH负荷覆盖C当前明确CONTINUE；保持REST动机/默认休息/其他兴趣/规范与风险/Goal-target/Manager-Grant。精确5fd旧3fail4pass→7pass.66s、211相关37.24s；原Goal/job仅判断时不改/重开保持，已有fixture Grant经原Kernel执行一步且不新Goal。原Provider两侧1SELF/25851request JSON bytes/同预算，非真实Token或模型成长；9a候选不含245/246，不重包/APK/CURRENT。 指纹锚7c30ca8fa1c677fdb5a3715ef909380cb6a3c018b57ad2f2b93185a44bed7f7d。

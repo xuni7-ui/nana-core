@@ -231,14 +231,15 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.plan_step and not (considered_choice and situation.preferred_behavior!='CONTINUE_PROJECT'):
         # An adopted step remains a candidate, not compulsory work. A fresh
-        # quiet choice or specific continuation norm can withhold it; sourced
-        # urgency can compete with load without overriding actual execution
+        # quiet choice or specific continuation norm can withhold it; a fresh
+        # considered continuation or urgency can compete with load without overriding actual execution
         # gates. Preserve original adoption cues (including CREATE/LEARN): they
         # describe how the goal arose, not an exhaustive new step whitelist.
         cue=situation.cue
         loaded=bool(cue and cue.cognitive_load=='HIGH' and cue.urgency!='HIGH')
         blocked='CONTINUE_PROJECT' in situation.prohibited_behaviors or bool(cue and set(directions(cue))<=set(situation.prohibited_behaviors))
-        if quiet_choice or loaded or blocked:
+        considered_continuation=considered_choice and situation.preferred_behavior=='CONTINUE_PROJECT'
+        if quiet_choice or (loaded and not considered_continuation) or blocked:
             behavior=options[0] if quiet_choice else 'REST' if 'REST' not in situation.prohibited_behaviors else None
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',
                 Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='Consider the current sourced quiet choice, load and norms before continuing an adopted step',source_ids=sources),

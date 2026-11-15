@@ -185,3 +185,7 @@ memory.py/context.py、tests/nanalink/test_platform_context_population.py、原0
 ## 2026-11-16 A原视觉UNKNOWN范围
 
 life/bilibili_frames.py两处field差额、新test_bilibili_frame_unknown.py、现有CI选择路径、09/11/ACTIVE/STATUS及evidence/visual-unknown-independent-request-20261116/原合成日志/指纹和本白名单。无Store/配置/真实账号/密钥/二进制/新收费授权，不重打9a包/APK。
+
+## 2026-11-16 A原C已采纳步骤与负荷
+
+subject/policy.py局部选择条件、test_deliberated_plan_load.py、原CI计划组选择、09/11/ACTIVE/STATUS及evidence/deliberated-plan-load-20261116/原受控日志/指纹、本白名单。无新权限/模型账单/Store/第三方源码/配置或二进制，不重打候选。

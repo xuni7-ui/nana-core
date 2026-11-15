@@ -1,8 +1,8 @@
-## 现役revision245 — 原视觉保留未知账项并恢复独立观察机会
+## 现役revision246 — 已采纳计划不强迫继续也不强迫休息
 
-原BiliFrameService两处改用既有unresolved_live_calls：旧UNKNOWN保留原账项/预留且不重发，其他独立帧可在原预算内继续；实际b977旧2fail1pass→新3pass2.08s，32相关14.00s。跨正常重开、总额度2拒第三帧、真正CALLING仍互斥、撤回不再调模型均受控通过，真实0/无新增阶段。原9a匹配包/efc交付不含245，CURRENT266+409不动；另9a独立CI290/1warn129.55s为targeted，非245CI/全仓/安装。
+原已采纳plan_step不再仅因HIGH负荷覆盖C当前明确CONTINUE；保持REST动机/默认休息/其他兴趣/规范与风险/Goal-target/Manager-Grant。精确5fd旧3fail4pass→7pass.66s、211相关37.24s；原Goal/job仅判断时不改/重开保持，已有fixture Grant经原Kernel执行一步且不新Goal。原Provider两侧1SELF/25851request JSON bytes/同预算，非真实Token或模型成长；9a候选不含245/246，不重包/APK/CURRENT。
 
-下一原S5观察→C/S3/S8因果消费者，按B固定算法I/O补共享预算/覆盖/时间戳；原BiliLife只有首故事板帧语义解释，不能冒充全片理解。B两仓算法/NanaLink平台不重复开发，情感/长期学习/自然交流/全A–H与最终多端发行继续。新CI待实际，证据evidence/visual-unknown-independent-request-20261116/README.md。
+下一GoalReview LIFECYCLE分支按实际C输入核对loaded/urgent及候选WITHDRAW，先真实基线不删条件；S5→C/S3/S8、B视觉固定候选及全部原A–H继续。新CI待实际，真实模型/手机/生产/自然度/实际长期未新资格。证据evidence/deliberated-plan-load-20261116/README.md。
 
 ## 现役revision196
 
