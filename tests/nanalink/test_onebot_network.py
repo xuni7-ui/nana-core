@@ -26,7 +26,7 @@ def network(*,mode='websocket'):
     """Independent loop thread keeps original synchronous Core on its owner."""
     loop=asyncio.new_event_loop()
     ready=threading.Event()
-    state={'sent':[],'reads':0,'logins':0,'connections':0,'lose_ack':False,'messages':{'1':message()}}
+    state={'sent':[],'reads':0,'logins':0,'connections':0,'lose_ack':False,'image_readback':False,'messages':{'1':message()}}
     token='FIXTURE_ONLY_UPSTREAM_NOT_A_REAL_SECRET'
     coretoken='FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'
     resolver=MemorySecretResolver()
@@ -41,6 +41,8 @@ def network(*,mode='websocket'):
             mid=100+len(state['sent'])
             state['sent'].append(params)
             state['messages'][str(mid)]=message(mid,params['message'][0]['data']['text'],42,params.get('user_id',43))
+            if state['image_readback']:
+                state['messages'][str(mid)]['message'] = params['message']
             return {'message_id':mid}
         raise AssertionError(action)
 

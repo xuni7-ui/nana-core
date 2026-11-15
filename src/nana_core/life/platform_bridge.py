@@ -165,7 +165,31 @@ class OneBotHTTPTransport:
 
     def verify_receipt(self, receipt):
         if "media_sha256" in receipt:
-            return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            import base64, binascii, hashlib
+            row = self.get_message(receipt["message_id"])
+            sender = row.get("sender") or {}
+            peer = row.get("group_id") if receipt["target_kind"] == "group" else row.get("target_id")
+            message = row.get("message")
+            if (peer is None or str(peer) != receipt["target_id"] or str(sender.get("user_id")) != self.account_id
+                    or row.get("message_type") != receipt["target_kind"] or type(message) is not list or len(message) != 2):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            text, image = message
+            if (type(text) is not dict or text.get("type") != "text" or type(text.get("data")) is not dict
+                    or type(text["data"].get("text")) is not str or digest(text["data"]["text"]) != receipt["text_digest"]
+                    or type(image) is not dict or image.get("type") != "image" or type(image.get("data")) is not dict):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            value = image["data"].get("file")
+            if type(value) is not str or not value.startswith("base64://") or len(value) > 10933:
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            try:
+                data = base64.b64decode(value[9:], validate=True)
+            except (ValueError, binascii.Error):
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            if not 1 <= len(data) <= 8192 or hashlib.sha256(data).hexdigest() != receipt["media_sha256"]:
+                return Verification(verdict="INCONCLUSIVE", evidence={"reason": "ONEBOT_IMAGE_CONTENT_NOT_INDEPENDENTLY_VERIFIED", "no_retry": True})
+            return Verification(verdict="MATCH", evidence={"message_id": receipt["message_id"],
+                "account_id": self.account_id, "target_id": str(peer), "independent_readback": True,
+                "media_sha256": receipt["media_sha256"], "platform_origin": self.realm})
         row = self.get_message(receipt["message_id"])
         sender = row.get("sender") or {}
         peer = row.get("group_id") if receipt["target_kind"] == "group" else row.get("target_id")

@@ -71,7 +71,7 @@ def test_proposal_rejects_unadvertised_or_uncited_media():
         validate_cognitive_proposal(CognitiveProposal(**base, memory_refs=('m1',), selected_media=forged), context)
 
 
-@pytest.mark.parametrize('scenario', ['ack', 'lost-ack', 'revoked', 'no-grant', 'during-login'])
+@pytest.mark.parametrize('scenario', ['ack', 'verified', 'lost-ack', 'revoked', 'no-grant', 'during-login'])
 def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scenario):
     from nana_core.continuity.autonomy.contracts import RealizationTarget
     from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
@@ -152,10 +152,12 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scena
             assert not platform['sent']
         else:
             platform['lose_ack'] = scenario == 'lost-ack'
-            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == 'UNKNOWN'
+            platform['image_readback'] = scenario == 'verified'
+            expected = 'SUCCEEDED' if scenario == 'verified' else 'UNKNOWN'
+            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == expected
             assert len(platform['sent']) == 1
             assert platform['sent'][0]['message'][1]['type'] == 'image'
-            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == 'UNKNOWN'
+            assert service.dispatch(cycle.intention_id, action, expected_revision=1) == expected
             assert len(platform['sent']) == 1
             if scenario == 'lost-ack':
                 from nana_core.life.platform_bridge import QQCapabilityPort, QQGovernedDelivery
