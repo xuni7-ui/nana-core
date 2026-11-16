@@ -376,4 +376,4 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 
 ## 2026-11-16 B帧数上限自适应分段
 
-持续授权：video_adaptive_decode.py、video_pts_decode.py及对应测试、CODEX_B_QUEUE.md和本清单；仅合成视频，无真实媒体、凭据或上游源码复制。
+持续授权：video_adaptive_decode.py、video_pts_decode.py及对应测试、bench_video_adaptive_decode.py、CODEX_B_QUEUE.md和本清单；仅合成视频，无真实媒体、凭据或上游源码复制。
