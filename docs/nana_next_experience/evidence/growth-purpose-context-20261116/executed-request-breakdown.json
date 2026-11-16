@@ -1,0 +1,47 @@
+{
+  "scope": "OWN_SYNTHETIC_EXECUTED_REQUESTS_ONLY_NOT_USER_HISTORY",
+  "source": "13746bdb052acab50ad920f652c739ac797fd2d5",
+  "requests": [
+    {
+      "method": "UNICODE_WORDS",
+      "input_bytes": 110896,
+      "context_json_bytes": 63251,
+      "current_method_reports": 1,
+      "other_method_reports": 33,
+      "other_report_text_bytes": 7248,
+      "serialized_block_bytes_by_kind": {
+        "IDENTITY": 801,
+        "TASK_CONSTRAINTS": 424,
+        "SUBJECT_APPRAISAL": 1661,
+        "MEMORY": 46317,
+        "GROWTH_CHANGE": 963,
+        "PRIVATE_INTENT_STATE": 1000,
+        "RELATIONAL_SUBJECT": 2137,
+        "SUBJECT_INFLUENCE": 1578,
+        "PERSISTENT_SELF": 4487,
+        "RELATIONSHIP_LINKS": 247
+      }
+    },
+    {
+      "method": "NUMERIC_SUM",
+      "input_bytes": 109491,
+      "context_json_bytes": 62459,
+      "current_method_reports": 33,
+      "other_method_reports": 1,
+      "other_report_text_bytes": 214,
+      "serialized_block_bytes_by_kind": {
+        "IDENTITY": 801,
+        "TASK_CONSTRAINTS": 424,
+        "SUBJECT_APPRAISAL": 1985,
+        "MEMORY": 44963,
+        "GROWTH_CHANGE": 1121,
+        "PRIVATE_INTENT_STATE": 1081,
+        "RELATIONAL_SUBJECT": 2137,
+        "SUBJECT_INFLUENCE": 1578,
+        "PERSISTENT_SELF": 4487,
+        "RELATIONSHIP_LINKS": 247
+      }
+    }
+  ],
+  "provider_calls": 0
+}

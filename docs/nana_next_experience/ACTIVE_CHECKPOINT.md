@@ -1,8 +1,8 @@
-## 当前接续：原G另一能力能引出私人兴趣，revision266
+## 当前接续：成长目的的可撤回紧凑引用，revision267
 
-原G不同能力机会：同原G numbers/language实际完成，数字32不同情境曾挤掉文字方法。保留原32窗口，满且倾斜时补至多32未出现课题的最新头，原训练/来源资格不变；已确认每课题最晚合格结果后按头上界剪枝，非思想优先级。有效旧1fail1pass→3过/73相关，剪枝后14相关；原函数消融SELF1/私问0→2/1，原C自选、无新Goal动作Grant、撤回私问失效而方法仍ACTIVE。读448/SQL4993→20/267，中位63.07→3.56ms。首次cooldown夹具/列名错及未剪枝额外成本原样保留。
+原当前G SELF可选旧校验改MEMORY_REFERENCE_INDEX，原文/当前Frame及Record support/required/显式查询/未知附加观察保护；原等价正文机制及多动机不改，source/time/digest/action引用保留但不宣称全文/新事实。旧1fail→1过/81相关，后补物理撤回1过；原始Memory不改，32索引源仍支持原请求，撤回使请求失效且主DB/WAL清内容。固定137旧函数同内容/预算均2SELF/1私问，input220294→194761字节-11.6%非Token，真实0。
 
-下一成长SELF目的相关上下文仍约110k字节，需保留多动机/来源/总预算的有据选择，不硬删原记忆/扩大窗口。原A–H其余及已排程公平仍未完成；CURRENT266+409，9a2受控候选不含264–266，真实模型/手机/生产/自然度/实际长期无新增。 证据evidence/growth-lesson-attention-fairness-20261116/README.md。
+下一现役S3情感/私人倾向→原Frame多动机与明确反馈→未来可选方法的真正断点，复用49虚拟h/G/关联而非新系统；原A–H/平台视觉/存储/Token/产品仍待，CURRENT266+409，9a2候选不含264–267。 证据evidence/growth-purpose-context-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

@@ -499,20 +499,70 @@ class ContextAssembler:
             return score
         # Only a qualified current growth SELF uses this compact view. Ordinary
         # dialogue, explicit sources and other cognitive contexts stay literal.
-        memory_groups=_verification_groups(memories,required_memory_ids) if growth is not None else [(row,[(row,None)]) for row in memories]
+        protected=set(required_memory_ids)
+        if growth is not None:
+            protected.update(growth.source_memory_ids)
+            protected.update(subject_frame.source_memory_ids)
+            for rid in subject_frame.source_record_ids:protected.update(RecordService(self.store).support(rid))
+        def literal(item):
+            return ContextBlock(block_id="memory:" + item["memory_id"], kind="MEMORY",
+                data_json=canonical({k: item[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
+                    "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
+                source_memory_ids=(item["memory_id"],), source_event_ids=(item["event_id"],),
+                source_evidence_ids=(item["source_evidence_id"],))
+        def prefer_compact(block,originals):
+            compact_cost=self._package(frame,request,policy,coverage,mandatory+[block],(),()).manifest.input_tokens
+            try:literal_cost=self._package(frame,request,policy,coverage,mandatory+originals,(),()).manifest.input_tokens
+            except CoreError as exc:
+                if exc.code!='MODEL_TOKEN_COUNTER_RESULT_INVALID':raise
+                return False  # Hypothetical aggregate cannot reject original per-report selection.
+            return compact_cost<literal_cost
+        memory_groups=_verification_groups(memories,protected) if growth is not None else [(row,[(row,None)]) for row in memories]
+        references={};indexed=set()
+        for row,reports in memory_groups if growth is not None else ():
+            if len(reports)!=1 or reports[0][1] is None:continue
+            if any(term.casefold() in row['text'].casefold() for term in request.query_terms):continue
+            body=json.loads(row['text']);episode=body['strategy_episode'];case=episode['case']
+            # Only known formal proof envelopes. Extra observations or unknown
+            # fields keep their full original body, never an inferred summary.
+            if (set(body)!={'strategy_episode'} or set(episode)-{'episode_key','lesson_id','case','action_id','actual_result_digest'}
+                    or set(case)!={'case_id','context','data','expected'}
+                    or type(case['case_id']) is not str or type(case['context']) is not str
+                    or any(type(episode[k]) is not str for k in ('action_id','actual_result_digest') if k in episode)):
+                continue
+            provenance=row['source_provenance']
+            key=canonical([*(row[k] for k in ('entity_id','scope','privacy_class','memory_type','epistemic_kind',
+                'assessment','confidence','authority','importance','significance','predicate_key')),
+                provenance.get('domain'),provenance.get('source_namespace'),provenance.get('source_revision'),episode['lesson_id']])
+            references.setdefault(key,[]).append((row,episode))
+        for key,items in references.items():
+            if len(items)<2:continue
+            row=items[0][0]
+            body={k:row[k] for k in ('memory_type','epistemic_kind','assessment','confidence','authority','importance','significance')}
+            body.update(lesson_id=items[0][1]['lesson_id'],report_scope=row['scope'],report_privacy=row['privacy_class'],
+                report_bodies_included=False,establishes_independent_growth=False,
+                purpose='OPTIONAL_OTHER_PROOF_REFERENCES_NOT_FULL_REPORTS',body_digest_format='CANONICAL_JSON_STRING_SHA256_V1',
+                reports=[{'memory_id':item['memory_id'],'episode_key':episode['episode_key'],
+                    'case_id':episode['case']['case_id'],'context':episode['case']['context'],'body_digest':digest(item['text']),
+                    **{k:item[k] for k in ('event_time_us','observed_time_us','ingested_time_us')},
+                    'source_evidence_id':item['source_evidence_id'],'source_event_id':item['event_id'],
+                    **{k:episode[k] for k in ('action_id','actual_result_digest') if k in episode}} for item,episode in items])
+            block=ContextBlock(block_id='proof-references:'+digest(key),kind='MEMORY_REFERENCE_INDEX',data_json=canonical(body),
+                source_memory_ids=tuple(item['memory_id'] for item,_ in items),
+                source_evidence_ids=tuple(dict.fromkeys(item['source_evidence_id'] for item,_ in items)),
+                source_event_ids=tuple(dict.fromkeys(item['event_id'] for item,_ in items)))
+            if not prefer_compact(block,[literal(item) for item,_ in items]):continue
+            candidates.append((max(memory_score(item) for item,_ in items),block))
+            indexed.update(block.source_memory_ids)
+            self_fallbacks[block.block_id]=(literal(row).model_copy(update={'block_id':block.block_id}),)
         for row,reports in memory_groups:
+            if row['memory_id'] in indexed:continue
             if row["assessment"] == "DISPUTED":
                 family = canonical([row["entity_id"], row["scope"], row["predicate_key"]])
                 if family not in conflicts:
                     conflicts[family] = memory_service.conflict_bundle(row, privacy)
                 continue
             score=max(memory_score(item) for item,_ in reports)
-            def literal(item):
-                return ContextBlock(block_id="memory:" + item["memory_id"], kind="MEMORY",
-                    data_json=canonical({k: item[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
-                        "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
-                    source_memory_ids=(item["memory_id"],), source_event_ids=(item["event_id"],),
-                    source_evidence_ids=(item["source_evidence_id"],))
             block = literal(row)
             if len(reports)>1:
                 body=json.loads(block.data_json)
@@ -528,15 +578,7 @@ class ContextAssembler:
                     'source_evidence_ids':tuple(dict.fromkeys(item['source_evidence_id'] for item,_ in reports)),
                     'source_event_ids':tuple(dict.fromkeys(item['event_id'] for item,_ in reports))})
                 originals=[literal(item) for item,_ in reports]
-                compact_cost=self._package(frame,request,policy,coverage,mandatory+[block],(),()).manifest.input_tokens
-                try:
-                    literal_cost=self._package(frame,request,policy,coverage,mandatory+originals,(),()).manifest.input_tokens
-                except CoreError as exc:
-                    if exc.code!='MODEL_TOKEN_COUNTER_RESULT_INVALID':raise
-                    # An oversized hypothetical aggregate is never an admitted
-                    # request. Retain original per-report budget selection.
-                    literal_cost=compact_cost
-                if compact_cost>=literal_cost:
+                if not prefer_compact(block,originals):
                     candidates.extend((memory_score(item),original) for (item,_),original in zip(reports,originals))
                     continue
                 # A tight budget can still retain the original representative.
@@ -735,7 +777,7 @@ class ContextAssembler:
                 if not fitted:
                     omitted.append(block.block_id)
             elif block.block_id in self_fallbacks:
-                partial_omission=omitted+[block.block_id+(':OTHER_REPORT_OCCURRENCES' if block.kind=='MEMORY' else ':CURRENT_AND_LIVED_DETAIL')]
+                partial_omission=omitted+[block.block_id+(':OTHER_REPORT_OCCURRENCES' if block.kind in {'MEMORY','MEMORY_REFERENCE_INDEX'} else ':CURRENT_AND_LIVED_DETAIL')]
                 for fallback in self_fallbacks[block.block_id]:
                     proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
                     if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
@@ -752,7 +794,7 @@ class ContextAssembler:
             # limit. Try its smaller sourced forms before losing the whole self.
             for fallback in self_fallbacks.get(last.block_id,()):
                 if len(fallback.model_dump_json())>=len(last.model_dump_json()):continue
-                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+(':OTHER_REPORT_OCCURRENCES' if last.kind=='MEMORY' else ':CURRENT_AND_LIVED_DETAIL'))))
+                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+(':OTHER_REPORT_OCCURRENCES' if last.kind in {'MEMORY','MEMORY_REFERENCE_INDEX'} else ':CURRENT_AND_LIVED_DETAIL'))))
                 trial=self._package(frame,request,policy,coverage,[*selected[:-1],fallback],trial_omitted,conflict_ids)
                 if trial.manifest.input_tokens<=trial.manifest.input_limit:
                     selected[-1]=fallback;omitted=trial_omitted;package=trial;break

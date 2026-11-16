@@ -22,13 +22,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 266,
-  "as_of_us": 1794835504445076,
+  "revision": 267,
+  "as_of_us": 1794837163760120,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原G拥挤情境保留原窗口并补未出现课题：两个原G完成后数字32校验曾挡文字兴趣，旧1fail1pass→新3过/73相关，剪枝后14相关。固定旧函数SELF1/私问0→2/1，无新Goal动作；源撤回私问失效/已学方法仍ACTIVE。同库read448→20、中位63.07→3.56ms，非Token/真实模型。",
+    "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
@@ -44,20 +44,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一当前成长SELF约110k输入字节仍有其他方法原始报告；按真实目的/来源与总预算选上下文，保留多动机/原Store/撤回。32补课题头及已排程/更老有效仍有限；QQ私源/私Bili保留前C/B22/S5/情感/物理隐私/真实Token/产品/A–H继续，9a2不含264–266。"
+    "下一核对现役S3情感/私人倾向如何进原Frame多动机选择、明确反馈如何成后续可选方法，复用49虚拟h/G/关联；更广迁移仍待。QQ私源/私Bili保留前C/B22/S5/活索引与冷历史隐私/DR/真实Token/协议产品/A–H继续，9a2不含264–267。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/growth-purpose-context-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md",
     "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md"
+    "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision267证据指纹锚：`721f8f9be221ab04123b2c44253aab4235306355df7c061d9819f83759a95869`（source.sha256不含自身/09）。
 
 A revision266证据指纹锚：`830fadff95908110f7d9b9ab47b2e6b1f3f58f461a16a0acf6780dd7a34e96d4`（source.sha256不含自身/09）。
 
