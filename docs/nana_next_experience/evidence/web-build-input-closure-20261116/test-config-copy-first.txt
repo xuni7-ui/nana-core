@@ -1,0 +1,27 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts
+
+✘ [ERROR] Could not resolve "/tmp/nana-8bec-web/apps/nana-space/vitest.config.ts"
+
+failed to load config from /tmp/nana-8bec-web/apps/nana-space/vitest.config.ts
+
+⎯⎯⎯⎯⎯⎯⎯ Startup Error ⎯⎯⎯⎯⎯⎯⎯⎯
+Error: Build failed with 1 error:
+error: Could not resolve "/tmp/nana-8bec-web/apps/nana-space/vitest.config.ts"
+    at failureErrorWithLog (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:1467:15)
+    at /tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:926:25
+    at runOnEndCallbacks (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:1307:45)
+    at buildResponseToResult (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:924:7)
+    at /tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:951:16
+    at responseCallbacks.<computed> (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/tmp/nana-8bec-web/apps/nana-space/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:509:28)
+    at addChunk (node:internal/streams/readable:563:12) {
+  errors: [Getter/Setter],
+  warnings: [Getter/Setter]
+}
+
+
+

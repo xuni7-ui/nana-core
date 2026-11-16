@@ -1,0 +1,8 @@
+{
+  "base": "8bec062a7d57e1b3a84d73a060a321ed9f4b98c1",
+  "owned_wip": "three package-lock version labels corrected",
+  "public_live_config_sha256": "58743d208a51ed698148af2d22d0cb6723e40d2212347687d48d2b0eef13cd66",
+  "only_nonsecret_delivery_flag": true,
+  "cached_modules_not_deleted": true,
+  "draft_not_delivered": true
+}

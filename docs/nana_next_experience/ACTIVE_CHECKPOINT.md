@@ -1,8 +1,8 @@
-## 当前接续：晚资格表达方法到正常交流，revision253
+## 当前接续：固定Web输入与统一封签，revision254
 
-原表达方法消费者按当前资格来源群在16限额前筛，修复早提议/晚G评价方法被另一群16课题挡住；原G/阈值不改。旧1fail1pass→2过2.51s/43相关13.62s，同主体重开/普通INTERPRET-C-SOCIAL重新使用原方法，撤回其支持后停止。各2HTTP/内层request+3093bytes非Token，同库5交替样本read197→63/中位23.94→9.95ms，非生产性能。
+仅修三条package-lock误标version4.0.3→实际resolved4.0.2，不换依赖/完整性摘要；原工具目录新增固定Git Web快照，补已提交非密钥.env.live。fresh npm279/TS-Vite/100单测4.73s通过，42产物全字节同旧9a，原包正确不被误判。8bec草稿Core302双SHA/首槽BFF/49安装157模块/停机8bec-9a-8bec数据保持；尚不作为最终发布。
 
-下一固定连续修复做一次匹配Core/Web候选、原wheelhouse离线安装/主体/反馈/撤回/停机回退；不每补丁重打APK，原A–H/情感/C持续策略/G迁移/B视觉/存储/真实Token继续。原9a候选不含245–253；46fa独立CI638/3warn仅targeted，新源码CI待实际，CURRENT266+409不动。 证据evidence/expression-lesson-population-20261116/README.md。
+下一新提交统一封签匹配Core/Web，最终安装/真实下载/回退后归档现有delivery，CURRENT266+409不动、APK最后；原C情感/G迁移/B视觉/物理隐私/真实Token及全部原A–H继续，真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/web-build-input-closure-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

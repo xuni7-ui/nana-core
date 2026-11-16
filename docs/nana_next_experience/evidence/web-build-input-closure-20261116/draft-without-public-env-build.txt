@@ -1,0 +1,32 @@
+
+> @nana/space@4.0.3 build
+> tsc -b && vite build --mode live
+
+vite v6.4.5 building for live...
+transforming...
+✓ 1791 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.73 kB │ gzip:  0.46 kB
+dist/assets/CoreApp-DlTee8Ns.css              3.31 kB │ gzip:  0.99 kB
+dist/assets/ExplorePages-S7BqOZCt.css        12.93 kB │ gzip:  2.95 kB
+dist/assets/settings-s7FLzCO4.css            19.37 kB │ gzip:  3.76 kB
+dist/assets/index-CBiVU63E.css               39.56 kB │ gzip:  9.18 kB
+dist/assets/LiveSpace-BiVBQygR.css           51.63 kB │ gzip: 10.32 kB
+dist/assets/clock-3-DNfD3IQh.js               0.35 kB │ gzip:  0.27 kB
+dist/assets/eye-CUsHLX9M.js                   0.42 kB │ gzip:  0.30 kB
+dist/assets/lock-keyhole-CtariFU8.js          0.42 kB │ gzip:  0.32 kB
+dist/assets/radio-CHqPBTtm.js                 0.83 kB │ gzip:  0.41 kB
+dist/assets/sliders-horizontal-BctUPoRV.js    1.00 kB │ gzip:  0.42 kB
+dist/assets/smartphone-BTwuI2ec.js            1.09 kB │ gzip:  0.46 kB
+dist/assets/plus-BoeE1G2m.js                  1.16 kB │ gzip:  0.46 kB
+dist/assets/upload-lwS7V7z3.js                1.69 kB │ gzip:  0.67 kB
+dist/assets/ChatPage-CydgCXPA.js              7.19 kB │ gzip:  3.36 kB
+dist/assets/SettingsPage-CtkI3j-9.js          9.77 kB │ gzip:  4.41 kB
+dist/assets/RuntimePage-B94dhMJN.js          16.32 kB │ gzip:  6.35 kB
+dist/assets/CoreApp-RGb2xJZE.js              17.13 kB │ gzip:  7.41 kB
+dist/assets/ExplorePages-B8EM1sBV.js         26.75 kB │ gzip:  8.87 kB
+dist/assets/index-CVfm8ZPk.js               119.93 kB │ gzip: 37.14 kB
+dist/assets/LiveSpace-D6zh8giK.js           201.62 kB │ gzip: 67.15 kB
+dist/assets/index-CRikPUFh.js               288.11 kB │ gzip: 92.72 kB
+✓ built in 2.75s

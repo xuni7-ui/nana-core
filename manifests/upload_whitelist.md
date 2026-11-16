@@ -217,3 +217,7 @@ policy.py原interested_social局部、test_fresh_social_choice.py/原test_social
 ## 2026-11-16 A原表达课题来源群
 
 lived_language.py原consumer局部、test_expression_lesson_population.py、既有CI组、09/11/ACTIVE/STATUS及evidence/expression-lesson-population-20261116/原公开合成日志/同库原函数对照脚本/指纹、本白名单。无真实反馈/私史/账户/DB/配置/凭据/第三方复制/二进制/新执行或付费权限。
+
+## 2026-11-16 A统一Web输入闭包
+
+package-lock.json三版本标签、tools/nana_first_life_android_v2/web_inputs.py、09/11/ACTIVE/STATUS及evidence/web-build-input-closure-20261116/原公开合成安装/回退/新npm/编译/单测/输入验证日志/指纹、本白名单。既有.env.live仅验证已提交公共开关、未新增密钥配置；无Store/签名Key/真实账号/用户数据/二进制/APK/新权限。
