@@ -5,6 +5,7 @@
 [当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
 
 
+
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
@@ -22,14 +23,14 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 272,
-  "as_of_us": 1794854388800306,
+  "revision": 273,
+  "as_of_us": 1794854802298596,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "原Growth每断言遍历所有信号，现owner用原索引按assertion_id/rowid读；48偏好96独立源同Store5投影逐字段旧新相等，完整中位19.913→10.595ms/近似VM65700→22300/SQL仍865，读写0/模型0。原只读24项相等，原60相关18.20s通过。非新技能/真实Token收益。",
+    "PR23固定a159b7d原转发归因/坏作者ID/Feed大页续读/投影撤回修复采用；A旧4fail1pass→同5过/158相关60.04s。公共视频cache gate仍仅test/tool候选非B22消费者；C清单只补已合B24四文件摘要。272独立Core94pass39.65s/client SKIP；真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
@@ -44,20 +45,25 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "原S3/G读取不裁剪兴趣已优化，本批独立CI待实读；继续多动机/可靠结果/G广迁移，draftPR22/23按固定源协调；私QQ父源/私Bili前C/B22/物理存储隐私DR/真实Token协议/多端及A–H待。CURRENT266+409，9a2不含264以后，真实模型/手机/生产/长期待。"
+    "原S3/G多动机/可靠反馈/广迁移及B22固定d63c1ba正式S5消费者继续；已合PR23的cache gate仍候选，平台原片字节归因/私QQ父源/私Bili前C/沙箱整数PTS/存储隐私DR/Token多端/A–H待。273 CI待实读，CURRENT266+409，9a2不含264以后。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/platform-pr23-integration-20261117/README.md",
     "docs/nana_next_experience/evidence/growth-signal-read-20261117/README.md",
     "docs/nana_next_experience/evidence/product-capability-pr24-20261117/README.md",
     "docs/nana_next_experience/evidence/media-semantic-track-20261116/README.md",
     "docs/nana_next_experience/evidence/native-ci-routing-20261116/README.md",
     "docs/nana_next_experience/evidence/media-stream-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-purpose-context-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md",
-    "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md"
+    "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision273证据指纹锚：`9519ad935c1566305627773d8be85adb5f658b133e9e97a6431a623997ce2606`（source.sha256不含自身/09）；下方C固定交接原文保留，实际采用范围/候选差额以CURRENT及本证据为准。
+
+[C当前候选2026-11-17] A `d5c0a42`、B PR22 `bbc3ba7`；修复A新回环约束下C夹具、视频投影撤权竞态，新增原PUBLIC视频来源/缓存候选门。原Store/Perception→固定B解码及撤权不交付受控通过，原相关32项、B隔离补丁后15项；非真实B站视频接入。独立B补丁及限制见 docs/nanalink/evidence/pr22-loopback-handoff-20261117/README.md；清单锚点 `6ec4a9bf9f8d5814c916ae268b89b08000ef5a4ce5ab1b6f68b40f26ad62c245`。 源形状文本与缓存但缺原MEDIA_OBSERVATION的反例被拒绝，候选操作未执行。 转发动态保留原动态/原作者独立标识，来源变化触发原撤回；16项定向通过，未读取原帖内容或证明原帖删除通知。8daf2732匹配CI 43906733011通过；本补丁CI待。清单新锚点 `52ade181d1fdc7bc37a3f87421de1f0524bbcffe41a37146814288deaabea53c`。 `bbaf6fa0`匹配CI 43908559272通过。RSS/Atom大页按32条有界批继续消费并只在完整解析后提交validator；原连接器及Core定向19过，进程重启期间未处理条目仍未资格。本补丁CI待；清单新锚点 `613db3c36a529ab6364f1e67a592073b227b1fc73ab38929532c0e2238b3f1bd`。 `83174d85`匹配CI 43909106056通过；B现d63c1ba已吸收回环测试补丁，真实平台字节归因仍未接线。异常超大作者ID跳过不阻断同批动态，定向14过；本补丁CI待。合成2000条RSS 111810B：0.0425秒/CPU0.0426秒/进程峰RSS38108KiB，无模型。清单新锚点 `e544dbc0ee41fa47a328a7e7ddefdc0c0d011367e3e34031c6ffe41c0e98a4ea`。
+
 
 A revision272证据指纹锚：`93d2182f9a2e370c519a6b65b1a56a6c829225a4a10cae21ce8dee72821009c0`（source.sha256不含自身/09）。
 

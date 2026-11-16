@@ -39,8 +39,8 @@ def main():
     exec(compile(source, str(args.b_planner), 'exec'), planner.__dict__)
     with tempfile.TemporaryDirectory() as root, counterpart() as (opener, state), fresh(Path(root)/'subject.db', Clock()) as runtime:
         state['video_duration'] = 12
-        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9)
-        transport.opener = opener
+        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                            loopback_endpoint=opener.endpoint)
         reading = transport.read_video('BV1t55v6DE2v', visual=True)
         app = SimpleNamespace(runtime=runtime, policy=policy())
         source = BilibiliSourceAdapter(app).ingest(reading)

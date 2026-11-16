@@ -1,8 +1,8 @@
-## 当前接续：不裁剪生活的成长读取，revision272
+## 当前接续：平台来源与订阅连续性集成，revision273
 
-原Growth owner按本断言使用既有索引，保留rowid/全部来源/反证/独立根/撤回与只读fallback；48偏好96信号同Store5种旧新输出全相等，中位19.913→10.595ms/近似VM65700→22300、SQL仍865；真实只读24项相等/读写0/模型0。原60相关18.20s通过，非新人格/学习技能/真实Token收益；原policy/namespace夹具错分别保留。
+A正常双亲吸收PR23固定a159b7d原转发归因/畸形ID/Feed大页/视频末尾撤回修复，旧4fail1pass→同5过/158相关60.04s。C视频缓存门仅test/tool候选，B22/平台原片来源未接；固定C清单保留，只补已合B24四项摘要，09长交接完整移至CURRENT后，11双方追加保留。原272独立Core94pass39.65s/client SKIP。真实0。
 
-下一实读本批CI并按固定提交核对draft22/23，继续S3/G/私QQ/私Bili/B22及A–H；CURRENT266+409，9a2不含264以后，真实资格差额不变。证据evidence/growth-signal-read-20261117/README.md。
+下一实读本批CI，继续S3/G、私QQ父源/私Bili前C、B22原生/原片字节/PTS沙箱闭包与A–H。CURRENT266+409，9a2不含264以后；未新增匹配安装/模型/手机/生产/自然度/实际长期资格。证据evidence/platform-pr23-integration-20261117/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

@@ -305,3 +305,7 @@ B固定8e3198e原四客户端源码/测试、B追加09/11/QUEUE/白名单保持�
 ## 2026-11-17 A原Growth索引读取
 
 subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evidence/growth-signal-read-20261117原合成同库profile/原失败/60回归/指纹、本白名单。无新数据表/索引/缓存/测试框架/依赖/DB原件/私史/Key/模型/生产/打包。
+
+## 2026-11-17 A吸收C PR23
+
+固定a159b7d全部15路径（原平台模块/公开测试/开发工具/交接补丁/原清单/09/11）、A原09/11/ACTIVE/STATUS/白名单和evidence/platform-pr23-integration-20261117原错/158/独立272 CI/固定及当前清单验证/指纹；无B算法拷贝/DB/私史/Key/新依赖/真实账号或模型/生产/打包。
