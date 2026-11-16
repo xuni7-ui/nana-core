@@ -250,3 +250,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 B FFmpeg时间覆盖研究
 
 持续授权范围：video-ffmpeg-comparison-20261116/{README.md,comparison.json,source-sha256.json}，其指纹三份原创实验/测试文件，09/11追加及本清单。上游仅本地运行并引用固定SHA/许可证，不复制第三方源码或提交生成视频。
+
+
+## 2026-11-16 B覆盖与变化换帧
+
+持续授权：video-change-coverage-20261116/{README.md,source-sha256.json}及其中2个原创实验/测试文件、09/11追加、本清单；无第三方源码、真实视频或凭证。
