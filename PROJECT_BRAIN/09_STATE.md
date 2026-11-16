@@ -4,7 +4,7 @@
 
 [当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
 
-[C当前候选2026-11-17] A `d5c0a42`、B PR22 `bbc3ba7`；修复A新回环约束下C夹具、视频投影撤权竞态，新增原PUBLIC视频来源/缓存候选门。原Store/Perception→固定B解码及撤权不交付受控通过，原相关32项、B隔离补丁后15项；非真实B站视频接入。独立B补丁及限制见 docs/nanalink/evidence/pr22-loopback-handoff-20261117/README.md；清单锚点 `6ec4a9bf9f8d5814c916ae268b89b08000ef5a4ce5ab1b6f68b40f26ad62c245`。 源形状文本与缓存但缺原MEDIA_OBSERVATION的反例被拒绝，候选操作未执行。 转发动态保留原动态/原作者独立标识，来源变化触发原撤回；16项定向通过，未读取原帖内容或证明原帖删除通知。8daf2732匹配CI 43906733011通过；本补丁CI待。清单新锚点 `52ade181d1fdc7bc37a3f87421de1f0524bbcffe41a37146814288deaabea53c`。
+[C当前候选2026-11-17] A `d5c0a42`、B PR22 `bbc3ba7`；修复A新回环约束下C夹具、视频投影撤权竞态，新增原PUBLIC视频来源/缓存候选门。原Store/Perception→固定B解码及撤权不交付受控通过，原相关32项、B隔离补丁后15项；非真实B站视频接入。独立B补丁及限制见 docs/nanalink/evidence/pr22-loopback-handoff-20261117/README.md；清单锚点 `6ec4a9bf9f8d5814c916ae268b89b08000ef5a4ce5ab1b6f68b40f26ad62c245`。 源形状文本与缓存但缺原MEDIA_OBSERVATION的反例被拒绝，候选操作未执行。 转发动态保留原动态/原作者独立标识，来源变化触发原撤回；16项定向通过，未读取原帖内容或证明原帖删除通知。8daf2732匹配CI 43906733011通过；本补丁CI待。清单新锚点 `52ade181d1fdc7bc37a3f87421de1f0524bbcffe41a37146814288deaabea53c`。 `bbaf6fa0`匹配CI 43908559272通过。RSS/Atom大页按32条有界批继续消费并只在完整解析后提交validator；原连接器及Core定向19过，进程重启期间未处理条目仍未资格。本补丁CI待；清单新锚点 `613db3c36a529ab6364f1e67a592073b227b1fc73ab38929532c0e2238b3f1bd`。
 
 
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
