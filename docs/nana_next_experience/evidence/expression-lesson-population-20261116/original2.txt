@@ -1,0 +1,60 @@
+{"measurement": "delayed-expression-population", "newer_other_family_lessons": 0, "original_lesson_active": true, "selected_original_lesson": true, "answer": "SYNTHETIC qualified human method available", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [17699, 16586], "real_model_calls": 0}
+.{"measurement": "delayed-expression-population", "newer_other_family_lessons": 16, "original_lesson_active": true, "selected_original_lesson": false, "answer": "SYNTHETIC baseline without human method", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [16233, 14961], "real_model_calls": 0}
+F
+=================================== FAILURES ===================================
+_ test_later_qualified_original_candidate_reaches_normal_dialogue_without_population_crowding[16] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-72/test_later_qualified_original_1')
+newer_lessons = 16
+
+    @pytest.mark.parametrize('newer_lessons',[0,16])
+    def test_later_qualified_original_candidate_reaches_normal_dialogue_without_population_crowding(tmp_path,newer_lessons):
+        home=tmp_path/'home';initialize(home);seen=[]
+        def render(request):
+            blocks=json.loads(request['context_json'])['blocks']
+            policies=[json.loads(b['data_json'])['policy'] for b in blocks if b['kind']=='LIVED_LANGUAGE']
+            seen.append(policies)
+            selected=bool(policies and policies[0].get('evidence_level')=='USER_PROVIDED_REVIEW')
+            return 'SYNTHETIC qualified human method available' if selected else 'SYNTHETIC baseline without human method'
+        with relay(home,'CHAT',renderer=render,context_limit=65536) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();r=app.runtime;language=LanguageService(r.store,r.authority);g=ExperienceService(r.store,r.authority)
+            proposal=sample(app,'early-partial',provenance='USER_PROVIDED_REVIEW').model_copy(update={'human_judgment':'PARTIAL'})
+            source_record=language.record(proposal,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=r.authority)
+            eid=language.experience(source_record,r.authority);lid=g.derive_lesson(eid)
+            assert r.store.one('lessons',lid)['state']=='CANDIDATE'
+            assert not learnable(r.store,'project-work',('PROJECT',))['eligible']
+            other=[]
+            for n in range(newer_lessons+1):
+                _,synthetic_eid=record(app,100+n)
+                if n:other.append(activate(app,synthetic_eid))
+            # These later, independent reports are not the proposal's own sample.
+            record(app,'later-human-a',provenance='USER_PROVIDED_REVIEW')
+            record(app,'later-human-b',provenance='USER_PROVIDED_REVIEW')
+            assert all(g.test_lesson(lid).values());g.activate(lid,r.authority)
+            qualification=learnable(r.store,'project-work',('PROJECT',))
+            assert qualification['eligible'] and qualification['evidence_level']=='USER_PROVIDED_REVIEW'
+            assert RecordService(r.store).current_support(r.store.one('lessons',lid)['record_id'])
+            positions={row['lesson_id']:row['pos'] for row in r.store.db.execute('SELECT rowid AS pos,lesson_id FROM lessons')}
+            assert all(positions[other_lid]>positions[lid] for other_lid in other)
+            identity=r.identity_id;clock=app.clock;app.close()
+            with LifeApplication(home,clock=clock,router=router) as restored:
+                restored.pause();r=restored.runtime;assert r.identity_id==identity
+                writes=r.store.db.total_changes
+                selected=expression_policy(r.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+                assert r.store.db.total_changes==writes
+                answer=restored.chat('SYNTHETIC a new casual topic after delayed qualification',privacy='PROJECT',message_id='after-late-qualification')
+                print(json.dumps({'measurement':'delayed-expression-population','newer_other_family_lessons':newer_lessons,
+                    'original_lesson_active':r.store.one('lessons',lid)['state']=='ACTIVE',
+                    'selected_original_lesson':selected.get('lesson_id')==lid,'answer':answer['text'],
+                    'roles':[request['cognitive_role'] for request in requests],'http_calls':len(requests),
+                    'request_json_bytes':[len(json.dumps(request,separators=(',',':'),ensure_ascii=False).encode()) for request in requests],
+                    'real_model_calls':0}))
+>               assert selected.get('lesson_id')==lid
+E               AssertionError: assert None == 'def13514-9a9d-4066-820b-f925997b67b0'
+E                +  where None = <built-in method get of dict object at 0x7f20ccaa57c0>('lesson_id')
+E                +    where <built-in method get of dict object at 0x7f20ccaa57c0> = {'state': 'CANDIDATE_NOT_ADOPTED', 'rule': None, 'source_record_ids': ()}.get
+
+tests/person_self/test_expression_lesson_population.py:56: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_expression_lesson_population.py::test_later_qualified_original_candidate_reaches_normal_dialogue_without_population_crowding[16]
+1 failed, 1 passed in 1.93s

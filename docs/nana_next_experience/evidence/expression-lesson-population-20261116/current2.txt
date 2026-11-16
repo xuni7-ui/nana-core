@@ -1,0 +1,4 @@
+{"measurement": "delayed-expression-population", "newer_other_family_lessons": 0, "original_lesson_active": true, "selected_original_lesson": true, "answer": "SYNTHETIC qualified human method available", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [17699, 16586], "real_model_calls": 0}
+.{"measurement": "delayed-expression-population", "newer_other_family_lessons": 16, "original_lesson_active": true, "selected_original_lesson": true, "answer": "SYNTHETIC qualified human method available", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [17700, 16587], "real_model_calls": 0}
+.
+2 passed in 2.51s

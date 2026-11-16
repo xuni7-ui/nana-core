@@ -438,7 +438,23 @@ def expression_policy(store, *, scope, privacy, mode):
     if mode != 'CASUAL' or not qualification['eligible']:
         return {'state': 'BASELINE_OR_REVIEW_REQUIRED', 'rule': None, 'source_record_ids': ()}
     records = RecordService(store)
-    for raw in store.db.execute("SELECT l.* FROM lessons l JOIN continuity_records r ON r.record_id=l.record_id WHERE l.task_class='interaction.expression' AND l.state='ACTIVE' AND r.scope=? AND r.lifecycle='ACTIVE' AND r.privacy_class IN ("+','.join('?' for _ in privacy)+") ORDER BY l.rowid DESC LIMIT 16",(scope,*privacy)):
+    # A candidate may be proposed early and qualify later. Its lesson rowid
+    # does not change at activation, so another evidence family must not fill
+    # the bounded window before we select the currently qualified population.
+    # CROSS JOIN keeps scope/privacy/current headers ahead of payload parsing.
+    marks=','.join('?' for _ in privacy)
+    query=("SELECT l.* FROM lessons l CROSS JOIN continuity_records r ON r.record_id=l.record_id "
+        "CROSS JOIN experiences x ON x.experience_id=l.experience_id "
+        "CROSS JOIN memories m ON m.memory_id=x.result_memory_id "
+        "CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id "
+        "CROSS JOIN artifacts a ON a.artifact_id=m.payload_artifact_id "
+        "WHERE l.task_class='interaction.expression' AND l.state='ACTIVE' AND r.scope=? "
+        "AND r.lifecycle='ACTIVE' AND r.privacy_class IN ("+marks+") AND m.scope=? "
+        "AND m.lifecycle='ACTIVE' AND m.assessment IN ('CURRENT','UNASSESSED') AND m.privacy_class IN ("+marks+") "
+        "AND e.state='AVAILABLE' AND e.source_namespace='recorded.conversation.feedback' "
+        "AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) THEN json_extract(CAST(a.payload AS TEXT),'$.provenance') END=? "
+        "ORDER BY l.rowid DESC LIMIT 16")
+    for raw in store.db.execute(query,(scope,*privacy,scope,*privacy,qualification['evidence_level'])):
         h = store.one('continuity_records', raw['record_id'])
         if h['scope'] != scope or h['privacy_class'] not in privacy or h['lifecycle'] != 'ACTIVE' or not records.current_support(h['record_id']):
             continue

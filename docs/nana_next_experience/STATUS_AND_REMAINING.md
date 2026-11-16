@@ -1,8 +1,8 @@
-## 现役revision252 — 当前愿望不必先有旧兴趣记录
+## 现役revision253 — 原方法不被另一证据群窗口挤掉
 
-原C当前SOCIALIZE可以是新愿望，不再须旧private/SEEKING作入场券；低价值默认/旧quiet倾向/规范/拒绝/近期重复投递与原权限保留。cfd旧3fail6pass→10过.81s、前85相关16.94s；原纯C消融IGNORE→SOCIALIZE、各1SELF/42992requestbytes同预算。原BUSY准入延后/重复同record、同身份重启pending与RECOVERING不丢/请求不增；旧私文撤回不复活，当前来源撤回模型0。
+原表达方法消费者按当前资格来源群在16限额前筛，修复早提议/晚G评价方法被另一群16课题挡住；原G/阈值不改。旧1fail1pass→2过2.51s/43相关13.62s，同主体重开/普通INTERPRET-C-SOCIAL重新使用原方法，撤回其支持后停止。各2HTTP/内层request+3093bytes非Token，同库5交替样本read197→63/中位23.94→9.95ms，非生产性能。
 
-下一继续原C情感/持续策略、可靠反馈/G独立未见迁移和全部A–H，B视觉固定候选交接后融合；新愿望不等于送达/关系发展。9a候选不含245–252，CURRENT266+409/原APK不动；新CI待实际，真实模型/手机/生产/自然度/长期未新增。 证据evidence/fresh-social-choice-20261116/README.md。
+下一固定连续修复做一次匹配Core/Web候选、原wheelhouse离线安装/主体/反馈/撤回/停机回退；不每补丁重打APK，原A–H/情感/C持续策略/G迁移/B视觉/存储/真实Token继续。原9a候选不含245–253；46fa独立CI638/3warn仅targeted，新源码CI待实际，CURRENT266+409不动。 证据evidence/expression-lesson-population-20261116/README.md。
 
 ## 现役revision196
 

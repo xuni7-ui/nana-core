@@ -1,0 +1,7 @@
+# 原G延后评价的表达候选不被另一证据群课题挤出
+
+基线46fa16b1a5f302b3fa8d32a97d1bed35342f2eb6/Brain252，环境恢复后同远端/clean/无MERGE_HEAD，原临时安装仍在但只属于9a历史候选。原learnable已经按来源群在32窗口前筛选，不重做；expression_policy仍先取全群16 active lessons，再在Python读experience来源。
+
+拟用正常G时序构造：先提出Human PARTIAL来源候选，暂不评价；另一群17独立合成反馈经原G激活16课题；之后两个新Human反馈使最初候选独立评价/激活，旧lesson rowid不变。核对正常后续INTERPRET/C/SOCIAL是否因此找不到已资格的方法，不伪造ACTIVE行或扩大16。
+
+初步考虑记忆生命周期的恢复路径，但原set_lifecycle会撤销派生支持，不能把它假装无损恢复，也不在本批改该基础合同；使用上述正常延迟评价时序。拟仅在原consumer限额前按原反馈Memory/Experience的证据群筛选，后续current_support/严格sample解析/来源撤回继续。回退lived_language.py，无schema/新索引/第二G/第二Store。

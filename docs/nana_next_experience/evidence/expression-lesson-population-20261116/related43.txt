@@ -1,0 +1,7 @@
+{"measurement": "delayed-expression-population", "newer_other_family_lessons": 0, "original_lesson_active": true, "selected_original_lesson": true, "answer": "SYNTHETIC qualified human method available", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [17699, 16586], "real_model_calls": 0}
+.{"measurement": "delayed-expression-population", "newer_other_family_lessons": 16, "original_lesson_active": true, "selected_original_lesson": true, "answer": "SYNTHETIC qualified human method available", "roles": ["INTERPRET", "SOCIAL"], "http_calls": 2, "request_json_bytes": [17700, 16587], "real_model_calls": 0}
+..........{"measurement": "synthetic_language_population_window", "newer_fixture_reviews": 0, "evidence_level": "USER_PROVIDED_REVIEW", "eligible": false, "wall_seconds": 0.0014093480058363639, "cpu_seconds": 0.0014090499999999118, "writes": 0, "provider_requests": 0}
+.{"measurement": "synthetic_language_population_window", "newer_fixture_reviews": 40, "evidence_level": "USER_PROVIDED_REVIEW", "eligible": false, "wall_seconds": 0.008171647998096887, "cpu_seconds": 0.008172202999999989, "writes": 0, "provider_requests": 0}
+.......{"measurement": "synthetic_original_dialogue_population", "roles": ["INTERPRET", "SOCIAL"], "policy_evidence_level": "USER_PROVIDED_REVIEW", "projected_example_count": 2, "human_naturalness": "NOT_RUN", "real_provider_calls": 0}
+........................
+43 passed in 13.62s

@@ -213,3 +213,7 @@ subject/{policy,loop}.py及presence/living.py原consumer局部、test_deliberate
 ## 2026-11-16 A原C新社交选择
 
 policy.py原interested_social局部、test_fresh_social_choice.py/原test_social_tendency_competition.py新语义与严格撤回断言、既有CI组、09/11/ACTIVE/STATUS及evidence/fresh-social-choice-20261116/原公开合成日志/纯C消融脚本/指纹、本白名单。无真实收件人/账户/私史/DB/配置/凭据/第三方复制/二进制/新执行或收费授权。
+
+## 2026-11-16 A原表达课题来源群
+
+lived_language.py原consumer局部、test_expression_lesson_population.py、既有CI组、09/11/ACTIVE/STATUS及evidence/expression-lesson-population-20261116/原公开合成日志/同库原函数对照脚本/指纹、本白名单。无真实反馈/私史/账户/DB/配置/凭据/第三方复制/二进制/新执行或付费权限。

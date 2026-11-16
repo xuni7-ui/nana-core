@@ -1,0 +1,5 @@
+Source: 46fa16b1a5f302b3fa8d32a97d1bed35342f2eb6 / Brain252
+Run: https://github.com/xuni7-ui/nana-core/actions/runs/43775156209
+Job: 132999860363 / original-core-feedback
+Affected source integration SUCCESS; native codecs, full regression, old SQLite and matching portable build/install SKIPPED; client SKIPPED.
+2026-11-15T23:36:24.2234350Z 638 passed, 3 warnings in 275.85s (0:04:35)
