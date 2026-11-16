@@ -421,3 +421,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-16 B窗口选帧图像交接
 
 持续授权：video_selected_images.py、test_video_selected_images.py、video-selected-image-handoff-20261116.json、09/11和B队列追加及本清单；仅合成数据，不含真实视频、密钥或上游源码。
+
+## 2026-11-16 B跨窗全局预算
+
+持续授权：video_global_budget.py、video_window_fusion.py及相关测试、video-global-budget-20261116.json、09/11和B队列追加及本清单；无真实媒体、凭据或上游源码复制。

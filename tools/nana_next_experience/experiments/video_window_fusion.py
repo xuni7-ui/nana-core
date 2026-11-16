@@ -90,12 +90,13 @@ def fuse_window(decoded, dsh, pairs, *, budget, max_gap):
                'time_base':decoded.time_base} for t in result['timestamps']]
     pair_refs=[{**item,'before_seconds':to_global[item['before_seconds']],
                 'after_seconds':to_global[item['after_seconds']]} for item in result['selected_pair_refs']]
+    cues=[{**item,'seconds':to_global[item['seconds']]} for item in result['selected_cues']]
     return {'schema_version':1,'status':'WINDOW_CANDIDATES_ONLY','source_ref':decoded.source_ref,
         'source_attestation':'CALLER_SUPPLIED','requested_window':(start,end),
         'timeline_origin':decoded.timeline_origin,'video_start':decoded.video_start,
         'timestamp_basis':decoded.timestamp_basis,'source_size':decoded.source_size,
         'decoded_size':decoded.output_size,'coordinate_space':decoded.coordinate_space,
-        'selected_frames':selected,'selected_pair_refs':pair_refs,
+        'selected_frames':selected,'selected_pair_refs':pair_refs,'selected_cues':cues,
         'unobserved_sampling_gaps':[(global_time(a),global_time(b)) for a,b in result['gaps']],
         'coverage_target_met':result['coverage_target_met'],'whole_window_observed':False,
         'gap_definition':'ONLY_GAPS_OVER_REQUESTED_THRESHOLD',

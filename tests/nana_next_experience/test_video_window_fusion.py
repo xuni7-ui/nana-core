@@ -45,6 +45,11 @@ def test_real_offset_pts_fuse_through_original_dsh_and_return_original_ticks(tmp
     assert output['decoded_size']==decoded.output_size and output['source_size']==decoded.source_size
     assert output['coordinate_space']=='decoded_scaled_pixels_no_rotation'
     assert output['whole_window_observed'] is False and output['gap_definition']=='ONLY_GAPS_OVER_REQUESTED_THRESHOLD'
+    from tools.nana_next_experience.experiments.video_global_budget import select_windows
+    global_output=select_windows(decoded.source_ref,decoded.duration_seconds,[output],budget=2,max_gap=2)
+    assert all(any(frame['pts_tick']==f['pts_tick'] for f in output['selected_frames'])
+               for frame in global_output['selected_frames'])
+    assert global_output['candidate_deduplication']=='PTS_ONLY_BYTES_UNVERIFIED'
     pairs['proposals']=[{'before_seconds':decoded.timestamps[0],'after_seconds':decoded.timestamps[1],
         'source_box':(0,0,999,999),'coordinate_space':'input_pixels'}]
     with pytest.raises(ValueError,match='outside decoded'):fuse_window(decoded,dsh,pairs,budget=2,max_gap=2)
