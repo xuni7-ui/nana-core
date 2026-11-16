@@ -308,3 +308,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B三视觉场景对照
 
 持续授权：video-three-scenarios-20261116/{README.md,results.json,source-sha256.json}及其中原创对照脚本、09/11追加、本清单；无真实视频/凭据或复制第三方源码。
+
+
+## 2026-11-16 B局部变化前后帧
+
+持续授权：video-local-pairs-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加、本清单；无真实帧或凭据。
