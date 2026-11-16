@@ -4,6 +4,8 @@
 
 [当前A集成实测2026-11-16] PR18固定6645已由486ed546合入；PR20固定3d6475c已由本批A正常集成，受控106/30通过；视觉交接仍候选。以下保留C原2026-11-15交接，不代表PR18仍未合。
 
+[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `1929b8d735759ccb91649f9f24811379784bb016cccdfefa3dcede923ed57c19`。
+
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
