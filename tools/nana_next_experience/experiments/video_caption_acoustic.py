@@ -1,5 +1,6 @@
 """Experimental timing cross-check; never a transcript or source authority."""
 import math
+from bisect import bisect_left, bisect_right
 
 
 def review(cues, acoustic, *, acoustic_source_id, timeline_aligned=False):
@@ -29,6 +30,9 @@ def review(cues, acoustic, *, acoustic_source_id, timeline_aligned=False):
         start,end=interval
         if not previous<=start<end<=duration:raise ValueError('invalid interval ordering')
         previous=end
+    starts=[item[0] for item in intervals]; ends=[item[1] for item in intervals]
+    prefix=[0.0]
+    for start,end in intervals:prefix.append(prefix[-1]+end-start)
     if type(cues) not in (list,tuple) or len(cues)>10000:
         raise ValueError('invalid captions')
     output=[];ids=set()
@@ -44,7 +48,15 @@ def review(cues, acoustic, *, acoustic_source_id, timeline_aligned=False):
         ids.add(cue_id)
         status='UNKNOWN';fraction=None
         if state=='MEASURED' and timeline_aligned and start<end:
-            overlap=sum(max(0,min(end,b)-max(start,a)) for a,b in intervals)
+            # Sorted, non-overlapping intervals permit exact range sums.
+            left=bisect_right(ends,start);right=bisect_left(starts,end)
+            if right-left<=8:
+                # Preserve precision for very short captions and boundaries.
+                overlap=sum(max(0,min(end,b)-max(start,a)) for a,b in intervals[left:right])
+            else:
+                overlap=prefix[right]-prefix[left]
+                overlap-=max(0,start-starts[left])+max(0,ends[right-1]-end)
+            overlap=max(0.0,min(end-start,overlap)) # floating-point roundoff
             fraction=overlap/(end-start)
             status='REVIEW_SILENCE_OVERLAP' if fraction>=0.8 else 'BELOW_SILENCE_REVIEW_THRESHOLD'
         output.append({'cue_id':cue_id,'caption_source_id':source_id,'acoustic_source_id':acoustic_source_id,

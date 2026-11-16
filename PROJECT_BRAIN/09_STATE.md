@@ -2976,3 +2976,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B字幕与静音时间复查候选
 
 [源码/实测] 原NanaLink storyboard_samples v1只读投影→来源/隐私/时间绑定的隔离复查，默认时间未确认UNKNOWN；静音重叠仅提示复查、非字幕真伪或人声。原Memory合成来源撤回后重读拒绝，跨源拒绝；返回对象不自动撤回、尚未持久化或接入主体。相关12通过，FFmpeg合成纯音不冒充语音；真实字幕/账号/模型/Token资格未有。B后续跨模态对照，NanaLink来源A接线；证据video-caption-audio-crosscheck-20261116，源码锚c3755804da5de83fefbe13643d72a1644414acb7fbc963f7ba9518cd4b2351b9。
+
+
+### 2026-11-16 · B字幕声学区间索引
+
+[源码/实测] 原隔离复查多字幕×静音区间从全扫描改排序区间二分/前缀，短跨度直接累加，保留来源/UNKNOWN/撤回重读语义。3000×3000合成原重叠2.5872秒、索引含验证输出0.01546秒、最大误差0；14相关通过含300随机和微秒边界。非真实视频/模型Token，尚未接线；证据video-caption-overlap-index-20261116，源码锚2579e2c05d49fb12d96a15590f3e0ca397f433b0dd03e5845e1d87fb6b9e6d0a。

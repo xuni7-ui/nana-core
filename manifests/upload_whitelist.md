@@ -275,3 +275,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 B字幕声学时间复查
 
 持续授权：video-caption-audio-crosscheck-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加和本清单；无真实字幕、音视频、凭据或第三方源码。
+
+
+## 2026-11-16 B字幕声学区间索引
+
+持续授权：video-caption-overlap-index-20261116/{README.md,benchmark.json,source-sha256.json}和指纹中3个原创源码/测试，09/11追加、本清单；合成输入、无真实字幕音频或凭据。

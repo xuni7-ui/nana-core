@@ -88,3 +88,28 @@ def test_nanalink_projection_rechecks_original_source_after_withdrawal(tmp_path)
         with pytest.raises(CoreError):
             review_storyboard(app,source,scope='world',privacy_classes=('PROJECT',),
                 acoustic=acoustic,acoustic_source_id=source,timeline_aligned=True)
+
+
+def test_indexed_overlap_matches_simple_interval_oracle():
+    import random
+    rng=random.Random(43)
+    intervals=[(float(i),float(i)+0.4) for i in range(0,100,2)]
+    audio={'state':'MEASURED','duration':100,'silence_intervals':intervals}
+    cues=[]
+    for i in range(300):
+        start=rng.uniform(0,99.5);end=min(100,start+rng.uniform(0.01,4))
+        cues.append(cue(str(i),start,end))
+    results=review(cues,audio,acoustic_source_id='source.audio',timeline_aligned=True)
+    for original,result in zip(cues,results):
+        start,end=original['start'],original['end']
+        expected=sum(max(0,min(end,b)-max(start,a)) for a,b in intervals)/(end-start)
+        assert result['silence_overlap_fraction']==pytest.approx(expected,abs=1e-10)
+
+
+def test_very_short_caption_keeps_overlap_fraction_precision():
+    start=599.900000001;end=599.900001001
+    result=review([cue('tiny',start,end)],{'state':'MEASURED','duration':600,
+        'silence_intervals':[(0,599),(599.900000101,599.900000901)]},
+        acoustic_source_id='audio',timeline_aligned=True)
+    expected=(599.900000901-599.900000101)/(end-start)
+    assert result[0]['silence_overlap_fraction']==pytest.approx(expected,abs=1e-12)
