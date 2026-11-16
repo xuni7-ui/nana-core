@@ -65,17 +65,30 @@ class CoreWorkflowAdapter:
         await self.disconnect()
 
 
-def qq_adapter(workflow):
-    return CoreWorkflowAdapter(workflow, platform='qq', account_id=workflow.channel.account_id,
-                               adapter_id='qq.official' if workflow.channel.backend == 'official' else 'qq.onebot', capabilities=(
-        Capability(name='message.receive', available=workflow.channel.read_authorized),
-        Capability(name='message.text.send', available=workflow.channel.send_authorized),
-        Capability(name='message.readback', available=workflow.channel.backend != 'official',
-                   reason='C2C_GROUP_API_NOT_AVAILABLE' if workflow.channel.backend == 'official' else ''),
+def _qq_capabilities(workflow):
+    channel = workflow.channel
+    receive_ready = bool(channel.enabled and channel.read_authorized
+                         and (channel.privacy_class != 'PERSONAL' or channel.private_read_authorized))
+    send_ready = bool(receive_ready and channel.send_authorized)
+    readback_ready = bool(receive_ready and channel.backend != 'official')
+    return (
+        Capability(name='message.receive', available=receive_ready,
+                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.text.send', available=send_ready,
+                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.readback', available=readback_ready,
+                   reason='' if readback_ready else 'C2C_GROUP_API_NOT_AVAILABLE' if channel.backend == 'official'
+                   else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='media.reference', available=True),
         Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
         Capability(name='message.face.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
-    ))
+    )
+
+
+def qq_adapter(workflow):
+    return CoreWorkflowAdapter(workflow, platform='qq', account_id=workflow.channel.account_id,
+                               adapter_id='qq.official' if workflow.channel.backend == 'official' else 'qq.onebot',
+                               capabilities=lambda: _qq_capabilities(workflow))
 
 
 def _bilibili_capabilities(workflow):
@@ -97,13 +110,20 @@ def _bilibili_capabilities(workflow):
         decoder_available = False
     notice_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
                         and workflow.channel.private_read_authorized)
+    receive_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                         and (getattr(workflow.channel, 'kind', 'comment') != 'dm'
+                              or workflow.channel.private_read_authorized))
+    send_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                      and workflow.channel.send_authorized)
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
                      'ORIGINAL_VIDEO_FRAMES_NOT_CONFIGURED_OR_AUTHORIZED')
     return (
-        Capability(name='message.receive', available=workflow.channel.read_authorized),
-        Capability(name='message.text.send', available=workflow.channel.send_authorized),
+        Capability(name='message.receive', available=receive_ready,
+                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.text.send', available=send_ready,
+                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='message.readback', available=True),
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),

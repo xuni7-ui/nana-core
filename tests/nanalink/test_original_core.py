@@ -171,3 +171,38 @@ def test_bilibili_notification_capability_requires_private_read_and_enabled_chan
     assert notice().available
     channel.enabled = False
     assert not notice().available
+
+
+def test_bilibili_message_capabilities_respect_channel_and_dm_read_policy():
+    from types import SimpleNamespace
+    from nana_core.nanalink.adapters import bilibili_adapter
+    channel = SimpleNamespace(account_id=42, kind='dm', enabled=True, read_authorized=True,
+                              private_read_authorized=False, send_authorized=True)
+    app = SimpleNamespace(bilibili_life=None, config=SimpleNamespace(bilibili_life=None))
+    adapter = bilibili_adapter(SimpleNamespace(channel=channel, app=app))
+    def capabilities():
+        return {c.name:c.available for c in adapter.capabilities()}
+    assert not capabilities()['message.receive']
+    channel.private_read_authorized = True
+    assert capabilities()['message.receive'] and capabilities()['message.text.send']
+    channel.enabled = False
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
+    channel.enabled = True; channel.read_authorized = False
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
+
+
+def test_qq_capabilities_follow_current_channel_authorizations():
+    from types import SimpleNamespace
+    from nana_core.nanalink.adapters import qq_adapter
+    channel = SimpleNamespace(account_id='42', backend='onebot', enabled=True, read_authorized=True,
+                              private_read_authorized=False, privacy_class='PERSONAL', send_authorized=True)
+    adapter = qq_adapter(SimpleNamespace(channel=channel))
+    def capabilities():
+        return {c.name:c.available for c in adapter.capabilities()}
+    assert not capabilities()['message.receive']
+    channel.private_read_authorized = True
+    assert capabilities()['message.receive'] and capabilities()['message.text.send']
+    channel.enabled = False
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
+    channel.enabled = True; channel.read_authorized = False
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
