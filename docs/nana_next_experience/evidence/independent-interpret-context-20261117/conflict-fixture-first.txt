@@ -1,0 +1,41 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+____ test_primary_conflicting_observations_remain_complete_and_source_bound ____
+
+app = <nana_core.life.application.LifeApplication object at 0x7f78295738f0>
+
+    def test_primary_conflicting_observations_remain_complete_and_source_bound(app):
+        from nana_core.continuity.context import ContextAssembler,ContextRequest
+        from nana_core.contracts import CoreError
+        r=app.runtime
+        first=capture(r,'interpret.color-first','SYNTHETIC the owned marker is red',predicate='independent.color')
+        second=capture(r,'interpret.color-second','SYNTHETIC the owned marker is blue',predicate='independent.color')
+        request=ContextRequest(entity_id='project-user',scopes=('project-work',),task_class='world.interpret',task='Interpret the supplied owned observation',task_privacy_class='PROJECT')
+        assembler=ContextAssembler(r.store,r.authority)
+>       context=assembler.assemble(request,app.policy,required_memory_ids=(first,))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_independent_interpret_context.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/context.py:325: in assemble
+    row=memory_service.read(mid)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7f78293c8d40>
+memory_id = '2ae6674f-6971-4a65-9a63-75a075a745e2', include_inactive = False
+
+    def read(self, memory_id, *, include_inactive=False):
+        self._fresh()
+        row = self.store.one("memories", memory_id)
+        if not row or row["lifecycle"] == "DELETED":
+            raise CoreError("MEMORY_UNAVAILABLE")
+        if not include_inactive and (row["lifecycle"] != "ACTIVE" or
+                row["assessment"] not in {"CURRENT", "UNASSESSED"}):
+>           raise CoreError("MEMORY_NOT_CURRENT")
+E           nana_core.contracts.CoreError: MEMORY_NOT_CURRENT
+
+src/nana_core/continuity/memory.py:177: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_independent_interpret_context.py::test_primary_conflicting_observations_remain_complete_and_source_bound
+1 failed, 2 passed in 0.44s

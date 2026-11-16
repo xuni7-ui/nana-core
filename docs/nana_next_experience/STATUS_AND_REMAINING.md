@@ -1,8 +1,8 @@
-## 现役revision275 — 整体验收准备，不以依赖存在当安装
+## 现役revision276 — 先修真实联合失败，再交付新同源候选
 
-为整体验收收口原便携NANALINK可选依赖：既有18项锁匹配、组合图像19wheel核META/SHA，旧9a2确无aiohttp/qr；base5不变/无账号启动，实际crypto/Pillow ABI最低值声明。原note probe明确续同源停DEV/错源先拒，19相关4.79s过。274实际CI45仅World/H2，已补原H1组真实消费者，不冒称新增H1独立通过；下一本固定源集成候选/安装/同Subject综合验证，非已发行。
+候选275离线/Core-BFF分项过，原同Subject联合setup因独立INTERPRET混入无关LOCAL临时回执而正确触发不保留门禁，首次真实失败保留；现仅事实pass限主源+完整矛盾/原匹配学习，正常对话/SELF仍完整内心。原1fail1pass→2过/74相关38.12s后原冲突6过.45s，主源就是回执时仍拒，未放松privacy/重派旧请求。275独立55pass13.68s不足证明综合通过；下一重建本源候选，CURRENT266+409，真实0。
 
-下一用本次已提交HEAD固定双构建/同源Web/离线槽/原同主体综合探针，保留原G独立评价与私人状态，275自身CI待。继续S3长期因果/S8-S10/原A–H；CURRENT266+409，旧9a2不含264以后，真实资格差额分别保留。证据evidence/integrated-platform-feature-20261117/README.md。
+下一固定本提交HEAD，重新双构建/离线槽/同一DEV综合；275失败profile与封签包原样保留，不重派已PROPOSED请求。B24 Web237输入可复用并保留既有归档布局。原S3长期因果/S8-S10/全部A–H继续，真实模型/手机/生产/自然度/长期待；276 CI待实读。证据evidence/independent-interpret-context-20261117/README.md。
 
 ## 现役revision196
 

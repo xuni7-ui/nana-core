@@ -4304,3 +4304,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision274：原S5最后帧不能代替仅音轨尾部，原1fail→实际帧duration/N_A点观察/旧字段兼容；62相关20.51s后最终3过2.29s。同97261B编码输入/同预算/各1MEDIA+1Cfixture/input20219B，原WATCH/无问→REFLECT/私问1，源撤回失效/无Goal动作，非真实模型或一般视频理解。原273独立129pass35.24s/client SKIP。用户S3长期因果/S8-S10/整体验收增补归原08/mission/task_inputs，下一固定集成候选。 指纹锚b08dbf74566033a0571c000a9bf7f93ef3c56fbafe4e63bbb687fe088889e0e2。
 
 - 2026-11-17 CST｜revision275：为整体验收收口原便携NANALINK可选依赖：既有18项锁匹配、组合图像19wheel核META/SHA，旧9a2确无aiohttp/qr；base5不变/无账号启动，实际crypto/Pillow ABI最低值声明。原note probe明确续同源停DEV/错源先拒，19相关4.79s过。274实际CI45仅World/H2，已补原H1组真实消费者，不冒称新增H1独立通过；下一本固定源集成候选/安装/同Subject综合验证，非已发行。 指纹锚5aafa458861f5f099becf4a20ed262d298bb9bbb40cde9b11061e99737fc9e88。
+
+- 2026-11-17 CST｜revision276：候选275离线/Core-BFF分项过，原同Subject联合setup因独立INTERPRET混入无关LOCAL临时回执而正确触发不保留门禁，首次真实失败保留；现仅事实pass限主源+完整矛盾/原匹配学习，正常对话/SELF仍完整内心。原1fail1pass→2过/74相关38.12s后原冲突6过.45s，主源就是回执时仍拒，未放松privacy/重派旧请求。275独立55pass13.68s不足证明综合通过；下一重建本源候选，CURRENT266+409，真实0。 指纹锚22c5ebc417019e6bd085d18a9b7b78dbf0de43ab15d4a548e0114bb60921d6c9。

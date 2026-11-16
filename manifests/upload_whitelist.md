@@ -317,3 +317,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A同源平台集成候选准备
 
 原portable build.py/installed_note_recall_probe.py/CI H1消费者路径、09/11/ACTIVE/STATUS、evidence/integrated-platform-feature-20261117公开依赖元数据SHA/相关19/同源gate/指纹、本白名单；requirements-nanalink.lock只作为指纹输入未改。无DB/新主任务/私史/Key/账号或模型/生产，二进制仍待构建/单独交付候选归档。
+
+## 2026-11-17 A整体验收事实上下文修复
+
+原context.py、新既有person_self回归文件、原CI精确组/H1一个smoke、C清单仅context摘要、09/11/ACTIVE/STATUS、evidence/independent-interpret-context-20261117合成原错/相关74/最后6/候选275失败与分项回执/指纹、本白名单；无DB/私史/Key/新权限/模型或账号/生产，不改已封签275槽或CURRENT。

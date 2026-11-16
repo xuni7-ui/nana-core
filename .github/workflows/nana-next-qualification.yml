@@ -27,6 +27,7 @@ on:
       - src/nana_core/continuity/subject/growth.py
       - src/nana_core/continuity/subject/growth_life.py
       - src/nana_core/continuity/world_loop/learning.py
+      - tests/person_self/test_independent_interpret_context.py
       - tests/person_self/test_growth_attention_visibility.py
       - tests/person_self/test_growth_assessment_identity.py
       - tests/person_self/test_growth_context_population.py
@@ -346,6 +347,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('continuity/context.py','test_independent_interpret_context.py'), ['tests/person_self/test_independent_interpret_context.py']),
             (('subject/growth.py',), ['tests/continuous_self/test_subject_loop.py','tests/continuous_self/test_subject_life.py','tests/portable_subject/test_relational_reuse.py','tests/person_self/test_social_tendency_competition.py','tests/person_self/test_fresh_social_choice.py','tests/first_life_hardening/test_inspector.py']),
             (('experiments/video_coverage.py','test_video_coverage_prototype.py'), ['tests/nana_next_experience/test_video_coverage_prototype.py']),
             (('subject/policy.py','subject/loop.py','continuity/maintenance.py','presence/living.py','test_memory_review_choice.py','test_memory_review_condition.py','test_deliberated_replan_choice.py'), ['tests/person_self/test_deliberated_replan_choice.py','tests/person_self/test_memory_review_choice.py','tests/person_self/test_memory_review_condition.py','tests/person_self/test_dream_recall.py','tests/living_autonomy/test_maintenance.py']),
@@ -392,7 +394,7 @@ jobs:
           if '.github/workflows/nana-next-qualification.yml' in changed:
               # Exercise the host dependency path when changing this workflow;
               # this original boundary includes real PUBLIC frame decoding.
-              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py','tests/world_loop/test_media_stream_binding.py','tests/h1_semantics/test_grounding.py'})
+              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py','tests/world_loop/test_media_stream_binding.py','tests/h1_semantics/test_grounding.py','tests/h1_semantics/test_media_stream_binding.py::test_last_video_frame_does_not_claim_the_unobserved_audio_tail'})
           print('TARGETED_CHECKS',selected,flush=True)
           if any(test.startswith('tests/nanalink') for test in selected):
               subprocess.run(['uv','pip','install','--python',sys.executable,'-r','requirements-nanalink.lock'],check=True)

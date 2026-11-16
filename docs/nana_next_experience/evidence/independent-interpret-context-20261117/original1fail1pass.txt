@@ -1,0 +1,39 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[False] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7fbc6d871010>
+primary_receipt = False
+
+    @pytest.mark.parametrize('primary_receipt',[False,True])
+    def test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts(app,primary_receipt):
+        app.chat('PROJECT 请按现有来源说明当前状态',privacy='PROJECT',message_id='receipt-before-owned-source')
+        r=app.runtime;s=r.store
+        rows=MemoryService(s).query(scopes=r.config.scopes,privacy_classes=r.config.privacy_classes,limit=64)
+        receipt=next(row['memory_id'] for row in rows if row['source_provenance']['domain']=='LOCAL_INTERACTION_METADATA')
+        own=capture(r,'independent.owned-source',{'state':'SYNTHETIC_OWNED_INPUT_CANARY','opportunities':['a bounded independently observed development question']})
+        primary=receipt if primary_receipt else own
+        def propose(request):
+            return StructuredProposal(interpretation='SYNTHETIC a sourced attention candidate, not a new fact',source_refs=(primary,),
+                interests=(InterestProposal(topic='independent-note',motivation_source='CURIOSITY',source_memory_ids=(primary,),
+                    interpretation='SYNTHETIC consider the actual primary input',expected_value='HIGH',possible_behaviors=('EXPLORE','WATCH')),),
+                uncertainty='RELEVANT',confidence=.4)
+        with provider_harness(propose) as (transport,metrics):
+            session=CognitionSession(r,transport,app.policy)
+            cid=session.prepare('independent-owned-source','INTERPRET',(primary,),budget=CognitionBudget(timeout_ms=2000,cost_ceiling_micro=0))
+            reply=session.execute(cid);assert reply['state']=='PROPOSED'
+            request=session.records.read(s.one('cognitive_requests',cid)['record_id'])['payload']['request']
+            service=ConcernService(r,resources=('synthetic://independent/note',));ids=service.offer(reply['record_id'])
+            offered=service.opportunity(concern_ids=ids)
+            if primary_receipt:
+                assert offered is None
+                assert 'LOCAL_INTERACTION_METADATA' in source_domains(s,s.one('open_concerns',ids[0])['record_id'])
+                assert primary in request['source_context_refs']
+            else:
+>               assert offered is not None
+E               assert None is not None
+
+tests/person_self/test_independent_interpret_context.py:37: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_independent_interpret_context.py::test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[False]
+1 failed, 1 passed in 0.36s
