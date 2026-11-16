@@ -17,6 +17,8 @@ def local_change(before, after, *, threshold=24, min_pixels=6, max_fraction=0.15
             or not 0 < max_fraction <= 1 or type(padding) is not int or not 0 <= padding <= 64):
         raise ValueError('invalid image or proposal bounds')
     a=before.convert('L').tobytes();b=after.convert('L').tobytes()
+    if a==b:
+        return None  # The original grayscale difference is exactly zero.
     shifts=[v-u for u,v in zip(a,b)]
     global_shift=median(shifts)
     points=[i for i,shift in enumerate(shifts) if abs(shift-global_shift)>=threshold]

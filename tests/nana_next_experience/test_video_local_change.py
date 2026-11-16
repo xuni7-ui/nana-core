@@ -72,3 +72,11 @@ def test_original_region_crop_preserves_coordinates_and_enlarges():
     assert max(crop.getextrema())>200
     with pytest.raises(ValueError):crop_local_change(after,{'coordinate_space':'input_pixels','box':(-1,0,10,10)})
     with pytest.raises(ValueError):crop_local_change(after,proposal,scale=5)
+
+
+def test_identical_gray_content_never_creates_a_change_proposal():
+    image=Image.new('RGB',(120,80),(80,30,100))
+    assert local_change(image,image.copy()) is None
+    # Identical grayscale images are already indistinguishable to the original
+    # luminance-only baseline, regardless of their source image mode.
+    assert local_change(image,image.convert('L')) is None

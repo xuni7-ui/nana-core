@@ -323,3 +323,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B视觉融合三场景
 
 持续授权：video-fusion-scenarios-20261116/{README.md,results.json,source-sha256.json}及其中原创对照脚本、09/11追加、本清单；不提交真实视频/凭据或复制上游源码。
+
+
+## 2026-11-16 B静态帧快速路径
+
+持续授权：video-static-frame-fast-path-20261116/{README.md,benchmark.json,source-sha256.json}和其中3个原创源码/测试、09/11追加、本清单；不含真实画面/凭据或上游源码。
