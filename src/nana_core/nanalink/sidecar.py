@@ -322,6 +322,10 @@ class OneBotSidecar:
     async def _forward(self, event):
         from ..life.platform_forward import forward
         config = next(c for c in self.config.sessions if self.adapters[c.alias].account == event.account)
+        if not self.management.enabled(config.alias):
+            self.last[config.alias] = {'state': 'CANCELLED_BEFORE_CORE_FORWARD', 'no_retry': True}
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='ADAPTER_DISABLED_BEFORE_CORE_FORWARD')
         route = next(r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
                      == (event.sender_id, event.conversation_kind, event.conversation_id))
         result = await asyncio.to_thread(forward, config.core_origin, 'qq', route.channel_id,

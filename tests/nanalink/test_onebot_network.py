@@ -349,3 +349,34 @@ def test_http_oversize_write_response_fails_without_resending():
         finally:
             await adapter.shutdown(); await runner.cleanup()
     asyncio.run(run())
+
+
+def test_disabled_account_queued_event_is_cancelled_without_blocking_other_account(monkeypatch):
+    from nana_core.nanalink.onebot import normalize
+    from nana_core.nanalink.sidecar import ForwardRoute
+    from nana_core.nanalink.contracts import Outcome
+    calls = []
+    def fake_forward(*args, **kwargs):
+        calls.append(args[2]); return {'state':'QUEUED_NOT_JUDGED'}
+    monkeypatch.setattr('nana_core.life.platform_forward.forward', fake_forward)
+    async def run():
+        route = ForwardRoute(channel_id='target', sender_id='43', conversation_kind='private', conversation_id='43')
+        def config(alias, account, port):
+            return SessionConfig(alias=alias, account_id=account, mode='http', endpoint='http://127.0.0.1:1', port=port,
+                upstream_secret_ref='upstream.'+alias, core_api_secret_ref='core.'+alias,
+                forward_secret_ref='forward.'+alias, core_origin='http://127.0.0.1:2', routes=(route,))
+        resolver = MemorySecretResolver()
+        sidecar = OneBotSidecar(SidecarConfig(sessions=(config('a','42',18790), config('b','44',18791))), resolver)
+        first = normalize(sidecar.adapters['a'].account, message(1))
+        second = normalize(sidecar.adapters['b'].account, {**message(2), 'self_id':44})
+        assert sidecar.transport.offer(first) == 'QUEUED'
+        assert sidecar.transport.offer(second) == 'QUEUED'
+        await sidecar.management.command('a','DISABLE',None,sidecar.management.state['revision'])
+        try:
+            result = await sidecar.transport.drain_once(sidecar._forward)
+            assert result.outcome == Outcome.CANCELLED and calls == []
+            result = await sidecar.transport.drain_once(sidecar._forward)
+            assert result.outcome == Outcome.UNKNOWN and calls == ['target']
+        finally:
+            await sidecar.close(); resolver.clear()
+    asyncio.run(run())
