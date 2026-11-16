@@ -1,0 +1,8 @@
+{
+  "source_commit": "b196f5d44e032fe6f18dcc5db59760286170cdb7",
+  "all_runtime_files_equal_to_committed_git": 263,
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "optional_deps_from_installed_slot": true,
+  "real_provider_calls": 0
+}
