@@ -21,8 +21,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 257,
-  "as_of_us": 1794802553244136,
+  "revision": 258,
+  "as_of_us": 1794802734826396,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -30,7 +30,7 @@
     "原G早提议晚资格的表达方法不再被另一群16较新ACTIVE课题挤掉。46fa原1fail1pass→新2过2.51s/43相关13.62s；正常G/同主体重开→普通INTERPRET-C-SOCIAL使用方法，原来源撤回停止；各2HTTP/request总+3093bytes非Token，同库read197→63/中位23.94→9.95ms，真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "c1d固定Core302/263双SHA49f95a28…、Web42文件04085003…；delivery a274固定11件，真实GitHub新克隆/10摘要/第二离线槽263文件同源/BFF通过；安装49过/157槽内模块。停机c1d-9a-c1d单身份私计划/G17/pending保持；CURRENT266+409不动。",
-    "PR14/17/18保留；现采用PR20固定3d6475c原平台修复：watch实际选择来源→视频/帧/H1撤回闭包，I/O中撤回UNKNOWN不重取，history限额前隐私、OneBot重连。旧3fail1pass→106过35.09s/30闭包桥9.96s；B固定原型只读样本回映/撤回通过，非现役融合，真实0。",
+    "PR14/17/18/20平台来源已统一；20旧3fail1pass→106过35.09s/30闭包桥9.96s，watch→视频/帧/H1撤回与OneBot重连保持。19固定86d仅采用原实验工具，7过.02s；原Memory三样本回映/撤回/空档通过，0新增模型，尚非两仓视觉融合。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
     "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。",
@@ -43,17 +43,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR20来源/账号增量已集成受控，PR19固定时间覆盖原型已实测交接，下一收口其研究候选结局/原S5消费者与B真实FFmpeg对照。原256压缩保持；c1d历史候选不含256/257，CURRENT266+409不动。原情感/G迁移/物理隐私/Token/A–H继续。"
+    "PR19已入主线实验，现役S5消费者与B真实FFmpeg/两原版同预算对照仍待，最多三帧不是完整时间线。A继续情感持续策略/G未见迁移、原S5接线/物理隐私/真实Token及A–H。压缩修复ecdb保持；c1d历史候选不含256/257，CURRENT266+409不动。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md",
     "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
     "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md",
     "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md",
     "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md",
-    "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md",
-    "docs/nana_next_experience/evidence/frame-semantic-source-locator-20261116/README.md"
+    "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2938,3 +2938,11 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 - B站观看来源闭包：原有watch结果以前未依赖选择来源，撤回上游后视频/帧仍可读；候选复用原Memory父依赖并在网络后再次核验，源撤回会撤销视频、帧和回执内容且同身份重启后仍不可读，同内容不同来源不互删；受控原watch→原H1/World的10秒帧语义也随上游撤回而失效，World回UNKNOWN。读取中撤回不保留结果，动作UNKNOWN且不重取；原API可返回来源已失效错误。相关35项及来源闭包3项通过，平台侧取消关注/删除发现仍待。
 - B视觉交接候选：原 B站已观察的最多3帧、字幕时间范围和原Memory来源/隐私/时间投影为v1只读接口；不输出正文/图像、不推断账号、全片或未测运动。固定B `86d1edb` 受控调用显示0/5/10秒、显式未覆盖区间；选中时间映射原帧Memory，撤回后投影失效，无额外网络/模型；100次本地投影中位0.2078ms/P95 0.2353ms、进程峰值RSS 46372KiB，不代表真实视频质量/Token。B继续算法，A负责现役原S5/C/S2/S8接线；完整故事板索引的授权获取仍待集成；最小原有watch动作内producer/预算/撤回提案见 platform-compat-20261116，不另发网络请求。
 证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `1f6732f53b977c93eb0b2e0469c7e7e9a47dc31c6b3ccd5f6de62498e00d0613`，不含自身/账本。31fcbc3 合成基础设施 2000 入队及2000重复用时0.185s、CPU0.183s、峰值RSS 26560KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
+
+
+<!-- PR19固定研究交接；A当前结论见09 -->
+
+
+### 2026-11-16 · B 视频时间覆盖隔离候选
+
+[源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。

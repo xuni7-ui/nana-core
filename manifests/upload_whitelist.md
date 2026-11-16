@@ -233,3 +233,15 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 A集成固定PR20
 
 固定PR20的原NanaLink/B站源码/测试/只读交接及开发工具/原C交接日志、manifests/nanalink-01.sha256（A仅刷新application摘要），09/11/ACTIVE/STATUS、本白名单及evidence/platform-integration-pr20-20261116/公开合成原失败/定向检查/固定B投影回执/指纹。无Store/Key/真实用户/账号/新依赖/执行权限/发行二进制/生产。
+
+
+<!-- PR19固定研究交接；A当前结论见09 -->
+
+
+## 2026-11-16 B视频覆盖隔离候选
+
+持续授权：tools/nana_next_experience/experiments/video_coverage.py、tests/nana_next_experience/test_video_coverage_prototype.py、docs/nana_next_experience/evidence/video-coverage-prototype-20261116/README.md、09/11追加及本清单；原创代码，引用上游思想和许可证，无第三方源码/真实视频/凭证。
+
+## 2026-11-16 A采用固定PR19实验
+
+固定PR19工具/原测试/原研究及原B交接文字、原CI两个精确路径/7项组，09/11/ACTIVE/STATUS、本白名单及evidence/vision-prototype-adoption-20261116/公开合成回执/指纹。无第三方源码复制/新依赖/Store/Key/账号/运行权威/发行/生产。

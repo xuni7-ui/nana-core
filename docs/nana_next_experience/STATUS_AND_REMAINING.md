@@ -1,8 +1,8 @@
-## 现役revision257 — 原选择来源贯穿视频/帧/H1撤回
+## 现役revision258 — 研究原型采用与现役能力分开
 
-A正常集成PR20固定3d6475c，保留NanaLink实现与A全部后继。旧ecdb来源测试3fail1pass→新106相关35.09s/30闭包桥9.96s；原选择来源撤回使视频/帧/H1 World失效，I/O期间撤回UNKNOWN不重取，history隐私前筛与OneBot重连修复通过。B固定原型的0/5/10秒原Memory回映/撤回独立通过；仍无现役算法消费者。
+A采用PR19固定86d1edb到原实验目录，原50行代码不改；7项实际通过，原Store的0/5/10秒样本映射/选择回映/撤回和明确空档复验通过，额外模型0。给既有CI仅加精确路径/7项组，Core/运行包不变；当前仅研究工具，非两仓视觉或商业S5已接。
 
-下一明确采用PR19隔离研究候选及剩余B真实检测/对照、A原S5/S2/C/S8消费者；继续原情感持续策略/G广迁移/物理隐私/真实Token与全部A–H。c1d历史匹配候选不含256/257，不重打APK/CURRENT，真实模型/账号/手机/生产/自然度/实际长期未新增。 证据evidence/platform-integration-pr20-20261116/README.md。
+原压缩五项核对与真实缺口已在ecdb15c/Brain256完成局部修复，PR20来源/账号增量48b6f5f/257已合。B继续真实FFmpeg/两个原始方案对照与信号接口，NanaLink供授权时间线来源，A接原S5/S2/C/S8并继续情感多动机/G未见迁移/物理隐私/真实Token及A–H。c1d历史候选不含256/257；CURRENT266+409、真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/vision-prototype-adoption-20261116/README.md。
 
 ## 现役revision196
 
