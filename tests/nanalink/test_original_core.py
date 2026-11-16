@@ -155,3 +155,19 @@ def test_bilibili_video_capabilities_follow_original_installed_consumer(monkeypa
     app.config.bilibili_life = cfg
     transport.origin = 'REAL_PLATFORM_HTTP'
     assert not availability(adapter)['video.metadata']
+
+
+def test_bilibili_notification_capability_requires_private_read_and_enabled_channel():
+    from types import SimpleNamespace
+    from nana_core.nanalink.adapters import bilibili_adapter
+    channel = SimpleNamespace(account_id=42, enabled=True, read_authorized=True,
+                              private_read_authorized=False, send_authorized=False)
+    app = SimpleNamespace(bilibili_life=None, config=SimpleNamespace(bilibili_life=None))
+    adapter = bilibili_adapter(SimpleNamespace(channel=channel, app=app))
+    def notice():
+        return next(c for c in adapter.capabilities() if c.name == 'notification.reply')
+    assert not notice().available
+    channel.private_read_authorized = True
+    assert notice().available
+    channel.enabled = False
+    assert not notice().available

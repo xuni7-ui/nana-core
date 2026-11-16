@@ -95,6 +95,8 @@ def _bilibili_capabilities(workflow):
         decoder_available = find_spec('PIL') is not None if video_ready and config.visual_samples else False
     except (ImportError, ValueError):
         decoder_available = False
+    notice_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                        and workflow.channel.private_read_authorized)
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
@@ -106,7 +108,8 @@ def _bilibili_capabilities(workflow):
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),
         Capability(name='video.frames', available=frames_ready, reason=frames_reason),
-        Capability(name='notification.reply', available=workflow.channel.read_authorized),
+        Capability(name='notification.reply', available=notice_ready,
+                   reason='' if notice_ready else 'PRIVATE_READ_OR_CHANNEL_DISABLED'),
         Capability(name='dynamic.publish', available=False, reason='NO_EXISTING_GOVERNED_PORT'),
     )
 
