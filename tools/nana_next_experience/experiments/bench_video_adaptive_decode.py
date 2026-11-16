@@ -21,7 +21,7 @@ def main():
         for mode in ('adaptive','planned','planned','adaptive'):
             started=time.perf_counter();parent_start=time.process_time()
             child_start=resource.getrusage(resource.RUSAGE_CHILDREN)
-            digest=hashlib.sha256();ticks=[]
+            digest=hashlib.sha256();ticks=[];timebase=None;origin=None
             if mode=='adaptive':
                 stream=iter_windows('synthetic',source,0,60,width=32,height=32)
             else:
@@ -30,7 +30,11 @@ def main():
             attempts=2
             for item in stream:
                 if 'decoded' in item:
-                    frame=item['decoded'];ticks.extend(frame.pts_ticks);digest.update(frame.rgb24)
+                    frame=item['decoded']
+                    if timebase is None:timebase=frame.time_base;origin=frame.timeline_origin
+                    if (frame.time_base,frame.timeline_origin)!=(timebase,origin):
+                        raise RuntimeError('inconsistent source time base')
+                    ticks.extend(frame.pts_ticks);digest.update(frame.rgb24)
                 else:
                     if not item['complete_requests']:raise RuntimeError('incomplete request')
                     attempts=item['attempts']
@@ -40,8 +44,10 @@ def main():
                 'child_cpu_seconds':round(child_end.ru_utime+child_end.ru_stime-
                                           child_start.ru_utime-child_start.ru_stime,6),
                 'decode_attempts':attempts,'frames':len(ticks),'pts_ticks':ticks,
+                'time_base':timebase,'timeline_origin':origin,
                 'rgb_sha256':digest.hexdigest()})
-        if any((r['pts_ticks'],r['rgb_sha256']) != (results[0]['pts_ticks'],results[0]['rgb_sha256'])
+        if any((r['pts_ticks'],r['time_base'],r['timeline_origin'],r['rgb_sha256']) !=
+               (results[0]['pts_ticks'],results[0]['time_base'],results[0]['timeline_origin'],results[0]['rgb_sha256'])
                for r in results[1:]):raise RuntimeError('output mismatch')
         for result in results:del result['pts_ticks']
         print(json.dumps({'synthetic':'60s 30fps 32x32 MPEG-4',
