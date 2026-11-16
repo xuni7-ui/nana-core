@@ -2993,3 +2993,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B视觉扫描完整性收紧
 
 [源码/实测] 先前仅首末时间可把漏中间帧误标完整；候选同时核声明/测量/分数计数、PTS递增与边界，元数据缺失保守False。43相关通过含首尾存在但缺中间帧、重复PTS、缺分数及原来源撤回。声明相符非源文件完好/语义资格，VFR等可保守误报；无真实Token/设备/生产，证据video-scan-completeness-20261116，源码锚29dbf7a2f1970f52dafbff64f6295559afbf20c6596d00ee7f575011c237ef1d。
+
+
+### 2026-11-16 · B直接调用dsh原始选帧
+
+[源码/实测] 可信本地dsh 0b4bd110原createPipeline可从源引用/RGB24/真实逐帧时间调用，日志0.01秒映射有歧义时拒绝；单图上限非全片预算，来源仍调用方确认。48帧合成FFmpeg解码输出0/4/8/11.5秒，Node单次0.247秒/子进程RSS47776KiB不含解码；46相关通过含原Memory撤回。无真实模型/平台/长期/Token资格；证据dsh-pipeline-adapter-20261116，源码锚235b070d8f93284bfbcf0dcc47f06d5b7831c25046ee0a6ff374852749183aa5。
