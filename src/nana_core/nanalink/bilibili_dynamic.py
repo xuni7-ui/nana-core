@@ -23,7 +23,7 @@ def normalize_dynamic(account, row, *, now_us, origin):
     if type(author) is not dict or type(content) is not dict:
         return None
     mid, published = author.get('mid'), author.get('pub_ts')
-    if type(mid) is not int or mid <= 0 or type(published) is not int or not 0 <= published*1000000 <= now_us:
+    if type(mid) is not int or not 0 < mid <= 2**63-1 or type(published) is not int or not 0 <= published*1000000 <= now_us:
         return None
     desc, major = content.get('desc') or {}, content.get('major') or {}
     if type(desc) is not dict or type(major) is not dict:

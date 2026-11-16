@@ -33,3 +33,10 @@ def test_forwarded_dynamic_preserves_origin_without_conflating_authors():
     malformed={**row,'orig':{'id_str':'123','modules':{'module_author':{'mid':99}}}}
     invalid=normalize_dynamic(account,malformed,now_us=2000000,origin='SYNTHETIC_LOOPBACK')
     assert invalid.parent_id is None and all(not s.kind.startswith('forwarded_') for s in invalid.segments)
+
+
+def test_oversized_author_identifier_is_rejected_without_stopping_poll():
+    account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
+    row={'id_str':'123','modules':{'module_author':{'mid':10**200,'pub_ts':1},
+         'module_dynamic':{'desc':{'text':'invalid author'}}}}
+    assert normalize_dynamic(account,row,now_us=2000000,origin='SYNTHETIC_LOOPBACK') is None
