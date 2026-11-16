@@ -277,3 +277,42 @@ def test_official_synthetic_realm_never_targets_real_endpoint():
             await adapter._account()
         adapter.session=None
     asyncio.run(run())
+
+
+def test_official_http_limits_inflight_calls_and_releases_capacity():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    async def run():
+        release=asyncio.Event(); started=asyncio.Event(); state={'hold':False,'count':0}
+        async def account(request):
+            if state['hold']:
+                state['count'] += 1
+                if state['count'] == 16: started.set()
+                await release.wait()
+            return web.json_response({'id':'bot_42'})
+        app=web.Application();app.router.add_get('/users/@me',account)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK',
+            endpoint='http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1]))
+        tasks=[]
+        try:
+            await adapter.connect();state['hold']=True
+            tasks=[asyncio.create_task(adapter.rpc('get_login_info',{})) for _ in range(16)]
+            await asyncio.wait_for(started.wait(),3)
+            with pytest.raises(CoreError,match='QQ_OFFICIAL_SESSION_UNAVAILABLE'):
+                await asyncio.wait_for(adapter.rpc('get_login_info',{}),.3)
+            assert state['count'] == 16
+            tasks[0].cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await tasks[0]
+            tasks.append(asyncio.create_task(adapter.rpc('get_login_info',{})))
+            for _ in range(100):
+                if state['count'] == 17: break
+                await asyncio.sleep(.01)
+            assert state['count'] == 17
+            release.set();assert len(await asyncio.gather(*tasks[1:])) == 16
+            assert await adapter.rpc('get_login_info',{}) == {'user_id':'42'}
+        finally:
+            release.set();await asyncio.gather(*tasks,return_exceptions=True)
+            await adapter.shutdown();await runner.cleanup()
+    asyncio.run(run())

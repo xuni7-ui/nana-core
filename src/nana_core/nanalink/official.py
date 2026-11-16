@@ -55,7 +55,7 @@ class OfficialQQAdapter(OneBotAdapter):
         return {'Authorization': 'QQBot ' + value, 'X-Union-Appid': self.account.account_id}
 
     async def _api(self, method, path, payload=None):
-        if self.session is None or self.closed:
+        if self.session is None or self.closed or self._http_inflight >= 16:
             raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
         if path != '/users/@me' and not re.fullmatch(r'/v2/(?:users|groups)/[A-Za-z0-9_-]{1,128}/messages', path):
             raise CoreError('QQ_OFFICIAL_ROUTE_DENIED')
@@ -70,6 +70,7 @@ class OfficialQQAdapter(OneBotAdapter):
             if fingerprint != self.verified_token:
                 raise CoreError('QQ_OFFICIAL_CREDENTIAL_CHANGED')
             self.verified_token = None
+        self._http_inflight += 1
         try:
             async with self.session.request(method, self.endpoint + path, json=payload,
                                             headers=headers, allow_redirects=False) as response:
@@ -94,6 +95,8 @@ class OfficialQQAdapter(OneBotAdapter):
         except asyncio.CancelledError:
             self.metrics['unknown'] += 1
             raise
+        finally:
+            self._http_inflight -= 1
 
     async def _account(self):
         value = await self._api('GET', '/users/@me')

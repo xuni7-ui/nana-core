@@ -125,6 +125,7 @@ class OneBotAdapter:
         self.timeout = timeout
         self.events = asyncio.Queue(capacity)
         self.pending, self.recent = {}, OrderedDict()
+        self._http_inflight = 0
         self._health = SessionHealth()
         self.session = self.ws = self.reader = self.recovery = None
         self.closed = False
@@ -310,7 +311,8 @@ class OneBotAdapter:
             raise CoreError('ONEBOT_HOST_SEND_DISABLED')
         if action != 'get_login_info' and self._health.login != 'AUTHENTICATED':
             raise CoreError('ONEBOT_ACCOUNT_NOT_VERIFIED')
-        if self.closed or self.session is None or len(self.pending) >= 16:
+        if (self.closed or self.session is None or len(self.pending) >= 16
+                or self.mode == 'http' and self._http_inflight >= 16):
             raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
         if len(json.dumps(params, allow_nan=False).encode()) > 16384:
             raise CoreError('ONEBOT_REQUEST_BOUND')
@@ -320,6 +322,9 @@ class OneBotAdapter:
         self.metrics['writes'] += action in WRITES
         from aiohttp import ClientError
         attempted = False
+        counted_http = self.mode == 'http'
+        if counted_http:
+            self._http_inflight += 1
         try:
             if self.mode == 'http':
                 headers = self._headers()
@@ -357,6 +362,8 @@ class OneBotAdapter:
             raise
         finally:
             self.pending.pop(echo, None)
+            if counted_http:
+                self._http_inflight -= 1
         if value.get('status') != 'ok' or type(value.get('retcode')) is not int or value['retcode'] != 0:
             raise CoreError('ONEBOT_REJECTED_NO_RETRY')
         if type(value.get('data')) is not dict:

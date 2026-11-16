@@ -1,0 +1,7 @@
+# QQ account HTTP in-flight bound
+
+C-owned adapter fix on A `35740e7f2f518b9b2607bbd952759aa80683cf4c`. The existing 16-RPC guard counted pending WebSocket requests, but HTTP requests did not enter that pending map. Slow HTTP peers therefore allowed more than 16 concurrent requests per account, both for OneBot HTTP and the separate QQ official adapter.
+
+Each existing adapter now tracks its own in-flight HTTP requests and rejects a 17th call before sending. The count is released in `finally` on completion, failure or task cancellation; it does not create a queue, retry a write or alter original Kernel authorization/UNKNOWN handling. Each adapter/account retains its own counter. Roll back the two adapter files and focused tests to restore the previous behavior; no persisted data, configuration or schema changed.
+
+Owned local slow HTTP peers reproduced the missing cap on both backends. For each adapter, 16 requests were held in flight, the 17th was rejected before reaching the peer, cancellation freed one slot, a replacement entered, and the remaining requests completed. While one OneBot account was saturated, a second independent account still completed an account call. Synthetic OneBot, official, management, event transport and original QQ bridge group: 61 passed in 10.71 seconds before the extra cancellation assertions; both amended focused tests passed. No real account, external send, model or production load test was used.

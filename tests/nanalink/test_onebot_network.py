@@ -383,3 +383,49 @@ def test_disabled_account_queued_event_is_cancelled_without_blocking_other_accou
         finally:
             await sidecar.close(); resolver.clear()
     asyncio.run(run())
+
+
+def test_http_rpc_limits_inflight_calls_and_releases_capacity():
+    async def run():
+        release = asyncio.Event(); all_started = asyncio.Event(); count = 0
+        async def operation(request):
+            nonlocal count
+            action = request.match_info['action']; await request.json()
+            if action == 'get_login_info':
+                account=44 if request.headers.get('Authorization') == 'Bearer synthetic-other' else 42
+                return web.json_response({'status':'ok','retcode':0,'data':{'user_id':account}})
+            count += 1
+            if count == 16:
+                all_started.set()
+            await release.wait()
+            return web.json_response({'status':'ok','retcode':0,'data':{'message_id':1}})
+        app=web.Application();app.router.add_post('/{action}',operation)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=OneBotAdapter('42',mode='http',endpoint='http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1]))
+        other=OneBotAdapter('44',mode='http',endpoint=adapter.endpoint,token='synthetic-other')
+        tasks=[]
+        try:
+            await adapter.connect();await other.connect()
+            tasks=[asyncio.create_task(adapter.rpc('get_msg',{'message_id':i})) for i in range(16)]
+            await asyncio.wait_for(all_started.wait(),3)
+            with pytest.raises(CoreError,match='ONEBOT_SESSION_UNAVAILABLE'):
+                await asyncio.wait_for(adapter.rpc('get_msg',{'message_id':99}),.3)
+            assert count == 16
+            assert await other.rpc('get_login_info',{}) == {'user_id':44}
+            tasks[0].cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await tasks[0]
+            tasks.append(asyncio.create_task(adapter.rpc('get_msg',{'message_id':100})))
+            for _ in range(100):
+                if count == 17: break
+                await asyncio.sleep(.01)
+            assert count == 17
+            release.set()
+            assert len(await asyncio.gather(*tasks[1:])) == 16
+            assert await adapter.rpc('get_msg',{'message_id':101}) == {'message_id':1}
+        finally:
+            release.set()
+            await asyncio.gather(*tasks,return_exceptions=True)
+            await adapter.shutdown();await other.shutdown();await runner.cleanup()
+    asyncio.run(run())
