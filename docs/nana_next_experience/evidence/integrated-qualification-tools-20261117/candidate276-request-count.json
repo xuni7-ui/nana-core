@@ -1,0 +1,74 @@
+{
+  "request_columns": [
+    "request_id",
+    "request_key",
+    "record_id",
+    "subject_revision",
+    "owner_epoch",
+    "goal_id",
+    "goal_version",
+    "state",
+    "deadline_us",
+    "request_digest",
+    "response_digest",
+    "error_code",
+    "created_at_us",
+    "reserved_bytes",
+    "reserved_cost_micro",
+    "input_bytes",
+    "output_bytes",
+    "actual_cost_micro",
+    "latency_us"
+  ],
+  "rows": [
+    {
+      "request_id": "f81605bc-8d2b-43d7-8fb4-bad6d1ac80a3",
+      "state": "PROPOSED",
+      "created_at_us": 1794862057128096,
+      "input_bytes": 18710,
+      "output_bytes": 793,
+      "error_code": null
+    },
+    {
+      "request_id": "ec9b114a-a15c-4e9b-b521-cd45789fd43a",
+      "state": "PROPOSED",
+      "created_at_us": 1794862066306272,
+      "input_bytes": 25912,
+      "output_bytes": 580,
+      "error_code": null
+    },
+    {
+      "request_id": "a122af70-9cd3-42f6-9f4d-31d4539ca815",
+      "state": "PROPOSED",
+      "created_at_us": 1794862066421070,
+      "input_bytes": 24291,
+      "output_bytes": 1010,
+      "error_code": null
+    },
+    {
+      "request_id": "d18722d2-286e-42e8-bbc3-cc92796fdd6c",
+      "state": "PROPOSED",
+      "created_at_us": 1794862098533482,
+      "input_bytes": 28198,
+      "output_bytes": 1024,
+      "error_code": null
+    },
+    {
+      "request_id": "8e48d613-ef08-4342-b21c-491f9a640c01",
+      "state": "PROPOSED",
+      "created_at_us": 1794862098533482,
+      "input_bytes": 26951,
+      "output_bytes": 1160,
+      "error_code": null
+    },
+    {
+      "request_id": "0ad834b0-6dbf-4921-bdf6-cc08da8921e4",
+      "state": "PROPOSED",
+      "created_at_us": 1794862098533482,
+      "input_bytes": 27351,
+      "output_bytes": 604,
+      "error_code": null
+    }
+  ],
+  "total_calls": 6
+}

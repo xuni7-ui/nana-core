@@ -398,7 +398,7 @@ jobs:
           print('TARGETED_CHECKS',selected,flush=True)
           if any(test.startswith('tests/nanalink') for test in selected):
               subprocess.run(['uv','pip','install','--python',sys.executable,'-r','requirements-nanalink.lock'],check=True)
-          assert all(pathlib.Path(test).exists() for test in selected)
+          assert all(pathlib.Path(test.split('::',1)[0]).exists() for test in selected)
           if any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):
               # Select dependencies from actual tests, not only source-path
               # guesses: original C integration can select media boundaries.

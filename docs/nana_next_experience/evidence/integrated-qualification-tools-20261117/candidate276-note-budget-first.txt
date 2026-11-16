@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/nana-next-refinement-work/tools/nana_first_life_android_v2/installed_note_recall_probe.py", line 357, in <module>
+    result = run(
+             ^^^^
+  File "/workspace/nana-next-refinement-work/tools/nana_first_life_android_v2/installed_note_recall_probe.py", line 312, in run
+    assert answer["text"] == "SYNTHETIC no supplied note" and len(requests) == before_calls + 4
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
