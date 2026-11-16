@@ -81,6 +81,15 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
         changed=poll_dynamics(workflow)
         assert changed['changed_withdrawn']==1 and changed['observations']==1
         assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==1
+        # A newly reported forward relationship changes the source rather than
+        # silently retaining the previous attribution under the same event ID.
+        front['dynamic']=[{**row,'id_str':'124','orig':{'id_str':'456','modules':{'module_author':{'mid':99}}}}]
+        for _ in range(30):
+            clock.advance(10_000_000)
+            app.runtime.lease.heartbeat(force=True)
+        forwarded=poll_dynamics(workflow)
+        assert forwarded['changed_withdrawn']==1 and forwarded['observations']==0
+        assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==0
         assert state['posts']==0
 
 
