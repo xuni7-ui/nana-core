@@ -9,6 +9,10 @@ import re
 import subprocess
 
 
+class FrameBoundExceeded(ValueError):
+    """The window has more decoded frames than the explicit memory bound."""
+
+
 @dataclass(frozen=True, repr=False)
 class DecodedFrames:
     source_ref: str
@@ -90,7 +94,8 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     result=run(command)
     if len(result.stdout)%frame_size:raise ValueError('partial decoded frame')
     count=len(result.stdout)//frame_size
-    if count>limit or (not window and count<1):raise ValueError('decoded frame bound exceeded')
+    if count>limit:raise FrameBoundExceeded('decoded frame bound exceeded')
+    if not window and count<1:raise ValueError('decoded frame bound exceeded')
     if len(result.stderr)>4*1024*1024:raise ValueError('decoder metadata exceeds bound')
     log=result.stderr.decode('utf-8',errors='replace')
     bases=re.findall(r'\[Parsed_showinfo_\d+\s+@[^\]]+\]\s+config in time_base:\s*(\d+)/(\d+)',log)
