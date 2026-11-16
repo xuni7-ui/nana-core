@@ -278,6 +278,16 @@ class OneBotSidecar:
                 while not adapter.events.empty():
                     adapter.events.get_nowait()
                     cancelled += 1
+                if config.backend == 'official':
+                    # Clear the bundled official adapter's known volatile state
+                    # without imposing a new SDK hook on rollback versions.
+                    current = self.adapters[config.alias]
+                    for name in ('cache', 'reply_ids'):
+                        value = getattr(current, name, None)
+                        if isinstance(value, dict):
+                            value.clear()
+                    if hasattr(current, 'verified_token'):
+                        current.verified_token = None
                 result['cancelled_queued_events'] = cancelled
             return web.json_response(result)
 

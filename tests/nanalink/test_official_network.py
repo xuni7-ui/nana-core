@@ -228,3 +228,26 @@ def test_official_chunked_http_ack_is_single_send_and_not_readback():
         finally:
             await adapter.shutdown(); await runner.cleanup()
     asyncio.run(run())
+
+
+def test_official_disable_drops_captured_private_message_and_reply_anchor():
+    with network() as (net,state,resolver,loop):
+        async def run():
+            adapter=net['adapter']
+            assert adapter.offer(event()) == 'QUEUED'
+            assert adapter.cache and adapter.reply_ids
+            headers={'Authorization':'Bearer '+CORE}
+            async with ClientSession() as client:
+                url=net['endpoint']+'/nanalink/manage'
+                view=await (await client.get(url,headers=headers)).json()
+                body={'operation':'DISABLE','version':None,'revision':view['revision']}
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED'
+                assert not adapter.cache and not adapter.reply_ids and adapter.verified_token is None
+                body.update(operation='ENABLE',revision=result['revision'])
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED'
+                with pytest.raises(CoreError,match='QQ_OFFICIAL_MESSAGE_NOT_IN_VOLATILE_CAPTURE'):
+                    await adapter.rpc('get_msg',{'message_id':'native:message-1'})
+                assert state['sent'] == []
+        asyncio.run_coroutine_threadsafe(run(),loop).result(4)
