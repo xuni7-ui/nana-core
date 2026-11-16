@@ -1,0 +1,9 @@
+{
+  "git_clone": "FRESH_REMOTE_BARE_FILTERED_SHALLOW_NO_REFERENCE",
+  "fixed_delivery_commit": "ca76503896f496fd245fb7ac668eaab064b00c4b",
+  "source_commit": "9a2f6771979532e8ad2c33db8121dda148b439e8",
+  "downloaded_files": 11,
+  "verified_sha256_entries": 10,
+  "http_anonymous_artifact": "NOT_VERIFIED",
+  "independent_install": "PENDING"
+}

@@ -1,8 +1,8 @@
-## 现役revision262 — 有界压缩不丢独立发生依赖
+## 现役revision263 — 最新Core受控候选已远端独立安装
 
-当前原G成长SELF等价校验正文压缩，32次原JSON值/时间/Memory-Evidence-Event依赖保留，普通读/明确来源/不同结果不改。固定旧f419同预算原C仍1SELF/同私问，无新动作；input108201→81401字节减24.8%非实际Token。2项1.22s；初79过、后补78过1子进程路径错，补环境原SIGKILL1过；首错原样保留。counter不省/超范围与紧预算回退有证，后者只承诺实际单条。
+固定9a2(Brain262) Core302/263双构建同SHA9651c93b…，Web73输入同c1d复用04085003，无新客户端/APK。首槽55过30.35s/161业务Core槽内+3外部公开工厂，原BFF/反馈/重启撤回/十视图通过；停机9a2-c1d-9a2同身份私计划/pending/G17与counts保持。delivery ca765实际新GitHub克隆11件/10SHA、第二槽离线263源匹配及下载probe通过。首次fixture缺少收集5错与archive按需fetch终止保留，不放宽/伪造。
 
-下一256–262累计Core匹配构建/独立安装/重启撤回与停机旧reader回退；Web输入实核相同可复用，不重复APK。原A–H/情感多动机/G广迁移/视觉S5/物理隐私/真实Token/产品及真实模型手机生产自然度实际长期仍待，CURRENT266+409保持。 证据evidence/growth-context-report-compaction-20261116/README.md。
+下一A审核集成PR21固定0f766c1，随后PR22固定9345e51合格视觉候选/原生消费者，私人QQ父源与私Bili选择保留差额归A；情感/G迁移/存储/Token/产品/原A–H持续。非全仓或最终发行，CURRENT266+409/真实模型账号手机生产自然度实际长期不变。 证据evidence/matched-core-9a2f677-20261116/README.md。
 
 ## 现役revision196
 

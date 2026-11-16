@@ -261,3 +261,7 @@ subject/growth_life.py、continuity/store.py两个可重建索引及旧schema gu
 ## 2026-11-16 A原成长SELF等价体
 
 continuity/context.py、test_growth_context_compaction.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/growth-context-report-compaction-20261116公开合成日志/受控消融/脚本/指纹、本白名单。无DB/私文/账号Key/新依赖/生产/发行修改。
+
+## 2026-11-16 A固定9a2匹配安装
+
+09/11/ACTIVE/STATUS、evidence/matched-core-9a2f677-20261116公开合成构建/安装/下载/源码指纹/固定夹具准备脚本和收据、本白名单。delivery ca765仅server-9a2f677-candidate/11件，保留CURRENT，无私史/Key/DB/生产变更；外部公开夹具不是Runtime源码。

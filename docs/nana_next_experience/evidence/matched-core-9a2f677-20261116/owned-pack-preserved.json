@@ -1,0 +1,14 @@
+{
+  "action": "FULL_COPY_HASH_VERIFY_THEN_SYMLINK_ORIGINAL_PATH",
+  "source": "/workspace/nana-next-refinement-work/.git/objects/pack/tmp_pack_nLLdPe",
+  "preserved": "/tmp/nana-preserved-archive-pack-20261116/tmp_pack_nLLdPe",
+  "bytes": 636985343,
+  "sha256": "bddb8b45e3b8829b1675cad0df82af76c89f6ea9b87d093d596b4ee73b3762cf",
+  "exact_owned_archive_descendants_zombie": [
+    45781,
+    45782,
+    45805
+  ],
+  "older_temporary_packs_untouched": true,
+  "databases_and_releases_untouched": true
+}
