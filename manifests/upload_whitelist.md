@@ -260,3 +260,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 B短暂文字候选
 
 持续授权：video-short-detail-20261116/{README.md,before.txt,comparison.json,source-sha256.json}、其中probe及新增测试、09/11追加与本清单；合成素材不入库、无真实视频或凭证。
+
+
+## 2026-11-16 B局部变化与裁切实验
+
+持续授权：video-local-change-20261116/{README.md,source-sha256.json}、其中原创实验及测试、09/11追加及本清单；无真实帧/凭据、第三方源码或二进制。
