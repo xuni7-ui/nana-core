@@ -1,0 +1,133 @@
+.FFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[changed] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-91/test_episode_replay_cannot_rel1')
+condition = 'changed'
+
+    @pytest.mark.parametrize('condition',['same','changed','scope','withdrawn'])
+    def test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope(tmp_path,condition):
+        with grown(tmp_path/'life',VirtualClock()) as (r,view,origin,reuse,lesson):
+            records=RecordService(r.store);memory=MemoryService(r.store)
+            original=records.read(r.store.one('strategy_assessments',view.assessment_id)['record_id'])['payload']['episode']
+            review=EpisodeLearning(r.store,r.authority,scopes=('world','other-scope'),privacy_classes=('PUBLIC',))
+            def source(key,episode,scope='world'):
+                text=json.dumps({'strategy_episode':episode})
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.episode-replay-binding',
+                    source_reference=key,source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+                return memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=scope,memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text))
+            if condition=='same':
+                changes=r.store.db.total_changes
+                assert review.assess(lesson,reuse,authority=r.authority)==view.assessment_id
+                assert r.store.db.total_changes==changes
+            else:
+                if condition=='changed':
+                    # A real deterministic precision counterexample, explicitly a
+                    # synthetic evaluation case, without the old Kernel action ID.
+                    bad=LearningCase(case_id='different-precision-case',context='different-precision-context',data=[.1,.2],expected=.3)
+                    episode={'episode_key':original['episode_key'],'lesson_id':lesson,'case':bad.model_dump(mode='json')}
+                    other=source('changed',episode)
+                    expected='STRATEGY_EPISODE_KEY_COLLISION'
+                elif condition=='scope':
+                    episode=original;other=source('other-scope',episode,'other-scope')
+                    expected='STRATEGY_SOURCE_RETIRED'
+                else:
+                    other=source('replacement-after-withdrawal',original)
+                    MemoryService(r.store,r.authority).forget(reuse,r.authority)
+                    expected='STRATEGY_SOURCE_RETIRED'
+                changes=r.store.db.total_changes;count=len(r.store.all('strategy_assessments'))
+>               with pytest.raises(CoreError,match=expected):review.assess(lesson,other,authority=r.authority)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE CoreError
+
+tests/person_self/test_growth_assessment_identity.py:46: Failed
+_ test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[scope] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-91/test_episode_replay_cannot_rel2')
+condition = 'scope'
+
+    @pytest.mark.parametrize('condition',['same','changed','scope','withdrawn'])
+    def test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope(tmp_path,condition):
+        with grown(tmp_path/'life',VirtualClock()) as (r,view,origin,reuse,lesson):
+            records=RecordService(r.store);memory=MemoryService(r.store)
+            original=records.read(r.store.one('strategy_assessments',view.assessment_id)['record_id'])['payload']['episode']
+            review=EpisodeLearning(r.store,r.authority,scopes=('world','other-scope'),privacy_classes=('PUBLIC',))
+            def source(key,episode,scope='world'):
+                text=json.dumps({'strategy_episode':episode})
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.episode-replay-binding',
+                    source_reference=key,source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+                return memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=scope,memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text))
+            if condition=='same':
+                changes=r.store.db.total_changes
+                assert review.assess(lesson,reuse,authority=r.authority)==view.assessment_id
+                assert r.store.db.total_changes==changes
+            else:
+                if condition=='changed':
+                    # A real deterministic precision counterexample, explicitly a
+                    # synthetic evaluation case, without the old Kernel action ID.
+                    bad=LearningCase(case_id='different-precision-case',context='different-precision-context',data=[.1,.2],expected=.3)
+                    episode={'episode_key':original['episode_key'],'lesson_id':lesson,'case':bad.model_dump(mode='json')}
+                    other=source('changed',episode)
+                    expected='STRATEGY_EPISODE_KEY_COLLISION'
+                elif condition=='scope':
+                    episode=original;other=source('other-scope',episode,'other-scope')
+                    expected='STRATEGY_SOURCE_RETIRED'
+                else:
+                    other=source('replacement-after-withdrawal',original)
+                    MemoryService(r.store,r.authority).forget(reuse,r.authority)
+                    expected='STRATEGY_SOURCE_RETIRED'
+                changes=r.store.db.total_changes;count=len(r.store.all('strategy_assessments'))
+>               with pytest.raises(CoreError,match=expected):review.assess(lesson,other,authority=r.authority)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE CoreError
+
+tests/person_self/test_growth_assessment_identity.py:46: Failed
+_ test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[withdrawn] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-91/test_episode_replay_cannot_rel3')
+condition = 'withdrawn'
+
+    @pytest.mark.parametrize('condition',['same','changed','scope','withdrawn'])
+    def test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope(tmp_path,condition):
+        with grown(tmp_path/'life',VirtualClock()) as (r,view,origin,reuse,lesson):
+            records=RecordService(r.store);memory=MemoryService(r.store)
+            original=records.read(r.store.one('strategy_assessments',view.assessment_id)['record_id'])['payload']['episode']
+            review=EpisodeLearning(r.store,r.authority,scopes=('world','other-scope'),privacy_classes=('PUBLIC',))
+            def source(key,episode,scope='world'):
+                text=json.dumps({'strategy_episode':episode})
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.episode-replay-binding',
+                    source_reference=key,source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+                return memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=scope,memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text))
+            if condition=='same':
+                changes=r.store.db.total_changes
+                assert review.assess(lesson,reuse,authority=r.authority)==view.assessment_id
+                assert r.store.db.total_changes==changes
+            else:
+                if condition=='changed':
+                    # A real deterministic precision counterexample, explicitly a
+                    # synthetic evaluation case, without the old Kernel action ID.
+                    bad=LearningCase(case_id='different-precision-case',context='different-precision-context',data=[.1,.2],expected=.3)
+                    episode={'episode_key':original['episode_key'],'lesson_id':lesson,'case':bad.model_dump(mode='json')}
+                    other=source('changed',episode)
+                    expected='STRATEGY_EPISODE_KEY_COLLISION'
+                elif condition=='scope':
+                    episode=original;other=source('other-scope',episode,'other-scope')
+                    expected='STRATEGY_SOURCE_RETIRED'
+                else:
+                    other=source('replacement-after-withdrawal',original)
+                    MemoryService(r.store,r.authority).forget(reuse,r.authority)
+                    expected='STRATEGY_SOURCE_RETIRED'
+                changes=r.store.db.total_changes;count=len(r.store.all('strategy_assessments'))
+>               with pytest.raises(CoreError,match=expected):review.assess(lesson,other,authority=r.authority)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE CoreError
+
+tests/person_self/test_growth_assessment_identity.py:46: Failed
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_assessment_identity.py::test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[changed]
+FAILED tests/person_self/test_growth_assessment_identity.py::test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[scope]
+FAILED tests/person_self/test_growth_assessment_identity.py::test_episode_replay_cannot_relabel_old_success_or_cross_its_source_scope[withdrawn]
+3 failed, 1 passed in 1.74s

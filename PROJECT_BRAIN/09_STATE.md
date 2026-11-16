@@ -21,13 +21,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 259,
-  "as_of_us": 1794804615339517,
+  "revision": 260,
+  "as_of_us": 1794805312389502,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原表达晚G资格修复保留；现G成长机会在32限额前筛assessment/lesson范围隐私。90a旧1fail1pass→新2过1.45s/42相关25.79s；原G/Kernel复用→同主体PUBLIC重启/正常D-C新私问/同条件1SELF/撤回失效。0/32私评价均59760 inputbytes非Token，未扩G16/32。",
+    "原G晚资格/注意可见群修复保留；现评价cache同key核对原scope/privacy/current及episode内容，旧3fail1pass→5过2.25s/42相关33.84s，变化/撤回不冒用SUCCESS，私payload不读；同源及SUSPENDED反例重放0写，新独立精度反例仍原G挂起方法，无新模型阶段。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "c1d固定Core302/263双SHA49f95a28…、Web42文件04085003…；delivery a274固定11件，真实GitHub新克隆/10摘要/第二离线槽263文件同源/BFF通过；安装49过/157槽内模块。停机c1d-9a-c1d单身份私计划/G17/pending保持；CURRENT266+409不动。",
     "PR14/17/18/20平台来源已统一；20旧3fail1pass→106过35.09s/30闭包桥9.96s，watch→视频/帧/H1撤回与OneBot重连保持。19固定86d仅采用原实验工具，7过.02s；原Memory三样本回映/撤回/空档通过，0新增模型，尚非两仓视觉融合。",
@@ -43,17 +43,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "原G32注意已隔离不可读评价，当前可见但来源/训练不合格及同课题重复的挤占仍需实证。继续C多动机/策略/G未见迁移、原S5消费者/B真实视觉对照、物理隐私/Token/A–H。c1d历史候选不含256/257/259，CURRENT266+409不动，真实长期待。"
+    "原G重放已绑定来源/内容，注意32群已隔离不可读评价；可见但不合格/同课题重复挤占仍需真实基线。继续C情感多动机/策略/G广迁移、原S5/B真实视觉、物理隐私/Token/A–H。c1d历史候选不含256/257/259/260，CURRENT266+409不动。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md",
     "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md",
     "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
     "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md",
-    "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md",
-    "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md"
+    "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2998,3 +2998,5 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B直接调用dsh原始选帧
 
 [源码/实测] 可信本地dsh 0b4bd110原createPipeline可从源引用/RGB24/真实逐帧时间调用，日志0.01秒映射有歧义时拒绝；单图上限非全片预算，来源仍调用方确认。48帧合成FFmpeg解码输出0/4/8/11.5秒，Node单次0.247秒/子进程RSS47776KiB不含解码；46相关通过含原Memory撤回。无真实模型/平台/长期/Token资格；证据dsh-pipeline-adapter-20261116，源码锚235b070d8f93284bfbcf0dcc47f06d5b7831c25046ee0a6ff374852749183aa5。
+
+[2026-11-16 B对齐] 正常合入A 35740e7学习评价证据绑定修复，A原账本与白名单前缀完整；B实验源码/测试指纹不变，不重复已通过的定向测试，不改原学习语义。

@@ -250,6 +250,10 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 
 subject/growth_life.py原SQL局部、test_growth_attention_visibility.py、原CI精确路径/组、09/11/ACTIVE/STATUS及evidence/growth-attention-visibility-20261116/公开合成原失败/夹具差额/定向回归/指纹、本白名单。无Store/Key/真实用户/账号/新依赖/执行权限/二进制/生产。
 
+## 2026-11-16 A原G重放结果绑定
+
+world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原CI精确路径/组、09/11/ACTIVE/STATUS及evidence/growth-assessment-replay-binding-20261116/公开合成原失败/定向回归/指纹、本白名单。无Store/Key/真实用户/账号/新依赖/执行权限/二进制/生产。
+
 
 ## 2026-11-16 B FFmpeg时间覆盖研究
 
