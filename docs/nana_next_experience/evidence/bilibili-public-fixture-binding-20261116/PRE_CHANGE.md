@@ -1,0 +1,3 @@
+# A公共Bili合成来源绑定
+
+锚19b898d（Brain264，PR21已普通合入并推），保留C/B职责。原BilibiliPublicTransport(origin=SYNTHETIC_FIXTURE, loopback_endpoint=None)仍默认创建真实公网opener，原Kernel路有独立检查，但独立transport调用可能将真实请求标成fixture。拟无出网反例：以只计数、不出网的opener观察缺口；另检查被替换的opener与endpoint。最小修复在原transport，允许合法本地opener晚绑定，不动用户真实授权、C兴趣/观看愿望或Provider。复用原Bili/平台相关测试，不重复全发行打包。

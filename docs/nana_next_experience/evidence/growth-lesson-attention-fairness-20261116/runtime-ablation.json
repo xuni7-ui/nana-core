@@ -1,0 +1,144 @@
+{
+  "base": "089256932c414bb5ab6acafdf23801ab67d1e295",
+  "scope": "CONTROLLED_ORIGINAL_G_D_C_NOT_REAL_MODEL_LONGTERM",
+  "outputs": [
+    {
+      "mode": "original",
+      "source_newer_checks": 32,
+      "g_learning_jobs": 2,
+      "self_calls": 1,
+      "different_method_considered": false,
+      "own_questions": 0,
+      "input_bytes": [
+        109398
+      ],
+      "budgets": [
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        }
+      ],
+      "runtime_wall_ms": 1777.57433601073,
+      "runtime_cpu_ms": 1770.82655,
+      "new_actions_goals_grants": false,
+      "real_provider_calls": 0
+    },
+    {
+      "mode": "distinct_lesson",
+      "source_newer_checks": 32,
+      "g_learning_jobs": 2,
+      "self_calls": 2,
+      "different_method_considered": true,
+      "own_questions": 1,
+      "input_bytes": [
+        110896,
+        109491
+      ],
+      "budgets": [
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        }
+      ],
+      "runtime_wall_ms": 1670.1968139968812,
+      "runtime_cpu_ms": 1660.2800029999996,
+      "new_actions_goals_grants": false,
+      "real_provider_calls": 0
+    }
+  ],
+  "same_store_read_cost_samples": [
+    {
+      "mode": "original",
+      "wall_ms": 55.395283008692786,
+      "cpu_ms": 55.48397699999974,
+      "memory_reads": 448,
+      "sql_statements": 4993,
+      "different_method_visible": false
+    },
+    {
+      "mode": "distinct_lesson",
+      "wall_ms": 3.3012960047926754,
+      "cpu_ms": 3.3033570000000623,
+      "memory_reads": 20,
+      "sql_statements": 267,
+      "different_method_visible": true
+    },
+    {
+      "mode": "original",
+      "wall_ms": 67.9791050060885,
+      "cpu_ms": 67.91015700000003,
+      "memory_reads": 448,
+      "sql_statements": 4993,
+      "different_method_visible": false
+    },
+    {
+      "mode": "distinct_lesson",
+      "wall_ms": 3.134614002192393,
+      "cpu_ms": 3.137114000000274,
+      "memory_reads": 20,
+      "sql_statements": 267,
+      "different_method_visible": true
+    },
+    {
+      "mode": "original",
+      "wall_ms": 61.588958007632755,
+      "cpu_ms": 61.61001599999949,
+      "memory_reads": 448,
+      "sql_statements": 4993,
+      "different_method_visible": false
+    },
+    {
+      "mode": "distinct_lesson",
+      "wall_ms": 4.0428750071441755,
+      "cpu_ms": 4.04456599999925,
+      "memory_reads": 20,
+      "sql_statements": 267,
+      "different_method_visible": true
+    },
+    {
+      "mode": "original",
+      "wall_ms": 63.0695250001736,
+      "cpu_ms": 63.23247899999984,
+      "memory_reads": 448,
+      "sql_statements": 4993,
+      "different_method_visible": false
+    },
+    {
+      "mode": "distinct_lesson",
+      "wall_ms": 5.083833995740861,
+      "cpu_ms": 5.085614999999599,
+      "memory_reads": 20,
+      "sql_statements": 267,
+      "different_method_visible": true
+    },
+    {
+      "mode": "original",
+      "wall_ms": 64.40802599536255,
+      "cpu_ms": 64.51223000000006,
+      "memory_reads": 448,
+      "sql_statements": 4993,
+      "different_method_visible": false
+    },
+    {
+      "mode": "distinct_lesson",
+      "wall_ms": 3.561010002158582,
+      "cpu_ms": 3.562926999999938,
+      "memory_reads": 20,
+      "sql_statements": 267,
+      "different_method_visible": true
+    }
+  ],
+  "profile_writes": 0,
+  "profile_model_calls": 0,
+  "bytes_are_provider_tokens": false
+}

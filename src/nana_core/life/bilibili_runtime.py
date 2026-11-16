@@ -89,6 +89,10 @@ class BilibiliReplyWorkflow:
 
     def _authority(self):
         if self.transport.realm == "SYNTHETIC_LOOPBACK":
+            from .bilibili import BilibiliLoopbackOpener
+            if type(self.transport.opener) is not BilibiliLoopbackOpener:
+                raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+            BilibiliLoopbackOpener(self.transport.opener.endpoint)
             return
         if self.channel.activation is None or self.channel.activation.binding_id != self.channel.binding_id:
             raise CoreError("BILIBILI_CANONICAL_ACTIVATION_REQUIRED")

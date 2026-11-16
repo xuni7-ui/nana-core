@@ -1,0 +1,366 @@
+...F..........F.FF..FFF............                                      [100%]
+=================================== FAILURES ===================================
+__ test_explicit_or_late_bound_literal_loopback_still_reads_and_keeps_origin ___
+
+    def test_explicit_or_late_bound_literal_loopback_still_reads_and_keeps_origin():
+        with counterpart() as (opener,platform):
+            explicit=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',loopback_endpoint=opener.endpoint)
+            late=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE');late.opener=opener
+            for port in (explicit,late):
+>               reading=port.read_video('BV1t55v6DE2v')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_synthetic_binding.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2aa27fd70>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+____ test_actual_storyboard_bytes_timestamps_original_memory_and_withdrawal ____
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_actual_storyboard_bytes_t0')
+
+    def test_actual_storyboard_bytes_timestamps_original_memory_and_withdrawal(tmp_path):
+        with counterpart() as (opener, platform), fresh(tmp_path / "self.db", Clock()) as r:
+            transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            transport.opener = opener
+>           reading = transport.read_video("BV1t55v6DE2v", visual=True)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frames.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a77dc560>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+___________________ test_frame_correlation_and_cdn_boundary ____________________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_frame_correlation_and_cdn0')
+
+    def test_frame_correlation_and_cdn_boundary(tmp_path):
+        with counterpart() as (opener, _), fresh(tmp_path / "self.db", Clock()) as r:
+            transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            transport.opener = opener
+>           reading = transport.read_video("BV1t55v6DE2v", visual=True)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frames.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a778ee70>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+_ test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle __
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_acquired_frame_uses_real_0')
+
+    def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
+        from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
+        from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy
+        from nana_core.continuity.providers import ProviderRegistry
+        from nana_core.continuity.world_loop.semantic_harness import semantic_proposer
+        from nana_core.continuity.world_loop.world import WorldModel
+        from tests.provider_routing.helpers import config_service, model, update, Resolver
+    
+        with (
+            counterpart() as (opener, _),
+            provider_harness(semantic_proposer) as (wire, metrics),
+            fresh(tmp_path / "self.db", Clock()) as r,
+        ):
+            config, authority = config_service(tmp_path / "config/providers.json")
+            provider = ProviderProfile(
+                provider_profile_id="frames.loopback",
+                display_name="SYNTHETIC_LOOPBACK",
+                protocol="SYNTHETIC_LOOPBACK",
+                base_url=wire.endpoint.removesuffix("/chat/completions"),
+                locality="LOCAL_FIXTURE",
+                permitted_privacy=("PUBLIC", "PROJECT"),
+            )
+            profile = model("model.frames", provider.provider_profile_id, ("VISION",)).model_copy(
+                update={"remote_model_id": "harness-v1"}
+            )
+            update(config, authority, "UPSERT_PROVIDER", provider=provider)
+            update(config, authority, "UPSERT_MODEL", model=profile)
+            update(
+                config,
+                authority,
+                "SET_CAPABILITY_ROUTE",
+                route=CapabilityRoute(
+                    operation="VISION",
+                    primary_model_profile_id=profile.model_profile_id,
+                    permitted_privacy=("PUBLIC", "PROJECT"),
+                ),
+            )
+            router = CapabilityRouter(
+                config, RuntimeProviderFactory(ProviderRegistry(), Resolver(), RoutingPolicy(allow_synthetic_loopback=True))
+            )
+            app = SimpleNamespace(
+                runtime=r,
+                policy=policy(),
+                router=router,
+                config=SimpleNamespace(
+                    provider_wire_bytes_per_day=4_000_000,
+                    provider_context_tokens=16000,
+                    provider_output_tokens=4096,
+                    provider_timeout_ms=3000,
+                    provider_cost_ceiling_micro=0,
+                    provider_total_calls_limit=2,
+                    provider_total_reserved_cost_micro=0,
+                    provider_calls_per_hour=2,
+                    provider_calls_per_day=2,
+                    per_provider_calls_per_day=2,
+                ),
+            )
+            public = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            public.opener = opener
+>           reading = public.read_video("BV1t55v6DE2v", visual=True)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frames.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a76ba6f0>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+_ test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[False] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_unknown_frame_never_repla0')
+restart = False
+
+    @pytest.mark.parametrize('restart',[False,True])
+    def test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget(tmp_path,restart):
+>       with visual_host(tmp_path) as (app,service,frames,parent,metrics):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frame_unknown.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/living_release_v4/test_bilibili_frame_unknown.py:43: in visual_host
+    reading=public.read_video('BV1t55v6DE2v',visual=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a77ac740>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+_ test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[True] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_unknown_frame_never_repla1')
+restart = True
+
+    @pytest.mark.parametrize('restart',[False,True])
+    def test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget(tmp_path,restart):
+>       with visual_host(tmp_path) as (app,service,frames,parent,metrics):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frame_unknown.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/living_release_v4/test_bilibili_frame_unknown.py:43: in visual_host
+    reading=public.read_video('BV1t55v6DE2v',visual=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a77ade20>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+____________ test_a_live_call_still_blocks_a_nested_visual_attempt _____________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-115/test_a_live_call_still_blocks_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa2a76c5190>
+
+    def test_a_live_call_still_blocks_a_nested_visual_attempt(tmp_path,monkeypatch):
+>       with visual_host(tmp_path) as (app,service,frames,_,metrics):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frame_unknown.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/living_release_v4/test_bilibili_frame_unknown.py:43: in visual_host
+    reading=public.read_video('BV1t55v6DE2v',visual=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:179: in read_video
+    metadata = self.video(bvid)
+               ^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:167: in video
+    data = self._get("/x/web-interface/view", {"bvid": bvid})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/bilibili.py:123: in _get
+    raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.bilibili.BilibiliPublicTransport object at 0x7fa2a77dc830>
+url = 'https://api.bilibili.com/x/web-interface/view?bvid=BV1t55v6DE2v'
+image = False
+
+    def _raw(self, url, *, image=False):
+        if not self.authorized:
+            raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
+        if self.calls >= self.request_limit:
+            raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+>               raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+E               nana_core.contracts.CoreError: BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED
+
+src/nana_core/life/bilibili.py:94: CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_synthetic_binding.py::test_explicit_or_late_bound_literal_loopback_still_reads_and_keeps_origin
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_actual_storyboard_bytes_timestamps_original_memory_and_withdrawal
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_frame_correlation_and_cdn_boundary
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle
+FAILED tests/living_release_v4/test_bilibili_frame_unknown.py::test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[False]
+FAILED tests/living_release_v4/test_bilibili_frame_unknown.py::test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[True]
+FAILED tests/living_release_v4/test_bilibili_frame_unknown.py::test_a_live_call_still_blocks_a_nested_visual_attempt
+7 failed, 28 passed in 13.12s

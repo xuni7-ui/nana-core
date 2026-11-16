@@ -38,7 +38,7 @@ class BilibiliAccountTransport:
     def __init__(self, resolver, *, cookie_ref, csrf_ref, policy, realm="ACCOUNT_API_UNATTESTED", loopback_endpoint=None):
         if realm not in {"ACCOUNT_API_UNATTESTED", "SYNTHETIC_LOOPBACK", "AUTHENTICATED_PLATFORM"}:
             raise CoreError("BILIBILI_ACCOUNT_REALM_INVALID")
-        if loopback_endpoint is not None and realm != "SYNTHETIC_LOOPBACK":
+        if (loopback_endpoint is not None) != (realm == "SYNTHETIC_LOOPBACK"):
             raise CoreError("BILIBILI_LOOPBACK_ORIGIN_REQUIRED")
         self.__resolver = resolver
         self.__cookie_ref, self.__csrf_ref = cookie_ref, csrf_ref
@@ -82,6 +82,19 @@ class BilibiliAccountTransport:
             cookie = credential.reveal_for_header()
             if not cookie or len(cookie) > 4096 or any(ord(c) < 32 or ord(c) > 126 for c in cookie):
                 raise CoreError("BILIBILI_ACCOUNT_CREDENTIAL_INVALID")
+            if (host, path) == ('api.bilibili.com', '/x/polymer/web-dynamic/v1/feed/all'):
+                # A private feed belongs to the account just attested, not to a
+                # replacement credential resolved between the two requests.
+                attested = self.__attested_cookie
+                self.__attested_cookie = None
+                if attested != (self.policy.account_id, digest(cookie)):
+                    raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
+            elif ((host == 'api.bilibili.com' and path in {'/x/msgfeed/reply', '/x/msgfeed/at'})
+                  or (host == 'api.vc.bilibili.com' and path == '/svr_sync/v1/svr_sync/fetch_session_msgs')):
+                # Private messages and both notification pages use the preflight account.
+                if self.__attested_cookie != (self.policy.account_id, digest(cookie)):
+                    self.__attested_cookie = None
+                    raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
             if write:
                 if self.__attested_cookie != (self.policy.account_id, digest(cookie)):
                     raise CoreError("BILIBILI_ACCOUNT_BINDING_MISMATCH")

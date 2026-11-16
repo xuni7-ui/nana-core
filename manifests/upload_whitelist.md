@@ -254,6 +254,46 @@ subject/growth_life.py原SQL局部、test_growth_attention_visibility.py、原CI
 
 world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原CI精确路径/组、09/11/ACTIVE/STATUS及evidence/growth-assessment-replay-binding-20261116/公开合成原失败/定向回归/指纹、本白名单。无Store/Key/真实用户/账号/新依赖/执行权限/二进制/生产。
 
+## 2026-11-16 A原G情境注意
+
+subject/growth_life.py、continuity/store.py两个可重建索引及旧schema guard、新test_growth_context_population.py、原CI精确组/路径、09/11/ACTIVE/STATUS及evidence/growth-context-population-20261116/公开合成失败/回归/旧函数消融/SQLite元数据与同库读成本脚本/日志/指纹、本白名单。原库与元数据实验DB不入库，无Key/用户史/账号/新依赖/执行权限/发行/生产。
+
+## 2026-11-16 A原成长SELF等价体
+
+continuity/context.py、test_growth_context_compaction.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/growth-context-report-compaction-20261116公开合成日志/受控消融/脚本/指纹、本白名单。无DB/私文/账号Key/新依赖/生产/发行修改。
+
+## 2026-11-16 A固定9a2匹配安装
+
+09/11/ACTIVE/STATUS、evidence/matched-core-9a2f677-20261116公开合成构建/安装/下载/源码指纹/固定夹具准备脚本和收据、本白名单。delivery ca765仅server-9a2f677-candidate/11件，保留CURRENT，无私史/Key/DB/生产变更；外部公开夹具不是Runtime源码。
+
+## 2026-11-16 A集成PR21固定0f766c1
+
+原C固定35路径普通merge、09/11/ACTIVE/STATUS、现役nanalink manifest两A后继SHA、evidence/platform-integration-pr21-20261116公开原反例/192回归/固定C指纹及本白名单；原上传无私史/Key/DB/新账号授权/生产/新打包。
+
+## 2026-11-16 A公共Bili synthetic绑定
+
+life/bilibili.py、新test_bilibili_synthetic_binding.py、原frame/unknown夹具显式local opener、原CI精确路径与组、nanalink manifest该源、09/11/ACTIVE/STATUS、evidence/bilibili-public-fixture-binding-20261116公开原错与回归/指纹、本白名单，无新依赖/账号/DB/私文/部署/打包。
+
+## 2026-11-16 A原G不同能力候选
+
+subject/growth_life.py、test_growth_lesson_attention.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/growth-lesson-attention-fairness-20261116公开失败/回归/原函数消融与读成本/指纹、本白名单。无DB/私史/Key/新增权限/框架/生产或打包，G16/32原资格不变。
+
+## 2026-11-16 A成长目的上下文引用
+
+continuity/context.py、test_growth_purpose_context.py、原CI精确路径/组、现役nanalink manifest该源、09/11/ACTIVE/STATUS、evidence/growth-purpose-context-20261116公开失败/回归/原函数消融/合成请求块统计/物理撤回/指纹、本白名单；无私史/Key/DB/新依赖/付费调用/生产/打包。
+
+## 2026-11-16 A原S5源流/时长
+
+world_loop/perception.py、新test_media_stream_binding.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/media-stream-binding-20261116公开合成原错/70及后8回归/同编码文件解码消融/指纹、本白名单。无媒体原件/DB/私史/Key/新依赖/模型或账号调用/生产/打包。
+
+## 2026-11-16 A原CI native选择
+
+.github/workflows/nana-next-qualification.yml、09/11/ACTIVE/STATUS、evidence/native-ci-routing-20261116公开CI原错/本地原错/分类检查/指纹、本白名单；无新Core代码/DB/私史/凭据/生产/发行。
+
+## 2026-11-16 A原H1同轨/独立覆盖
+
+world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、09/11/ACTIVE/STATUS、evidence/media-semantic-track-20261116、269公开原CI log补正/source.sha256、本白名单；无DB/媒体原件/私史/Key/新依赖/真实模型或账号/发行生产。
+
 
 ## 2026-11-16 B FFmpeg时间覆盖研究
 

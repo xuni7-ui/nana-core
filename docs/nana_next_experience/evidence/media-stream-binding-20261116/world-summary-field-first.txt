@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_audio_world_observation_uses_decoded_audio_length_not_another_tracks_duration _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-133/test_audio_world_observation_u0')
+
+    def test_audio_world_observation_uses_decoded_audio_length_not_another_tracks_duration(tmp_path):
+        from nana_core.continuity.world_loop.world import WorldModel
+        path=tmp_path/'short-audio-long-video.mkv'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_complex_threads','1',
+            '-f','lavfi','-i','color=c=red:s=32x24:r=4:d=2',
+            '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=1',
+            '-map','0:v','-map','1:a','-t','2','-c:v','ffv1','-c:a','pcm_s16le',str(path)],check=True,timeout=20)
+        clock=VirtualClock()
+        with fresh(tmp_path/'subject/self.db',clock) as r:
+            source=PublicMediaSource(source_id='synthetic-short-audio',modality='AUDIO',origin='SYNTHETIC',event_time_us=clock.utc_now_us(),observed_time_us=clock.utc_now_us())
+            mid,observation=PerceptionService(r.store,providers(),policy()).ingest(path.read_bytes(),source,entity_id='observer',scope='world')
+            data=json.loads(MemoryService(r.store).read(mid)['text'])['decoded']
+            assert data['samples']==16000 and data['segments'][-1]['end_s']==1
+            view=WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',)).view('media.synthetic-short-audio','media.technical')
+>           assert view.alternatives[0]['value']['technical']['duration_s']==1
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'duration_s'
+
+tests/world_loop/test_media_stream_binding.py:89: KeyError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_audio_world_observation_uses_decoded_audio_length_not_another_tracks_duration
+1 failed in 0.89s

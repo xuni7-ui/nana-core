@@ -125,11 +125,13 @@ class OneBotAdapter:
         self.timeout = timeout
         self.events = asyncio.Queue(capacity)
         self.pending, self.recent = {}, OrderedDict()
+        self._http_inflight = 0
         self._health = SessionHealth()
         self.session = self.ws = self.reader = self.recovery = None
         self.closed = False
         self.echo = 0
-        self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0)
+        self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0,
+                            http_inflight=0, http_peak_inflight=0, http_backpressure=0)
 
     def __repr__(self):
         return '<OneBotAdapter account-bound; credentials redacted>'
@@ -312,36 +314,67 @@ class OneBotAdapter:
             raise CoreError('ONEBOT_ACCOUNT_NOT_VERIFIED')
         if self.closed or self.session is None or len(self.pending) >= 16:
             raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
+        if self.mode == 'http' and self._http_inflight >= 16:
+            self.metrics['http_backpressure'] += 1
+            raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
         if len(json.dumps(params, allow_nan=False).encode()) > 16384:
             raise CoreError('ONEBOT_REQUEST_BOUND')
         self.echo += 1
         echo = str(self.echo)
         self.metrics['rpc'] += 1
         self.metrics['writes'] += action in WRITES
+        from aiohttp import ClientError
+        attempted = False
+        counted_http = self.mode == 'http'
+        if counted_http:
+            self._http_inflight += 1
+            self.metrics['http_inflight'] = self._http_inflight
+            self.metrics['http_peak_inflight'] = max(self.metrics['http_peak_inflight'], self._http_inflight)
         try:
             if self.mode == 'http':
+                headers = self._headers()
+                attempted = True
                 async with self.session.post(self.endpoint.rstrip('/') + '/' + action, json=params,
-                                             headers=self._headers(), allow_redirects=False) as response:
+                                             headers=headers, allow_redirects=False) as response:
                     if response.status != 200:
                         raise CoreError('ONEBOT_HTTP_REJECTED_NO_RETRY')
-                    raw = await response.content.read(262145)
-                    value = decode(raw)
+                    raw = bytearray()
+                    async for chunk in response.content.iter_chunked(65536):
+                        raw.extend(chunk)
+                        if len(raw) > 262144:
+                            raise CoreError('ONEBOT_FRAME_BOUND')
+                    value = decode(bytes(raw))
             else:
                 if self.ws is None or self.ws.closed:
                     raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
                 future = asyncio.get_running_loop().create_future()
                 self.pending[echo] = future
                 # All echoes live at the envelope level per OneBot v11.
+                attempted = True
                 await self.ws.send_json({'action': action, 'params': params, 'echo': echo})
                 value = await asyncio.wait_for(future, self.timeout)
-        except (TimeoutError, OSError):
-            self.metrics['unknown'] += 1
+        except (TimeoutError, OSError, ClientError):
+            if attempted:
+                self.metrics['unknown'] += 1
             raise CoreError('ONEBOT_COMPLETION_UNKNOWN_NO_RETRY') from None
+        except CoreError as exc:
+            if attempted and (action in WRITES or exc.code == 'ONEBOT_COMPLETION_UNKNOWN_NO_RETRY'):
+                self.metrics['unknown'] += 1
+            raise
+        except asyncio.CancelledError:
+            if attempted:
+                self.metrics['unknown'] += 1
+            raise
         finally:
             self.pending.pop(echo, None)
+            if counted_http:
+                self._http_inflight -= 1
+                self.metrics['http_inflight'] = self._http_inflight
         if value.get('status') != 'ok' or type(value.get('retcode')) is not int or value['retcode'] != 0:
             raise CoreError('ONEBOT_REJECTED_NO_RETRY')
         if type(value.get('data')) is not dict:
+            if attempted and action in WRITES:
+                self.metrics['unknown'] += 1
             raise CoreError('ONEBOT_MALFORMED_RESPONSE_NO_RETRY')
         return value['data']
 

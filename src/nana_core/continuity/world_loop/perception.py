@@ -93,12 +93,17 @@ class MediaDecoder:
             meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-show_format','-show_streams','-of','json',str(path)],limit=65536,input_root=Path(d)))
             duration=float(meta['format'].get('duration',0))
             if not math.isfinite(duration) or not 0<duration<=30:raise CoreError('MEDIA_DURATION_BOUND')
+            # Match each first-stream metadata/timeline below; never let FFmpeg
+            # silently choose a different default or higher-resolution track.
             prefix=['ffmpeg','-nostdin','-v','error','-max_alloc','16777216','-threads','1','-protocol_whitelist','file,pipe','-i',str(path),'-t','30','-threads','1','-filter_threads','1']
             if modality=='AUDIO':
                 stream=next((s for s in meta['streams'] if s['codec_type']=='audio'),None)
                 if not stream:raise CoreError('MEDIA_AUDIO_STREAM_REQUIRED')
-                raw=self._run(prefix+['-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(d))
+                raw=self._run(prefix+['-map','0:a:0','-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(d))
                 samples=array.array('h');samples.frombytes(raw)
+                # Container duration may belong to another, longer track.
+                duration=len(samples)/16000
+                if not 0<duration<=30:raise CoreError('MEDIA_DURATION_BOUND')
                 segments=[]
                 for start in range(0,len(samples),8000):
                     chunk=samples[start:start+8000];rms=math.sqrt(sum(x*x for x in chunk)/max(1,len(chunk)))/32768
@@ -111,7 +116,7 @@ class MediaDecoder:
             if not 1<=len(points)<=4096 or any(not math.isfinite(t) or not 0<=t<duration for t in points) or points!=sorted(set(points)):raise CoreError('MEDIA_FRAME_TIME_INVALID')
             count=min(8,len(points));indices=sorted({int(i*(len(points)-1)/max(1,count-1)) for i in range(count)})
             expression='+'.join('eq(n,'+str(i)+')' for i in indices)
-            raw=self._run(prefix+['-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
+            raw=self._run(prefix+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
             size=96*64*3
             if len(raw)!=len(indices)*size:raise CoreError('MEDIA_FRAME_INVALID')
             frames=[]

@@ -1,0 +1,46 @@
+.....................F..............                                     [100%]
+=================================== FAILURES ===================================
+__________ test_separate_video_audio_association_and_gapped_coverage ___________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-136/test_separate_video_audio_asso0')
+
+    def test_separate_video_audio_association_and_gapped_coverage(tmp_path):
+        path=tmp_path/'public.mp4'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-f','lavfi','-i','testsrc2=size=96x64:rate=8','-f','lavfi','-i','sine=frequency=600:sample_rate=16000','-t','3','-c:v','mpeg4','-c:a','aac','-threads','1','-y',str(path)],check=True,timeout=10)
+        data=path.read_bytes()
+        with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,_):
+            service=setup(r,t);results=[];ids=[]
+            for mod in ('VIDEO','AUDIO'):
+                mid=ingest(r,mod,data,key=mod.lower());cid=service.prepare(mod,mid,data);assert service.execute(cid)['state']=='PROPOSED';ids.append(cid);results.append(service.ground(cid,entity_id='device',predicate='media.'+mod.lower()))
+            assert results[0]['unobserved_gaps'] and results[0]['coverage']=='EXPLICIT_SEGMENTS'
+>           linked=service.associate_audio(*ids);assert linked['audio_semantic_memory_ids']==results[1]['semantic_memory_ids']
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/h1_semantics/test_integration.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.semantics.MediaSemanticService object at 0x7fc052485550>
+video_request_id = 'afe759fe-b816-4725-9861-49aec5526e04'
+audio_request_id = '4b58ab8c-f03a-4bf0-a2a3-b9ea4aaaf5c6'
+
+    def associate_audio(self,video_request_id,audio_request_id):
+        """Pin separately interpreted track from exactly the same source container."""
+        inputs=[];parents=[];results=[]
+        for cid in (video_request_id,audio_request_id):
+            row=self.store.one('cognitive_requests',cid)
+            if not row or row['state']!='PROPOSED':raise CoreError('SEMANTIC_PROPOSAL_UNAVAILABLE')
+            request=self.records.read(row['record_id'])['payload']['request']
+            inputs.append(MediaSemanticInput.model_validate_json(canonical(request['role_input'])))
+            header=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",('semantic:'+cid,)).fetchone()
+            if not header or not self.records.current_support(header[0]):raise CoreError('SEMANTIC_SOURCE_RETIRED')
+            rec=self.records.read(header[0])
+            if rec['scope'] not in self.session.policy.allowed_scopes or rec['privacy_class'] not in self.session.policy.readable_privacy:raise CoreError('MEDIA_PRIVACY_DENIED')
+            parents.append(header[0]);results.append(rec['payload'])
+>       if inputs[0].modality!='VIDEO' or inputs[1].modality!='AUDIO' or inputs[0].source_byte_digest!=inputs[1].source_byte_digest or abs(inputs[0].duration_s-inputs[1].duration_s)>.001:raise CoreError('MEDIA_AUDIO_ASSOCIATION_MISMATCH')
+                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: MEDIA_AUDIO_ASSOCIATION_MISMATCH
+
+src/nana_core/continuity/world_loop/semantics.py:225: CoreError
+=========================== short test summary info ============================
+FAILED tests/h1_semantics/test_integration.py::test_separate_video_audio_association_and_gapped_coverage
+1 failed, 35 passed in 24.69s

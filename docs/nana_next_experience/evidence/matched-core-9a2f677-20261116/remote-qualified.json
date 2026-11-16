@@ -1,0 +1,19 @@
+{
+  "git_clone": "FRESH_REMOTE_BARE_FILTERED_SHALLOW_NO_REFERENCE",
+  "fixed_delivery_commit": "ca76503896f496fd245fb7ac668eaab064b00c4b",
+  "source_commit": "9a2f6771979532e8ad2c33db8121dda148b439e8",
+  "downloaded_files": 11,
+  "verified_sha256_entries": 10,
+  "http_anonymous_artifact": "NOT_VERIFIED",
+  "independent_install": "PASS_OFFLINE",
+  "all_installed_core_files_match_source": 263,
+  "downloaded_probe_pass": true,
+  "installed_python": "3.12.14",
+  "installed_sqlite": "3.53.1",
+  "core_sha256": "9651c93b830d0e2c0d990efd4e7b6061c157bbf2ab3a42c12ed2867321c724f6",
+  "web_sha256": "0408500337facc7154fee9d0bf43e27525c3868d8174aca7c5fae26616a75ec6",
+  "optional_account_dependencies_qualified": false,
+  "current_changed": false,
+  "real_model_calls": 0,
+  "production_changed": false
+}

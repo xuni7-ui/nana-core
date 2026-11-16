@@ -13,7 +13,7 @@ from nana_core.continuity.providers import ProviderRegistry
 from nana_core.continuity.world_loop.cognition import CognitionSession
 from nana_core.continuity.world_loop.harness import provider_harness
 from nana_core.continuity.world_loop.semantic_harness import semantic_proposer
-from nana_core.life.bilibili import BilibiliPublicTransport, BilibiliSourceAdapter
+from nana_core.life.bilibili import BilibiliPublicTransport,BilibiliLoopbackOpener, BilibiliSourceAdapter
 from nana_core.life.bilibili_frames import BilibiliFrameService
 from nana_core.presence.resources import resource_state
 from tests.provider_routing.helpers import config_service, model, update, Resolver
@@ -39,7 +39,7 @@ def visual_host(tmp_path):
                 provider_output_tokens=4096,provider_timeout_ms=100,provider_cost_ceiling_micro=0,
                 provider_total_calls_limit=4,provider_total_reserved_cost_micro=0,provider_calls_per_hour=4,
                 provider_calls_per_day=4,per_provider_calls_per_day=4))
-        public=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',request_limit=9);public.opener=opener
+        public=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',request_limit=9);public.opener=BilibiliLoopbackOpener(opener.endpoint)
         reading=public.read_video('BV1t55v6DE2v',visual=True)
         parent=BilibiliSourceAdapter(app).ingest(reading)
         service=BilibiliFrameService(app);frames=service.capture(parent,reading.frames)

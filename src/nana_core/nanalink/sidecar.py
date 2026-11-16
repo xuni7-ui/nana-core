@@ -273,6 +273,22 @@ class OneBotSidecar:
                 raise CoreError('NANALINK_DRAIN_INPUT_BEFORE_PACKAGE_CHANGE')
             result = await self.management.command(config.alias,body['operation'],body['version'],body['revision'])
             self.adapters[config.alias] = self.management.adapter(config.alias)
+            if body['operation'] == 'DISABLE' and not self.management.enabled(config.alias):
+                cancelled = len(self.transport.cancel_account(adapter.account.key))
+                while not adapter.events.empty():
+                    adapter.events.get_nowait()
+                    cancelled += 1
+                if config.backend == 'official':
+                    # Clear the bundled official adapter's known volatile state
+                    # without imposing a new SDK hook on rollback versions.
+                    current = self.adapters[config.alias]
+                    for name in ('cache', 'reply_ids'):
+                        value = getattr(current, name, None)
+                        if isinstance(value, dict):
+                            value.clear()
+                    if hasattr(current, 'verified_token'):
+                        current.verified_token = None
+                result['cancelled_queued_events'] = cancelled
             return web.json_response(result)
 
         app.router.add_get('/nanalink/manage', manage)
@@ -322,6 +338,10 @@ class OneBotSidecar:
     async def _forward(self, event):
         from ..life.platform_forward import forward
         config = next(c for c in self.config.sessions if self.adapters[c.alias].account == event.account)
+        if not self.management.enabled(config.alias):
+            self.last[config.alias] = {'state': 'CANCELLED_BEFORE_CORE_FORWARD', 'no_retry': True}
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='ADAPTER_DISABLED_BEFORE_CORE_FORWARD')
         route = next(r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
                      == (event.sender_id, event.conversation_kind, event.conversation_id))
         result = await asyncio.to_thread(forward, config.core_origin, 'qq', route.channel_id,

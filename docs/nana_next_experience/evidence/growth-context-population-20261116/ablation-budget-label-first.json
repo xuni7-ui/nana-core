@@ -1,0 +1,30 @@
+{
+  "scope": "CONTROLLED_RUNTIME_ABLATION_NOT_REAL_MODEL",
+  "base": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "same_case_budget": "SELF input_tokens=65536 output=1024 timeout_ms=120000; no call when no source opportunity",
+  "baseline_uses_fixed_original_function_with_same_rebuildable_indexes": true,
+  "outputs": [
+    {
+      "mode": "original",
+      "original_runtime_self_calls": 0,
+      "own_questions": 0,
+      "new_goals_actions_grants": false,
+      "input_bytes": [],
+      "reserved_bytes": [],
+      "real_provider_calls": 0
+    },
+    {
+      "mode": "grouped",
+      "original_runtime_self_calls": 1,
+      "own_questions": 1,
+      "new_goals_actions_grants": false,
+      "input_bytes": [
+        108329
+      ],
+      "reserved_bytes": [
+        120618
+      ],
+      "real_provider_calls": 0
+    }
+  ]
+}

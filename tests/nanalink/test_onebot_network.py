@@ -136,6 +136,7 @@ def test_lost_send_ack_is_unknown_reconnect_never_resends():
         asyncio.run_coroutine_threadsafe(wait_reconnect(),loop).result(4)
         assert len(state['sent'])==1 and state['connections']>=2
         assert net['adapter'].health().reconnects>=1
+        assert net['adapter'].metrics['unknown']==1
 
 
 def test_reverse_ws_auth_account_binding_and_http_signature():
@@ -296,3 +297,152 @@ def test_account_reply_cannot_mark_a_disconnected_websocket_online():
             await adapter._account()
         assert adapter.health().login != 'AUTHENTICATED'
     asyncio.run(run())
+
+
+def test_http_rpc_reads_chunked_response_without_resending():
+    async def run():
+        calls = []
+        async def operation(request):
+            action = request.match_info['action']
+            calls.append(action)
+            await request.json()
+            data = {'user_id': 42} if action == 'get_login_info' else {'message_id': 99}
+            raw = json.dumps({'status': 'ok', 'retcode': 0, 'data': data}).encode()
+            response = web.StreamResponse()
+            await response.prepare(request)
+            await response.write(raw[:10])
+            await asyncio.sleep(.03)
+            await response.write(raw[10:])
+            await response.write_eof()
+            return response
+        app = web.Application(); app.router.add_post('/{action}', operation)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OneBotAdapter('42', mode='http', endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), allow_send=True)
+        try:
+            await adapter.connect()
+            result = await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
+            assert result == {'message_id': 99}
+            assert calls == ['get_login_info', 'send_private_msg']
+            assert adapter.metrics['unknown'] == 0
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_http_oversize_write_response_fails_without_resending():
+    async def run():
+        calls = []
+        async def operation(request):
+            action = request.match_info['action']; calls.append(action)
+            await request.json()
+            if action == 'get_login_info':
+                return web.json_response({'status': 'ok', 'retcode': 0, 'data': {'user_id': 42}})
+            return web.Response(body=b'x' * 262145)
+        app = web.Application(); app.router.add_post('/{action}', operation)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OneBotAdapter('42', mode='http', endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), allow_send=True)
+        try:
+            await adapter.connect()
+            with pytest.raises(CoreError, match='ONEBOT_FRAME_BOUND'):
+                await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
+            assert calls == ['get_login_info', 'send_private_msg']
+            assert adapter.metrics['unknown'] == 1
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_disabled_account_queued_event_is_cancelled_without_blocking_other_account(monkeypatch):
+    from nana_core.nanalink.onebot import normalize
+    from nana_core.nanalink.sidecar import ForwardRoute
+    from nana_core.nanalink.contracts import Outcome
+    calls = []
+    def fake_forward(*args, **kwargs):
+        calls.append(args[2]); return {'state':'QUEUED_NOT_JUDGED'}
+    monkeypatch.setattr('nana_core.life.platform_forward.forward', fake_forward)
+    async def run():
+        route = ForwardRoute(channel_id='target', sender_id='43', conversation_kind='private', conversation_id='43')
+        def config(alias, account, port):
+            return SessionConfig(alias=alias, account_id=account, mode='http', endpoint='http://127.0.0.1:1', port=port,
+                upstream_secret_ref='upstream.'+alias, core_api_secret_ref='core.'+alias,
+                forward_secret_ref='forward.'+alias, core_origin='http://127.0.0.1:2', routes=(route,))
+        resolver = MemorySecretResolver()
+        sidecar = OneBotSidecar(SidecarConfig(sessions=(config('a','42',18790), config('b','44',18791))), resolver)
+        first = normalize(sidecar.adapters['a'].account, message(1))
+        second = normalize(sidecar.adapters['b'].account, {**message(2), 'self_id':44})
+        assert sidecar.transport.offer(first) == 'QUEUED'
+        assert sidecar.transport.offer(second) == 'QUEUED'
+        await sidecar.management.command('a','DISABLE',None,sidecar.management.state['revision'])
+        try:
+            result = await sidecar.transport.drain_once(sidecar._forward)
+            assert result.outcome == Outcome.CANCELLED and calls == []
+            result = await sidecar.transport.drain_once(sidecar._forward)
+            assert result.outcome == Outcome.UNKNOWN and calls == ['target']
+        finally:
+            await sidecar.close(); resolver.clear()
+    asyncio.run(run())
+
+
+def test_http_rpc_limits_inflight_calls_and_releases_capacity():
+    async def run():
+        release = asyncio.Event(); all_started = asyncio.Event(); count = 0
+        async def operation(request):
+            nonlocal count
+            action = request.match_info['action']; await request.json()
+            if action == 'get_login_info':
+                account=44 if request.headers.get('Authorization') == 'Bearer synthetic-other' else 42
+                return web.json_response({'status':'ok','retcode':0,'data':{'user_id':account}})
+            count += 1
+            if count == 16:
+                all_started.set()
+            await release.wait()
+            return web.json_response({'status':'ok','retcode':0,'data':{'message_id':1}})
+        app=web.Application();app.router.add_post('/{action}',operation)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=OneBotAdapter('42',mode='http',endpoint='http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1]))
+        other=OneBotAdapter('44',mode='http',endpoint=adapter.endpoint,token='synthetic-other')
+        tasks=[]
+        try:
+            await adapter.connect();await other.connect()
+            tasks=[asyncio.create_task(adapter.rpc('get_msg',{'message_id':i})) for i in range(16)]
+            await asyncio.wait_for(all_started.wait(),3)
+            with pytest.raises(CoreError,match='ONEBOT_SESSION_UNAVAILABLE'):
+                await asyncio.wait_for(adapter.rpc('get_msg',{'message_id':99}),.3)
+            assert count == 16
+            assert adapter.metrics['http_inflight'] == 16 and adapter.metrics['http_backpressure'] == 1
+            assert await other.rpc('get_login_info',{}) == {'user_id':44}
+            assert other.metrics['http_backpressure'] == 0
+            tasks[0].cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await tasks[0]
+            tasks.append(asyncio.create_task(adapter.rpc('get_msg',{'message_id':100})))
+            for _ in range(100):
+                if count == 17: break
+                await asyncio.sleep(.01)
+            assert count == 17
+            release.set()
+            assert len(await asyncio.gather(*tasks[1:])) == 16
+            assert await adapter.rpc('get_msg',{'message_id':101}) == {'message_id':1}
+            assert adapter.metrics['http_inflight'] == 0 and adapter.metrics['http_peak_inflight'] == 16
+        finally:
+            release.set()
+            await asyncio.gather(*tasks,return_exceptions=True)
+            await adapter.shutdown();await other.shutdown();await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_status_exposes_http_capacity_metrics_without_credentials():
+    with network(mode='http') as (net,state,resolver,loop):
+        async def run():
+            async with ClientSession() as client:
+                headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
+                response=await client.get(net['endpoint']+'/nanalink/status',headers=headers)
+                data=await response.json()
+                assert data['metrics']['http_inflight']==0
+                assert data['metrics']['http_peak_inflight']>=1
+                assert data['metrics']['http_backpressure']==0
+                assert 'FIXTURE_ONLY' not in json.dumps(data)
+        asyncio.run_coroutine_threadsafe(run(),loop).result(3)

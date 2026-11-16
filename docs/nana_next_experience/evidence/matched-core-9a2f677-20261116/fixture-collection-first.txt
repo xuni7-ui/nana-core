@@ -1,0 +1,64 @@
+ALL_COMMITTED_RUNTIME_FILES_AND_INSTALLED_DEPENDENCIES_VERIFIED 263
+
+==================================== ERRORS ====================================
+_____ ERROR collecting tests/person_self/test_growth_context_compaction.py _____
+ImportError while importing test module '/tmp/nana-262-local-qualification/tests/person_self/test_growth_context_compaction.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_growth_context_compaction.py:9: in <module>
+    from nana_core.continuity.open_agency.fixtures import numeric_learning
+E   ModuleNotFoundError: No module named 'nana_core.continuity.open_agency.fixtures'
+_____ ERROR collecting tests/person_self/test_growth_context_population.py _____
+ImportError while importing test module '/tmp/nana-262-local-qualification/tests/person_self/test_growth_context_population.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_growth_context_population.py:5: in <module>
+    from nana_core.continuity.open_agency.fixtures import numeric_learning
+E   ModuleNotFoundError: No module named 'nana_core.continuity.open_agency.fixtures'
+____ ERROR collecting tests/person_self/test_growth_attention_visibility.py ____
+ImportError while importing test module '/tmp/nana-262-local-qualification/tests/person_self/test_growth_attention_visibility.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_growth_attention_visibility.py:14: in <module>
+    from nana_core.continuity.world_loop.reference import context_policy
+E   ModuleNotFoundError: No module named 'nana_core.continuity.world_loop.reference'
+____ ERROR collecting tests/person_self/test_growth_assessment_identity.py _____
+ImportError while importing test module '/tmp/nana-262-local-qualification/tests/person_self/test_growth_assessment_identity.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_growth_assessment_identity.py:11: in <module>
+    from .test_growth_inner_choice import grown
+tests/person_self/test_growth_inner_choice.py:14: in <module>
+    from nana_core.continuity.world_loop.reference import open_runtime,context_policy
+E   ModuleNotFoundError: No module named 'nana_core.continuity.world_loop.reference'
+________ ERROR collecting tests/person_self/test_growth_inner_choice.py ________
+ImportError while importing test module '/tmp/nana-262-local-qualification/tests/person_self/test_growth_inner_choice.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_growth_inner_choice.py:14: in <module>
+    from nana_core.continuity.world_loop.reference import open_runtime,context_policy
+E   ModuleNotFoundError: No module named 'nana_core.continuity.world_loop.reference'
+=========================== short test summary info ============================
+ERROR tests/person_self/test_growth_context_compaction.py
+ERROR tests/person_self/test_growth_context_population.py
+ERROR tests/person_self/test_growth_attention_visibility.py
+ERROR tests/person_self/test_growth_assessment_identity.py
+ERROR tests/person_self/test_growth_inner_choice.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 5 errors during collection !!!!!!!!!!!!!!!!!!!!
+5 errors in 0.41s
+INSTALLED_ORIGINS {"modules": 130, "all_from_installed_262": true, "repo_pythonpath": false, "test_fixtures_external": true, "exit_code": 2}

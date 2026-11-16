@@ -1,0 +1,638 @@
+{
+  "scope": "SYNTHETIC_SQL_METADATA_ONLY_NOT_CORE_STORE_OR_SEMANTIC_BENCHMARK",
+  "sqlite": "3.53.1",
+  "dataset_directory": "/tmp/nana-growth-context-metadata",
+  "base": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "samples_per_query": 3,
+  "extra_provider_calls": 0,
+  "schema_migrations": 0,
+  "results": [
+    {
+      "rows": 1000,
+      "contexts": 1000,
+      "equal_clock": false,
+      "phases": [
+        {
+          "phase": "original_indexes",
+          "file_bytes": 495616,
+          "allocated_bytes": 495616,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                1.310798994381912,
+                0.7785579946357757,
+                0.7383409974863753
+              ],
+              "cpu_ms": [
+                1.3116710000000142,
+                0.7797810000000349,
+                0.7390800000000031
+              ],
+              "median_ms": 0.7785579946357757
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                81.1439800017979,
+                76.17791899247095,
+                77.713393009617
+              ],
+              "cpu_ms": [
+                81.149933,
+                76.18361000000002,
+                77.71912799999997
+              ],
+              "median_ms": 77.713393009617
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 1,
+              "wall_ms": [
+                0.25680800899863243,
+                0.24673900043126196,
+                0.1575759961269796
+              ],
+              "cpu_ms": [
+                0.2571970000000423,
+                0.24740400000000662,
+                0.15765400000000707
+              ],
+              "median_ms": 0.24673900043126196
+            }
+          }
+        },
+        {
+          "phase": "order_lookup",
+          "file_bytes": 512000,
+          "allocated_bytes": 512000,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.10029900295194238,
+                0.09422400034964085,
+                0.03640800423454493
+              ],
+              "cpu_ms": [
+                0.10031300000001853,
+                0.09473100000001455,
+                0.03658299999997894
+              ],
+              "median_ms": 0.09422400034964085
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.33928899210877717,
+                0.13742699229624122,
+                0.13285799650475383
+              ],
+              "cpu_ms": [
+                0.3397330000000087,
+                0.1374789999999404,
+                0.13297999999994925
+              ],
+              "median_ms": 0.13742699229624122
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 1,
+              "wall_ms": [
+                0.34004201006609946,
+                0.165378995006904,
+                0.1691490033408627
+              ],
+              "cpu_ms": [
+                0.34047500000000674,
+                0.16542099999994342,
+                0.16935099999992875
+              ],
+              "median_ms": 0.1691490033408627
+            }
+          }
+        },
+        {
+          "phase": "both_lookups",
+          "file_bytes": 630784,
+          "allocated_bytes": 630784,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.11491098848637193,
+                0.03593300061766058,
+                0.03267399733886123
+              ],
+              "cpu_ms": [
+                0.11472399999989946,
+                0.036079999999993895,
+                0.03279800000000055
+              ],
+              "median_ms": 0.03593300061766058
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.19169699226040393,
+                0.0768329919083044,
+                0.09163899812847376
+              ],
+              "cpu_ms": [
+                0.19186900000001117,
+                0.07696499999998441,
+                0.09181199999996892
+              ],
+              "median_ms": 0.09163899812847376
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 1,
+              "wall_ms": [
+                0.05981000140309334,
+                0.009172013960778713,
+                0.008611008524894714
+              ],
+              "cpu_ms": [
+                0.05994200000003502,
+                0.009268999999978433,
+                0.008777999999987074
+              ],
+              "median_ms": 0.009172013960778713
+            }
+          }
+        }
+      ],
+      "indexed_plan": [
+        [
+          13,
+          0,
+          212,
+          "SCAN a USING INDEX strategy_growth_order_lookup"
+        ],
+        [
+          17,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 1"
+        ],
+        [
+          24,
+          17,
+          50,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us>?)"
+        ],
+        [
+          35,
+          17,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          53,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 2"
+        ],
+        [
+          60,
+          53,
+          48,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us=? AND rowid>?)"
+        ],
+        [
+          72,
+          53,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          89,
+          0,
+          46,
+          "SEARCH ar USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          101,
+          0,
+          47,
+          "SEARCH l USING INDEX sqlite_autoindex_lessons_1 (lesson_id=?)"
+        ],
+        [
+          109,
+          0,
+          46,
+          "SEARCH lr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ]
+      ]
+    },
+    {
+      "rows": 100000,
+      "contexts": 100000,
+      "equal_clock": false,
+      "phases": [
+        {
+          "phase": "original_indexes",
+          "file_bytes": 48013312,
+          "allocated_bytes": 48013312,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                97.04351601249073,
+                101.37480999401305,
+                84.20599999953993
+              ],
+              "cpu_ms": [
+                96.93520899999997,
+                101.38276200000007,
+                84.21292400000002
+              ],
+              "median_ms": 97.04351601249073
+            },
+            "group_heads": {
+              "status": "NOT_RUN_UNINDEXED_RANGE_AT_SCALE"
+            },
+            "one_group_members": {
+              "status": "NOT_RUN_UNINDEXED_RANGE_AT_SCALE"
+            }
+          }
+        },
+        {
+          "phase": "order_lookup",
+          "file_bytes": 49164288,
+          "allocated_bytes": 49164288,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.15456699475180358,
+                0.08083699503913522,
+                0.03811300848610699
+              ],
+              "cpu_ms": [
+                0.15418799999999955,
+                0.0811360000001482,
+                0.0381439999999067
+              ],
+              "median_ms": 0.08083699503913522
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.30133499240037054,
+                0.1734469988150522,
+                0.1683390000835061
+              ],
+              "cpu_ms": [
+                0.30163600000010504,
+                0.17357100000015002,
+                0.1684149999998663
+              ],
+              "median_ms": 0.1734469988150522
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 1,
+              "wall_ms": [
+                33.78877400245983,
+                27.648857998428866,
+                30.507639996358193
+              ],
+              "cpu_ms": [
+                33.79294399999999,
+                27.652256999999956,
+                30.51238399999989
+              ],
+              "median_ms": 30.507639996358193
+            }
+          }
+        },
+        {
+          "phase": "both_lookups",
+          "file_bytes": 60887040,
+          "allocated_bytes": 60887040,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.17054199997801334,
+                0.04579900996759534,
+                0.03771099727600813
+              ],
+              "cpu_ms": [
+                0.1701999999998982,
+                0.04586900000003169,
+                0.037818999999883474
+              ],
+              "median_ms": 0.04579900996759534
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.29250899387989193,
+                0.10205800936091691,
+                1.4710160030517727
+              ],
+              "cpu_ms": [
+                0.29279900000012127,
+                0.10215399999990993,
+                1.473259000000171
+              ],
+              "median_ms": 0.29250899387989193
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 1,
+              "wall_ms": [
+                0.11041000834666193,
+                0.01016500755213201,
+                0.008171002264134586
+              ],
+              "cpu_ms": [
+                0.1105439999999902,
+                0.010304000000127544,
+                0.00824000000010372
+              ],
+              "median_ms": 0.01016500755213201
+            }
+          }
+        }
+      ],
+      "indexed_plan": [
+        [
+          13,
+          0,
+          212,
+          "SCAN a USING INDEX strategy_growth_order_lookup"
+        ],
+        [
+          17,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 1"
+        ],
+        [
+          24,
+          17,
+          50,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us>?)"
+        ],
+        [
+          35,
+          17,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          53,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 2"
+        ],
+        [
+          60,
+          53,
+          48,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us=? AND rowid>?)"
+        ],
+        [
+          72,
+          53,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          89,
+          0,
+          46,
+          "SEARCH ar USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          101,
+          0,
+          47,
+          "SEARCH l USING INDEX sqlite_autoindex_lessons_1 (lesson_id=?)"
+        ],
+        [
+          109,
+          0,
+          46,
+          "SEARCH lr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ]
+      ]
+    },
+    {
+      "rows": 100000,
+      "contexts": 31,
+      "equal_clock": true,
+      "phases": [
+        {
+          "phase": "original_indexes",
+          "file_bytes": 43626496,
+          "allocated_bytes": 43626496,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                111.94631599937566,
+                88.02768999885302,
+                89.69607400649693
+              ],
+              "cpu_ms": [
+                111.94649599999984,
+                88.03476900000007,
+                89.70268999999975
+              ],
+              "median_ms": 89.69607400649693
+            },
+            "group_heads": {
+              "status": "NOT_RUN_UNINDEXED_RANGE_AT_SCALE"
+            },
+            "one_group_members": {
+              "status": "NOT_RUN_UNINDEXED_RANGE_AT_SCALE"
+            }
+          }
+        },
+        {
+          "phase": "order_lookup",
+          "file_bytes": 44699648,
+          "allocated_bytes": 44699648,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.15211199934128672,
+                0.040202998206950724,
+                0.03737500810530037
+              ],
+              "cpu_ms": [
+                0.15189799999992815,
+                0.040301999999936555,
+                0.037461999999877094
+              ],
+              "median_ms": 0.040202998206950724
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 31,
+              "wall_ms": [
+                520.1177490089322,
+                472.5757580017671,
+                436.9203899987042
+              ],
+              "cpu_ms": [
+                520.1469909999998,
+                471.54476999999997,
+                436.93683700000065
+              ],
+              "median_ms": 472.5757580017671
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                20.520354999462143,
+                26.58368599077221,
+                34.81109799758997
+              ],
+              "cpu_ms": [
+                20.525598000000755,
+                26.587519999999643,
+                34.815215000000066
+              ],
+              "median_ms": 26.58368599077221
+            }
+          }
+        },
+        {
+          "phase": "both_lookups",
+          "file_bytes": 56315904,
+          "allocated_bytes": 56315904,
+          "queries": {
+            "original": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.17453799955546856,
+                0.03938400186598301,
+                0.03858200216200203
+              ],
+              "cpu_ms": [
+                0.17390000000006012,
+                0.03943799999994724,
+                0.03864499999917115
+              ],
+              "median_ms": 0.03938400186598301
+            },
+            "group_heads": {
+              "status": "PASS",
+              "rows": 31,
+              "wall_ms": [
+                272.9272540018428,
+                303.94328299735207,
+                337.49820600496605
+              ],
+              "cpu_ms": [
+                272.9371659999993,
+                303.9533219999999,
+                337.5425399999994
+              ],
+              "median_ms": 303.94328299735207
+            },
+            "one_group_members": {
+              "status": "PASS",
+              "rows": 32,
+              "wall_ms": [
+                0.4233979998389259,
+                0.06809900514781475,
+                0.056545992265455425
+              ],
+              "cpu_ms": [
+                0.4249509999993961,
+                0.06823400000044444,
+                0.056740999999860264
+              ],
+              "median_ms": 0.06809900514781475
+            }
+          }
+        }
+      ],
+      "indexed_plan": [
+        [
+          13,
+          0,
+          212,
+          "SCAN a USING INDEX strategy_growth_order_lookup"
+        ],
+        [
+          17,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 1"
+        ],
+        [
+          24,
+          17,
+          50,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us>?)"
+        ],
+        [
+          35,
+          17,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          53,
+          0,
+          0,
+          "CORRELATED SCALAR SUBQUERY 2"
+        ],
+        [
+          60,
+          53,
+          48,
+          "SEARCH n USING INDEX strategy_growth_context_lookup (lesson_id=? AND context_digest=? AND created_at_us=? AND rowid>?)"
+        ],
+        [
+          72,
+          53,
+          46,
+          "SEARCH nr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          89,
+          0,
+          46,
+          "SEARCH ar USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ],
+        [
+          101,
+          0,
+          47,
+          "SEARCH l USING INDEX sqlite_autoindex_lessons_1 (lesson_id=?)"
+        ],
+        [
+          109,
+          0,
+          46,
+          "SEARCH lr USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)"
+        ]
+      ]
+    }
+  ]
+}

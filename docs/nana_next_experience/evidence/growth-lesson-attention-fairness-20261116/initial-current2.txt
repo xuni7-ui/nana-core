@@ -1,0 +1,6 @@
+{"math": "dffdf2dc-baf5-4835-8d92-e39229df8486", "language": "b059069a-9d0c-477d-b02b-9198f74681fd", "views": ["b059069a-9d0c-477d-b02b-9198f74681fd", "dffdf2dc-baf5-4835-8d92-e39229df8486"], "states": [["dffdf2dc-baf5-4835-8d92-e39229df8486", "ACTIVE"], ["b059069a-9d0c-477d-b02b-9198f74681fd", "ACTIVE"]]}
+{"other_method_checks": 0, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false}
+.{"math": "7727bdb2-8277-4b0f-975b-ef9e14f3cf47", "language": "4431316b-ae57-4878-bf4b-c98dab411a0f", "views": ["7727bdb2-8277-4b0f-975b-ef9e14f3cf47", "4431316b-ae57-4878-bf4b-c98dab411a0f"], "states": [["7727bdb2-8277-4b0f-975b-ef9e14f3cf47", "ACTIVE"], ["4431316b-ae57-4878-bf4b-c98dab411a0f", "ACTIVE"]]}
+{"other_method_checks": 32, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false}
+.
+2 passed in 4.73s

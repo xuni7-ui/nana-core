@@ -1,0 +1,48 @@
+{
+  "scope": "CONTROLLED_C_MEMORY_REQUEST_ABLATION_NOT_REAL_PROVIDER_TOKENS",
+  "base": "f419c011154d3ec5d80d82256ad8540fb69307b2",
+  "outputs": [
+    {
+      "mode": "literal",
+      "self_calls": 1,
+      "own_questions": 1,
+      "report_bodies": 32,
+      "all_32_source_refs_retained": true,
+      "context_json_bytes": 61216,
+      "input_bytes": 108201,
+      "reserved_bytes": 120490,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 65536,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      },
+      "runtime_wall_ms": 336.62240199919324,
+      "runtime_cpu_ms": 334.24368699999985,
+      "new_goals_actions_grants": false,
+      "real_provider_calls": 0
+    },
+    {
+      "mode": "compacted",
+      "self_calls": 1,
+      "own_questions": 1,
+      "report_bodies": 1,
+      "all_32_source_refs_retained": true,
+      "context_json_bytes": 47046,
+      "input_bytes": 81401,
+      "reserved_bytes": 93690,
+      "budget": {
+        "cost_ceiling_micro": 0,
+        "input_tokens": 65536,
+        "output_tokens": 2048,
+        "timeout_ms": 120000
+      },
+      "runtime_wall_ms": 203.80590899731033,
+      "runtime_cpu_ms": 203.80390599999964,
+      "new_goals_actions_grants": false,
+      "real_provider_calls": 0
+    }
+  ],
+  "input_byte_reduction": 26800,
+  "ratio_reduction": 0.2476871747950573
+}

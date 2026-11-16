@@ -1,0 +1,4 @@
+ERROR: file or directory not found: tests/person_self/test_tendency_elapsed.py
+
+
+no tests ran in 0.00s

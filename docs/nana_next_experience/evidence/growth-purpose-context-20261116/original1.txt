@@ -1,0 +1,110 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_normal_self_keeps_current_and_explicit_proofs_full_while_other_proof_refs_remain_revocable _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-125/test_normal_self_keeps_current0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff5e690b860>
+
+    def test_normal_self_keeps_current_and_explicit_proofs_full_while_other_proof_refs_remain_revocable(tmp_path,monkeypatch):
+        clock=VirtualClock();received=[];index_ids=[];checked=[]
+        def propose(request):
+            received.append(request);package=json.loads(request.context_json);identity=package['manifest']
+            return StructuredProposal(interpretation='SYNTHETIC checked skill can inform own choice',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],
+                interpretation='SYNTHETIC own experiment question',preferred_behavior='REFLECT',proposed_operations=('DRAFT',),
+                private_question={'topic':'own-indexed-growth','question':'SYNTHETIC Could this checked method inform an own experiment?'}))
+        with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',));memory=MemoryService(r.store);mids=[]
+            for i in range(32):
+                clock.advance(SECOND);r.lease.heartbeat()
+                episode={'episode_key':'purpose-case-'+str(i),'lesson_id':lesson,
+                    'case':LearningCase(case_id='purpose-case-'+str(i),context='different-check-'+str(i),data=[100+i,.25],expected=100.25+i).model_dump(mode='json')}
+                mid=source(r,'purpose-case-'+str(i),{'strategy_episode':episode},kind='SYSTEM_VERIFICATION');review.assess(lesson,mid,authority=r.authority);mids.append(mid)
+            before={mid:dict(memory.read(mid)) for mid in mids};assemble=ContextAssembler.assemble
+            def inspect(assembler,request,policy,**kwargs):
+                package=assemble(assembler,request,policy,**kwargs)
+                if kwargs.get('subject_frame') is not None and not checked:
+                    refs=[b for b in package.blocks if b.kind=='MEMORY_REFERENCE_INDEX']
+                    assert refs  # Original replays every different proof body.
+                    selected=set(kwargs['subject_frame'].source_memory_ids)
+                    current=next(b for b in package.blocks if b.kind=='GROWTH_CHANGE')
+                    assert set(current.source_memory_ids)<=selected
+                    for block in refs:
+                        data=json.loads(block.data_json)
+                        assert data['report_bodies_included'] is False and data['establishes_independent_growth'] is False
+                        assert not set(block.source_memory_ids)&selected
+                        assert set(block.source_memory_ids)=={item['memory_id'] for item in data['reports']}
+                        for item in data['reports']:
+                            original=memory.read(item['memory_id'])
+                            assert item['body_digest']==digest(original['text'])
+                            assert item['source_evidence_id']==original['source_evidence_id'] and item['source_event_id']==original['event_id']
+                            for field in ('event_time_us','observed_time_us','ingested_time_us'):assert item[field]==original[field]
+                        index_ids.extend(block.source_memory_ids)
+                    protected=selected&set(mids)
+                    assert protected and protected<={mid for b in package.blocks if b.kind=='MEMORY' for mid in b.source_memory_ids}
+                    pinned=index_ids[0]
+                    options={**kwargs,'required_memory_ids':tuple(dict.fromkeys((*kwargs.get('required_memory_ids',()),pinned)))}
+                    explicit=assemble(assembler,request,policy,**options);assembler.validate(explicit,request,policy)
+                    assert pinned in {mid for b in explicit.blocks if b.kind=='MEMORY' for mid in b.source_memory_ids}
+                    assert pinned not in {mid for b in explicit.blocks if b.kind=='MEMORY_REFERENCE_INDEX' for mid in b.source_memory_ids}
+                    counter=assembler.counter
+                    class ExpensiveReferences:
+                        descriptor='SYNTHETIC_REFERENCE_COST_NOT_PROVIDER_TOKENIZER'
+                        def count(self,text):return counter.count(text)+(500000 if 'MEMORY_REFERENCE_INDEX' in text else 0)
+                    try:
+                        assembler.counter=ExpensiveReferences();literal=assemble(assembler,request,policy,**kwargs);assembler.validate(literal,request,policy)
+                        assert not any(b.kind=='MEMORY_REFERENCE_INDEX' for b in literal.blocks)
+                    finally:assembler.counter=counter
+                    checked.append(True)
+                return package
+            monkeypatch.setattr(ContextAssembler,'assemble',inspect);bind(r,transport,context_policy())
+            counts={t:len(r.store.all(t)) for t in ('actions','goals','grants')};clock.advance(3*SECOND);r.lease.heartbeat();r.refresh_attention()
+>           for _ in range(12):r.step()
+                               ^^^^^^^^
+
+tests/person_self/test_growth_purpose_context.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/presence/runtime.py:317: in step
+    row = self.queue.claim(
+src/nana_core/presence/queue.py:146: in claim
+    and (ready is None or ready(dict(row)))]
+                          ^^^^^^^^^^^^^^^^
+src/nana_core/presence/runtime.py:291: in _private_resources_ready
+    mode, reason = self.cognition.choose(row, event, self.subject)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/cognition.py:127: in choose
+    return self._choose(row,event,loop,self.store.one('subject_events',row['subject_event_id']),preview=preview)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/cognition.py:158: in _choose
+    mode,reason=self._provider_choice(row,event,loop,source,situation,appraisal,preview=preview)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/cognition.py:118: in _provider_choice
+    try:self.provider_preview(event,frame)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/person_self/test_private_method_continuation.py:57: in preview
+    return session.preview('subject-cognition.'+frame.subject_event_id,'SELF',frame.source_memory_ids,subject_frame=frame,budget=budget,
+src/nana_core/continuity/world_loop/cognition.py:442: in preview
+    try:return self._prepare(key,role,source_ids,**options,_preview=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/cognition.py:525: in _prepare
+    context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None,private_record_ids=private_refs,subject_frame=subject_frame,subject_task_class=subject_task_class)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+assembler = <nana_core.continuity.context.ContextAssembler object at 0x7ff5e676c890>
+request = ContextRequest(schema_version=1, entity_id='observer', scopes=('world',), task_class='world.self', task='Assess the or...vacy_class='PERSONAL', query_terms=(), destination='LOCAL_FIXTURE', max_input_tokens=65536, output_reserve_tokens=2048)
+policy = ContextPolicy(policy_id='world-reference', allowed_scopes=('world',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=('PUBLIC',))
+kwargs = {'capabilities': (), 'limitations': ('NO_AUTHORITY_IN_MODEL_OUTPUT',), 'required_memory_ids': ('9a6a4466-a837-45e9-bf9...78e05e17b', 'abc43c81-b2c8-46f7-b946-e6301498bf96', 'c11608f0-8b12-4320-b05d-9ed774e8887a'), 'source_only': False, ...}
+
+    def inspect(assembler,request,policy,**kwargs):
+        package=assemble(assembler,request,policy,**kwargs)
+        if kwargs.get('subject_frame') is not None and not checked:
+            refs=[b for b in package.blocks if b.kind=='MEMORY_REFERENCE_INDEX']
+>           assert refs  # Original replays every different proof body.
+            ^^^^^^^^^^^
+E           assert []
+
+tests/person_self/test_growth_purpose_context.py:43: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_purpose_context.py::test_normal_self_keeps_current_and_explicit_proofs_full_while_other_proof_refs_remain_revocable
+1 failed in 1.01s

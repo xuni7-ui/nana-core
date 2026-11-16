@@ -128,3 +128,22 @@ def test_independent_negative_effect_and_silence_do_not_become_unknown_send():
     assert receipt_from_core('y',{'delivery':'NOT_APPLIED','action_id':'b'}).outcome==Outcome.CONFIRMED_FAILURE
     assert receipt_from_core('z',{'delivery':'C_SILENCE_OR_REPLY_UNAVAILABLE'}).outcome==Outcome.CANCELLED
     assert receipt_from_core('u',{'delivery':'UNKNOWN','action_id':'c'}).outcome==Outcome.UNKNOWN
+
+
+def test_cancel_one_account_preserves_other_queue_and_dedupe():
+    from nana_core.nanalink.contracts import Outcome
+    queue = EventTransport(capacity=4, per_account=2, dedupe=4)
+    first, other = event('first'), event('other', account='44')
+    assert queue.offer(first) == 'QUEUED' and queue.offer(other) == 'QUEUED'
+    receipts = queue.cancel_account(first.account.key)
+    assert len(receipts) == 1 and receipts[0].outcome == Outcome.CANCELLED
+    assert queue.size == 1 and first.account.key not in queue.counts and queue.counts[other.account.key] == 1
+    assert queue.offer(first) == 'DUPLICATE'
+    async def run():
+        seen=[]
+        async def handle(value):
+            seen.append(value.account.key)
+            return OperationReceipt(operation_id=value.key,outcome=Outcome.UNKNOWN,reason='FIXTURE')
+        await queue.drain_once(handle)
+        assert seen == [other.account.key]
+    asyncio.run(run())

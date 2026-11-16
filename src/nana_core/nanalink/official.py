@@ -12,6 +12,7 @@ import time
 from aiohttp import ClientError
 from collections import OrderedDict
 from datetime import datetime
+from urllib.parse import urlsplit
 from .contracts import Account, Capability, Event, Segment
 from .onebot import OneBotAdapter, decode, safe_endpoint
 from .sdk import AdapterManifest
@@ -24,13 +25,22 @@ class OfficialQQAdapter(OneBotAdapter):
     manifest = AdapterManifest(adapter_id='qq.official', version='1.0.0', platforms=('qq',),
                                 license='Nana original; external AstrBot/botpy separately licensed')
 
+    @staticmethod
+    def _validate_endpoint(endpoint, realm):
+        safe_endpoint(endpoint, schemes=('https', 'http'))
+        if realm == 'SYNTHETIC_LOOPBACK':
+            parsed = urlsplit(endpoint)
+            if (parsed.scheme != 'http' or parsed.hostname not in {'127.0.0.1', '::1'}
+                    or not parsed.port or parsed.path not in {'', '/'}):
+                raise CoreError('QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED')
+        elif realm not in {'AUTHENTICATED_PLATFORM', 'ACCOUNT_API_UNATTESTED'} or endpoint != 'https://api.sgroup.qq.com':
+            raise CoreError('QQ_OFFICIAL_FIXED_API_REQUIRED')
+
     def __init__(self, account_id, *, bot_id, token, allow_send=False, endpoint='https://api.sgroup.qq.com',
                  realm='AUTHENTICATED_PLATFORM', capacity=32, timeout=5):
         if not re.fullmatch(OPAQUE_ID, bot_id):
             raise CoreError('QQ_OFFICIAL_BOT_ID_REQUIRED')
-        safe_endpoint(endpoint, schemes=('https', 'http'))
-        if endpoint != 'https://api.sgroup.qq.com' and realm != 'SYNTHETIC_LOOPBACK':
-            raise CoreError('QQ_OFFICIAL_FIXED_API_REQUIRED')
+        self._validate_endpoint(endpoint, realm)
         super().__init__(account_id, mode='http', endpoint=endpoint, token=token, allow_send=allow_send,
                          capacity=capacity, timeout=timeout)
         self.account = Account(platform='qq', account_id=str(account_id), adapter_id='qq.official')
@@ -47,8 +57,12 @@ class OfficialQQAdapter(OneBotAdapter):
     async def _api(self, method, path, payload=None):
         if self.session is None or self.closed:
             raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
+        if self._http_inflight >= 16:
+            self.metrics['http_backpressure'] += 1
+            raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
         if path != '/users/@me' and not re.fullmatch(r'/v2/(?:users|groups)/[A-Za-z0-9_-]{1,128}/messages', path):
             raise CoreError('QQ_OFFICIAL_ROUTE_DENIED')
+        self._validate_endpoint(self.endpoint, self.realm)
         self.metrics['rpc'] += 1
         self.metrics['writes'] += method == 'POST'
         headers = self._headers()
@@ -59,19 +73,36 @@ class OfficialQQAdapter(OneBotAdapter):
             if fingerprint != self.verified_token:
                 raise CoreError('QQ_OFFICIAL_CREDENTIAL_CHANGED')
             self.verified_token = None
+        self._http_inflight += 1
+        self.metrics['http_inflight'] = self._http_inflight
+        self.metrics['http_peak_inflight'] = max(self.metrics['http_peak_inflight'], self._http_inflight)
         try:
             async with self.session.request(method, self.endpoint + path, json=payload,
                                             headers=headers, allow_redirects=False) as response:
-                raw = await response.content.read(262145)
                 if response.status not in {200, 201, 202}:
                     raise CoreError('QQ_OFFICIAL_REJECTED_NO_RETRY')
-                value = decode(raw)
+                raw = bytearray()
+                async for chunk in response.content.iter_chunked(65536):
+                    raw.extend(chunk)
+                    if len(raw) > 262144:
+                        raise CoreError('ONEBOT_FRAME_BOUND')
+                value = decode(bytes(raw))
                 if path == "/users/@me" and value.get("id") == self.bot_id:
                     self.verified_token = fingerprint
                 return value
         except (OSError, TimeoutError, ClientError):
             self.metrics['unknown'] += 1
             raise CoreError('QQ_OFFICIAL_COMPLETION_UNKNOWN_NO_RETRY') from None
+        except CoreError:
+            if method == 'POST':
+                self.metrics['unknown'] += 1
+            raise
+        except asyncio.CancelledError:
+            self.metrics['unknown'] += 1
+            raise
+        finally:
+            self._http_inflight -= 1
+            self.metrics['http_inflight'] = self._http_inflight
 
     async def _account(self):
         value = await self._api('GET', '/users/@me')
@@ -200,6 +231,7 @@ class OfficialQQAdapter(OneBotAdapter):
         result = await self._api('POST', '/v2/' + ('users' if kind == 'private' else 'groups') + '/' + peer + '/messages', payload)
         mid = result.get('id')
         if type(mid) is not str or not re.fullmatch(OPAQUE_ID, mid):
+            self.metrics['unknown'] += 1
             raise CoreError('QQ_OFFICIAL_ACK_UNKNOWN_NO_RETRY')
         # Never create a fake get_msg row from this ACK. Original Verify remains
         # INCONCLUSIVE for official C2C/group scenes without a readback API.

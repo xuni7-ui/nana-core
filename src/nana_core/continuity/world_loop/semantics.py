@@ -57,14 +57,14 @@ def package_media(data,body,decoder=None):
         parts=[]
         if mod=='VIDEO':
             expression='+'.join('eq(n,'+str(f['source_frame_index'])+')' for f in d['frames'])
-            raw=decoder._run(cmd+['-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(len(d['frames'])),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],input_root=Path(root))
+            raw=decoder._run(cmd+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(len(d['frames'])),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],input_root=Path(root))
             size=96*64*3
             if len(raw)!=len(d['frames'])*size:raise CoreError('MEDIA_FRAME_INVALID')
             for i,f in enumerate(d['frames']):
                 out=io.BytesIO();Image.frombytes('RGB',(96,64),raw[i*size:(i+1)*size]).save(out,format='PNG')
                 parts.append(_part(out.getvalue(),'IMAGE',*f['source_interval_s']))
         if mod=='AUDIO':
-            raw=decoder._run(cmd+['-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(root))
+            raw=decoder._run(cmd+['-map','0:a:0','-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(root))
             out=io.BytesIO()
             with wave.open(out,'wb') as w:w.setparams((1,2,16000,0,'NONE','not compressed'));w.writeframes(raw)
             parts.append(_part(out.getvalue(),'AUDIO',0,d['duration_s']))
@@ -222,11 +222,15 @@ class MediaSemanticService:
             rec=self.records.read(header[0])
             if rec['scope'] not in self.session.policy.allowed_scopes or rec['privacy_class'] not in self.session.policy.readable_privacy:raise CoreError('MEDIA_PRIVACY_DENIED')
             parents.append(header[0]);results.append(rec['payload'])
-        if inputs[0].modality!='VIDEO' or inputs[1].modality!='AUDIO' or inputs[0].source_byte_digest!=inputs[1].source_byte_digest or abs(inputs[0].duration_s-inputs[1].duration_s)>.001:raise CoreError('MEDIA_AUDIO_ASSOCIATION_MISMATCH')
+        if inputs[0].modality!='VIDEO' or inputs[1].modality!='AUDIO' or inputs[0].source_byte_digest!=inputs[1].source_byte_digest:raise CoreError('MEDIA_AUDIO_ASSOCIATION_MISMATCH')
+        # Same encoded source establishes container membership, not equal track
+        # coverage or synchronized local clocks. Preserve both measured spans;
+        # AAC padding and intentionally shorter tracks must not become false
+        # source mismatches or implied whole-video audio observations.
         key='semantic-audio:'+digest(parents)
         old=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(key,)).fetchone()
         if old:return self.records.read(old[0])['payload']
-        result={'video_request_id':video_request_id,'audio_request_id':audio_request_id,'source_byte_digest':inputs[0].source_byte_digest,'audio_semantic_memory_ids':results[1]['semantic_memory_ids'],'transcript_status':results[1]['asr_status'],'linkage_not_identity_or_command':True}
+        result={'video_request_id':video_request_id,'audio_request_id':audio_request_id,'source_byte_digest':inputs[0].source_byte_digest,'audio_semantic_memory_ids':results[1]['semantic_memory_ids'],'transcript_status':results[1]['asr_status'],'video_duration_s':inputs[0].duration_s,'audio_duration_s':inputs[1].duration_s,'temporal_alignment':'NOT_ESTABLISHED','linkage_not_identity_or_command':True}
         scope=self.records.read(parents[0])['scope']
         with self.store.transaction('world.semantic_audio_associated',{'video_request_id':video_request_id}) as tx:self.records.create(tx,kind='MEDIA_OBSERVATION',scope=scope,payload=result,records=tuple(parents),target_id=key)
         return result

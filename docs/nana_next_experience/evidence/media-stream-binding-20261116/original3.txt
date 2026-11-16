@@ -1,0 +1,73 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata[VIDEO] _
+
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+modality = 'VIDEO'
+
+    @pytest.mark.parametrize('modality',['VIDEO','AUDIO'])
+    def test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata(multitrack,modality):
+        decoded=MediaDecoder().decode(multitrack,modality)
+        if modality=='VIDEO':
+            assert (decoded['width'],decoded['height'],decoded['source_frame_count'])==(32,24,4)
+            assert [f['sample_s'] for f in decoded['frames']]==[0,.25,.5,.75]
+>           assert all(f['mean_rgb'][0]>200 and f['mean_rgb'][2]<20 for f in decoded['frames'])
+E           assert False
+E            +  where False = all(<generator object test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata.<locals>.<genexpr> at 0x7f10e3f92670>)
+
+tests/world_loop/test_media_stream_binding.py:38: AssertionError
+_ test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata[AUDIO] _
+
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+modality = 'AUDIO'
+
+    @pytest.mark.parametrize('modality',['VIDEO','AUDIO'])
+    def test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata(multitrack,modality):
+        decoded=MediaDecoder().decode(multitrack,modality)
+        if modality=='VIDEO':
+            assert (decoded['width'],decoded['height'],decoded['source_frame_count'])==(32,24,4)
+            assert [f['sample_s'] for f in decoded['frames']]==[0,.25,.5,.75]
+            assert all(f['mean_rgb'][0]>200 and f['mean_rgb'][2]<20 for f in decoded['frames'])
+            assert decoded['semantic_interpretation']=='UNKNOWN'
+        else:
+            assert (decoded['source_sample_rate'],decoded['source_channels'])==(16000,1)
+            assert decoded['samples']==16000
+>           assert all(item['rms']==0 and item['activity']=='LOW_ENERGY' for item in decoded['segments'])
+E           assert False
+E            +  where False = all(<generator object test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata.<locals>.<genexpr> at 0x7f10e2f54c70>)
+
+tests/world_loop/test_media_stream_binding.py:43: AssertionError
+_ test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim _
+
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-130/test_source_technical_percepti0')
+
+    def test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim(multitrack,tmp_path):
+        clock=VirtualClock()
+        with fresh(tmp_path/'subject/self.db',clock) as r:
+            source=PublicMediaSource(source_id='synthetic-multitrack',modality='VIDEO',origin='SYNTHETIC',event_time_us=clock.utc_now_us(),observed_time_us=clock.utc_now_us())
+            mid,observation=PerceptionService(r.store,providers(),policy()).ingest(multitrack,source,entity_id='observer',scope='world')
+            m=cue(r,'technical-pixels',ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='own-pixel-question',possible_behaviors=('REFLECT','WATCH')),parents=(mid,))
+            class ConsiderPixels:
+                descriptor='SYNTHETIC_TECHNICAL_STATS_NOT_SEMANTIC_VIDEO_MODEL'
+                def propose(self,request):
+                    values=[json.loads(json.loads(b['data_json'])['text']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='MEMORY']
+                    decoded=next(v['decoded'] for v in values if 'decoded' in v and v['decoded']['modality']=='VIDEO')
+                    red=decoded['frames'][0]['mean_rgb'][0]>decoded['frames'][0]['mean_rgb'][2]
+                    choice=json.loads(AnalyticalFixturePort().propose(request));choice.update(preferred_behavior='REFLECT',proposed_operations=['DRAFT'],
+                        private_question={'topic':'own-pixel-question','question':'SYNTHETIC Why are the sampled first-track pixels '+('red' if red else 'blue')+'?'})
+                    return json.dumps(choice)
+            event=SubjectInput(source_key='synthetic.multitrack-consideration',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=clock.utc_now_us(),source_memory_ids=(m,))
+            result=r.subject.cognize(event,model=ConsiderPixels(),authority=r.authority,policy=policy())
+            own=[(rid,v) for rid,v in candidates(r.store,'world',('PUBLIC',)) if v.category=='PRIVATE_QUESTION']
+>           assert len(own)==1 and 'pixels red?' in own[0][1].content_summary
+E           AssertionError: assert (1 == 1 and 'pixels red?' in 'SYNTHETIC Why are the sampled first-track pixels blue?')
+E            +  where 1 = len([('a719ca00-d14c-4f2e-a2e6-4d88809e88b4', PrivateQuestion(contract='PRIVATE_QUESTION_V3', intent_id='aff853f4-d9fc-472...35-4e8db1776338', epistemic_status='OWN_QUESTION_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE'))])
+E            +  and   'SYNTHETIC Why are the sampled first-track pixels blue?' = PrivateQuestion(contract='PRIVATE_QUESTION_V3', intent_id='aff853f4-d9fc-4728-be38-20153f4470cd', owner_identity_id='b...ae35-4e8db1776338', epistemic_status='OWN_QUESTION_NOT_WORLD_FACT', execution_state='NOT_INFERRED_FROM_ACTIVITY_STATE').content_summary
+
+tests/world_loop/test_media_stream_binding.py:65: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata[VIDEO]
+FAILED tests/world_loop/test_media_stream_binding.py::test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata[AUDIO]
+FAILED tests/world_loop/test_media_stream_binding.py::test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim
+3 failed in 1.58s

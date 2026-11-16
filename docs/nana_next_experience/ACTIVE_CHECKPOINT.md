@@ -1,8 +1,8 @@
-## 当前接续：原G旧成功回执的来源绑定，revision260
+## 当前接续：原H1输入与技术观测同轨，revision270
 
-原G EpisodeLearning缓存命中补原记录scope/privacy/current及episode全内容绑定。旧3fail1pass→新5通过2.25s/42相关33.84s：变更/跨scope/撤回/不可读私评价不能冒用旧成功，私payload读取前拒绝；同源和SUSPENDED反例重放0写，新稳定编号独立精度反例仍原评价器→COUNTEREXAMPLE/SUSPENDED。无新模型阶段/表/迁移。
+原package_media auto选轨造成模型wire与技术摘要错配，原3fail→首视频/音轨显式map，73相关31.67s后补实际进程3过3.57s。原同源音视频关联现保留独立时长且时间对齐NOT_ESTABLISHED，正常AAC/短音轨可用，异源/撤回仍拒绝/无动作。269独立native成功/Core46pass38.92s，客户端待；旧CI原log空导出纠正为同一实际log非空文件。真实0。
 
-继续原C情感多动机/策略与G未见迁移；259可见但不合格/同课题重复挤占先基线，不盲目提高32。B真实视觉/原S5接线、物理隐私/真实Token及全部A–H继承。c1d历史匹配候选不含256/257/259/260，CURRENT266+409不动，无新APK/真实模型/手机/生产/自然度/实际长期。 证据evidence/growth-assessment-replay-binding-20261116/README.md。
+接续S3多动机/反馈/G迁移、私QQ父源/私Bili保留前C、B22时轴覆盖适配及A–H，270自身CI待，CURRENT266+409，9a2不含264以后。证据evidence/media-semantic-track-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

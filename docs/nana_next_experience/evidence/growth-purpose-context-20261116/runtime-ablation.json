@@ -1,0 +1,103 @@
+{
+  "base": "13746bdb052acab50ad920f652c739ac797fd2d5",
+  "scope": "CONTROLLED_TWO_ORIGINAL_G_METHODS_AND_C_OLD_OR_NEW_CONTEXT_ONLY",
+  "outputs": [
+    {
+      "mode": "original",
+      "source_newer_checks": 32,
+      "g_learning_jobs": 2,
+      "self_calls": 2,
+      "different_method_considered": true,
+      "own_questions": 1,
+      "input_bytes": [
+        109398,
+        110896
+      ],
+      "request_details": [
+        {
+          "method": "NUMERIC_SUM",
+          "input_bytes": 109398,
+          "context_json_bytes": 62378,
+          "reference_indices": 0,
+          "indexed_occurrences": 0,
+          "all_index_sources_support_original_request": true
+        },
+        {
+          "method": "UNICODE_WORDS",
+          "input_bytes": 110896,
+          "context_json_bytes": 63251,
+          "reference_indices": 0,
+          "indexed_occurrences": 0,
+          "all_index_sources_support_original_request": true
+        }
+      ],
+      "budgets": [
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        }
+      ],
+      "runtime_wall_ms": 1016.3755089888582,
+      "runtime_cpu_ms": 1006.0656089999998,
+      "new_actions_goals_grants": false,
+      "real_provider_calls": 0
+    },
+    {
+      "mode": "purpose_references",
+      "source_newer_checks": 32,
+      "g_learning_jobs": 2,
+      "self_calls": 2,
+      "different_method_considered": true,
+      "own_questions": 1,
+      "input_bytes": [
+        96650,
+        98111
+      ],
+      "request_details": [
+        {
+          "method": "UNICODE_WORDS",
+          "input_bytes": 96650,
+          "context_json_bytes": 57054,
+          "reference_indices": 1,
+          "indexed_occurrences": 33,
+          "all_index_sources_support_original_request": true
+        },
+        {
+          "method": "NUMERIC_SUM",
+          "input_bytes": 98111,
+          "context_json_bytes": 57959,
+          "reference_indices": 1,
+          "indexed_occurrences": 32,
+          "all_index_sources_support_original_request": true
+        }
+      ],
+      "budgets": [
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        },
+        {
+          "cost_ceiling_micro": 0,
+          "input_tokens": 65536,
+          "output_tokens": 2048,
+          "timeout_ms": 120000
+        }
+      ],
+      "runtime_wall_ms": 913.8887199951569,
+      "runtime_cpu_ms": 909.2327399999998,
+      "new_actions_goals_grants": false,
+      "real_provider_calls": 0
+    }
+  ],
+  "bytes_are_provider_tokens": false
+}

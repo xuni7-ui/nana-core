@@ -1,0 +1,8 @@
+{"math": "7bf39834-c46f-4de4-b553-600c784ab1f4", "language": "f95d04eb-0a1f-40be-8e32-b45ea46d5fb3", "views": ["f95d04eb-0a1f-40be-8e32-b45ea46d5fb3", "7bf39834-c46f-4de4-b553-600c784ab1f4"], "states": [["7bf39834-c46f-4de4-b553-600c784ab1f4", "ACTIVE"], ["f95d04eb-0a1f-40be-8e32-b45ea46d5fb3", "ACTIVE"]]}
+{"other_method_checks": 0, "source_withdrawn_before_c": false, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [68863, 69640]}
+.{"math": "c6ee63e8-72fc-4b94-a1a2-72759fc258df", "language": "d15c04b8-f424-44cb-b763-d262c7c3ca4a", "views": ["c6ee63e8-72fc-4b94-a1a2-72759fc258df", "d15c04b8-f424-44cb-b763-d262c7c3ca4a"], "states": [["c6ee63e8-72fc-4b94-a1a2-72759fc258df", "ACTIVE"], ["d15c04b8-f424-44cb-b763-d262c7c3ca4a", "ACTIVE"]]}
+{"other_method_checks": 32, "source_withdrawn_before_c": false, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [109398, 110896]}
+.{"math": "50580390-b437-4c9f-ba16-9a203f0510ff", "language": "01e0d13b-b59c-444c-9928-85f207a4928e", "views": ["50580390-b437-4c9f-ba16-9a203f0510ff"], "states": [["50580390-b437-4c9f-ba16-9a203f0510ff", "ACTIVE"], ["01e0d13b-b59c-444c-9928-85f207a4928e", "ACTIVE"]]}
+{"other_method_checks": 32, "source_withdrawn_before_c": true, "original_learning_jobs": 2, "language_considered": false, "own_questions": 0, "self_calls": 1, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [109937]}
+.
+3 passed in 6.59s

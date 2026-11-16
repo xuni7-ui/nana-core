@@ -1,0 +1,1 @@
+A锚3608bd0 / Brain269。原H1+媒体35pass1fail24.69s已保留：associate_audio把同容器音视频强制等长，268按PCM真时长后AAC尾样本不等长被拒绝。另原package_media仍auto选默认流，可能与268第一流技术摘要digest不同，先实际主链复现。仅原S5/H1消费者，复用原bwrap/Memory/Provider，无第二视觉系统或更高权限。

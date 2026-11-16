@@ -1,0 +1,11 @@
+# 原CI native依赖与实际受影响测试一致
+
+A，固定原36477ac / Brain268。仅原工作流选择条件和原测试smoke调整，无Core源码/沙箱权限/断言改变。
+
+实际独立CI265 run43872586764/job133317647272：12failed84passed30.88s；268 run43888360003/job133372840647：7failed38passed5.77s。两者原Native codecs step均SKIPPED，实际MEDIA_SANDBOX_UNAVAILABLE，原日志保留，不是artifact403也非本地通过就能否认。267 run43880168881/job133343979002真实179passed2warnings115.19s，不能冒称268通过。
+
+原native_world识别缺少bilibili_frames/对应测试、world_loop/perception/World测试/H2；这些路径却会选择依赖实际bwrap/ffmpeg的H1/S5测试。现在同一classifier覆盖它们；manual/workflow变更也准备原host，因为workflow自身smoke增加已有H1 grounding和媒体多流测试。原AppArmor已有attachment拒绝覆盖、bwrap实际执行和限制不改；context/docs/client单独变化不安装native。classifier.json保留13条原/新结果及7个内嵌Python段语法检查，不新增测试框架。一次共享classifier修改可触发原客户端资格，未为省流程改第二套判断。
+
+本地实际运行全部原H1与新增媒体测试：35passed1failed24.69s，未称全绿。唯一失败原associate_audio要求音视频duration差<=.001；268按实际PCM计时后，正常AAC尾样本使同一容器两轨不完全等长，原test_separate_video_audio_association_and_gapped_coverage被拒绝。原失败完整保存，下一批按同源/实际覆盖修语义，不放宽断言或恢复错记容器音频时长。
+
+本批修复等待推送后独立CI实读，不能把本地依赖存在当远端修复成功。无新发行/模型/账号/手机/生产，CURRENT266+409。9a2候选不含264及以后。继续上述实际兼容问题以及S3多动机/反馈/G迁移、私QQ父源、私Bili保留前C、B22适配和原A–H。

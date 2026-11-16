@@ -1,0 +1,106 @@
+FF.                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_growth_lookups_preserve_legacy_owner_open_and_reopen[7] _________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-97/test_growth_lookups_preserve_l0')
+schema_target = 7
+
+    @pytest.mark.parametrize('schema_target',[7,12,13])
+    def test_growth_lookups_preserve_legacy_owner_open_and_reopen(tmp_path,schema_target):
+        from nana_core.continuity import ContinuityStore
+        path=tmp_path/'legacy'/'subject.db'
+        for _ in range(2):
+>           with ContinuityStore(path,VirtualClock(),schema_target=schema_target) as store:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_growth_context_population.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7fbcc4ef6fc0>
+path = PosixPath('/dev/shm/pytest-of-agent/pytest-97/test_growth_lookups_preserve_l0/legacy/subject.db')
+clock = <nana_core.presence.authority.VirtualClock object at 0x7fbcc4e1f710>
+schema_target = 7, identity_bootstrap = None
+
+    def __init__(self, path, clock=None, *, schema_target=7, identity_bootstrap=None):
+        if type(schema_target) is not int or not 7 <= schema_target <= LATEST:
+            raise CoreError("CONTINUITY_SCHEMA_UNSUPPORTED")
+        Store.check_host()
+        path = self._private_path(path)
+        new_database = not Path(path).exists()
+        # An identity-only v1 upgrade has no private payloads or old privacy state.
+        if not new_database:
+            db = sqlite3.connect(f"file:{Path(path).resolve()}?mode=ro", uri=True)
+            try:
+                new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
+            finally:
+                db.close()
+        super().__init__(path, clock, schema_target=schema_target, identity_bootstrap=identity_bootstrap)
+        try:
+            self.db.execute("PRAGMA secure_delete=ON")
+            # Physical lookup aid, not new Subject state or a schema transition.
+            # Opening the original Store already holds the exclusive writer lock.
+            # Source-bound idempotency and deferred foreign-key checks must not
+            # scan the entire history on each write.
+            try:self.db.execute("SELECT json_valid('{}')").fetchone();has_json=True
+            except sqlite3.OperationalError:has_json=False
+            for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
+                if (name.startswith('private_intent_') or name=='communication_method_live_lookup') and schema_target<13:continue
+                if name in {'private_intent_topic_lookup_v1','private_intent_tendency_topic_v4'} and not has_json:continue
+>               self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
+E               sqlite3.OperationalError: no such table: main.strategy_assessments
+
+src/nana_core/continuity/store.py:108: OperationalError
+________ test_growth_lookups_preserve_legacy_owner_open_and_reopen[12] _________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-97/test_growth_lookups_preserve_l1')
+schema_target = 12
+
+    @pytest.mark.parametrize('schema_target',[7,12,13])
+    def test_growth_lookups_preserve_legacy_owner_open_and_reopen(tmp_path,schema_target):
+        from nana_core.continuity import ContinuityStore
+        path=tmp_path/'legacy'/'subject.db'
+        for _ in range(2):
+>           with ContinuityStore(path,VirtualClock(),schema_target=schema_target) as store:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_growth_context_population.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7fbcc4c664e0>
+path = PosixPath('/dev/shm/pytest-of-agent/pytest-97/test_growth_lookups_preserve_l1/legacy/subject.db')
+clock = <nana_core.presence.authority.VirtualClock object at 0x7fbcc4c66120>
+schema_target = 12, identity_bootstrap = None
+
+    def __init__(self, path, clock=None, *, schema_target=7, identity_bootstrap=None):
+        if type(schema_target) is not int or not 7 <= schema_target <= LATEST:
+            raise CoreError("CONTINUITY_SCHEMA_UNSUPPORTED")
+        Store.check_host()
+        path = self._private_path(path)
+        new_database = not Path(path).exists()
+        # An identity-only v1 upgrade has no private payloads or old privacy state.
+        if not new_database:
+            db = sqlite3.connect(f"file:{Path(path).resolve()}?mode=ro", uri=True)
+            try:
+                new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
+            finally:
+                db.close()
+        super().__init__(path, clock, schema_target=schema_target, identity_bootstrap=identity_bootstrap)
+        try:
+            self.db.execute("PRAGMA secure_delete=ON")
+            # Physical lookup aid, not new Subject state or a schema transition.
+            # Opening the original Store already holds the exclusive writer lock.
+            # Source-bound idempotency and deferred foreign-key checks must not
+            # scan the entire history on each write.
+            try:self.db.execute("SELECT json_valid('{}')").fetchone();has_json=True
+            except sqlite3.OperationalError:has_json=False
+            for name,sql in REBUILDABLE_LOOKUP_INDEXES.items():
+                if (name.startswith('private_intent_') or name=='communication_method_live_lookup') and schema_target<13:continue
+                if name in {'private_intent_topic_lookup_v1','private_intent_tendency_topic_v4'} and not has_json:continue
+>               self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
+E               sqlite3.OperationalError: no such table: main.strategy_assessments
+
+src/nana_core/continuity/store.py:108: OperationalError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_context_population.py::test_growth_lookups_preserve_legacy_owner_open_and_reopen[7]
+FAILED tests/person_self/test_growth_context_population.py::test_growth_lookups_preserve_legacy_owner_open_and_reopen[12]
+2 failed, 1 passed, 2 deselected in 0.15s

@@ -81,6 +81,25 @@ class EventTransport:
         self.metrics['unknown'] += receipt.outcome == Outcome.UNKNOWN
         return receipt
 
+    def cancel_account(self, account_key):
+        """Cancel this account's queued inputs without touching other accounts."""
+        cancelled = []
+        for key, queue in list(self.queues.items()):
+            kept = deque()
+            for ticket, event in queue:
+                if event.account.key == account_key:
+                    cancelled.append(OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                                       reason='ADAPTER_DISABLED_BEFORE_CORE_FORWARD'))
+                else:
+                    kept.append((ticket, event))
+            if kept:
+                self.queues[key] = kept
+            else:
+                del self.queues[key]
+        self.size -= len(cancelled)
+        self.counts.pop(account_key, None)
+        return cancelled
+
     def close(self):
         """Stop admission; caller can drain or explicitly cancel unsent inputs."""
         self.closed = True

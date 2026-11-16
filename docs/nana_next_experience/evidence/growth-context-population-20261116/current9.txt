@@ -1,0 +1,6 @@
+{"repeated_practice_checks": 0, "original_self_calls": 1, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+......{"invisible_assessments": 0, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 5637, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.{"invisible_assessments": 32, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 4430, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.
+9 passed in 4.14s

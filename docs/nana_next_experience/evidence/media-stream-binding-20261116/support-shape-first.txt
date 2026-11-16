@@ -1,0 +1,37 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim _
+
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-131/test_source_technical_percepti0')
+
+    def test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim(multitrack,tmp_path):
+        clock=VirtualClock()
+        with fresh(tmp_path/'subject/self.db',clock) as r:
+            source=PublicMediaSource(source_id='synthetic-multitrack',modality='VIDEO',origin='SYNTHETIC',event_time_us=clock.utc_now_us(),observed_time_us=clock.utc_now_us())
+            mid,observation=PerceptionService(r.store,providers(),policy()).ingest(multitrack,source,entity_id='observer',scope='world')
+            m=cue(r,'technical-pixels',ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='own-pixel-question',possible_behaviors=('REFLECT','WATCH')),parents=(mid,))
+            class ConsiderPixels:
+                descriptor='SYNTHETIC_TECHNICAL_STATS_NOT_SEMANTIC_VIDEO_MODEL'
+                def propose(self,request):
+                    values=[json.loads(json.loads(b['data_json'])['text']) for b in json.loads(request.context_json)['blocks'] if b['kind']=='MEMORY']
+                    decoded=next(v['decoded'] for v in values if 'decoded' in v and v['decoded']['modality']=='VIDEO')
+                    red=decoded['frames'][0]['mean_rgb'][0]>decoded['frames'][0]['mean_rgb'][2]
+                    choice=json.loads(AnalyticalFixturePort().propose(request));choice.update(preferred_behavior='REFLECT',proposed_operations=['DRAFT'],
+                        private_question={'topic':'own-pixel-question','question':'SYNTHETIC Why are the sampled first-track pixels '+('red' if red else 'blue')+'?'})
+                    return json.dumps(choice)
+            event=SubjectInput(source_key='synthetic.multitrack-consideration',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=clock.utc_now_us(),source_memory_ids=(m,))
+            result=r.subject.cognize(event,model=ConsiderPixels(),authority=r.authority,policy=policy())
+            own=[(rid,v) for rid,v in candidates(r.store,'world',('PUBLIC',)) if v.category=='PRIVATE_QUESTION']
+            assert len(own)==1 and 'pixels red?' in own[0][1].content_summary
+>           assert mid in RecordService(r.store).support(own[0][0])
+E           AssertionError: assert 'a32e9287-02af-4830-91cb-9636fabf7970' in ('5c9eae57-9c40-41b7-bcad-d71d4c49dd4e',)
+E            +  where ('5c9eae57-9c40-41b7-bcad-d71d4c49dd4e',) = support('2711c7b9-b0bd-4b44-b82a-18a4f65bc848')
+E            +    where support = <nana_core.continuity.records.RecordService object at 0x7fd936c2b3b0>.support
+E            +      where <nana_core.continuity.records.RecordService object at 0x7fd936c2b3b0> = RecordService(<nana_core.continuity.store.ContinuityStore object at 0x7fd936ceb8c0>)
+E            +        where <nana_core.continuity.store.ContinuityStore object at 0x7fd936ceb8c0> = <nana_core.presence.runtime.NanaRuntime object at 0x7fd936c97aa0>.store
+
+tests/world_loop/test_media_stream_binding.py:66: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim
+1 failed, 2 passed in 1.50s

@@ -67,3 +67,27 @@ def test_actual_management_http_auth_revision_no_platform_send():
                 assert not result['installed']
                 assert not state['sent']
         asyncio.run_coroutine_threadsafe(run(),loop).result(5)
+
+
+def test_http_disable_cancels_queued_input_before_reenable():
+    from nana_core.nanalink.onebot import normalize
+    from tests.nanalink.test_onebot_network import message
+    with network(mode='http') as (net,state,resolver,loop):
+        async def run():
+            sidecar=net['sidecar']; adapter=net['adapter']
+            assert adapter.offer(message(11)) == 'QUEUED'
+            assert sidecar.transport.offer(normalize(adapter.account,message(12))) == 'QUEUED'
+            url=net['endpoint']+'/nanalink/manage'
+            headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
+            async with ClientSession() as client:
+                view=await (await client.get(url,headers=headers)).json()
+                body={'operation':'DISABLE','version':None,'revision':view['revision']}
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED' and not result['enabled']
+                assert result['cancelled_queued_events']==2
+                assert adapter.events.empty() and sidecar.transport.size==0
+                body.update(operation='ENABLE',revision=result['revision'])
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED' and adapter.events.empty() and sidecar.transport.size==0
+                assert not state['sent']
+        asyncio.run_coroutine_threadsafe(run(),loop).result(5)

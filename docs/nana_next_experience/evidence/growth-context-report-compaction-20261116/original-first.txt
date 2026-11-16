@@ -1,0 +1,37 @@
+F
+=================================== FAILURES ===================================
+_ test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-102/test_normal_growth_self_keeps_0')
+
+    def test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice(tmp_path):
+        clock=VirtualClock();received=[];mids=[]
+        def propose(request):
+            data=json.loads(request.context_json);received.append(request)
+            return StructuredProposal(interpretation='SYNTHETIC actual checked growth remains available',
+                subject_cognition=CognitiveProposal(identity_id=data['manifest']['identity_id'],
+                    identity_revision=data['manifest']['identity_revision'],interpretation='SYNTHETIC I choose a private question',
+                    preferred_behavior='REFLECT',proposed_operations=('DRAFT',),
+                    private_question={'topic':'own-compact-growth','question':'SYNTHETIC Could this verified method help an own creative experiment?'}))
+        with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            memory=MemoryService(r.store);review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            for i in range(32):
+                mid=source(r,'repeat-report-'+str(i),{'strategy_episode':{'episode_key':'repeat-report-'+str(i),
+                    'lesson_id':lesson,'case':numeric_learning().practice[0].model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+                review.assess(lesson,mid,authority=r.authority);mids.append(mid)
+            before={mid:dict(memory.read(mid)) for mid in mids}
+            counts={t:len(r.store.all(t)) for t in ('actions','goals','grants')}
+            session=bind(r,transport,context_policy());clock.advance(3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            for _ in range(12):r.step()
+            assert state['calls']==1 and len(received)==1
+            package=json.loads(received[0].context_json)
+            blocks=[b for b in package['blocks'] if b['kind']=='MEMORY' and set(b['source_memory_ids'])&set(mids)]
+>           assert len(blocks)==1  # The original produces 32 separate bodies.
+            ^^^^^^^^^^^^^^^^^^^^^
+E           assert 32 == 1
+E            +  where 32 = len([{'block_id': 'memory:01e18d7a-af5c-4053-86ae-f6164204c1cd', 'kind': 'MEMORY', 'data_json': '{"assessment":"CURRENT","...660b6326-4d29-41e9-ab18-e30e48c59528\\"}}"}', 'source_memory_ids': ['2cd0150a-e4d3-4345-b575-1896b6b275e8'], ...}, ...])
+
+tests/person_self/test_growth_context_compaction.py:40: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_context_compaction.py::test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice
+1 failed in 0.99s

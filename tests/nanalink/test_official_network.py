@@ -43,6 +43,8 @@ def network():
         if state['lose_ack']:
             request.transport.close()
             return web.Response()
+        if state.get('empty_ack'):
+            return web.json_response({})
         return web.json_response({'id':'ack:native-'+str(len(state['sent']))})
     async def start():
         app=web.Application();app.router.add_get('/users/@me',get_me)
@@ -195,3 +197,124 @@ def test_expired_host_session_reports_reauthorization_without_network():
         assert health.connection=='DEGRADED' and health.login=='REQUIRED'
         assert not next(c.available for c in net['adapter'].capabilities() if c.name=='message.text.send.via_core')
         assert state['logins']==before and not state['sent']
+
+
+def test_official_chunked_http_ack_is_single_send_and_not_readback():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    async def run():
+        calls = []
+        async def respond(request):
+            calls.append(request.method)
+            body = {'id': 'bot_42'} if request.method == 'GET' else {'id': 'native-ack'}
+            if request.method == 'POST':
+                await request.json()
+            raw = json.dumps(body).encode()
+            response = web.StreamResponse(); await response.prepare(request)
+            await response.write(raw[:5]); await asyncio.sleep(.03)
+            await response.write(raw[5:]); await response.write_eof()
+            return response
+        app = web.Application()
+        app.router.add_get('/users/@me', respond)
+        app.router.add_post('/v2/{kind}/{peer}/messages', respond)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OfficialQQAdapter('42', bot_id='bot_42', token=TOKEN, allow_send=True,
+            endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), realm='SYNTHETIC_LOOPBACK')
+        try:
+            await adapter.connect()
+            result = await adapter.rpc('send_private_msg', {'user_id': 'peer', 'message': [{'type':'text','data':{'text':'fixture'}}]})
+            assert result == {'message_id': 'native-ack', 'platform_ack': True}
+            assert calls == ['GET', 'POST']
+            assert 'native-ack' not in adapter.cache
+            assert not next(c.available for c in adapter.capabilities() if c.name == 'delivery.independent_readback')
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_official_disable_drops_captured_private_message_and_reply_anchor():
+    with network() as (net,state,resolver,loop):
+        async def run():
+            adapter=net['adapter']
+            assert adapter.offer(event()) == 'QUEUED'
+            assert adapter.cache and adapter.reply_ids
+            headers={'Authorization':'Bearer '+CORE}
+            async with ClientSession() as client:
+                url=net['endpoint']+'/nanalink/manage'
+                view=await (await client.get(url,headers=headers)).json()
+                body={'operation':'DISABLE','version':None,'revision':view['revision']}
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED'
+                assert not adapter.cache and not adapter.reply_ids and adapter.verified_token is None
+                body.update(operation='ENABLE',revision=result['revision'])
+                result=await (await client.post(url,headers=headers,json=body)).json()
+                assert result['state']=='APPLIED'
+                with pytest.raises(CoreError,match='QQ_OFFICIAL_MESSAGE_NOT_IN_VOLATILE_CAPTURE'):
+                    await adapter.rpc('get_msg',{'message_id':'native:message-1'})
+                assert state['sent'] == []
+        asyncio.run_coroutine_threadsafe(run(),loop).result(4)
+
+
+def test_official_unusable_ack_counts_unknown_without_retry():
+    with network() as (net,state,resolver,loop):
+        state['empty_ack']=True
+        t=transport(net,resolver)
+        with pytest.raises(CoreError,match='NO_RETRY'):
+            t.send('private','opaque_sender','synthetic','key')
+        assert len(state['sent']) == 1
+        assert net['adapter'].metrics['unknown'] == 1
+
+
+def test_official_synthetic_realm_never_targets_real_endpoint():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    with pytest.raises(CoreError,match='QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED'):
+        OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK')
+    adapter=OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK',endpoint='http://127.0.0.1:12345')
+    async def run():
+        adapter.session=object()
+        adapter.endpoint='https://api.sgroup.qq.com'
+        with pytest.raises(CoreError,match='QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED'):
+            await adapter._account()
+        adapter.session=None
+    asyncio.run(run())
+
+
+def test_official_http_limits_inflight_calls_and_releases_capacity():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    async def run():
+        release=asyncio.Event(); started=asyncio.Event(); state={'hold':False,'count':0}
+        async def account(request):
+            if state['hold']:
+                state['count'] += 1
+                if state['count'] == 16: started.set()
+                await release.wait()
+            return web.json_response({'id':'bot_42'})
+        app=web.Application();app.router.add_get('/users/@me',account)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK',
+            endpoint='http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1]))
+        tasks=[]
+        try:
+            await adapter.connect();state['hold']=True
+            tasks=[asyncio.create_task(adapter.rpc('get_login_info',{})) for _ in range(16)]
+            await asyncio.wait_for(started.wait(),3)
+            with pytest.raises(CoreError,match='QQ_OFFICIAL_SESSION_UNAVAILABLE'):
+                await asyncio.wait_for(adapter.rpc('get_login_info',{}),.3)
+            assert state['count'] == 16
+            assert adapter.metrics['http_inflight'] == 16 and adapter.metrics['http_backpressure'] == 1
+            tasks[0].cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await tasks[0]
+            tasks.append(asyncio.create_task(adapter.rpc('get_login_info',{})))
+            for _ in range(100):
+                if state['count'] == 17: break
+                await asyncio.sleep(.01)
+            assert state['count'] == 17
+            release.set();assert len(await asyncio.gather(*tasks[1:])) == 16
+            assert await adapter.rpc('get_login_info',{}) == {'user_id':'42'}
+            assert adapter.metrics['http_inflight'] == 0 and adapter.metrics['http_peak_inflight'] == 16
+        finally:
+            release.set();await asyncio.gather(*tasks,return_exceptions=True)
+            await adapter.shutdown();await runner.cleanup()
+    asyncio.run(run())

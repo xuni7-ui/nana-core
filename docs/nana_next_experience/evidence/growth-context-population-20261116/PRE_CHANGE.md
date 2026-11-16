@@ -1,0 +1,5 @@
+# 原G重复情境不挤占独立成长
+
+锚35740e7f2f518b9b2607bbd952759aa80683cf4c / Brain260，当前同dev干净。继续259已明确的可见重复评价群缺口，不重开G。
+先复用原grown真实G/不同后续Kernel，追加同一练习情境的重复成功评价（均原EpisodeLearning，且project应因训练重叠拒绝）；检验32头限额是否挡住原未见后续复用。不冒充32个独立成长。
+计划复用EpisodeLearning.view已有lesson/context_digest去重语义，在限额前合并同一可读情境，仍由原project独立资格与C取舍。仅在查询计划/定向成本需要时增加原Store可重建元数据索引，不建第二事实库/模型/调大32。回退growth_life/store局部本锚，无schema号变更或生产操作。

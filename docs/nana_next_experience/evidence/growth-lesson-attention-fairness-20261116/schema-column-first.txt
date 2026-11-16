@@ -1,0 +1,89 @@
+{"math": "2d0e30a9-9220-4fae-a1ce-47aa16836bce", "language": "6767141e-eac8-4bfb-9792-8586d5a6bc3f", "views": ["6767141e-eac8-4bfb-9792-8586d5a6bc3f", "2d0e30a9-9220-4fae-a1ce-47aa16836bce"], "states": [["2d0e30a9-9220-4fae-a1ce-47aa16836bce", "ACTIVE"], ["6767141e-eac8-4bfb-9792-8586d5a6bc3f", "ACTIVE"]]}
+{"other_method_checks": 0, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false}
+.F
+=================================== FAILURES ===================================
+________ test_normal_c_can_still_consider_a_different_checked_skill[32] ________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-120/test_normal_c_can_still_consid1')
+newer_checks = 32
+
+    @pytest.mark.parametrize('newer_checks',[0,32])
+    def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_checks):
+        clock=VirtualClock();seen=[];language_id=None
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            growth=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='GROWTH_CHANGE')
+            seen.append(growth['lesson_id']);use=growth['lesson_id']==language_id
+            return StructuredProposal(interpretation='SYNTHETIC original C may use a different skill',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],
+                interpretation='SYNTHETIC own language curiosity' if use else 'SYNTHETIC leave numeric outcome alone',
+                preferred_behavior='REFLECT' if use else 'WATCH',proposed_operations=('DRAFT',) if use else ('WAIT',),
+                private_question={'topic':'own-language-play','question':'SYNTHETIC Could this checked text method support my own wordplay?'} if use else None))
+        with grown(tmp_path/'life',clock) as (r,first,origin,reuse,math_id),provider_harness(proposer=propose) as (transport,state):
+            r.work.configure_open_learning((numeric_learning(),language_learning()))
+            request=cue(r,'language-gap',ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',
+                topic_key='own-language-gap',program_id='learn.language',possible_behaviors=('LEARN',)))
+            post(r,'language-study',(request,),task_class='language');advance(r,clock,30)
+            jobs=[row for row in r.store.all('jobs') if row['work_kind']=='LEARNING' and row['state']=='DONE']
+            assert len(jobs)==2
+            language_id=next(RecordService(r.store).read(row['record_id'])['payload']['lesson_id'] for row in jobs
+                if RecordService(r.store).read(row['record_id'])['payload']['lesson_id']!=math_id)
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            def check(key,lesson,case):
+                mid=source(r,key,{'strategy_episode':{'episode_key':key,'lesson_id':lesson,'case':case.model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+                aid=review.assess(lesson,mid,authority=r.authority)
+                assert growth_life.project(r.store,aid,scope='world',privacy_classes=('PUBLIC',))
+                return aid
+            check('language-unseen',language_id,LearningCase(case_id='language-unseen',context='own-wordplay',data='Ｓky\tblue',expected=['Sky','blue']))
+            for i in range(newer_checks):
+                clock.advance(SECOND);r.lease.heartbeat()
+                check('numeric-unseen-'+str(i),math_id,LearningCase(case_id='numeric-unseen-'+str(i),context='mathematical-check-'+str(i),data=[100+i,.25],expected=100.25+i))
+            before=r.store.db.total_changes
+>           views=growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_growth_lesson_attention.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+store = <nana_core.continuity.store.ContinuityStore object at 0x7f8e16f96c00>
+scope = 'world', privacy_classes = ('PUBLIC',)
+
+    def opportunities(store,*,scope,privacy_classes):
+        if store.schema_target<13 or not privacy_classes:return ()
+        allowed=tuple(dict.fromkeys(privacy_classes));marks=','.join('?' for _ in allowed)
+        # Budget independent contexts rather than repeated headers of one context.
+        # Keep the original per-context history bound and qualification: choosing a
+        # group head is not evidence that this particular occurrence is usable.
+        base=("SELECT a.assessment_id,a.lesson_id,a.context_digest,a.created_at_us,a.rowid AS ordering_row "
+            "FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
+            "JOIN continuity_records ar ON ar.record_id=a.record_id JOIN continuity_records lr ON lr.record_id=l.record_id "
+            f"WHERE a.verdict='SUCCESS' AND l.state='ACTIVE' AND ar.scope=? AND lr.scope=? "
+            f"AND ar.privacy_class IN ({marks}) AND lr.privacy_class IN ({marks}) "
+            "AND ar.lifecycle='ACTIVE' AND lr.lifecycle='ACTIVE' ")
+        args=(scope,scope,*allowed,*allowed)
+        newer=("SELECT 1 FROM strategy_assessments n JOIN continuity_records nr ON nr.record_id=n.record_id "
+            "WHERE n.lesson_id=a.lesson_id AND n.context_digest=a.context_digest AND n.verdict='SUCCESS' "
+            f"AND nr.scope=? AND nr.privacy_class IN ({marks}) AND nr.lifecycle='ACTIVE' AND ")
+        # Separate ranges use the same context index, including equal-clock rows.
+        heads=store.db.execute(base+
+            "AND NOT EXISTS ("+newer+"n.created_at_us>a.created_at_us) "+
+            "AND NOT EXISTS ("+newer+"n.created_at_us=a.created_at_us AND n.rowid>a.rowid) "+
+            "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
+            (*args,scope,*allowed,scope,*allowed)).fetchall()
+        # Keep the complete original window, then offer a bounded distinct-lesson
+        # lane only when its contexts filled that window unevenly. More checks of
+        # one method must not erase another method's opportunity to original C.
+        represented=tuple(dict.fromkeys(row['lesson_id'] for row in heads))
+        if len(heads)==32 and len(represented)<32:
+            excluded=','.join('?' for _ in represented)
+>           other_lessons=store.db.execute(
+                "SELECT l.lesson_id FROM lessons l JOIN continuity_records lr ON lr.record_id=l.record_id "
+                f"WHERE l.state='ACTIVE' AND lr.scope=? AND lr.privacy_class IN ({marks}) "
+                f"AND lr.lifecycle='ACTIVE' AND l.lesson_id NOT IN ({excluded}) "
+                "ORDER BY l.created_at_us DESC,l.rowid DESC LIMIT 32",(scope,*allowed,*represented)).fetchall()
+E           sqlite3.OperationalError: no such column: l.created_at_us
+
+src/nana_core/continuity/subject/growth_life.py:117: OperationalError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_lesson_attention.py::test_normal_c_can_still_consider_a_different_checked_skill[32]
+1 failed, 1 passed in 2.41s

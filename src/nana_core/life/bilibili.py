@@ -80,13 +80,19 @@ class BilibiliPublicTransport:
         if loopback_endpoint is not None and origin != "SYNTHETIC_FIXTURE":
             raise CoreError("BILIBILI_LOOPBACK_ORIGIN_REQUIRED")
         self.opener = (BilibiliLoopbackOpener(loopback_endpoint) if loopback_endpoint is not None
-                       else urllib.request.build_opener(NoRedirect()))
+                       else None if origin == "SYNTHETIC_FIXTURE" else urllib.request.build_opener(NoRedirect()))
 
     def _raw(self, url, *, image=False):
         if not self.authorized:
             raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
         if self.calls >= self.request_limit:
             raise CoreError("BILIBILI_READ_BUDGET")
+        if self.origin == "SYNTHETIC_FIXTURE":
+            # A caller may bind a literal local counterpart after construction;
+            # fixture provenance can never silently use the public opener.
+            if type(self.opener) is not BilibiliLoopbackOpener:
+                raise CoreError("BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED")
+            BilibiliLoopbackOpener(self.opener.endpoint)
         try:
             parsed = urllib.parse.urlsplit(url)
             invalid = parsed.scheme != "https" or parsed.username or parsed.password or parsed.fragment or parsed.port
