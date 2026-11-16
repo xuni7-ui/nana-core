@@ -289,3 +289,8 @@ subject/growth_life.py原SQL局部、test_growth_attention_visibility.py、原CI
 ## 2026-11-16 B上游音频判型反例
 
 持续授权：video-upstream-audio-counterexample-20261116/{README.md,comparison.json,source-sha256.json}、其中原创对照脚本、09/11追加和本清单；不复制上游源码/合成音频/真实字幕或凭据。
+
+
+## 2026-11-16 B视觉扫描完整性
+
+持续授权：video-scan-completeness-20261116/{README.md,source-sha256.json}和其中实验/测试，09/11追加、本清单；无真实视频、凭据或第三方源码。

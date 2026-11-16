@@ -46,3 +46,43 @@ def test_missing_beginning_never_claims_full_video_coverage(tmp_path,monkeypatch
                   'frame:0 pts:4 pts_time:4\nlavfi.scd.score=0\nframe:1 pts:11 pts_time:11\nlavfi.scd.score=25\n'])
     monkeypatch.setattr(module,'_run',lambda *args,**kwargs:next(replies))
     assert module.probe(path)['scan_complete'] is False
+
+
+def test_near_end_timestamp_does_not_prove_all_frames_scanned(tmp_path,monkeypatch):
+    from tools.nana_next_experience.experiments import video_ffmpeg_probe as module
+    path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
+    replies=iter(['{"format":{"duration":"12"},"streams":[{"nb_frames":"48",'
+                  '"avg_frame_rate":"4/1","start_time":"0"}]}',
+                  'frame:0 pts:0 pts_time:0\nlavfi.scd.score=0\n'
+                  'frame:1 pts:47 pts_time:11.75\nlavfi.scd.score=0\n'])
+    monkeypatch.setattr(module,'_run',lambda *args,**kwargs:next(replies))
+    result=probe(path)
+    assert result['expected_frames']==48 and result['frames_measured']==2
+    assert result['scan_complete'] is False
+
+
+def test_duplicate_timestamps_cannot_qualify_full_scan(tmp_path,monkeypatch):
+    from tools.nana_next_experience.experiments import video_ffmpeg_probe as module
+    path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
+    replies=iter(['{"format":{"duration":"12"},"streams":[{"nb_frames":"3",'
+                  '"avg_frame_rate":"4/1","start_time":"0"}]}',
+                  'frame:0 pts:0 pts_time:0\nlavfi.scd.score=0\n'
+                  'frame:1 pts:0 pts_time:0\nlavfi.scd.score=0\n'
+                  'frame:2 pts:47 pts_time:11.75\nlavfi.scd.score=0\n'])
+    monkeypatch.setattr(module,'_run',lambda *args,**kwargs:next(replies))
+    result=probe(path)
+    assert result['expected_frames']==result['frames_measured']==3
+    assert result['scan_complete'] is False
+
+
+def test_missing_frame_score_cannot_qualify_full_scan(tmp_path,monkeypatch):
+    from tools.nana_next_experience.experiments import video_ffmpeg_probe as module
+    path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
+    replies=iter(['{"format":{"duration":"12"},"streams":[{"nb_frames":"2",'
+                  '"avg_frame_rate":"4/1","start_time":"0"}]}',
+                  'frame:0 pts:0 pts_time:0\nlavfi.scd.score=0\n'
+                  'frame:1 pts:47 pts_time:11.75\n'])
+    monkeypatch.setattr(module,'_run',lambda *args,**kwargs:next(replies))
+    result=probe(path)
+    assert result['expected_frames']==result['frames_measured']==2 and result['frames_scored']==1
+    assert result['scan_complete'] is False

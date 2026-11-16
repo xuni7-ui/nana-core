@@ -4147,3 +4147,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 ### 2026-11-16 · B上游音频分类反例
 
 [源码/实测] video-watch-plus固定8ca266f原audio_probe对FFmpeg合成纯正弦判器乐high、FLITE合成语音判纯音非语音medium；每类1例，非真实语音准确率。禁止把此单一判型当语音真相或阻断依据，保留独立来源/UNKNOWN；无ASR/模型/网络调用。证据video-upstream-audio-counterexample-20261116，源码锚b05364d89f873318f274285d02ac123f6a5d0b831918d2ee3216dbe9142e7ea2。
+
+
+### 2026-11-16 · B视觉扫描完整性收紧
+
+[源码/实测] 先前仅首末时间可把漏中间帧误标完整；候选同时核声明/测量/分数计数、PTS递增与边界，元数据缺失保守False。43相关通过含首尾存在但缺中间帧、重复PTS、缺分数及原来源撤回。声明相符非源文件完好/语义资格，VFR等可保守误报；无真实Token/设备/生产，证据video-scan-completeness-20261116，源码锚29dbf7a2f1970f52dafbff64f6295559afbf20c6596d00ee7f575011c237ef1d。

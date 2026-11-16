@@ -33,23 +33,27 @@ def probe(path):
     if not path.is_file() or path.stat().st_size > 256 * 1024 * 1024:
         raise ValueError('invalid local file')
     metadata = json.loads(_run(['ffprobe','-v','error','-protocol_whitelist','file,pipe',
-        '-show_entries','format=duration','-of','json',str(path)]))
+        '-select_streams','v:0','-show_entries','format=duration:stream=nb_frames,avg_frame_rate,start_time',
+        '-of','json',str(path)]))
     duration = float(metadata['format']['duration'])
     if not math.isfinite(duration) or not 0 < duration <= MAX_SECONDS:
         raise ValueError('duration outside experiment bounds')
     output = _run(['ffmpeg','-hide_banner','-loglevel','error','-protocol_whitelist','file,pipe',
         '-i',str(path),'-map','0:v:0','-vf','scdet=t=0,metadata=mode=print:file=-',
         '-an','-frames:v',str(MAX_FRAMES),'-f','null','-'])
-    buckets = {}; timestamp = None; first_timestamp = None; last_timestamp = None; frames = 0
+    buckets = {}; timestamp = None; first_timestamp = None; last_timestamp = None; frames = 0; scores = 0; ordered = True
     for line in output.splitlines():
         match = re.search(r'^frame:\s*\d+\s+pts:.*?pts_time:([\d.]+)',line)
         if match:
-            timestamp=float(match.group(1));last_timestamp=timestamp;frames+=1
+            timestamp=float(match.group(1))
+            if last_timestamp is not None and timestamp<=last_timestamp: ordered=False
+            last_timestamp=timestamp;frames+=1
             if first_timestamp is None: first_timestamp=timestamp
         elif line.startswith('lavfi.scd.score=') and timestamp is not None:
             score=float(line.partition('=')[2])
             if not math.isfinite(score) or score < 0 or timestamp < 0 or timestamp > duration:
                 raise ValueError('invalid media measurement')
+            scores+=1
             bucket=int(timestamp*4)
             previous=buckets.get(bucket)
             if previous is None or score > previous.cut:
@@ -57,9 +61,22 @@ def probe(path):
             timestamp=None
     if not buckets or last_timestamp is None:
         raise ValueError('no measured frames')
-    # Reaching frame cap or ending early cannot qualify the remaining interval.
-    complete = frames < MAX_FRAMES and first_timestamp <= 1.0 and duration-last_timestamp <= 1.0
-    return {'duration':duration,'frames_measured':frames,'scan_complete':complete,
+    # The end timestamp alone cannot reveal a skipped frame. Missing stream
+    # metadata means completeness is unqualified, never silently 'complete'.
+    try:
+        stream=metadata['streams'][0]
+        expected=int(stream['nb_frames'])
+        numerator,denominator=(int(x) for x in stream['avg_frame_rate'].split('/'))
+        fps=numerator/denominator
+        media_start=float(stream['start_time'])
+        complete=(ordered and 0<expected<=MAX_FRAMES and frames==scores==expected and math.isfinite(fps)
+                  and fps>0 and math.isfinite(media_start) and abs(media_start)<=0.001
+                  and 0<=first_timestamp<=1/fps+0.001
+                  and 0<=duration-last_timestamp<=max(0.05,1.5/fps))
+    except (KeyError,IndexError,TypeError,ValueError,ZeroDivisionError,OverflowError):
+        expected=None;complete=False
+    return {'duration':duration,'frames_measured':frames,'frames_scored':scores,'expected_frames':expected,
+            'scan_complete':complete,
             'scanned_until':last_timestamp,'candidates':tuple(buckets[k] for k in sorted(buckets))}
 
 
