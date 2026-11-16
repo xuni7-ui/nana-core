@@ -1,3 +1,5 @@
+> 当前主任务增补实测（2026-11-16，revision256）：长期自主活动上下文压缩/连续性五项已核对，原chat先保留再裁剪缺口修复，受控51相关/25HTTP；恢复、跨平台、行为消融和有界预算按原资格分列，实际长期/真实模型Token仍待。见[原事实证据](../docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md)。不另建任务或改冻结标准；下文历史CURRENT以09最新为准。
+
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
 ## CURRENT — NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT

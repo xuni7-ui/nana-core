@@ -21,8 +21,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 255,
-  "as_of_us": 1794801859053074,
+  "revision": 256,
+  "as_of_us": 1794802215056046,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -33,7 +33,7 @@
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
-    "原笔记维护/检索资格保留；现原平台namespace在通用限额前SQL筛选，65其他源不再挤掉授权B站观察。精确486旧2失败→新2通过1.81s/72相关24.02s；49虚拟h同身份/短摘录清空后私念LISTEN、消融CHAT、源撤回知识失效，原64/4与两HTTP不变。",
+    "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。",
     "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
   ],
   "open_gates": [
@@ -43,17 +43,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "匹配c1d候选已真实下载/双槽离线安装/停机回退，不是发布CURRENT。新PR19时间覆盖原型/20视频来源及账号候选待A核对；继续上下文压缩连续性、情感持续策略/G广迁移、物理隐私/Token/原A–H。"
+    "上下文压缩断点仅受控异常/重启，有界摘录与原隐私保持；真实长期/模型Token待。c1d匹配候选不含256修复，CURRENT266+409不动。新PR19覆盖原型/20视频来源账号待A集成，继续情感持续策略/G广迁移/物理隐私及A–H。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
     "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md",
     "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md",
     "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/frame-semantic-source-locator-20261116/README.md",
-    "docs/nana_next_experience/evidence/memory-review-condition-cohort-20261116/README.md",
-    "docs/nana_next_experience/evidence/memory-review-current-choice-20261116/README.md"
+    "docs/nana_next_experience/evidence/memory-review-condition-cohort-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

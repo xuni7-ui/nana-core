@@ -1,0 +1,50 @@
+F{"retained": false, "same_subject_after_restart": true, "duplicate_calls": 0, "recovery_calls": 2, "real_provider_calls": 0, "request_json_bytes": [11869, 10279, 10591, 9011], "budgets": [{"cost_ceiling_micro": 0, "input_tokens": 8192, "output_tokens": 2048, "timeout_ms": 120000}, {"cost_ceiling_micro": 0, "input_tokens": 8192, "output_tokens": 2048, "timeout_ms": 120000}, {"cost_ceiling_micro": 0, "input_tokens": 8192, "output_tokens": 2048, "timeout_ms": 120000}, {"cost_ceiling_micro": 0, "input_tokens": 8192, "output_tokens": 2048, "timeout_ms": 120000}]}
+.
+=================================== FAILURES ===================================
+_ test_opted_in_exchange_commits_before_volatile_compaction_and_recovers_without_replay[True] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-77/test_opted_in_exchange_commits0')
+retain = True
+
+    @pytest.mark.parametrize('retain', [True, False])
+    def test_opted_in_exchange_commits_before_volatile_compaction_and_recovers_without_replay(tmp_path, retain):
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        user='SYNTHETIC_IMPORTANT_INPUT '+('detail ' * 180)
+        utterance='SYNTHETIC_GENERATED_NOT_DELIVERED '+('candidate ' * 180)
+        with relay(home,'CHAT',renderer=lambda request:utterance) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                app._recent=CutAtCompaction()
+                with pytest.raises(CompactionInterrupted):
+                    app.chat(user,topic='durability',privacy='PROJECT',message_id='cut',retain_shared_life=retain)
+                assert len(requests)==2  # Existing INTERPRET and SOCIAL, no retry.
+                record_ids=[r['record_id'] for r in app.runtime.store.db.execute(
+                    "SELECT record_id FROM continuity_records WHERE record_kind='RELATIONSHIP_EVENT' AND target_id='durability'")]
+                assert len(record_ids)==int(retain)
+                if retain:
+                    record=RecordService(app.runtime.store).read(record_ids[0])
+                    payload=record['payload']
+                    assert payload['person_kind']=='CONVERSATION_EXCHANGE'
+                    assert payload['user_statement']==user
+                    assert payload['assistant_utterance']==utterance
+                    assert payload['epistemic_status']=='REPORTED_SPEECH_NOT_WORLD_TRUTH'
+                    mid=payload['user_memory_id']
+                else:
+                    assert not app.runtime.store.db.execute(
+                        "SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),?)>0 OR instr(CAST(payload AS TEXT),?)>0",
+                        (user,utterance)).fetchone()
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity and app._recent==[]
+                assert app.chat(user,topic='durability',privacy='PROJECT',message_id='cut',retain_shared_life=retain)[
+                    'state']=='ALREADY_REVIEWED_NO_REPLAY'
+                assert len(requests)==2
+                result=app.chat('SYNTHETIC continue',topic='durability',privacy='PROJECT',message_id='next')
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+                context=requests[-1]['context_json']
+>               assert (user in context)==retain and (utterance in context)==retain
+E               assert (('SYNTHETIC_IMPORTANT_INPUT detail detail detail detail detail detail detail detail detail detail detail detail detail ...etail detail detail detail detail detail detail detail detail detail detail detail detail detail detail detail detail ' in '{"manifest":{"schema_version":1,"identity_id":"7d269169-7a06-443b-b118-073114019fb0","identity_revision":1,"state_tok...e_ids":[],"source_event_ids":[]}],"content_digest":"f5ddb22b2e6e8b0aae08426171b0341e87e2e7ea30fe8c732ae70d59c9e922d6"}') == True)
+
+tests/person_self/test_compaction_durability.py:58: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_compaction_durability.py::test_opted_in_exchange_commits_before_volatile_compaction_and_recovers_without_replay[True]
+1 failed, 1 passed in 1.82s

@@ -393,6 +393,12 @@ class LifeApplication:
         # all source dependencies so forgetting cannot resurrect old wording.
         supports=RecordService(r.store).support(render_rid) if render_rid else ()
         exchange_id=None
+        # Commit an opted-in exchange before shortening or replacing volatile
+        # history. Generated wording is retained speech, never proof of delivery
+        # or of the truth of its contents; default dialogue remains transient.
+        if retain_shared_life and len(supports)<=64:
+            from ..continuity.person_self import retain_exchange
+            exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
             # Keep full unanswered details through this render, then restore the
             # existing bounded history excerpts after committing its candidate.
@@ -402,12 +408,6 @@ class LifeApplication:
             self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
             self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
             self._recent=self._recent[-6:]
-        # Explicit retention records what was actually said, including a local
-        # boundary acknowledgement or a provider-unavailable explanation. It
-        # does not certify model availability or the truth of the wording.
-        if retain_shared_life and len(supports)<=64:
-            from ..continuity.person_self import retain_exchange
-            exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
         self._reviewed_chat(key)
         route=None
         if render_rid and render_state=='UNVERIFIED_MODEL_WORDING' and self.session.route_snapshot:

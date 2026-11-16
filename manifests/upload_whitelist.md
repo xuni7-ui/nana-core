@@ -225,3 +225,7 @@ package-lock.json三版本标签、tools/nana_first_life_android_v2/web_inputs.p
 ## 2026-11-16 A匹配c1d受控交付回执
 
 09/11/ACTIVE/STATUS、本白名单及evidence/matched-integration-c1d345e-20261116/固定公开源码构建、合成安装/下载/停机回退回执/复现脚本/指纹。候选二进制仅既有delivery分支a274601，主开发分支不复制；无Store/Key/真实用户或账号/新权限。
+
+## 2026-11-16 A原上下文压缩连续性
+
+life/application.py现有保留顺序局部、test_compaction_durability.py、原CI组/路径、08/09/11/ACTIVE/STATUS、本白名单及evidence/context-compaction-continuity-20261116/公开合成原失败/定向回归/指纹。无私史/Store/Key/账号/新依赖/新系统/发行二进制/生产。
