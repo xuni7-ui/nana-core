@@ -4278,3 +4278,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 [源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。
 
 - 2026-11-17 CST｜revision271：A正常双亲采用B PR24固定8e3198e，原PlatformPanel按Core真实reason中文区分授权/未接线/解码器，未知中性、available/权限不改；合并后2unit/TS-Vite/桌面390两浏览器5.2s过。270独立Core123pass42.04s/native成功，269client100unit168browser实读成功。非手机/真实平台/新发行。 指纹锚93e0a47b08682cb38a92eb70b07f844ca656751930a402110d0c1de38b8f90db。
+
+- 2026-11-17 CST｜revision272：原Growth owner按本断言使用既有索引，保留rowid/全部来源/反证/独立根/撤回与只读fallback；48偏好96信号同Store5种旧新输出全相等，中位19.913→10.595ms/近似VM65700→22300、SQL仍865；真实只读24项相等/读写0/模型0。原60相关18.20s通过，非新人格/学习技能/真实Token收益；原policy/namespace夹具错分别保留。 指纹锚93d2182f9a2e370c519a6b65b1a56a6c829225a4a10cae21ce8dee72821009c0。

@@ -301,3 +301,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-17 A采用B PR24
 
 B固定8e3198e原四客户端源码/测试、B追加09/11/QUEUE/白名单保持；A09/11/ACTIVE/STATUS/QUEUE/白名单及evidence/product-capability-pr24-20261117公开定向日志/CI/指纹。无Core源码/DB/私史/凭据/新依赖/真实模型/生产/打包。
+
+## 2026-11-17 A原Growth索引读取
+
+subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evidence/growth-signal-read-20261117原合成同库profile/原失败/60回归/指纹、本白名单。无新数据表/索引/缓存/测试框架/依赖/DB原件/私史/Key/模型/生产/打包。

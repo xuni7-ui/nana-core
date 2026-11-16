@@ -1,8 +1,8 @@
-## 现役revision271 — 原平台能力与产品中文一致
+## 现役revision272 — 原证据与选择相同，减少重复扫描
 
-A正常双亲采用B PR24固定8e3198e，原PlatformPanel按Core真实reason中文区分授权/未接线/解码器，未知中性、available/权限不改；合并后2unit/TS-Vite/桌面390两浏览器5.2s过。270独立Core123pass42.04s/native成功，269client100unit168browser实读成功。非手机/真实平台/新发行。
+原Growth owner按本断言使用既有索引，保留rowid/全部来源/反证/独立根/撤回与只读fallback；48偏好96信号同Store5种旧新输出全相等，中位19.913→10.595ms/近似VM65700→22300、SQL仍865；真实只读24项相等/读写0/模型0。原60相关18.20s通过，非新人格/学习技能/真实Token收益；原policy/namespace夹具错分别保留。
 
-下一原Growth长期经历全信号重复扫描已有实际基线，先保持同输出优化原读取；继续S3/G、私QQ/私Bili、draft22/23与A–H。CURRENT266+409，9a2不含264以后，真实模型/手机/生产/自然度/实际长期仍待。证据evidence/product-capability-pr24-20261117/README.md。
+下一实读本批CI并按固定提交核对draft22/23，继续S3/G/私QQ/私Bili/B22及A–H；CURRENT266+409，9a2不含264以后，真实资格差额不变。证据evidence/growth-signal-read-20261117/README.md。
 
 ## 现役revision196
 

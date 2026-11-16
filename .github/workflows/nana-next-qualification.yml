@@ -24,6 +24,7 @@ on:
       - requirements-nanalink.lock
       - requirements-core-dev.lock
       - src/nana_core/continuity/context.py
+      - src/nana_core/continuity/subject/growth.py
       - src/nana_core/continuity/subject/growth_life.py
       - src/nana_core/continuity/world_loop/learning.py
       - tests/person_self/test_growth_attention_visibility.py
@@ -345,6 +346,7 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('subject/growth.py',), ['tests/continuous_self/test_subject_loop.py','tests/continuous_self/test_subject_life.py','tests/portable_subject/test_relational_reuse.py','tests/person_self/test_social_tendency_competition.py','tests/person_self/test_fresh_social_choice.py','tests/first_life_hardening/test_inspector.py']),
             (('experiments/video_coverage.py','test_video_coverage_prototype.py'), ['tests/nana_next_experience/test_video_coverage_prototype.py']),
             (('subject/policy.py','subject/loop.py','continuity/maintenance.py','presence/living.py','test_memory_review_choice.py','test_memory_review_condition.py','test_deliberated_replan_choice.py'), ['tests/person_self/test_deliberated_replan_choice.py','tests/person_self/test_memory_review_choice.py','tests/person_self/test_memory_review_condition.py','tests/person_self/test_dream_recall.py','tests/living_autonomy/test_maintenance.py']),
             (('life/bilibili_frames.py','world_loop/semantics.py','test_bilibili_frames.py','test_bilibili_frame_unknown.py'), ['tests/living_release_v4/test_bilibili_frame_unknown.py','tests/living_release_v4/test_bilibili_frames.py','tests/living_release_v4/test_bilibili_life.py','tests/h1_semantics','tests/h1_live_semantics','tests/independent_life/test_unknown_background_contract.py','tests/cloud_life/test_provider_budget.py','tests/world_loop/test_wire_reservation.py','tests/provider_routing/test_timeout_inheritance.py']),
