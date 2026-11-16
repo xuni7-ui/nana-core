@@ -1,8 +1,8 @@
-## 现役revision260 — 变化后的评价不冒用旧成功
+## 现役revision261 — 重复练习不占满成长注意
 
-原G EpisodeLearning缓存命中补原记录scope/privacy/current及episode全内容绑定。旧3fail1pass→新5通过2.25s/42相关33.84s：变更/跨scope/撤回/不可读私评价不能冒用旧成功，私payload读取前拒绝；同源和SUSPENDED反例重放0写，新稳定编号独立精度反例仍原评价器→COUNTEREXAMPLE/SUSPENDED。无新模型阶段/表/迁移。
+原G注意32窗口按情境分配，组内原资格/实际最新合格排序保持，局部训练重叠不重复读。旧1fail1pass→9通过4.14s/57相关22.58s；原Runtime消融0SELF/0私问→1/1、无新Goal动作Grant，真实0。同库读238→21、15.456→1.703ms；两个可重建索引100k分配约+12.9MB，稠密31群头304ms成本原样保留，非生产/P95。旧7/12索引初稿错误修guard后7/12/13打开重开通过。
 
-继续原C情感多动机/策略与G未见迁移；259可见但不合格/同课题重复挤占先基线，不盲目提高32。B真实视觉/原S5接线、物理隐私/真实Token及全部A–H继承。c1d历史匹配候选不含256/257/259/260，CURRENT266+409不动，无新APK/真实模型/手机/生产/自然度/实际长期。 证据evidence/growth-assessment-replay-binding-20261116/README.md。
+下一同一growth SELF重复数学报告上下文压缩，保留记录/次数/来源/原C，原实际input108329bytes非Token；继续情感多动机/G迁移/视觉S5/存储/真实Token及A–H。多不同无效群/组内32旧有效等边界仍待，CURRENT266+409、真实模型/手机/生产/自然度/实际长期不动。 证据evidence/growth-context-population-20261116/README.md。
 
 ## 现役revision196
 

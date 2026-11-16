@@ -253,3 +253,7 @@ subject/growth_life.py原SQL局部、test_growth_attention_visibility.py、原CI
 ## 2026-11-16 A原G重放结果绑定
 
 world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原CI精确路径/组、09/11/ACTIVE/STATUS及evidence/growth-assessment-replay-binding-20261116/公开合成原失败/定向回归/指纹、本白名单。无Store/Key/真实用户/账号/新依赖/执行权限/二进制/生产。
+
+## 2026-11-16 A原G情境注意
+
+subject/growth_life.py、continuity/store.py两个可重建索引及旧schema guard、新test_growth_context_population.py、原CI精确组/路径、09/11/ACTIVE/STATUS及evidence/growth-context-population-20261116/公开合成失败/回归/旧函数消融/SQLite元数据与同库读成本脚本/日志/指纹、本白名单。原库与元数据实验DB不入库，无Key/用户史/账号/新依赖/执行权限/发行/生产。

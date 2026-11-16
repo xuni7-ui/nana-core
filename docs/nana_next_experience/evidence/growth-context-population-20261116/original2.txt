@@ -1,0 +1,42 @@
+{"repeated_practice_checks": 0, "original_self_calls": 1, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.F
+=================================== FAILURES ===================================
+_ test_repeated_training_context_does_not_erase_an_independently_verified_later_use[32] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-95/test_repeated_training_context1')
+repeated = 32
+
+    @pytest.mark.parametrize('repeated',[0,32])
+    def test_repeated_training_context_does_not_erase_an_independently_verified_later_use(tmp_path,repeated):
+        clock=VirtualClock();seen=[]
+        def propose(request):
+            package=json.loads(request.context_json)
+            changes=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='GROWTH_CHANGE']
+            seen.append(changes)
+            return StructuredProposal(interpretation='SYNTHETIC independently checked later use',
+                subject_cognition=CognitiveProposal(identity_id=package['manifest']['identity_id'],
+                    identity_revision=package['manifest']['identity_revision'],interpretation='SYNTHETIC I may explore an own idea',
+                    preferred_behavior='REFLECT',proposed_operations=('DRAFT',),
+                    private_question={'topic':'own-unseen-growth','question':'SYNTHETIC Could this later verified use inspire an own experiment?'}))
+        with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            for i in range(repeated):
+                # Same original practice data/context; verified arithmetic, never
+                # claimed to be a new real action or an out-of-sample transfer.
+                episode={'episode_key':'practice-check-'+str(i),'lesson_id':lesson,
+                         'case':numeric_learning().practice[0].model_dump(mode='json')}
+                mid=source(r,'practice-check-'+str(i),{'strategy_episode':episode},kind='SYSTEM_VERIFICATION')
+                aid=review.assess(lesson,mid,authority=r.authority)
+                assert r.store.one('strategy_assessments',aid)['verdict']=='SUCCESS'
+                assert growth_life.project(r.store,aid,scope='world',privacy_classes=('PUBLIC',)) is None
+            choices=growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
+>           assert [v.assessment_id for v in choices]==[view.assessment_id]
+E           AssertionError: assert [] == ['18ce24af-46...d7e6e1f39fb2']
+E             
+E             Right contains one more item: '18ce24af-46ca-4ce6-8927-d7e6e1f39fb2'
+E             Use -v to get more diff
+
+tests/person_self/test_growth_context_population.py:43: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_context_population.py::test_repeated_training_context_does_not_erase_an_independently_verified_later_use[32]
+1 failed, 1 passed in 1.31s

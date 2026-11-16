@@ -30,7 +30,7 @@ class GrowthChangeView(DTO):
         if not self.basis_private_record_ids:value.pop('basis_private_record_ids',None)
         return value
 
-def project(store,assessment_id,*,scope,privacy_classes):
+def project(store,assessment_id,*,scope,privacy_classes,_training_contexts=None):
     if store.schema_target<13:return None
     row=store.one('strategy_assessments',assessment_id)
     if not row or row['verdict']!='SUCCESS':return None
@@ -43,7 +43,10 @@ def project(store,assessment_id,*,scope,privacy_classes):
     if rule.get('kind')!='METHOD_SELECTION':return None
     trial=records.read(rule['trial_record_id'])['payload'];case=review['episode']['case']
     training={x['input_digest'] for stage in trial['results'].values() for x in stage['cases']}
-    if digest(case['data']) in training or not review['result']['all_passed']:return None
+    if digest(case['data']) in training:
+        if _training_contexts is not None:_training_contexts.add((row['lesson_id'],row['context_digest']))
+        return None
+    if not review['result']['all_passed']:return None
     # The published reuse observation must be independently verified, not a user
     # or model asserting that something worked. The original assessment recomputes.
     source_ids=records.support(row['record_id'])
@@ -86,19 +89,41 @@ def project(store,assessment_id,*,scope,privacy_classes):
 def opportunities(store,*,scope,privacy_classes):
     if store.schema_target<13 or not privacy_classes:return ()
     allowed=tuple(dict.fromkeys(privacy_classes));marks=','.join('?' for _ in allowed)
-    # Invisible assessments/lessons cannot consume this scope's bounded window.
-    # Headers only: project still checks support and independent held-out reuse.
-    rows=store.db.execute(
-        "SELECT a.assessment_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
+    # Budget independent contexts rather than repeated headers of one context.
+    # Keep the original per-context history bound and qualification: choosing a
+    # group head is not evidence that this particular occurrence is usable.
+    base=("SELECT a.assessment_id,a.lesson_id,a.context_digest,a.created_at_us,a.rowid AS ordering_row "
+        "FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
         "JOIN continuity_records ar ON ar.record_id=a.record_id JOIN continuity_records lr ON lr.record_id=l.record_id "
         f"WHERE a.verdict='SUCCESS' AND l.state='ACTIVE' AND ar.scope=? AND lr.scope=? "
         f"AND ar.privacy_class IN ({marks}) AND lr.privacy_class IN ({marks}) "
-        "AND ar.lifecycle='ACTIVE' AND lr.lifecycle='ACTIVE' "
-        "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",(scope,scope,*allowed,*allowed)).fetchall()
+        "AND ar.lifecycle='ACTIVE' AND lr.lifecycle='ACTIVE' ")
+    args=(scope,scope,*allowed,*allowed)
+    newer=("SELECT 1 FROM strategy_assessments n JOIN continuity_records nr ON nr.record_id=n.record_id "
+        "WHERE n.lesson_id=a.lesson_id AND n.context_digest=a.context_digest AND n.verdict='SUCCESS' "
+        f"AND nr.scope=? AND nr.privacy_class IN ({marks}) AND nr.lifecycle='ACTIVE' AND ")
+    # Separate ranges use the same context index, including equal-clock rows.
+    heads=store.db.execute(base+
+        "AND NOT EXISTS ("+newer+"n.created_at_us>a.created_at_us) "+
+        "AND NOT EXISTS ("+newer+"n.created_at_us=a.created_at_us AND n.rowid>a.rowid) "+
+        "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
+        (*args,scope,*allowed,scope,*allowed)).fetchall()
+    qualified=[]
+    training_contexts=set()  # Per-read only; context_digest already binds case context/data.
+    for head in heads:
+        rows=store.db.execute(base+"AND a.lesson_id=? AND a.context_digest=? "
+            "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
+            (*args,head['lesson_id'],head['context_digest'])).fetchall()
+        for row in rows:
+            view=project(store,row['assessment_id'],scope=scope,privacy_classes=privacy_classes,_training_contexts=training_contexts)
+            if view:
+                qualified.append((row['created_at_us'],row['ordering_row'],view));break
+            if (head['lesson_id'],head['context_digest']) in training_contexts:break
+    # Preserve the newest qualified occurrence per lesson, not the order of an
+    # unqualified group head. No record, evaluation or source is merged/deleted.
     result=[];lessons=set()
-    for row in rows:
-        view=project(store,row[0],scope=scope,privacy_classes=privacy_classes)
-        if view and view.lesson_id not in lessons:result.append(view);lessons.add(view.lesson_id)
+    for _,__,view in sorted(qualified,key=lambda item:item[:2],reverse=True):
+        if view.lesson_id not in lessons:result.append(view);lessons.add(view.lesson_id)
     return tuple(result)
 
 def context_projection(store,subject_event_id,*,scope,entity_id,privacy_classes,selected_record_ids):
