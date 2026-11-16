@@ -22,14 +22,14 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 270,
-  "as_of_us": 1794841397644492,
+  "revision": 271,
+  "as_of_us": 1794854130637416,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "原模型媒体打包仍auto错轨已复现，旧3fail→精确首视频/音轨，原73相关31.67s后补3进程检查3.57s。正常AAC尾差/2s视频1s音频同源可关联，双时长/NOT_ESTABLISHED不冒称同步，异源/撤回拒绝。269独立Core native成功46pass38.92s，客户端待。真实0。",
+    "PR24固定8e3198e按原Core reason让平台能力中文显示授权/未接线/解码器差额，未知中性，available/权限不改。A合并后2unit/TS-Vite/桌面390两浏览器5.2s过。270独立Core native成功123pass42.04s/client SKIP；269实际client100unit/168browser成功。真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
@@ -44,20 +44,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "继续S3多动机/可靠反馈/G更广迁移，私QQ父源/隐私byte handle、私Bili保留前C、B22非零时轴/覆盖/长窗口适配、物理存储隐私DR/真实Token协议/产品及原A–H；270自身CI待实读。CURRENT266+409，9a2不含264后继，真实0。"
+    "原48偏好/96信号每次Growth投影48次全信号扫描，20.902ms基线；下一按原索引缩读而不删兴趣/独立证据，保持反证/撤回/只读契约。PR22/23仍draft，私QQ父源/私Bili前C/B22/物理存储Token产品及A–H待；CURRENT266+409，9a2不含264以后。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/product-capability-pr24-20261117/README.md",
     "docs/nana_next_experience/evidence/media-semantic-track-20261116/README.md",
     "docs/nana_next_experience/evidence/native-ci-routing-20261116/README.md",
     "docs/nana_next_experience/evidence/media-stream-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-purpose-context-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md",
     "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md",
-    "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
-    "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md"
+    "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision271证据指纹锚：`93e0a47b08682cb38a92eb70b07f844ca656751930a402110d0c1de38b8f90db`（source.sha256不含自身/09）。
 
 A revision270证据指纹锚：`fa9611cd34ac4914d3960829a01a33e1d91cfc71383a4335b6ae4d31545a174b`；269原CI空导出已从实际原log补正，269锚更新，未重跑/伪造旧资格。
 
@@ -2967,3 +2969,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B 视频时间覆盖隔离候选
 
 [源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。
+
+
+### 2026-11-17 · B平台能力中文状态候选
+
+[源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。

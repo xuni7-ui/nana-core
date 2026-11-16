@@ -1,8 +1,8 @@
-## 现役revision270 — 同源关联不冒称时间对齐
+## 现役revision271 — 原平台能力与产品中文一致
 
-原package_media auto选轨造成模型wire与技术摘要错配，原3fail→首视频/音轨显式map，73相关31.67s后补实际进程3过3.57s。原同源音视频关联现保留独立时长且时间对齐NOT_ESTABLISHED，正常AAC/短音轨可用，异源/撤回仍拒绝/无动作。269独立native成功/Core46pass38.92s，客户端待；旧CI原log空导出纠正为同一实际log非空文件。真实0。
+A正常双亲采用B PR24固定8e3198e，原PlatformPanel按Core真实reason中文区分授权/未接线/解码器，未知中性、available/权限不改；合并后2unit/TS-Vite/桌面390两浏览器5.2s过。270独立Core123pass42.04s/native成功，269client100unit168browser实读成功。非手机/真实平台/新发行。
 
-接续S3多动机/反馈/G迁移、私QQ父源/私Bili保留前C、B22时轴覆盖适配及A–H，270自身CI待，CURRENT266+409，9a2不含264以后。证据evidence/media-semantic-track-20261116/README.md。
+下一原Growth长期经历全信号重复扫描已有实际基线，先保持同输出优化原读取；继续S3/G、私QQ/私Bili、draft22/23与A–H。CURRENT266+409，9a2不含264以后，真实模型/手机/生产/自然度/实际长期仍待。证据evidence/product-capability-pr24-20261117/README.md。
 
 ## 现役revision196
 

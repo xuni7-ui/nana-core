@@ -1,7 +1,7 @@
 import { AdapterManagement } from "./AdapterManagement";
 import { PlatformLogin } from "./PlatformLogin";
 import { NanaLinkSetup } from "./NanaLinkSetup";
-import { linkHealth, healthWords, capabilityWords } from "../../data/nanalink";
+import { linkHealth, healthWords, capabilityWords, capabilityStatusWords } from "../../data/nanalink";
 import { useEffect, useState } from "react";
 import { V2Client, object, writeBase, isNative } from "../../data/v2";
 import type { Envelope } from "../../data/v2.generated";
@@ -65,7 +65,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
     <details><summary>平台能做什么</summary>
       <p>QQ：授权后可接收和发送文字；图片、表情的自主发送尚未接通。官方 Bot 回执不能单独证明送达。</p>
       <p>哔哩哔哩：可按授权接收评论和通知，观看支持的公开视频资料；动态来源和视频帧需宿主另行启用。</p>
-      <p>是否参与或回应由奈奈的原主体决定，现实行动仍须相应授权；连接成功不会自动授予发送权限。</p>
+      <p>是否参与或回应由主体决定，现实行动仍须相应授权；连接成功不会自动授予发送权限。</p>
     </details>
     {!rows.length && <p className="v3-muted">还没有平台连接。可以先保存账号与会话配置，再完成对应平台授权。</p>}
     {rows.map(row => <article className="v3-card" key={`${row.platform}.${row.channel_id}`}>
@@ -73,7 +73,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       <p>{row.enabled ? "通道已启用" : "通道已暂停"} · {row.secret_state === "AVAILABLE" ? "凭据已绑定" : "等待宿主安全凭据"}</p>
       <p>{healthWords(linkHealth(data,row.platform,row.channel_id))}</p>
       {linkHealth(data,row.platform,row.channel_id)?.capabilities.length ? <details><summary>此连接支持的能力</summary><ul>
-        {linkHealth(data,row.platform,row.channel_id)!.capabilities.map(c=><li key={c.name}>{capabilityWords(c.name)} · {c.available?"可用":"暂不支持或未授权"}</li>)}
+        {linkHealth(data,row.platform,row.channel_id)!.capabilities.map(c=><li key={c.name}>{capabilityWords(c.name)} · {capabilityStatusWords(c)}</li>)}
       </ul></details> : null}
       {!row.read_authorized && <p className="v3-muted">等待账号与读取范围授权。请在对应平台完成登录，并由宿主绑定授权；保存配置不会自动读取。</p>}
       <p className="v3-muted">{row.state === "SUCCEEDED" ? "最近一次投递已核实" : row.state === "UNKNOWN" ? "最近投递待核实，不会重发"
