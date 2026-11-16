@@ -273,6 +273,12 @@ class OneBotSidecar:
                 raise CoreError('NANALINK_DRAIN_INPUT_BEFORE_PACKAGE_CHANGE')
             result = await self.management.command(config.alias,body['operation'],body['version'],body['revision'])
             self.adapters[config.alias] = self.management.adapter(config.alias)
+            if body['operation'] == 'DISABLE' and not self.management.enabled(config.alias):
+                cancelled = len(self.transport.cancel_account(adapter.account.key))
+                while not adapter.events.empty():
+                    adapter.events.get_nowait()
+                    cancelled += 1
+                result['cancelled_queued_events'] = cancelled
             return web.json_response(result)
 
         app.router.add_get('/nanalink/manage', manage)
