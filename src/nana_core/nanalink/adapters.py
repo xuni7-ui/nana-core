@@ -158,9 +158,7 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
             raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
         await super().connect()
 
-    async def receive(self):
-        if not self.enabled:
-            return None
+    def _require_current_private_access(self):
         w, c = self.workflow, self.workflow.channel
         try:
             if not c.enabled or not c.read_authorized or not c.private_read_authorized:
@@ -177,8 +175,19 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
             # Do not release previously polled private metadata after authority changes.
             self.pending.clear()
             raise
+
+    def receive_event(self, event):
+        if self.enabled:
+            self._require_current_private_access()
+        return super().receive_event(event)
+
+    async def receive(self):
+        if not self.enabled:
+            return None
+        self._require_current_private_access()
         if self.pending:
             return self.pending.popleft()
+        w, c = self.workflow, self.workflow.channel
         now = w.store.clock.utc_now_us()
         from ..storage import digest
         key = digest(['nanalink.bili.notification', self.account.key, now // (self.interval_seconds * 1000000)])
