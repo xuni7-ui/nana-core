@@ -293,3 +293,7 @@ world_loop/perception.py、新test_media_stream_binding.py、原CI精确路径/�
 ## 2026-11-16 A原H1同轨/独立覆盖
 
 world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、09/11/ACTIVE/STATUS、evidence/media-semantic-track-20261116、269公开原CI log补正/source.sha256、本白名单；无DB/媒体原件/私史/Key/新依赖/真实模型或账号/发行生产。
+
+## 2026-11-17 B平台能力状态文案
+
+持续授权：apps/nana-space/src/data/nanalink.ts、src/features/v3/PlatformPanel.tsx及对应nanalink-health.test.ts/v3.spec.ts，09/11及B队列追加、本清单；无凭据和真实数据。

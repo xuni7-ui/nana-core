@@ -2967,3 +2967,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B 视频时间覆盖隔离候选
 
 [源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。
+
+
+### 2026-11-17 · B平台能力中文状态候选
+
+[源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。

@@ -4271,3 +4271,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-16 CST｜revision269：原CI媒体依赖选择遗漏已修：265独立12fail84pass/268独立7fail38pass均Native SKIP，267实际179pass2warnings115.19s。classifier补原native媒体路径及manual/workflow smoke，13路径/7Python块检查；本地35pass1fail24.69s暴露原同源AAC时长尾差关联问题，原错保留，下一批修覆盖语义。本批CI待实读，非发行/生产。 指纹锚bc114cde2ac24b0e4dfa5ff38536402f491632482fdbd70c074cc2ef6eae12d1。
 
 - 2026-11-16 CST｜revision270：原package_media auto选轨造成模型wire与技术摘要错配，原3fail→首视频/音轨显式map，73相关31.67s后补实际进程3过3.57s。原同源音视频关联现保留独立时长且时间对齐NOT_ESTABLISHED，正常AAC/短音轨可用，异源/撤回仍拒绝/无动作。269独立native成功/Core46pass38.92s，客户端待；旧CI原log空导出纠正为同一实际log非空文件。真实0。 指纹锚fa9611cd34ac4914d3960829a01a33e1d91cfc71383a4335b6ae4d31545a174b；269补正后锚c70e452c927ef500d808c51e483f5f536e5a4743494346dc993e17f1b983365e（原空导出锚由此补正）。
+
+
+### 2026-11-17 · B平台能力中文状态候选
+
+[源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。

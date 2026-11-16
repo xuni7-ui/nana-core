@@ -1914,14 +1914,26 @@ test('NanaLink health: connected session does not invent received events or deli
   const state=await installMock(page);state.capabilities={platform_configuration_write:true};
   await page.route(`**${API}platform/status`,route=>route.fulfill({status:200,json:envelope(state,{
     configuration_revision:4,channels:[{platform:'qq',channel_id:'primary',account_label:'账号尾号 0042',conversation_kind:'private',enabled:true,read_authorized:true,send_configured:false,
-      secret_state:'AVAILABLE',state:'NOT_OBSERVED'}],nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
+      secret_state:'AVAILABLE',state:'NOT_OBSERVED'},
+      {platform:'bilibili',channel_id:'bili',account_label:'B站账号',conversation_kind:'comment',enabled:true,read_authorized:true,send_configured:false,
+       secret_state:'AVAILABLE',state:'NOT_OBSERVED'}],nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
       health:{connection:'CONNECTED',login:'AUTHENTICATED',receive:'NOT_OBSERVED',reconnects:1},
-      capabilities:[{name:'message.receive',available:true},{name:'message.edit',available:false}]}]}})}));
+      capabilities:[{name:'message.receive',available:true},{name:'message.edit',available:false}]},
+      {platform:'bilibili',channel_id:'bili',health:{connection:'CONNECTED',login:'AUTHENTICATED',receive:'HEALTHY',reconnects:0},
+      capabilities:[
+        {name:'notification.reply',available:false,reason:'PRIVATE_READ_OR_CHANNEL_DISABLED'},
+        {name:'video.frames',available:true,reason:'ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED'}]}]}})}));
   await open(page,'devices');await expect(page.getByRole('heading',{name:'QQ · 账号尾号 0042 · 私聊'})).toBeVisible();
   await expect(page.getByText('会话已连接 · 还未收到事件',{exact:true})).toBeVisible();
-  await expect(page.getByText('尚无本次运行的投递记录',{exact:true})).toBeVisible();
-  await page.getByText('此连接支持的能力',{exact:true}).click();
-  await expect(page.getByText('编辑消息 · 暂不支持或未授权',{exact:true})).toBeVisible();await noHorizontalOverflow(page);
+  const qq=page.locator('article').filter({has:page.getByRole('heading',{name:'QQ · 账号尾号 0042 · 私聊'})});
+  const bili=page.locator('article').filter({has:page.getByRole('heading',{name:'哔哩哔哩 · B站账号 · 评论'})});
+  await expect(qq.getByText('尚无本次运行的投递记录',{exact:true})).toBeVisible();
+  await qq.getByText('此连接支持的能力',{exact:true}).click();
+  await expect(page.getByText('编辑消息 · 未就绪或暂不支持',{exact:true})).toBeVisible();
+  await bili.getByText('此连接支持的能力',{exact:true}).click();
+  await expect(page.getByText('接收回复通知 · 需启用通道并授权读取私人通知',{exact:true})).toBeVisible();
+  await expect(page.getByText('读取视频故事板帧 · 可由主体选择，仍需来源和授权',{exact:true})).toBeVisible();
+  await noHorizontalOverflow(page);
 
 });
 
