@@ -265,3 +265,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 B局部变化与裁切实验
 
 持续授权：video-local-change-20261116/{README.md,source-sha256.json}、其中原创实验及测试、09/11追加及本清单；无真实帧/凭据、第三方源码或二进制。
+
+
+## 2026-11-16 B音轨静音测量
+
+持续授权：video-audio-probe-20261116/{README.md,source-sha256.json}及其中原创实验、测试，09/11追加、本清单；不提交合成音视频或凭据。
