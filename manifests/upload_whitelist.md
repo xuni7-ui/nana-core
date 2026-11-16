@@ -353,3 +353,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B融合帧对引用
 
 持续授权：video-fusion-pair-lineage-20261116.json及其中原创源码/测试，09/11追加、本清单；无真实帧/凭据。
+
+
+## 2026-11-16 B变帧率PTS解码候选
+
+持续授权：video-vfr-pts-decode-20261116.json及其中原创实验/测试、09/11追加、本清单；不提交真实视频、帧或凭据。
