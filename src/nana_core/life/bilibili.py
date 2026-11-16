@@ -372,12 +372,18 @@ class BilibiliSourceAdapter:
         allowed = set(self.app.policy.readable_privacy) & set(self.app.policy.readable_privacy if privacy is None else privacy)
         scope = runtime.config.scopes[0] if scope is None else scope
         entity_id = runtime.config.entity_id if entity_id is None else entity_id
+        if scope not in self.app.policy.allowed_scopes or not allowed:
+            return {"items": out, "network_calls": 0, "second_memory_authority": False}
+        # Apply original privacy and scope before the bounded source window;
+        # another private population must not hide an eligible public video.
+        privacy_values = tuple(sorted(allowed))
+        placeholders = ','.join('?' for _ in privacy_values)
         rows = runtime.store.db.execute("SELECT m.* FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id "
-            "WHERE m.entity_id=? AND m.lifecycle='ACTIVE' AND e.source_namespace IN ('recorded.project.bilibili','recorded.bilibili.public') "
-            "ORDER BY m.created_at_us DESC,m.rowid DESC LIMIT 64", (entity_id,))
+            "WHERE m.entity_id=? AND m.scope=? AND m.privacy_class IN (" + placeholders + ") "
+            "AND m.lifecycle='ACTIVE' AND m.assessment IN ('CURRENT','UNASSESSED') "
+            "AND e.source_namespace IN ('recorded.project.bilibili','recorded.bilibili.public') "
+            "ORDER BY m.created_at_us DESC,m.rowid DESC LIMIT 64", (entity_id, scope, *privacy_values))
         for row in rows:
-            if row["scope"] != scope or row["scope"] not in self.app.policy.allowed_scopes or row["privacy_class"] not in allowed:
-                continue
             try:
                 item = records.memory.read(row["memory_id"])
                 body = json.loads(item["text"])
@@ -569,7 +575,10 @@ class BilibiliReadPort:
         frames = reading.frames
         reading = PublicReading(reading.reference, reading.kind, reading.observed_at_us,
             {**reading.payload, "kernel_action_id": invocation.action_id, "kernel_args_hash": invocation.args_hash}, reading.origin)
-        memory_id = self.sources.ingest(reading)
+        # The selected source remains an original dependency of the resulting
+        # experience. A withdrawal during I/O wins before retaining the result.
+        self._bound(invocation)
+        memory_id = self.sources.ingest(reading, parents=(body['source_memory_id'],))
         frame_ids = ()
         if frames:
             from .bilibili_frames import BilibiliFrameService

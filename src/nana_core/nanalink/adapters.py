@@ -15,7 +15,7 @@ class CoreWorkflowAdapter:
         self.account = Account(platform=platform, account_id=str(account_id), adapter_id=adapter_id)
         self.manifest = AdapterManifest(adapter_id=adapter_id, version='1.0.0', platforms=(platform,),
                                         license='Original Nana Core workflow')
-        self._capabilities = tuple(capabilities)
+        self._capabilities = capabilities if callable(capabilities) else tuple(capabilities)
         self._health = SessionHealth(compatibility='NATIVE_CORE')
         self.enabled = False
 
@@ -31,7 +31,7 @@ class CoreWorkflowAdapter:
         return self._health
 
     def capabilities(self):
-        return self._capabilities
+        return tuple(self._capabilities()) if callable(self._capabilities) else self._capabilities
 
     async def receive(self):
         # Input is pushed by original owner through receive_event; no new poller.
@@ -78,19 +78,42 @@ def qq_adapter(workflow):
     ))
 
 
-def bilibili_adapter(workflow):
-    return CoreWorkflowAdapter(workflow, platform='bilibili', account_id=workflow.channel.account_id,
-                               adapter_id='bilibili.account', capabilities=(
+def _bilibili_capabilities(workflow):
+    """Project the installed original video consumer, not merely a config flag."""
+    from importlib.util import find_spec
+    from ..life.bilibili import BilibiliLoopbackOpener
+    life = getattr(workflow.app, 'bilibili_life', None)
+    config = getattr(life, 'config', None)
+    current = getattr(getattr(workflow.app, 'config', None), 'bilibili_life', None)
+    transport = getattr(life, 'transport', None)
+    fixture = (getattr(transport, 'origin', None) == 'SYNTHETIC_FIXTURE'
+               and type(getattr(transport, 'opener', None)) is BilibiliLoopbackOpener)
+    video_ready = bool(life is not None and config is not None and current == config and config.enabled and config.read_authorized
+                       and getattr(transport, 'authorized', False) and (fixture or config.activation is not None))
+    video_reason = 'ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if video_ready else 'ORIGINAL_VIDEO_NOT_CONFIGURED_OR_AUTHORIZED'
+    try:
+        decoder_available = find_spec('PIL') is not None if video_ready and config.visual_samples else False
+    except (ImportError, ValueError):
+        decoder_available = False
+    frames_ready = bool(video_ready and config.visual_samples and decoder_available)
+    frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
+                     'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
+                     'ORIGINAL_VIDEO_FRAMES_NOT_CONFIGURED_OR_AUTHORIZED')
+    return (
         Capability(name='message.receive', available=workflow.channel.read_authorized),
         Capability(name='message.text.send', available=workflow.channel.send_authorized),
         Capability(name='message.readback', available=True),
-        Capability(name='video.metadata', available=True),
-        Capability(name='video.subtitles', available=True),
-        Capability(name='video.frames', available=bool(workflow.app.config.bilibili_life
-                   and workflow.app.config.bilibili_life.visual_samples), reason='ORIGINAL_OPTIONAL_FRAME_SERVICE'),
+        Capability(name='video.metadata', available=video_ready, reason=video_reason),
+        Capability(name='video.subtitles', available=video_ready, reason=video_reason),
+        Capability(name='video.frames', available=frames_ready, reason=frames_reason),
         Capability(name='notification.reply', available=workflow.channel.read_authorized),
         Capability(name='dynamic.publish', available=False, reason='NO_EXISTING_GOVERNED_PORT'),
-    ))
+    )
+
+
+def bilibili_adapter(workflow):
+    return CoreWorkflowAdapter(workflow, platform='bilibili', account_id=workflow.channel.account_id,
+                               adapter_id='bilibili.account', capabilities=lambda: _bilibili_capabilities(workflow))
 
 
 def bilibili_notification(account, channel, item, *, now_us):
@@ -123,7 +146,7 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
             raise ValueError('notification poll budget')
         original = bilibili_adapter(workflow)
         super().__init__(workflow, platform='bilibili', account_id=workflow.channel.account_id,
-                         adapter_id='bilibili.account', capabilities=original.capabilities())
+                         adapter_id='bilibili.account', capabilities=original.capabilities)
         from collections import deque, OrderedDict
         self.pending, self.seen = deque(), OrderedDict()
         self.interval_seconds = interval_seconds

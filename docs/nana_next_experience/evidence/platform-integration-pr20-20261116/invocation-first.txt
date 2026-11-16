@@ -1,0 +1,3 @@
+Developer invocation: PYTHONPATH=src python tools/nanalink_video_handoff_qualification.py --b-planner /tmp/nana-pr19-fixed-planner.py
+Traceback ends: ModuleNotFoundError: No module named 'tests'
+The direct script only had tools/ and src/ on sys.path. Corrected invocation uses python -m tools.nanalink_video_handoff_qualification from repository root; no source or test guard changes.

@@ -229,3 +229,7 @@ package-lock.json三版本标签、tools/nana_first_life_android_v2/web_inputs.p
 ## 2026-11-16 A原上下文压缩连续性
 
 life/application.py现有保留顺序局部、test_compaction_durability.py、原CI组/路径、08/09/11/ACTIVE/STATUS、本白名单及evidence/context-compaction-continuity-20261116/公开合成原失败/定向回归/指纹。无私史/Store/Key/账号/新依赖/新系统/发行二进制/生产。
+
+## 2026-11-16 A集成固定PR20
+
+固定PR20的原NanaLink/B站源码/测试/只读交接及开发工具/原C交接日志、manifests/nanalink-01.sha256（A仅刷新application摘要），09/11/ACTIVE/STATUS、本白名单及evidence/platform-integration-pr20-20261116/公开合成原失败/定向检查/固定B投影回执/指纹。无Store/Key/真实用户/账号/新依赖/执行权限/发行二进制/生产。

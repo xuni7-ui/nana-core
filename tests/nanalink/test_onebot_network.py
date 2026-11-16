@@ -55,6 +55,9 @@ def network(*,mode='websocket'):
         async for msg in ws:
             if msg.type!=WSMsgType.TEXT:continue
             req=json.loads(msg.data)
+            if req['action'] == 'get_msg' and state.get('hold_read'):
+                state['read_started'].set()
+                await state['release_read'].wait()
             data=await operation(req['action'],req['params'])
             if req['action'].startswith('send_') and state['lose_ack']:
                 await ws.close();break
@@ -200,3 +203,96 @@ def test_owned_sidecar_transports_bounded_inline_image_without_claiming_verified
                     assert response.status == 400
         asyncio.run_coroutine_threadsafe(reject(), loop).result(3)
         assert len(state['sent']) == 1
+
+
+def test_one_bad_event_does_not_disconnect_account_or_lose_following_event():
+    with network() as (net, state, resolver, loop):
+        async def inject_and_receive():
+            await state['ws'].send_str('{malformed-json')
+            await state['ws'].send_json({**message(2), 'message': [{'type': 'text', 'data': {'text': 99}}]})
+            await state['ws'].send_json(message(3, 'after malformed'))
+            return await asyncio.wait_for(net['adapter'].receive(), 3)
+        got = asyncio.run_coroutine_threadsafe(inject_and_receive(), loop).result(5)
+        assert got.message_id == '3' and got.segments[0].text == 'after malformed'
+        assert net['adapter'].metrics['invalid_events'] == 2
+        assert net['adapter'].health().connection == 'CONNECTED'
+        assert state['connections'] == 1 and not state['sent']
+        bound = OneBotHTTPTransport(net['endpoint'], '42', credential=SecretReference(resolver, 'core.test'),
+                                    authorized=True, realm='SYNTHETIC_LOOPBACK')
+        assert bound.account() == {'account_id': '42'}
+
+
+def test_wrong_account_event_closes_old_socket_before_recovery():
+    with network() as (net, state, resolver, loop):
+        async def inject_and_wait():
+            first = state['ws']
+            await first.send_json({**message(2), 'self_id': 99})
+            for _ in range(60):
+                if state['connections'] >= 2 and first.closed and net['adapter'].health().login == 'AUTHENTICATED':
+                    return
+                await asyncio.sleep(.05)
+            raise AssertionError('old account socket was not retired and replaced')
+        asyncio.run_coroutine_threadsafe(inject_and_wait(), loop).result(5)
+        assert net['adapter'].metrics['invalid_events'] == 0
+        assert net['adapter'].events.empty() and not state['sent']
+
+
+def test_bad_event_during_pending_rpc_preserves_correlated_response():
+    with network() as (net, state, resolver, loop):
+        async def exercise():
+            state['hold_read'] = True
+            state['read_started'], state['release_read'] = asyncio.Event(), asyncio.Event()
+            request = asyncio.create_task(net['adapter'].rpc('get_msg', {'message_id': 1}))
+            await asyncio.wait_for(state['read_started'].wait(), 2)
+            await state['ws'].send_str('{bad-event')
+            await state['ws'].send_json(message(4, 'after bad event'))
+            state['release_read'].set()
+            response = await asyncio.wait_for(request, 2)
+            event = await asyncio.wait_for(net['adapter'].receive(), 2)
+            return response, event
+        response, event = asyncio.run_coroutine_threadsafe(exercise(), loop).result(5)
+        assert response['message_id'] == 1 and event.message_id == '4'
+        assert net['adapter'].metrics['invalid_events'] == 1 and state['connections'] == 1
+        assert not state['sent'] and net['adapter'].health().login == 'AUTHENTICATED'
+
+
+def test_disconnect_during_recovery_handoff_is_not_lost():
+    async def run():
+        adapter = OneBotAdapter('42', mode='websocket', endpoint='ws://127.0.0.1:12345')
+        reconnected = asyncio.Event()
+        calls = []
+        async def open_fixture():
+            calls.append(1)
+            if len(calls) == 1:
+                # Reader observed a close while the recovery task was still set.
+                adapter._health = adapter._health.model_copy(update={'connection':'DISCONNECTED', 'login':'UNKNOWN'})
+            else:
+                adapter._health = adapter._health.model_copy(update={'connection':'CONNECTED', 'login':'AUTHENTICATED'})
+                reconnected.set()
+        adapter._open_ws = open_fixture
+        adapter.recovery = asyncio.create_task(adapter._recover())
+        try:
+            await asyncio.wait_for(reconnected.wait(), 4)
+            assert len(calls) == 2 and adapter.health().login == 'AUTHENTICATED'
+        finally:
+            adapter.closed = True
+            if adapter.recovery is not None:
+                adapter.recovery.cancel()
+                await asyncio.gather(adapter.recovery, return_exceptions=True)
+    asyncio.run(run())
+
+
+def test_account_reply_cannot_mark_a_disconnected_websocket_online():
+    from types import SimpleNamespace
+    async def run():
+        adapter = OneBotAdapter('42', mode='websocket', endpoint='ws://127.0.0.1:12345')
+        adapter.ws = SimpleNamespace(closed=False)
+        adapter._health = adapter._health.model_copy(update={'connection':'CONNECTING'})
+        async def reply_after_close(*args, **kwargs):
+            adapter._health = adapter._health.model_copy(update={'connection':'DISCONNECTED', 'login':'UNKNOWN'})
+            return {'user_id':42}
+        adapter.rpc = reply_after_close
+        with pytest.raises(CoreError, match='ONEBOT_SESSION_UNAVAILABLE'):
+            await adapter._account()
+        assert adapter.health().login != 'AUTHENTICATED'
+    asyncio.run(run())
