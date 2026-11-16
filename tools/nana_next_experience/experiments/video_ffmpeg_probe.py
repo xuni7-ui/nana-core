@@ -28,7 +28,7 @@ def _run(args, timeout=120):
 
 
 def probe(path):
-    """Return per-second maximum scene score, plus explicit scan completeness."""
+    """Return per-quarter-second maximum scene score and scan completeness."""
     path = Path(path).resolve(strict=True)
     if not path.is_file() or path.stat().st_size > 256 * 1024 * 1024:
         raise ValueError('invalid local file')
@@ -50,10 +50,10 @@ def probe(path):
             score=float(line.partition('=')[2])
             if not math.isfinite(score) or score < 0 or timestamp < 0 or timestamp > duration:
                 raise ValueError('invalid media measurement')
-            second=int(timestamp)
-            previous=buckets.get(second)
+            bucket=int(timestamp*4)
+            previous=buckets.get(bucket)
             if previous is None or score > previous.cut:
-                buckets[second]=Candidate(timestamp,cut=score)
+                buckets[bucket]=Candidate(timestamp,cut=score)
             timestamp=None
     if not buckets or last_timestamp is None:
         raise ValueError('no measured frames')

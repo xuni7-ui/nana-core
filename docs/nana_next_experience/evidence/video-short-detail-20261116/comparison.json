@@ -1,0 +1,57 @@
+{
+  "fixture": "12s synthetic black/white/testsrc2, cuts 4s and 8s",
+  "real_provider_calls": 0,
+  "semantic_accuracy": "not measured",
+  "latency_note": "single runs with different pipelines; dsh excludes raw decode; not comparable",
+  "single_wall_seconds": {
+    "candidate_probe_and_plan": 0.16023997800220968,
+    "watch_probe_and_plan": 0.37548091300050146,
+    "dsh_pipeline_only": 0.2412874740002735
+  },
+  "results": {
+    "uniform": {
+      "timestamps": [
+        1.5,
+        4.5,
+        7.5,
+        10.5
+      ],
+      "count": 4,
+      "max_gap_seconds": 3.0,
+      "cuts_followed_within_half_second": 1
+    },
+    "video_watch_plus": {
+      "timestamps": [
+        0.25,
+        2.94,
+        8.81,
+        11.5
+      ],
+      "count": 4,
+      "max_gap_seconds": 5.870000000000001,
+      "cuts_followed_within_half_second": 0
+    },
+    "dsh_original": {
+      "timestamps": [
+        0,
+        4,
+        8,
+        11.5
+      ],
+      "count": 4,
+      "max_gap_seconds": 4,
+      "cuts_followed_within_half_second": 2
+    },
+    "coverage_candidate": {
+      "timestamps": [
+        1.5,
+        4.5,
+        7.5,
+        10.5
+      ],
+      "count": 4,
+      "max_gap_seconds": 3.0,
+      "cuts_followed_within_half_second": 1
+    }
+  }
+}

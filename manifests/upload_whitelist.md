@@ -255,3 +255,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 B覆盖与变化换帧
 
 持续授权：video-change-coverage-20261116/{README.md,source-sha256.json}及其中2个原创实验/测试文件、09/11追加、本清单；无第三方源码、真实视频或凭证。
+
+
+## 2026-11-16 B短暂文字候选
+
+持续授权：video-short-detail-20261116/{README.md,before.txt,comparison.json,source-sha256.json}、其中probe及新增测试、09/11追加与本清单；合成素材不入库、无真实视频或凭证。

@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_brief_text_appearance_survives_noisy_one_second_bucket __________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-24/test_brief_text_appearance_sur0')
+
+    def test_brief_text_appearance_survives_noisy_one_second_bucket(tmp_path):
+        font=Path('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')
+        if not shutil.which('ffmpeg') or not shutil.which('ffprobe') or not font.exists():
+            pytest.skip('FFmpeg and DejaVu Sans needed for this synthetic fixture')
+        path=tmp_path/'detail.mp4'
+        filters=(f"eq=brightness='0.1*sin(2*PI*t)':eval=frame,"
+                 f"drawtext=fontfile={font}:text=CODE7:fontcolor=white:fontsize=16:"
+                 "x=20:y=20:enable='gte(t,3)*lt(t,3.25)'")
+        subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+            'color=c=0x202020:s=320x180:r=4:d=12','-vf',filters,'-c:v','mpeg4',
+            '-threads','1','-y',str(path)],check=True,timeout=20)
+        result=probe(path)
+        assert result['scan_complete']
+        # At 3.25s the text has disappeared; retaining only its disappearance
+        # cannot supply the visual model the frame on which the letters existed.
+>       assert 3.0 in {candidate.seconds for candidate in result['candidates']}
+E       assert 3.0 in {0.25, 1.25, 2.25, 3.25, 4.25, 5.25, ...}
+
+tests/nana_next_experience/test_video_short_detail.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nana_next_experience/test_video_short_detail.py::test_brief_text_appearance_survives_noisy_one_second_bucket
+1 failed in 0.32s
