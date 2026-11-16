@@ -46,7 +46,8 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
             raise ValueError('dsh timestamp was not decoded or is duplicate')
         seen_dsh.add(t)
         if item.get('reason')=='cut':evidence.setdefault(t,set()).add('dsh_cut')
-    for item in pair_items:
+    pair_refs=[]
+    for index,item in enumerate(pair_items):
         if type(item) is not dict:raise ValueError('invalid change pair')
         a=item.get('before_seconds');b=item.get('after_seconds')
         if (type(a) not in (int,float) or type(b) not in (int,float) or
@@ -55,14 +56,28 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
         if positions[b]!=positions[a]+1 or (a,b) in seen_pairs:
             raise ValueError('change pair is not an adjacent unique input pair')
         seen_pairs.add((a,b))
+        box=item.get('source_box')
+        if box is not None:
+            if (type(box) not in (list,tuple) or len(box)!=4 or
+                    any(type(v) is not int or not 0<=v<=262144 for v in box) or
+                    not box[0]<box[2] or not box[1]<box[3] or item.get('coordinate_space')!='input_pixels'):
+                raise ValueError('invalid original frame box')
+            box=tuple(box)
+        pair_refs.append({'pair_index':index,'before_seconds':a,'after_seconds':b,
+                          'source_box':box,'coordinate_space':'input_pixels' if box is not None else 'UNKNOWN'})
         evidence.setdefault(a,set()).add('local_change_before')
         evidence.setdefault(b,set()).add('local_change_after')
     candidate=[Candidate(t,motion=1.0 if t in evidence else 0.0) for t in decoded_timestamps]
     selected=refine(duration,candidate,budget,max_gap=max_gap)
+    chosen=set(selected['timestamps']);selected_pairs=[]
+    for item in pair_refs:
+        sides=([ 'before' ] if item['before_seconds'] in chosen else []) + ([ 'after' ] if item['after_seconds'] in chosen else [])
+        if sides:selected_pairs.append({**item,'selected_sides':sides})
     return {'schema_version':1,'source_ref':source_ref,'source_attestation':'CALLER_SUPPLIED',
         'timestamps':selected['timestamps'],'gaps':selected['gaps'],
         'coverage_target_met':selected['coverage_target_met'],
         'selected_cues':[{'seconds':t,'cues':sorted(evidence.get(t,()))} for t in selected['timestamps']],
+        'selected_pair_refs':selected_pairs,
         'pair_proposals_truncated':pairs['truncated'],'dsh_frame_limit':'PER_SHEET_ONLY',
         'dsh_dropped_sheets':dropped,'selection_state':'CANDIDATES_NOT_DELIVERED',
         'model_frame_budget':budget,'model_calls':0,'storage':'NONE',

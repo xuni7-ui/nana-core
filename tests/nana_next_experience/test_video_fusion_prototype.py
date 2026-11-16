@@ -81,6 +81,11 @@ def test_real_dsh_and_local_changes_preserve_short_text_under_same_budget(tmp_pa
     assert 3.0 not in baseline['timestamps'] and 3.0 in combined['timestamps']
     assert len(combined['timestamps'])==4 and combined['coverage_target_met']
     assert combined['source_ref']==source and combined['model_calls']==0
+    first=next(x for x in combined['selected_pair_refs'] if x['after_seconds']==3.0)
+    assert first['before_seconds']==2.75 and first['selected_sides']==['before','after']
+    assert first['source_box'] is not None and first['coordinate_space']=='input_pixels'
+    second=next(x for x in combined['selected_pair_refs'] if x['before_seconds']==3.0)
+    assert second['selected_sides']==['before'] # 3.25 was not selected or sent.
 
 
 def test_cursor_change_can_consume_budget_without_proving_text():
@@ -98,3 +103,14 @@ def test_cursor_change_can_consume_budget_without_proving_text():
     assert 3.0 in result['timestamps']
     assert 'no semantic importance' in result['meaning']
     assert result['model_calls']==0
+
+
+def test_selected_pair_reference_preserves_box_and_missing_side():
+    source,times,dsh,pairs=inputs()
+    pairs['proposals'][0].update({'source_box':(12,14,28,30),'coordinate_space':'input_pixels'})
+    result=fuse(source,8,times,dsh,pairs,budget=4,max_gap=3)
+    ref=next(row for row in result['selected_pair_refs'] if row['after_seconds']==3.0)
+    assert ref['source_box']==(12,14,28,30) and ref['pair_index']==0
+    assert ref['selected_sides'] and all(side in ('before','after') for side in ref['selected_sides'])
+    pairs['proposals'][0]['source_box']=(12,14,11,30)
+    with pytest.raises(ValueError,match='box'):fuse(source,8,times,dsh,pairs,budget=4,max_gap=3)

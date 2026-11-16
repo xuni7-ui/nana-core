@@ -348,3 +348,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B dsh选帧时间精度
 
 持续授权：dsh-selected-time-precision-20261116/{README.md,source-sha256.json}及其中原创适配/测试、09/11追加、本清单；无真实媒体/凭据或上游源码复制。
+
+
+## 2026-11-16 B融合帧对引用
+
+持续授权：video-fusion-pair-lineage-20261116.json及其中原创源码/测试，09/11追加、本清单；无真实帧/凭据。

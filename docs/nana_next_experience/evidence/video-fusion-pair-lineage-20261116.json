@@ -1,0 +1,22 @@
+{
+  "baseline_a": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "owner": "B",
+  "scope": "isolated candidate, no active consumer, model, persistence, or new authority",
+  "change": "Return references to selected local pairs, original input-pixel boxes and selected sides; missing boxes are UNKNOWN; reject malformed boxes. Source identity and crop bounds remain caller validated.",
+  "validation": {
+    "command": "NANA_DSH_SOURCE=/workspace/work/dsh-see-now PYTHONPATH=src:. python -m pytest tests/nana_next_experience/test_video_fusion_prototype.py tests/nana_next_experience/test_video_local_pairs.py -q",
+    "result": "12 passed, including actual FFmpeg synthetic clip and original dsh pipeline",
+    "actual_case": "2.75→3.0 selected both sides, 3.0→3.25 selected only before; raw source box is carried, no model call"
+  },
+  "limits": [
+    "Caller-supplied source identity is not authorization",
+    "Output is in-memory only and old copies do not automatically withdraw",
+    "Box must be revalidated against actual original frame before crop",
+    "No real provider, device, OCR, token or production qualification"
+  ],
+  "next_owners": "B validates further; NanaLink authenticates media/source; A integrates original S5/Memory/Provider and withdrawal",
+  "source_sha256": {
+    "tools/nana_next_experience/experiments/video_fusion_prototype.py": "dce71769917f0c2b9fae5744e4274024e789cd5e4f46fa9a5f12ae9edf48f3cf",
+    "tests/nana_next_experience/test_video_fusion_prototype.py": "d60606dd38d25244aa0b2737894696d502afc6523857755a212d7c667bf60fb8"
+  }
+}
