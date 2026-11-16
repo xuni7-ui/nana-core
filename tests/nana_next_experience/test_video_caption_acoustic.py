@@ -67,8 +67,7 @@ def test_nanalink_projection_rechecks_original_source_after_withdrawal(tmp_path)
     from tools.nana_next_experience.experiments.video_caption_acoustic import review_storyboard
     with counterpart() as (opener,platform), fresh(tmp_path/'subject.db',Clock()) as runtime:
         platform['video_duration']=12
-        transport=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',request_limit=9)
-        transport.opener=opener
+        transport=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',request_limit=9,loopback_endpoint=opener.endpoint)
         reading=transport.read_video('BV1t55v6DE2v',visual=True)
         app=SimpleNamespace(runtime=runtime,policy=policy())
         source=BilibiliSourceAdapter(app).ingest(reading)

@@ -3116,3 +3116,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-17 · B验证原B站帧契约差额
 
 [源码/实测] A基线d5c0a42；合成实际解码帧直接经原BilibiliFrameService.capture会被硬编码为PUBLISHER_STORYBOARD_SAMPLE，虽然Memory子项随原源撤回正确失效；不应把解码视频帧误标为故事板。同一原VIDEO_READING来源引用可在原MediaCache下存红/蓝两份不同合法视频及哈希，源引用与哈希不足以证明哪份实际由平台取得；原源撤回后两句柄均拒绝。原缓存/帧相关9项通过、5未选。需NanaLink建立账号/隐私/bvid/cid/原视频摘要/时间的可信获取凭据，A给解码视频帧新增准确来源及保留原Memory依赖；本批不改Core、不写真实媒体或发送。证据video-original-frame-contract-20261117.json锚2d6ca76c8f75dd2283bb08284774baadd9cbc22292f4ce9a152bead17f476df5。
+
+
+### 2026-11-17 · B继承NanaLink视频契约和测试修复
+
+[源码/实测] NanaLink PR23固定bbaf6fa针对A d5c0a42已提出通用PUBLIC直接视频观测/原Store来源与缓存哈希绑定、撤回前后复核候选；不等于B站账号或文件获取证明，也未合入主线。B复用C提供的最小测试补丁，将旧字幕fixture改用原显式loopback_endpoint；字幕/缓存/A原loopback定向19项4.42秒。独立视频帧仍不可冒称故事板，B站获取来源和A核心接线仍待。无真实平台/模型调用。

@@ -437,3 +437,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-17 B原帧契约反例
 
 持续授权：test_video_original_frame_contract.py、video-original-frame-contract-20261117.json、09/11和B队列追加及本清单；仅合成视频及临时Store，无真实媒体或凭据。
+
+## 2026-11-17 B继承C测试补丁
+
+持续授权：test_video_caption_acoustic.py中显式loopback构造、09/11和B队列追加及本清单；不含真实视频或凭据。
