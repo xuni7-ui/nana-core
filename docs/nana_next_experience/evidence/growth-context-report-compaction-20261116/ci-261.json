@@ -1,0 +1,14 @@
+{
+  "sha": "f419c011154d3ec5d80d82256ad8540fb69307b2",
+  "run_id": 43862802192,
+  "job_id": 133284049077,
+  "conclusion": "success",
+  "observed_log_summary": "263 passed, 1 warning in 70.40s",
+  "skipped": [
+    "full release regression",
+    "old SQLite",
+    "portable installation",
+    "client"
+  ],
+  "scope": "independent previous-source affected checks, not current262 or full repository"
+}

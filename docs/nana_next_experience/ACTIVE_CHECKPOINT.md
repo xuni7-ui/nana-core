@@ -1,8 +1,8 @@
-## 当前接续：独立成长情境回到原C，revision261
+## 当前接续：成长SELF等价报告压缩，revision262
 
-原G注意32窗口按情境分配，组内原资格/实际最新合格排序保持，局部训练重叠不重复读。旧1fail1pass→9通过4.14s/57相关22.58s；原Runtime消融0SELF/0私问→1/1、无新Goal动作Grant，真实0。同库读238→21、15.456→1.703ms；两个可重建索引100k分配约+12.9MB，稠密31群头304ms成本原样保留，非生产/P95。旧7/12索引初稿错误修guard后7/12/13打开重开通过。
+当前原G成长SELF等价校验正文压缩，32次原JSON值/时间/Memory-Evidence-Event依赖保留，普通读/明确来源/不同结果不改。固定旧f419同预算原C仍1SELF/同私问，无新动作；input108201→81401字节减24.8%非实际Token。2项1.22s；初79过、后补78过1子进程路径错，补环境原SIGKILL1过；首错原样保留。counter不省/超范围与紧预算回退有证，后者只承诺实际单条。
 
-下一同一growth SELF重复数学报告上下文压缩，保留记录/次数/来源/原C，原实际input108329bytes非Token；继续情感多动机/G迁移/视觉S5/存储/真实Token及A–H。多不同无效群/组内32旧有效等边界仍待，CURRENT266+409、真实模型/手机/生产/自然度/实际长期不动。 证据evidence/growth-context-population-20261116/README.md。
+下一256–262累计Core匹配构建/独立安装/重启撤回与停机旧reader回退；Web输入实核相同可复用，不重复APK。原A–H/情感多动机/G广迁移/视觉S5/物理隐私/真实Token/产品及真实模型手机生产自然度实际长期仍待，CURRENT266+409保持。 证据evidence/growth-context-report-compaction-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

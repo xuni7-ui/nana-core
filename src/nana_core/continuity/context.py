@@ -186,6 +186,32 @@ class ConservativeCounter:
 from .revision import state_token
 
 
+def _verification_groups(memories, required_memory_ids):
+    """Transient body equivalence; never merge occurrences or memory authority."""
+    required=set(required_memory_ids);groups={};result=[]
+    for row in memories:
+        key=None;episode_key=None;p=row.get('source_provenance') or {}
+        if (row['memory_id'] not in required and row['memory_type']=='EPISODIC'
+                and row['epistemic_kind']=='OBSERVATION' and row['authority']=='DIRECT'
+                and row['assessment'] in {'CURRENT','UNASSESSED'} and p.get('source_kind')=='SYSTEM_VERIFICATION'):
+            try:
+                body=json.loads(row['text']);episode=body.get('strategy_episode') if type(body) is dict else None
+                if (type(episode) is dict and type(episode.get('case')) is dict
+                        and type(episode.get('lesson_id')) is str and episode['lesson_id']
+                        and type(episode.get('episode_key')) is str and 1<=len(episode['episode_key'])<=96):
+                    episode_key=episode['episode_key']
+                    shared={**body,'strategy_episode':{k:v for k,v in episode.items() if k!='episode_key'}}
+                    key=canonical([*(row[k] for k in ('entity_id','scope','privacy_class','memory_type','epistemic_kind',
+                        'assessment','confidence','authority','importance','significance','predicate_key')),
+                        p.get('domain'),p.get('source_namespace'),p.get('source_revision'),shared])
+            except (ValueError,TypeError,RecursionError):pass  # Unknown bodies keep their original view.
+        if key is not None and key in groups:groups[key].append((row,episode_key))
+        else:
+            reports=[(row,episode_key)];result.append((row,reports))
+            if key is not None:groups[key]=reports
+    return result
+
+
 def _visible(store, row, scopes, privacy_classes):
     record = store.one("continuity_records", row["record_id"])
     return record["lifecycle"] == "ACTIVE" and record["scope"] in scopes and record["privacy_class"] in privacy_classes
@@ -302,6 +328,7 @@ class ContextAssembler:
         self._retrieval = (len(memories), retrieval_total)
         coverage = self._coverage(request.scopes)
         candidates = []
+        growth = None
         self_fallbacks = {}
         mandatory = [ContextBlock(block_id="identity", kind="IDENTITY",
             data_json=frame.identity.model_dump_json(),
@@ -452,12 +479,7 @@ class ContextAssembler:
                 source_record_ids=(row["record_id"],))))
         conflicts = {}
         now = self.store.clock.utc_now_us()
-        for row in memories:
-            if row["assessment"] == "DISPUTED":
-                family = canonical([row["entity_id"], row["scope"], row["predicate_key"]])
-                if family not in conflicts:
-                    conflicts[family] = memory_service.conflict_bundle(row, privacy)
-                continue
+        def memory_score(row):
             text = row["text"].casefold()
             relevance = sum(t.casefold() in text for t in request.query_terms)
             occurrence = row["event_time_us"] if row["event_time_us"] is not None else row["ingested_time_us"]
@@ -474,11 +496,52 @@ class ContextAssembler:
                 # Keep person-self and established language policy ahead of
                 # optional lookup, while questions outrank generic projections.
                 score=975.0
-            block = ContextBlock(block_id="memory:" + row["memory_id"], kind="MEMORY",
-                data_json=canonical({k: row[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
-                    "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
-                source_memory_ids=(row["memory_id"],), source_event_ids=(row["event_id"],))
-            block = block.model_copy(update={"source_evidence_ids": (row["source_evidence_id"],)})
+            return score
+        # Only a qualified current growth SELF uses this compact view. Ordinary
+        # dialogue, explicit sources and other cognitive contexts stay literal.
+        memory_groups=_verification_groups(memories,required_memory_ids) if growth is not None else [(row,[(row,None)]) for row in memories]
+        for row,reports in memory_groups:
+            if row["assessment"] == "DISPUTED":
+                family = canonical([row["entity_id"], row["scope"], row["predicate_key"]])
+                if family not in conflicts:
+                    conflicts[family] = memory_service.conflict_bundle(row, privacy)
+                continue
+            score=max(memory_score(item) for item,_ in reports)
+            def literal(item):
+                return ContextBlock(block_id="memory:" + item["memory_id"], kind="MEMORY",
+                    data_json=canonical({k: item[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
+                        "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
+                    source_memory_ids=(item["memory_id"],), source_event_ids=(item["event_id"],),
+                    source_evidence_ids=(item["source_evidence_id"],))
+            block = literal(row)
+            if len(reports)>1:
+                body=json.loads(block.data_json)
+                body['equivalent_verification_reports']={
+                    'count_in_retrieved_window':len(reports),'additional_independent_contexts_established':False,
+                    'semantics':'SHARED_BODY_EXCEPT_EPISODE_KEY_REPORTS_NOT_MERGED',
+                    'reports':[{'memory_id':item['memory_id'],'episode_key':key,
+                        'event_time_us':item['event_time_us'],'observed_time_us':item['observed_time_us'],
+                        'ingested_time_us':item['ingested_time_us'],'source_evidence_id':item['source_evidence_id'],
+                        'source_event_id':item['event_id']} for item,key in reports]}
+                block=block.model_copy(update={'data_json':canonical(body),
+                    'source_memory_ids':tuple(item['memory_id'] for item,_ in reports),
+                    'source_evidence_ids':tuple(dict.fromkeys(item['source_evidence_id'] for item,_ in reports)),
+                    'source_event_ids':tuple(dict.fromkeys(item['event_id'] for item,_ in reports))})
+                originals=[literal(item) for item,_ in reports]
+                compact_cost=self._package(frame,request,policy,coverage,mandatory+[block],(),()).manifest.input_tokens
+                try:
+                    literal_cost=self._package(frame,request,policy,coverage,mandatory+originals,(),()).manifest.input_tokens
+                except CoreError as exc:
+                    if exc.code!='MODEL_TOKEN_COUNTER_RESULT_INVALID':raise
+                    # An oversized hypothetical aggregate is never an admitted
+                    # request. Retain original per-report budget selection.
+                    literal_cost=compact_cost
+                if compact_cost>=literal_cost:
+                    candidates.extend((memory_score(item),original) for (item,_),original in zip(reports,originals))
+                    continue
+                # A tight budget can still retain the original representative.
+                # This fallback claims only that occurrence, with its own refs.
+                self_fallbacks[block.block_id]=(originals[0],)
             if row['memory_id'] in note_ids:
                 block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
                     'provenance':'EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT',
@@ -672,7 +735,7 @@ class ContextAssembler:
                 if not fitted:
                     omitted.append(block.block_id)
             elif block.block_id in self_fallbacks:
-                partial_omission=omitted+[block.block_id+':CURRENT_AND_LIVED_DETAIL']
+                partial_omission=omitted+[block.block_id+(':OTHER_REPORT_OCCURRENCES' if block.kind=='MEMORY' else ':CURRENT_AND_LIVED_DETAIL')]
                 for fallback in self_fallbacks[block.block_id]:
                     proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
                     if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
@@ -689,7 +752,7 @@ class ContextAssembler:
             # limit. Try its smaller sourced forms before losing the whole self.
             for fallback in self_fallbacks.get(last.block_id,()):
                 if len(fallback.model_dump_json())>=len(last.model_dump_json()):continue
-                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+':CURRENT_AND_LIVED_DETAIL')))
+                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+(':OTHER_REPORT_OCCURRENCES' if last.kind=='MEMORY' else ':CURRENT_AND_LIVED_DETAIL'))))
                 trial=self._package(frame,request,policy,coverage,[*selected[:-1],fallback],trial_omitted,conflict_ids)
                 if trial.manifest.input_tokens<=trial.manifest.input_limit:
                     selected[-1]=fallback;omitted=trial_omitted;package=trial;break

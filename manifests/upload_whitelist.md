@@ -257,3 +257,7 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 A原G情境注意
 
 subject/growth_life.py、continuity/store.py两个可重建索引及旧schema guard、新test_growth_context_population.py、原CI精确组/路径、09/11/ACTIVE/STATUS及evidence/growth-context-population-20261116/公开合成失败/回归/旧函数消融/SQLite元数据与同库读成本脚本/日志/指纹、本白名单。原库与元数据实验DB不入库，无Key/用户史/账号/新依赖/执行权限/发行/生产。
+
+## 2026-11-16 A原成长SELF等价体
+
+continuity/context.py、test_growth_context_compaction.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/growth-context-report-compaction-20261116公开合成日志/受控消融/脚本/指纹、本白名单。无DB/私文/账号Key/新依赖/生产/发行修改。

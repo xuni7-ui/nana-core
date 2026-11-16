@@ -21,13 +21,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 261,
-  "as_of_us": 1794830456715392,
+  "revision": 262,
+  "as_of_us": 1794833009385273,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原G重放来源绑定保留；现32注意按不同情境分配，重复练习不挡住实际未见Kernel复用。旧1fail1pass→9过4.14s/57相关22.58s；正常D消融SELF0/私问0→1/1，同预算/无新动作，真实0。局部训练复用read238→21，两个索引100k成本约12.9MB，稠密头查询304ms非生产。",
+    "原G情境注意/重放保留；现当前成长SELF等价校验共享体保留32次时间/来源/依赖，普通读仍逐条。旧1fail→新2过/初79相关；后补78过1环境错、原SIGKILL补环境1过。固定旧函数同预算1SELF/同私问，input108201→81401B(-24.8%)非Token，无新动作/真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "c1d固定Core302/263双SHA49f95a28…、Web42文件04085003…；delivery a274固定11件，真实GitHub新克隆/10摘要/第二离线槽263文件同源/BFF通过；安装49过/157槽内模块。停机c1d-9a-c1d单身份私计划/G17/pending保持；CURRENT266+409不动。",
     "PR14/17/18/20平台来源已统一；20旧3fail1pass→106过35.09s/30闭包桥9.96s，watch→视频/帧/H1撤回与OneBot重连保持。19固定86d仅采用原实验工具，7过.02s；原Memory三样本回映/撤回/空档通过，0新增模型，尚非两仓视觉融合。",
@@ -43,17 +43,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "当前成长SELF仍含重复评价正文，实际108329 inputbytes非Token，下一等价报告压缩须保留次数/来源/C判断。32不同无效群/组内32无效后的旧有效及已处理机会公平仍待。原C情感/G广迁移/B真实视觉/S5/物理隐私/Token/A–H继续；CURRENT266+409不动。"
+    "262压缩仅当前成长SELF、相同正文，紧预算可退单条/明确省略。下一256–262累积Core匹配双构建/离线安装/旧reader回退，Web实核输入复用。32无效群/组内旧有效/公平及情感/G广迁移/视觉S5/物理隐私/真实Token/A–H仍待，CURRENT266+409不动。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md",
     "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md",
     "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md",
-    "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
-    "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md"
+    "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

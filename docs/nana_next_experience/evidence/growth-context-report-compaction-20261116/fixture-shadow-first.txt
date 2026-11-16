@@ -1,0 +1,102 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-107/test_normal_growth_self_keeps_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4135193a10>
+
+    def test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice(tmp_path,monkeypatch):
+        clock=VirtualClock();received=[];mids=[]
+        def propose(request):
+            data=json.loads(request.context_json);received.append(request)
+            return StructuredProposal(interpretation='SYNTHETIC actual checked growth remains available',
+                subject_cognition=CognitiveProposal(identity_id=data['manifest']['identity_id'],
+                    identity_revision=data['manifest']['identity_revision'],interpretation='SYNTHETIC I choose a private question',
+                    preferred_behavior='REFLECT',proposed_operations=('DRAFT',),
+                    private_question={'topic':'own-compact-growth','question':'SYNTHETIC Could this verified method help an own creative experiment?'}))
+        with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            memory=MemoryService(r.store);review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            for i in range(32):
+                mid=source(r,'repeat-report-'+str(i),{'strategy_episode':{'episode_key':'repeat-report-'+str(i),
+                    'lesson_id':lesson,'case':numeric_learning().practice[0].model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+                review.assess(lesson,mid,authority=r.authority);mids.append(mid)
+            before={mid:dict(memory.read(mid)) for mid in mids}
+            counts={t:len(r.store.all(t)) for t in ('actions','goals','grants')}
+            original=ContextAssembler.assemble;checked=[]
+            def inspect(assembler,request,policy,**kwargs):
+                package=original(assembler,request,policy,**kwargs)
+                grouped=[b for b in package.blocks if 'equivalent_verification_reports' in b.data_json]
+                if grouped and not checked:
+                    counter=assembler.counter
+                    class ExpensiveGrouping:
+                        descriptor='SYNTHETIC_GROUPING_COST_COUNTER_NOT_PROVIDER_TOKENIZER'
+                        def count(self,text):
+                            return counter.count(text)+(500000 if 'equivalent_verification_reports' in text else 0)
+                    try:
+                        assembler.counter=ExpensiveGrouping()
+                        literal=original(assembler,request,policy,**kwargs)
+                        assembler.validate(literal,request,policy)
+                        reports=[b for b in literal.blocks if b.kind=='MEMORY' and set(b.source_memory_ids)&set(mids)]
+                        assert len(reports)==32 and all('equivalent_verification_reports' not in b.data_json for b in reports)
+                    finally:assembler.counter=counter
+                    tight=request.model_copy(update={'max_input_tokens':24000})
+                    reduced=original(assembler,tight,policy,**kwargs);assembler.validate(reduced,tight,policy)
+                    retained=[b for b in reduced.blocks if b.kind=='MEMORY' and set(b.source_memory_ids)&set(mids)]
+                    assert retained and all('equivalent_verification_reports' not in b.data_json for b in retained)
+                    assert any(':OTHER_REPORT_OCCURRENCES' in item for item in reduced.manifest.omitted_ids)
+                    assert reduced.manifest.input_tokens<=reduced.manifest.input_limit
+                    checked.append(True)
+                return package
+            monkeypatch.setattr(ContextAssembler,'assemble',inspect)
+            session=bind(r,transport,context_policy());clock.advance(3*SECOND);r.lease.heartbeat();r.refresh_attention()
+            for _ in range(12):r.step()
+            assert state['calls']==1 and len(received)==1 and checked==[True]
+            package=json.loads(received[0].context_json)
+            blocks=[b for b in package['blocks'] if b['kind']=='MEMORY' and set(b['source_memory_ids'])&set(mids)]
+            assert len(blocks)==1  # The original produces 32 separate bodies.
+            block=blocks[0];data=json.loads(block['data_json']);reports=data['equivalent_verification_reports']
+            assert reports['count_in_retrieved_window']==32
+            assert reports['additional_independent_contexts_established'] is False
+            assert set(block['source_memory_ids'])==set(mids)
+            assert set(block['source_evidence_ids'])=={m['source_evidence_id'] for m in before.values()}
+            assert set(block['source_event_ids'])=={m['event_id'] for m in before.values()}
+            for item in reports['reports']:
+                original=before[item['memory_id']]
+                reconstructed=json.loads(data['text'])
+                reconstructed['strategy_episode']['episode_key']=item['episode_key']
+                assert reconstructed==json.loads(original['text'])
+                for field in ('event_time_us','observed_time_us','ingested_time_us'):
+                    assert item[field]==original[field]
+                assert item['source_evidence_id']==original['source_evidence_id'] and item['source_event_id']==original['event_id']
+            assert {mid:dict(memory.read(mid)) for mid in mids}==before
+            assert counts=={t:len(r.store.all(t)) for t in counts}
+            request_id=received[0].request_id;row=r.store.one('cognitive_requests',request_id)
+            assert set(mids)<=set(RecordService(r.store).support(row['record_id']))
+            print(json.dumps({'self_calls':state['calls'],'report_bodies':len(blocks),'reports_retained':32,
+                'input_bytes':row['input_bytes'],'reserved_bytes':row['reserved_bytes'],'real_provider_calls':0}))
+            # An ordinary read remains literal; this is not a global history rule.
+            assembler=ContextAssembler(r.store,r.authority)
+            req=ContextRequest(entity_id=r.config.entity_id,scopes=('world',),task_class='plain_context',
+                task='Inspect permitted current context',task_privacy_class='PUBLIC',max_input_tokens=65536)
+>           ordinary=assembler.assemble(req,context_policy());assembler.validate(ordinary,req,context_policy())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_growth_context_compaction.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+assembler = <nana_core.continuity.context.ContextAssembler object at 0x7f4135196b10>
+request = ContextRequest(schema_version=1, entity_id='observer', scopes=('world',), task_class='plain_context', task='Inspect pe...privacy_class='PUBLIC', query_terms=(), destination='LOCAL_FIXTURE', max_input_tokens=65536, output_reserve_tokens=512)
+policy = ContextPolicy(policy_id='world-reference', allowed_scopes=('world',), readable_privacy=('PUBLIC', 'PROJECT', 'PERSONAL'), remote_privacy=('PUBLIC',))
+kwargs = {}
+
+    def inspect(assembler,request,policy,**kwargs):
+>       package=original(assembler,request,policy,**kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'dict' object is not callable
+
+tests/person_self/test_growth_context_compaction.py:40: TypeError
+----------------------------- Captured stdout call -----------------------------
+{"self_calls": 1, "report_bodies": 1, "reports_retained": 32, "input_bytes": 81401, "reserved_bytes": 93690, "real_provider_calls": 0}
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_context_compaction.py::test_normal_growth_self_keeps_all_report_occurrences_dependencies_and_c_choice
+1 failed, 1 passed in 0.89s
