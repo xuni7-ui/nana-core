@@ -2983,3 +2983,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 [源码/实测] 原隔离复查多字幕×静音区间从全扫描改排序区间二分/前缀，短跨度直接累加，保留来源/UNKNOWN/撤回重读语义。3000×3000合成原重叠2.5872秒、索引含验证输出0.01546秒、最大误差0；14相关通过含300随机和微秒边界。非真实视频/模型Token，尚未接线；证据video-caption-overlap-index-20261116，源码锚2579e2c05d49fb12d96a15590f3e0ca397f433b0dd03e5845e1d87fb6b9e6d0a。
 
 [2026-11-16 B对齐] 正常合入A b5481b5 Growth注意可见性修复；A完整账本前缀和白名单保留，B视觉实验源码/测试指纹未变，无原NanaLink接口差额，复用对应定向验证。
+
+
+### 2026-11-16 · B上游音频分类反例
+
+[源码/实测] video-watch-plus固定8ca266f原audio_probe对FFmpeg合成纯正弦判器乐high、FLITE合成语音判纯音非语音medium；每类1例，非真实语音准确率。禁止把此单一判型当语音真相或阻断依据，保留独立来源/UNKNOWN；无ASR/模型/网络调用。证据video-upstream-audio-counterexample-20261116，源码锚b05364d89f873318f274285d02ac123f6a5d0b831918d2ee3216dbe9142e7ea2。
