@@ -1,0 +1,38 @@
+{
+  "baseline_a": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "previous_b_commit": "ba79331532608792450dbe905878f799aca0fce1",
+  "owner": "B",
+  "scope": "isolated local request planning and decoding; no current platform/Subject consumer",
+  "change": "Plan at most 256 overlapping half-open windows over caller-supplied <=86400-second duration; report unplanned tail. Decode a requested <=600-second window with source PTS preserved and explicit non-observation status.",
+  "contract": {
+    "windows": "Each {start_seconds,end_seconds} is a request only; truncated/unplanned_intervals explicitly expose budget exhaustion; caller source and duration remain unverified.",
+    "decoder": "FFmpeg -copyts, bounded input seek and source-PTS trim; returns container-relative timestamps, original integer PTS/time_base, requested window, and source geometry. Nonzero origin preserved; every returned frame is rechecked inside requested half-open interval.",
+    "empty": "No newly decoded frame is NO_NEW_FRAME_DECODED_NOT_OBSERVED; does not prove blank/empty visual content. A previous held VFR frame may exist.",
+    "bounds": "individual window <=600s, max 1200 frames and 64MiB+one RGB frame, <=120s process timeout, source file <=256MiB; container duration is unverified."
+  },
+  "controlled_results": {
+    "vfr_offsets": "source PTS at 0/0.5/1.75/2; request [0.6,2.1) returns 1.75/2 with byte-identical frames even when container origin is 5s; [0.6,1.6) returns no new frame and unknown content",
+    "boundary": "adjacent [0,0.5), [0.5,2.25) union equals full source timestamps, integer PTS and decoded RGB in this fixture",
+    "long_synthetic": "601s static 32×32 at 1fps; windows [0,600), [599,601) decoded 600+2 frames, 601 unique source timestamps, overlap 1, no missing expected generated frames",
+    "resource_one_run": "source 16502 bytes, RGB output 1849344 bytes, wall 0.424s, child CPU 0.440s, max child RSS 35072 KiB; excludes provider and real hardware; highly synthetic low resolution",
+    "before": "3 targeted tests failed because original decode did not support requested window; no tests weakened"
+  },
+  "validation": {
+    "command": "NANA_DSH_SOURCE=/workspace/work/dsh-see-now PYTHONPATH=src:. python -m pytest tests/nana_next_experience/test_video_segment_windows.py tests/nana_next_experience/test_video_pts_decode.py -q",
+    "result": "21 passed in 5.20s"
+  },
+  "limits": [
+    "No semantic understanding, real video event recall, billed model token or actual provider call",
+    "Input duration and source identity are caller-supplied or container-declared, not independently authorized or semantically qualified",
+    "FFmpeg seek accuracy across arbitrary codecs, long GOPs, fragmented inputs, timebase wrap, VFR held frames and real sources require more controlled counterexamples",
+    "Partial windows or missing metadata never imply a whole video was observed",
+    "No original Memory/Kernel source dependency, platform account or withdrawal integration; A and NanaLink must own these"
+  ],
+  "next": "B validates long GOP, timestamps and multi-window resource behaviour; NanaLink supplies authorized source; A integrates original S5/Memory/Provider/withdrawal as appropriate",
+  "source_sha256": {
+    "tools/nana_next_experience/experiments/video_pts_decode.py": "c1b04a40e365e4513e6864818468703f4806ba22fc4ccd33dee127555cb06466",
+    "tests/nana_next_experience/test_video_pts_decode.py": "7024227aef2ec6f21e563fe4c35b7ed8dadeef46f74e42c19306c4653fe35049",
+    "tools/nana_next_experience/experiments/video_segment_windows.py": "e155a5842bccb14124a7ab1ac0aadf8b97cb49fd19f0fc358306faa2b41fcbcb",
+    "tests/nana_next_experience/test_video_segment_windows.py": "e452772ed6600bd06fcd40174bcd3251e2d9ff2544809343c6360235691554cf"
+  }
+}

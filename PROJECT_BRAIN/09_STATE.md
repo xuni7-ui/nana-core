@@ -3060,3 +3060,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B音视频偏移与音频实际覆盖
 
 [源码/实测] 隔离解码保留FFmpeg整数PTS及容器原点，非零起点MP4/音视频错开1秒仍保留原PTS与容器相对时间；Matroska非零起点可能把终点PTS当duration，标容器未资格。原字幕复查曾把音轨之外误标低冲突，现按实际解码音频样本PTS/覆盖判断，范围外/旧无覆盖字段为UNKNOWN；8秒合成尾部7.5–7.8秒旧低冲突→新UNKNOWN。78相关通过；非实际媒体/ASR/模型/Token/生产，证据video-audio-coverage-and-offset-20261116.json锚488aff7b01013217d2e5d5afa5de8217f9e52db8dcfb88f9608bbc7f78839906。
+
+
+### 2026-11-16 · B有界分段请求与原PTS解码
+
+[源码/实测] 最多256个有界重叠请求窗口并显式标未规划尾，绝不等同已观察；FFmpeg窗口保留原整数PTS/容器原点，空窗口标无新帧/未观察。601秒1fps合成片两窗600+2帧、去重601帧/交叠1；VFR非零起点与半开边界逐字节一致，21定向通过。非真实长视频/Token/平台资格；证据video-bounded-windows-20261116.json锚5a997d64bc4141604178efbaea67ea5487b969f1212485d2ed93c916d941a14b。

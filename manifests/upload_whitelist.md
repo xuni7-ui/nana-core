@@ -363,3 +363,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B音视频起点与音频覆盖
 
 持续授权：video-audio-coverage-and-offset-20261116.json及其中7个原创源码/测试，09/11追加、本清单；无真实音视频/字幕/凭据或上游源码复制。
+
+
+## 2026-11-16 B有界分段与PTS
+
+持续授权：video-bounded-windows-20261116.json及其中4个原创实验/测试，09/11追加、本清单；无真实媒体/凭据。

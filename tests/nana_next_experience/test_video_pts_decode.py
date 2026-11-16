@@ -135,3 +135,54 @@ def test_nonzero_matroska_container_duration_is_not_qualified_as_video_length(tm
     # Some Matroska muxers report end PTS (7.25), not necessarily the actual media duration.
     assert result.duration_qualification=='CONTAINER_DECLARED_UNVERIFIED'
     assert result.declared_frames is None and not result.count_consistent
+
+
+def test_seeked_vfr_window_preserves_original_pts_with_nonzero_origin(tmp_path):
+    original=tmp_path/'vfr.mp4';offset=tmp_path/'offset.mp4';make_vfr(original)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(original),
+        '-c','copy','-output_ts_offset','5','-y',str(offset)],check=True,timeout=20)
+    full=decode('source.synthetic',offset)
+    part=decode('source.synthetic',offset,start_seconds=.6,end_seconds=2.1)
+    assert part.timestamps==(1.75,2.0) and part.pts_ticks==full.pts_ticks[-2:]
+    assert part.rgb24==full.rgb24[-2*160*90*3:]
+    assert part.timeline_origin=='5.000000' and part.requested_window==(.6,2.1)
+    assert part.window_state=='FRAMES_DECODED_NOT_COVERAGE' and not part.count_consistent
+
+
+def test_empty_vfr_window_does_not_claim_blank_or_observed_content(tmp_path):
+    path=tmp_path/'vfr.mp4';make_vfr(path)
+    part=decode('source.synthetic',path,start_seconds=.6,end_seconds=1.6)
+    assert part.timestamps==() and part.rgb24==b''
+    assert part.window_state=='NO_NEW_FRAME_DECODED_NOT_OBSERVED'
+
+
+def test_adjacent_vfr_windows_preserve_all_decoded_frame_identity(tmp_path):
+    path=tmp_path/'vfr.mp4';make_vfr(path);full=decode('source.synthetic',path)
+    first=decode('source.synthetic',path,start_seconds=0,end_seconds=.5)
+    second=decode('source.synthetic',path,start_seconds=.5,end_seconds=2.25)
+    assert first.timestamps+second.timestamps==full.timestamps
+    assert first.pts_ticks+second.pts_ticks==full.pts_ticks
+    assert first.rgb24+second.rgb24==full.rgb24
+
+
+def test_long_video_uses_bounded_window_without_claiming_full_watch(tmp_path):
+    path=tmp_path/'long.mp4'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'color=black:s=32x32:r=1:d=601','-c:v','mpeg4','-g','1','-threads','1',
+        '-y',str(path)],check=True,timeout=30)
+    with pytest.raises(ValueError,match='timing'):decode('source.synthetic',path,width=32,height=32)
+    from tools.nana_next_experience.experiments.video_segment_windows import windows
+    plan=windows('source.synthetic',601,window_seconds=600,overlap_seconds=1)
+    batches=[decode('source.synthetic',path,width=32,height=32,
+        start_seconds=w['start_seconds'],end_seconds=w['end_seconds']) for w in plan['windows']]
+    first,part=batches
+    assert [len(x.timestamps) for x in batches]==[600,2]
+    assert set(first.timestamps)|set(part.timestamps)==set(range(601))
+    assert set(first.timestamps)&set(part.timestamps)=={599.0}
+    assert part.timestamps==(599.0,600.0)
+    assert part.requested_window==(599,601) and part.window_state=='FRAMES_DECODED_NOT_COVERAGE'
+    assert not part.count_consistent and plan['status']=='REQUESTS_ONLY_NOT_OBSERVED'
+    with pytest.raises(ValueError,match='bounds'):
+        decode('source.synthetic',path,width=32,height=32,start_seconds=0)
+    with pytest.raises(ValueError,match='window'):
+        decode('source.synthetic',path,width=32,height=32,start_seconds=0,end_seconds=601)

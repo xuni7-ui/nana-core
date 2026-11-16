@@ -1,5 +1,6 @@
 """Local, bounded RGB decoding with actual FFmpeg output PTS, never a source authority."""
 from dataclasses import dataclass, field
+from decimal import Decimal
 from fractions import Fraction
 import json
 import math
@@ -22,13 +23,16 @@ class DecodedFrames:
     video_start: str = '0'
     timestamp_basis: str = 'container_relative'
     duration_qualification: str = 'CONTAINER_DECLARED_UNVERIFIED'
+    requested_window: tuple[float,float] | None = None
+    window_state: str = 'FRAMES_DECODED_NOT_COVERAGE'
     declared_frames: int | None = None
     count_consistent: bool = False
     coordinate_space: str = 'decoded_scaled_pixels_no_rotation'
     source_attestation: str = 'CALLER_SUPPLIED'
 
 
-def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=120):
+def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=120,
+           start_seconds=None, end_seconds=None):
     """Decode explicit local video in display order, preserving output PTS.
 
     Input identity and authorization are a caller responsibility. This helper
@@ -38,7 +42,8 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     """
     if (type(source_ref) is not str or not 1<=len(source_ref)<=128 or
             type(width) is not int or type(height) is not int or width<1 or height<1 or width*height>262144 or
-            type(max_frames) is not int or not 1<=max_frames<=1200):
+            type(max_frames) is not int or not 1<=max_frames<=1200 or
+            (start_seconds is None)!=(end_seconds is None)):
         raise ValueError('invalid decode bounds')
     path=Path(path).resolve(strict=True)
     if not path.is_file() or path.stat().st_size>256*1024*1024:raise ValueError('invalid local media')
@@ -57,7 +62,12 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
         origin=Fraction(origin_text);video_start=Fraction(video_start_text)
         source_width=int(stream['width']);source_height=int(stream['height'])
     except (KeyError,IndexError,ValueError,TypeError) as exc:raise ValueError('unqualified video timing') from exc
-    if (not math.isfinite(duration) or not 0<duration<=600 or abs(origin)>2**53 or
+    window=start_seconds is not None
+    if window and (type(start_seconds) not in (int,float) or type(end_seconds) not in (int,float) or
+                   not math.isfinite(start_seconds) or not math.isfinite(end_seconds) or
+                   not 0<=start_seconds<end_seconds<=duration or end_seconds-start_seconds>600):
+        raise ValueError('invalid decode window')
+    if (not math.isfinite(duration) or not 0<duration<=(86400 if window else 600) or abs(origin)>2**53 or
             not 0<=video_start-origin<=Fraction(str(duration)) or source_width<1 or source_height<1):
         raise ValueError('unqualified video timing or dimensions')
     try:declared=int(stream['nb_frames'])
@@ -66,13 +76,21 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     frame_size=width*height*3
     limit=min(max_frames,(64*1024*1024)//frame_size)
     # Read one extra frame to identify an exhausted bound, not silently truncate.
-    result=run(['ffmpeg','-copyts','-hide_banner','-nostats','-loglevel','info','-protocol_whitelist','file,pipe',
-        '-noautorotate','-i',str(path),'-map','0:v:0',
-        '-vf',f'scale={width}:{height}:flags=area,format=rgb24,showinfo',
-        '-fps_mode','passthrough','-an','-frames:v',str(limit+1),'-f','rawvideo','-pix_fmt','rgb24','-'])
+    command=['ffmpeg','-copyts','-hide_banner','-nostats','-loglevel','info','-protocol_whitelist','file,pipe']
+    filters=f'scale={width}:{height}:flags=area,format=rgb24,showinfo'
+    if window:
+        # Fast seek is only an optimization; trim and post-check both use the
+        # absolute source timeline, with end exclusive. No frame is invented.
+        absolute_start=Decimal(origin_text)+Decimal(str(start_seconds))
+        absolute_end=Decimal(origin_text)+Decimal(str(end_seconds))
+        command+=['-ss',str(start_seconds),'-t',str(Decimal(str(end_seconds))-Decimal(str(start_seconds)))]
+        filters=f'trim=start={absolute_start}:end={absolute_end},'+filters
+    command+=['-noautorotate','-i',str(path),'-map','0:v:0','-vf',filters,
+        '-fps_mode','passthrough','-an','-frames:v',str(limit+1),'-f','rawvideo','-pix_fmt','rgb24','-']
+    result=run(command)
     if len(result.stdout)%frame_size:raise ValueError('partial decoded frame')
     count=len(result.stdout)//frame_size
-    if count<1 or count>limit:raise ValueError('decoded frame bound exceeded')
+    if count>limit or (not window and count<1):raise ValueError('decoded frame bound exceeded')
     if len(result.stderr)>4*1024*1024:raise ValueError('decoder metadata exceeds bound')
     log=result.stderr.decode('utf-8',errors='replace')
     bases=re.findall(r'\[Parsed_showinfo_\d+\s+@[^\]]+\]\s+config in time_base:\s*(\d+)/(\d+)',log)
@@ -86,10 +104,15 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
         raise ValueError('decoded frame timestamps unavailable')
     ticks=tuple(int(row[1]) for row in rows)
     # Fraction avoids losing source tick precision while subtracting large origins.
-    times=tuple(float(Fraction(t*numerator,denominator)-origin) for t in ticks)
+    relative=tuple(Fraction(t*numerator,denominator)-origin for t in ticks)
+    times=tuple(float(t) for t in relative)
+    if window and any(not Fraction(str(start_seconds))<=t<Fraction(str(end_seconds)) for t in relative):
+        raise ValueError('decoded frame outside requested window')
     if any(not math.isfinite(t) or not 0<=t<=duration for t in times) or any(a>=b for a,b in zip(times,times[1:])):
         raise ValueError('invalid decoded timestamp sequence')
     return DecodedFrames(source_ref=source_ref,duration_seconds=duration,source_size=(source_width,source_height),
         output_size=(width,height),timestamps=times,rgb24=result.stdout,pts_ticks=ticks,
         time_base=(numerator,denominator),timeline_origin=origin_text,video_start=video_start_text,
-        declared_frames=declared,count_consistent=declared is not None and count==declared)
+        requested_window=(start_seconds,end_seconds) if window else None,
+        window_state='FRAMES_DECODED_NOT_COVERAGE' if count else 'NO_NEW_FRAME_DECODED_NOT_OBSERVED',
+        declared_frames=declared,count_consistent=not window and declared is not None and count==declared)
