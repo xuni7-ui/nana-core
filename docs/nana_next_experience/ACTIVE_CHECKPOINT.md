@@ -1,8 +1,8 @@
-## 当前接续：原S5源流与实际解码覆盖，revision268
+## 当前接续：原CI native选择与真实关联兼容，revision269
 
-原S5 meta/frame选第一流但ffmpeg自动选他轨的真实错配：同源多视频/音频旧3fail→原bwrap map0:v:0/0:a:0，70相关11.78s；同一编码文件像素blue→red、错归声音→第一轨静音，原Memory→同C私问blue→red/源撤回失效，无Goal/动作/Grant/新进程。另实际1s音频因容器2s错标，S2有效旧1fail→按PCM样本时长，后补8相关3.95s；最初direct-support/World不存在字段的夹具错均保留后更正实际契约，非放宽。语义/ASR UNKNOWN、真实0。
+原CI媒体依赖选择遗漏已修：265独立12fail84pass/268独立7fail38pass均Native SKIP，267实际179pass2warnings115.19s。classifier补原native媒体路径及manual/workflow smoke，13路径/7Python块检查；本地35pass1fail24.69s暴露原同源AAC时长尾差关联问题，原错保留，下一批修覆盖语义。本批CI待实读，非发行/生产。
 
-继续原S3多动机/可靠反馈/G更广迁移、私QQ/私Bili前C、B22原生源流/时间/覆盖/长窗口适配与其余A–H；方法初始私倾向和冷却已接不重做。CURRENT266+409，9a2候选不含264–268，真实模型/手机/生产/自然度/实际长期无新增。 证据evidence/media-stream-binding-20261116/README.md。
+继续同源音视频实际覆盖关联及原S3/G/私QQ/私Bili/B22和A–H，CURRENT266+409，9a2不含264后继。证据evidence/native-ci-routing-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

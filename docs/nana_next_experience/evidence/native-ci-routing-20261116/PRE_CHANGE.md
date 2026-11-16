@@ -1,0 +1,1 @@
+锚36477ac98e2b063838b341df3f1fceb925822d9f / Brain268，已推干净。0892569实际CI run43872586764/job133317647272：12fail/84pass30.88s，原H1 AUDIO/VIDEO/恢复因MEDIA_SANDBOX_UNAVAILABLE失败，Native codecs步骤SKIPPED。不是Core本地35项失败或artifact403。native_world漏bilibili_frames/对应测试及原perception；364自身Native也SKIPPED，最终状态待实读。修原单workflow路由，复用原AppArmor/bwrap/ffmpeg，不禁用沙箱、不skip/改断言。workflow自身变更用已有H1/媒体作宿主smoke。

@@ -1,0 +1,75 @@
+{
+  "cases": [
+    {
+      "case": "bili",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "bili-test",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "unknown-test",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "perception",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "stream-test",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "h2",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "h1",
+      "old": true,
+      "new": true
+    },
+    {
+      "case": "router",
+      "old": true,
+      "new": true
+    },
+    {
+      "case": "workflow",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "manual",
+      "old": false,
+      "new": true
+    },
+    {
+      "case": "context",
+      "old": false,
+      "new": false
+    },
+    {
+      "case": "docs",
+      "old": false,
+      "new": false
+    },
+    {
+      "case": "client",
+      "old": false,
+      "new": false
+    }
+  ],
+  "python_blocks_compiled": 7,
+  "smoke_existing_tests": [
+    "tests/world_loop/test_boundaries.py",
+    "tests/world_loop/test_media_stream_binding.py",
+    "tests/h1_semantics/test_grounding.py"
+  ]
+}

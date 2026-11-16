@@ -285,3 +285,7 @@ continuity/context.py、test_growth_purpose_context.py、原CI精确路径/组�
 ## 2026-11-16 A原S5源流/时长
 
 world_loop/perception.py、新test_media_stream_binding.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/media-stream-binding-20261116公开合成原错/70及后8回归/同编码文件解码消融/指纹、本白名单。无媒体原件/DB/私史/Key/新依赖/模型或账号调用/生产/打包。
+
+## 2026-11-16 A原CI native选择
+
+.github/workflows/nana-next-qualification.yml、09/11/ACTIVE/STATUS、evidence/native-ci-routing-20261116公开CI原错/本地原错/分类检查/指纹、本白名单；无新Core代码/DB/私史/凭据/生产/发行。

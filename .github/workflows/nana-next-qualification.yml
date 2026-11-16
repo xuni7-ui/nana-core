@@ -210,7 +210,7 @@ jobs:
                   client_workflow_changed=True  # newly introduced/missing workflow
           core=explicit or any(p.startswith(('src/nana_core/','tools/nana_','packaging/portable/','tests/','contracts/','requirements-core-dev.lock')) for p in paths)
           client=manual or client_workflow_changed or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/','tools/nana_first_life_android_v2/schema.py')) for p in paths)
-          native_world=any(any(marker in p for marker in ('world_loop/cognition.py','world_loop/anthropic.py','world_loop/semantics.py','continuity/provider_routing.py','tests/provider_routing/','tests/h1_semantics/','tests/h1_live_semantics/')) for p in paths)
+          native_world=explicit or any(any(marker in p for marker in ('world_loop/cognition.py','world_loop/anthropic.py','world_loop/semantics.py','world_loop/perception.py','continuity/provider_routing.py','tests/provider_routing/','tests/world_loop/','tests/h2_perception/','tests/h1_semantics/','tests/h1_live_semantics/','life/bilibili_frames.py','test_bilibili_frames.py','test_bilibili_frame_unknown.py')) for p in paths)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\nnative_world={str(native_world).lower()}\n')
           print('Affected components:',{'core':core,'client':client})
@@ -390,7 +390,7 @@ jobs:
           if '.github/workflows/nana-next-qualification.yml' in changed:
               # Exercise the host dependency path when changing this workflow;
               # this original boundary includes real PUBLIC frame decoding.
-              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py'})
+              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py','tests/world_loop/test_media_stream_binding.py','tests/h1_semantics/test_grounding.py'})
           print('TARGETED_CHECKS',selected,flush=True)
           if any(test.startswith('tests/nanalink') for test in selected):
               subprocess.run(['uv','pip','install','--python',sys.executable,'-r','requirements-nanalink.lock'],check=True)
