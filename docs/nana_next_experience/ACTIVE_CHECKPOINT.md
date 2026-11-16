@@ -1,8 +1,8 @@
-## 当前接续：成长目的的可撤回紧凑引用，revision267
+## 当前接续：原S5源流与实际解码覆盖，revision268
 
-原当前G SELF可选旧校验改MEMORY_REFERENCE_INDEX，原文/当前Frame及Record support/required/显式查询/未知附加观察保护；原等价正文机制及多动机不改，source/time/digest/action引用保留但不宣称全文/新事实。旧1fail→1过/81相关，后补物理撤回1过；原始Memory不改，32索引源仍支持原请求，撤回使请求失效且主DB/WAL清内容。固定137旧函数同内容/预算均2SELF/1私问，input220294→194761字节-11.6%非Token，真实0。
+原S5 meta/frame选第一流但ffmpeg自动选他轨的真实错配：同源多视频/音频旧3fail→原bwrap map0:v:0/0:a:0，70相关11.78s；同一编码文件像素blue→red、错归声音→第一轨静音，原Memory→同C私问blue→red/源撤回失效，无Goal/动作/Grant/新进程。另实际1s音频因容器2s错标，S2有效旧1fail→按PCM样本时长，后补8相关3.95s；最初direct-support/World不存在字段的夹具错均保留后更正实际契约，非放宽。语义/ASR UNKNOWN、真实0。
 
-下一现役S3情感/私人倾向→原Frame多动机与明确反馈→未来可选方法的真正断点，复用49虚拟h/G/关联而非新系统；原A–H/平台视觉/存储/Token/产品仍待，CURRENT266+409，9a2候选不含264–267。 证据evidence/growth-purpose-context-20261116/README.md。
+继续原S3多动机/可靠反馈/G更广迁移、私QQ/私Bili前C、B22原生源流/时间/覆盖/长窗口适配与其余A–H；方法初始私倾向和冷却已接不重做。CURRENT266+409，9a2候选不含264–268，真实模型/手机/生产/自然度/实际长期无新增。 证据evidence/media-stream-binding-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

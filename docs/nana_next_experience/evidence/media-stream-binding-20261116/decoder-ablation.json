@@ -1,0 +1,138 @@
+{
+  "scope": "SYNTHETIC_SAME_EXACT_ENCODED_FILE_NATIVE_SANDBOX_ONLY",
+  "base": "7690ce94f63b27f48604d205ad5fbaf03fbd4895",
+  "input_sha256": "86d48c84ac8a87883f8ca08024709e58c32ebf94db330d0f379ea22bc86787af",
+  "input_bytes": 226158,
+  "outputs": [
+    {
+      "mode": "original",
+      "modality": "VIDEO",
+      "wall_ms": 345.9514720016159,
+      "parent_cpu_ms": 4.303056999999999,
+      "completed_children_cpu_ms": 7.204999999999999,
+      "processes": [
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffmpeg",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        }
+      ],
+      "duration_s": 1.0,
+      "semantic_or_speech": "UNKNOWN",
+      "metadata_dimensions": [
+        32,
+        24
+      ],
+      "source_frame_count": 4,
+      "sample_times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75
+      ],
+      "first_mean_rgb": [
+        0.0,
+        0.0,
+        253.0
+      ]
+    },
+    {
+      "mode": "original",
+      "modality": "AUDIO",
+      "wall_ms": 286.36163999908604,
+      "parent_cpu_ms": 2.600642000000042,
+      "completed_children_cpu_ms": 3.811,
+      "processes": [
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffmpeg",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        }
+      ],
+      "duration_s": 1.0,
+      "semantic_or_speech": "UNKNOWN",
+      "metadata_rate": 16000,
+      "metadata_channels": 1,
+      "samples": 16000,
+      "first_rms": 0.06249165595690022
+    },
+    {
+      "mode": "bound_first_stream",
+      "modality": "VIDEO",
+      "wall_ms": 347.5367710052524,
+      "parent_cpu_ms": 2.855782000000029,
+      "completed_children_cpu_ms": 5.443999999999999,
+      "processes": [
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffmpeg",
+          "mapped_stream": "0:v:0"
+        }
+      ],
+      "duration_s": 1.0,
+      "semantic_or_speech": "UNKNOWN",
+      "metadata_dimensions": [
+        32,
+        24
+      ],
+      "source_frame_count": 4,
+      "sample_times": [
+        0.0,
+        0.25,
+        0.5,
+        0.75
+      ],
+      "first_mean_rgb": [
+        252.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "bound_first_stream",
+      "modality": "AUDIO",
+      "wall_ms": 236.52895299892407,
+      "parent_cpu_ms": 3.581783000000005,
+      "completed_children_cpu_ms": 5.219000000000001,
+      "processes": [
+        {
+          "process": "ffprobe",
+          "mapped_stream": "AUTOMATIC_SELECTION"
+        },
+        {
+          "process": "ffmpeg",
+          "mapped_stream": "0:a:0"
+        }
+      ],
+      "duration_s": 1.0,
+      "semantic_or_speech": "UNKNOWN",
+      "metadata_rate": 16000,
+      "metadata_channels": 1,
+      "samples": 16000,
+      "first_rms": 0.0
+    }
+  ],
+  "all_same_existing_bwrap": true,
+  "actual_provider_calls": 0,
+  "new_processes_added": 0,
+  "new_schema_or_dependencies": false,
+  "cumulative_exited_child_maxrss_KiB": 31308,
+  "not_production_or_semantic_qualification": true
+}

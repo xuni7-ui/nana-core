@@ -22,14 +22,14 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 267,
-  "as_of_us": 1794837163760120,
+  "revision": 268,
+  "as_of_us": 1794840008826714,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
+    "原S5多流meta选首轨/实际auto选他轨导致误观测，旧3fail→原bwrap显式map首视频/音轨，70相关11.78s；同编码文件blue→red/假声音→静音，C私问blue→red且源撤回全链失效。音频容器2s但实际1s也修实际PCM时长，原1fail/后8相关3.95s。语义/ASR仍UNKNOWN，真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
@@ -44,20 +44,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一核对现役S3情感/私人倾向如何进原Frame多动机选择、明确反馈如何成后续可选方法，复用49虚拟h/G/关联；更广迁移仍待。QQ私源/私Bili保留前C/B22/S5/活索引与冷历史隐私/DR/真实Token/协议产品/A–H继续，9a2不含264–267。"
+    "原S3方法→D/私倾向、Growth资源冷却保护已接并复用；继续多动机/可靠反馈/G广迁移。Native媒体非零原点/不同覆盖/长窗口须同B22契约衔接，私QQ父源/私Bili保留前C/冷历史隐私DR/真实Token协议/产品/A–H待；9a2不含264–268。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/media-stream-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-purpose-context-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md",
     "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md"
+    "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision268证据指纹锚：`d4d1a399200c5e033fd7d0a1abfc16d98581930a6bbba3e54adbe2278b3230ad`（source.sha256不含自身/09）。
 
 A revision267证据指纹锚：`721f8f9be221ab04123b2c44253aab4235306355df7c061d9819f83759a95869`（source.sha256不含自身/09）。
 
