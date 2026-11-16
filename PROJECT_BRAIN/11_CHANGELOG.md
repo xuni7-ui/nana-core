@@ -4312,3 +4312,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision278：固定b196 Core312/263双SHA6f7d309f/Web237同输入复用归档5963d594，delivery b79e9ba6归22件；新GitHub独立取得/21SHA/第二离线19依赖/263源码匹配。两个独立安装DEV各完整同Subject原Gateway→setup私创作/拒聊/Manager→原G独评迁移与后来RENDER→梦境虚拟72h/撤回→私意图保持，各7fixture/0动作Goal；停机b196-00d-b196三次语义视图同。安装28过32.20s/158模块，源206过136.07s、匹配CI47过32.65s；不是全仓/真实模型/真机/生产/自然度/长期，CURRENT不变。 指纹锚00c0be7de60e57e008eae4e4c75d355aac48dab7a40758806eb0e3b48d600b94。
 
 - 2026-11-17 CST｜revision279：原S8方法已被反例暂停后64条新成功使原重启复验遗漏有效旧反例，原封签Core两privacy场景错误ACTIVE/真实选择器又可选。现近期独立支持不改，另以既有lesson索引流式检查完整当前反例，2fail→同2过/全文件4过1.12s与43相关15.47s；阻恢复0写入0模型，撤回反例后仍能恢复，受限privacy不伪造完整资格。b196封签候选不含本后继，不重打APK，CURRENT不变。 指纹锚a8cd76028c74c9a8bc8fb9f98e1b9bbb9c975326776faa16e9cf2deb1ca2bdb8。
+
+- 2026-11-17 CST｜revision280：原meta_learning已有独立候选/资格/原G消费者，全球8限额先截后筛导致8无关域成果挤掉当前策略；原封签同测试重启后G BLOCKED/NAIVE_SUM。现同scope/privacy/domain先筛再8候选，原记录进入下一全新garden/music数据的G HYPOTHESIZE，DONE/独立EVAL与TRANSFER过；撤回meta及其派生新G支持失效。2过.76s+32相关11.06s，0模型/selector0写，不改独立评价器，不称自改核心；279CI50过30.20s，280CI待。b196封签不含后继，CURRENT不变。 指纹锚9836def160f467fd2d81b41a8297917e4317a23c33845a84b88fc88d5d892636。

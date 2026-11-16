@@ -1,0 +1,3 @@
+.{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0}
+.
+2 passed in 0.76s

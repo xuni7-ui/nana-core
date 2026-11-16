@@ -1,8 +1,8 @@
-## 现役revision279 — 持久反例与下一方法层学习闭环
+## 现役revision280 — 原G方法层消费者接续及下一S5原生适配
 
-原S8方法已被反例暂停后64条新成功使原重启复验遗漏有效旧反例，原封签Core两privacy场景错误ACTIVE/真实选择器又可选。现近期独立支持不改，另以既有lesson索引流式检查完整当前反例，2fail→同2过/全文件4过1.12s与43相关15.47s；阻恢复0写入0模型，撤回反例后仍能恢复，受限privacy不伪造完整资格。b196封签候选不含本后继，不重打APK，CURRENT不变。
+原meta_learning已有独立候选/资格/原G消费者，全球8限额先截后筛导致8无关域成果挤掉当前策略；原封签同测试重启后G BLOCKED/NAIVE_SUM。现同scope/privacy/domain先筛再8候选，原记录进入下一全新garden/music数据的G HYPOTHESIZE，DONE/独立EVAL与TRANSFER过；撤回meta及其派生新G支持失效。2过.76s+32相关11.06s，0模型/selector0写，不改独立评价器，不称自改核心；279CI50过30.20s，280CI待。b196封签不含后继，CURRENT不变。
 
-下一原open_life/meta_learning.py已存在propose/checks/select→原G HYPOTHESIZE消费者，核对范围/域资格挤占与反证继承，不重做G或另建S10权威。b196双槽联合节点仍保留，不冒充279新安装。原S3/S8-S10/A–H与全部真实资格继续。证据evidence/persisted-learning-counterexample-20261117/README.md。
+开放PR仅B22 draft d63c1ba，已合PR14/17/18/20/21/23/24不重做。下一沿原S5 decoder/World/H1接原B22可用PTS/覆盖机制，保持原bwrap/来源/撤回和C自决，不复制B原型成第二平台。原S3/S8-S10/A–H继续，b196集成节点不冒作280新安装；本次CI待实读，真实资格另列。证据evidence/meta-learning-domain-continuity-20261117/README.md。
 
 ## 现役revision196
 

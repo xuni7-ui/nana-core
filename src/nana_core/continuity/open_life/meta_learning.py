@@ -71,7 +71,19 @@ def propose(store,method_lesson_id,*,authority):
 
 def select(store,problem,*,scope,privacy):
     records=RecordService(store)
-    for row in store.db.execute("SELECT * FROM lessons WHERE task_class='learning.strategy' AND state='ACTIVE' ORDER BY rowid DESC LIMIT 8"):
+    if not privacy:return None,None
+    allowed=tuple(dict.fromkeys(privacy));marks=','.join('?' for _ in allowed)
+    # Eight relevant strategy candidates, not eight global rows. A newer
+    # method for another domain/scope must not hide this problem's policy.
+    rows=store.db.execute(
+        "SELECT l.* FROM lessons l JOIN continuity_records h ON h.record_id=l.record_id "
+        "JOIN artifacts a ON a.artifact_id=h.payload_artifact_id "
+        "WHERE l.task_class='learning.strategy' AND l.state='ACTIVE' AND h.lifecycle='ACTIVE' "
+        f"AND h.scope=? AND h.privacy_class IN ({marks}) "
+        "AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) "
+        "THEN json_extract(CAST(a.payload AS TEXT),'$.rule.domain') END=? "
+        "ORDER BY l.rowid DESC LIMIT 8",(scope,*allowed,problem.domain))
+    for row in rows:
         head=store.one('continuity_records',row['record_id'])
         if not head or head['scope']!=scope or head['privacy_class'] not in privacy or head['lifecycle']!='ACTIVE' or not records.current_support(head['record_id']):continue
         rule=LearningStrategyLesson.model_validate_json(canonical(records.read(head['record_id'])['payload']['rule']))
