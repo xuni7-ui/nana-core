@@ -324,8 +324,12 @@ class OneBotAdapter:
                                              headers=self._headers(), allow_redirects=False) as response:
                     if response.status != 200:
                         raise CoreError('ONEBOT_HTTP_REJECTED_NO_RETRY')
-                    raw = await response.content.read(262145)
-                    value = decode(raw)
+                    raw = bytearray()
+                    async for chunk in response.content.iter_chunked(65536):
+                        raw.extend(chunk)
+                        if len(raw) > 262144:
+                            raise CoreError('ONEBOT_FRAME_BOUND')
+                    value = decode(bytes(raw))
             else:
                 if self.ws is None or self.ws.closed:
                     raise CoreError('ONEBOT_SESSION_UNAVAILABLE')

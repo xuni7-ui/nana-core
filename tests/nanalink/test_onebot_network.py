@@ -296,3 +296,56 @@ def test_account_reply_cannot_mark_a_disconnected_websocket_online():
             await adapter._account()
         assert adapter.health().login != 'AUTHENTICATED'
     asyncio.run(run())
+
+
+def test_http_rpc_reads_chunked_response_without_resending():
+    async def run():
+        calls = []
+        async def operation(request):
+            action = request.match_info['action']
+            calls.append(action)
+            await request.json()
+            data = {'user_id': 42} if action == 'get_login_info' else {'message_id': 99}
+            raw = json.dumps({'status': 'ok', 'retcode': 0, 'data': data}).encode()
+            response = web.StreamResponse()
+            await response.prepare(request)
+            await response.write(raw[:10])
+            await asyncio.sleep(.03)
+            await response.write(raw[10:])
+            await response.write_eof()
+            return response
+        app = web.Application(); app.router.add_post('/{action}', operation)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OneBotAdapter('42', mode='http', endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), allow_send=True)
+        try:
+            await adapter.connect()
+            result = await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
+            assert result == {'message_id': 99}
+            assert calls == ['get_login_info', 'send_private_msg']
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_http_oversize_write_response_fails_without_resending():
+    async def run():
+        calls = []
+        async def operation(request):
+            action = request.match_info['action']; calls.append(action)
+            await request.json()
+            if action == 'get_login_info':
+                return web.json_response({'status': 'ok', 'retcode': 0, 'data': {'user_id': 42}})
+            return web.Response(body=b'x' * 262145)
+        app = web.Application(); app.router.add_post('/{action}', operation)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OneBotAdapter('42', mode='http', endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), allow_send=True)
+        try:
+            await adapter.connect()
+            with pytest.raises(CoreError, match='ONEBOT_FRAME_BOUND'):
+                await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
+            assert calls == ['get_login_info', 'send_private_msg']
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
