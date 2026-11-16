@@ -1,0 +1,13 @@
+{
+  "source_commit": "c1d345eca827c226dd1d38e4bb19f8661dbf3abd",
+  "archive": "/tmp/nana-c1d-web-archives/web-a.tar.gz",
+  "sha256": "0408500337facc7154fee9d0bf43e27525c3868d8174aca7c5fae26616a75ec6",
+  "bytes": 633442,
+  "static_files": 42,
+  "two_archives_identical": true,
+  "fresh_compilation": true,
+  "same_all42_file_bytes_as_prior_qualified_web": true,
+  "normalization_epoch": 1794800713,
+  "input_manifest": "/tmp/nana-c1d-web/WEB-INPUT-SHA256.json",
+  "new_apk_built": false
+}

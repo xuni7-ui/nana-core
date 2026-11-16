@@ -1,8 +1,10 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
-## C WORKSTREAM — NANA-LINK-01
+## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
 
-[实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
+[当前A集成实测2026-11-16] PR18固定6645已由486ed546合入；新PR20固定3d6475c候选另审。以下保留C原2026-11-15交接，不代表PR18仍未合。
+
+[历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 
 - 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
 - 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；BFF 只读投影在配置变化时先通过原 IPC 同步 owner 隐私安全点，owner 不可用则安全失败；事务安全点和实际HTTP反例通过。无第二记忆库。
@@ -19,15 +21,15 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 254,
-  "as_of_us": 1794800645315786,
+  "revision": 255,
+  "as_of_us": 1794801859053074,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G早提议晚资格的表达方法不再被另一群16较新ACTIVE课题挤掉。46fa原1fail1pass→新2过2.51s/43相关13.62s；正常G/同主体重开→普通INTERPRET-C-SOCIAL使用方法，原来源撤回停止；各2HTTP/request总+3093bytes非Token，同库read197→63/中位23.94→9.95ms，真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
-    "8bec Core草稿302文件双SHA d1d1de6…、n8b离线BFF/49安装157模块/停机8bec-9a-8bec数据保持，未发布。Web快照补已提交公共live配置，修三条依赖version标签，fresh npm279/TS-Vite/100单测过，42文件等同旧9a。新源统一封签/CURRENT266+409仍不动。",
+    "c1d固定Core302/263双SHA49f95a28…、Web42文件04085003…；delivery a274固定11件，真实GitHub新克隆/10摘要/第二离线槽263文件同源/BFF通过；安装49过/157槽内模块。停机c1d-9a-c1d单身份私计划/G17/pending保持；CURRENT266+409不动。",
     "PR14/17已入主线；现A集成PR18固定6645：原平台/CONSENTED_PLATFORM/同C可选媒体，较新A/B目录与预算保持。补便携17模块263闭包/缺QR先拒绝账号I/O；108平台、118相关、7闭包登录、TS-Vite100单测/24四视口通过，非新APK/实机/真实0。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
@@ -35,23 +37,23 @@
     "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
   ],
   "open_gates": [
-    "生成中接续已接原CLI/Web并实际TLS4视口受控验证；原生SDK合约5项通过但Java/设备未实跑，最终匹配安装/APK/手机/真实投递/自然度/跨日长期仍待。更多连续消息/私人意向/C自主交流目的继续精修。",
+    "生成中CLI/Web及实际TLS4视口、c1d匹配双槽Core/BFF安装已资格；原生SDK合约5项，Java/设备未实跑，新APK/手机/真实投递/自然度/实际跨日长期仍待。连续消息/私人意向/C自主交流继续。",
     "原G WORDLIKE/TEXT仍独立16/32；两码点1k/10k/100k有限literal本批资格，旧20万144/144与2timeout历史不动；在线有界旧库补项/大量未索引/更广语义学习、Core-Iris活索引绑定/长期迁移及匹配安装回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "当前先把254固定源码统一Core/Web候选，补最终离线安装/真实GitHub下载/停机回退，勿把8bec草稿当最终。APK最后必要构建；之后继续原C情感/持续策略/G广迁移、B多帧覆盖/预算交接、物理隐私/真实Token/原A–H。"
+    "匹配c1d候选已真实下载/双槽离线安装/停机回退，不是发布CURRENT。新PR19时间覆盖原型/20视频来源及账号候选待A核对；继续上下文压缩连续性、情感持续策略/G广迁移、物理隐私/Token/原A–H。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
     "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md",
     "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md",
     "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md",
     "docs/nana_next_experience/evidence/frame-semantic-source-locator-20261116/README.md",
     "docs/nana_next_experience/evidence/memory-review-condition-cohort-20261116/README.md",
-    "docs/nana_next_experience/evidence/memory-review-current-choice-20261116/README.md",
-    "docs/nana_next_experience/evidence/deliberated-goal-review-20261116/README.md"
+    "docs/nana_next_experience/evidence/memory-review-current-choice-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

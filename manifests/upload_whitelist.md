@@ -221,3 +221,7 @@ lived_language.py原consumer局部、test_expression_lesson_population.py、既�
 ## 2026-11-16 A统一Web输入闭包
 
 package-lock.json三版本标签、tools/nana_first_life_android_v2/web_inputs.py、09/11/ACTIVE/STATUS及evidence/web-build-input-closure-20261116/原公开合成安装/回退/新npm/编译/单测/输入验证日志/指纹、本白名单。既有.env.live仅验证已提交公共开关、未新增密钥配置；无Store/签名Key/真实账号/用户数据/二进制/APK/新权限。
+
+## 2026-11-16 A匹配c1d受控交付回执
+
+09/11/ACTIVE/STATUS、本白名单及evidence/matched-integration-c1d345e-20261116/固定公开源码构建、合成安装/下载/停机回退回执/复现脚本/指纹。候选二进制仅既有delivery分支a274601，主开发分支不复制；无Store/Key/真实用户或账号/新权限。

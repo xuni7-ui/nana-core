@@ -1,0 +1,7 @@
+source=c1d345eca827c226dd1d38e4bb19f8661dbf3abd run=43800026105
+Core job=133077954598; full/oldSQLite/portable SKIPPED, targeted only.
+2026-11-16T03:47:00.1579452Z 12 passed in 29.28s
+Client job=133077954497
+2026-11-16T03:47:16.7379232Z [2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+2026-11-16T03:47:16.7380810Z [2m      Tests [22m [1m[32m100 passed[39m[22m[90m (100)[39m
+2026-11-16T03:50:40.2368744Z   168 passed (2.8m)

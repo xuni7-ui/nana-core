@@ -1,0 +1,11 @@
+{
+  "delivery_commit": "a2746019e38e0966ce3a64215d361347fd0c47db",
+  "source_commit": "c1d345eca827c226dd1d38e4bb19f8661dbf3abd",
+  "files_downloaded": 11,
+  "hashes_verified": 10,
+  "new_remote_git_clone": true,
+  "local_alternates_or_reference": false,
+  "download_method": "AUTHORIZED_GITHUB_GIT_FIXED_COMMIT_NOT_ACTIONS_ARTIFACT",
+  "anonymous_http_download": "NOT_VERIFIED",
+  "second_install": "PENDING"
+}

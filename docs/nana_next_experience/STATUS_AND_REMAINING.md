@@ -1,8 +1,8 @@
-## 现役revision254 — 公共live输入与依赖锁准确
+## 现役revision255 — c1d匹配候选受控安装与原任务续办
 
-仅修三条package-lock误标version4.0.3→实际resolved4.0.2，不换依赖/完整性摘要；原工具目录新增固定Git Web快照，补已提交非密钥.env.live。fresh npm279/TS-Vite/100单测4.73s通过，42产物全字节同旧9a，原包正确不被误判。8bec草稿Core302双SHA/首槽BFF/49安装157模块/停机8bec-9a-8bec数据保持；尚不作为最终发布。
+c1d345e匹配Core302/263双构建SHA49f95a287c68…，Web42文件SHA0408500337fa…；delivery a274601固定11件已实际GitHub新克隆下载/10摘要校验/第二离线安装263文件同源/原BFF通过。49安装测试157模块全来自槽内；停机c1d→9a→c1d保持同身份私计划/G17/pending，旧方法缺陷返回后恢复。
 
-下一新提交统一封签匹配Core/Web，最终安装/真实下载/回退后归档现有delivery，CURRENT266+409不动、APK最后；原C情感/G迁移/B视觉/物理隐私/真实Token及全部原A–H继续，真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/web-build-input-closure-20261116/README.md。
+新PR19/20已可见待A按职责核对；先补原上下文压缩/自主活动连续性少量场景，继承情感多动机/G未见迁移/视频接线/物理隐私/真实Token/全部A–H。c1d独立CI12定向Core、100单测/168浏览器通过，非全仓。CURRENT266+409不动，无新APK/真实模型/手机/生产/自然度/实际长期。 证据evidence/matched-integration-c1d345e-20261116/README.md。
 
 ## 现役revision196
 
