@@ -55,7 +55,10 @@ class OfficialQQAdapter(OneBotAdapter):
         return {'Authorization': 'QQBot ' + value, 'X-Union-Appid': self.account.account_id}
 
     async def _api(self, method, path, payload=None):
-        if self.session is None or self.closed or self._http_inflight >= 16:
+        if self.session is None or self.closed:
+            raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
+        if self._http_inflight >= 16:
+            self.metrics['http_backpressure'] += 1
             raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
         if path != '/users/@me' and not re.fullmatch(r'/v2/(?:users|groups)/[A-Za-z0-9_-]{1,128}/messages', path):
             raise CoreError('QQ_OFFICIAL_ROUTE_DENIED')
@@ -71,6 +74,8 @@ class OfficialQQAdapter(OneBotAdapter):
                 raise CoreError('QQ_OFFICIAL_CREDENTIAL_CHANGED')
             self.verified_token = None
         self._http_inflight += 1
+        self.metrics['http_inflight'] = self._http_inflight
+        self.metrics['http_peak_inflight'] = max(self.metrics['http_peak_inflight'], self._http_inflight)
         try:
             async with self.session.request(method, self.endpoint + path, json=payload,
                                             headers=headers, allow_redirects=False) as response:
@@ -97,6 +102,7 @@ class OfficialQQAdapter(OneBotAdapter):
             raise
         finally:
             self._http_inflight -= 1
+            self.metrics['http_inflight'] = self._http_inflight
 
     async def _account(self):
         value = await self._api('GET', '/users/@me')

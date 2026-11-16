@@ -302,6 +302,7 @@ def test_official_http_limits_inflight_calls_and_releases_capacity():
             with pytest.raises(CoreError,match='QQ_OFFICIAL_SESSION_UNAVAILABLE'):
                 await asyncio.wait_for(adapter.rpc('get_login_info',{}),.3)
             assert state['count'] == 16
+            assert adapter.metrics['http_inflight'] == 16 and adapter.metrics['http_backpressure'] == 1
             tasks[0].cancel()
             with pytest.raises(asyncio.CancelledError):
                 await tasks[0]
@@ -312,6 +313,7 @@ def test_official_http_limits_inflight_calls_and_releases_capacity():
             assert state['count'] == 17
             release.set();assert len(await asyncio.gather(*tasks[1:])) == 16
             assert await adapter.rpc('get_login_info',{}) == {'user_id':'42'}
+            assert adapter.metrics['http_inflight'] == 0 and adapter.metrics['http_peak_inflight'] == 16
         finally:
             release.set();await asyncio.gather(*tasks,return_exceptions=True)
             await adapter.shutdown();await runner.cleanup()

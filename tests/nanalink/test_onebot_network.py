@@ -412,7 +412,9 @@ def test_http_rpc_limits_inflight_calls_and_releases_capacity():
             with pytest.raises(CoreError,match='ONEBOT_SESSION_UNAVAILABLE'):
                 await asyncio.wait_for(adapter.rpc('get_msg',{'message_id':99}),.3)
             assert count == 16
+            assert adapter.metrics['http_inflight'] == 16 and adapter.metrics['http_backpressure'] == 1
             assert await other.rpc('get_login_info',{}) == {'user_id':44}
+            assert other.metrics['http_backpressure'] == 0
             tasks[0].cancel()
             with pytest.raises(asyncio.CancelledError):
                 await tasks[0]
@@ -424,8 +426,23 @@ def test_http_rpc_limits_inflight_calls_and_releases_capacity():
             release.set()
             assert len(await asyncio.gather(*tasks[1:])) == 16
             assert await adapter.rpc('get_msg',{'message_id':101}) == {'message_id':1}
+            assert adapter.metrics['http_inflight'] == 0 and adapter.metrics['http_peak_inflight'] == 16
         finally:
             release.set()
             await asyncio.gather(*tasks,return_exceptions=True)
             await adapter.shutdown();await other.shutdown();await runner.cleanup()
     asyncio.run(run())
+
+
+def test_status_exposes_http_capacity_metrics_without_credentials():
+    with network(mode='http') as (net,state,resolver,loop):
+        async def run():
+            async with ClientSession() as client:
+                headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
+                response=await client.get(net['endpoint']+'/nanalink/status',headers=headers)
+                data=await response.json()
+                assert data['metrics']['http_inflight']==0
+                assert data['metrics']['http_peak_inflight']>=1
+                assert data['metrics']['http_backpressure']==0
+                assert 'FIXTURE_ONLY' not in json.dumps(data)
+        asyncio.run_coroutine_threadsafe(run(),loop).result(3)

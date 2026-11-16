@@ -130,7 +130,8 @@ class OneBotAdapter:
         self.session = self.ws = self.reader = self.recovery = None
         self.closed = False
         self.echo = 0
-        self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0)
+        self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0,
+                            http_inflight=0, http_peak_inflight=0, http_backpressure=0)
 
     def __repr__(self):
         return '<OneBotAdapter account-bound; credentials redacted>'
@@ -311,8 +312,10 @@ class OneBotAdapter:
             raise CoreError('ONEBOT_HOST_SEND_DISABLED')
         if action != 'get_login_info' and self._health.login != 'AUTHENTICATED':
             raise CoreError('ONEBOT_ACCOUNT_NOT_VERIFIED')
-        if (self.closed or self.session is None or len(self.pending) >= 16
-                or self.mode == 'http' and self._http_inflight >= 16):
+        if self.closed or self.session is None or len(self.pending) >= 16:
+            raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
+        if self.mode == 'http' and self._http_inflight >= 16:
+            self.metrics['http_backpressure'] += 1
             raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
         if len(json.dumps(params, allow_nan=False).encode()) > 16384:
             raise CoreError('ONEBOT_REQUEST_BOUND')
@@ -325,6 +328,8 @@ class OneBotAdapter:
         counted_http = self.mode == 'http'
         if counted_http:
             self._http_inflight += 1
+            self.metrics['http_inflight'] = self._http_inflight
+            self.metrics['http_peak_inflight'] = max(self.metrics['http_peak_inflight'], self._http_inflight)
         try:
             if self.mode == 'http':
                 headers = self._headers()
@@ -364,6 +369,7 @@ class OneBotAdapter:
             self.pending.pop(echo, None)
             if counted_http:
                 self._http_inflight -= 1
+                self.metrics['http_inflight'] = self._http_inflight
         if value.get('status') != 'ok' or type(value.get('retcode')) is not int or value['retcode'] != 0:
             raise CoreError('ONEBOT_REJECTED_NO_RETRY')
         if type(value.get('data')) is not dict:
