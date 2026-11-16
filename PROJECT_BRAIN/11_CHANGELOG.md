@@ -2895,3 +2895,5 @@ The quick setup now binds credentials before switching the cognition route. If n
 - 2026-11-15｜现有delivery分支仅归档fee8f42/Brain237同源Core-Web受控候选：双构建Core3b7e2d9e…/Web251bb84b…、本机实际离线安装、16安装高级场景、BFF/G/虚拟72h及静止fee8-929-fee8通过；无CURRENT/旧交付改动，无APK/生产。远端独立下载第二安装回执由dev后继单列，非总工程/真实长期资格。
 
 - 2026-11-16 CST｜现有delivery分支归档9a31e15/Brain243同源集成候选：PR14/17/18与原Memory来源前置筛选，302文件Core双构建cda06320…/Web9c593456…，新槽离线BFF/2连续性/144模块/撤回后停机9a-fee8-9a资格。独立远端下载第二槽回执在dev后继，非CURRENT/生产/APK/总任务完成。
+
+- 2026-11-16 CST｜现有delivery归档固定c1d345e/Brain254同源候选：302 Core双构建49f95a…/Web040850…，public live输入/依赖版本标签正确，首槽BFF/49安装157模块/停机c1d-9a-c1d数据保持。远端下载和第二槽资格在dev后继回执，非CURRENT/生产/APK/长期总完成。
