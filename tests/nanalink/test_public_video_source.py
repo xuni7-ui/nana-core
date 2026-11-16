@@ -70,3 +70,33 @@ def test_video_handle_requires_current_original_public_observation(tmp_path, mon
         monkeypatch.setattr(cache,'resolve',withdraw_after_resolve)
         with pytest.raises(CoreError):public_video_cache_handle(app,cache,two,scope='world')
         cache.close()
+
+
+def test_public_video_handle_rejects_evidence_without_original_observation_record(tmp_path):
+    import hashlib
+    from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
+    from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
+    from nana_core.storage import canonical
+    with fresh(tmp_path/'subject.db') as runtime:
+        app=SimpleNamespace(runtime=runtime,policy=policy());now=runtime.clock.utc_now_us();data=b'fixture-not-observed'
+        source=PublicMediaSource(source_id='unobserved-video',modality='VIDEO',origin='SYNTHETIC',
+                                 event_time_us=now,observed_time_us=now)
+        text=canonical({'source':source.model_dump(mode='json'),'decoded':{'modality':'VIDEO','decoded':True},
+                        'source_byte_digest':hashlib.sha256(data).hexdigest()})
+        memory=MemoryService(runtime.store)
+        evidence=memory.capture(EvidenceInput(provenance=Provenance(domain='SYNTHETIC_ONLY',
+            source_namespace='synthetic.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION'),
+            text=text,privacy_class='PUBLIC',event_time_us=now,observed_time_us=now))
+        mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.EPISODIC,
+                                       epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=text))
+        cache=MediaCache(tmp_path/'cache',source_current=lambda _:True,max_bytes=128,item_bytes=64,max_items=4)
+        try:
+            cache.put([data],source_ref=mid)
+            with pytest.raises(CoreError,match='NANALINK_VIDEO_OBSERVATION_NOT_CURRENT'):
+                public_video_cache_handle(app,cache,mid,scope='world')
+            called=[]
+            with pytest.raises(CoreError,match='NANALINK_VIDEO_OBSERVATION_NOT_CURRENT'):
+                with_current_public_video(app,cache,mid,scope='world',operation=lambda handle: called.append(handle))
+            assert called == []
+        finally:
+            cache.close()
