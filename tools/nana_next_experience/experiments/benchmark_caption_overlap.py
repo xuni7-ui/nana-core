@@ -15,7 +15,7 @@ def main():
     expected=[sum(max(0,min(c['end'],b)-max(c['start'],a)) for a,b in intervals)/(c['end']-c['start']) for c in cues]
     baseline=time.perf_counter()-start
     start=time.perf_counter()
-    result=review(cues,{'state':'MEASURED','duration':600,'silence_intervals':intervals},
+    result=review(cues,{'state':'MEASURED','duration':600,'measured_intervals':[(0,600)],'silence_intervals':intervals},
                   acoustic_source_id='src',timeline_aligned=True)
     indexed=time.perf_counter()-start
     max_difference=max(abs(a-b['silence_overlap_fraction']) for a,b in zip(expected,result))

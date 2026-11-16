@@ -7,7 +7,7 @@ def cue(name,start,end):
 
 
 def test_silent_caption_is_review_only_and_tone_is_not_speech_proof():
-    audio={'state':'MEASURED','duration':6,'silence_intervals':[(0,3),(4,6)]}
+    audio={'state':'MEASURED','duration':6,'measured_intervals':[(0,6)],'silence_intervals':[(0,3),(4,6)]}
     output=review([cue('silent',1,2),cue('tone',3.1,3.9)],audio,
                   acoustic_source_id='source.audio',timeline_aligned=True)
     assert [x['status'] for x in output]==['REVIEW_SILENCE_OVERLAP','BELOW_SILENCE_REVIEW_THRESHOLD']
@@ -17,13 +17,13 @@ def test_silent_caption_is_review_only_and_tone_is_not_speech_proof():
 
 def test_no_audio_incomplete_or_unaligned_time_never_claims_consistency():
     for state,aligned in [('NO_AUDIO',True),('INCOMPLETE',True),('MEASURED',False)]:
-        result=review([cue('x',1,2)],{'state':state,'duration':6,'silence_intervals':[(0,3)]},
+        result=review([cue('x',1,2)],{'state':state,'duration':6,'measured_intervals':[(0,6)],'silence_intervals':[(0,3)]},
                       acoustic_source_id='source.audio',timeline_aligned=aligned)
         assert result[0]['status']=='UNKNOWN' and result[0]['silence_overlap_fraction'] is None
 
 
 def test_rejects_unsafe_or_invalid_spans_without_silently_rewriting_sources():
-    audio={'state':'MEASURED','duration':6,'silence_intervals':[(0,3),(2,4)]}
+    audio={'state':'MEASURED','duration':6,'measured_intervals':[(0,6)],'silence_intervals':[(0,3),(2,4)]}
     with pytest.raises(ValueError):review([cue('x',1,2)],audio,acoustic_source_id='audio',timeline_aligned=True)
     audio['silence_intervals']=[]
     with pytest.raises(ValueError):review([{**cue('x',1,2),'text':'not accepted'}],audio,acoustic_source_id='audio')
@@ -50,7 +50,7 @@ def test_real_measured_audio_intervals_feed_source_bound_timing_review(tmp_path)
 
 
 def test_zero_duration_caption_remains_unknown():
-    audio={'state':'MEASURED','duration':6,'silence_intervals':[(0,3)]}
+    audio={'state':'MEASURED','duration':6,'measured_intervals':[(0,6)],'silence_intervals':[(0,3)]}
     result=review([cue('instant',1,1)],audio,acoustic_source_id='audio',timeline_aligned=True)
     assert result[0]['status']=='UNKNOWN' and result[0]['silence_overlap_fraction'] is None
 
@@ -73,7 +73,7 @@ def test_nanalink_projection_rechecks_original_source_after_withdrawal(tmp_path)
         app=SimpleNamespace(runtime=runtime,policy=policy())
         source=BilibiliSourceAdapter(app).ingest(reading)
         BilibiliFrameService(app).capture(source,reading.frames)
-        acoustic={'state':'MEASURED','duration':12,'silence_intervals':[(0,3)]}
+        acoustic={'state':'MEASURED','duration':12,'measured_intervals':[(0,12)],'silence_intervals':[(0,3)]}
         result=review_storyboard(app,source,scope='world',privacy_classes=('PROJECT',),
             acoustic=acoustic,acoustic_source_id=source,timeline_aligned=True)
         assert result['scope']=='world' and result['privacy_class']=='PROJECT'
@@ -94,7 +94,7 @@ def test_indexed_overlap_matches_simple_interval_oracle():
     import random
     rng=random.Random(43)
     intervals=[(float(i),float(i)+0.4) for i in range(0,100,2)]
-    audio={'state':'MEASURED','duration':100,'silence_intervals':intervals}
+    audio={'state':'MEASURED','duration':100,'measured_intervals':[(0,100)],'silence_intervals':intervals}
     cues=[]
     for i in range(300):
         start=rng.uniform(0,99.5);end=min(100,start+rng.uniform(0.01,4))
@@ -108,8 +108,22 @@ def test_indexed_overlap_matches_simple_interval_oracle():
 
 def test_very_short_caption_keeps_overlap_fraction_precision():
     start=599.900000001;end=599.900001001
-    result=review([cue('tiny',start,end)],{'state':'MEASURED','duration':600,
+    result=review([cue('tiny',start,end)],{'state':'MEASURED','duration':600,'measured_intervals':[(0,600)],
         'silence_intervals':[(0,599),(599.900000101,599.900000901)]},
         acoustic_source_id='audio',timeline_aligned=True)
     expected=(599.900000901-599.900000101)/(end-start)
     assert result[0]['silence_overlap_fraction']==pytest.approx(expected,abs=1e-12)
+
+
+def test_missing_or_discontinuous_audio_coverage_keeps_unobserved_cues_unknown():
+    cues=[cue('start',.2,.5),cue('gap',2,2.5),cue('end',3.2,3.5)]
+    base={'state':'MEASURED','duration':4,'silence_intervals':[]}
+    legacy=review(cues,base,acoustic_source_id='audio',timeline_aligned=True)
+    assert all(item['status']=='UNKNOWN' for item in legacy)
+    result=review(cues,{**base,'measured_intervals':[(0,1),(3,4)]},
+                  acoustic_source_id='audio',timeline_aligned=True)
+    assert [item['status'] for item in result]==[
+        'BELOW_SILENCE_REVIEW_THRESHOLD','UNKNOWN','BELOW_SILENCE_REVIEW_THRESHOLD']
+    crossing=review([cue('crossing',.9,3.1)],{**base,'measured_intervals':[(0,1),(3,4)]},
+                    acoustic_source_id='audio',timeline_aligned=True)
+    assert crossing[0]['status']=='UNKNOWN'

@@ -30,6 +30,20 @@ def review(cues, acoustic, *, acoustic_source_id, timeline_aligned=False):
         start,end=interval
         if not previous<=start<end<=duration:raise ValueError('invalid interval ordering')
         previous=end
+    measured=acoustic.get('measured_intervals')
+    # Older callers did not report measured audio extent; treat as UNKNOWN.
+    if measured is None:measured=[]
+    if type(measured) is not list or len(measured)>10000:
+        raise ValueError('invalid audio coverage')
+    previous=0.0
+    for interval in measured:
+        if (type(interval) not in (list,tuple) or len(interval)!=2 or
+                any(type(x) not in (int,float) or not math.isfinite(x) for x in interval)):
+            raise ValueError('invalid audio coverage')
+        a,b=interval
+        if not previous<=a<b<=duration:raise ValueError('invalid audio coverage ordering')
+        previous=b
+    coverage_starts=[interval[0] for interval in measured]
     starts=[item[0] for item in intervals]; ends=[item[1] for item in intervals]
     prefix=[0.0]
     for start,end in intervals:prefix.append(prefix[-1]+end-start)
@@ -47,7 +61,9 @@ def review(cues, acoustic, *, acoustic_source_id, timeline_aligned=False):
             raise ValueError('invalid caption span')
         ids.add(cue_id)
         status='UNKNOWN';fraction=None
-        if state=='MEASURED' and timeline_aligned and start<end:
+        coverage_index=bisect_right(coverage_starts,start)-1
+        fully_measured=(coverage_index>=0 and measured[coverage_index][1]>=end)
+        if state=='MEASURED' and timeline_aligned and start<end and fully_measured:
             # Sorted, non-overlapping intervals permit exact range sums.
             left=bisect_right(ends,start);right=bisect_left(starts,end)
             if right-left<=8:

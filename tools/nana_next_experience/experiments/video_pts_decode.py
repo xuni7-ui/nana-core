@@ -1,5 +1,6 @@
 """Local, bounded RGB decoding with actual FFmpeg output PTS, never a source authority."""
 from dataclasses import dataclass, field
+from fractions import Fraction
 import json
 import math
 from pathlib import Path
@@ -17,6 +18,10 @@ class DecodedFrames:
     rgb24: bytes = field(repr=False)
     pts_ticks: tuple[int,...] = ()
     time_base: tuple[int,int] = (0,1)
+    timeline_origin: str = '0'
+    video_start: str = '0'
+    timestamp_basis: str = 'container_relative'
+    duration_qualification: str = 'CONTAINER_DECLARED_UNVERIFIED'
     declared_frames: int | None = None
     count_consistent: bool = False
     coordinate_space: str = 'decoded_scaled_pixels_no_rotation'
@@ -28,7 +33,8 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
 
     Input identity and authorization are a caller responsibility. This helper
     does not persist frames, perform inference, or read a platform account.
-    Offset start times are rejected until their timeline mapping is qualified.
+    Preserve original integer PTS and the declared container timeline origin;
+    derived seconds are container-relative, not a platform timestamp claim.
     """
     if (type(source_ref) is not str or not 1<=len(source_ref)<=128 or
             type(width) is not int or type(height) is not int or width<1 or height<1 or width*height>262144 or
@@ -46,11 +52,13 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     if len(raw_info)>100000:raise ValueError('video metadata exceeds bound')
     try:
         info=json.loads(raw_info);stream=info['streams'][0];duration=float(info['format']['duration'])
-        file_start=float(info['format']['start_time']);video_start=float(stream['start_time'])
+        origin_text=str(info['format']['start_time']);video_start_text=str(stream['start_time'])
+        if len(origin_text)>40 or len(video_start_text)>40:raise ValueError('oversized timing metadata')
+        origin=Fraction(origin_text);video_start=Fraction(video_start_text)
         source_width=int(stream['width']);source_height=int(stream['height'])
     except (KeyError,IndexError,ValueError,TypeError) as exc:raise ValueError('unqualified video timing') from exc
-    if (not all(math.isfinite(v) for v in (duration,file_start,video_start)) or not 0<duration<=600 or
-            abs(file_start)>0.001 or abs(video_start)>0.001 or source_width<1 or source_height<1):
+    if (not math.isfinite(duration) or not 0<duration<=600 or abs(origin)>2**53 or
+            not 0<=video_start-origin<=Fraction(str(duration)) or source_width<1 or source_height<1):
         raise ValueError('unqualified video timing or dimensions')
     try:declared=int(stream['nb_frames'])
     except (KeyError,ValueError,TypeError):declared=None
@@ -58,7 +66,7 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     frame_size=width*height*3
     limit=min(max_frames,(64*1024*1024)//frame_size)
     # Read one extra frame to identify an exhausted bound, not silently truncate.
-    result=run(['ffmpeg','-hide_banner','-nostats','-loglevel','info','-protocol_whitelist','file,pipe',
+    result=run(['ffmpeg','-copyts','-hide_banner','-nostats','-loglevel','info','-protocol_whitelist','file,pipe',
         '-noautorotate','-i',str(path),'-map','0:v:0',
         '-vf',f'scale={width}:{height}:flags=area,format=rgb24,showinfo',
         '-fps_mode','passthrough','-an','-frames:v',str(limit+1),'-f','rawvideo','-pix_fmt','rgb24','-'])
@@ -77,8 +85,11 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
     if len(rows)!=count or any(int(row[0])!=i for i,row in enumerate(rows)):
         raise ValueError('decoded frame timestamps unavailable')
     ticks=tuple(int(row[1]) for row in rows)
-    times=tuple(t*numerator/denominator for t in ticks)
+    # Fraction avoids losing source tick precision while subtracting large origins.
+    times=tuple(float(Fraction(t*numerator,denominator)-origin) for t in ticks)
     if any(not math.isfinite(t) or not 0<=t<=duration for t in times) or any(a>=b for a,b in zip(times,times[1:])):
         raise ValueError('invalid decoded timestamp sequence')
-    return DecodedFrames(source_ref,duration,(source_width,source_height),(width,height),
-        times,result.stdout,ticks,(numerator,denominator),declared,declared is not None and count==declared)
+    return DecodedFrames(source_ref=source_ref,duration_seconds=duration,source_size=(source_width,source_height),
+        output_size=(width,height),timestamps=times,rgb24=result.stdout,pts_ticks=ticks,
+        time_base=(numerator,denominator),timeline_origin=origin_text,video_start=video_start_text,
+        declared_frames=declared,count_consistent=declared is not None and count==declared)

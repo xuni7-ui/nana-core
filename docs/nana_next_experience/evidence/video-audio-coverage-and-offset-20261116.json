@@ -1,0 +1,56 @@
+{
+  "baseline_a": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "previous_b_commit": "eb645969f2887e104d8870fec649dee2a66078ad",
+  "owner": "B",
+  "scope": "isolated local tooling; no current S5/platform consumer, new Store, memory or model authority",
+  "video_timing": {
+    "change": "FFmpeg -copyts preserves integer frame PTS/time_base; subtract exact declared container origin with Fraction for container-relative seconds, return original ticks, origin, video-stream start, coordinate space and unverified duration label",
+    "offset_mp4_fixture": "container start 5s, source PTS 5/5.5/6.75/7; relative times 0/0.5/1.75/2, RGB same as zero-origin source",
+    "mixed_stream_fixture": "container/audio start 0s, video start 1s; relative video frames 1/1.5/2.75/3, actual audio coverage 0–3.25s",
+    "matroska_counterexample": "format reports start 5s/duration 7.25s while relative last decoded frame is 2s; duration remains CONTAINER_DECLARED_UNVERIFIED and missing declared frame count remains unqualified",
+    "limits": "No inference that container timeline equals publisher/subject timeline. Nonfinite/inconsistent offsets, missing PTS/timebase, duplicate PTS and bounded decode truncation fail closed."
+  },
+  "audio_coverage": {
+    "change": "FFmpeg asettb=1/sr and ashowinfo sample PTS/count yield actual decoded audio coverage intervals; caption review requires full measured coverage, otherwise UNKNOWN. Missing legacy measured_intervals is UNKNOWN.",
+    "counterexample": {
+      "baseline_commit": "eb64596",
+      "fixture": "synthetic audio ending near 7.016s in an 8s video",
+      "baseline_status": "BELOW_SILENCE_REVIEW_THRESHOLD",
+      "candidate_status": "UNKNOWN",
+      "candidate_measured_intervals": [
+        [
+          0.936,
+          7.016
+        ]
+      ],
+      "candidate_coverage_state": "PARTIAL",
+      "baseline_had_measured_intervals": false,
+      "caption": "synthetic span 7.5–7.8s, no transcript content",
+      "model_calls": 0
+    },
+    "discontinuity": "synthetic decoded audio spans 0–1 and 3–4; a caption in 2–2.5 remains UNKNOWN",
+    "initial_failure": "Existing code lacked coverage_state; delayed-audio real fixture failed with KeyError before change. First test pass after change also found a synthetic short-cue test missing the new explicit coverage field; fixture corrected, assertions not weakened.",
+    "limits": "Measured acoustic coverage is not voice, transcript truth or proven alignment; timebase/source are caller-attested and more formats need verification."
+  },
+  "validation": {
+    "command": "NANA_DSH_SOURCE=/workspace/work/dsh-see-now PYTHONPATH=src:. python -m pytest tests/nana_next_experience/test_dsh_restore_fixture.py tests/nana_next_experience/test_dsh_pipeline_adapter.py tests/nana_next_experience/test_video_coverage_prototype.py tests/nana_next_experience/test_video_ffmpeg_probe.py tests/nana_next_experience/test_video_pts_decode.py tests/nana_next_experience/test_video_coverage_refine.py tests/nana_next_experience/test_video_short_detail.py tests/nana_next_experience/test_video_local_change.py tests/nana_next_experience/test_video_local_pairs.py tests/nana_next_experience/test_video_audio_probe.py tests/nana_next_experience/test_video_caption_acoustic.py tests/nana_next_experience/test_video_fusion_prototype.py tests/nanalink/test_bilibili_video_history.py -q",
+    "result": "78 passed in 13.96s",
+    "caption_index_synthetic": "3000 cues × 3000 intervals baseline overlap-only 2.45448s vs indexed validation/output 0.01042s; max absolute difference 0; not model tokens"
+  },
+  "limits": [
+    "No actual platform accounts, real personal media, real ASR/VAD/OCR, model tokens, costs, devices, long-video or production qualification",
+    "Audio frame-time formatting, corrupt or missing metadata, timestamp wrap, multi-audio and nontrivial edit lists need more counterexamples",
+    "In-memory RGB bound up to 64 MiB plus one frame; no crash-safe temporary-frame lifecycle or original-data migration",
+    "Returned in-memory results do not automatically withdraw; original Memory/Kernel source lineage must govern any integration"
+  ],
+  "next": "B validate actual permitted media and longer/multitrack/VFR timestamps; NanaLink owns authorized media/source and A owns original S5/Memory/Provider/withdrawal integration",
+  "source_sha256": {
+    "tools/nana_next_experience/experiments/video_pts_decode.py": "8e92d903e3fc5bb2cea368757143b15d449557fe1a3fce773dee81bb07d9080b",
+    "tests/nana_next_experience/test_video_pts_decode.py": "8b8928c33aff681e1760c95144f926a582c5e7375486440d6078840659a0e302",
+    "tools/nana_next_experience/experiments/video_audio_probe.py": "338abbff23be7dba397ffa3c68a6b642d66b464f5350cc8e879ce996bdb2be3b",
+    "tests/nana_next_experience/test_video_audio_probe.py": "1906f384065c2d65afcf2e52f0c6017f5307c379b485272b642bb732dc8a29e8",
+    "tools/nana_next_experience/experiments/video_caption_acoustic.py": "7563ba634ec8d146d78c83c27c0bb51be125e4ecdb051c347b27a54a6959861a",
+    "tests/nana_next_experience/test_video_caption_acoustic.py": "fd520863cc897462f32bc1292561c26fc13ba15843633a0618dcec98d6d42f68",
+    "tools/nana_next_experience/experiments/benchmark_caption_overlap.py": "46fc80dcf7798f2b2223f4272bf08337ce04b56662c2f5196e178c6aef724f07"
+  }
+}

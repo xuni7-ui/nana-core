@@ -25,6 +25,7 @@ def test_vfr_decode_uses_actual_pts_not_frame_index_rate(tmp_path):
     assert len(result.rgb24)==4*160*90*3 and result.count_consistent
     assert result.source_size==result.output_size==(160,90)
     assert result.source_attestation=='CALLER_SUPPLIED' and 'rgb24' not in repr(result)
+    assert result.duration_qualification=='CONTAINER_DECLARED_UNVERIFIED'
 
 
 def test_frame_limit_rejects_instead_of_silent_truncation(tmp_path):
@@ -32,11 +33,26 @@ def test_frame_limit_rejects_instead_of_silent_truncation(tmp_path):
     with pytest.raises(ValueError,match='frame bound'):decode('source.synthetic',path,max_frames=3)
 
 
-def test_nonzero_input_timeline_is_not_silently_shifted(tmp_path):
+def test_nonzero_timeline_origin_is_explicit_and_keeps_original_pts(tmp_path):
     original=tmp_path/'vfr.mp4';offset=tmp_path/'offset.mp4';make_vfr(original)
     subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(original),
         '-c','copy','-output_ts_offset','5','-y',str(offset)],check=True,timeout=20)
-    with pytest.raises(ValueError,match='timing'):decode('source.synthetic',offset)
+    normal=decode('source.synthetic',original);shifted=decode('source.synthetic',offset)
+    assert shifted.timeline_origin=='5.000000' and shifted.video_start=='5.000000'
+    assert shifted.timestamps==normal.timestamps==(0.0,0.5,1.75,2.0)
+    assert shifted.pts_ticks[0]*shifted.time_base[0]/shifted.time_base[1]==5.0
+    assert shifted.rgb24==normal.rgb24 and shifted.timestamp_basis=='container_relative'
+
+
+def test_video_offset_from_audio_start_is_preserved_in_container_timeline(tmp_path):
+    original=tmp_path/'vfr.mp4';mixed=tmp_path/'mixed.mp4';make_vfr(original)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error',
+        '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=4','-itsoffset','1','-i',str(original),
+        '-map','1:v','-map','0:a','-c:v','copy','-c:a','aac','-t','3.25','-y',str(mixed)],check=True,timeout=20)
+    result=decode('source.synthetic',mixed)
+    assert result.timeline_origin=='0.000000' and result.video_start=='1.000000'
+    assert result.timestamps==(1.0,1.5,2.75,3.0)
+    assert result.pts_ticks[0]*result.time_base[0]/result.time_base[1]==1.0
 
 
 def test_decoded_pts_feed_original_dsh_without_inventing_times(tmp_path):
@@ -84,3 +100,38 @@ def test_declared_frame_count_mismatch_never_qualifies_count(tmp_path,monkeypatc
     monkeypatch.setattr(module.subprocess,'run',lambda *a,**kw:next(results))
     result=decode('source.synthetic',path,width=2,height=2)
     assert result.timestamps==(0.0,0.5) and result.declared_frames==3 and not result.count_consistent
+
+
+def test_mixed_audio_and_delayed_video_keep_common_container_timeline(tmp_path):
+    from tools.nana_next_experience.experiments.video_audio_probe import measure
+    original=tmp_path/'vfr.mp4';mixed=tmp_path/'mixed.mp4';make_vfr(original)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error',
+        '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=4','-itsoffset','1','-i',str(original),
+        '-map','1:v','-map','0:a','-c:v','copy','-c:a','aac','-t','3.25','-y',str(mixed)],check=True,timeout=20)
+    video=decode('source.synthetic',mixed);audio=measure(mixed)
+    assert video.timestamps[0]==1.0 and audio['state']=='MEASURED'
+    assert len(audio['silence_intervals'])==1
+    start,end=audio['silence_intervals'][0]
+    assert start==pytest.approx(0,abs=.01) and end==pytest.approx(3.25,abs=.1)
+
+
+def test_video_start_before_container_origin_is_not_guessed(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from tools.nana_next_experience.experiments import video_pts_decode as module
+    path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
+    metadata=(b'{"format":{"duration":"2","start_time":"5"},"streams":'
+              b'[{"width":2,"height":2,"start_time":"4","nb_frames":"2"}]}')
+    monkeypatch.setattr(module.subprocess,'run',lambda *a,**kw:SimpleNamespace(stdout=metadata,stderr=b''))
+    with pytest.raises(ValueError,match='timing'):decode('source.synthetic',path,width=2,height=2)
+
+
+def test_nonzero_matroska_container_duration_is_not_qualified_as_video_length(tmp_path):
+    original=tmp_path/'vfr.mp4';offset=tmp_path/'offset.mkv';make_vfr(original)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(original),
+        '-c','copy','-output_ts_offset','5','-y',str(offset)],check=True,timeout=20)
+    result=decode('source.synthetic',offset)
+    assert result.timeline_origin=='5.000000'
+    assert result.timestamps==(0.0,0.5,1.75,2.0)
+    # Some Matroska muxers report end PTS (7.25), not necessarily the actual media duration.
+    assert result.duration_qualification=='CONTAINER_DECLARED_UNVERIFIED'
+    assert result.declared_frames is None and not result.count_consistent

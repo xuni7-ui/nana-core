@@ -358,3 +358,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B变帧率PTS解码候选
 
 持续授权：video-vfr-pts-decode-20261116.json及其中原创实验/测试、09/11追加、本清单；不提交真实视频、帧或凭据。
+
+
+## 2026-11-16 B音视频起点与音频覆盖
+
+持续授权：video-audio-coverage-and-offset-20261116.json及其中7个原创源码/测试，09/11追加、本清单；无真实音视频/字幕/凭据或上游源码复制。

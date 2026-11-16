@@ -3055,3 +3055,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B变帧率原PTS解码候选
 
 [源码/实测] 本地FFmpeg showinfo整数PTS×time_base绑定RGB帧，不以序号/固定fps伪造；变帧率合成输出0/0.5/1.75/2秒而i/4为0/0.25/0.5/0.75。源起点非零、重复/缺PTS、超帧上限拒绝；保留源与缩放尺寸，不当授权证明。20定向通过含原dsh；5次4帧中位169.266ms、RGB172800字节，非真实模型Token/设备/长片资格。证据video-vfr-pts-decode-20261116.json锚864186fe7ca0add9630410c0f5c25bf56c9825096aa4401d4cfc4c9252caa21a；B继续时轴/来源，NanaLink授权，A原S5接线。
+
+
+### 2026-11-16 · B音视频偏移与音频实际覆盖
+
+[源码/实测] 隔离解码保留FFmpeg整数PTS及容器原点，非零起点MP4/音视频错开1秒仍保留原PTS与容器相对时间；Matroska非零起点可能把终点PTS当duration，标容器未资格。原字幕复查曾把音轨之外误标低冲突，现按实际解码音频样本PTS/覆盖判断，范围外/旧无覆盖字段为UNKNOWN；8秒合成尾部7.5–7.8秒旧低冲突→新UNKNOWN。78相关通过；非实际媒体/ASR/模型/Token/生产，证据video-audio-coverage-and-offset-20261116.json锚488aff7b01013217d2e5d5afa5de8217f9e52db8dcfb88f9608bbc7f78839906。

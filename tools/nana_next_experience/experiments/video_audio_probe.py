@@ -1,5 +1,6 @@
 """Optional bounded FFmpeg silence measurements, not speech recognition."""
 import json
+from fractions import Fraction
 import math
 from pathlib import Path
 import re
@@ -32,12 +33,26 @@ def measure(path, *, timeout=120):
         return {'state':'NO_AUDIO','duration':duration,'silence_intervals':[],
                 'meaning':'no audio stream; speech content is unknown'}
     result=run(['ffmpeg','-hide_banner','-nostats','-protocol_whitelist','file,pipe',
-        '-i',str(path),'-map','0:a:0','-vn','-af','silencedetect=noise=-35dB:duration=1',
+        '-i',str(path),'-map','0:a:0','-vn','-af',
+        'silencedetect=noise=-35dB:duration=1,asettb=expr=1/sr,ashowinfo',
         '-f','null','-'])
-    if len(result.stderr)>1_000_000:
+    if len(result.stderr)>4_000_000:
         raise ValueError('audio analysis output exceeds bound')
-    records=[];start=None
+    records=[];start=None;coverage=[];frames=0;bad_timing=False
     for line in result.stderr.decode('utf-8',errors='replace').splitlines():
+        frame=re.search(r'\[Parsed_ashowinfo_\d+\s+@[^\]]+\]\s+n:(\d+)\s+pts:(-?\d+)\s+pts_time:[^ ]+.*?\brate:(\d+)\s+nb_samples:(\d+)',line)
+        if frame:
+            index,pts,rate,samples=map(int,frame.groups())
+            if index!=frames or rate<1 or samples<1:
+                bad_timing=True
+            else:
+                begin=Fraction(pts,rate);finish=Fraction(pts+samples,rate)
+                begin=max(Fraction(0),begin);finish=min(Fraction(str(duration)),finish)
+                if begin<finish:
+                    if coverage and begin<coverage[-1][0]:bad_timing=True
+                    elif coverage and begin<=coverage[-1][1]:coverage[-1]=(coverage[-1][0],max(coverage[-1][1],finish))
+                    else:coverage.append((begin,finish))
+            frames+=1
         a=re.search(r'silence_start:\s*(-?[0-9.]+)',line)
         b=re.search(r'silence_end:\s*(-?[0-9.]+)',line)
         if a:
@@ -49,12 +64,20 @@ def measure(path, *, timeout=120):
                     0<=start<=end<=duration+0.1):
                 raise ValueError('invalid silence markers')
             records.append((start,min(duration,end)));start=None
+    measured=[(float(a),float(b)) for a,b in coverage]
+    coverage_state=('FULL' if len(coverage)==1 and coverage[0][0]==0 and coverage[0][1]>=Fraction(str(duration)) else 'PARTIAL')
     if start is not None:
         if not math.isfinite(start) or not 0<=start<=duration:
             raise ValueError('invalid silence marker')
         # A missing end marker is not an observed end; retain UNKNOWN rather
         # than silently extending to the media duration.
         return {'state':'INCOMPLETE','duration':duration,'silence_intervals':records,
-                'open_silence_start':start,'meaning':'acoustic threshold only; end unknown'}
+                'measured_intervals':measured,'coverage_state':coverage_state,'open_silence_start':start,'meaning':'acoustic threshold only; end unknown'}
+    if bad_timing or not measured:
+        return {'state':'INCOMPLETE','duration':duration,'silence_intervals':records,
+                'measured_intervals':measured,'coverage_state':'UNKNOWN',
+                'meaning':'audio timing incomplete; no silence conclusion'}
     return {'state':'MEASURED','duration':duration,'silence_intervals':records,
+            'measured_intervals':measured,'coverage_state':coverage_state,
+            'timeline_basis':'FFMPEG_NORMALIZED_CALLER_MUST_VERIFY',
             'meaning':'acoustic threshold only; not speech or semantic evidence'}
