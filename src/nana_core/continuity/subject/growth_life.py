@@ -84,8 +84,17 @@ def project(store,assessment_id,*,scope,privacy_classes):
     return GrowthChangeView(basis_private_record_ids=basis,assessment_id=assessment_id,lesson_id=lesson['lesson_id'],experience_id=lesson['experience_id'],topic='growth.'+digest(lesson['task_class'])[:24],scope=scope,method=rule['method'],source_record_ids=refs,source_memory_ids=mids,as_of_us=store.clock.utc_now_us(),state_token=state_token)
 
 def opportunities(store,*,scope,privacy_classes):
-    if store.schema_target<13:return ()
-    rows=store.db.execute("SELECT a.assessment_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id WHERE a.verdict='SUCCESS' AND l.state='ACTIVE' ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32").fetchall()
+    if store.schema_target<13 or not privacy_classes:return ()
+    allowed=tuple(dict.fromkeys(privacy_classes));marks=','.join('?' for _ in allowed)
+    # Invisible assessments/lessons cannot consume this scope's bounded window.
+    # Headers only: project still checks support and independent held-out reuse.
+    rows=store.db.execute(
+        "SELECT a.assessment_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id "
+        "JOIN continuity_records ar ON ar.record_id=a.record_id JOIN continuity_records lr ON lr.record_id=l.record_id "
+        f"WHERE a.verdict='SUCCESS' AND l.state='ACTIVE' AND ar.scope=? AND lr.scope=? "
+        f"AND ar.privacy_class IN ({marks}) AND lr.privacy_class IN ({marks}) "
+        "AND ar.lifecycle='ACTIVE' AND lr.lifecycle='ACTIVE' "
+        "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",(scope,scope,*allowed,*allowed)).fetchall()
     result=[];lessons=set()
     for row in rows:
         view=project(store,row[0],scope=scope,privacy_classes=privacy_classes)

@@ -246,6 +246,10 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 
 固定PR19工具/原测试/原研究及原B交接文字、原CI两个精确路径/7项组，09/11/ACTIVE/STATUS、本白名单及evidence/vision-prototype-adoption-20261116/公开合成回执/指纹。无第三方源码复制/新依赖/Store/Key/账号/运行权威/发行/生产。
 
+## 2026-11-16 A原G注意可见性群
+
+subject/growth_life.py原SQL局部、test_growth_attention_visibility.py、原CI精确路径/组、09/11/ACTIVE/STATUS及evidence/growth-attention-visibility-20261116/公开合成原失败/夹具差额/定向回归/指纹、本白名单。无Store/Key/真实用户/账号/新依赖/执行权限/二进制/生产。
+
 
 ## 2026-11-16 B FFmpeg时间覆盖研究
 

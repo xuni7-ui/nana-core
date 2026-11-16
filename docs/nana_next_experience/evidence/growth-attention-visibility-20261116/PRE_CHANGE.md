@@ -1,0 +1,5 @@
+# 原G结果进入C注意的可见性群边界
+
+锚90a31b6d10118061c55bf7d3821920b22713463c/Brain258已推干净，无MERGE_HEAD。继续原S3/S4/S6/S8因果融合，非新学习引擎。
+发现growth_life.opportunities全Store最新32成功assessment之后才由project核对scope/privacy；同主体不可读的其他评价群可能挤掉已有真实G/Kernel后续复用的可读机会。先沿原grown夹具/原EpisodeLearning复现，不手工插SUCCESS/ACTIVE表行，不重做G16/32笔记。
+若成立，仅把原可见scope/privacy/当前记录条件前推到限额前，保留独立验证、训练隔离、lesson状态、原project/来源和C最终取舍，不放大32。原同次评价可能重复观察，不冒充32个独立成长经历。回退growth_life.py本锚，无数据迁移/模型额外阶段/运行账号。
