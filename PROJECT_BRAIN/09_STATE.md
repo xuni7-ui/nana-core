@@ -4,7 +4,7 @@
 
 [当前A集成实测2026-11-16] PR18固定6645已由486ed546合入；PR20固定3d6475c已由本批A正常集成，受控106/30通过；视觉交接仍候选。以下保留C原2026-11-15交接，不代表PR18仍未合。
 
-[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `efae8b117795ad2317db6002a8b26a4078d60b777afc7371e01f6bfd036efd06`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；UTF-16 DTD绕过修复并保留正常输入；本地HTTP及相关28项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。 媒体读期间来源撤回反例修复，原QQ选择/权限链及缓存59项通过；原真实Store验证器与生产成本未测，见 docs/nanalink/evidence/media-revocation-read-20261116/README.md。 OneBot HTTP分块响应完整有界读取，本地单次发送及超大回执不重发与原桥32项通过；真实QQ未资格，见 docs/nanalink/evidence/onebot-http-stream-20261116/README.md。
+[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `efae8b117795ad2317db6002a8b26a4078d60b777afc7371e01f6bfd036efd06`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；UTF-16 DTD绕过修复并保留正常输入；本地HTTP及相关28项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。 媒体读期间来源撤回反例修复，原QQ选择/权限链及缓存59项通过；原真实Store验证器与生产成本未测，见 docs/nanalink/evidence/media-revocation-read-20261116/README.md。 OneBot HTTP分块响应完整有界读取，本地单次发送及超大回执不重发与原桥32项通过；真实QQ未资格，见 docs/nanalink/evidence/onebot-http-stream-20261116/README.md。 已按文件合入A `35740e7f`（revision260），原成长/学习、QQ选择、B站来源及OneBot跨模块53项通过；A原始失败证据文本保持原样。
 
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 
@@ -23,13 +23,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 258,
-  "as_of_us": 1794802734826396,
+  "revision": 260,
+  "as_of_us": 1794805312389502,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原G早提议晚资格的表达方法不再被另一群16较新ACTIVE课题挤掉。46fa原1fail1pass→新2过2.51s/43相关13.62s；正常G/同主体重开→普通INTERPRET-C-SOCIAL使用方法，原来源撤回停止；各2HTTP/request总+3093bytes非Token，同库read197→63/中位23.94→9.95ms，真实0。",
+    "原G晚资格/注意可见群修复保留；现评价cache同key核对原scope/privacy/current及episode内容，旧3fail1pass→5过2.25s/42相关33.84s，变化/撤回不冒用SUCCESS，私payload不读；同源及SUSPENDED反例重放0写，新独立精度反例仍原G挂起方法，无新模型阶段。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "c1d固定Core302/263双SHA49f95a28…、Web42文件04085003…；delivery a274固定11件，真实GitHub新克隆/10摘要/第二离线槽263文件同源/BFF通过；安装49过/157槽内模块。停机c1d-9a-c1d单身份私计划/G17/pending保持；CURRENT266+409不动。",
     "PR14/17/18/20平台来源已统一；20旧3fail1pass→106过35.09s/30闭包桥9.96s，watch→视频/帧/H1撤回与OneBot重连保持。19固定86d仅采用原实验工具，7过.02s；原Memory三样本回映/撤回/空档通过，0新增模型，尚非两仓视觉融合。",
@@ -45,17 +45,17 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "PR19已入主线实验，现役S5消费者与B真实FFmpeg/两原版同预算对照仍待，最多三帧不是完整时间线。A继续情感持续策略/G未见迁移、原S5接线/物理隐私/真实Token及A–H。压缩修复ecdb保持；c1d历史候选不含256/257，CURRENT266+409不动。"
+    "原G重放已绑定来源/内容，注意32群已隔离不可读评价；可见但不合格/同课题重复挤占仍需真实基线。继续C情感多动机/策略/G广迁移、原S5/B真实视觉、物理隐私/Token/A–H。c1d历史候选不含256/257/259/260，CURRENT266+409不动。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
+    "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md",
     "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md",
     "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-integration-c1d345e-20261116/README.md",
     "docs/nana_next_experience/evidence/web-build-input-closure-20261116/README.md",
-    "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md",
-    "docs/nana_next_experience/evidence/fresh-social-choice-20261116/README.md",
-    "docs/nana_next_experience/evidence/deliberated-replan-choice-20261116/README.md"
+    "docs/nana_next_experience/evidence/expression-lesson-population-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

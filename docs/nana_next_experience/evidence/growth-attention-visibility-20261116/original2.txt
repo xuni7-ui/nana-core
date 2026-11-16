@@ -1,0 +1,51 @@
+{"invisible_assessments": 0, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0}
+.F
+=================================== FAILURES ===================================
+_ test_checked_growth_still_reaches_original_c_after_private_review_population[32] _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-85/test_checked_growth_still_reac1')
+invisible_count = 32
+
+    @pytest.mark.parametrize('invisible_count',[0,32])
+    def test_checked_growth_still_reaches_original_c_after_private_review_population(tmp_path,invisible_count):
+        clock=VirtualClock();seen=[]
+        def propose(request):
+            package=json.loads(request.context_json)
+            own=[json.loads(b['data_json']) for b in package['blocks'] if b['kind']=='GROWTH_CHANGE']
+            seen.append(own)
+            return StructuredProposal(interpretation='SYNTHETIC checked reuse may inspire another interest',
+                subject_cognition=CognitiveProposal(identity_id=package['manifest']['identity_id'],
+                    identity_revision=package['manifest']['identity_revision'],
+                    interpretation='SYNTHETIC I choose an own question after this checked outcome',
+                    preferred_behavior='REFLECT',proposed_operations=('DRAFT',),
+                    private_question={'topic':'own-checked-growth','question':'SYNTHETIC Could this verified method help my own playful experiment?'}))
+        with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
+            records=RecordService(r.store);memory=MemoryService(r.store)
+            original=records.read(r.store.one('strategy_assessments',view.assessment_id)['record_id'])['payload']['episode']
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+            private_ids=[]
+            for i in range(invisible_count):
+                # Repeated private observations of the SAME actual checked use.
+                # These are not 32 independent successes or new learning evidence.
+                episode={**original,'episode_key':'private-repeated-observation-'+str(i)}
+                body=json.dumps({'strategy_episode':episode,'private_note':'PRIVATE_GROWTH_POPULATION_CANARY'})
+                eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.growth-population',
+                    source_reference=str(i),source_kind='SYSTEM_VERIFICATION'),text=body,privacy_class='PERSONAL',observed_time_us=clock.utc_now_us()))
+                mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope='world',memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION',source_evidence_id=eid,text=body,derived_from=(reuse,)))
+                assessment=review.assess(lesson,mid,authority=r.authority)
+                assert r.store.one('strategy_assessments',assessment)['verdict']=='SUCCESS'
+                assert growth_life.project(r.store,assessment,scope='world',privacy_classes=('PUBLIC',)) is None
+                private_ids.append(mid)
+            assert growth_life.project(r.store,view.assessment_id,scope='world',privacy_classes=('PUBLIC',))
+            visible=growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
+>           assert [v.assessment_id for v in visible]==[view.assessment_id]
+E           AssertionError: assert [] == ['d45033a9-09...6ab97067602f']
+E             
+E             Right contains one more item: 'd45033a9-095b-4515-bccb-6ab97067602f'
+E             Use -v to get more diff
+
+tests/person_self/test_growth_attention_visibility.py:54: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_attention_visibility.py::test_checked_growth_still_reaches_original_c_after_private_review_population[32]
+1 failed, 1 passed in 1.24s
