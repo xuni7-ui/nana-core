@@ -18,12 +18,14 @@ for await (const chunk of process.stdin) {
 }
 const input=JSON.parse(Buffer.concat(chunks).toString('utf8'));
 const {source_ref,rgb_path,width,height,fps,timestamps,max_frames_per_sheet}=input;
+const takeEvery=input.take_every_n_frames ?? 0;
 if (typeof source_ref!=='string'||source_ref.length<1||source_ref.length>128||
     typeof rgb_path!=='string'||!rgb_path.startsWith('/')||
     !Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||
     width*height>262144||!Number.isFinite(fps)||fps<=0||fps>120||
     !Array.isArray(timestamps)||timestamps.length<1||timestamps.length>1200||
-    !Number.isInteger(max_frames_per_sheet)||max_frames_per_sheet<1||max_frames_per_sheet>16)
+    !Number.isInteger(max_frames_per_sheet)||max_frames_per_sheet<1||max_frames_per_sheet>16||
+    !Number.isInteger(takeEvery)||takeEvery<0||takeEvery>1200)
   fail('invalid bounded pipeline input');
 let previous=-1;const exactByRounded=new Map();
 for (const timestamp of timestamps) {
@@ -40,6 +42,7 @@ if(!file.isFile()||file.size!==frameBytes*timestamps.length||file.size>64*1024*1
 const {createPipeline}=await import(pathToFileURL(resolve(root,'src/pipeline.js')).href);
 const pipeline=createPipeline({width,height,fps,maxFrames:max_frames_per_sheet,queueDepth:1});
 const handle=await open(rgb_path,'r');
+const locallyTaken=[];
 let completed;
 try {
   for(let i=0;i<timestamps.length;i++) {
@@ -50,6 +53,11 @@ try {
       bytes+=result.bytesRead;
     }
     pipeline.push({t:timestamps[i],buf:buffer});
+    // A local test consumer may remove a queued sheet; this is never a model
+    // or platform delivery, and its image bytes are discarded in memory.
+    if(takeEvery>0 && (i+1)%takeEvery===0) {
+      const sheet=pipeline.take();if(sheet)locallyTaken.push(sheet.frames.map(frame=>frame.t));
+    }
   }
   completed=pipeline.finish();
 } finally { await handle.close(); }
@@ -63,11 +71,18 @@ const queued=completed.sheets.flatMap(sheet=>sheet.frames.map(frame=>{
   if(seconds===undefined)fail('queued sheet frame cannot be mapped to input time');
   return seconds;
 }));
-const droppedSheets=pipeline.stats.sheets-completed.sheets.length;
+const taken=locallyTaken.flat().map(t=>{
+  const seconds=exactByRounded.get(t);
+  if(seconds===undefined)fail('taken sheet frame cannot be mapped to input time');
+  return seconds;
+});
+const droppedSheets=pipeline.stats.sheets-completed.sheets.length-locallyTaken.length;
 if(droppedSheets<0)fail('inconsistent upstream queue accounting');
 console.log(JSON.stringify({schema_version:1,source_ref,input_frames:timestamps.length,selected,
   selection_state:'SELECTED_NOT_DELIVERED',queued_frame_seconds:queued,
   queue_depth:1,queued_sheets:completed.sheets.length,dropped_sheets:droppedSheets,
+  locally_taken_sheets:locallyTaken.length,locally_taken_frame_seconds:taken,
+  local_take_every_n_frames:takeEvery,local_take_state:'TAKEN_LOCALLY_NOT_DELIVERED',
   max_frames_per_sheet,stats:pipeline.stats,model_calls:0,
   qualification:'LOCAL_PIPELINE_OUTPUT_ONLY',
   caveat:'Frame limit is per sheet, not a total budget; source identity is caller supplied.'}));

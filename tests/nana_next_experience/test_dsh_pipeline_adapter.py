@@ -78,3 +78,21 @@ def test_dropped_sheet_state_remains_visible_to_fusion(tmp_path):
     combined=fuse(source,12,timestamps,dsh,pairs,budget=4,max_gap=4)
     assert combined['dsh_dropped_sheets']==dsh['dropped_sheets']>0
     assert combined['selection_state']=='CANDIDATES_NOT_DELIVERED' and combined['model_calls']==0
+
+
+def test_local_consumption_relives_backpressure_without_claiming_delivery(tmp_path):
+    w,h=160,90;frame=w*h*3;raw=tmp_path/'alternating.rgb'
+    raw.write_bytes(b''.join((bytes(frame) if (i//4)%2==0 else bytes([255])*frame) for i in range(48)))
+    timestamps=[i/4 for i in range(48)];base={'source_ref':'source.fixture','rgb_path':str(raw),
+        'width':w,'height':h,'fps':4,'timestamps':timestamps,'max_frames_per_sheet':2}
+    blocked=execute(base);slow=execute({**base,'take_every_n_frames':24});immediate=execute({**base,'take_every_n_frames':1})
+    assert blocked.returncode==slow.returncode==immediate.returncode==0,(blocked.stderr,slow.stderr,immediate.stderr)
+    a=json.loads(blocked.stdout);middle=json.loads(slow.stdout);b=json.loads(immediate.stdout)
+    assert a['dropped_sheets']>0 and a['locally_taken_sheets']==0
+    assert b['dropped_sheets']==0 and b['locally_taken_sheets']>0
+    assert 0<middle['dropped_sheets']<a['dropped_sheets'] and middle['locally_taken_sheets']>0
+    for output in (a,middle,b):
+        assert output['stats']['sheets']==output['queued_sheets']+output['dropped_sheets']+output['locally_taken_sheets']
+        assert output['selection_state']=='SELECTED_NOT_DELIVERED'
+        assert output['local_take_state']=='TAKEN_LOCALLY_NOT_DELIVERED' and output['model_calls']==0
+        assert set(output['locally_taken_frame_seconds'])<={x['seconds'] for x in output['selected']}
