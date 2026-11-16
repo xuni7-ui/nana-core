@@ -1,0 +1,189 @@
+{
+  "fixtures": "generated dark weak cut, continuous motion, and brief text under dynamic brightness",
+  "budget": "four selected frames; report any method exceeding it rather than silently truncating",
+  "scope": "one fixture each; dsh sheet limit 8, watch --max 4; requested offsets, not decoded text or a semantic/token benchmark",
+  "rows": [
+    {
+      "scenario": "dark_weak_cut",
+      "ground_truth": "hard edit at 4s",
+      "measurement_scan_complete": true,
+      "methods": {
+        "uniform": {
+          "timestamps": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2,
+          "within_budget": true,
+          "edit_followed_within_half_second": false,
+          "requested_offset_with_visible_text": null
+        },
+        "watch_original": {
+          "timestamps": [
+            0.25,
+            1.94,
+            5.81,
+            7.5
+          ],
+          "frames": 4,
+          "max_gap_seconds": 3.8699999999999997,
+          "within_budget": true,
+          "edit_followed_within_half_second": false,
+          "requested_offset_with_visible_text": null,
+          "reported_cut_times": []
+        },
+        "dsh_original": {
+          "timestamps": [
+            0
+          ],
+          "frames": 1,
+          "max_gap_seconds": 8,
+          "within_budget": true,
+          "edit_followed_within_half_second": false,
+          "requested_offset_with_visible_text": null,
+          "reported_cut_times": []
+        },
+        "candidate_refined": {
+          "timestamps": [
+            0.0,
+            1.25,
+            4.0,
+            6.75
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2.75,
+          "within_budget": true,
+          "edit_followed_within_half_second": true,
+          "requested_offset_with_visible_text": null
+        }
+      }
+    },
+    {
+      "scenario": "continuous_motion",
+      "ground_truth": "continuous synthetic motion, no edit",
+      "measurement_scan_complete": true,
+      "methods": {
+        "uniform": {
+          "timestamps": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": null
+        },
+        "watch_original": {
+          "timestamps": [
+            0.25,
+            1.94,
+            5.81,
+            7.5
+          ],
+          "frames": 4,
+          "max_gap_seconds": 3.8699999999999997,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": null,
+          "reported_cut_times": []
+        },
+        "dsh_original": {
+          "timestamps": [
+            0,
+            3.5,
+            6.25,
+            7.75
+          ],
+          "frames": 4,
+          "max_gap_seconds": 3.5,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": null,
+          "reported_cut_times": [
+            7.75
+          ]
+        },
+        "candidate_refined": {
+          "timestamps": [
+            0.25,
+            2.0,
+            4.0,
+            6.75
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2.75,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": null
+        }
+      }
+    },
+    {
+      "scenario": "brief_text_dynamic_brightness",
+      "ground_truth": "text visible only in frame at 3s",
+      "measurement_scan_complete": true,
+      "methods": {
+        "uniform": {
+          "timestamps": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": true
+        },
+        "watch_original": {
+          "timestamps": [
+            0.25,
+            1.94,
+            5.81,
+            7.5
+          ],
+          "frames": 4,
+          "max_gap_seconds": 3.8699999999999997,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": false,
+          "reported_cut_times": []
+        },
+        "dsh_original": {
+          "timestamps": [
+            0,
+            2.75,
+            5.25,
+            7.5
+          ],
+          "frames": 4,
+          "max_gap_seconds": 2.75,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": false,
+          "reported_cut_times": []
+        },
+        "candidate_refined": {
+          "timestamps": [
+            0.25,
+            3.25,
+            4.25,
+            6.75
+          ],
+          "frames": 4,
+          "max_gap_seconds": 3.0,
+          "within_budget": true,
+          "edit_followed_within_half_second": null,
+          "requested_offset_with_visible_text": false
+        }
+      }
+    }
+  ]
+}
