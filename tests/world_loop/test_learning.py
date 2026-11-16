@@ -68,3 +68,62 @@ def test_transport_hypothesis_reuses_original_nine_stages_and_reflection_stays_p
         before=(len(r.store.all('experiences')),len(r.store.all('lessons')))
         request=session.prepare('reflect-proposal','REFLECT',(source,));assert session.execute(request)['state']=='PROPOSED'
         assert (len(r.store.all('experiences')),len(r.store.all('lessons')))==before
+
+
+@pytest.mark.parametrize('counter_privacy',['PUBLIC','PERSONAL'])
+def test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart(tmp_path,counter_privacy):
+    """Recent good episodes cannot certify a method whose older defect remains."""
+    from nana_core.presence.runtime import NanaRuntime
+    from nana_core.continuity.records import RecordService
+    import json,time
+    path=tmp_path/'long'/'self.db'
+    with fresh(path) as r:
+        r.work.configure_open_learning((numeric_learning(),))
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',
+            program_id='learn.numbers',possible_behaviors=('LEARN',))
+        m=MemoryService(r.store);e=m.capture(EvidenceInput(provenance=Provenance(
+            source_namespace='synthetic.long-learning',source_reference='cue',source_kind='DIRECT_OBSERVATION'),
+            text=cue.model_dump_json(),privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+        mid=m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,
+            epistemic_kind='OBSERVATION',source_evidence_id=e,text=cue.model_dump_json(),predicate_key='concern.numbers'))
+        inp=SubjectInput(source_key='synthetic.long-learning',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+            scope='world',source_memory_ids=(mid,),observed_at_us=r.clock.utc_now_us())
+        r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
+            causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us()));r.drain(32)
+        lesson=r.store.all('lessons')[0];lesson_id=lesson['lesson_id'];assert lesson['state']=='ACTIVE'
+        review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+        def assess(key,data,expected):
+            body={'strategy_episode':{'episode_key':key,'lesson_id':lesson_id,'case':LearningCase(
+                case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
+            source=capture(r,key,body,privacy=counter_privacy if key=='old-precision-counter' else 'PUBLIC');return source,review.assess(lesson_id,source,authority=r.authority)
+        counter,aid=assess('old-precision-counter',[.1,.2],.3)
+        for i in range(64):assess('later-success-'+str(i),[i,.5],i+.5)
+        assert r.store.one('lessons',lesson_id)['state']=='SUSPENDED'
+        config,clock,identity=r.config,r.clock,r.identity_id
+    with NanaRuntime(path,config,clock=clock) as r:
+        assert r.identity_id==identity
+        r.work.configure_open_learning((numeric_learning(),))
+        review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+        records=RecordService(r.store)
+        assert records.current_support(r.store.one('strategy_assessments',aid)['record_id'])
+        started=time.perf_counter();cpu=time.process_time();writes=r.store.db.total_changes;error=None
+        try:review.revalidate(lesson_id,authority=r.authority)
+        except CoreError as exc:error=exc.code
+        print(json.dumps({'measurement':'persisted_counterexample_after64_successes','counter_privacy':counter_privacy,
+            'result':error,'state':r.store.one('lessons',lesson_id)['state'],
+            'method_available':bool(r.work.open_learning.strategy('numbers','world')),
+            'elapsed_seconds':time.perf_counter()-started,'cpu_seconds':time.process_time()-cpu,
+            'write_rows':r.store.db.total_changes-writes,'model_calls':len(r.store.all('cognitive_requests'))}))
+        assert error=='UNRESOLVED_COUNTEREXAMPLE'
+        assert r.store.db.total_changes==writes
+        if counter_privacy=='PERSONAL':
+            restricted=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            with pytest.raises(CoreError,match='INDEPENDENT_REVALIDATION_REQUIRED'):
+                restricted.revalidate(lesson_id,authority=r.authority)
+        assert r.store.one('lessons',lesson_id)['state']=='SUSPENDED'
+        assert r.work.open_learning.strategy('numbers','world') is None
+        # Withdrawal still removes this evidence's influence; no permanent ban.
+        MemoryService(r.store,r.authority).set_lifecycle(counter,'SUPPRESSED',r.authority)
+        assert review.revalidate(lesson_id,authority=r.authority)['state']=='ACTIVE'
+        assert r.work.open_learning.strategy('numbers','world')
+        assert not r.store.all('cognitive_requests')

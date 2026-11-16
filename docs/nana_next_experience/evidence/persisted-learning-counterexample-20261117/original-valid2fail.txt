@@ -1,0 +1,115 @@
+{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PUBLIC", "result": null, "state": "ACTIVE", "method_available": true, "elapsed_seconds": 0.018358878995059058, "cpu_seconds": 0.018353035999999934, "write_rows": 5, "model_calls": 0}
+F{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PERSONAL", "result": null, "state": "ACTIVE", "method_available": true, "elapsed_seconds": 0.019900633007637225, "cpu_seconds": 0.019902030000000126, "write_rows": 5, "model_calls": 0}
+F
+=================================== FAILURES ===================================
+_ test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart[PUBLIC] _
+
+tmp_path = PosixPath('/dev/shm/nq279oldvalid/test_later_success_population_0')
+counter_privacy = 'PUBLIC'
+
+    @pytest.mark.parametrize('counter_privacy',['PUBLIC','PERSONAL'])
+    def test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart(tmp_path,counter_privacy):
+        """Recent good episodes cannot certify a method whose older defect remains."""
+        from nana_core.presence.runtime import NanaRuntime
+        from nana_core.continuity.records import RecordService
+        import json,time
+        path=tmp_path/'long'/'self.db'
+        with fresh(path) as r:
+            r.work.configure_open_learning((numeric_learning(),))
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',
+                program_id='learn.numbers',possible_behaviors=('LEARN',))
+            m=MemoryService(r.store);e=m.capture(EvidenceInput(provenance=Provenance(
+                source_namespace='synthetic.long-learning',source_reference='cue',source_kind='DIRECT_OBSERVATION'),
+                text=cue.model_dump_json(),privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+            mid=m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,
+                epistemic_kind='OBSERVATION',source_evidence_id=e,text=cue.model_dump_json(),predicate_key='concern.numbers'))
+            inp=SubjectInput(source_key='synthetic.long-learning',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+                scope='world',source_memory_ids=(mid,),observed_at_us=r.clock.utc_now_us())
+            r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
+                causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us()));r.drain(32)
+            lesson=r.store.all('lessons')[0];lesson_id=lesson['lesson_id'];assert lesson['state']=='ACTIVE'
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+            def assess(key,data,expected):
+                body={'strategy_episode':{'episode_key':key,'lesson_id':lesson_id,'case':LearningCase(
+                    case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
+                source=capture(r,key,body,privacy=counter_privacy if key=='old-precision-counter' else 'PUBLIC');return source,review.assess(lesson_id,source,authority=r.authority)
+            counter,aid=assess('old-precision-counter',[.1,.2],.3)
+            for i in range(64):assess('later-success-'+str(i),[i,.5],i+.5)
+            assert r.store.one('lessons',lesson_id)['state']=='SUSPENDED'
+            config,clock,identity=r.config,r.clock,r.identity_id
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            r.work.configure_open_learning((numeric_learning(),))
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+            records=RecordService(r.store)
+            assert records.current_support(r.store.one('strategy_assessments',aid)['record_id'])
+            started=time.perf_counter();cpu=time.process_time();writes=r.store.db.total_changes;error=None
+            try:review.revalidate(lesson_id,authority=r.authority)
+            except CoreError as exc:error=exc.code
+            print(json.dumps({'measurement':'persisted_counterexample_after64_successes','counter_privacy':counter_privacy,
+                'result':error,'state':r.store.one('lessons',lesson_id)['state'],
+                'method_available':bool(r.work.open_learning.strategy('numbers','world')),
+                'elapsed_seconds':time.perf_counter()-started,'cpu_seconds':time.process_time()-cpu,
+                'write_rows':r.store.db.total_changes-writes,'model_calls':len(r.store.all('cognitive_requests'))}))
+>           assert error=='UNRESOLVED_COUNTEREXAMPLE'
+E           AssertionError: assert None == 'UNRESOLVED_COUNTEREXAMPLE'
+
+tests/world_loop/test_learning.py:117: AssertionError
+_ test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart[PERSONAL] _
+
+tmp_path = PosixPath('/dev/shm/nq279oldvalid/test_later_success_population_1')
+counter_privacy = 'PERSONAL'
+
+    @pytest.mark.parametrize('counter_privacy',['PUBLIC','PERSONAL'])
+    def test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart(tmp_path,counter_privacy):
+        """Recent good episodes cannot certify a method whose older defect remains."""
+        from nana_core.presence.runtime import NanaRuntime
+        from nana_core.continuity.records import RecordService
+        import json,time
+        path=tmp_path/'long'/'self.db'
+        with fresh(path) as r:
+            r.work.configure_open_learning((numeric_learning(),))
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',
+                program_id='learn.numbers',possible_behaviors=('LEARN',))
+            m=MemoryService(r.store);e=m.capture(EvidenceInput(provenance=Provenance(
+                source_namespace='synthetic.long-learning',source_reference='cue',source_kind='DIRECT_OBSERVATION'),
+                text=cue.model_dump_json(),privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+            mid=m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,
+                epistemic_kind='OBSERVATION',source_evidence_id=e,text=cue.model_dump_json(),predicate_key='concern.numbers'))
+            inp=SubjectInput(source_key='synthetic.long-learning',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+                scope='world',source_memory_ids=(mid,),observed_at_us=r.clock.utc_now_us())
+            r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
+                causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us()));r.drain(32)
+            lesson=r.store.all('lessons')[0];lesson_id=lesson['lesson_id'];assert lesson['state']=='ACTIVE'
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+            def assess(key,data,expected):
+                body={'strategy_episode':{'episode_key':key,'lesson_id':lesson_id,'case':LearningCase(
+                    case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
+                source=capture(r,key,body,privacy=counter_privacy if key=='old-precision-counter' else 'PUBLIC');return source,review.assess(lesson_id,source,authority=r.authority)
+            counter,aid=assess('old-precision-counter',[.1,.2],.3)
+            for i in range(64):assess('later-success-'+str(i),[i,.5],i+.5)
+            assert r.store.one('lessons',lesson_id)['state']=='SUSPENDED'
+            config,clock,identity=r.config,r.clock,r.identity_id
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            r.work.configure_open_learning((numeric_learning(),))
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC','PERSONAL'))
+            records=RecordService(r.store)
+            assert records.current_support(r.store.one('strategy_assessments',aid)['record_id'])
+            started=time.perf_counter();cpu=time.process_time();writes=r.store.db.total_changes;error=None
+            try:review.revalidate(lesson_id,authority=r.authority)
+            except CoreError as exc:error=exc.code
+            print(json.dumps({'measurement':'persisted_counterexample_after64_successes','counter_privacy':counter_privacy,
+                'result':error,'state':r.store.one('lessons',lesson_id)['state'],
+                'method_available':bool(r.work.open_learning.strategy('numbers','world')),
+                'elapsed_seconds':time.perf_counter()-started,'cpu_seconds':time.process_time()-cpu,
+                'write_rows':r.store.db.total_changes-writes,'model_calls':len(r.store.all('cognitive_requests'))}))
+>           assert error=='UNRESOLVED_COUNTEREXAMPLE'
+E           AssertionError: assert None == 'UNRESOLVED_COUNTEREXAMPLE'
+
+tests/world_loop/test_learning.py:117: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_learning.py::test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart[PUBLIC]
+FAILED tests/world_loop/test_learning.py::test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart[PERSONAL]
+2 failed in 0.52s
+FIXED_ORIGINAL_INSTALLED_BUSINESS_MODULES 94

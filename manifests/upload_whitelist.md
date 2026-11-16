@@ -329,3 +329,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A匹配b196同主体集成节点
 
 09/11/ACTIVE/STATUS、本白名单、evidence/matched-integrated-b196f5d-20261117受控构建/两槽/下载/原C-G-梦境/停机reader/实际CI和回归原日志/公开脚本/指纹；无DB/私史/Key/账号/付费/生产/CURRENT/新APK。二进制仅原delivery b79e9ba6新候选目录，不改旧交付。
+
+## 2026-11-17 A原G持久反证恢复
+
+原world_loop/learning.py及原test_learning.py、09/11/ACTIVE/STATUS、本白名单、evidence/persisted-learning-counterexample-20261117原有效失败/对照/相关/公开runner/查询计划/指纹；无新表/索引/模型循环/DB/私史/Key/账号/生产/CURRENT/新APK。原封签b196及00d槽不覆盖。

@@ -1,8 +1,8 @@
-## 现役revision278 — b196联合候选及下一长期反例闭环
+## 现役revision279 — 持久反例与下一方法层学习闭环
 
-固定b196 Core312/263双SHA6f7d309f/Web237同输入复用归档5963d594，delivery b79e9ba6归22件；新GitHub独立取得/21SHA/第二离线19依赖/263源码匹配。两个独立安装DEV各完整同Subject原Gateway→setup私创作/拒聊/Manager→原G独评迁移与后来RENDER→梦境虚拟72h/撤回→私意图保持，各7fixture/0动作Goal；停机b196-00d-b196三次语义视图同。安装28过32.20s/158模块，源206过136.07s、匹配CI47过32.65s；不是全仓/真实模型/真机/生产/自然度/长期，CURRENT不变。
+原S8方法已被反例暂停后64条新成功使原重启复验遗漏有效旧反例，原封签Core两privacy场景错误ACTIVE/真实选择器又可选。现近期独立支持不改，另以既有lesson索引流式检查完整当前反例，2fail→同2过/全文件4过1.12s与43相关15.47s；阻恢复0写入0模型，撤回反例后仍能恢复，受限privacy不伪造完整资格。b196封签候选不含本后继，不重打APK，CURRENT不变。
 
-下一原S8 EpisodeLearning.revalidate长期反例窗口实证，先基线再最小修复，不把候选方法自评当机制改进。S3/S8-S10/PR22/私QQ私Bili/物理存储Token/产品与A–H继承。证据evidence/matched-integrated-b196f5d-20261117/README.md及原交付Handoff；不重复构建APK/全仓。
+下一原open_life/meta_learning.py已存在propose/checks/select→原G HYPOTHESIZE消费者，核对范围/域资格挤占与反证继承，不重做G或另建S10权威。b196双槽联合节点仍保留，不冒充279新安装。原S3/S8-S10/A–H与全部真实资格继续。证据evidence/persisted-learning-counterexample-20261117/README.md。
 
 ## 现役revision196
 
