@@ -2946,3 +2946,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-16 · B 视频时间覆盖隔离候选
 
 [源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。
+
+
+### 2026-11-16 · B FFmpeg真实信号与四方法对照
+
+[源码/实测] 基线90a31b6，S5工程隔离研究：FFmpeg逐帧scdet→秒级变化候选→原B覆盖规划，输出完整扫描与空档，不生产语义观察；11定向通过。真实生成12秒4帧预算，均匀/video-watch/dsh/候选硬切命中1/0/2/1，最大间隔3/5.87/4/3秒；候选漏切反例保留。无真实模型/字幕/长片或Token资格；单次资源见video-ffmpeg-comparison-20261116，源码锚69303df6e32ea66cbc03a70be4c02236856f129f764ceb48cecbac6ff6920e1e。独立候选、未接入现役；后续B优化检测/预算，NanaLink媒体接口，A原主体及来源。

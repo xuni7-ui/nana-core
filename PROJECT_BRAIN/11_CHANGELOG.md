@@ -3747,12 +3747,12 @@ PrivateIntent按owner/scope/privacy/topic仅投影引用→原C Situation/Apprai
 
 ### 2026-11-14 · NanaLink RSS观察与用户指令分离
 
-后续源码复查发现Feed曾走原chat Surface路径，虽无真实发送仍可能把网页标题当对话。改为原MemoryService来源+SOURCED_LIFE/WORLD_EVENT机会，原C可忽略/推迟，暂停不强制唤醒；不改Core契约或另建记忆。10定向通过（含实际HTTP/原单主体/时钟推进去重/暂停/来源删除拒绝），初始source_key绑定失败已依原surface source_key修正。前105资格保留原8669范围，后继源码/匹配wheel/image另记，不虚称新全仓通过。
+后续源码复查发现Feed曾走原chat Surface路径，虽无真实发送仍可能把网页标题当对话。改为原MemoryService来源+SOURCED_LIFE/WORLD_EVENT机会，原C可忽略/推迟，暂停不强制唤醒；不改Core契约或另建记忆。11定向通过（含实际HTTP/原单主体/时钟推进去重/暂停/来源删除拒绝），初始source_key绑定失败已依原surface source_key修正。前105资格保留原8669范围，后继源码/匹配wheel/image另记，不虚称新全仓通过。
 
 
 ### 2026-11-14 · Feed来源重投与撤回后继
 
-原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均10定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。
+原source_key绑定、观察时间改变后的去重、暂停无C周期、原app.forget撤回均11定向通过；首次探针误用RuntimeClock.advance及未绑定MemoryService忘却接口，改用注入时钟和原app.forget，未放宽原权限。公开源只形成来源记忆+WORLD_EVENT候选，不进入chat用户指令路径，不新增推理/动作。旧105属于8669，后继以本10项及新CI实际回执为准。
 
 
 ### 2026-11-14 · Feed后继匹配交付与CI继承
@@ -4103,3 +4103,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 [源码/实测] 基线cfd11be，S5工程研究；两项目及video-watch-skill上游固定SHA/许可证见video-coverage-prototype-20261116。新增独立时间选择/盲区报告，无现役消费者/主体权威/模型调用；7定向通过，合成同8帧变化集中反例最大间隔113→15秒，非真实视频召回/Token。真实FFmpeg、两原版及语义效果待B验证；平台获取NanaLink、原S5/S2/C/S8接线A。
 
 - 2026-11-16 CST｜revision258：A采用PR19固定86d1edb到原实验目录，原50行代码不改；7项实际通过，原Store的0/5/10秒样本映射/选择回映/撤回和明确空档复验通过，额外模型0。给既有CI仅加精确路径/7项组，Core/运行包不变；当前仅研究工具，非两仓视觉或商业S5已接。 原压缩五项核对与真实缺口已在ecdb15c/Brain256完成局部修复，PR20来源/账号增量48b6f5f/257已合。B继续真实FFmpeg/两个原始方案对照与信号接口，NanaLink供授权时间线来源，A接原S5/S2/C/S8并继续情感多动机/G未见迁移/物理隐私/真实Token及A–H。c1d历史候选不含256/257；CURRENT266+409、真实模型/手机/生产/自然度/实际长期未新增。 指纹锚8b4bb7a78ee47bdd6dbbc884cf048b85d727ee0ffc42c1877f5222f507f40bcf。
+
+
+### 2026-11-16 · B FFmpeg真实信号与四方法对照
+
+[源码/实测] 基线90a31b6，S5工程隔离研究：FFmpeg逐帧scdet→秒级变化候选→原B覆盖规划，输出完整扫描与空档，不生产语义观察；11定向通过。真实生成12秒4帧预算，均匀/video-watch/dsh/候选硬切命中1/0/2/1，最大间隔3/5.87/4/3秒；候选漏切反例保留。无真实模型/字幕/长片或Token资格；单次资源见video-ffmpeg-comparison-20261116，源码锚69303df6e32ea66cbc03a70be4c02236856f129f764ceb48cecbac6ff6920e1e。独立候选、未接入现役；后续B优化检测/预算，NanaLink媒体接口，A原主体及来源。

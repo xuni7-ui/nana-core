@@ -245,3 +245,8 @@ life/application.py现有保留顺序局部、test_compaction_durability.py、�
 ## 2026-11-16 A采用固定PR19实验
 
 固定PR19工具/原测试/原研究及原B交接文字、原CI两个精确路径/7项组，09/11/ACTIVE/STATUS、本白名单及evidence/vision-prototype-adoption-20261116/公开合成回执/指纹。无第三方源码复制/新依赖/Store/Key/账号/运行权威/发行/生产。
+
+
+## 2026-11-16 B FFmpeg时间覆盖研究
+
+持续授权范围：video-ffmpeg-comparison-20261116/{README.md,comparison.json,source-sha256.json}，其指纹三份原创实验/测试文件，09/11追加及本清单。上游仅本地运行并引用固定SHA/许可证，不复制第三方源码或提交生成视频。
