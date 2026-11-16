@@ -96,7 +96,12 @@ class FeedAdapter:
         return self.pending.pop(0) if self.pending else None
 
     def parse(self, raw):
-        if not isinstance(raw, bytes) or len(raw) > self.max_bytes or b'<!DOCTYPE' in raw.upper() or b'<!ENTITY' in raw.upper():
+        if not isinstance(raw, bytes) or len(raw) > self.max_bytes:
+            raise CoreError('FEED_XML_BOUND_OR_DTD_DENIED')
+        # XML markup is ASCII even in UTF-16/32; strip encoding NULs before
+        # checking so a declared DTD cannot bypass the same rejection.
+        markup = raw.replace(b'\x00', b'').upper()
+        if b'<!DOCTYPE' in markup or b'<!ENTITY' in markup:
             raise CoreError('FEED_XML_BOUND_OR_DTD_DENIED')
         try:
             root = ET.fromstring(raw)

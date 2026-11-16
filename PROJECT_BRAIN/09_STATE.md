@@ -4,7 +4,7 @@
 
 [当前A集成实测2026-11-16] PR18固定6645已由486ed546合入；PR20固定3d6475c已由本批A正常集成，受控106/30通过；视觉交接仍候选。以下保留C原2026-11-15交接，不代表PR18仍未合。
 
-[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `b47785405518ff45c0ccc742f48d93d6b5a1560b44ee6917e62f7361212c404f`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；本地HTTP及相关27项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。
+[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `b049991fa5bb8ba013f07c167b9c832f7b1fa94765d8dfc81d9c5d958fb5e6d5`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；UTF-16 DTD绕过修复并保留正常输入；本地HTTP及相关28项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。
 
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 

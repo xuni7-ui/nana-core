@@ -175,3 +175,12 @@ def test_feed_disconnect_preserves_unconsumed_entries_without_replaying_delivere
         assert len(calls) == 1
         await adapter.shutdown()
     asyncio.run(run())
+
+
+def test_feed_utf16_preserves_valid_input_and_rejects_dtd():
+    adapter = FeedAdapter('https://example.org/rss', authorized=True)
+    valid = '<?xml version="1.0" encoding="UTF-16"?><rss><channel><item><guid>valid16</guid><title>Readable</title></item></channel></rss>'.encode('utf-16')
+    assert adapter.parse(valid)[0].segments[0].text == 'Readable'
+    hostile = '<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE rss [<!ENTITY x "expanded">]><rss><channel><item><guid>x</guid><title>&x;</title></item></channel></rss>'.encode('utf-16')
+    with pytest.raises(CoreError, match='FEED_XML_BOUND_OR_DTD_DENIED'):
+        adapter.parse(hostile)
