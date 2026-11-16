@@ -1,0 +1,35 @@
+{
+  "baseline_a": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "previous_b_commit": "ea628b30368ebbbf65bf8d4e9c13b7a965c78c12",
+  "owner": "B",
+  "scope": "isolated window-local candidate fusion; no current platform/Subject consumer and no new authority",
+  "change": "Combine local window decoded frames, original dsh cues and local adjacent-frame proposals using existing budget/gap planning; convert planned times back to original container-relative seconds and integer source PTS/time_base.",
+  "input_contract": "DecodedFrames with caller-supplied source, exact original PTS, window and RGB, plus dsh/local pair outputs bound to identical caller source, decoded geometry and frame counts. Matching references do not independently authenticate bytes, account or privacy.",
+  "output_contract": "Window-only candidate source times, exact pts_tick/time_base, caller source reference, source and scaled pixel geometry, selected crop boxes and selected sides, explicit backpressure/truncation and sampling gaps. whole_window_observed is always false. No image stored, model called or output treated as delivery.",
+  "controlled_results": {
+    "offset_vfr": "container origin 5s, requested [0.6,2.1); actual source-relative frames 1.75/2.0 with original ticks survive original dsh and budget fusion; cross-source, wrong geometry, invalid crop and altered tick rejected",
+    "long_tail": "601s synthetic 1fps; requested [599,601) decodes and fuses 599/600s with matching original PTS; no full-video watch claim",
+    "empty": "VFR window [0.6,1.6) yields no new frame, unknown interval rather than blank scene or inferred observation",
+    "initial_failure": "First integration test exposed a missing RGB bytes-per-pixel factor (one failed); fixed size validation to width × height × 3, retained assertion."
+  },
+  "validation": {
+    "command": "NANA_DSH_SOURCE=/workspace/work/dsh-see-now PYTHONPATH=src:. python -m pytest tests/nana_next_experience/test_video_window_fusion.py tests/nana_next_experience/test_video_segment_windows.py tests/nana_next_experience/test_video_pts_decode.py tests/nana_next_experience/test_video_local_pairs.py tests/nana_next_experience/test_dsh_pipeline_adapter.py -q",
+    "result": "36 passed in 8.26s"
+  },
+  "limits": [
+    "No real Bilibili/QQ account, actual platform source, long-GOP user media, billed model, token, OCR/ASR, device or production qualification",
+    "Source ID equality and geometry/count checks cannot authenticate frame bytes, account, privacy or physical source; caller and original authority must verify",
+    "Any crop box is in decoded scaled unrotated pixels and still must be revalidated against actual frame; held previous VFR frame is not inferred",
+    "No original Memory/Kernel lineage persistence or automatic withdrawal of returned in-memory objects",
+    "Overall video scope and other windows are not observed; gap list reports only spans larger than configured sampling threshold"
+  ],
+  "next": "B validates long-GOP/edit-list/timebase edge cases and resource costs; NanaLink supplies authenticated source; A integrates original S5/Memory/Provider budget and withdrawal",
+  "source_sha256": {
+    "tools/nana_next_experience/experiments/video_window_fusion.py": "13ffabe84caf40a2dd642c733ee0ab7111394f405af06a06179322913c3d7dba",
+    "tests/nana_next_experience/test_video_window_fusion.py": "95cb80e15feef3a13d245dbaee043322025b7a664ae30c3a51e7be8d85f12ae3",
+    "tools/nana_next_experience/experiments/video_local_pairs.py": "dec56aa7bb57bbda6eedfcb5d601a0ed67c4944b1e77d22fe0a6147d8d9bc549",
+    "tests/nana_next_experience/test_video_local_pairs.py": "b16fc97d05c464ff9faa09bad807caa4e35cc06ea38fa54fd71da87ccbe22714",
+    "tools/nana_next_experience/experiments/dsh_pipeline_adapter.mjs": "5e6227e587217157c5b38298ae28e8c04a59ddcb48ad70f8b2ed125fcd350ea9",
+    "tests/nana_next_experience/test_dsh_pipeline_adapter.py": "3af6ed3ac68ff6e44b1baf4d65eeb7fc2b9934e1f6165ac8db9df74cf063ed9f"
+  }
+}

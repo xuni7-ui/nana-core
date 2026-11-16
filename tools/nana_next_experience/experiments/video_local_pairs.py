@@ -53,7 +53,7 @@ def propose(source_ref, frames, *, max_proposals=64):
             if item not in picked:picked.append(item)
         proposals=sorted(picked,key=lambda x:x['after_seconds'])
     omitted=len(observed)-len(proposals)
-    return {'schema_version':1,'source_ref':source_ref,'pairs_examined':len(frames)-1,
+    return {'schema_version':1,'source_ref':source_ref,'input_size':size,'pairs_examined':len(frames)-1,
             'proposals':proposals,'omitted_proposals':omitted,'truncated':omitted>0,
             'source_attestation':'CALLER_SUPPLIED','storage':'NONE','model_calls':0,
             'meaning':'local changes only; neither meaning nor importance is inferred'}

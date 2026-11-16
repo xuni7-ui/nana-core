@@ -75,7 +75,7 @@ const taken=locallyTaken.flat().map(t=>{
 });
 const droppedSheets=pipeline.stats.sheets-completed.sheets.length-locallyTaken.length;
 if(droppedSheets<0)fail('inconsistent upstream queue accounting');
-console.log(JSON.stringify({schema_version:1,source_ref,input_frames:timestamps.length,selected,
+console.log(JSON.stringify({schema_version:1,source_ref,input_size:[width,height],input_frames:timestamps.length,selected,
   selection_state:'SELECTED_NOT_DELIVERED',queued_frame_seconds:queued,
   queue_depth:1,queued_sheets:completed.sheets.length,dropped_sheets:droppedSheets,
   locally_taken_sheets:locallyTaken.length,locally_taken_frame_seconds:taken,

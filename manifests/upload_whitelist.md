@@ -368,3 +368,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B有界分段与PTS
 
 持续授权：video-bounded-windows-20261116.json及其中4个原创实验/测试，09/11追加、本清单；无真实媒体/凭据。
+
+
+## 2026-11-16 B原PTS窗口融合
+
+持续授权：video-window-fusion-20261116.json及其中6个原创实验/测试、09/11追加、本清单；无真实视频/凭据/上游源码复制。
