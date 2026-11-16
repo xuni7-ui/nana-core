@@ -3111,3 +3111,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-17 · B复用NanaLink来源缓存的窗口解码候选
 
 [源码/实测] A基线d5c0a42、原MediaCache PUBLIC声明下读取并逐块核验SHA-256，解码前后复查原来源，公共快照限16MiB且临时目录退出清理。缓存字节篡改、末次读取后撤回、解码中撤回、PERSONAL输入分别拒绝；原缓存→重叠窗口→全局预算→原S5 IMAGE合成对照通过。28相关5.42秒；首轮13过5失败为隔离环境缺aiohttp，补仓库锁定3.14.3及对应依赖后重验。声明非隐私证明，原source_current缺单调版本、最终使用前仍须复核；未接Store/模型/真实账号或视频，资源差额未量化。证据video-nanalink-cache-window-20261117.json锚1e1b5f21f322c0b5e9953eff700957a9d13859a580610754075895cba8f595f1。
+
+
+### 2026-11-17 · B验证原B站帧契约差额
+
+[源码/实测] A基线d5c0a42；合成实际解码帧直接经原BilibiliFrameService.capture会被硬编码为PUBLISHER_STORYBOARD_SAMPLE，虽然Memory子项随原源撤回正确失效；不应把解码视频帧误标为故事板。同一原VIDEO_READING来源引用可在原MediaCache下存红/蓝两份不同合法视频及哈希，源引用与哈希不足以证明哪份实际由平台取得；原源撤回后两句柄均拒绝。原缓存/帧相关9项通过、5未选。需NanaLink建立账号/隐私/bvid/cid/原视频摘要/时间的可信获取凭据，A给解码视频帧新增准确来源及保留原Memory依赖；本批不改Core、不写真实媒体或发送。证据video-original-frame-contract-20261117.json锚2d6ca76c8f75dd2283bb08284774baadd9cbc22292f4ce9a152bead17f476df5。

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "a_baseline": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "status": "INTEGRATION_BLOCKER_REPRODUCED",
+  "original_functions": [
+    "BilibiliFrameService.capture",
+    "MediaCache.put",
+    "MediaCache.resolve",
+    "MemoryService.forget"
+  ],
+  "counterexamples": [
+    "original frame capture accepts a synthetic actual-video-decoded frame but records PUBLISHER_STORYBOARD_SAMPLE_NOT_FULL_WATCH",
+    "same original VIDEO_READING memory reference admits two different valid synthetic videos and two different sha256 handles; ref+hash does not establish which media was acquired"
+  ],
+  "positive_control": "original frame memory is derived from original source and becomes unreadable after source withdrawal; cache original current callback also denies both handles after withdrawal",
+  "verification": "9 passed, 5 deselected in 4.06s; temporary synthetic Core Store and local FFmpeg",
+  "handoff": "NanaLink must establish source acquisition provenance tying source/account, privacy, bvid/cid, content digest and time before B source candidate use; A must add distinct decoded-video provenance/coverage while retaining original Memory dependency and withdrawal; do not reuse storyboard label",
+  "limits": [
+    "no actual platform source",
+    "no actual video account",
+    "no external sends or model",
+    "no Core source modified",
+    "no performance or Token measurement"
+  ],
+  "sha256": {
+    "tests/nana_next_experience/test_video_original_frame_contract.py": "df2ed7cd0d50941828fcae8f46e51b8ddcc2b06fda49ac503db6820638b19dbe"
+  }
+}
