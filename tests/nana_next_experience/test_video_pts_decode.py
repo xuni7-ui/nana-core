@@ -165,6 +165,25 @@ def test_adjacent_vfr_windows_preserve_all_decoded_frame_identity(tmp_path):
     assert first.rgb24+second.rgb24==full.rgb24
 
 
+def test_long_gop_b_frames_window_matches_full_decode_with_offset(tmp_path):
+    encoders=subprocess.check_output(['ffmpeg','-hide_banner','-encoders'],stderr=subprocess.STDOUT,text=True)
+    if 'libx264 ' not in encoders:
+        pytest.skip('optional libx264 encoder unavailable')
+    original=tmp_path/'long-gop.mp4';offset=tmp_path/'offset.mp4'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'testsrc2=s=160x90:r=10:d=20','-c:v','libx264','-g','120','-bf','3',
+        '-threads','1','-y',str(original)],check=True,timeout=30)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(original),
+        '-c','copy','-output_ts_offset','5','-y',str(offset)],check=True,timeout=20)
+    full=decode('source.synthetic',offset)
+    frame_bytes=160*90*3
+    for start,end in ((5,12),(12,17)):
+        part=decode('source.synthetic',offset,start_seconds=start,end_seconds=end)
+        indexes=[i for i,t in enumerate(full.timestamps) if start<=t<end]
+        assert part.pts_ticks==tuple(full.pts_ticks[i] for i in indexes)
+        assert part.rgb24==b''.join(full.rgb24[i*frame_bytes:(i+1)*frame_bytes] for i in indexes)
+
+
 def test_long_video_uses_bounded_window_without_claiming_full_watch(tmp_path):
     path=tmp_path/'long.mp4'
     subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
