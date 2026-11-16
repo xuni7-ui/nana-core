@@ -318,3 +318,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B视觉线索融合候选
 
 持续授权：video-fusion-candidates-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加、本清单；无真实帧/凭据或上游源码复制。
+
+
+## 2026-11-16 B视觉融合三场景
+
+持续授权：video-fusion-scenarios-20261116/{README.md,results.json,source-sha256.json}及其中原创对照脚本、09/11追加、本清单；不提交真实视频/凭据或复制上游源码。
