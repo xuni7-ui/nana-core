@@ -1,8 +1,8 @@
-## 当前接续：原G成长结果仍能产生新关注，revision259
+## 当前接续：原G旧成功回执的来源绑定，revision260
 
-原G成长机会在原32限额前按assessment/lesson记录范围隐私筛选，保留独立训练隔离/来源/反例。旧1fail1pass→新2通过1.45s、42相关25.79s；同主体PUBLIC重启后原G/Kernel复用经正常D→C形成自愿私人疑问，同条件不重调、撤回失效，无新增Goal/动作/Grant。0/32不可读评价均1SELF/59760 inputbytes，非实际Token或更广学习资格。
+原G EpisodeLearning缓存命中补原记录scope/privacy/current及episode全内容绑定。旧3fail1pass→新5通过2.25s/42相关33.84s：变更/跨scope/撤回/不可读私评价不能冒用旧成功，私payload读取前拒绝；同源和SUSPENDED反例重放0写，新稳定编号独立精度反例仍原评价器→COUNTEREXAMPLE/SUSPENDED。无新模型阶段/表/迁移。
 
-继续原C多动机/持续策略及G未见迁移；可见但不合格头部/同课题重复挤占未证明解决，勿盲目调大32。B真实FFmpeg与原S5消费者/物理隐私/真实Token及A–H继承。c1d历史候选不含256/257/259，CURRENT266+409不动，真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/growth-attention-visibility-20261116/README.md。
+继续原C情感多动机/策略与G未见迁移；259可见但不合格/同课题重复挤占先基线，不盲目提高32。B真实视觉/原S5接线、物理隐私/真实Token及全部A–H继承。c1d历史匹配候选不含256/257/259/260，CURRENT266+409不动，无新APK/真实模型/手机/生产/自然度/实际长期。 证据evidence/growth-assessment-replay-binding-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

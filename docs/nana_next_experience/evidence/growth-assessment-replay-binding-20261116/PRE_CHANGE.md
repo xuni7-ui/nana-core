@@ -1,0 +1,4 @@
+# 原G评价重放绑定
+
+锚b5481b59add453990f654fb8fa0839cb4cf26907 / Brain259已推干净。原EpisodeLearning.assess在核对现有episode_key时直接返回旧assessment，尚未比较新episode内容、旧记录scope/privacy/current；同key异内容或跨scope来源可能冒用旧成功。
+先复用原grown/G练习/实际后续Kernel/Verify评价复现，完全同源重放作为不变控制；仅补原缓存分支的来源范围/内容一致性，不重复执行反例或新建学习权威，不扩权限。回退world_loop/learning.py本锚，无schema迁移/真实模型或账号操作。

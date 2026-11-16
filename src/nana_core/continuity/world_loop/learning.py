@@ -19,7 +19,18 @@ class EpisodeLearning:
             if body['lesson_id']!=lesson_id or type(key)!=str or not 1<=len(key)<=96:raise ValueError()
         except (KeyError,TypeError,ValueError):raise CoreError('STRATEGY_EPISODE_INVALID') from None
         old=self.store.db.execute('SELECT * FROM strategy_assessments WHERE lesson_id=? AND episode_key=?',(lesson_id,key)).fetchone()
-        if old:return old['assessment_id']
+        if old:
+            head=self.store.one('continuity_records',old['record_id'])
+            if (not head or head['record_kind']!='STRATEGY_REVIEW' or head['scope']!=memory['scope']
+                    or head['scope'] not in self.scopes or head['privacy_class'] not in self.privacy
+                    or head['lifecycle']!='ACTIVE' or not self.records.current_support(old['record_id'])):
+                raise CoreError('STRATEGY_SOURCE_RETIRED')
+            # Replaying the same occurrence is read-only, including a recorded
+            # counterexample. A reused label cannot certify different evidence
+            # or resurrect a withdrawn result.
+            prior=self.records.read(old['record_id'])['payload']['episode']
+            if canonical(prior)!=canonical(body):raise CoreError('STRATEGY_EPISODE_KEY_COLLISION')
+            return old['assessment_id']
         lesson=self.store.one('lessons',lesson_id)
         if not lesson or lesson['state'] not in {'ACTIVE','SUSPENDED'}:raise CoreError('STRATEGY_REVIEW_UNAVAILABLE')
         head=self.records.read(lesson['record_id'])
