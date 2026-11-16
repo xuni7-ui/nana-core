@@ -4308,3 +4308,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision276：候选275离线/Core-BFF分项过，原同Subject联合setup因独立INTERPRET混入无关LOCAL临时回执而正确触发不保留门禁，首次真实失败保留；现仅事实pass限主源+完整矛盾/原匹配学习，正常对话/SELF仍完整内心。原1fail1pass→2过/74相关38.12s后原冲突6过.45s，主源就是回执时仍拒，未放松privacy/重派旧请求。275独立55pass13.68s不足证明综合通过；下一重建本源候选，CURRENT266+409，真实0。 指纹锚22c5ebc417019e6bd085d18a9b7b78dbf0de43ab15d4a548e0114bb60921d6c9。
 
 - 2026-11-17 CST｜revision277：276实际双构建/离线槽/同DEV原setup149业务模块通过，原私创作/表达边界/Manager与事实→C同主体共存；后续G末次因资格工具忘记此前1调用而固定总6被正确拦住。仅外部probe改prior+原stage4/6≤128，原断言与Core预算不动。276 CI精确节点被当文件失败，现文件检查拆::而pytest节点完整；原错保留，7嵌入段语法通过，30本地入口结果待实读。 指纹锚830b566f12842b970049aae22ac6b2b9d526a7dfe75cbe01e235a54b7c935d5d。
+
+- 2026-11-17 CST｜revision278：固定b196 Core312/263双SHA6f7d309f/Web237同输入复用归档5963d594，delivery b79e9ba6归22件；新GitHub独立取得/21SHA/第二离线19依赖/263源码匹配。两个独立安装DEV各完整同Subject原Gateway→setup私创作/拒聊/Manager→原G独评迁移与后来RENDER→梦境虚拟72h/撤回→私意图保持，各7fixture/0动作Goal；停机b196-00d-b196三次语义视图同。安装28过32.20s/158模块，源206过136.07s、匹配CI47过32.65s；不是全仓/真实模型/真机/生产/自然度/长期，CURRENT不变。 指纹锚00c0be7de60e57e008eae4e4c75d355aac48dab7a40758806eb0e3b48d600b94。

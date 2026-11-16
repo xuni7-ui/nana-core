@@ -325,3 +325,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A联合验收工具阶段额度与CI节点路径
 
 原CI/原外部installed_note_recall_probe.py、09/11/ACTIVE/STATUS、本白名单、evidence/integrated-qualification-tools-20261117合成候选/原错/指纹；不改Core或封签槽，不含DB/私史/Key，无真实调用/账号/新授权/CURRENT变更。
+
+## 2026-11-17 A匹配b196同主体集成节点
+
+09/11/ACTIVE/STATUS、本白名单、evidence/matched-integrated-b196f5d-20261117受控构建/两槽/下载/原C-G-梦境/停机reader/实际CI和回归原日志/公开脚本/指纹；无DB/私史/Key/账号/付费/生产/CURRENT/新APK。二进制仅原delivery b79e9ba6新候选目录，不改旧交付。

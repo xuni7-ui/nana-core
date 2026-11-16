@@ -1,8 +1,8 @@
-## 现役revision277 — 同主体联合节点继续
+## 现役revision278 — b196联合候选及下一长期反例闭环
 
-276实际双构建/离线槽/同DEV原setup149业务模块通过，原私创作/表达边界/Manager与事实→C同主体共存；后续G末次因资格工具忘记此前1调用而固定总6被正确拦住。仅外部probe改prior+原stage4/6≤128，原断言与Core预算不动。276 CI精确节点被当文件失败，现文件检查拆::而pytest节点完整；原错保留，7嵌入段语法通过，30本地入口结果待实读。
+固定b196 Core312/263双SHA6f7d309f/Web237同输入复用归档5963d594，delivery b79e9ba6归22件；新GitHub独立取得/21SHA/第二离线19依赖/263源码匹配。两个独立安装DEV各完整同Subject原Gateway→setup私创作/拒聊/Manager→原G独评迁移与后来RENDER→梦境虚拟72h/撤回→私意图保持，各7fixture/0动作Goal；停机b196-00d-b196三次语义视图同。安装28过32.20s/158模块，源206过136.07s、匹配CI47过32.65s；不是全仓/真实模型/真机/生产/自然度/长期，CURRENT不变。
 
-下一固定本提交、同源候选/新DEV原Gateway→setup→G迁移→梦境→私人意向连续；旧失败与包保留。CURRENT266+409不动，真实模型/手机/生产/自然度/长期仍待；原A–H/三方向继续。证据evidence/integrated-qualification-tools-20261117/README.md。
+下一原S8 EpisodeLearning.revalidate长期反例窗口实证，先基线再最小修复，不把候选方法自评当机制改进。S3/S8-S10/PR22/私QQ私Bili/物理存储Token/产品与A–H继承。证据evidence/matched-integrated-b196f5d-20261117/README.md及原交付Handoff；不重复构建APK/全仓。
 
 ## 现役revision196
 

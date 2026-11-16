@@ -23,15 +23,15 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 277,
-  "as_of_us": 1794862210286869,
+  "revision": 278,
+  "as_of_us": 1794862818490632,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "276双构建312文件SHA66b16f/离线19依赖，原Gateway→同主体原setup149安装模块全断言过，C私创作/拒聊/Manager保持。后续原G第6调用因工具忘计已有1次被正确挡住，原错留存；仅外部工具改已用+原4/6机会≤128，Core预算不变，真实0。",
-    "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
+    "独立事实解释已修：主源+完整矛盾/匹配学习，不混无关回执；普通SELF/对话私念保持，原1fail1pass→2过/74相关后6过。276所选30入口实际206过136.07s；b196 Core263文件不变，匹配CI47过32.65s/clientSKIP，真实0。",
+    "b196固定Core312/263双SHA6f7d309f，Web237输入复用B24归档5963d594；delivery b79e9ba6共22件，新GitHub克隆21SHA/第二离线19deps/263同源。同DEV交流-私创作-G迁移-梦境72虚拟h串联，两槽各7fixture/0动作Goal；安装28过，CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
@@ -45,20 +45,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "整体验收276原setup已过，G迁移末次受外部工具固定总6额度阻，已修阶段计数；277固定后重建同源连续验收。276 CI在Path(::node).exists提前失败，现修文件前缀检查；本地30入口运行待读。S3长期/S8-S10/B22/隐私存储Token/A–H及CURRENT266+409保留。"
+    "b196同源集成节点双槽已受控，旧275/276首错保留；停机b196→00d→b196私意图/表达边界/计数一致。候选不是全仓/真实模型/手机/自然度/长期/上线。下一S8长期反例恢复核对，再S3长期/S8-S10/B22/私平台/物理存储Token/原A–H，CURRENT266+409。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/matched-integrated-b196f5d-20261117/README.md",
     "docs/nana_next_experience/evidence/integrated-qualification-tools-20261117/README.md",
     "docs/nana_next_experience/evidence/independent-interpret-context-20261117/README.md",
     "docs/nana_next_experience/evidence/integrated-platform-feature-20261117/README.md",
     "docs/nana_next_experience/evidence/video-tail-coverage-20261117/README.md",
     "docs/nana_next_experience/evidence/platform-pr23-integration-20261117/README.md",
     "docs/nana_next_experience/evidence/growth-signal-read-20261117/README.md",
-    "docs/nana_next_experience/evidence/product-capability-pr24-20261117/README.md",
-    "docs/nana_next_experience/evidence/media-semantic-track-20261116/README.md"
+    "docs/nana_next_experience/evidence/product-capability-pr24-20261117/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision278证据指纹锚：`00c0be7de60e57e008eae4e4c75d355aac48dab7a40758806eb0e3b48d600b94`（source.sha256不含自身/09）。
 
 A revision277证据指纹锚：`830b566f12842b970049aae22ac6b2b9d526a7dfe75cbe01e235a54b7c935d5d`（source.sha256不含自身/09）。
 

@@ -1,0 +1,13 @@
+{
+  "git_clone": "FRESH_REMOTE_BARE_FILTERED_SHALLOW_NO_REFERENCE",
+  "fixed_delivery_commit": "b79e9ba6b82291107b5d109532e132a65b38a064",
+  "source_commit": "b196f5d44e032fe6f18dcc5db59760286170cdb7",
+  "downloaded_files": 22,
+  "verified_sha256_entries": 21,
+  "http_anonymous_artifact": "NOT_VERIFIED",
+  "independent_install": "ACTUAL_OFFLINE19_DEPS_PIP_CHECK_PASS",
+  "all_installed_runtime_files_git_equal": 263,
+  "second_original_gateway_setup_growth_living": "RESULTS_IN_SEPARATE_RECEIPTS",
+  "real_provider_calls": 0,
+  "production_changed": false
+}
