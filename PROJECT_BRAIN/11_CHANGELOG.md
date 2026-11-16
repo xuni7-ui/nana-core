@@ -4271,3 +4271,9 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-16 CST｜revision269：原CI媒体依赖选择遗漏已修：265独立12fail84pass/268独立7fail38pass均Native SKIP，267实际179pass2warnings115.19s。classifier补原native媒体路径及manual/workflow smoke，13路径/7Python块检查；本地35pass1fail24.69s暴露原同源AAC时长尾差关联问题，原错保留，下一批修覆盖语义。本批CI待实读，非发行/生产。 指纹锚bc114cde2ac24b0e4dfa5ff38536402f491632482fdbd70c074cc2ef6eae12d1。
 
 - 2026-11-16 CST｜revision270：原package_media auto选轨造成模型wire与技术摘要错配，原3fail→首视频/音轨显式map，73相关31.67s后补实际进程3过3.57s。原同源音视频关联现保留独立时长且时间对齐NOT_ESTABLISHED，正常AAC/短音轨可用，异源/撤回仍拒绝/无动作。269独立native成功/Core46pass38.92s，客户端待；旧CI原log空导出纠正为同一实际log非空文件。真实0。 指纹锚fa9611cd34ac4914d3960829a01a33e1d91cfc71383a4335b6ae4d31545a174b；269补正后锚c70e452c927ef500d808c51e483f5f536e5a4743494346dc993e17f1b983365e（原空导出锚由此补正）。
+
+## C · 2026-11-17 A/B视频来源交接
+
+- 改了什么：适配A合成本地对端约束，修复视频投影末尾撤权竞态；增加原PUBLIC视频来源/缓存候选门、固定B工具资格与B独立测试补丁。
+- 为什么：A新增来源约束使旧C/B夹具失效；B候选的PUBLIC及来源为调用方声明，需要复用原Store核验和交接时撤权检查。
+- 怎么验证：原视频/私人源/A媒体32项、隔离B固定bbc补丁后15项通过；真实FFmpeg合成原Store→固定B窗口/撤权不交付通过；未接真实B站视频或新主体。

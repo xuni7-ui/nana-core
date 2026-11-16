@@ -4,6 +4,8 @@
 
 [当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
 
+[C当前候选2026-11-17] A `d5c0a42`、B PR22 `bbc3ba7`；修复A新回环约束下C夹具、视频投影撤权竞态，新增原PUBLIC视频来源/缓存候选门。原Store/Perception→固定B解码及撤权不交付受控通过，原相关32项、B隔离补丁后15项；非真实B站视频接入。独立B补丁及限制见 docs/nanalink/evidence/pr22-loopback-handoff-20261117/README.md；清单锚点 `bc39da0e36bd9b6a0bcb2323e780d40cbb19695263d7ae721e627b9d4e9f2fbb`。
+
 
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 

@@ -39,8 +39,8 @@ def test_existing_storyboard_handoff_preserves_time_privacy_and_withdrawal(tmp_p
     from tests.living_release_v4.bilibili_loopback import counterpart
     with counterpart() as (opener, platform), fresh(tmp_path/'subject.db', Clock()) as runtime:
         platform['video_duration'] = 12
-        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9)
-        transport.opener = opener
+        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                            loopback_endpoint=opener.endpoint)
         reading = transport.read_video('BV1t55v6DE2v', visual=True)
         app = SimpleNamespace(runtime=runtime, policy=policy())
         source = BilibiliSourceAdapter(app).ingest(reading)
@@ -76,8 +76,8 @@ def test_invalid_or_inconsistent_duration_never_claims_planning_readiness(tmp_pa
     with counterpart() as (opener, platform), fresh(tmp_path/'subject.db', Clock()) as runtime:
         if duration is not None:
             platform['video_duration'] = duration
-        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9)
-        transport.opener = opener
+        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                            loopback_endpoint=opener.endpoint)
         reading = transport.read_video('BV1t55v6DE2v', visual=True)
         app = SimpleNamespace(runtime=runtime, policy=policy())
         source = BilibiliSourceAdapter(app).ingest(reading)
@@ -89,3 +89,35 @@ def test_invalid_or_inconsistent_duration_never_claims_planning_readiness(tmp_pa
                     ['DURATION_MISSING'] if duration is None else ['DURATION_INVALID'])
         assert result['planning_blockers'] == expected
         assert result['candidate_seconds'] == [0., 5., 10.]
+
+
+@pytest.mark.parametrize('withdraw_target', ['source', 'frame'])
+def test_storyboard_projection_rechecks_source_after_last_frame_read(tmp_path, monkeypatch, withdraw_target):
+    from nana_core.contracts import CoreError
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.life.bilibili import BilibiliPublicTransport
+    from nana_core.life.bilibili_frames import BilibiliFrameService
+    from nana_core.nanalink.video_handoff import storyboard_samples
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    with counterpart() as (opener, platform), fresh(tmp_path/'subject.db', Clock()) as runtime:
+        platform['video_duration'] = 12
+        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                            loopback_endpoint=opener.endpoint)
+        reading = transport.read_video('BV1t55v6DE2v', visual=True)
+        app = SimpleNamespace(runtime=runtime, policy=policy())
+        source = BilibiliSourceAdapter(app).ingest(reading)
+        frames = BilibiliFrameService(app).capture(source, reading.frames)
+        original = MemoryService.read
+        calls = {'last_frame': 0}
+        def read_and_withdraw(self, memory_id, *args, **kwargs):
+            row = original(self, memory_id, *args, **kwargs)
+            if memory_id == frames[-1]:
+                calls['last_frame'] += 1
+                if calls['last_frame'] == 2:
+                    target = source if withdraw_target == 'source' else frames[-1]
+                    MemoryService(runtime.store, runtime.authority).forget(target, runtime.authority)
+            return row
+        monkeypatch.setattr(MemoryService, 'read', read_and_withdraw)
+        with pytest.raises(CoreError):
+            storyboard_samples(app, source, scope='world', privacy_classes=('PROJECT',))
+        assert calls['last_frame'] == 2
