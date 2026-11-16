@@ -18,8 +18,11 @@ def make_video(path):
 
 
 def test_real_video_subdivides_at_frame_bound_and_preserves_pts_and_pixels(tmp_path):
-    path=tmp_path/'video.mp4';make_video(path)
+    original=tmp_path/'original.mp4';path=tmp_path/'offset.mp4';make_video(original)
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(original),
+        '-c','copy','-output_ts_offset','5','-y',str(path)],check=True,timeout=20)
     full=decode('synthetic',path,width=32,height=32)
+    assert full.timeline_origin=='5.000000' and full.pts_ticks[0]>0
     with pytest.raises(FrameBoundExceeded):
         decode('synthetic',path,width=32,height=32,max_frames=12,start_seconds=0,end_seconds=8)
     records=list(iter_windows('synthetic',path,0,8,width=32,height=32,max_frames=12))
