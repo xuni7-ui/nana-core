@@ -184,3 +184,16 @@ def test_feed_utf16_preserves_valid_input_and_rejects_dtd():
     hostile = '<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE rss [<!ENTITY x "expanded">]><rss><channel><item><guid>x</guid><title>&x;</title></item></channel></rss>'.encode('utf-16')
     with pytest.raises(CoreError, match='FEED_XML_BOUND_OR_DTD_DENIED'):
         adapter.parse(hostile)
+
+
+def test_streaming_cache_discards_read_if_source_revoked_during_io(tmp_path):
+    state = {'checks': 0, 'revoke_on_second': False}
+    def current(_):
+        state['checks'] += 1
+        return not state['revoke_on_second'] or state['checks'] < 2
+    cache = MediaCache(tmp_path / 'media', source_current=current, max_bytes=16, item_bytes=8, max_items=2)
+    handle = cache.put([b'abc'], source_ref='source.a')
+    state.update(checks=0, revoke_on_second=True)
+    with pytest.raises(CoreError, match='MEDIA_SOURCE_RETIRED'):
+        cache.read(handle)
+    cache.close()
