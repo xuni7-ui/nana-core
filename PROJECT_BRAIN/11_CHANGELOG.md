@@ -4128,3 +4128,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 ### 2026-11-16 · B音轨静音测量隔离实验
 
 [源码/实测] 本地FFmpeg测量明确区分NO_AUDIO、MEASURED和未闭合INCOMPLETE；6秒合成静音/纯音/静音输出0–3.000125及4–6秒，不推断语音或语义。26相关通过；无ASR/真实模型/多音轨/生产资格。B继续声音和字幕交叉验证，来源NanaLink、原S5接线A；证据video-audio-probe-20261116，源码锚f4e497c8b16cb6cb5f9d45200d10e540846b0b3c0cd666af20a348dbafecb142。
+
+
+### 2026-11-16 · B字幕与静音时间复查候选
+
+[源码/实测] 原NanaLink storyboard_samples v1只读投影→来源/隐私/时间绑定的隔离复查，默认时间未确认UNKNOWN；静音重叠仅提示复查、非字幕真伪或人声。原Memory合成来源撤回后重读拒绝，跨源拒绝；返回对象不自动撤回、尚未持久化或接入主体。相关12通过，FFmpeg合成纯音不冒充语音；真实字幕/账号/模型/Token资格未有。B后续跨模态对照，NanaLink来源A接线；证据video-caption-audio-crosscheck-20261116，源码锚c3755804da5de83fefbe13643d72a1644414acb7fbc963f7ba9518cd4b2351b9。
