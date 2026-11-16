@@ -309,3 +309,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A吸收C PR23
 
 固定a159b7d全部15路径（原平台模块/公开测试/开发工具/交接补丁/原清单/09/11）、A原09/11/ACTIVE/STATUS/白名单和evidence/platform-pr23-integration-20261117原错/158/独立272 CI/固定及当前清单验证/指纹；无B算法拷贝/DB/私史/Key/新依赖/真实账号或模型/生产/打包。
+
+## 2026-11-17 A视觉实际覆盖与整体验收增补
+
+原world_loop/perception.py、现有H1同流测试、原08/09/11/ACTIVE/STATUS/CODEX_CONTINUATION_MISSION、新用户原文task_inputs、evidence/video-tail-coverage-20261117原错/相关62/最终3/同字节C消融/原273 CI/指纹、本白名单。无新体系/第三方算法复制/DB或媒体原件/私史/Key/新依赖/模型或账号/生产。

@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_last_video_frame_does_not_claim_the_unobserved_audio_tail ________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-144/test_last_video_frame_does_not0')
+
+    def test_last_video_frame_does_not_claim_the_unobserved_audio_tail(tmp_path):
+        path=tmp_path/'short-video-long-audio.mkv'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_complex_threads','1',
+            '-f','lavfi','-i','color=c=red:s=32x24:r=4:d=1',
+            '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=3',
+            '-map','0:v','-map','1:a','-t','3','-c:v','ffv1','-c:a','pcm_s16le',str(path)],check=True,timeout=20)
+        data=path.read_bytes()
+        with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+            mid=ingest(r,'VIDEO',data);service=setup(r,t)
+            request_id=service.prepare('video-tail',mid,data)
+            assert service.execute(request_id)['state']=='PROPOSED'
+            result=service.ground(request_id,entity_id='device')
+            # A three-second container does not establish that its last video frame
+            # spans the remaining audio. Preserve that unobserved interval in H1.
+>           assert [1.,3.] in result['unobserved_gaps']
+E           assert [1.0, 3.0] in []
+
+tests/h1_semantics/test_media_stream_binding.py:93: AssertionError
+=========================== short test summary info ============================
+FAILED tests/h1_semantics/test_media_stream_binding.py::test_last_video_frame_does_not_claim_the_unobserved_audio_tail
+1 failed in 1.27s
