@@ -114,3 +114,64 @@ def test_feed_actual_owned_http_conditional_fetch():
             assert await adapter.receive() is None and calls==[None,'"fixture"']
         finally:await adapter.shutdown();await runner.cleanup()
     asyncio.run(run())
+
+
+def test_feed_chunked_body_and_validators_commit_only_after_parse():
+    from aiohttp import web
+    async def run():
+        headers = []
+        async def source(request):
+            headers.append(request.headers.get('If-None-Match'))
+            if len(headers) == 1:
+                return web.Response(body=b'<rss><broken', headers={'ETag': '"bad"'})
+            if len(headers) == 2:
+                response = web.StreamResponse(headers={'ETag': '"valid"'})
+                await response.prepare(request)
+                await response.write(b'<rss><channel>')
+                await asyncio.sleep(.03)
+                await response.write(b'<item><guid>chunked</guid><title>Complete</title></item></channel></rss>')
+                await response.write_eof()
+                return response
+            if len(headers) == 4:
+                return web.Response(body=b'x' * 1025, headers={'ETag': '"oversize"'})
+            return web.Response(status=304)
+        app = web.Application(); app.router.add_get('/rss', source)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = FeedAdapter('http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]) + '/rss', authorized=True, max_bytes=1024)
+        try:
+            await adapter.connect()
+            with pytest.raises(CoreError):
+                await adapter.receive()
+            adapter.next_at = 0
+            assert (await adapter.receive()).segments[0].text == 'Complete'
+            adapter.next_at = 0
+            assert await adapter.receive() is None
+            adapter.next_at = 0
+            with pytest.raises(CoreError):
+                await adapter.receive()
+            adapter.next_at = 0
+            assert await adapter.receive() is None
+            assert headers == [None, None, '"valid"', '"valid"', '"valid"']
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
+
+
+def test_feed_disconnect_preserves_unconsumed_entries_without_replaying_delivered():
+    async def run():
+        payload = (b'<rss><channel><item><guid>one</guid><title>First</title></item>'
+                   b'<item><guid>two</guid><title>Second</title></item></channel></rss>')
+        calls = []
+        async def fetch(url, limit):
+            calls.append(url)
+            return payload
+        adapter = FeedAdapter('https://example.org/rss', authorized=True, fetch=fetch)
+        await adapter.connect()
+        assert (await adapter.receive()).segments[0].text == 'First'
+        await adapter.disconnect()
+        await adapter.connect()
+        assert (await adapter.receive()).segments[0].text == 'Second'
+        assert len(calls) == 1
+        await adapter.shutdown()
+    asyncio.run(run())

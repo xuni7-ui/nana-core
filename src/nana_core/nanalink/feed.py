@@ -30,6 +30,7 @@ class FeedAdapter:
         self.session = None
         self.next_at = 0
         self.etag = self.modified = None
+        self._pending_validators = None
         self.metrics = dict(requests=0, bytes=0, events=0, duplicates=0)
 
     def health(self):
@@ -48,6 +49,7 @@ class FeedAdapter:
             self.session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5), trust_env=False)
 
     async def _get(self):
+        self._pending_validators = None
         if self._fetch:
             return await self._fetch(self.url, self.max_bytes)
         headers = {'Accept': 'application/atom+xml, application/rss+xml, application/xml'}
@@ -60,11 +62,15 @@ class FeedAdapter:
                 return None
             if response.status != 200:
                 raise CoreError('FEED_HTTP_FAILED')
-            raw = await response.content.read(self.max_bytes + 1)
-            # Validators are bounded, never copied to evidence or model context.
-            self.etag = response.headers.get('ETag', '')[:256] or None
-            self.modified = response.headers.get('Last-Modified', '')[:128] or None
-            return raw
+            raw = bytearray()
+            async for chunk in response.content.iter_chunked(65536):
+                raw.extend(chunk)
+                if len(raw) > self.max_bytes:
+                    raise CoreError('FEED_XML_BOUND_OR_DTD_DENIED')
+            # Commit validators only after a complete response parses successfully.
+            self._pending_validators = (response.headers.get('ETag', '')[:256] or None,
+                                        response.headers.get('Last-Modified', '')[:128] or None)
+            return bytes(raw)
 
     async def receive(self):
         if not self.authorized:
@@ -80,6 +86,9 @@ class FeedAdapter:
             if raw is not None:
                 self.metrics['bytes'] += len(raw)
                 self.pending = self.parse(raw)
+                if self._pending_validators is not None:
+                    self.etag, self.modified = self._pending_validators
+                    self._pending_validators = None
             self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'receive': 'HEALTHY', 'error': None})
         except Exception:
             self._health = self._health.model_copy(update={'connection': 'DEGRADED', 'error': 'FEED_READ_FAILED'})
@@ -133,7 +142,7 @@ class FeedAdapter:
         if self.session:
             await self.session.close()
             self.session = None
-        self.pending.clear()
+        # Keep parsed, not-yet-delivered entries across reconnect of this instance.
         self._health = self._health.model_copy(update={'connection': 'DISABLED'})
 
     async def shutdown(self):
