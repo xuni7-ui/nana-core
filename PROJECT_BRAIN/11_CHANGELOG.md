@@ -4395,3 +4395,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 ### 2026-11-16 · B原PTS窗口融合候选
 
 [源码/实测] 独立窗口已解码帧+原dsh/局部变化候选按源引用、帧数/尺寸核对，窗口内有界选择后恢复容器秒与原整数PTS/坐标；空窗口标未观察，始终不声称整个窗口被看见。非零起点VFR及601秒合成长片尾599/600秒经原dsh回映原PTS，跨源/篡改PTS/尺寸/裁框拒绝；36相关通过。源引用一致不证明账号/字节/隐私，无模型/真实平台资格；证据video-window-fusion-20261116.json锚85fbcc257299585e75501eacbaa2dd2538a1e017f81df3134926e9b9adc56533。
+
+
+### 2026-11-16 · B窗口帧到原S5图像解码契约候选
+
+[源码/实测] 继承A d5c0a42及NanaLink已合PR21，5秒非零原点合成视频原S5报MEDIA_FRAME_TIME_INVALID，31秒原S5报MEDIA_DURATION_BOUND；B隔离窗口选帧转内存PNG，保留原PTS/time_base/原点与缩放像素摘要，原MediaDecoder IMAGE复算一致。验证候选/原dsh融合/自适应分段及原S5多轨13项9.18秒。源ID仅调用方声明，未证明来源字节/授权/撤回，未进入原Store/主体/模型；需要NanaLink和A后续接线。CPU/端到端/真实视频/Token未测。证据video-selected-image-handoff-20261116.json，锚4c6cd64ae195576a59fa324a628645637924d635dd012dc410289c6dc3cd65a1。

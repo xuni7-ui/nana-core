@@ -417,3 +417,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-16 B帧数上限自适应分段
 
 持续授权：video_adaptive_decode.py、video_pts_decode.py及对应测试、bench_video_adaptive_decode.py、CODEX_B_QUEUE.md和本清单；仅合成视频，无真实媒体、凭据或上游源码复制。
+
+## 2026-11-16 B窗口选帧图像交接
+
+持续授权：video_selected_images.py、test_video_selected_images.py、video-selected-image-handoff-20261116.json、09/11和B队列追加及本清单；仅合成数据，不含真实视频、密钥或上游源码。
