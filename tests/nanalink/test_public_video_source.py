@@ -19,13 +19,14 @@ class SyntheticDecoder:
                 'unobserved_between_samples':True,'audio_linkage':'ABSENT','semantic_interpretation':'UNKNOWN'}
 
 
-def test_video_handle_requires_current_original_public_observation(tmp_path, monkeypatch):
+@pytest.mark.parametrize('origin', ['SYNTHETIC', 'RECORDED'])
+def test_video_handle_requires_current_original_public_observation(tmp_path, monkeypatch, origin):
     from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
     with fresh(tmp_path/'subject.db') as runtime:
         app=SimpleNamespace(runtime=runtime,policy=policy());now=runtime.clock.utc_now_us();data=b'synthetic-video-bytes'
         service=PerceptionService(runtime.store,providers(),app.policy,decoder=SyntheticDecoder())
         def observe(name):
-            src=PublicMediaSource(source_id=name,modality='VIDEO',origin='SYNTHETIC',event_time_us=now,observed_time_us=now)
+            src=PublicMediaSource(source_id=name,modality='VIDEO',origin=origin,event_time_us=now,observed_time_us=now)
             return service.ingest(data,src,entity_id='observer',scope='world')[0]
         one,two=observe('video-one'),observe('video-two')
         other_src=PublicMediaSource(source_id='video-other',modality='VIDEO',origin='SYNTHETIC',event_time_us=now,observed_time_us=now)
