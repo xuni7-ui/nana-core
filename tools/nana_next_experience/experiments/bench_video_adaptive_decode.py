@@ -2,6 +2,7 @@
 import hashlib
 import json
 from pathlib import Path
+import resource
 import subprocess
 import tempfile
 import time
@@ -18,7 +19,9 @@ def main():
             '-y',str(source)],check=True,timeout=60)
         results=[]
         for mode in ('adaptive','planned','planned','adaptive'):
-            started=time.perf_counter();digest=hashlib.sha256();ticks=[]
+            started=time.perf_counter();parent_start=time.process_time()
+            child_start=resource.getrusage(resource.RUSAGE_CHILDREN)
+            digest=hashlib.sha256();ticks=[]
             if mode=='adaptive':
                 stream=iter_windows('synthetic',source,0,60,width=32,height=32)
             else:
@@ -31,7 +34,11 @@ def main():
                 else:
                     if not item['complete_requests']:raise RuntimeError('incomplete request')
                     attempts=item['attempts']
+            child_end=resource.getrusage(resource.RUSAGE_CHILDREN)
             results.append({'mode':mode,'wall_seconds':round(time.perf_counter()-started,6),
+                'parent_cpu_seconds':round(time.process_time()-parent_start,6),
+                'child_cpu_seconds':round(child_end.ru_utime+child_end.ru_stime-
+                                          child_start.ru_utime-child_start.ru_stime,6),
                 'decode_attempts':attempts,'frames':len(ticks),'pts_ticks':ticks,
                 'rgb_sha256':digest.hexdigest()})
         if any((r['pts_ticks'],r['rgb_sha256']) != (results[0]['pts_ticks'],results[0]['rgb_sha256'])
@@ -39,7 +46,9 @@ def main():
         for result in results:del result['pts_ticks']
         print(json.dumps({'synthetic':'60s 30fps 32x32 MPEG-4',
             'output_check':'identical integer PTS and decoded RGB hash',
-            'model_calls':0,'token_cost':'not measured','cpu_memory':'not measured',
+            'input_file_bytes':source.stat().st_size,'model_calls':0,'token_cost':'not measured',
+            'child_peak_rss_platform_units':resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,
+            'memory_scope':'maximum of any terminated child over entire run, including encoding; not total or per mode',
             'results':results},indent=2))
 
 
