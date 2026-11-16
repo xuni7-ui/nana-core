@@ -279,6 +279,7 @@ class PlatformRuntime:
                 before = self._config_version()
                 current = load_config(self.app.home)
                 reconcile_revoked_sources(self.app, current)
+                self._retire_stale_notification_sources(current)
                 after = self._config_version()
                 if before == after:
                     self._source_config_version = after
@@ -286,6 +287,20 @@ class PlatformRuntime:
             raise CoreError('PLATFORM_SOURCE_CONFIG_CHANGED_RETRY_READ')
         finally:
             self._source_guard_busy = False
+
+    def _retire_stale_notification_sources(self, config):
+        channels = {item.channel_id: item for item in config.bilibili_channels}
+        bindings = {item.binding_id: item for item in config.surface_bindings}
+        for channel_id, (_, adapter) in tuple(self._nanalink_bili_sources.items()):
+            old = adapter.workflow.channel
+            try:
+                old_binding = self.app.surfaces._binding(old.binding_id)
+            except CoreError:
+                old_binding = None
+            if channels.get(channel_id) != old or bindings.get(old.binding_id) != old_binding:
+                adapter.pending.clear()
+                adapter.enabled = False
+                self._nanalink_bili_sources.pop(channel_id, None)
 
     def _discard_qq_media_cache(self, channel_id):
         self._qq_media_caches.pop(channel_id, None)
@@ -353,6 +368,10 @@ class PlatformRuntime:
         for channel_id in tuple(self._owned_qq_media_caches):
             self._discard_qq_media_cache(channel_id)
         self._qq_media_caches.clear()
+        for _, adapter in self._nanalink_bili_sources.values():
+            adapter.pending.clear()
+            adapter.enabled = False
+        self._nanalink_bili_sources.clear()
 
     def cache_qq_observed_image(self, channel_id, source_memory_id, data):
         """Cache bytes of an existing original public perception; no fetch or Grant."""
@@ -479,6 +498,7 @@ class PlatformRuntime:
         import asyncio
         from .bilibili_runtime import account_workflow
         from ..nanalink.adapters import BilibiliEventsAdapter
+        self._guard_platform_sources()
         workflow = account_workflow(self.app, self.resolver, channel_id)
         revision = digest(workflow.channel.model_dump(mode='json'))
         previous = self._nanalink_bili_sources.get(channel_id)

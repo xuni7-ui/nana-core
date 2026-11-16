@@ -107,7 +107,11 @@ class MediaCache:
         fd = os.open(value[0], os.O_RDONLY | os.O_NOFOLLOW)
         with os.fdopen(fd, 'rb') as stream:
             stream.seek(offset)
-            return stream.read(min(length, handle.size - offset))
+            data = stream.read(min(length, handle.size - offset))
+        # A source may be withdrawn while the filesystem read is in progress.
+        if not self.current(handle.source_ref):
+            raise CoreError('MEDIA_SOURCE_RETIRED')
+        return data
 
     def close(self):
         for path, _ in self.items.values():

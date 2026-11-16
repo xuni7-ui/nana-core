@@ -65,17 +65,30 @@ class CoreWorkflowAdapter:
         await self.disconnect()
 
 
-def qq_adapter(workflow):
-    return CoreWorkflowAdapter(workflow, platform='qq', account_id=workflow.channel.account_id,
-                               adapter_id='qq.official' if workflow.channel.backend == 'official' else 'qq.onebot', capabilities=(
-        Capability(name='message.receive', available=workflow.channel.read_authorized),
-        Capability(name='message.text.send', available=workflow.channel.send_authorized),
-        Capability(name='message.readback', available=workflow.channel.backend != 'official',
-                   reason='C2C_GROUP_API_NOT_AVAILABLE' if workflow.channel.backend == 'official' else ''),
+def _qq_capabilities(workflow):
+    channel = workflow.channel
+    receive_ready = bool(channel.enabled and channel.read_authorized
+                         and (channel.privacy_class != 'PERSONAL' or channel.private_read_authorized))
+    send_ready = bool(receive_ready and channel.send_authorized)
+    readback_ready = bool(receive_ready and channel.backend != 'official')
+    return (
+        Capability(name='message.receive', available=receive_ready,
+                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.text.send', available=send_ready,
+                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.readback', available=readback_ready,
+                   reason='' if readback_ready else 'C2C_GROUP_API_NOT_AVAILABLE' if channel.backend == 'official'
+                   else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='media.reference', available=True),
         Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
         Capability(name='message.face.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
-    ))
+    )
+
+
+def qq_adapter(workflow):
+    return CoreWorkflowAdapter(workflow, platform='qq', account_id=workflow.channel.account_id,
+                               adapter_id='qq.official' if workflow.channel.backend == 'official' else 'qq.onebot',
+                               capabilities=lambda: _qq_capabilities(workflow))
 
 
 def _bilibili_capabilities(workflow):
@@ -95,18 +108,28 @@ def _bilibili_capabilities(workflow):
         decoder_available = find_spec('PIL') is not None if video_ready and config.visual_samples else False
     except (ImportError, ValueError):
         decoder_available = False
+    notice_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                        and workflow.channel.private_read_authorized)
+    receive_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                         and (getattr(workflow.channel, 'kind', 'comment') != 'dm'
+                              or workflow.channel.private_read_authorized))
+    send_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
+                      and workflow.channel.send_authorized)
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
                      'ORIGINAL_VIDEO_FRAMES_NOT_CONFIGURED_OR_AUTHORIZED')
     return (
-        Capability(name='message.receive', available=workflow.channel.read_authorized),
-        Capability(name='message.text.send', available=workflow.channel.send_authorized),
+        Capability(name='message.receive', available=receive_ready,
+                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.text.send', available=send_ready,
+                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='message.readback', available=True),
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),
         Capability(name='video.frames', available=frames_ready, reason=frames_reason),
-        Capability(name='notification.reply', available=workflow.channel.read_authorized),
+        Capability(name='notification.reply', available=notice_ready,
+                   reason='' if notice_ready else 'PRIVATE_READ_OR_CHANNEL_DISABLED'),
         Capability(name='dynamic.publish', available=False, reason='NO_EXISTING_GOVERNED_PORT'),
     )
 
@@ -158,15 +181,36 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
             raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
         await super().connect()
 
+    def _require_current_private_access(self):
+        w, c = self.workflow, self.workflow.channel
+        try:
+            if not c.enabled or not c.read_authorized or not c.private_read_authorized:
+                raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
+            if w.transport.realm != 'SYNTHETIC_LOOPBACK':
+                from ..life.config import load_config
+                live = load_config(w.app.home)
+                channel = next((item for item in live.bilibili_channels if item.channel_id == c.channel_id), None)
+                binding = next((item for item in live.surface_bindings if item.binding_id == c.binding_id), None)
+                if channel != c or binding != w.app.surfaces._binding(c.binding_id):
+                    raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
+            w._authority()
+        except Exception:
+            # Do not release previously polled private metadata after authority changes.
+            self.pending.clear()
+            raise
+
+    def receive_event(self, event):
+        if self.enabled:
+            self._require_current_private_access()
+        return super().receive_event(event)
+
     async def receive(self):
         if not self.enabled:
             return None
+        self._require_current_private_access()
         if self.pending:
             return self.pending.popleft()
         w, c = self.workflow, self.workflow.channel
-        if not c.enabled or not c.read_authorized or not c.private_read_authorized:
-            raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
-        w._authority()
         now = w.store.clock.utc_now_us()
         from ..storage import digest
         key = digest(['nanalink.bili.notification', self.account.key, now // (self.interval_seconds * 1000000)])

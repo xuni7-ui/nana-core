@@ -1,0 +1,9 @@
+# NanaLink OneBot HTTP bounded response streaming
+
+C-owned change on A baseline `90a31b6d10118061c55bf7d3821920b22713463c`. The asynchronous OneBot HTTP RPC used a single `StreamReader.read(n)`, which can return only the first part of a valid chunked response. An owned local HTTP peer reproduces an invalid partial account reply and connection failure. The connector now consumes the whole response through EOF under the existing 262144-byte and session timeout bounds before JSON decoding. It does not retry an RPC or change any send/receipt authority.
+
+The owned peer split both account and send acknowledgements across delayed chunks: account verification succeeded and the synthetic peer received exactly one send. A separate 262145-byte write response was rejected at the original bound and the peer still recorded one attempt. Combined local OneBot HTTP/WS/reverse-WS, transport and original-Core tests: 32 passed in 4.63 s. These tests use synthetic peers, not real QQ, and a complete upstream ACK is not independent proof of delivery; the original Kernel verification and UNKNOWN semantics remain unchanged. Revert the connector and matching tests to restore the previous behavior; no persistent format or data schema changes.
+
+## Official QQ shaped endpoint
+
+The separate official adapter had the same single-read assumption. An owned HTTP fixture split the `/users/@me` response and the send ACK into delayed chunks; the previous code failed at account validation. The adapter now reads through EOF under the same 262144-byte and timeout bounds. The fixture confirms exactly one POST, the ACK is not inserted as a received message, and independent readback remains unavailable. Original official unknown/restart, OneBot network and original QQ bridge checks pass together: 41 tests in 12.22 seconds. No real account, actual external send or added model call. Reverting `nanalink/official.py` and the matching focused test restores the previous behavior.

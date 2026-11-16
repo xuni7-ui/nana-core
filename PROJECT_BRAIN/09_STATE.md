@@ -2,7 +2,8 @@
 
 ## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
 
-[当前A集成实测2026-11-16] PR18固定6645已由486ed546合入；PR20固定3d6475c已由本批A正常集成，受控106/30通过；视觉交接仍候选。以下保留C原2026-11-15交接，不代表PR18仍未合。
+[当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
+
 
 [历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
 
@@ -21,8 +22,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 263,
-  "as_of_us": 1794833572455563,
+  "revision": 264,
+  "as_of_us": 1794834039450093,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -30,7 +31,7 @@
     "原G情境注意/重放保留；现当前成长SELF等价校验共享体保留32次时间/来源/依赖，普通读仍逐条。旧1fail→新2过/初79相关；后补78过1环境错、原SIGKILL补环境1过。固定旧函数同预算1SELF/同私问，input108201→81401B(-24.8%)非Token，无新动作/真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
-    "PR14/17/18/20平台来源已统一；20旧3fail1pass→106过35.09s/30闭包桥9.96s，watch→视频/帧/H1撤回与OneBot重连保持。19固定86d仅采用原实验工具，7过.02s；原Memory三样本回映/撤回/空档通过，0新增模型，尚非两仓视觉融合。",
+    "PR21固定0f766c1原平台账号/来源撤回/队列恢复已接：旧4fail→4过1.70s，192相关59.05s。09新增C长回执移CURRENT后保留全文，原读取边界恢复；两A后继文件SHA刷新/C原manifest保留。PR22固定9345e51仍draft隔离视觉候选，尚无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
     "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。",
@@ -43,20 +44,26 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "已核对PR21固定0f766c1平台/账号/队列恢复、PR22固定9345e51有界视觉draft；下一A定向审21并集成，不重开发B/C。私人QQ图像父源、私Bili选择性保留仍A缺口；情感/G广迁移/视觉S5/物理隐私/真实Token/A–H继续。"
+    "下一A公共Bili合成transport缺loopback仍默认公网opener的真实缺口；私人QQ图像父源/字节handle、私Bili保留前C机会仍待。B22视觉draft需收益验证/原S5接线；情感/G广迁移/物理隐私/真实Token/产品/A–H继续，9a2候选不含PR21。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md",
     "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
-    "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md",
-    "docs/nana_next_experience/evidence/context-compaction-continuity-20261116/README.md"
+    "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision264证据指纹锚：`9c407f14c0daeedf5b80f5ae3eab53548f76249faac38eb915d016b8744c215a`（source.sha256不含自身/09）。
+
+### C固定分支增量回执（原样保留；A集成资格以CURRENT为准）
+
+[C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `8581d23691de716f876b838cbef17d490193526362a8cd34d2a03957c1f7f7dc`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；UTF-16 DTD绕过修复并保留正常输入；本地HTTP及相关28项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。 媒体读期间来源撤回反例修复，原QQ选择/权限链及缓存59项通过；原真实Store验证器与生产成本未测，见 docs/nanalink/evidence/media-revocation-read-20261116/README.md。 OneBot HTTP分块响应完整有界读取，本地单次发送及超大回执不重发与原桥32项通过；真实QQ未资格，见 docs/nanalink/evidence/onebot-http-stream-20261116/README.md。 已按文件合入A `35740e7f`（revision260），原成长/学习、QQ选择、B站来源及OneBot跨模块53项通过；A原始失败证据文本保持原样。 官方Bot同样修复分块读取，本地官方ACK仍非独立回读、单次POST；官方/OneBot/原桥41项通过。 B站动态和私人通知每次读取校验原账号凭据，轮换后拒绝错归因；原事件泵及相关47项通过，真实账号未测，见 docs/nanalink/evidence/bilibili-read-account-binding-20261116/README.md。 私信消息读取也校验同一预检账号，原私信发送/独立验证及通知42项通过；独立会话列表端点尚未资格。 B站通知待发队列在取出前复核原授权与非合成当前配置，撤权安全清空；相关22项及有效后撤权反例通过，见 docs/nanalink/evidence/bilibili-pending-authorization-20261116/README.md。 QQ连接器停用后统一队列中尚未转发事件返回CANCELLED，不影响另一账号；相关39项通过，见 docs/nanalink/evidence/qq-disabled-queued-events-20261116/README.md。 QQ管理停用时取消该账号两级队列旧输入并保留去重，避免重启用后复发；本地HTTP及相关40项与跨账号队列反例通过。 官方QQ显式停用额外清除该账号RAM捕获和回复锚点；官方/管理/网络42项通过，其他外部适配器版本的额外状态尚未资格。 B站通知交给原Core前再次检查同一授权，取出与交接之间撤权反例阻止；原通知/私人源/原桥22项通过。 B站通知能力投影依据频道启用与私读授权，避免误报可用；原桥/通知/私人源19项通过；手机中文能力文案交B，见 docs/nanalink/evidence/bilibili-capability-consent-20261116/README.md。 QQ及B站私信能力投影随原频道启用和读取授权变化，避免静态误报；QQ/B站原桥及权限45项通过。 QQ断线丢ACK/不可用回执的传输UNKNOWN指标补记，仍单次发送；原桥/管理43项及3个ACK反例通过，指标非持久行动回执。见 docs/nanalink/evidence/qq-unknown-metrics-20261116/README.md。 原平台隐私安全点在配置变更时仅清理失效账号的通知内存队列，正常关闭也清理；原运行时39项及双账号隔离2项通过。 B站账号合成realm必须绑定并复核本地对端，QQ官方合成realm每次请求限制本地；相关57项通过，A原公共视频reader构造一致性待核对。见 docs/nanalink/evidence/synthetic-platform-isolation-20261116/README.md。 固定da5源码匹配CI通过、wheel双构建同SHA、隔离安装310源码一致及合成旧reader撤回通过，非全依赖离线/生产回退；见 docs/nanalink/evidence/wheel-da5cff5f-20261116/README.md。 da5隔离安装包双账号合成2000事件队列峰值16、中位1.1618ms/P95 2.0439ms、CPU0.2571s、RSS26572KiB；非真实平台/Token。 QQ两个HTTP后端按账号限制16项并发、完成/取消释放；本地慢对端与原桥61项及取消恢复2项通过，见 docs/nanalink/evidence/qq-http-inflight-20261116/README.md。 QQ状态额外暴露每账号HTTP当前/峰值并发及背压次数；本地状态不含凭据，相关46项及3个针对用例通过，计数非持久回执。 固定29b含QQ并发与指标的wheel双构建同SHA，离线隔离安装310源码一致且从安装包跑3项本地HTTP资格；完整依赖/生产未资格，见 docs/nanalink/evidence/wheel-29b3bbf4-20261116/README.md。
 
 A revision263证据指纹锚：`2e843212e5f8db54e3e8081aa040b4a830a066a6b991725b82e00eb692fc2205`（source.sha256不含自身/09）。
 

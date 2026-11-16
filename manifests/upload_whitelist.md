@@ -265,3 +265,7 @@ continuity/context.py、test_growth_context_compaction.py、原CI精确路径/�
 ## 2026-11-16 A固定9a2匹配安装
 
 09/11/ACTIVE/STATUS、evidence/matched-core-9a2f677-20261116公开合成构建/安装/下载/源码指纹/固定夹具准备脚本和收据、本白名单。delivery ca765仅server-9a2f677-candidate/11件，保留CURRENT，无私史/Key/DB/生产变更；外部公开夹具不是Runtime源码。
+
+## 2026-11-16 A集成PR21固定0f766c1
+
+原C固定35路径普通merge、09/11/ACTIVE/STATUS、现役nanalink manifest两A后继SHA、evidence/platform-integration-pr21-20261116公开原反例/192回归/固定C指纹及本白名单；原上传无私史/Key/DB/新账号授权/生产/新打包。

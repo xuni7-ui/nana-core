@@ -202,3 +202,125 @@ def test_config_revocation_closes_source_before_next_original_memory_read(tmp_pa
         # the changed host config before revealing the now-revoked source.
         with pytest.raises(CoreError):MemoryService(app.runtime.store).read(mid)
         assert app.runtime.store.one('memories',mid)['lifecycle']=='DELETED'
+
+
+def test_dynamic_read_rejects_account_credential_rotation_before_network():
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    from tests.nanalink.test_bilibili_notifications import notification_front
+    secrets = MemorySecretResolver()
+    secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+    with counterpart() as (upstream, _), notification_front(upstream.endpoint) as (url, front):
+        transport = BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True), realm='SYNTHETIC_LOOPBACK', loopback_endpoint=url)
+        assert transport.account()['account_id'] == 42
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_DIFFERENT_ACCOUNT')
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            transport.dynamic_rows()
+        assert len(front['requests']) == 1
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+        transport.account()
+        assert transport.dynamic_rows() == []
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            transport.dynamic_rows()
+        assert len(front['requests']) == 3
+    secrets.clear()
+
+
+def test_dynamic_pump_does_not_attribute_rotated_account_or_retry(tmp_path):
+    from tests.living_release_v4.test_bilibili_runtime import equipped
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    from tests.nanalink.test_bilibili_notifications import notification_front
+    from nana_core.nanalink.private_source import poll_dynamics
+    home = tmp_path / 'home'; initialize(home); cfg = load_config(home); clock = VirtualClock(now_us=1_791_590_699_000_000)
+    binding = SurfaceBinding(binding_id='bili.private', platform='bilibili.account', adapter='bilibili.account',
+        surface='chat.direct', mode='PLATFORM_ADAPTER_NO_SEND', permitted_privacy=('PERSONAL',),
+        allow_personal_retention=True, personal_retention_consent_ref='consent.fixture')
+    channel = BilibiliChannelBinding(channel_id='bili', binding_id=binding.binding_id, account_id=42, target_id=43,
+        sender_id=43, cookie_ref='test.cookie', csrf_ref='test.csrf', enabled=True, read_authorized=True, private_read_authorized=True)
+    update_config(home, cfg.model_copy(update={'revision':cfg.revision+1, 'surface_bindings':(binding,),
+        'bilibili_channels':(channel,)}), expected_revision=cfg.revision)
+    with counterpart() as (upstream, state), notification_front(upstream.endpoint) as (url, front), LifeApplication(home, clock=clock) as app:
+        app.pause(); workflow = equipped(app, channel, url, grant=False)
+        transport = workflow.transport
+        original = transport._BilibiliAccountTransport__resolver
+        class RotatingResolver:
+            calls = 0
+            def resolve(self, ref):
+                if ref == 'test.cookie':
+                    self.calls += 1
+                    if self.calls == 2:
+                        original.bind(ref, 'FIXTURE_ROTATED_DIFFERENT_ACCOUNT')
+                return original.resolve(ref)
+        transport._BilibiliAccountTransport__resolver = RotatingResolver()
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            poll_dynamics(workflow)
+        assert len(front['requests']) == 1 and state['posts'] == 0
+        assert not app.runtime.store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.platform.bilibili.dynamic'").fetchone()
+        assert poll_dynamics(workflow)['state'] == 'ALREADY_POLLED_NO_RETRY'
+        assert len(front['requests']) == 1
+
+
+def test_private_notification_pages_reject_changed_account_between_pages():
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    from tests.nanalink.test_bilibili_notifications import notification_front
+    secrets = MemorySecretResolver(); secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+    with counterpart() as (upstream, _), notification_front(upstream.endpoint) as (url, front):
+        transport = BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True), realm='SYNTHETIC_LOOPBACK', loopback_endpoint=url)
+        transport.account()
+        assert len(transport.notification_rows('reply')) == 1
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_DIFFERENT_ACCOUNT')
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            transport.notification_rows('at')
+        assert len(front['requests']) == 2
+    secrets.clear()
+
+
+def test_private_dm_read_rejects_rotated_account_credential_before_network():
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    secrets = MemorySecretResolver(); secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+    with counterpart() as (upstream, state):
+        transport = BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True, permitted_recipients=(43,)),
+            realm='SYNTHETIC_LOOPBACK', loopback_endpoint=upstream.endpoint)
+        transport.account()
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_DIFFERENT_ACCOUNT')
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            transport.messages(43)
+        assert len(state['requests']) == 1
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+        transport.account()
+        assert transport.messages(43) == []
+    secrets.clear()
+
+
+def test_synthetic_bilibili_account_requires_actual_loopback_transport(tmp_path):
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.test_bilibili_runtime import equipped
+    secrets = MemorySecretResolver()
+    with pytest.raises(CoreError, match='BILIBILI_LOOPBACK_ORIGIN_REQUIRED'):
+        BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True), realm='SYNTHETIC_LOOPBACK')
+    home=tmp_path/'home';initialize(home);cfg=load_config(home)
+    binding=SurfaceBinding(binding_id='bili.synthetic',platform='bilibili.account',adapter='bilibili.account',surface='chat.comment',
+        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PUBLIC',))
+    channel=BilibiliChannelBinding(channel_id='synthetic',binding_id=binding.binding_id,kind='comment',account_id=42,target_id=7,
+        sender_id=43,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,)}),expected_revision=cfg.revision)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause();flow=equipped(app,channel,'http://127.0.0.1:1',grant=False)
+        flow._authority()
+        flow.transport.opener.endpoint='https://example.org'
+        with pytest.raises(CoreError,match='BILIBILI_LITERAL_LOOPBACK_REQUIRED'):
+            flow._authority()
+        flow.transport.opener=object()
+        with pytest.raises(CoreError,match='BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED'):
+            flow._authority()
+    secrets.clear()

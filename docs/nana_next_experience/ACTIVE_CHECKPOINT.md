@@ -1,8 +1,8 @@
-## 当前接续：匹配9a2双槽安装与PR交接，revision263
+## 当前接续：PR21原平台兼容集成，revision264
 
-固定9a2(Brain262) Core302/263双构建同SHA9651c93b…，Web73输入同c1d复用04085003，无新客户端/APK。首槽55过30.35s/161业务Core槽内+3外部公开工厂，原BFF/反馈/重启撤回/十视图通过；停机9a2-c1d-9a2同身份私计划/pending/G17与counts保持。delivery ca765实际新GitHub克隆11件/10SHA、第二槽离线263源匹配及下载probe通过。首次fixture缺少收集5错与archive按需fetch终止保留，不放宽/伪造。
+PR21固定0f766c1普通双亲集成，真实账号绑定/通知撤回、QQ关闭待队列及HTTP并发/UNKNOWN、RSS完整流重连与DTD、媒体读后撤回接回原消费者。旧4fail1.70s→4过1.70s，192相关59.05s；无真实账号/模型。11追加冲突保留两方，09新C长段原样移CURRENT后修15954→11412bytes读取边界，两A合法后继指纹更新/C原件保留。
 
-下一A审核集成PR21固定0f766c1，随后PR22固定9345e51合格视觉候选/原生消费者，私人QQ父源与私Bili选择保留差额归A；情感/G迁移/存储/Token/产品/原A–H持续。非全仓或最终发行，CURRENT266+409/真实模型账号手机生产自然度实际长期不变。 证据evidence/matched-core-9a2f677-20261116/README.md。
+下一修A公共Bili合成来源默认公网opener缺口，继续QQ私人父源与保留前C、PR22候选/S5及其余A–H。无新打包，9a2候选不含PR21；CURRENT266+409/真实模型账号手机生产自然度实际长期不变。 证据evidence/platform-integration-pr21-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
