@@ -278,3 +278,23 @@ def test_private_notification_pages_reject_changed_account_between_pages():
             transport.notification_rows('at')
         assert len(front['requests']) == 2
     secrets.clear()
+
+
+def test_private_dm_read_rejects_rotated_account_credential_before_network():
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    secrets = MemorySecretResolver(); secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+    with counterpart() as (upstream, state):
+        transport = BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True, permitted_recipients=(43,)),
+            realm='SYNTHETIC_LOOPBACK', loopback_endpoint=upstream.endpoint)
+        transport.account()
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_DIFFERENT_ACCOUNT')
+        with pytest.raises(CoreError, match='BILIBILI_ACCOUNT_BINDING_MISMATCH'):
+            transport.messages(43)
+        assert len(state['requests']) == 1
+        secrets.bind('test.cookie', 'FIXTURE_COOKIE_ACCOUNT_42')
+        transport.account()
+        assert transport.messages(43) == []
+    secrets.clear()

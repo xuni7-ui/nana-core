@@ -89,8 +89,9 @@ class BilibiliAccountTransport:
                 self.__attested_cookie = None
                 if attested != (self.policy.account_id, digest(cookie)):
                     raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
-            elif host == 'api.bilibili.com' and path in {'/x/msgfeed/reply', '/x/msgfeed/at'}:
-                # Both pages must use the account verified for this poll.
+            elif ((host == 'api.bilibili.com' and path in {'/x/msgfeed/reply', '/x/msgfeed/at'})
+                  or (host == 'api.vc.bilibili.com' and path == '/svr_sync/v1/svr_sync/fetch_session_msgs')):
+                # Private messages and both notification pages use the preflight account.
                 if self.__attested_cookie != (self.policy.account_id, digest(cookie)):
                     self.__attested_cookie = None
                     raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
