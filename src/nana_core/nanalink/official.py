@@ -62,10 +62,14 @@ class OfficialQQAdapter(OneBotAdapter):
         try:
             async with self.session.request(method, self.endpoint + path, json=payload,
                                             headers=headers, allow_redirects=False) as response:
-                raw = await response.content.read(262145)
                 if response.status not in {200, 201, 202}:
                     raise CoreError('QQ_OFFICIAL_REJECTED_NO_RETRY')
-                value = decode(raw)
+                raw = bytearray()
+                async for chunk in response.content.iter_chunked(65536):
+                    raw.extend(chunk)
+                    if len(raw) > 262144:
+                        raise CoreError('ONEBOT_FRAME_BOUND')
+                value = decode(bytes(raw))
                 if path == "/users/@me" and value.get("id") == self.bot_id:
                     self.verified_token = fingerprint
                 return value

@@ -195,3 +195,36 @@ def test_expired_host_session_reports_reauthorization_without_network():
         assert health.connection=='DEGRADED' and health.login=='REQUIRED'
         assert not next(c.available for c in net['adapter'].capabilities() if c.name=='message.text.send.via_core')
         assert state['logins']==before and not state['sent']
+
+
+def test_official_chunked_http_ack_is_single_send_and_not_readback():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    async def run():
+        calls = []
+        async def respond(request):
+            calls.append(request.method)
+            body = {'id': 'bot_42'} if request.method == 'GET' else {'id': 'native-ack'}
+            if request.method == 'POST':
+                await request.json()
+            raw = json.dumps(body).encode()
+            response = web.StreamResponse(); await response.prepare(request)
+            await response.write(raw[:5]); await asyncio.sleep(.03)
+            await response.write(raw[5:]); await response.write_eof()
+            return response
+        app = web.Application()
+        app.router.add_get('/users/@me', respond)
+        app.router.add_post('/v2/{kind}/{peer}/messages', respond)
+        runner = web.AppRunner(app, access_log=None); await runner.setup()
+        site = web.TCPSite(runner, '127.0.0.1', 0); await site.start()
+        adapter = OfficialQQAdapter('42', bot_id='bot_42', token=TOKEN, allow_send=True,
+            endpoint='http://127.0.0.1:' + str(site._server.sockets[0].getsockname()[1]), realm='SYNTHETIC_LOOPBACK')
+        try:
+            await adapter.connect()
+            result = await adapter.rpc('send_private_msg', {'user_id': 'peer', 'message': [{'type':'text','data':{'text':'fixture'}}]})
+            assert result == {'message_id': 'native-ack', 'platform_ack': True}
+            assert calls == ['GET', 'POST']
+            assert 'native-ack' not in adapter.cache
+            assert not next(c.available for c in adapter.capabilities() if c.name == 'delivery.independent_readback')
+        finally:
+            await adapter.shutdown(); await runner.cleanup()
+    asyncio.run(run())
