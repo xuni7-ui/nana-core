@@ -82,6 +82,18 @@ class BilibiliAccountTransport:
             cookie = credential.reveal_for_header()
             if not cookie or len(cookie) > 4096 or any(ord(c) < 32 or ord(c) > 126 for c in cookie):
                 raise CoreError("BILIBILI_ACCOUNT_CREDENTIAL_INVALID")
+            if (host, path) == ('api.bilibili.com', '/x/polymer/web-dynamic/v1/feed/all'):
+                # A private feed belongs to the account just attested, not to a
+                # replacement credential resolved between the two requests.
+                attested = self.__attested_cookie
+                self.__attested_cookie = None
+                if attested != (self.policy.account_id, digest(cookie)):
+                    raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
+            elif host == 'api.bilibili.com' and path in {'/x/msgfeed/reply', '/x/msgfeed/at'}:
+                # Both pages must use the account verified for this poll.
+                if self.__attested_cookie != (self.policy.account_id, digest(cookie)):
+                    self.__attested_cookie = None
+                    raise CoreError('BILIBILI_ACCOUNT_BINDING_MISMATCH')
             if write:
                 if self.__attested_cookie != (self.policy.account_id, digest(cookie)):
                     raise CoreError("BILIBILI_ACCOUNT_BINDING_MISMATCH")
