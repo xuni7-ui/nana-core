@@ -298,3 +298,29 @@ def test_private_dm_read_rejects_rotated_account_credential_before_network():
         transport.account()
         assert transport.messages(43) == []
     secrets.clear()
+
+
+def test_synthetic_bilibili_account_requires_actual_loopback_transport(tmp_path):
+    from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
+    from nana_core.life.secret_binding import MemorySecretResolver
+    from tests.living_release_v4.test_bilibili_runtime import equipped
+    secrets = MemorySecretResolver()
+    with pytest.raises(CoreError, match='BILIBILI_LOOPBACK_ORIGIN_REQUIRED'):
+        BilibiliAccountTransport(secrets, cookie_ref='test.cookie', csrf_ref='test.csrf',
+            policy=BilibiliAccountPolicy(42, read_authorized=True), realm='SYNTHETIC_LOOPBACK')
+    home=tmp_path/'home';initialize(home);cfg=load_config(home)
+    binding=SurfaceBinding(binding_id='bili.synthetic',platform='bilibili.account',adapter='bilibili.account',surface='chat.comment',
+        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PUBLIC',))
+    channel=BilibiliChannelBinding(channel_id='synthetic',binding_id=binding.binding_id,kind='comment',account_id=42,target_id=7,
+        sender_id=43,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,)}),expected_revision=cfg.revision)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause();flow=equipped(app,channel,'http://127.0.0.1:1',grant=False)
+        flow._authority()
+        flow.transport.opener.endpoint='https://example.org'
+        with pytest.raises(CoreError,match='BILIBILI_LITERAL_LOOPBACK_REQUIRED'):
+            flow._authority()
+        flow.transport.opener=object()
+        with pytest.raises(CoreError,match='BILIBILI_SYNTHETIC_LOOPBACK_REQUIRED'):
+            flow._authority()
+    secrets.clear()

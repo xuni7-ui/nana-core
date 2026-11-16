@@ -12,6 +12,7 @@ import time
 from aiohttp import ClientError
 from collections import OrderedDict
 from datetime import datetime
+from urllib.parse import urlsplit
 from .contracts import Account, Capability, Event, Segment
 from .onebot import OneBotAdapter, decode, safe_endpoint
 from .sdk import AdapterManifest
@@ -24,13 +25,22 @@ class OfficialQQAdapter(OneBotAdapter):
     manifest = AdapterManifest(adapter_id='qq.official', version='1.0.0', platforms=('qq',),
                                 license='Nana original; external AstrBot/botpy separately licensed')
 
+    @staticmethod
+    def _validate_endpoint(endpoint, realm):
+        safe_endpoint(endpoint, schemes=('https', 'http'))
+        if realm == 'SYNTHETIC_LOOPBACK':
+            parsed = urlsplit(endpoint)
+            if (parsed.scheme != 'http' or parsed.hostname not in {'127.0.0.1', '::1'}
+                    or not parsed.port or parsed.path not in {'', '/'}):
+                raise CoreError('QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED')
+        elif realm not in {'AUTHENTICATED_PLATFORM', 'ACCOUNT_API_UNATTESTED'} or endpoint != 'https://api.sgroup.qq.com':
+            raise CoreError('QQ_OFFICIAL_FIXED_API_REQUIRED')
+
     def __init__(self, account_id, *, bot_id, token, allow_send=False, endpoint='https://api.sgroup.qq.com',
                  realm='AUTHENTICATED_PLATFORM', capacity=32, timeout=5):
         if not re.fullmatch(OPAQUE_ID, bot_id):
             raise CoreError('QQ_OFFICIAL_BOT_ID_REQUIRED')
-        safe_endpoint(endpoint, schemes=('https', 'http'))
-        if endpoint != 'https://api.sgroup.qq.com' and realm != 'SYNTHETIC_LOOPBACK':
-            raise CoreError('QQ_OFFICIAL_FIXED_API_REQUIRED')
+        self._validate_endpoint(endpoint, realm)
         super().__init__(account_id, mode='http', endpoint=endpoint, token=token, allow_send=allow_send,
                          capacity=capacity, timeout=timeout)
         self.account = Account(platform='qq', account_id=str(account_id), adapter_id='qq.official')
@@ -49,6 +59,7 @@ class OfficialQQAdapter(OneBotAdapter):
             raise CoreError('QQ_OFFICIAL_SESSION_UNAVAILABLE')
         if path != '/users/@me' and not re.fullmatch(r'/v2/(?:users|groups)/[A-Za-z0-9_-]{1,128}/messages', path):
             raise CoreError('QQ_OFFICIAL_ROUTE_DENIED')
+        self._validate_endpoint(self.endpoint, self.realm)
         self.metrics['rpc'] += 1
         self.metrics['writes'] += method == 'POST'
         headers = self._headers()

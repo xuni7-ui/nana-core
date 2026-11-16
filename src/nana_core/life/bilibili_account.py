@@ -38,7 +38,7 @@ class BilibiliAccountTransport:
     def __init__(self, resolver, *, cookie_ref, csrf_ref, policy, realm="ACCOUNT_API_UNATTESTED", loopback_endpoint=None):
         if realm not in {"ACCOUNT_API_UNATTESTED", "SYNTHETIC_LOOPBACK", "AUTHENTICATED_PLATFORM"}:
             raise CoreError("BILIBILI_ACCOUNT_REALM_INVALID")
-        if loopback_endpoint is not None and realm != "SYNTHETIC_LOOPBACK":
+        if (loopback_endpoint is not None) != (realm == "SYNTHETIC_LOOPBACK"):
             raise CoreError("BILIBILI_LOOPBACK_ORIGIN_REQUIRED")
         self.__resolver = resolver
         self.__cookie_ref, self.__csrf_ref = cookie_ref, csrf_ref

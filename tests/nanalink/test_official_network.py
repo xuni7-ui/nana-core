@@ -263,3 +263,17 @@ def test_official_unusable_ack_counts_unknown_without_retry():
             t.send('private','opaque_sender','synthetic','key')
         assert len(state['sent']) == 1
         assert net['adapter'].metrics['unknown'] == 1
+
+
+def test_official_synthetic_realm_never_targets_real_endpoint():
+    from nana_core.nanalink.official import OfficialQQAdapter
+    with pytest.raises(CoreError,match='QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED'):
+        OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK')
+    adapter=OfficialQQAdapter('42',bot_id='bot_42',token=TOKEN,realm='SYNTHETIC_LOOPBACK',endpoint='http://127.0.0.1:12345')
+    async def run():
+        adapter.session=object()
+        adapter.endpoint='https://api.sgroup.qq.com'
+        with pytest.raises(CoreError,match='QQ_OFFICIAL_SYNTHETIC_LOOPBACK_REQUIRED'):
+            await adapter._account()
+        adapter.session=None
+    asyncio.run(run())
