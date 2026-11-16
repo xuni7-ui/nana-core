@@ -22,14 +22,14 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 269,
-  "as_of_us": 1794841056302111,
+  "revision": 270,
+  "as_of_us": 1794841397644492,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "独立CI265实际12fail84pass/268实际7fail38pass，均Native SKIP/MEDIA_SANDBOX_UNAVAILABLE；267实读179pass2warnings。修原classifier缺失媒体路径，workflow smoke复用原H1/多流；13旧新路径/7Python块检查。本地H1+媒体35pass1fail，真实音视频关联时长尾差待修。",
+    "原模型媒体打包仍auto错轨已复现，旧3fail→精确首视频/音轨，原73相关31.67s后补3进程检查3.57s。正常AAC尾差/2s视频1s音频同源可关联，双时长/NOT_ESTABLISHED不冒称同步，异源/撤回拒绝。269独立Core native成功46pass38.92s，客户端待。真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
     "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
@@ -44,22 +44,24 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "优先修原同源音视频实际覆盖关联：按PCM时长后AAC尾样本使原等长门拒绝，35pass1fail原错保留；本批CI推后实读。其余S3/G、私QQ/私Bili、B22、存储Token产品及A–H继承，CURRENT266+409，9a2不含264后继。"
+    "继续S3多动机/可靠反馈/G更广迁移，私QQ父源/隐私byte handle、私Bili保留前C、B22非零时轴/覆盖/长窗口适配、物理存储隐私DR/真实Token协议/产品及原A–H；270自身CI待实读。CURRENT266+409，9a2不含264后继，真实0。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/media-semantic-track-20261116/README.md",
     "docs/nana_next_experience/evidence/native-ci-routing-20261116/README.md",
     "docs/nana_next_experience/evidence/media-stream-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-purpose-context-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-lesson-attention-fairness-20261116/README.md",
     "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
-    "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md",
-    "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md"
+    "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
 
-A revision269证据指纹锚：`bc114cde2ac24b0e4dfa5ff38536402f491632482fdbd70c074cc2ef6eae12d1`（source.sha256不含自身/09）。
+A revision270证据指纹锚：`fa9611cd34ac4914d3960829a01a33e1d91cfc71383a4335b6ae4d31545a174b`；269原CI空导出已从实际原log补正，269锚更新，未重跑/伪造旧资格。
+
+A revision269证据指纹锚：`c70e452c927ef500d808c51e483f5f536e5a4743494346dc993e17f1b983365e`（source.sha256不含自身/09）。
 
 A revision268证据指纹锚：`d4d1a399200c5e033fd7d0a1abfc16d98581930a6bbba3e54adbe2278b3230ad`（source.sha256不含自身/09）。
 

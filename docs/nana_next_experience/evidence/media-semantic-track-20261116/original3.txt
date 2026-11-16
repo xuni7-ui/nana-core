@@ -1,0 +1,166 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_actual_semantic_wire_uses_the_technically_observed_first_stream[VIDEO] __
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-137/test_actual_semantic_wire_uses0')
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+modality = 'VIDEO'
+
+    @pytest.mark.parametrize('modality',['VIDEO','AUDIO'])
+    def test_actual_semantic_wire_uses_the_technically_observed_first_stream(tmp_path,multitrack,modality):
+        with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+            mid=ingest(r,modality,multitrack);service=setup(r,t)
+>           request_id=service.prepare('first-stream',mid,multitrack)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/h1_semantics/test_media_stream_binding.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/world_loop/semantics.py:158: in prepare
+    return self.session.prepare('media:'+key,'MEDIA',(source_memory_id,),role_input=safe,volatile_input=full if ephemeral else None,budget=budget or CognitionBudget(output_tokens=4096))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/cognition.py:432: in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+src/nana_core/continuity/world_loop/cognition.py:598: in _prepare
+    validate_media_input(self,volatile_input or role_input,source_ids)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+session = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7fbd24b4e3f0>
+body = {'asr_supported': False, 'duration_s': 1.0, 'modality': 'VIDEO', 'parts': [{'data_b64': 'iVBORw0KGgoAAAANSUhEUgAAAGAAA...digest': '1d9553959c2a10a571e41bb6fb1bf561807298c3ea608482db6a4e7aa8884339', 'end_s': 1.0, 'kind': 'IMAGE', ...}], ...}
+source_ids = ('fee4450c-83d8-46ca-ad8f-51b23bb9927a',)
+
+    def validate_media_input(session,body,source_ids):
+        envelope=MediaSemanticInput.model_validate_json(canonical(body))
+        if any(p.data_b64 is None for p in envelope.parts):raise CoreError('MEDIA_SOURCE_BYTES_REQUIRED')
+        desc=getattr(session.transport,'semantic_descriptor',None)
+        if not isinstance(desc,SemanticDescriptor) or (desc.provider_id,desc.model_id)!=(session.transport.provider_id,session.transport.model_id):raise CoreError('MEDIA_DESCRIPTOR_REQUIRED')
+        if envelope.modality not in desc.modalities or envelope.asr_supported!=desc.asr:raise CoreError('MEDIA_MODALITY_UNSUPPORTED')
+        if tuple(source_ids)!=(envelope.source_memory_id,):raise CoreError('MEDIA_SOURCE_MISMATCH')
+        m=session.records.memory.read(envelope.source_memory_id)
+        source=json.loads(m['text']);d=source['decoded']
+        if m['authority']!='DIRECT' or m['epistemic_kind']!='OBSERVATION' or source['source_byte_digest']!=envelope.source_byte_digest or d['modality']!=envelope.modality:raise CoreError('MEDIA_SOURCE_MISMATCH')
+        if envelope.duration_s!=d.get('duration_s',0):raise CoreError('MEDIA_DURATION_MISMATCH')
+        _source_locator(m,source)
+        from PIL import Image
+        size=0;visual=[];audios=[]
+        for part in envelope.parts:
+            raw=base64.b64decode(part.data_b64,validate=True);size+=len(raw)
+            if part.kind=='IMAGE':
+                with Image.open(io.BytesIO(raw),formats=('PNG',)) as image:
+                    if image.width*image.height>4_000_000:raise CoreError('MEDIA_PIXEL_BOUND')
+                    visual.append((part,hashlib.sha256(image.convert('RGB').tobytes()).hexdigest()))
+            else:
+                with wave.open(io.BytesIO(raw),'rb') as w:
+                    if (w.getnchannels(),w.getsampwidth(),w.getframerate())!=(1,2,16000):raise CoreError('MEDIA_PCM_CONTRACT')
+                    pcm=w.readframes(480001)
+                    if len(pcm)>960000:raise CoreError('MEDIA_BYTE_BOUND')
+                    audios.append((part,hashlib.sha256(pcm).hexdigest()))
+        if size>desc.max_input_bytes:raise CoreError('MEDIA_SEMANTIC_INPUT_BOUND')
+        if envelope.modality=='IMAGE' and (len(visual)!=1 or visual[0][1]!=d['pixel_digest']):raise CoreError('MEDIA_PIXEL_DIGEST_MISMATCH')
+        if envelope.modality=='AUDIO' and (len(audios)!=1 or audios[0][1]!=d['pcm_digest']):raise CoreError('MEDIA_PCM_DIGEST_MISMATCH')
+        if envelope.modality=='VIDEO':
+            if len(visual)!=len(d['frames']):raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
+            for (part,sha),frame in zip(visual,d['frames']):
+>               if sha!=frame['pixel_digest'] or [part.start_s,part.end_s]!=frame['source_interval_s']:raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
+                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: MEDIA_FRAME_COVERAGE_MISMATCH
+
+src/nana_core/continuity/world_loop/semantics.py:106: CoreError
+_ test_actual_semantic_wire_uses_the_technically_observed_first_stream[AUDIO] __
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-137/test_actual_semantic_wire_uses1')
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+modality = 'AUDIO'
+
+    @pytest.mark.parametrize('modality',['VIDEO','AUDIO'])
+    def test_actual_semantic_wire_uses_the_technically_observed_first_stream(tmp_path,multitrack,modality):
+        with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+            mid=ingest(r,modality,multitrack);service=setup(r,t)
+>           request_id=service.prepare('first-stream',mid,multitrack)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/h1_semantics/test_media_stream_binding.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/world_loop/semantics.py:146: in prepare
+    parts=package_media(data,body)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/semantics.py:67: in package_media
+    raw=decoder._run(cmd+['-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(root))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.perception.MediaDecoder object at 0x7fbd1fbcd2b0>
+args = ['bwrap', '--unshare-all', '--die-with-parent', '--new-session', '--cap-drop', 'ALL', ...]
+limit = 1000000, input_root = PosixPath('/dev/shm/semantic-public-kmoj1qtl')
+
+    def _run(self,args,*,limit=4*1024*1024,input_root=None):
+        if not shutil.which('bwrap'):raise CoreError('MEDIA_SANDBOX_UNAVAILABLE')
+        if input_root is None:raise CoreError('MEDIA_INPUT_ROOT_REQUIRED')
+        command=['bwrap','--unshare-all','--die-with-parent','--new-session','--cap-drop','ALL','--clearenv','--setenv','PATH','/usr/bin','--setenv','LD_LIBRARY_PATH','/usr/lib/x86_64-linux-gnu/blas:/usr/lib/x86_64-linux-gnu/lapack']
+        for system in ('/usr/bin','/usr/lib','/usr/lib64','/lib','/lib64'):
+            if Path(system).exists():command+=['--ro-bind',system,system]
+        if Path('/etc/ld.so.cache').exists():command+=['--ro-bind','/etc/ld.so.cache','/etc/ld.so.cache']
+        command+=['--proc','/proc','--dev','/dev','--tmpfs','/tmp','--ro-bind',str(input_root),'/input','--chdir','/tmp','/usr/bin/python3','-I','-c',
+            'import os,resource,sys;resource.setrlimit(resource.RLIMIT_AS,(536870912,536870912));resource.setrlimit(resource.RLIMIT_CPU,(10,10));resource.setrlimit(resource.RLIMIT_FSIZE,(4194304,4194304));os.execvp(sys.argv[1],sys.argv[1:])']
+        args=[str(a).replace(str(input_root)+'/','/input/') for a in args]
+        args=command+args
+        with tempfile.TemporaryDirectory(prefix='subject-decode-') as d:
+            out=Path(d)/'out';err=Path(d)/'err'
+            with out.open('wb') as o,err.open('wb') as e:
+                try:p=subprocess.run(args,stdin=subprocess.DEVNULL,stdout=o,stderr=e,timeout=12,env={'PATH':os.defpath},check=False)
+                except (subprocess.TimeoutExpired,OSError):raise CoreError('MEDIA_DECODER_UNAVAILABLE_OR_TIMEOUT') from None
+>           if p.returncode:raise CoreError('MEDIA_MALFORMED_OR_UNSUPPORTED')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: MEDIA_MALFORMED_OR_UNSUPPORTED
+
+src/nana_core/continuity/world_loop/perception.py:60: CoreError
+_ test_same_container_unequal_tracks_are_linked_without_claiming_temporal_alignment _
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-137/test_same_container_unequal_tr0')
+multitrack = b'\x1aE\xdf\xa3\xa3B\x86\x81\x01B\xf7\x81\x01B\xf2\x81\x04B\xf3\x81\x08B\x82\x88matroskaB\x87\x81\x04B\x85\x81\x02\x18...x84\x9cIx\xcd\xbb\x9b\xb3\x81\x00\xb7\x8a\xf7\x81\x01\xf1\x82\x04;\xf0\x81\t\xb7\x8a\xf7\x81\x02\xf1\x82\x04;\xf0\x81>'
+
+    def test_same_container_unequal_tracks_are_linked_without_claiming_temporal_alignment(tmp_path,multitrack):
+        path=tmp_path/'unequal.mkv'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_complex_threads','1',
+            '-f','lavfi','-i','color=c=red:s=32x24:r=4:d=2',
+            '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=1',
+            '-map','0:v','-map','1:a','-t','2','-c:v','ffv1','-c:a','pcm_s16le',str(path)],check=True,timeout=20)
+        data=path.read_bytes()
+        with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+            service=setup(r,t);ids=[];mids=[]
+            for modality in ('VIDEO','AUDIO'):
+                mid=ingest(r,modality,data,key=modality.lower());mids.append(mid)
+                cid=service.prepare(modality,mid,data);assert service.execute(cid)['state']=='PROPOSED'
+                service.ground(cid,entity_id='device',predicate='media.'+modality.lower());ids.append(cid)
+>           linked=service.associate_audio(*ids)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/h1_semantics/test_media_stream_binding.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.semantics.MediaSemanticService object at 0x7fbd1fbce6c0>
+video_request_id = 'b684c339-eae1-4a83-aafc-331d4ce73742'
+audio_request_id = '4f8d6c0d-4066-40af-9018-c91ffd7daad4'
+
+    def associate_audio(self,video_request_id,audio_request_id):
+        """Pin separately interpreted track from exactly the same source container."""
+        inputs=[];parents=[];results=[]
+        for cid in (video_request_id,audio_request_id):
+            row=self.store.one('cognitive_requests',cid)
+            if not row or row['state']!='PROPOSED':raise CoreError('SEMANTIC_PROPOSAL_UNAVAILABLE')
+            request=self.records.read(row['record_id'])['payload']['request']
+            inputs.append(MediaSemanticInput.model_validate_json(canonical(request['role_input'])))
+            header=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",('semantic:'+cid,)).fetchone()
+            if not header or not self.records.current_support(header[0]):raise CoreError('SEMANTIC_SOURCE_RETIRED')
+            rec=self.records.read(header[0])
+            if rec['scope'] not in self.session.policy.allowed_scopes or rec['privacy_class'] not in self.session.policy.readable_privacy:raise CoreError('MEDIA_PRIVACY_DENIED')
+            parents.append(header[0]);results.append(rec['payload'])
+>       if inputs[0].modality!='VIDEO' or inputs[1].modality!='AUDIO' or inputs[0].source_byte_digest!=inputs[1].source_byte_digest or abs(inputs[0].duration_s-inputs[1].duration_s)>.001:raise CoreError('MEDIA_AUDIO_ASSOCIATION_MISMATCH')
+                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: MEDIA_AUDIO_ASSOCIATION_MISMATCH
+
+src/nana_core/continuity/world_loop/semantics.py:225: CoreError
+=========================== short test summary info ============================
+FAILED tests/h1_semantics/test_media_stream_binding.py::test_actual_semantic_wire_uses_the_technically_observed_first_stream[VIDEO]
+FAILED tests/h1_semantics/test_media_stream_binding.py::test_actual_semantic_wire_uses_the_technically_observed_first_stream[AUDIO]
+FAILED tests/h1_semantics/test_media_stream_binding.py::test_same_container_unequal_tracks_are_linked_without_claiming_temporal_alignment
+3 failed in 2.75s

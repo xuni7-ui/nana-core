@@ -1,8 +1,8 @@
-## 当前接续：原CI native选择与真实关联兼容，revision269
+## 当前接续：原H1输入与技术观测同轨，revision270
 
-原CI媒体依赖选择遗漏已修：265独立12fail84pass/268独立7fail38pass均Native SKIP，267实际179pass2warnings115.19s。classifier补原native媒体路径及manual/workflow smoke，13路径/7Python块检查；本地35pass1fail24.69s暴露原同源AAC时长尾差关联问题，原错保留，下一批修覆盖语义。本批CI待实读，非发行/生产。
+原package_media auto选轨造成模型wire与技术摘要错配，原3fail→首视频/音轨显式map，73相关31.67s后补实际进程3过3.57s。原同源音视频关联现保留独立时长且时间对齐NOT_ESTABLISHED，正常AAC/短音轨可用，异源/撤回仍拒绝/无动作。269独立native成功/Core46pass38.92s，客户端待；旧CI原log空导出纠正为同一实际log非空文件。真实0。
 
-继续同源音视频实际覆盖关联及原S3/G/私QQ/私Bili/B22和A–H，CURRENT266+409，9a2不含264后继。证据evidence/native-ci-routing-20261116/README.md。
+接续S3多动机/反馈/G迁移、私QQ父源/私Bili保留前C、B22时轴覆盖适配及A–H，270自身CI待，CURRENT266+409，9a2不含264以后。证据evidence/media-semantic-track-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 
