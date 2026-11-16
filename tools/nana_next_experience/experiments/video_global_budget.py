@@ -100,3 +100,52 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
             'model_frame_budget':budget,'unrequested_intervals':unrequested,
             'sampling_gaps_over_threshold':gaps,'sampling_gap_target_met':gap_target,
             'whole_video_observed':False,'state':'CANDIDATES_NOT_DELIVERED','model_calls':0}
+
+
+def project_window(global_selection, window, window_index):
+    """Produce a selected_images-compatible view for one original window.
+
+    The first window referencing an overlapping PTS owns its image candidate;
+    a caller must preserve index order and the original decoded window. This
+    view does not validate source bytes, authorization, or source lifetime.
+    """
+    if (type(global_selection) is not dict or global_selection.get('state')!='CANDIDATES_NOT_DELIVERED' or
+            global_selection.get('whole_video_observed') is not False or
+            type(global_selection.get('selected_frames')) is not list or
+            type(global_selection.get('model_frame_budget')) is not int or
+            not 1<=global_selection['model_frame_budget']<=256 or
+            len(global_selection['selected_frames'])>global_selection['model_frame_budget'] or
+            type(window_index) is not int or not 0<=window_index<256 or
+            type(window) is not dict or window.get('status')!='WINDOW_CANDIDATES_ONLY' or
+            window.get('selection_state')!='CANDIDATES_NOT_DELIVERED' or
+            window.get('source_ref')!=global_selection.get('source_ref') or
+            type(window.get('selected_frames')) is not list):
+        raise ValueError('invalid global window projection')
+    local=set()
+    for frame in window['selected_frames']:
+        if (type(frame) is not dict or set(frame)!={'seconds','pts_tick','time_base'} or
+                type(frame['seconds']) not in (int,float) or not math.isfinite(frame['seconds']) or
+                type(frame['pts_tick']) is not int or type(frame['time_base']) is not tuple or
+                len(frame['time_base'])!=2 or any(type(n) is not int or n<1 for n in frame['time_base'])):
+            raise ValueError('invalid local candidate')
+        local.add((frame['seconds'],frame['pts_tick'],frame['time_base']))
+    frames=[];previous=None
+    for item in global_selection['selected_frames']:
+        if (type(item) is not dict or type(item.get('window_indices')) is not list or
+                not item['window_indices'] or
+                any(type(i) is not int or not 0<=i<256 for i in item['window_indices']) or
+                item['window_indices']!=sorted(set(item['window_indices'])) or
+                type(item.get('seconds')) not in (int,float) or not math.isfinite(item['seconds']) or
+                (previous is not None and item['seconds']<=previous) or
+                type(item.get('pts_tick')) is not int or type(item.get('time_base')) is not tuple or
+                len(item['time_base'])!=2 or any(type(n) is not int or n<1 for n in item['time_base'])):
+            raise ValueError('invalid global candidate')
+        previous=item['seconds']
+        if window_index in item['window_indices'] and (item['seconds'],item['pts_tick'],item['time_base']) not in local:
+            raise ValueError('global candidate not in referenced window')
+        if item['window_indices'][0]==window_index:
+            frames.append({k:item[k] for k in ('seconds','pts_tick','time_base')})
+    return {'status':'WINDOW_CANDIDATES_ONLY','selection_state':'CANDIDATES_NOT_DELIVERED',
+            'source_ref':window['source_ref'],'requested_window':window['requested_window'],
+            'timeline_origin':window['timeline_origin'],'decoded_size':window['decoded_size'],
+            'selected_frames':frames}

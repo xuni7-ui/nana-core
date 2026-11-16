@@ -425,3 +425,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-16 B跨窗全局预算
 
 持续授权：video_global_budget.py、video_window_fusion.py及相关测试、video-global-budget-20261116.json、09/11和B队列追加及本清单；无真实媒体、凭据或上游源码复制。
+
+## 2026-11-17 B全局选帧图像投影
+
+持续授权：video_global_budget.py、对应测试、video-global-image-projection-20261116.json、09/11和B队列追加及本清单；仅合成媒体，无真实视频或凭据。

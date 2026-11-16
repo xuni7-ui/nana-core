@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "a_baseline": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "status": "ISOLATED_CANDIDATE",
+  "contract": "Project global PTS selection to first referring decoded window and use existing in-memory PNG candidate",
+  "verification": "global budget, actual FFmpeg, Core IMAGE decoder and original dsh-related tests 18 passed 4.54s; subsequent tightened bounds global tests 5 passed 0.93s",
+  "evidence": "two overlapping actual FFmpeg windows; total global budget 3; one PNG per selected PTS; original MediaDecoder IMAGE digest equals PNG candidate pixel digest",
+  "limits": [
+    "PTS equality does not prove same source bytes",
+    "caller supplies window indices and must retain decoded window",
+    "source lifetime and authorization not checked",
+    "not connected to original PerceptionService, Memory, C or Provider",
+    "no true video, model token or real-user validation"
+  ],
+  "rollback": "remove projection helper and tests; no persistent data or migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_global_budget.py": "92b9810deb323819aa3ed49d130c50d2f6dbb14e1fc83b0b2c91ffc339da35f4",
+    "tests/nana_next_experience/test_video_global_budget.py": "7fcf529ab49b9988148c885a53557948a08543c96b1cdaf460c15fd75816d5f4"
+  }
+}

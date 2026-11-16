@@ -4,7 +4,9 @@ import subprocess
 import pytest
 
 from tools.nana_next_experience.experiments.video_pts_decode import decode
-from tools.nana_next_experience.experiments.video_global_budget import select_windows
+from tools.nana_next_experience.experiments.video_global_budget import select_windows,project_window
+from tools.nana_next_experience.experiments.video_selected_images import selected_images
+from nana_core.continuity.world_loop.perception import MediaDecoder
 from tests.nana_next_experience.test_video_selected_images import selection
 
 
@@ -30,6 +32,11 @@ def test_global_budget_deduplicates_real_overlapping_windows_and_preserves_pts(t
         assert all(any(f['pts_tick']==item['pts_tick'] and f['seconds']==item['seconds']
                        for f in results[i]['selected_frames']) for i in item['window_indices'])
     assert selected['model_calls']==0 and selected['state']=='CANDIDATES_NOT_DELIVERED'
+    images=[image for i,(decoded,result) in enumerate(zip(windows,results))
+            for image in selected_images(decoded,project_window(selected,result,i))]
+    assert len(images)==len(selected['selected_frames'])<=3
+    assert len({image.pts_tick for image in images})==len(images)
+    assert all(MediaDecoder().decode(image.png,'IMAGE')['pixel_digest']==image.pixel_sha256 for image in images)
 
 
 def test_missing_windows_and_empty_window_remain_explicitly_unobserved():
