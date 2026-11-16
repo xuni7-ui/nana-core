@@ -31,6 +31,9 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
             raise ValueError('invalid decoded timestamps')
         known.add(t);previous=t
     positions={t:i for i,t in enumerate(decoded_timestamps)}
+    dropped=dsh.get('dropped_sheets')
+    if dropped is not None and (type(dropped) is not int or dropped<0):
+        raise ValueError('invalid upstream queue metadata')
     dsh_items=dsh.get('selected');pair_items=pairs.get('proposals')
     if (type(dsh_items) is not list or len(dsh_items)>1200 or
             type(pair_items) is not list or len(pair_items)>64 or type(pairs.get('truncated')) is not bool):
@@ -61,5 +64,6 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
         'coverage_target_met':selected['coverage_target_met'],
         'selected_cues':[{'seconds':t,'cues':sorted(evidence.get(t,()))} for t in selected['timestamps']],
         'pair_proposals_truncated':pairs['truncated'],'dsh_frame_limit':'PER_SHEET_ONLY',
+        'dsh_dropped_sheets':dropped,'selection_state':'CANDIDATES_NOT_DELIVERED',
         'model_frame_budget':budget,'model_calls':0,'storage':'NONE',
         'meaning':'candidate sampling only; no semantic importance or source authorization inferred'}

@@ -47,3 +47,34 @@ def test_mismatched_rgb_byte_length_is_rejected(tmp_path):
     result=execute({'source_ref':'source.fixture','rgb_path':str(raw),'width':3,'height':1,
         'fps':4,'timestamps':[0.0],'max_frames_per_sheet':2})
     assert result.returncode!=0 and 'RGB input' in result.stderr
+
+
+def test_backpressure_separates_selection_log_from_queued_sheets(tmp_path):
+    w,h=160,90;frame=w*h*3;raw=tmp_path/'alternating.rgb'
+    raw.write_bytes(b''.join((bytes(frame) if (i//4)%2==0 else bytes([255])*frame) for i in range(48)))
+    timestamps=[i/4 for i in range(48)]
+    result=execute({'source_ref':'source.fixture','rgb_path':str(raw),'width':w,'height':h,
+        'fps':4,'timestamps':timestamps,'max_frames_per_sheet':2})
+    assert result.returncode==0,result.stderr
+    output=json.loads(result.stdout)
+    assert output['selection_state']=='SELECTED_NOT_DELIVERED' and output['model_calls']==0
+    assert output['stats']['sheets']>=2 and output['queued_sheets']==1
+    assert output['dropped_sheets']==output['stats']['sheets']-output['queued_sheets']
+    assert output['dropped_sheets']>0
+    assert set(output['queued_frame_seconds'])<={x['seconds'] for x in output['selected']}
+    assert len(output['queued_frame_seconds'])<len(output['selected'])
+
+
+def test_dropped_sheet_state_remains_visible_to_fusion(tmp_path):
+    from tools.nana_next_experience.experiments.video_fusion_prototype import fuse
+    w,h=160,90;frame=w*h*3;raw=tmp_path/'alternating.rgb'
+    raw.write_bytes(b''.join((bytes(frame) if (i//4)%2==0 else bytes([255])*frame) for i in range(48)))
+    timestamps=[i/4 for i in range(48)];source='source.fixture'
+    result=execute({'source_ref':source,'rgb_path':str(raw),'width':w,'height':h,
+        'fps':4,'timestamps':timestamps,'max_frames_per_sheet':2})
+    assert result.returncode==0,result.stderr
+    dsh=json.loads(result.stdout)
+    pairs={'source_ref':source,'schema_version':1,'truncated':False,'proposals':[]}
+    combined=fuse(source,12,timestamps,dsh,pairs,budget=4,max_gap=4)
+    assert combined['dsh_dropped_sheets']==dsh['dropped_sheets']>0
+    assert combined['selection_state']=='CANDIDATES_NOT_DELIVERED' and combined['model_calls']==0

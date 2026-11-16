@@ -38,8 +38,9 @@ const file=await stat(rgb_path);
 if(!file.isFile()||file.size!==frameBytes*timestamps.length||file.size>64*1024*1024)
   fail('RGB input does not match timestamps or bounds');
 const {createPipeline}=await import(pathToFileURL(resolve(root,'src/pipeline.js')).href);
-const pipeline=createPipeline({width,height,fps,maxFrames:max_frames_per_sheet});
+const pipeline=createPipeline({width,height,fps,maxFrames:max_frames_per_sheet,queueDepth:1});
 const handle=await open(rgb_path,'r');
+let completed;
 try {
   for(let i=0;i<timestamps.length;i++) {
     const buffer=Buffer.alloc(frameBytes);let bytes=0;
@@ -50,14 +51,23 @@ try {
     }
     pipeline.push({t:timestamps[i],buf:buffer});
   }
-  pipeline.finish();
+  completed=pipeline.finish();
 } finally { await handle.close(); }
 const selected=pipeline.log.map(entry=>{
   const seconds=exactByRounded.get(entry.t);
   if(seconds===undefined)fail('upstream output cannot be mapped to an input timestamp');
   return {seconds,reason:entry.via};
 });
+const queued=completed.sheets.flatMap(sheet=>sheet.frames.map(frame=>{
+  const seconds=exactByRounded.get(frame.t);
+  if(seconds===undefined)fail('queued sheet frame cannot be mapped to input time');
+  return seconds;
+}));
+const droppedSheets=pipeline.stats.sheets-completed.sheets.length;
+if(droppedSheets<0)fail('inconsistent upstream queue accounting');
 console.log(JSON.stringify({schema_version:1,source_ref,input_frames:timestamps.length,selected,
+  selection_state:'SELECTED_NOT_DELIVERED',queued_frame_seconds:queued,
+  queue_depth:1,queued_sheets:completed.sheets.length,dropped_sheets:droppedSheets,
   max_frames_per_sheet,stats:pipeline.stats,model_calls:0,
   qualification:'LOCAL_PIPELINE_OUTPUT_ONLY',
   caveat:'Frame limit is per sheet, not a total budget; source identity is caller supplied.'}));
