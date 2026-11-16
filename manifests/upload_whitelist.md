@@ -343,3 +343,8 @@ world_loop/learning.py原cache局部、test_growth_assessment_identity.py、原C
 ## 2026-11-16 B dsh恢复受控对照
 
 持续授权：dsh-restore-fixture-20261116/{README.md,source-sha256.json}及其中原创驱动/测试、09/11追加、本清单；无真实媒体/凭据或复制上游源码。
+
+
+## 2026-11-16 B dsh选帧时间精度
+
+持续授权：dsh-selected-time-precision-20261116/{README.md,source-sha256.json}及其中原创适配/测试、09/11追加、本清单；无真实媒体/凭据或上游源码复制。

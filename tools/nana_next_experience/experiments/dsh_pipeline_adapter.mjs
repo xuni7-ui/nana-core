@@ -32,8 +32,8 @@ for (const timestamp of timestamps) {
   if(!Number.isFinite(timestamp)||timestamp<0||timestamp>86400||timestamp<=previous)fail('invalid timestamps');
   // dsh log rounds to 0.01s. Reject collisions instead of inventing lineage.
   const rounded=Number(timestamp.toFixed(2));
-  if(exactByRounded.has(rounded))fail('timestamps ambiguous at upstream log precision');
-  exactByRounded.set(rounded,timestamp);previous=timestamp;
+  const matches=exactByRounded.get(rounded) ?? [];
+  matches.push(timestamp);exactByRounded.set(rounded,matches);previous=timestamp;
 }
 const frameBytes=width*height*3;
 const file=await stat(rgb_path);
@@ -61,20 +61,17 @@ try {
   }
   completed=pipeline.finish();
 } finally { await handle.close(); }
-const selected=pipeline.log.map(entry=>{
-  const seconds=exactByRounded.get(entry.t);
-  if(seconds===undefined)fail('upstream output cannot be mapped to an input timestamp');
-  return {seconds,reason:entry.via};
-});
+function exactTime(rounded) {
+  const matches=exactByRounded.get(rounded);
+  if(!matches||matches.length!==1)fail('selected timestamp ambiguous at upstream log precision');
+  return matches[0];
+}
+const selected=pipeline.log.map(entry=>({seconds:exactTime(entry.t),reason:entry.via}));
 const queued=completed.sheets.flatMap(sheet=>sheet.frames.map(frame=>{
-  const seconds=exactByRounded.get(frame.t);
-  if(seconds===undefined)fail('queued sheet frame cannot be mapped to input time');
-  return seconds;
+  return exactTime(frame.t);
 }));
 const taken=locallyTaken.flat().map(t=>{
-  const seconds=exactByRounded.get(t);
-  if(seconds===undefined)fail('taken sheet frame cannot be mapped to input time');
-  return seconds;
+  return exactTime(t);
 });
 const droppedSheets=pipeline.stats.sheets-completed.sheets.length-locallyTaken.length;
 if(droppedSheets<0)fail('inconsistent upstream queue accounting');

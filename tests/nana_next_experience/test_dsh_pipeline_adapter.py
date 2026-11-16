@@ -36,8 +36,8 @@ def test_actual_pipeline_retains_exact_source_frame_times(tmp_path):
 
 
 def test_ambiguous_rounded_timestamps_are_rejected_without_guessing(tmp_path):
-    raw=tmp_path/'frames.rgb';raw.write_bytes(bytes(18))
-    result=execute({'source_ref':'source.fixture','rgb_path':str(raw),'width':3,'height':1,
+    raw=tmp_path/'frames.rgb';raw.write_bytes(bytes(160*90*3*2))
+    result=execute({'source_ref':'source.fixture','rgb_path':str(raw),'width':160,'height':90,
         'fps':120,'timestamps':[0.001,0.002],'max_frames_per_sheet':2})
     assert result.returncode!=0 and 'ambiguous' in result.stderr
 
@@ -96,3 +96,13 @@ def test_local_consumption_relives_backpressure_without_claiming_delivery(tmp_pa
         assert output['selection_state']=='SELECTED_NOT_DELIVERED'
         assert output['local_take_state']=='TAKEN_LOCALLY_NOT_DELIVERED' and output['model_calls']==0
         assert set(output['locally_taken_frame_seconds'])<={x['seconds'] for x in output['selected']}
+
+
+def test_unselected_timestamp_collisions_do_not_block_valid_selected_frame(tmp_path):
+    raw=tmp_path/'static.rgb';raw.write_bytes(bytes(160*90*3*4))
+    result=execute({'source_ref':'source.fixture','rgb_path':str(raw),'width':160,'height':90,
+        'fps':120,'timestamps':[0.0,0.501,0.502,0.75],'max_frames_per_sheet':2})
+    assert result.returncode==0,result.stderr
+    output=json.loads(result.stdout)
+    assert output['selected'][0]['seconds']==0.0
+    assert all(item['seconds'] not in (0.501,0.502) for item in output['selected'])
