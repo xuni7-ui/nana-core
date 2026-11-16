@@ -22,8 +22,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 264,
-  "as_of_us": 1794834039450093,
+  "revision": 265,
+  "as_of_us": 1794834348885010,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
@@ -31,7 +31,7 @@
     "原G情境注意/重放保留；现当前成长SELF等价校验共享体保留32次时间/来源/依赖，普通读仍逐条。旧1fail→新2过/初79相关；后补78过1环境错、原SIGKILL补环境1过。固定旧函数同预算1SELF/同私问，input108201→81401B(-24.8%)非Token，无新动作/真实0。",
     "原H1帧MODEL_DERIVATION补原视频来源定位，图内span0与publisher采样10秒分开。f5旧缺字段→6过3.15s、59相关过/2夹具错误后2边界过；后续INTERPRET确读定位→原Concern/C EXPLORE，撤回失效。每语义+262bytes，1VISION+1INTERPRET非新增调用，真实0。",
     "固定9a2 Core302/263双SHA9651c93b…，Web73输入同c1d复用04085003；delivery ca765固定11件，新GitHub克隆/10SHA/第二离线槽263同源/BFF撤回通过。首槽55过30.35s/161槽内业务模块+3外部公开工厂，停机9a2-c1d-9a2同身份私计划/G17/pending保持；CURRENT266+409。",
-    "PR21固定0f766c1原平台账号/来源撤回/队列恢复已接：旧4fail→4过1.70s，192相关59.05s。09新增C长回执移CURRENT后保留全文，原读取边界恢复；两A后继文件SHA刷新/C原manifest保留。PR22固定9345e51仍draft隔离视觉候选，尚无Core消费者。",
+    "PR21固定0f原平台账号/撤回/队列恢复已合19b898d，旧4fail→4过/192相关；现A公共Bili synthetic无端点不再默认公网opener、每读重查本地绑定，旧3fail1pass→4过/35相关13.94s。原C/Kernel/H1/帧UNKNOWN保持，真实0；B22仍draft无Core消费者。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
     "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。",
@@ -44,20 +44,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-15重建，实际工作树/workspace/nana-next-refinement-work/同dev；旧/tmp树与安装、shm指向已丢，磁盘20万库13文件全SHA保留，P95未重跑。Root f583+4WIP历史原件本环境缺失，18bc干净未动；真实0。",
-    "下一A公共Bili合成transport缺loopback仍默认公网opener的真实缺口；私人QQ图像父源/字节handle、私Bili保留前C机会仍待。B22视觉draft需收益验证/原S5接线；情感/G广迁移/物理隐私/真实Token/产品/A–H继续，9a2候选不含PR21。"
+    "下一原G已处理机会在32情境quota前反挤占，先核对正常watch/processed/条件键与真实旧反例。私人QQ图像父源/隐私handle、私Bili保留前C、B22/S5、情感/G广迁移/物理隐私/真实Token/产品/A–H仍待；9a2候选不含264/265。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/bilibili-public-fixture-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/platform-integration-pr21-20261116/README.md",
     "docs/nana_next_experience/evidence/matched-core-9a2f677-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-report-compaction-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-context-population-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-assessment-replay-binding-20261116/README.md",
     "docs/nana_next_experience/evidence/growth-attention-visibility-20261116/README.md",
-    "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md",
-    "docs/nana_next_experience/evidence/platform-integration-pr20-20261116/README.md"
+    "docs/nana_next_experience/evidence/vision-prototype-adoption-20261116/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision265证据指纹锚：`740e1914afbfc6ad5e3fa86785d20fa69e51ac4d2ca9bea639b367ef0cc206db`（source.sha256不含自身/09）。
 
 A revision264证据指纹锚：`9c407f14c0daeedf5b80f5ae3eab53548f76249faac38eb915d016b8744c215a`（source.sha256不含自身/09）。
 

@@ -1,0 +1,13 @@
+# 公共B站transport的合成来源不能默默出网
+
+A / 固定19b898d785006265844066ddfa385a954590a67c、Brain264。PR21已由GitHub确认closed/merged；本批补C明确交A检查的原公共reader缺口，不改思想/观看兴趣或实际Grant。
+
+原BilibiliPublicTransport(authorized=True,origin=SYNTHETIC_FIXTURE)没有显式local端点时默认普通公网opener，独立transport调用会把公网读数标成fixture；原Kernel额外核验不能保护所有独立trusted使用。无网络NoNetwork计数器及缺opener、替换opener、改变literal endpoint三个反例：原3failed1passed.76s，实际外网/账号/Provider0。
+
+现在未绑定synthetic transport保持opener=None，允许原可信宿主在使用前显式绑定BilibiliLoopbackOpener。每次真实_raw读前重查原opener精确类型及当前literal loopback endpoint；失败时calls仍0、没有request。授权关闭/真实公开固定端点/预算/来源/Kernel不变；本地端点可正常读元数据/字幕/弹幕与帧，不永久禁用合法观看或要求思想审批。
+
+首轮严格类型检查7fail28pass13.12s：6个旧帧检查与1个新正常输入仍用测试自定义LoopbackOpener（真实本地但不是原产品类型）。没有放宽产品guard/行为断言；只把旧test_bilibili_frames/test_bilibili_frame_unknown及新正常场景改为明确BilibiliLoopbackOpener(原本地endpoint)，原HTTP对端/源数据/断言保持。相关35passed13.94s，含正常原C→Manager/Grant/Kernel、实际storyboard/H1原Router、来源撤回、独立帧UNKNOWN和无网络栈最小闭包。最后加强缺opener也实际尝试read必拒，4passed.82s。不是新全仓、真实视频理解/模型或生产资格。
+
+nanalink现役指纹只有本次A修改的公共bilibili.py重新绑定，C原固定提交/manifest留在上批证据，不改历史wheel。无新依赖/服务/Store/schema/Provider调用/外发/打包；9a2固定受控候选不包含PR21和本批，不冒充最新所有源码发行，CURRENT266+409保持。
+
+下一A回到原持续内心/原G：已处理成长机会仍可能在32情境quota前挤占，先核对现役watch/processed/来源与同条件键，做有效旧行为与定向修复，不重写已合格独立评价。私人QQ父源/隐私字节handle、私Bili保留前C、B22视觉/S5与其余A–H继续，真实模型/账号/手机/生产/自然度/实际长期仍待。回退此8行transport及fixture绑定即可，无数据迁移。

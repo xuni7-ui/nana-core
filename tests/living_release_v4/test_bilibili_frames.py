@@ -12,7 +12,7 @@ from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.world_loop.attention import ConcernService
 from nana_core.continuity.world_loop.cognition import CognitionSession
 from nana_core.continuity.world_loop.harness import provider_harness
-from nana_core.life.bilibili import BilibiliPublicTransport, BilibiliSourceAdapter
+from nana_core.life.bilibili import BilibiliPublicTransport, BilibiliSourceAdapter, BilibiliLoopbackOpener
 from nana_core.life.bilibili_frames import BilibiliFrameService, VideoFrame
 from tests.world_loop.helpers import fresh, policy
 from tests.living_release_v4.bilibili_loopback import counterpart
@@ -22,7 +22,7 @@ from tests.living_release_v4.test_bilibili_reads import setup, proposal, grant
 def test_actual_storyboard_bytes_timestamps_original_memory_and_withdrawal(tmp_path):
     with counterpart() as (opener, platform), fresh(tmp_path / "self.db", Clock()) as r:
         transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
-        transport.opener = opener
+        transport.opener = BilibiliLoopbackOpener(opener.endpoint)
         reading = transport.read_video("BV1t55v6DE2v", visual=True)
         assert [f.at_seconds for f in reading.frames] == [0, 5, 10]
         assert transport.calls == 7 and platform["posts"] == 0
@@ -78,7 +78,7 @@ def transport_calls(read):
 def test_frame_correlation_and_cdn_boundary(tmp_path):
     with counterpart() as (opener, _), fresh(tmp_path / "self.db", Clock()) as r:
         transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
-        transport.opener = opener
+        transport.opener = BilibiliLoopbackOpener(opener.endpoint)
         reading = transport.read_video("BV1t55v6DE2v", visual=True)
         app = SimpleNamespace(runtime=r)
         source = BilibiliSourceAdapter(app).ingest(reading)
@@ -158,7 +158,7 @@ def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(
             ),
         )
         public = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
-        public.opener = opener
+        public.opener = BilibiliLoopbackOpener(opener.endpoint)
         reading = public.read_video("BV1t55v6DE2v", visual=True)
         source = BilibiliSourceAdapter(app).ingest(reading)
         service = BilibiliFrameService(app)

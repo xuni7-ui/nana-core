@@ -1,8 +1,8 @@
-## 当前接续：PR21原平台兼容集成，revision264
+## 当前接续：公共视频合成来源绑定，revision265
 
-PR21固定0f766c1普通双亲集成，真实账号绑定/通知撤回、QQ关闭待队列及HTTP并发/UNKNOWN、RSS完整流重连与DTD、媒体读后撤回接回原消费者。旧4fail1.70s→4过1.70s，192相关59.05s；无真实账号/模型。11追加冲突保留两方，09新C长段原样移CURRENT后修15954→11412bytes读取边界，两A合法后继指纹更新/C原件保留。
+A公共Bili合成来源默认公网opener缺口修复：未绑定None、读前原literal loopback重查，合法晚绑定/实际公开读与原Grant不变。旧3fail1pass→4过.82s，35相关13.94s；首次7旧fixture类型失败保留，明确绑定原本地opener，不改行为断言或放宽产品guard。真实模型/账号/外网0，manifest只刷新bilibili.py。
 
-下一修A公共Bili合成来源默认公网opener缺口，继续QQ私人父源与保留前C、PR22候选/S5及其余A–H。无新打包，9a2候选不含PR21；CURRENT266+409/真实模型账号手机生产自然度实际长期不变。 证据evidence/platform-integration-pr21-20261116/README.md。
+下一原G已处理成长机会在32情境quota前反挤占，核对正常watch/processed/条件键做有效旧对照，保持独立评价/原C；继续QQ私源、私Bili保留前C、B22/S5及原A–H，CURRENT266+409，9a2候选不含本后继。 证据evidence/bilibili-public-fixture-binding-20261116/README.md。
 
 ## 当前接续：后台资源正常启动与产品入口，revision196
 

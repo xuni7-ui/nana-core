@@ -269,3 +269,7 @@ continuity/context.py、test_growth_context_compaction.py、原CI精确路径/�
 ## 2026-11-16 A集成PR21固定0f766c1
 
 原C固定35路径普通merge、09/11/ACTIVE/STATUS、现役nanalink manifest两A后继SHA、evidence/platform-integration-pr21-20261116公开原反例/192回归/固定C指纹及本白名单；原上传无私史/Key/DB/新账号授权/生产/新打包。
+
+## 2026-11-16 A公共Bili synthetic绑定
+
+life/bilibili.py、新test_bilibili_synthetic_binding.py、原frame/unknown夹具显式local opener、原CI精确路径与组、nanalink manifest该源、09/11/ACTIVE/STATUS、evidence/bilibili-public-fixture-binding-20261116公开原错与回归/指纹、本白名单，无新依赖/账号/DB/私文/部署/打包。
