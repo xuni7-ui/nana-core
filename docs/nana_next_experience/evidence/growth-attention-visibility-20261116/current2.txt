@@ -1,0 +1,4 @@
+{"invisible_assessments": 0, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 4907, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.{"invisible_assessments": 32, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 4039, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.
+2 passed in 1.45s

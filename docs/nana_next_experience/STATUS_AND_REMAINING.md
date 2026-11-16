@@ -1,8 +1,8 @@
-## 现役revision258 — 研究原型采用与现役能力分开
+## 现役revision259 — 不可读评价不挤占可读成长机会
 
-A采用PR19固定86d1edb到原实验目录，原50行代码不改；7项实际通过，原Store的0/5/10秒样本映射/选择回映/撤回和明确空档复验通过，额外模型0。给既有CI仅加精确路径/7项组，Core/运行包不变；当前仅研究工具，非两仓视觉或商业S5已接。
+原G成长机会在原32限额前按assessment/lesson记录范围隐私筛选，保留独立训练隔离/来源/反例。旧1fail1pass→新2通过1.45s、42相关25.79s；同主体PUBLIC重启后原G/Kernel复用经正常D→C形成自愿私人疑问，同条件不重调、撤回失效，无新增Goal/动作/Grant。0/32不可读评价均1SELF/59760 inputbytes，非实际Token或更广学习资格。
 
-原压缩五项核对与真实缺口已在ecdb15c/Brain256完成局部修复，PR20来源/账号增量48b6f5f/257已合。B继续真实FFmpeg/两个原始方案对照与信号接口，NanaLink供授权时间线来源，A接原S5/S2/C/S8并继续情感多动机/G未见迁移/物理隐私/真实Token及A–H。c1d历史候选不含256/257；CURRENT266+409、真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/vision-prototype-adoption-20261116/README.md。
+继续原C多动机/持续策略及G未见迁移；可见但不合格头部/同课题重复挤占未证明解决，勿盲目调大32。B真实FFmpeg与原S5消费者/物理隐私/真实Token及A–H继承。c1d历史候选不含256/257/259，CURRENT266+409不动，真实模型/手机/生产/自然度/实际长期未新增。 证据evidence/growth-attention-visibility-20261116/README.md。
 
 ## 现役revision196
 
