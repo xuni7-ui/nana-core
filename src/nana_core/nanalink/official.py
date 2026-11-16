@@ -76,6 +76,13 @@ class OfficialQQAdapter(OneBotAdapter):
         except (OSError, TimeoutError, ClientError):
             self.metrics['unknown'] += 1
             raise CoreError('QQ_OFFICIAL_COMPLETION_UNKNOWN_NO_RETRY') from None
+        except CoreError:
+            if method == 'POST':
+                self.metrics['unknown'] += 1
+            raise
+        except asyncio.CancelledError:
+            self.metrics['unknown'] += 1
+            raise
 
     async def _account(self):
         value = await self._api('GET', '/users/@me')
@@ -204,6 +211,7 @@ class OfficialQQAdapter(OneBotAdapter):
         result = await self._api('POST', '/v2/' + ('users' if kind == 'private' else 'groups') + '/' + peer + '/messages', payload)
         mid = result.get('id')
         if type(mid) is not str or not re.fullmatch(OPAQUE_ID, mid):
+            self.metrics['unknown'] += 1
             raise CoreError('QQ_OFFICIAL_ACK_UNKNOWN_NO_RETRY')
         # Never create a fake get_msg row from this ACK. Original Verify remains
         # INCONCLUSIVE for official C2C/group scenes without a readback API.

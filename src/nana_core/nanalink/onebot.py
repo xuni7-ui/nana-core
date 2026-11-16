@@ -318,10 +318,14 @@ class OneBotAdapter:
         echo = str(self.echo)
         self.metrics['rpc'] += 1
         self.metrics['writes'] += action in WRITES
+        from aiohttp import ClientError
+        attempted = False
         try:
             if self.mode == 'http':
+                headers = self._headers()
+                attempted = True
                 async with self.session.post(self.endpoint.rstrip('/') + '/' + action, json=params,
-                                             headers=self._headers(), allow_redirects=False) as response:
+                                             headers=headers, allow_redirects=False) as response:
                     if response.status != 200:
                         raise CoreError('ONEBOT_HTTP_REJECTED_NO_RETRY')
                     raw = bytearray()
@@ -336,16 +340,28 @@ class OneBotAdapter:
                 future = asyncio.get_running_loop().create_future()
                 self.pending[echo] = future
                 # All echoes live at the envelope level per OneBot v11.
+                attempted = True
                 await self.ws.send_json({'action': action, 'params': params, 'echo': echo})
                 value = await asyncio.wait_for(future, self.timeout)
-        except (TimeoutError, OSError):
-            self.metrics['unknown'] += 1
+        except (TimeoutError, OSError, ClientError):
+            if attempted:
+                self.metrics['unknown'] += 1
             raise CoreError('ONEBOT_COMPLETION_UNKNOWN_NO_RETRY') from None
+        except CoreError as exc:
+            if attempted and (action in WRITES or exc.code == 'ONEBOT_COMPLETION_UNKNOWN_NO_RETRY'):
+                self.metrics['unknown'] += 1
+            raise
+        except asyncio.CancelledError:
+            if attempted:
+                self.metrics['unknown'] += 1
+            raise
         finally:
             self.pending.pop(echo, None)
         if value.get('status') != 'ok' or type(value.get('retcode')) is not int or value['retcode'] != 0:
             raise CoreError('ONEBOT_REJECTED_NO_RETRY')
         if type(value.get('data')) is not dict:
+            if attempted and action in WRITES:
+                self.metrics['unknown'] += 1
             raise CoreError('ONEBOT_MALFORMED_RESPONSE_NO_RETRY')
         return value['data']
 

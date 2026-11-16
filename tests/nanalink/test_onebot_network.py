@@ -136,6 +136,7 @@ def test_lost_send_ack_is_unknown_reconnect_never_resends():
         asyncio.run_coroutine_threadsafe(wait_reconnect(),loop).result(4)
         assert len(state['sent'])==1 and state['connections']>=2
         assert net['adapter'].health().reconnects>=1
+        assert net['adapter'].metrics['unknown']==1
 
 
 def test_reverse_ws_auth_account_binding_and_http_signature():
@@ -323,6 +324,7 @@ def test_http_rpc_reads_chunked_response_without_resending():
             result = await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
             assert result == {'message_id': 99}
             assert calls == ['get_login_info', 'send_private_msg']
+            assert adapter.metrics['unknown'] == 0
         finally:
             await adapter.shutdown(); await runner.cleanup()
     asyncio.run(run())
@@ -346,6 +348,7 @@ def test_http_oversize_write_response_fails_without_resending():
             with pytest.raises(CoreError, match='ONEBOT_FRAME_BOUND'):
                 await adapter.rpc('send_private_msg', {'user_id': 43, 'message': 'fixture'})
             assert calls == ['get_login_info', 'send_private_msg']
+            assert adapter.metrics['unknown'] == 1
         finally:
             await adapter.shutdown(); await runner.cleanup()
     asyncio.run(run())

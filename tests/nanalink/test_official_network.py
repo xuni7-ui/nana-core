@@ -43,6 +43,8 @@ def network():
         if state['lose_ack']:
             request.transport.close()
             return web.Response()
+        if state.get('empty_ack'):
+            return web.json_response({})
         return web.json_response({'id':'ack:native-'+str(len(state['sent']))})
     async def start():
         app=web.Application();app.router.add_get('/users/@me',get_me)
@@ -251,3 +253,13 @@ def test_official_disable_drops_captured_private_message_and_reply_anchor():
                     await adapter.rpc('get_msg',{'message_id':'native:message-1'})
                 assert state['sent'] == []
         asyncio.run_coroutine_threadsafe(run(),loop).result(4)
+
+
+def test_official_unusable_ack_counts_unknown_without_retry():
+    with network() as (net,state,resolver,loop):
+        state['empty_ack']=True
+        t=transport(net,resolver)
+        with pytest.raises(CoreError,match='NO_RETRY'):
+            t.send('private','opaque_sender','synthetic','key')
+        assert len(state['sent']) == 1
+        assert net['adapter'].metrics['unknown'] == 1
