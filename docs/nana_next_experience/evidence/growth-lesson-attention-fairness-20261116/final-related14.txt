@@ -1,0 +1,13 @@
+{"math": "9dc76df4-19b8-46bf-870e-b767ecd9e92b", "language": "125643ad-9d65-414f-a25e-bb8665bb4e1f", "views": ["125643ad-9d65-414f-a25e-bb8665bb4e1f", "9dc76df4-19b8-46bf-870e-b767ecd9e92b"], "states": [["9dc76df4-19b8-46bf-870e-b767ecd9e92b", "ACTIVE"], ["125643ad-9d65-414f-a25e-bb8665bb4e1f", "ACTIVE"]]}
+{"other_method_checks": 0, "source_withdrawn_before_c": false, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [69547, 68863]}
+.{"math": "a28aac3f-4d33-4a71-a088-fbab2f890c2f", "language": "3504bfca-f978-428a-aa1c-878ff6bb56c3", "views": ["a28aac3f-4d33-4a71-a088-fbab2f890c2f", "3504bfca-f978-428a-aa1c-878ff6bb56c3"], "states": [["a28aac3f-4d33-4a71-a088-fbab2f890c2f", "ACTIVE"], ["3504bfca-f978-428a-aa1c-878ff6bb56c3", "ACTIVE"]]}
+{"other_method_checks": 32, "source_withdrawn_before_c": false, "original_learning_jobs": 2, "language_considered": true, "own_questions": 1, "self_calls": 2, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [109398, 110896]}
+.{"math": "911d7c87-b5e4-4c90-b0bc-d98ff8f2fb7c", "language": "f66e9e7f-b5a1-4d62-8a50-453decba3f3d", "views": ["911d7c87-b5e4-4c90-b0bc-d98ff8f2fb7c"], "states": [["911d7c87-b5e4-4c90-b0bc-d98ff8f2fb7c", "ACTIVE"], ["f66e9e7f-b5a1-4d62-8a50-453decba3f3d", "ACTIVE"]]}
+{"other_method_checks": 32, "source_withdrawn_before_c": true, "original_learning_jobs": 2, "language_considered": false, "own_questions": 0, "self_calls": 1, "real_provider_calls": 0, "new_actions_or_grants": false, "input_bytes": [109937]}
+.{"repeated_practice_checks": 0, "original_self_calls": 1, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+......{"invisible_assessments": 0, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 4986, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.{"invisible_assessments": 32, "original_runtime_self_calls": 1, "new_own_question": 1, "new_goal_action_grant": false, "real_provider_calls": 0, "input_bytes": 59760, "reserved_bytes": 72049, "latency_us": 5566, "measurement_semantics": "PROGRAM_BYTES_NOT_PROVIDER_TOKENS"}
+.{"self_calls": 1, "report_bodies": 1, "reports_retained": 32, "input_bytes": 81401, "reserved_bytes": 93690, "real_provider_calls": 0}
+..
+14 passed in 13.31s

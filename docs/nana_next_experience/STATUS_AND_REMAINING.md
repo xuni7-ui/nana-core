@@ -1,8 +1,8 @@
-## 现役revision265 — synthetic来源与实际HTTP对端一致
+## 现役revision266 — 有界跨课题机会与原C因果
 
-A公共Bili合成来源默认公网opener缺口修复：未绑定None、读前原literal loopback重查，合法晚绑定/实际公开读与原Grant不变。旧3fail1pass→4过.82s，35相关13.94s；首次7旧fixture类型失败保留，明确绑定原本地opener，不改行为断言或放宽产品guard。真实模型/账号/外网0，manifest只刷新bilibili.py。
+原G不同能力机会：同原G numbers/language实际完成，数字32不同情境曾挤掉文字方法。保留原32窗口，满且倾斜时补至多32未出现课题的最新头，原训练/来源资格不变；已确认每课题最晚合格结果后按头上界剪枝，非思想优先级。有效旧1fail1pass→3过/73相关，剪枝后14相关；原函数消融SELF1/私问0→2/1，原C自选、无新Goal动作Grant、撤回私问失效而方法仍ACTIVE。读448/SQL4993→20/267，中位63.07→3.56ms。首次cooldown夹具/列名错及未剪枝额外成本原样保留。
 
-下一原G已处理成长机会在32情境quota前反挤占，核对正常watch/processed/条件键做有效旧对照，保持独立评价/原C；继续QQ私源、私Bili保留前C、B22/S5及原A–H，CURRENT266+409，9a2候选不含本后继。 证据evidence/bilibili-public-fixture-binding-20261116/README.md。
+下一成长SELF目的相关上下文仍约110k字节，需保留多动机/来源/总预算的有据选择，不硬删原记忆/扩大窗口。原A–H其余及已排程公平仍未完成；CURRENT266+409，9a2受控候选不含264–266，真实模型/手机/生产/自然度/实际长期无新增。 证据evidence/growth-lesson-attention-fairness-20261116/README.md。
 
 ## 现役revision196
 

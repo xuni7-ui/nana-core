@@ -108,16 +108,38 @@ def opportunities(store,*,scope,privacy_classes):
         "AND NOT EXISTS ("+newer+"n.created_at_us=a.created_at_us AND n.rowid>a.rowid) "+
         "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
         (*args,scope,*allowed,scope,*allowed)).fetchall()
-    qualified=[]
+    # Keep the complete original window, then offer a bounded distinct-lesson
+    # lane only when its contexts filled that window unevenly. More checks of
+    # one method must not erase another method's opportunity to original C.
+    represented=tuple(dict.fromkeys(row['lesson_id'] for row in heads))
+    if len(heads)==32 and len(represented)<32:
+        excluded=','.join('?' for _ in represented)
+        other_lessons=store.db.execute(
+            "SELECT l.lesson_id FROM lessons l JOIN continuity_records lr ON lr.record_id=l.record_id "
+            f"WHERE l.state='ACTIVE' AND lr.scope=? AND lr.privacy_class IN ({marks}) "
+            f"AND lr.lifecycle='ACTIVE' AND l.lesson_id NOT IN ({excluded}) "
+            "ORDER BY lr.created_at_us DESC,l.rowid DESC LIMIT 32",(scope,*allowed,*represented)).fetchall()
+        for lesson_head in other_lessons:
+            extra=store.db.execute(base+"AND a.lesson_id=? ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 1",
+                (*args,lesson_head['lesson_id'])).fetchone()
+            if extra:heads.append(extra)
+    qualified=[];best_keys={}
     training_contexts=set()  # Per-read only; context_digest already binds case context/data.
     for head in heads:
+        best=best_keys.get(head['lesson_id'])
+        # The head bounds every occurrence in its context. Once it cannot beat
+        # an actually qualified result, original newest-per-lesson output is
+        # unchanged; do not repeatedly read older proofs just to discard them.
+        if best is not None and (head['created_at_us'],head['ordering_row'])<=best:continue
         rows=store.db.execute(base+"AND a.lesson_id=? AND a.context_digest=? "
             "ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
             (*args,head['lesson_id'],head['context_digest'])).fetchall()
         for row in rows:
             view=project(store,row['assessment_id'],scope=scope,privacy_classes=privacy_classes,_training_contexts=training_contexts)
             if view:
-                qualified.append((row['created_at_us'],row['ordering_row'],view));break
+                key=(row['created_at_us'],row['ordering_row'])
+                best_keys[head['lesson_id']]=max(best_keys.get(head['lesson_id'],key),key)
+                qualified.append((*key,view));break
             if (head['lesson_id'],head['context_digest']) in training_contexts:break
     # Preserve the newest qualified occurrence per lesson, not the order of an
     # unqualified group head. No record, evaluation or source is merged/deleted.

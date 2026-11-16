@@ -273,3 +273,7 @@ continuity/context.py、test_growth_context_compaction.py、原CI精确路径/�
 ## 2026-11-16 A公共Bili synthetic绑定
 
 life/bilibili.py、新test_bilibili_synthetic_binding.py、原frame/unknown夹具显式local opener、原CI精确路径与组、nanalink manifest该源、09/11/ACTIVE/STATUS、evidence/bilibili-public-fixture-binding-20261116公开原错与回归/指纹、本白名单，无新依赖/账号/DB/私文/部署/打包。
+
+## 2026-11-16 A原G不同能力候选
+
+subject/growth_life.py、test_growth_lesson_attention.py、原CI精确路径/组、09/11/ACTIVE/STATUS、evidence/growth-lesson-attention-fairness-20261116公开失败/回归/原函数消融与读成本/指纹、本白名单。无DB/私史/Key/新增权限/框架/生产或打包，G16/32原资格不变。
