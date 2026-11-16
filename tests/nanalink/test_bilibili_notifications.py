@@ -116,3 +116,26 @@ def test_original_owner_dispatch_and_existing_bff_worker_are_wired(tmp_path,monk
             assert worker.poll_notification_once() is None and len(state['requests'])==count
             assert not app.runtime.store.all('cognitive_requests')
             assert app.platforms._nanalink_bili_sources
+
+
+def test_pending_notification_does_not_survive_private_access_revocation(tmp_path):
+    from nana_core.nanalink.adapters import BilibiliEventsAdapter
+    home=tmp_path/'home';initialize(home);cfg=load_config(home)
+    binding=SurfaceBinding(binding_id='bili.notifications',platform='bilibili.account',surface='chat.comment',adapter='bilibili.account',
+        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PUBLIC','PERSONAL'))
+    channel=BilibiliChannelBinding(channel_id='notifications',binding_id=binding.binding_id,kind='comment',account_id=42,target_id=7,
+        sender_id=43,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    cfg=cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,),'bilibili_channels':(channel,)})
+    update_config(home,cfg,expected_revision=cfg.revision-1)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause();flow=equipped(app,channel,'http://127.0.0.1:1',grant=False)
+        # Exercise the production configuration guard without external platform I/O.
+        flow.transport.realm='AUTHENTICATED_PLATFORM';flow._authority=lambda:None
+        adapter=BilibiliEventsAdapter(flow);asyncio.run(adapter.connect())
+        first, second = object(), object(); adapter.pending.extend((first, second))
+        assert asyncio.run(adapter.receive()) is first
+        revoked=channel.model_copy(update={'private_read_authorized':False})
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'bilibili_channels':(revoked,)}),expected_revision=cfg.revision)
+        with pytest.raises(CoreError,match='BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED'):
+            asyncio.run(adapter.receive())
+        assert not adapter.pending

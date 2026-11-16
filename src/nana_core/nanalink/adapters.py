@@ -161,12 +161,24 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
     async def receive(self):
         if not self.enabled:
             return None
+        w, c = self.workflow, self.workflow.channel
+        try:
+            if not c.enabled or not c.read_authorized or not c.private_read_authorized:
+                raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
+            if w.transport.realm != 'SYNTHETIC_LOOPBACK':
+                from ..life.config import load_config
+                live = load_config(w.app.home)
+                channel = next((item for item in live.bilibili_channels if item.channel_id == c.channel_id), None)
+                binding = next((item for item in live.surface_bindings if item.binding_id == c.binding_id), None)
+                if channel != c or binding != w.app.surfaces._binding(c.binding_id):
+                    raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
+            w._authority()
+        except Exception:
+            # Do not release previously polled private metadata after authority changes.
+            self.pending.clear()
+            raise
         if self.pending:
             return self.pending.popleft()
-        w, c = self.workflow, self.workflow.channel
-        if not c.enabled or not c.read_authorized or not c.private_read_authorized:
-            raise CoreError('BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED')
-        w._authority()
         now = w.store.clock.utc_now_us()
         from ..storage import digest
         key = digest(['nanalink.bili.notification', self.account.key, now // (self.interval_seconds * 1000000)])
