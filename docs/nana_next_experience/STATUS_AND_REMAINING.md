@@ -1,8 +1,8 @@
-## 现役revision274 — 从真实观察到私人问题，再进入整体验收
+## 现役revision275 — 整体验收准备，不以依赖存在当安装
 
-原S5最后帧不能代替仅音轨尾部，原1fail→实际帧duration/N_A点观察/旧字段兼容；62相关20.51s后最终3过2.29s。同97261B编码输入/同预算/各1MEDIA+1Cfixture/input20219B，原WATCH/无问→REFLECT/私问1，源撤回失效/无Goal动作，非真实模型或一般视频理解。原273独立129pass35.24s/client SKIP。用户S3长期因果/S8-S10/整体验收增补归原08/mission/task_inputs，下一固定集成候选。
+为整体验收收口原便携NANALINK可选依赖：既有18项锁匹配、组合图像19wheel核META/SHA，旧9a2确无aiohttp/qr；base5不变/无账号启动，实际crypto/Pillow ABI最低值声明。原note probe明确续同源停DEV/错源先拒，19相关4.79s过。274实际CI45仅World/H2，已补原H1组真实消费者，不冒称新增H1独立通过；下一本固定源集成候选/安装/同Subject综合验证，非已发行。
 
-下一固定同源Core/BFF/Web综合候选与安装/同主体连续/原G迁移；原S3跨时间及S8/S10闭环/B22/私QQ/私Bili/全部A–H继续。CURRENT266+409，旧9a2不含264以后，274自身CI待，真实模型/真机/生产/自然度/实际长期分别未资格。证据evidence/video-tail-coverage-20261117/README.md。
+下一用本次已提交HEAD固定双构建/同源Web/离线槽/原同主体综合探针，保留原G独立评价与私人状态，275自身CI待。继续S3长期因果/S8-S10/原A–H；CURRENT266+409，旧9a2不含264以后，真实资格差额分别保留。证据evidence/integrated-platform-feature-20261117/README.md。
 
 ## 现役revision196
 

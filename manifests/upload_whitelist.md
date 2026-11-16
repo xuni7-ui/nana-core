@@ -313,3 +313,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A视觉实际覆盖与整体验收增补
 
 原world_loop/perception.py、现有H1同流测试、原08/09/11/ACTIVE/STATUS/CODEX_CONTINUATION_MISSION、新用户原文task_inputs、evidence/video-tail-coverage-20261117原错/相关62/最终3/同字节C消融/原273 CI/指纹、本白名单。无新体系/第三方算法复制/DB或媒体原件/私史/Key/新依赖/模型或账号/生产。
+
+## 2026-11-17 A同源平台集成候选准备
+
+原portable build.py/installed_note_recall_probe.py/CI H1消费者路径、09/11/ACTIVE/STATUS、evidence/integrated-platform-feature-20261117公开依赖元数据SHA/相关19/同源gate/指纹、本白名单；requirements-nanalink.lock只作为指纹输入未改。无DB/新主任务/私史/Key/账号或模型/生产，二进制仍待构建/单独交付候选归档。

@@ -4302,3 +4302,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision273：A正常双亲吸收PR23固定a159b7d原转发归因/畸形ID/Feed大页/视频末尾撤回修复，旧4fail1pass→同5过/158相关60.04s。C视频缓存门仅test/tool候选，B22/平台原片来源未接；固定C清单保留，只补已合B24四项摘要，09长交接完整移至CURRENT后，11双方追加保留。原272独立Core94pass39.65s/client SKIP。真实0。 指纹锚9519ad935c1566305627773d8be85adb5f658b133e9e97a6431a623997ce2606。
 
 - 2026-11-17 CST｜revision274：原S5最后帧不能代替仅音轨尾部，原1fail→实际帧duration/N_A点观察/旧字段兼容；62相关20.51s后最终3过2.29s。同97261B编码输入/同预算/各1MEDIA+1Cfixture/input20219B，原WATCH/无问→REFLECT/私问1，源撤回失效/无Goal动作，非真实模型或一般视频理解。原273独立129pass35.24s/client SKIP。用户S3长期因果/S8-S10/整体验收增补归原08/mission/task_inputs，下一固定集成候选。 指纹锚b08dbf74566033a0571c000a9bf7f93ef3c56fbafe4e63bbb687fe088889e0e2。
+
+- 2026-11-17 CST｜revision275：为整体验收收口原便携NANALINK可选依赖：既有18项锁匹配、组合图像19wheel核META/SHA，旧9a2确无aiohttp/qr；base5不变/无账号启动，实际crypto/Pillow ABI最低值声明。原note probe明确续同源停DEV/错源先拒，19相关4.79s过。274实际CI45仅World/H2，已补原H1组真实消费者，不冒称新增H1独立通过；下一本固定源集成候选/安装/同Subject综合验证，非已发行。 指纹锚5aafa458861f5f099becf4a20ed262d298bb9bbb40cde9b11061e99737fc9e88。

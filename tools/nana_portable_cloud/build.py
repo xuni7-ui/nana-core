@@ -15,6 +15,14 @@ DEPENDENCIES = {
 FEATURE_DEPENDENCIES = {
     "HOST_VAULT": {"cryptography": "50.0.0", "cffi": "2.1.1", "pycparser": "3.0"},
     "PUBLIC_VIDEO_FRAMES": {"pillow": "12.3.0"},
+    # Optional existing platform SDK; keep aligned with requirements-nanalink.lock.
+    # Selecting it installs dependencies only, never enables accounts or sends.
+    "NANALINK": {
+        "aiohttp": "3.14.3", "aiohappyeyeballs": "2.7.1", "aiosignal": "1.4.0",
+        "attrs": "26.1.0", "frozenlist": "1.8.0", "multidict": "6.9.1",
+        "propcache": "0.5.4", "yarl": "1.25.1", "idna": "3.20",
+        "cryptography": "50.0.0", "cffi": "2.1.1", "pycparser": "3.0", "qrcode": "8.2",
+    },
 }
 
 
@@ -159,7 +167,7 @@ def build(destination, wheels, revision="HEAD", *, features=()):
                 "bundle_version": 1,
                 "source_commit": commit,
                 "schema_version": 13,
-                "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=" + ("2.34" if "HOST_VAULT" in features else "2.17"),
+                "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=" + ("2.34" if "cryptography" in dependencies else "2.27" if "pillow" in dependencies else "2.17"),
                 "build_timestamp": datetime.fromtimestamp(epoch, timezone.utc).isoformat(),
                 "timestamp_policy": "SOURCE_COMMIT_TIMESTAMP_REPRODUCIBLE",
                 "dependencies": dependencies,

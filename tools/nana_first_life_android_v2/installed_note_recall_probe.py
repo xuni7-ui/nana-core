@@ -15,38 +15,45 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
-def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False):
+def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False, gateway_result=None):
     if not __debug__:
         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
     sys.dont_write_bytecode = True
     bundle = Path(bundle).resolve()
     work = Path(work).absolute()
-    receipt = work.parent / (work.name + "-gateway-result.json")
-    if receipt.exists():
-        raise ValueError("FRESH_RECEIPT_REQUIRED")
-    sibling = Path(__file__).with_name("verify-dev.py")
-    if not sibling.is_file():
-        sibling = Path(__file__).with_name("installed_gateway_probe.py")
-    subprocess.run(
-        [
-            sys.executable,
-            "-I",
-            "-B",
-            str(sibling),
-            "--bundle",
-            str(bundle),
-            "--work",
-            str(work),
-            "--output",
-            str(receipt),
-            "--check-memory-notes",
-        ],
-        check=True,
-        timeout=90,
-    )
+    # Reuse the original installed gateway qualification for an explicit same-DEV
+    # integration continuation. The ordinary fresh-run path stays the default.
+    if gateway_result is None:
+        receipt = work.parent / (work.name + "-gateway-result.json")
+        if receipt.exists():
+            raise ValueError("FRESH_RECEIPT_REQUIRED")
+        sibling = Path(__file__).with_name("verify-dev.py")
+        if not sibling.is_file():
+            sibling = Path(__file__).with_name("installed_gateway_probe.py")
+        subprocess.run(
+            [
+                sys.executable,
+                "-I",
+                "-B",
+                str(sibling),
+                "--bundle",
+                str(bundle),
+                "--work",
+                str(work),
+                "--output",
+                str(receipt),
+                "--check-memory-notes",
+            ],
+            check=True,
+            timeout=90,
+        )
+    else:
+        receipt = Path(gateway_result).resolve(strict=True)
     gateway = json.loads(receipt.read_text())
     if gateway["execution"] != "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD":
         raise ValueError("EXPLICIT_DEVELOPMENT_ONLY")
+    if gateway.get("source_commit") != json.loads((bundle / "runtime.json").read_text())["source_commit"]:
+        raise ValueError("INSTALLED_BUNDLE_SOURCE_MISMATCH")
     sys.path.insert(0, str(bundle / "src"))
     from nana_core.life.application import LifeApplication
     from nana_core.life.config import load_config, update_config
@@ -341,6 +348,7 @@ if __name__ == "__main__":
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--continue-gateway-result", type=Path, help="reuse a matching stopped owned-DEV gateway receipt")
     parser.add_argument("--check-wire-reservations", action="store_true")
     parser.add_argument("--check-retrieval-growth", action="store_true")
     parser.add_argument("--check-streaming", action="store_true")
@@ -353,6 +361,7 @@ if __name__ == "__main__":
         check_retrieval_growth=args.check_retrieval_growth,
         check_streaming=args.check_streaming,
         report_usage=args.report_usage,
+        gateway_result=args.continue_gateway_result,
     )
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result))

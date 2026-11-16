@@ -1,0 +1,1 @@
+{"bundle": "/tmp/nn262", "imports": {"aiohttp": false, "qrcode": false, "cryptography": true, "PIL": true}, "network_calls": 0}
