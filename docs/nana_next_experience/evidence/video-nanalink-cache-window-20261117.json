@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "a_baseline": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "status": "ISOLATED_CANDIDATE",
+  "consumer": "original NanaLink MediaCache.resolve/read; original S5 MediaDecoder IMAGE technical decode",
+  "contract": "caller asserts PUBLIC; current source read and SHA-256 verified; <=16MiB source copied to private temporary directory; recheck source before and after optional bounded decode; no model or Store mutation",
+  "test": "28 passed in 5.42s, actual local FFmpeg, original cache and S5, including two overlapping windows with global budget",
+  "initial_failure": "13 passed, 5 failed because virtualenv lacked aiohttp; installed repo-locked aiohttp 3.14.3 and matching dependency versions then reran",
+  "counterexamples": [
+    "cache file modified without changing handle rejected by sha256",
+    "source revoked immediately after read rejected before decode",
+    "source revoked during decode rejected and temporary directory removed",
+    "PERSONAL input rejected before temp video decode"
+  ],
+  "limitations": [
+    "PUBLIC is caller assertion, not privacy validation",
+    "source_current exposes no monotonic revision: revoke-then-reauthorize may be indistinguishable",
+    "authorization can change after final check: actual ingestion must recheck original source",
+    "snapshot must be copied to temp and decoded, up to 16MiB; no measured CPU/RSS/latency comparison",
+    "no actual platform account, true user media, Store, subject, Provider, or Token qualification"
+  ],
+  "model_calls": 0,
+  "rollback": "delete isolated adapter and test; no database or original cache changes",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_nanalink_cache.py": "7aa9e0e590ec16fe2756b32eada54cc195598f14d5a99afe4afc13aec0c9e23b",
+    "tests/nana_next_experience/test_video_nanalink_cache.py": "87c442b89c70e48431d70296d61598e2bfb17ef5d3380267aff04f07ceee4a23"
+  }
+}

@@ -3106,3 +3106,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-17 · B全局预算到图像候选
 
 [源码/实测] 隔离全局帧预算按首个引用窗口投影到原PNG候选；两段重叠真实FFmpeg合成片、总预算3，输出每个PTS至多一张，原S5 IMAGE逐帧像素摘要一致。窗口/dsh/图像18项4.54秒，随后边界收紧5项0.93秒。来源字节/授权/撤回仍未接，非PerceptionService或主体能力；保留上一万候选无收益更慢的反例。证据video-global-image-projection-20261116.json锚9292d5da8dbb98010a8bf6a3297064551b5f813ab2e0387b920ee064267dce43。
+
+
+### 2026-11-17 · B复用NanaLink来源缓存的窗口解码候选
+
+[源码/实测] A基线d5c0a42、原MediaCache PUBLIC声明下读取并逐块核验SHA-256，解码前后复查原来源，公共快照限16MiB且临时目录退出清理。缓存字节篡改、末次读取后撤回、解码中撤回、PERSONAL输入分别拒绝；原缓存→重叠窗口→全局预算→原S5 IMAGE合成对照通过。28相关5.42秒；首轮13过5失败为隔离环境缺aiohttp，补仓库锁定3.14.3及对应依赖后重验。声明非隐私证明，原source_current缺单调版本、最终使用前仍须复核；未接Store/模型/真实账号或视频，资源差额未量化。证据video-nanalink-cache-window-20261117.json锚1e1b5f21f322c0b5e9953eff700957a9d13859a580610754075895cba8f595f1。

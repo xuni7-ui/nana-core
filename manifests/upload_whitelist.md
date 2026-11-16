@@ -429,3 +429,7 @@ world_loop/semantics.py、新tests/h1_semantics/test_media_stream_binding.py、0
 ## 2026-11-17 B全局选帧图像投影
 
 持续授权：video_global_budget.py、对应测试、video-global-image-projection-20261116.json、09/11和B队列追加及本清单；仅合成媒体，无真实视频或凭据。
+
+## 2026-11-17 B NanaLink媒体缓存窗口实验
+
+持续授权：video_nanalink_cache.py、对应测试、video-nanalink-cache-window-20261117.json、09/11和B队列追加及本清单；不包含真实媒体、凭据或上游源码复制。
