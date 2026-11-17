@@ -1,0 +1,211 @@
+{
+  "source_bytes": 8460,
+  "source_sha256": "633f142b3cb422db0eed058c53dcb03473e025eea2a9a48013356bc952fc136a",
+  "actual_decoder_source": "/workspace/nana-next-refinement-work/src/nana_core/continuity/world_loop/perception.py",
+  "error": null,
+  "decoded": {
+    "modality": "VIDEO",
+    "decoded": true,
+    "duration_s": 1.0,
+    "width": 32,
+    "height": 24,
+    "frames": [
+      {
+        "sample_s": 0.0,
+        "source_frame_index": 0,
+        "source_interval_s": [
+          0.0,
+          0.04
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 129600,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.12,
+        "source_frame_index": 3,
+        "source_interval_s": [
+          0.12,
+          0.16
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 140400,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.24,
+        "source_frame_index": 6,
+        "source_interval_s": [
+          0.24,
+          0.28
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 151200,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.4,
+        "source_frame_index": 10,
+        "source_interval_s": [
+          0.4,
+          0.44
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 165600,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.52,
+        "source_frame_index": 13,
+        "source_interval_s": [
+          0.52,
+          0.56
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 176400,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.68,
+        "source_frame_index": 17,
+        "source_interval_s": [
+          0.68,
+          0.72
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 190800,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.8,
+        "source_frame_index": 20,
+        "source_interval_s": [
+          0.8,
+          0.84
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 201600,
+        "source_time_base": "1/90000"
+      },
+      {
+        "sample_s": 0.96,
+        "source_frame_index": 24,
+        "source_interval_s": [
+          0.96,
+          1.0
+        ],
+        "mean_rgb": [
+          252.0,
+          0.0,
+          0.0
+        ],
+        "pixel_digest": "75a858e2ef18b321029999a25266a5417c5994904d3651b319ac2cf0fd8dd85c",
+        "timeline_origin_s": 1.44,
+        "source_pts_ticks": 216000,
+        "source_time_base": "1/90000"
+      }
+    ],
+    "source_frame_count": 25,
+    "changes": [
+      {
+        "start_s": 0.0,
+        "end_s": 0.12,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.12,
+        "end_s": 0.24,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.24,
+        "end_s": 0.4,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.4,
+        "end_s": 0.52,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.52,
+        "end_s": 0.68,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.68,
+        "end_s": 0.8,
+        "mean_channel_delta": 0.0
+      },
+      {
+        "start_s": 0.8,
+        "end_s": 0.96,
+        "mean_channel_delta": 0.0
+      }
+    ],
+    "coverage": "TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE",
+    "unobserved_between_samples": true,
+    "audio_linkage": "ABSENT",
+    "semantic_interpretation": "UNKNOWN"
+  },
+  "processes": [
+    {
+      "program": "ffprobe",
+      "output_bytes": 2547
+    },
+    {
+      "program": "ffprobe",
+      "output_bytes": 7998
+    },
+    {
+      "program": "ffmpeg",
+      "output_bytes": 147456
+    }
+  ],
+  "elapsed_seconds": 0.3482394269958604,
+  "cpu_seconds": 0.0037826890000000057,
+  "provider_calls": 0,
+  "temporary_public_bytes_only": true
+}

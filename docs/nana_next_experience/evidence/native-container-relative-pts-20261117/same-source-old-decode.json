@@ -1,0 +1,21 @@
+{
+  "source_bytes": 8460,
+  "source_sha256": "633f142b3cb422db0eed058c53dcb03473e025eea2a9a48013356bc952fc136a",
+  "actual_decoder_source": "/tmp/ni277/src/nana_core/continuity/world_loop/perception.py",
+  "error": "MEDIA_FRAME_TIME_INVALID",
+  "decoded": null,
+  "processes": [
+    {
+      "program": "ffprobe",
+      "output_bytes": 2547
+    },
+    {
+      "program": "ffprobe",
+      "output_bytes": 6873
+    }
+  ],
+  "elapsed_seconds": 0.2294519899878651,
+  "cpu_seconds": 0.002212608000000005,
+  "provider_calls": 0,
+  "temporary_public_bytes_only": true
+}

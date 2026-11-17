@@ -44,7 +44,9 @@ def test_bounded_decoder_binds_samples_to_the_same_first_stream_as_its_metadata(
         assert decoded['transcript'] is None and decoded['speech']=='UNKNOWN'
 
 
-def test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim(multitrack,tmp_path):
+@pytest.mark.parametrize('encoding',['multitrack','transport'])
+def test_source_technical_perception_reaches_the_same_c_private_question_without_semantic_claim(multitrack,transport_video,tmp_path,encoding):
+    multitrack=multitrack if encoding=='multitrack' else transport_video
     clock=VirtualClock()
     with fresh(tmp_path/'subject/self.db',clock) as r:
         source=PublicMediaSource(source_id='synthetic-multitrack',modality='VIDEO',origin='SYNTHETIC',event_time_us=clock.utc_now_us(),observed_time_us=clock.utc_now_us())
@@ -89,3 +91,36 @@ def test_audio_source_memory_uses_decoded_audio_length_not_another_tracks_durati
         assert view.alternatives[0]['value']['technical']['segments']==2
         assert data['duration_s']==data['samples']/data['sample_rate']==1
         assert data['transcript'] is None and data['speech']=='UNKNOWN'
+
+
+@pytest.fixture(scope='module')
+def transport_video(tmp_path_factory):
+    root=tmp_path_factory.mktemp('native-transport-time');path=root/'fixture.ts'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-f','lavfi','-i',
+        'color=c=red:s=32x24:r=25:d=1','-c:v','mpeg2video','-threads','1','-f','mpegts',str(path)],
+        check=True,timeout=20)
+    return path.read_bytes()
+
+
+def test_transport_timestamps_are_relative_to_container_origin_not_absolute_pts(transport_video):
+    decoded=MediaDecoder().decode(transport_video,'VIDEO')
+    assert decoded['duration_s']==1 and decoded['source_frame_count']==25
+    assert decoded['frames'][0]['sample_s']==0
+    assert decoded['frames'][-1]['source_interval_s']==pytest.approx([.96,1.])
+    for frame in decoded['frames']:
+        assert frame['sample_s']==pytest.approx(frame['source_pts_ticks']/90000-frame['timeline_origin_s'])
+        assert frame['source_time_base']=='1/90000'
+        assert frame['timeline_origin_s']>1
+    assert decoded['semantic_interpretation']=='UNKNOWN' and decoded['unobserved_between_samples']
+
+
+def test_quantized_container_origin_uses_the_matching_exact_stream_tick(tmp_path):
+    path=tmp_path/'fractional-origin.ts'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-f','lavfi','-i',
+        'color=c=red:s=32x24:r=24:d=1','-c:v','mpeg2video','-threads','1','-f','mpegts',str(path)],
+        check=True,timeout=20)
+    decoded=MediaDecoder().decode(path.read_bytes(),'VIDEO');first=decoded['frames'][0]
+    assert decoded['source_frame_count']==24 and first['sample_s']==0
+    assert first['timeline_origin_s']==first['source_pts_ticks']/90000
+    assert first['timeline_origin_s']!=round(first['timeline_origin_s'],6)
+    assert decoded['frames'][-1]['source_interval_s'][-1]==1.

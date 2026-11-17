@@ -1,0 +1,45 @@
+{
+  "request_rows": [
+    {
+      "request_id": "09c6cea1-5f57-4f68-b87b-bc9256b8d7a4",
+      "state": "UNKNOWN",
+      "error_code": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+      "deadline_us": 1794864447607640,
+      "created_at_us": 1794864447507640,
+      "latency_us": null
+    },
+    {
+      "request_id": "fdd6ddc2-3207-4d8a-9fc7-be3d095bb52b",
+      "state": "STALE",
+      "error_code": "STALE_CONTEXT",
+      "deadline_us": 1794864447842414,
+      "created_at_us": 1794864447742414,
+      "latency_us": null
+    }
+  ],
+  "last_cognition_events": [
+    {
+      "kind": "world.cognition_terminal",
+      "recorded_at_us": 1794864447911941
+    },
+    {
+      "kind": "world.cognition_prepared",
+      "recorded_at_us": 1794864447911119
+    },
+    {
+      "kind": "world.cognition_terminal",
+      "recorded_at_us": 1794864447694325
+    },
+    {
+      "kind": "world.cognition_calling",
+      "recorded_at_us": 1794864447589854
+    },
+    {
+      "kind": "world.cognition_prepared",
+      "recorded_at_us": 1794864447586611
+    }
+  ],
+  "stale_terminal_after_original100ms_deadline_us": 69527,
+  "original_test_timeout_ms": 100,
+  "production_default_timeout_unchanged": true
+}

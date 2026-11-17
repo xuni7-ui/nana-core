@@ -1,0 +1,57 @@
+........................................................................ [ 87%]
+........F.                                                               [100%]
+=================================== FAILURES ===================================
+_ test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[True] _
+
+tmp_path = PosixPath('/dev/shm/nq281relatedvalid/test_unknown_frame_never_repla1')
+restart = True
+
+    @pytest.mark.parametrize('restart',[False,True])
+    def test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget(tmp_path,restart):
+        with visual_host(tmp_path) as (app,service,frames,parent,metrics):
+            metrics['delay']=.35
+            unknown=service.interpret(frames[0])
+            assert unknown['state']=='UNKNOWN' and metrics['calls']==1
+            original=dict(app.runtime.store.one('cognitive_requests',unknown['request_id']))
+            identity=app.runtime.identity_id;metrics['delay']=0
+            def verify(service):
+                result=service.interpret(frames[1])
+                assert result['state']=='SAMPLED_FRAME_INTERPRETED' and metrics['calls']==2
+                assert result['request_id']!=unknown['request_id']
+                replay=service.interpret(frames[0])
+                assert replay['state']=='UNKNOWN' and metrics['calls']==2
+                assert dict(app.runtime.store.one('cognitive_requests',unknown['request_id']))==original
+                state=resource_state(app.runtime.store,app.runtime.config)
+                assert state.unresolved_terminal_calls==1 and state.unresolved_live_calls==0
+                # The old unknown still consumes the ORIGINAL total reservation.
+                app.config.provider_total_calls_limit=2
+                with pytest.raises(CoreError,match='PROVIDER_TOTAL_CALL_BUDGET'):
+                    service.interpret(frames[2])
+                assert metrics['calls']==2
+                MemoryService(app.runtime.store,app.runtime.authority).forget(parent,app.runtime.authority)
+                with pytest.raises(CoreError,match='MEMORY_UNAVAILABLE'):
+                    service.interpret(frames[1])
+                assert metrics['calls']==2 and app.runtime.identity_id==identity
+            if restart:
+                app.runtime.stop()
+                with fresh(tmp_path/'self.db',Clock()) as reopened:
+>                   app.runtime=reopened;verify(BilibiliFrameService(app))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frame_unknown.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+service = <nana_core.life.bilibili_frames.BilibiliFrameService object at 0x7f52fa1f1490>
+
+    def verify(service):
+        result=service.interpret(frames[1])
+>       assert result['state']=='SAMPLED_FRAME_INTERPRETED' and metrics['calls']==2
+E       AssertionError: assert ('STALE' == 'SAMPLED_FRAME_INTERPRETED'
+E         
+E         - SAMPLED_FRAME_INTERPRETED
+E         + STALE)
+
+tests/living_release_v4/test_bilibili_frame_unknown.py:59: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frame_unknown.py::test_unknown_frame_never_replays_but_an_independent_frame_can_continue_within_budget[True]
+1 failed, 81 passed in 23.29s
