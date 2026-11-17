@@ -238,6 +238,8 @@ export function LiveSpace() {
   const [modelSetupPhase,setModelSetupPhase] = useState<ModelSetupPhase>("NEW");
   const [modelSetupGeneration,setModelSetupGeneration] = useState(0);
   // The BFF rate limit is shared by both model setup surfaces.
+  const catalogRequestPending = useRef<object | null>(null);
+  const [catalogReading, setCatalogReading] = useState(false);
   const [catalogReadAfter, setCatalogReadAfter] = useState(0);
   const [catalogClock, setCatalogClock] = useState(0);
   const catalogWaitSeconds = Math.ceil(Math.max(0, catalogReadAfter - catalogClock) / 1000);
@@ -255,6 +257,7 @@ export function LiveSpace() {
   };
   const clearModelSetup = useCallback(() => {
     modelSetupProgress.current=null;setModelSetupPhase("NEW");
+    catalogRequestPending.current=null;setCatalogReading(false);
     setModelSetupGeneration(value=>value+1);
   }, []);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
@@ -1200,7 +1203,7 @@ export function LiveSpace() {
   };
   const testSetupCatalog = async (setStatus: (s:string) => void) => {
     const version=sessionVersion.current,progress=modelSetupProgress.current;
-    if(!progress || progress.step!==3 || busy || writePending.current)return;
+    if(!progress || progress.step!==3 || busy || writePending.current || catalogRequestPending.current)return;
     writePending.current=true;setBusy(true);
     const current=()=>{
       if(version!==sessionVersion.current || modelSetupProgress.current!==progress)
@@ -1869,7 +1872,7 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup catalogReadAfter={catalogReadAfter} catalogWaitSeconds={catalogWaitSeconds} disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel} onTest={admin && healthy && bootstrap?.capabilities.provider_model_discovery===true ? testSetupCatalog : undefined}/>
+              <><ModelSetup catalogReadAfter={catalogReadAfter} catalogWaitSeconds={catalogWaitSeconds} disabled={busy || catalogReading || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel} onTest={admin && healthy && bootstrap?.capabilities.provider_model_discovery===true ? testSetupCatalog : undefined}/>
                 {admin && bootstrap?.capabilities.provider_runtime_configuration===true && Boolean(providerRuntime) &&
                   <ProviderRuntimeSettings key={JSON.stringify([object(providerRuntime).configuration_revision,object(providerRuntime).profiles])} data={providerRuntime}
                     disabled={busy || !healthy} onSave={saveProviderRuntime}/>}
@@ -1890,6 +1893,10 @@ export function LiveSpace() {
                 credentialStatus={credentialStatus}
                 onDiscover={admin && healthy && bootstrap?.capabilities.provider_model_discovery === true ? async (id, revision, afterId) => {
                   const version = sessionVersion.current;
+                  if (catalogRequestPending.current || writePending.current) throw new Error("模型目录正在读取，请稍候。");
+                  const requestToken = {};
+                  catalogRequestPending.current = requestToken;
+                  setCatalogReading(true);
                   try {
                     const result = await client.current.providerModels(id, revision, afterId);
                     if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
@@ -1901,6 +1908,11 @@ export function LiveSpace() {
                     return catalog;
 
                   } catch (error) { throw new Error(explain(error)); }
+                  finally {
+                    if (catalogRequestPending.current === requestToken) {
+                      catalogRequestPending.current = null; setCatalogReading(false);
+                    }
+                  }
                 } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
                 onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}

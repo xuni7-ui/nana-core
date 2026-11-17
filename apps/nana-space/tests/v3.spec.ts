@@ -1641,7 +1641,8 @@ test('SYNTHETIC simple model setup checks catalog only when requested and report
 test('SYNTHETIC simple and advanced model catalog share server cooldown',async({page})=>{
   const state=await installMock(page);
   state.capabilities={provider_configuration_write:true,provider_model_discovery:true};
-  const saved=structuredClone(providerSettings);let revision=saved.revision,reads=0;
+  const saved=structuredClone(providerSettings);let revision=saved.revision,reads=0,hold=false;
+  let release!:()=>void;const barrier=new Promise<void>(resolve=>{release=resolve;});
   await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
     {...viewData(state,'settings'),provider_settings:{...saved,revision}})}));
   await page.route(`**${API}providers/commands`,route=>{
@@ -1652,10 +1653,10 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
     return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
       dispatch_happened:true,result:{configuration_revision:revision}})});
   });
-  await page.route(`**${API}providers/models?*`,route=>{
-    reads++;const query=new URL(route.request().url()).searchParams;
+  await page.route(`**${API}providers/models?*`,async route=>{
+    reads++;if(hold)await barrier;const query=new URL(route.request().url()).searchParams;
     return route.fulfill({status:200,json:envelope(state,{provider_profile_id:query.get('provider_profile_id'),
-      profile_revision:1,models:['deepseek-chat'],truncated:false,retry_after_ms:10000})});
+      profile_revision:1,models:['deepseek-chat'],truncated:false,retry_after_ms:hold?0:10000})});
   });
   await open(page,'models');
   await page.clock.install({time:new Date('2030-01-01T00:00:00Z')});
@@ -1677,6 +1678,9 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
   await page.clock.runFor(9000);await expect(setup.getByRole('button',{name:/秒后可再次检查/})).toBeDisabled();
   await page.clock.runFor(1000);await expect(check).toBeEnabled();
   expect(reads).toBe(2); // No automatic retry at expiry.
+  hold=true;await advanced.click();await expect.poll(()=>reads).toBe(3);
+  await expect(check).toBeDisabled(); // Advanced request is still in flight.
+  release();await expect(check).toBeEnabled();expect(reads).toBe(3);
 });
 
 for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as const) test(`SYNTHETIC model setup resumes original steps: ${outcome}`, async({page})=>{
