@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_CANDIDATE",
+  "problem": "previous 64MiB aggregate RGB check ran after each full window decode, allowing one more bounded window allocation before rejecting the batch",
+  "change": "precompute remaining whole-frame capacity and pass it to existing bounded FFmpeg decoder; reject on overrun instead of returning a truncated batch",
+  "test": "15 passed 5.07s, including actual FFmpeg, original dsh and original public-source gate; synthetic limit of 8 frames causes first 6-frame window to use limit 8 and second window to use limit 2 then reject",
+  "limits": [
+    "decoder reads one additional frame to detect truncation",
+    "Python copies, FFmpeg/Node child RSS, Pillow and PNG are outside accumulated RGB budget",
+    "exhausted budget fails closed even if a later window would be empty",
+    "no measured peak RSS change, true video, provider Token or production qualification"
+  ],
+  "rollback": "revert guarded batch capacity calculation and added test; no data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_guarded_batch.py": "a78decc7c709fa85bc749a38dfdeb1d1dd7439edc4fe9580ba2ad65abf0a8dfe",
+    "tests/nana_next_experience/test_video_guarded_batch.py": "9cae3753ae3134761f13fd3681d42473b569d11459382bdba5dc16fbafec3c9d"
+  }
+}

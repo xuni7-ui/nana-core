@@ -1,0 +1,55 @@
+{
+  "baseline_a": "35740e7f2f518b9b2607bbd952759aa80683cf4c",
+  "owner": "B",
+  "scope": "isolated local RGB decoder; no active consumer, platform authorization, model, storage, or Subject authority",
+  "contract": {
+    "input": "caller-attested source reference and explicit local video; bounded width/height, frames, bytes, duration and timeout",
+    "output": "in-memory RGB24, exact FFmpeg integer PTS and time-base plus derived seconds, source/output geometry, declared frame count and count consistency; never caller authorization",
+    "timing": "FFmpeg showinfo integer PTS × input filter time_base; no fixed-fps reconstruction. Reject nonzero file/video start times, duplicate/missing/out-of-range timestamps, truncation, and missing timing metadata. Count consistency is not proof of complete or correct source.",
+    "coordinate_space": "decoded scaled pixels with automatic rotation disabled; not original source pixels",
+    "privacy": "RGB bytes repr-hidden, no logs or persistence; any future temporary files, source checks, withdrawal and cleanup belong to integration"
+  },
+  "baseline_and_result": {
+    "fixture": "FFmpeg-generated variable frame rate 4-frame video; 0.5s/1.25s/0.25s gaps",
+    "integer_pts": [
+      0,
+      8192,
+      28672,
+      32768
+    ],
+    "time_base": [
+      1,
+      16384
+    ],
+    "actual_seconds": [
+      0,
+      0.5,
+      1.75,
+      2
+    ],
+    "naive_i_over_4_seconds": [
+      0,
+      0.25,
+      0.5,
+      0.75
+    ],
+    "rgb_bytes": 172800,
+    "timing": "5 local runs median 169.266 ms including two FFmpeg processes; cumulative child CPU 0.845s, max child RSS 35712 KiB, not concurrent peak or real production cost"
+  },
+  "tests": {
+    "command": "NANA_DSH_SOURCE=/workspace/work/dsh-see-now PYTHONPATH=src:. python -m pytest tests/nana_next_experience/test_video_pts_decode.py tests/nana_next_experience/test_dsh_pipeline_adapter.py tests/nana_next_experience/test_video_fusion_prototype.py -q",
+    "result": "20 passed; includes VFR PTS, exact integer timebase, truncated frames, nonzero offset rejection, duplicate PTS, count mismatch and original dsh source-time mapping"
+  },
+  "limits": [
+    "No real source, ASR, VAD, OCR, device, billed provider, true token or production test",
+    "Nonzero start offset / VFR duration mismatch / rotation / multi-stream timeline mapping not qualified",
+    "No direct Bilibili or current S5 consumer; supplied source reference does not authenticate bytes",
+    "Node adapter logs at 0.01s; selected timestamp collisions remain rejected",
+    "No memory/CPU benchmark on long or 4K inputs; decoder may hold up to 64 MiB plus one RGB frame in memory"
+  ],
+  "next": "B validate offset alignment, rotation, source identity and resource cost; NanaLink owns authorized media/provenance; A owns original S5/Memory/Provider/withdrawal integration",
+  "source_sha256": {
+    "tools/nana_next_experience/experiments/video_pts_decode.py": "a4e01c92ed593b5a2d21160b88b4b9a23bb4577a92cf5e6071921b3cc78ee7dc",
+    "tests/nana_next_experience/test_video_pts_decode.py": "ea288161341e25650d757149c3a1f454b829c39e70a1649a939c92c202331764"
+  }
+}

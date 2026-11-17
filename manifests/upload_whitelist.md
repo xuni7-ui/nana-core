@@ -337,3 +337,183 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原方法层跨域消费
 
 原meta_learning.py及原test_meta_learning.py、原CI精确触发/消费者组、09/11/ACTIVE/STATUS、本白名单、evidence/meta-learning-domain-continuity-20261117原错/固定旧slot/全新后续数据迁移/相关/原CI/公开runner/指纹；无DB/私史/Key/新模型/新权威/账号/生产/CURRENT/APK。
+
+
+## 2026-11-16 B FFmpeg时间覆盖研究
+
+持续授权范围：video-ffmpeg-comparison-20261116/{README.md,comparison.json,source-sha256.json}，其指纹三份原创实验/测试文件，09/11追加及本清单。上游仅本地运行并引用固定SHA/许可证，不复制第三方源码或提交生成视频。
+
+
+## 2026-11-16 B覆盖与变化换帧
+
+持续授权：video-change-coverage-20261116/{README.md,source-sha256.json}及其中2个原创实验/测试文件、09/11追加、本清单；无第三方源码、真实视频或凭证。
+
+
+## 2026-11-16 B短暂文字候选
+
+持续授权：video-short-detail-20261116/{README.md,before.txt,comparison.json,source-sha256.json}、其中probe及新增测试、09/11追加与本清单；合成素材不入库、无真实视频或凭证。
+
+
+## 2026-11-16 B局部变化与裁切实验
+
+持续授权：video-local-change-20261116/{README.md,source-sha256.json}、其中原创实验及测试、09/11追加及本清单；无真实帧/凭据、第三方源码或二进制。
+
+
+## 2026-11-16 B音轨静音测量
+
+持续授权：video-audio-probe-20261116/{README.md,source-sha256.json}及其中原创实验、测试，09/11追加、本清单；不提交合成音视频或凭据。
+
+
+## 2026-11-16 B字幕声学时间复查
+
+持续授权：video-caption-audio-crosscheck-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加和本清单；无真实字幕、音视频、凭据或第三方源码。
+
+
+## 2026-11-16 B字幕声学区间索引
+
+持续授权：video-caption-overlap-index-20261116/{README.md,benchmark.json,source-sha256.json}和指纹中3个原创源码/测试，09/11追加、本清单；合成输入、无真实字幕音频或凭据。
+
+
+## 2026-11-16 B上游音频判型反例
+
+持续授权：video-upstream-audio-counterexample-20261116/{README.md,comparison.json,source-sha256.json}、其中原创对照脚本、09/11追加和本清单；不复制上游源码/合成音频/真实字幕或凭据。
+
+
+## 2026-11-16 B视觉扫描完整性
+
+持续授权：video-scan-completeness-20261116/{README.md,source-sha256.json}和其中实验/测试，09/11追加、本清单；无真实视频、凭据或第三方源码。
+
+
+## 2026-11-16 B原dsh管线适配
+
+持续授权：dsh-pipeline-adapter-20261116/{README.md,source-sha256.json}及其中原创调用适配器与测试，09/11追加、本清单；不复制第三方代码、生成RGB/视频、账号或凭据。
+
+
+## 2026-11-16 B三视觉场景对照
+
+持续授权：video-three-scenarios-20261116/{README.md,results.json,source-sha256.json}及其中原创对照脚本、09/11追加、本清单；无真实视频/凭据或复制第三方源码。
+
+
+## 2026-11-16 B局部变化前后帧
+
+持续授权：video-local-pairs-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加、本清单；无真实帧或凭据。
+
+
+## 2026-11-16 B视觉线索融合候选
+
+持续授权：video-fusion-candidates-20261116/{README.md,source-sha256.json}及其中原创实验/测试、09/11追加、本清单；无真实帧/凭据或上游源码复制。
+
+
+## 2026-11-16 B视觉融合三场景
+
+持续授权：video-fusion-scenarios-20261116/{README.md,results.json,source-sha256.json}及其中原创对照脚本、09/11追加、本清单；不提交真实视频/凭据或复制上游源码。
+
+
+## 2026-11-16 B静态帧快速路径
+
+持续授权：video-static-frame-fast-path-20261116/{README.md,benchmark.json,source-sha256.json}和其中3个原创源码/测试、09/11追加、本清单；不含真实画面/凭据或上游源码。
+
+
+## 2026-11-16 B dsh背压状态
+
+持续授权：dsh-backpressure-accounting-20261116/{README.md,source-sha256.json}及其中原创适配/融合/测试、09/11追加、本清单；不复制上游源码或提交视频/凭据。
+
+
+## 2026-11-16 B本地消费者背压实验
+
+持续授权：dsh-local-consumer-20261116/{README.md,source-sha256.json}及其中原创适配/测试、09/11追加、本清单；无上游源码/真实画面/凭据。
+
+
+## 2026-11-16 B dsh恢复受控对照
+
+持续授权：dsh-restore-fixture-20261116/{README.md,source-sha256.json}及其中原创驱动/测试、09/11追加、本清单；无真实媒体/凭据或复制上游源码。
+
+
+## 2026-11-16 B dsh选帧时间精度
+
+持续授权：dsh-selected-time-precision-20261116/{README.md,source-sha256.json}及其中原创适配/测试、09/11追加、本清单；无真实媒体/凭据或上游源码复制。
+
+
+## 2026-11-16 B融合帧对引用
+
+持续授权：video-fusion-pair-lineage-20261116.json及其中原创源码/测试，09/11追加、本清单；无真实帧/凭据。
+
+
+## 2026-11-16 B变帧率PTS解码候选
+
+持续授权：video-vfr-pts-decode-20261116.json及其中原创实验/测试、09/11追加、本清单；不提交真实视频、帧或凭据。
+
+
+## 2026-11-16 B音视频起点与音频覆盖
+
+持续授权：video-audio-coverage-and-offset-20261116.json及其中7个原创源码/测试，09/11追加、本清单；无真实音视频/字幕/凭据或上游源码复制。
+
+
+## 2026-11-16 B有界分段与PTS
+
+持续授权：video-bounded-windows-20261116.json及其中4个原创实验/测试，09/11追加、本清单；无真实媒体/凭据。
+
+
+## 2026-11-16 B原PTS窗口融合
+
+持续授权：video-window-fusion-20261116.json及其中6个原创实验/测试、09/11追加、本清单；无真实视频/凭据/上游源码复制。
+
+## 2026-11-16 B帧数上限自适应分段
+
+持续授权：video_adaptive_decode.py、video_pts_decode.py及对应测试、bench_video_adaptive_decode.py、CODEX_B_QUEUE.md和本清单；仅合成视频，无真实媒体、凭据或上游源码复制。
+
+## 2026-11-16 B窗口选帧图像交接
+
+持续授权：video_selected_images.py、test_video_selected_images.py、video-selected-image-handoff-20261116.json、09/11和B队列追加及本清单；仅合成数据，不含真实视频、密钥或上游源码。
+
+## 2026-11-16 B跨窗全局预算
+
+持续授权：video_global_budget.py、video_window_fusion.py及相关测试、video-global-budget-20261116.json、09/11和B队列追加及本清单；无真实媒体、凭据或上游源码复制。
+
+## 2026-11-17 B全局选帧图像投影
+
+持续授权：video_global_budget.py、对应测试、video-global-image-projection-20261116.json、09/11和B队列追加及本清单；仅合成媒体，无真实视频或凭据。
+
+## 2026-11-17 B NanaLink媒体缓存窗口实验
+
+持续授权：video_nanalink_cache.py、对应测试、video-nanalink-cache-window-20261117.json、09/11和B队列追加及本清单；不包含真实媒体、凭据或上游源码复制。
+
+## 2026-11-17 B原帧契约反例
+
+持续授权：test_video_original_frame_contract.py、video-original-frame-contract-20261117.json、09/11和B队列追加及本清单；仅合成视频及临时Store，无真实媒体或凭据。
+
+## 2026-11-17 B继承C测试补丁
+
+持续授权：test_video_caption_acoustic.py中显式loopback构造、09/11和B队列追加及本清单；不含真实视频或凭据。
+
+## 2026-11-17 B视频覆盖规划索引
+
+持续授权：video_coverage.py、bench_video_coverage_planner.py、test_video_coverage_prototype.py、video-coverage-index-20261117.json、09/11及B队列追加、本清单；仅合成数据，无凭据或真实媒体。
+
+## 2026-11-17 B原来源门控视觉串联
+
+持续授权：video_guarded_batch.py、test_video_guarded_batch.py、video-source-guarded-batch-20261117.json、09/11及B队列追加、本清单；仅合成视频，无真实账户、媒体或凭据。
+
+## 2026-11-17 B批次解码容量
+
+持续授权：video_guarded_batch.py、对应测试、video-batch-rgb-bound-20261117.json、09/11及B队列追加、本清单；仅合成数据，无真实媒体或凭据。
+
+## 2026-11-17 B相对运动与实拍对照
+
+持续授权：video_motion_onset.py、compare_opencv_tree.py、compare_video_scenarios.py、video_fusion_prototype.py、video_window_fusion.py、video_global_budget.py、video_guarded_batch.py及对应两测试、video-motion-onset-20261117.json、09/11及B队列追加、本清单；不提交第三方视频/上游源码/凭据。
+
+## 2026-11-17 B运动探测独立样本与索引优化
+
+持续授权：video_motion_onset.py、compare_opencv_tree.py、bench_video_motion_onset.py、对应测试、video-motion-holdout-20261117.json、09/11和B队列追加及本清单；不含第三方视频、上游源码或凭据。
+
+## 2026-11-17 B与原S5采样对照
+
+持续授权：compare_opencv_tree.py、test_video_motion_onset.py、video-native-s5-comparison-20261117.json、09/11和B队列追加、本清单；仅性能/时间元数据，不含视频或凭据。
+
+## 2026-11-17 B单批次来源快照复用
+
+持续授权：video_cached_snapshot.py、video_guarded_batch.py、bench_video_batch_snapshot.py、对应两测试、video-shared-snapshot-20261117.json、09/11和B队列追加、本清单；不含第三方视频、真实用户数据或凭据。
+
+## 2026-11-17 B继承C缓存撤回夹具
+
+持续授权：test_video_guarded_batch.py中的来源隔离修正、09/11和B队列追加、本清单；不含真实媒体或凭据。

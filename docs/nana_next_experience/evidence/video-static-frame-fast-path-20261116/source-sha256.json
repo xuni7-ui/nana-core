@@ -1,0 +1,5 @@
+{
+  "tools/nana_next_experience/experiments/video_local_change.py": "0b750d31734238ae223aa1b642f34f4167cae00fe3add5c012fc4c053c899811",
+  "tools/nana_next_experience/experiments/benchmark_static_pairs.py": "9b4a02ece2c402d2f8940bceda4eaf62c5afb4540438a1969d7810fffade1213",
+  "tests/nana_next_experience/test_video_local_change.py": "dda917f92e8aaa35accf83cd31c8a02b6fd7a6f36a1792d02c4ed8be9ff27250"
+}

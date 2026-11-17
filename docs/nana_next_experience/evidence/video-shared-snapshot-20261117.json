@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_OPTIONAL_CANDIDATE",
+  "problem": "same public source was copied and hashed once per requested decode window",
+  "change": "optional one-batch hash-verified temporary snapshot; original Store source and cache identity rechecked before/after each decode, after detector and at outer gate; source materialized for no longer than batch",
+  "comparison": {
+    "sample": {
+      "repository": "https://github.com/opencv/opencv",
+      "commit": "5d0660acfed08650cafec4876b4792a369a20601",
+      "path": "samples/data/tree.avi",
+      "sha256": "4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82ac82dc",
+      "bytes": 1250680,
+      "license": "repository root Apache-2.0; individual video authorship/license unconfirmed"
+    },
+    "modes": {
+      "per_window": {
+        "cache_bytes_hashed": 5002720,
+        "window_count": 4,
+        "decoded_rgb_bytes": 4377600,
+        "selected_frames": 4,
+        "timestamps": [
+          4.066687,
+          11.000055,
+          18.200091,
+          27.33347
+        ]
+      },
+      "shared": {
+        "cache_bytes_hashed": 1250680,
+        "window_count": 4,
+        "decoded_rgb_bytes": 4377600,
+        "selected_frames": 4,
+        "timestamps": [
+          4.066687,
+          11.000055,
+          18.200091,
+          27.33347
+        ]
+      }
+    },
+    "output_identical": true,
+    "wall_seconds": {
+      "per_window": [
+        0.973845172993606,
+        0.8264439589984249,
+        0.8702867120009614
+      ],
+      "shared": [
+        0.8473499620013172,
+        0.8295207339979243,
+        0.8008795579953585
+      ]
+    },
+    "wall_median_seconds": {
+      "per_window": 0.8702867120009614,
+      "shared": 0.8295207339979243
+    },
+    "cpu_seconds": {
+      "per_window": [
+        {
+          "parent": 0.07569559199999998,
+          "children": 0.907255
+        },
+        {
+          "parent": 0.047231051999999996,
+          "children": 0.8255960000000006
+        },
+        {
+          "parent": 0.051061137999999895,
+          "children": 0.8699990000000002
+        }
+      ],
+      "shared": [
+        {
+          "parent": 0.048024100000000014,
+          "children": 0.8535419999999999
+        },
+        {
+          "parent": 0.040905366000000054,
+          "children": 0.8313630000000001
+        },
+        {
+          "parent": 0.03876853400000002,
+          "children": 0.802802
+        }
+      ]
+    },
+    "process_peak_rss_platform_units": 52200,
+    "rss_scope": "whole parent process including both modes, not child or per-mode RSS",
+    "limits": "one recorded clip, deterministic empty signal fixture, four FFmpeg decodes per mode; no model/Token or Bilibili attribution"
+  },
+  "verification": "16 related tests passed 6.98s: original Store and MediaCache, original dsh fixed upstream, actual FFmpeg, both modes produce identical selected images and PTS, source withdrawn during first detector stops before next window, cache withdrawal and hash mismatch reject, PUBLIC-only and temporary cleanup",
+  "initial_failure": "first benchmark passed a 1.25MB chunk to original 1MiB-bounded cache and failed MEDIA_CHUNK_BOUND; fixed benchmark to use 64KiB chunks",
+  "interpretation": "four windows hash 5,002,720 versus 1,250,680 cache bytes; same sample results; three-run wall measurements overlap and do not prove a latency improvement",
+  "limits": [
+    "one recorded sample, detector in benchmark is deterministic empty fixture; original dsh exercised separately in tests",
+    "recorded sample individual authorship and license not independently confirmed; source media not committed",
+    "original gate covers generic PUBLIC direct source, not Bilibili account/file attribution",
+    "trusted detector not sandboxed and source still must be rechecked at actual use",
+    "temporary file cleanup on normal/exception exit; crash cleanup not qualified",
+    "four FFmpeg decodes remain in both modes; actual FFmpeg disk reads, per-mode child RSS, actual provider tokens and bill unmeasured"
+  ],
+  "rollback": "set shared_snapshot=False or remove optional helper; no original Core or persistent data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_cached_snapshot.py": "48cbf6a8121481e324c6bb03a13740486d663deeac8e59074ade98c118351913",
+    "tools/nana_next_experience/experiments/video_guarded_batch.py": "94bac244602d83abbba1c47c6c8f14e716509363bae55dddef42d5ad1d4e1e9d",
+    "tools/nana_next_experience/experiments/bench_video_batch_snapshot.py": "40711ee71356e789f6072dad8c5896f8f483d1a406a65024d14d93ca2232accf",
+    "tests/nana_next_experience/test_video_guarded_batch.py": "c0343d9624c71affd3ae94657d5718397361dd699cf3eac92fc03f26429ecfea",
+    "tests/nana_next_experience/test_video_nanalink_cache.py": "c95236849019ba765de975f046c70eb891dac88529478254698a3a6c87bae31c"
+  }
+}

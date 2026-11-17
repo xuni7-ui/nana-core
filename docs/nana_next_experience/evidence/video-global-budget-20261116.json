@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "a_baseline": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "candidate_only": true,
+  "contract": "combine selected frames from at most 256 windows into global budget <=256; identical PTS/timebase and consistent source/geometry; report unrequested ranges and sampling gaps",
+  "deduplication": "PTS only; bytes and source identity unverified",
+  "baseline": "single-budget 1/10sec selects 5sec and drops 1sec cut cue",
+  "candidate": "same budget and gap target retain 1sec dsh cut cue; not semantic importance or measured recall",
+  "counterexamples": [
+    "uniform baseline drops cue",
+    "cue not present in input cannot be restored",
+    "competing cues and tight coverage can still drop events",
+    "long video, source authorization and byte identity unverified"
+  ],
+  "verification": "18 passed in 4.29s; includes real FFmpeg and fixed original local dsh pipeline",
+  "cpu_memory_latency": "not measured",
+  "model_calls": 0,
+  "rollback": "remove isolated global budget and selected_cues output; no data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_global_budget.py": "fdc9dac69c4fbb43ca4dae2af9e3a3b18c9ec5d6ea9744e865e848980acf7c2e",
+    "tools/nana_next_experience/experiments/video_window_fusion.py": "62e84de3a3063c7aba413787fc70bbbac682230d76fcb88499187488f884a05b",
+    "tests/nana_next_experience/test_video_global_budget.py": "420517b0f4d47bfd2e5b9361c8b9c64c6df339f90d703d8036244222c289044c",
+    "tests/nana_next_experience/test_video_window_fusion.py": "7e54efcbceaa3b65baa216f79260292149134c0865c4595bd6a75b365d010f6f"
+  },
+  "scale_comparison": {
+    "data": "10000 synthetic timestamps, 64 periodic cues, 256 frame budget, 40s max-gap target",
+    "uniform_wall_s": [
+      0.4891,
+      0.4856
+    ],
+    "cue_aware_wall_s": [
+      0.7487,
+      0.7741
+    ],
+    "uniform_cues_selected": 8,
+    "cue_aware_cues_selected": 8,
+    "both_gap_target_met": true,
+    "conclusion": "no cue gain in this constrained synthetic case; cue-aware slower; not a real-video recall or Token result"
+  },
+  "global_wrapper_sample": {
+    "wall_s_with_tracemalloc": 2.5152,
+    "cpu_s_with_tracemalloc": 2.5133,
+    "python_traced_peak_bytes": 7411309,
+    "process_peak_rss_kib": 29640,
+    "scope": "single synthetic run, includes Python tracking overhead; no FFmpeg or model"
+  }
+}

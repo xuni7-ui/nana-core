@@ -1,0 +1,28 @@
+{
+  "baseline_commit": "84e79d6",
+  "baseline_source_sha256": "e892f188fef4bc54c7c742bc13a17f17c2faef3e4e79004f7ddae2a2d954c9b7",
+  "scope": "one 48-frame synthetic clip per case, six alternating runs, same pair output",
+  "includes": "Pillow grayscale conversion and pair comparison; excludes decode and model calls",
+  "cases": {
+    "mostly_static": {
+      "input_frames": 48,
+      "events": 2,
+      "truncated": false,
+      "baseline_wall_median_ms": 272.6912739999534,
+      "candidate_wall_median_ms": 17.804488499677973,
+      "baseline_cpu_mean_ms": 274.81664416666666,
+      "candidate_cpu_mean_ms": 19.53351283333335
+    },
+    "continuous_local_motion": {
+      "input_frames": 48,
+      "events": 47,
+      "truncated": false,
+      "baseline_wall_median_ms": 275.59500800089154,
+      "candidate_wall_median_ms": 275.26898350151896,
+      "baseline_cpu_mean_ms": 276.32408583333347,
+      "candidate_cpu_mean_ms": 274.45356449999986
+    }
+  },
+  "model_calls": 0,
+  "actual_tokens": "NOT_MEASURED"
+}

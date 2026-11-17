@@ -1,0 +1,11 @@
+{
+  "synthetic_cues": 3000,
+  "synthetic_intervals": 3000,
+  "baseline_s": 2.5871778200016706,
+  "indexed_s": 0.015461786999367177,
+  "max_absolute_fraction_difference": 0.0,
+  "baseline_scope": "overlap only",
+  "indexed_scope": "validation and overlap and output",
+  "model_calls": 0,
+  "token_measurement": "NOT_MEASURED"
+}

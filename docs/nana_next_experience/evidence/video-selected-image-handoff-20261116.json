@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "a_baseline": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "candidate_only": true,
+  "input": "synthetic local video and caller-supplied window selection",
+  "output": "in-memory PNG candidate, original integer PTS and timebase, origin, scaled-pixel digest",
+  "original_consumer": "MediaDecoder.decode IMAGE, direct technical decode only",
+  "verification": "13 passed in 9.18s; real FFmpeg/bwrap and original Core tests; NANA_DSH_SOURCE=/workspace/work/dsh-see-now",
+  "baseline": [
+    "offset VIDEO: MEDIA_FRAME_TIME_INVALID",
+    "31-second VIDEO: MEDIA_DURATION_BOUND"
+  ],
+  "limits": [
+    "no source-byte identity proof",
+    "no platform authorization or withdrawal",
+    "no image ingestion, Store linkage, model call, production, real media, or Token qualification"
+  ],
+  "rollback": "remove isolated tool and test; no database migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_selected_images.py": "a74a2f69aa8b2e46de8622874ce0fe89fdfae343427c9668e29714669d52c921",
+    "tests/nana_next_experience/test_video_selected_images.py": "93f1436774c11328884ec4ce4267d311121707728cba6bd8f74d7e21d25f86b5"
+  }
+}

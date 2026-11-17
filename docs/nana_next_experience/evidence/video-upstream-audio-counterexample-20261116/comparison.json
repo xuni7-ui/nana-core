@@ -1,0 +1,45 @@
+{
+  "fixture": "synthetic tone and synthetic FLITE speech",
+  "upstream_audio_probe_commit": "8ca266f9cf9e5ffce7e9d424aa0e937a897b608d",
+  "semantic_note": "one example each; audio classifier verdict is not ground truth",
+  "model_calls": 0,
+  "results": {
+    "tone": {
+      "known_fixture": "tone",
+      "original_verdict": {
+        "kind": "器乐/音乐为主，未见人声特征",
+        "confidence": "high",
+        "reasons": [
+          "节拍自相关峰 0.54 @ 67 BPM（有稳定节拍）",
+          "谱平坦度 0.0000（强谐波结构，噪声趋近 1）",
+          "逐秒响度波动仅 0.0 dB（像连续音乐床，缺少语音起停）",
+          "85% 谱滚降只有 445 Hz（几乎无高频瞬态，连键鼠点击都没有）"
+        ]
+      },
+      "silence_measurement": {
+        "state": "MEASURED",
+        "duration": 3.0,
+        "silence_intervals": [],
+        "meaning": "acoustic threshold only; not speech or semantic evidence"
+      }
+    },
+    "synthetic_voice": {
+      "known_fixture": "synthetic_voice",
+      "original_verdict": {
+        "kind": "纯音/提示音（非语音、非音乐）",
+        "confidence": "medium",
+        "reasons": [
+          "单音集中度 0.273（单一谱峰占该帧大部分能量）",
+          "节拍自相关峰仅 0.240（无节奏结构）",
+          "有声帧占比 94.4%"
+        ]
+      },
+      "silence_measurement": {
+        "state": "MEASURED",
+        "duration": 2.435,
+        "silence_intervals": [],
+        "meaning": "acoustic threshold only; not speech or semantic evidence"
+      }
+    }
+  }
+}
