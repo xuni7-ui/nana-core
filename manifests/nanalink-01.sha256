@@ -11,7 +11,7 @@ d8e2f0d80d0c904ff92aaaabb179bad3c25ae1e1b441775e092d597db203b058  apps/nana-spac
 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8  apps/nana-space/src/features/v3/PlatformPanel.tsx
 8384b17e84d4b504f856c2da353d65c1690aa9090d26a19474ed0894babe795d  apps/nana-space/src/features/v3/v3.css
 180719efc49a237a8ff3192fd820b05c3ef1d1c0ca64ee8fbfc0f1665dc5b66d  apps/nana-space/tests/nanalink-health.test.ts
-ec2396cd8b1a9f31e28719163477bced893a44aa58488cf94b42cd5474dcc12a  apps/nana-space/tests/v3.spec.ts
+cd06db89476032323f3f9925ab9136ca92474c5d02af6c9a1fb11e755f20472e  apps/nana-space/tests/v3.spec.ts
 c1ab2de6b329c62cfe93dc6cc3e54afb2205a274bab52915504a8d9e88b5319b  contracts/nana-space-live-v2/api-v2.schema.json
 0ab2bef101bd1862cd8603baaa160f54ffa61be65aeb9621f611078d0d7c2e49  contracts/nana-space-live-v2/openapi.json
 fd8f131603d14d3f7b6f63f5af99e4ae8a102d93a3dd294e074d50cc0d31f3c0  deployment/nanalink/Dockerfile

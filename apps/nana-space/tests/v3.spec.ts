@@ -1937,6 +1937,18 @@ test('NanaLink health: connected session does not invent received events or deli
 
 });
 
+test('NanaLink phone health explains a mismatched account',async({page})=>{
+  const state=await installMock(page);state.capabilities={platform_configuration_write:true};
+  await page.route(`**${API}platform/status`,route=>route.fulfill({status:200,json:envelope(state,{
+    configuration_revision:4,channels:[{platform:'qq',channel_id:'primary',account_label:'账号尾号 0042',
+      conversation_kind:'private',enabled:true,read_authorized:true,send_configured:false,secret_state:'AVAILABLE',state:'NOT_OBSERVED'}],
+    nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
+      health:{connection:'DISCONNECTED',login:'UNKNOWN',receive:'NOT_OBSERVED',error:'ACCOUNT_MISMATCH'},capabilities:[]}]}})}));
+  await open(page,'devices');
+  await expect(page.getByText('连接已断开 · 还未收到事件 · 账号不匹配，请检查连接账号',{exact:true})).toBeVisible();
+  await noHorizontalOverflow(page);
+});
+
 test("SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft", async ({page}) => {
   await page.clock.install();
   const state=await installMock(page);
