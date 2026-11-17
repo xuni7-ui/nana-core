@@ -1,0 +1,23 @@
+{
+  "variant": "original",
+  "original_fixed_source": "e5969b0363e825a51b56a9f24a655bfa590c6887",
+  "module_sha256": "374bbf66c04261a10d3e39b4e2a307d8c8e3fa16640927453e01dbd8ac1ba538",
+  "source_sha256": "d760737fc5d425db194faadf3330fc9f7ca2fe85e8e0ed218f443239ac0db073",
+  "source_bytes": 23853,
+  "same_subject_after_restart": true,
+  "replays": 3,
+  "first_decode_processes": 3,
+  "additional_replay_native_processes": 9,
+  "replay_wall_seconds": 1.045863756000017,
+  "replay_parent_cpu_seconds": 0.010141256000000043,
+  "replay_child_user_system_cpu_seconds": 0.019378999999999997,
+  "individual_wall_seconds": [
+    0.347947119999958,
+    0.34806946699995933,
+    0.3498398639999323
+  ],
+  "original_memory_and_record_unchanged": true,
+  "sqlite_write_rows": 0,
+  "real_provider_calls": 0,
+  "byte_accounting_not_tokens": true
+}

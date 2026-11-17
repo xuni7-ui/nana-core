@@ -1,0 +1,115 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_confirmed_video_observation_survives_restart_without_decoder_or_new_writes _
+
+tmp_path = PosixPath('/dev/shm/nq282old/test_confirmed_video_observati0')
+
+    def test_confirmed_video_observation_survives_restart_without_decoder_or_new_writes(tmp_path):
+        path=tmp_path/'s'/'self.db';data=media_samples()['VIDEO']
+        with fresh(path) as r:
+            source=descriptor(r,'same-video','VIDEO');service=PerceptionService(r.store,providers(),policy())
+            ids=service.ingest(data,source,entity_id='observer',scope='world')
+            prior=RecordService(r.store).read(ids[1]);config,clock,identity=r.config,r.clock,r.identity_id
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            service=PerceptionService(r.store,providers(),policy(),decoder=NoRepeatedDecode())
+            before=counts(r.store);writes=r.store.db.total_changes
+>           assert service.ingest(data,source,entity_id='observer',scope='world')==ids
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/world_loop/test_perception_reuse.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/world_loop/perception.py:227: in ingest
+    decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <world_loop.test_perception_reuse.NoRepeatedDecode object at 0x7f293f0acaa0>
+args = (b'\x00\x00\x00\x1cftypisom\x00\x00\x02\x00isomiso2mp41\x00\x00\x00\x08free\x00\x00Y\x95mdat\x00\x00\x01\xb3\x00\x10\x...x00\x00\x00\x00\x00,ilst\x00\x00\x00$\xa9too\x00\x00\x00\x1cdata\x00\x00\x00\x01\x00\x00\x00\x00Lavf61.7.103', 'VIDEO')
+kwargs = {}
+
+    def decode(self,*args,**kwargs):
+>       raise AssertionError('an existing observation must not need another decoder')
+E       AssertionError: an existing observation must not need another decoder
+
+tests/world_loop/test_perception_reuse.py:20: AssertionError
+_ test_same_public_evidence_never_returns_a_memory_owned_by_another_binding[entity] _
+
+tmp_path = PosixPath('/dev/shm/nq282old/test_same_public_evidence_neve0')
+binding = 'entity'
+
+    @pytest.mark.parametrize('binding',['entity','scope'])
+    def test_same_public_evidence_never_returns_a_memory_owned_by_another_binding(tmp_path,binding):
+        with fresh(tmp_path/'s'/'self.db') as r:
+            MemoryService(r.store).entity('other-observer','PERSON')
+            readable=policy().model_copy(update={'allowed_scopes':('world','other')})
+            service=PerceptionService(r.store,providers(),readable);data=media_samples()['IMAGE'];source=descriptor(r,'public-shared-evidence')
+            first=service.ingest(data,source,entity_id='observer',scope='world')
+            entity='other-observer' if binding=='entity' else 'observer';scope='other' if binding=='scope' else 'world'
+            second=service.ingest(data,source,entity_id=entity,scope=scope)
+            row=MemoryService(r.store).read(second[0])
+>           assert (row['entity_id'],row['scope'])==(entity,scope)
+E           AssertionError: assert ('observer', 'world') == ('other-observer', 'world')
+E             
+E             At index 0 diff: 'observer' != 'other-observer'
+E             Use -v to get more diff
+
+tests/world_loop/test_perception_reuse.py:58: AssertionError
+_ test_same_public_evidence_never_returns_a_memory_owned_by_another_binding[scope] _
+
+tmp_path = PosixPath('/dev/shm/nq282old/test_same_public_evidence_neve1')
+binding = 'scope'
+
+    @pytest.mark.parametrize('binding',['entity','scope'])
+    def test_same_public_evidence_never_returns_a_memory_owned_by_another_binding(tmp_path,binding):
+        with fresh(tmp_path/'s'/'self.db') as r:
+            MemoryService(r.store).entity('other-observer','PERSON')
+            readable=policy().model_copy(update={'allowed_scopes':('world','other')})
+            service=PerceptionService(r.store,providers(),readable);data=media_samples()['IMAGE'];source=descriptor(r,'public-shared-evidence')
+            first=service.ingest(data,source,entity_id='observer',scope='world')
+            entity='other-observer' if binding=='entity' else 'observer';scope='other' if binding=='scope' else 'world'
+            second=service.ingest(data,source,entity_id=entity,scope=scope)
+            row=MemoryService(r.store).read(second[0])
+>           assert (row['entity_id'],row['scope'])==(entity,scope)
+E           AssertionError: assert ('observer', 'world') == ('observer', 'other')
+E             
+E             At index 1 diff: 'world' != 'other'
+E             Use -v to get more diff
+
+tests/world_loop/test_perception_reuse.py:58: AssertionError
+_ test_saved_observation_requires_the_same_bytes_descriptor_and_current_memory _
+
+tmp_path = PosixPath('/dev/shm/nq282old/test_saved_observation_require0')
+
+    def test_saved_observation_requires_the_same_bytes_descriptor_and_current_memory(tmp_path):
+        with fresh(tmp_path/'s'/'self.db') as r:
+            data=media_samples()['IMAGE'];source=descriptor(r,'same-image')
+            ids=PerceptionService(r.store,providers(),policy()).ingest(data,source,entity_id='observer',scope='world')
+            cached=PerceptionService(r.store,providers(),policy(),decoder=NoRepeatedDecode())
+            before=counts(r.store);writes=r.store.db.total_changes
+            for other,changed in ((data+b'extra',source),(data,source.model_copy(update={'modality':'VIDEO'}))):
+                with pytest.raises(CoreError,match='SOURCE_KEY_COLLISION'):
+>                   cached.ingest(other,changed,entity_id='observer',scope='world')
+
+tests/world_loop/test_perception_reuse.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/world_loop/perception.py:227: in ingest
+    decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <world_loop.test_perception_reuse.NoRepeatedDecode object at 0x7f293edbfcb0>
+args = (b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x000\x00\x00\x00 \x08\x02\x00\x00\x00\xdb\xb6lK\x00\x00\x00>IDATx\x9c\x...\x15\xa1"T\x84\x8aP\x11*BE\xa8\x08\x15\xa1"T\x84\xca\x0b\xbd8\x01D\xcf#oZ\x00\x00\x00\x00IEND\xaeB`\x82extra', 'IMAGE')
+kwargs = {}
+
+    def decode(self,*args,**kwargs):
+>       raise AssertionError('an existing observation must not need another decoder')
+E       AssertionError: an existing observation must not need another decoder
+
+tests/world_loop/test_perception_reuse.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_perception_reuse.py::test_confirmed_video_observation_survives_restart_without_decoder_or_new_writes
+FAILED tests/world_loop/test_perception_reuse.py::test_same_public_evidence_never_returns_a_memory_owned_by_another_binding[entity]
+FAILED tests/world_loop/test_perception_reuse.py::test_same_public_evidence_never_returns_a_memory_owned_by_another_binding[scope]
+FAILED tests/world_loop/test_perception_reuse.py::test_saved_observation_requires_the_same_bytes_descriptor_and_current_memory
+4 failed in 1.58s
