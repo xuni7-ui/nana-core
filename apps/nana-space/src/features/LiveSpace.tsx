@@ -237,6 +237,22 @@ export function LiveSpace() {
   const modelSetupPending = useRef<number | null>(null);
   const [modelSetupPhase,setModelSetupPhase] = useState<ModelSetupPhase>("NEW");
   const [modelSetupGeneration,setModelSetupGeneration] = useState(0);
+  // The BFF rate limit is shared by both model setup surfaces.
+  const [catalogReadAfter, setCatalogReadAfter] = useState(0);
+  const [catalogClock, setCatalogClock] = useState(0);
+  const catalogWaitSeconds = Math.ceil(Math.max(0, catalogReadAfter - catalogClock) / 1000);
+  useEffect(() => {
+    const remaining = catalogReadAfter - Date.now();
+    if (remaining <= 0) return;
+    const timer = window.setTimeout(() => setCatalogClock(Date.now()), Math.min(1000, remaining));
+    return () => window.clearTimeout(timer);
+  }, [catalogReadAfter, catalogClock]);
+  const noteCatalogCooldown = (delay?: number) => {
+    if (delay === undefined || delay <= 0) return;
+    const now = Date.now();
+    setCatalogClock(now);
+    setCatalogReadAfter(previous => Math.max(previous, now + delay));
+  };
   const clearModelSetup = useCallback(() => {
     modelSetupProgress.current=null;setModelSetupPhase("NEW");
     setModelSetupGeneration(value=>value+1);
@@ -1219,6 +1235,7 @@ export function LiveSpace() {
         : catalog.truncated
           ? "已读取部分目录，尚未找到所选模型；可继续手动确认，实际对话仍需使用时验证。"
           : "已读取服务商目录，但未列出所选模型；请核对模型名称，实际可用性尚未验证。");
+      noteCatalogCooldown(catalog.retryAfterMs);
       return catalog.retryAfterMs;
     } catch(error) {
       if(version===sessionVersion.current && modelSetupProgress.current===progress)setStatus(explain(error));
@@ -1852,12 +1869,14 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel} onTest={admin && healthy && bootstrap?.capabilities.provider_model_discovery===true ? testSetupCatalog : undefined}/>
+              <><ModelSetup catalogReadAfter={catalogReadAfter} catalogWaitSeconds={catalogWaitSeconds} disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel} onTest={admin && healthy && bootstrap?.capabilities.provider_model_discovery===true ? testSetupCatalog : undefined}/>
                 {admin && bootstrap?.capabilities.provider_runtime_configuration===true && Boolean(providerRuntime) &&
                   <ProviderRuntimeSettings key={JSON.stringify([object(providerRuntime).configuration_revision,object(providerRuntime).profiles])} data={providerRuntime}
                     disabled={busy || !healthy} onSave={saveProviderRuntime}/>}
                 <ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
+                catalogReadAfter={catalogReadAfter}
+                catalogWaitSeconds={catalogWaitSeconds}
                 settings={data.provider_settings}
                 available={healthy}
                 onNotice={notify}
@@ -1877,7 +1896,9 @@ export function LiveSpace() {
                     const value = object(result.data);
                     if(value.provider_profile_id !== id || value.profile_revision !== revision)
                       throw new V2Error("PROVIDER_CONFIG_REVISION_CONFLICT");
-                    return readModelCatalog(value);
+                    const catalog = readModelCatalog(value);
+                    noteCatalogCooldown(catalog.retryAfterMs);
+                    return catalog;
 
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   Bot,
@@ -45,6 +45,8 @@ interface Props {
   onBindCredential?: (providerId: string, revision: number) => Promise<void>;
   onRevokeCredential?: (providerId: string, revision: number) => Promise<void>;
   credentialStatus?: unknown;
+  catalogReadAfter?: number;
+  catalogWaitSeconds?: number;
   onDiscover?: (providerId: string, revision: number, afterId?: string) => Promise<ModelCatalogPage>;
 }
 const secretLabels = {
@@ -64,6 +66,8 @@ export function ModelCenter({
   onRevokeCredential,
   credentialStatus,
   onDiscover,
+  catalogReadAfter = 0,
+  catalogWaitSeconds = 0,
 }: Props) {
   const view = useMemo(
     () => readProviderSettings(available ? settings : undefined),
@@ -80,23 +84,11 @@ export function ModelCenter({
   const [modelId, setModelId] = useState("");
   const [catalog, setCatalog] = useState<Record<string, ModelCatalog>>({});
   const [discovering, setDiscovering] = useState<string | null>(null);
-  const [catalogReadAfter, setCatalogReadAfter] = useState(0);
-  const [catalogClock, setCatalogClock] = useState(0);
-  const catalogWaitSeconds = Math.ceil(Math.max(0, catalogReadAfter - catalogClock) / 1000);
-  useEffect(() => {
-    const remaining = catalogReadAfter - Date.now();
-    if (remaining <= 0) return;
-    const timer = window.setTimeout(() => setCatalogClock(Date.now()), Math.min(1000, remaining));
-    return () => window.clearTimeout(timer);
-  }, [catalogReadAfter, catalogClock]);
   const discover = async (id: string, revision: number, afterId?: string) => {
     if (!onDiscover || discovering || Date.now() < catalogReadAfter) return;
     setDiscovering(id);
     try {
       const page = await onDiscover(id, revision, afterId);
-      const now = Date.now();
-      setCatalogClock(now);
-      setCatalogReadAfter(now + (page.retryAfterMs ?? 0));
       const merged = mergeModelCatalog(catalog[id], page, revision, afterId);
       setCatalog(current => ({...current, [id]: merged}));
       if (!merged.models.length) onNotice("服务商返回的模型列表为空，也可以直接填写模型名称。");
