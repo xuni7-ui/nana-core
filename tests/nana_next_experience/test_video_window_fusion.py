@@ -88,3 +88,28 @@ def test_long_video_tail_window_preserves_source_ticks_through_real_pipeline(tmp
     assert [item['pts_tick'] for item in output['selected_frames']]==list(decoded.pts_ticks)
     assert output['requested_window']==(599,601) and output['whole_window_observed'] is False
     assert output['model_calls']==0 and output['selection_state']=='CANDIDATES_NOT_DELIVERED'
+
+
+def test_fractional_origin_survives_dsh_and_global_candidate_contract(tmp_path):
+    upstream=os.environ.get('NANA_DSH_SOURCE')
+    if not upstream or not all(shutil.which(x) for x in ('node','ffmpeg','ffprobe')):
+        pytest.skip('trusted dsh, Node and FFmpeg required')
+    video=tmp_path/'fractional-origin.ts'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'color=c=red:s=32x24:r=24:d=1','-c:v','mpeg2video','-threads','1',
+        '-f','mpegts','-y',str(video)],check=True,timeout=20)
+    decoded=decode('source.synthetic',video,width=32,height=24,start_seconds=0,end_seconds=.25)
+    raw=tmp_path/'rgb';raw.write_bytes(decoded.rgb24)
+    root=Path(__file__).resolve().parents[2]
+    request={'source_ref':decoded.source_ref,'rgb_path':str(raw),'width':32,'height':24,
+        'fps':24,'timestamps':decoded.timestamps,'max_frames_per_sheet':6}
+    proc=subprocess.run(['node',str(root/'tools/nana_next_experience/experiments/dsh_pipeline_adapter.mjs'),upstream],
+        input=json.dumps(request),text=True,capture_output=True,check=True,timeout=40)
+    pairs={'schema_version':1,'source_ref':decoded.source_ref,'input_size':decoded.output_size,
+           'pairs_examined':len(decoded.timestamps)-1,'truncated':False,'proposals':[]}
+    output=fuse_window(decoded,json.loads(proc.stdout),pairs,budget=3,max_gap=.25)
+    from tools.nana_next_experience.experiments.video_global_budget import select_windows
+    selected=select_windows(decoded.source_ref,decoded.duration_seconds,[output],budget=3,max_gap=.25)
+    assert output['timeline_origin']=='173/120'
+    assert selected['selected_frames'] and all(f['pts_tick'] in decoded.pts_ticks for f in selected['selected_frames'])
+    assert output['whole_window_observed'] is False

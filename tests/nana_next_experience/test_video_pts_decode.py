@@ -76,7 +76,7 @@ def test_missing_or_duplicate_pts_are_rejected_not_reconstructed(tmp_path,monkey
     from tools.nana_next_experience.experiments import video_pts_decode as module
     path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
     metadata=(b'{"format":{"duration":"2","start_time":"0"},"streams":'
-              b'[{"width":2,"height":2,"start_time":"0","nb_frames":"2"}]}')
+              b'[{"codec_type":"video","width":2,"height":2,"start_time":"0","nb_frames":"2"}]}')
     config=b'[Parsed_showinfo_2 @ 0x1] config in time_base: 1/1000, frame_rate: 4/1\n'
     rows=(b'[Parsed_showinfo_2 @ 0x1] n: 0 pts: 0 pts_time:0\n'
           b'[Parsed_showinfo_2 @ 0x1] n: 1 pts: 0 pts_time:0\n')
@@ -92,7 +92,7 @@ def test_declared_frame_count_mismatch_never_qualifies_count(tmp_path,monkeypatc
     from tools.nana_next_experience.experiments import video_pts_decode as module
     path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
     metadata=(b'{"format":{"duration":"2","start_time":"0"},"streams":'
-              b'[{"width":2,"height":2,"start_time":"0","nb_frames":"3"}]}')
+              b'[{"codec_type":"video","width":2,"height":2,"start_time":"0","nb_frames":"3"}]}')
     log=(b'[Parsed_showinfo_2 @ 0x1] config in time_base: 1/1000, frame_rate: 4/1\n'
          b'[Parsed_showinfo_2 @ 0x1] n: 0 pts: 0 pts_time:0\n'
          b'[Parsed_showinfo_2 @ 0x1] n: 1 pts: 500 pts_time:0.5\n')
@@ -120,7 +120,7 @@ def test_video_start_before_container_origin_is_not_guessed(tmp_path,monkeypatch
     from tools.nana_next_experience.experiments import video_pts_decode as module
     path=tmp_path/'fixture.mp4';path.write_bytes(b'synthetic')
     metadata=(b'{"format":{"duration":"2","start_time":"5"},"streams":'
-              b'[{"width":2,"height":2,"start_time":"4","nb_frames":"2"}]}')
+              b'[{"codec_type":"video","width":2,"height":2,"start_time":"4","nb_frames":"2"}]}')
     monkeypatch.setattr(module.subprocess,'run',lambda *a,**kw:SimpleNamespace(stdout=metadata,stderr=b''))
     with pytest.raises(ValueError,match='timing'):decode('source.synthetic',path,width=2,height=2)
 
@@ -205,3 +205,17 @@ def test_long_video_uses_bounded_window_without_claiming_full_watch(tmp_path):
         decode('source.synthetic',path,width=32,height=32,start_seconds=0)
     with pytest.raises(ValueError,match='window'):
         decode('source.synthetic',path,width=32,height=32,start_seconds=0,end_seconds=601)
+
+
+def test_fractional_container_origin_uses_exact_first_stream_tick(tmp_path):
+    path=tmp_path/'fractional-origin.ts'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'color=c=red:s=32x24:r=24:d=1','-c:v','mpeg2video','-threads','1',
+        '-f','mpegts','-y',str(path)],check=True,timeout=20)
+    decoded=decode('source.synthetic',path,width=32,height=24)
+    assert len(decoded.timestamps)==24 and decoded.timestamps[0]==0
+    assert decoded.pts_ticks[0]*decoded.time_base[0]/decoded.time_base[1] != float(decoded.container_origin_reported)
+    assert decoded.timeline_origin == '173/120'
+    part=decode('source.synthetic',path,width=32,height=24,start_seconds=0,end_seconds=.25)
+    assert part.pts_ticks==decoded.pts_ticks[:6]
+    assert part.rgb24==decoded.rgb24[:6*32*24*3]
