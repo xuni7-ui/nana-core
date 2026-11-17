@@ -400,7 +400,8 @@ def test_bound_recall_is_reported_as_not_withdrawn_without_blocking_messages():
         cfg=SessionConfig(alias='primary',account_id='42',mode='http',endpoint='http://127.0.0.1:1',port=18790,
             upstream_secret_ref='upstream.test',core_api_secret_ref='core.test',forward_secret_ref='forward.test',
             core_origin='http://127.0.0.1:2',routes=(route,))
-        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(cfg,)),resolver)
+        resolver=MemorySecretResolver();token='SYNTHETIC_ONLY_CORE_STATUS_TOKEN_1234';resolver.bind('core.test',token)
+        sidecar=OneBotSidecar(SidecarConfig(sessions=(cfg,)),resolver)
         adapter=sidecar.adapters['primary'];sidecar.tasks.append(asyncio.create_task(sidecar._receive(cfg)))
         try:
             recall={'self_id':42,'time':1,'post_type':'notice','notice_type':'friend_recall','user_id':43,'message_id':1}
@@ -415,6 +416,23 @@ def test_bound_recall_is_reported_as_not_withdrawn_without_blocking_messages():
             adapter._health=adapter._health.model_copy(update={'error':'INVALID_EVENT_DROPPED'})
             assert adapter.health().error=='RECALL_NOT_WITHDRAWN'
             assert sidecar.transport.size==1
+            runner=web.AppRunner(sidecar.app(cfg),access_log=None);await runner.setup()
+            site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+            try:
+                port=site._server.sockets[0].getsockname()[1]
+                async with ClientSession() as client:
+                    async with client.get(f'http://127.0.0.1:{port}/nanalink/status',headers={'Authorization':'Bearer '+token}) as response:
+                        status=await response.json()
+                        assert response.status==200 and status['metrics']['unhandled_recalls']==1
+                        assert status['health']['error']=='RECALL_NOT_WITHDRAWN' and token not in json.dumps(status)
+                from nana_core.nanalink.console import NanaLinkObserver,ObservationBinding
+                binding=ObservationBinding(platform='qq',account_id='42',channel_id='primary',
+                    endpoint=f'http://127.0.0.1:{port}',credential_ref='core.test')
+                observed=await asyncio.to_thread(NanaLinkObserver((binding,),resolver).view)
+                assert observed['sessions'][0]['health']['error']=='RECALL_NOT_WITHDRAWN'
+                assert token not in json.dumps(observed)
+            finally:
+                await runner.cleanup()
         finally:
             await sidecar.close();resolver.clear()
     asyncio.run(run())
