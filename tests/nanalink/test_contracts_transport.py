@@ -31,11 +31,12 @@ def test_qq_backends_require_literal_boolean_send_permission(permission):
     onebot=OneBotAdapter('42',mode='http',endpoint='http://127.0.0.1:12345',allow_send=permission)
     official=OfficialQQAdapter('42',bot_id='bot_42',token='fixture',allow_send=permission,
                                endpoint='http://127.0.0.1:12345',realm='SYNTHETIC_LOOPBACK')
-    official._health=official._health.model_copy(update={'login':'AUTHENTICATED'})
     for adapter,code in ((onebot,'ONEBOT_HOST_SEND_DISABLED'),(official,'QQ_OFFICIAL_SEND_NOT_AUTHORIZED')):
+        adapter._health=adapter._health.model_copy(update={'login':'AUTHENTICATED'})
         with pytest.raises(CoreError,match=code):asyncio.run(adapter.rpc('send_private_msg',{}))
         adapter.allow_send=permission
         with pytest.raises(CoreError,match=code):asyncio.run(adapter.rpc('send_private_msg',{}))
+        assert next(c for c in adapter.capabilities() if c.name=='message.text.send.via_core').available is False
         assert adapter.metrics['writes']==0
 
 
