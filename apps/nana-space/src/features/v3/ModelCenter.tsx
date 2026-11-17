@@ -45,6 +45,7 @@ interface Props {
   onBindCredential?: (providerId: string, revision: number) => Promise<void>;
   onRevokeCredential?: (providerId: string, revision: number) => Promise<void>;
   credentialStatus?: unknown;
+  catalogReading?: boolean;
   catalogReadAfter?: number;
   catalogWaitSeconds?: number;
   onDiscover?: (providerId: string, revision: number, afterId?: string) => Promise<ModelCatalogPage>;
@@ -66,6 +67,7 @@ export function ModelCenter({
   onRevokeCredential,
   credentialStatus,
   onDiscover,
+  catalogReading = false,
   catalogReadAfter = 0,
   catalogWaitSeconds = 0,
 }: Props) {
@@ -85,7 +87,7 @@ export function ModelCenter({
   const [catalog, setCatalog] = useState<Record<string, ModelCatalog>>({});
   const [discovering, setDiscovering] = useState<string | null>(null);
   const discover = async (id: string, revision: number, afterId?: string) => {
-    if (!onDiscover || discovering || Date.now() < catalogReadAfter) return;
+    if (!onDiscover || catalogReading || discovering || Date.now() < catalogReadAfter) return;
     setDiscovering(id);
     try {
       const page = await onDiscover(id, revision, afterId);
@@ -177,7 +179,7 @@ export function ModelCenter({
         {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => {
           const loaded = catalog[p.id]?.revision === p.revision ? catalog[p.id] : undefined;
           return <div key={p.id}>
-          <button className="v3-button soft" disabled={busy || discovering !== null || catalogWaitSeconds > 0} onClick={() => void discover(p.id, p.revision!)}>
+          <button className="v3-button soft" disabled={busy || catalogReading || discovering !== null || catalogWaitSeconds > 0} onClick={() => void discover(p.id, p.revision!)}>
             {discovering === p.id ? "正在读取…" : `读取 ${p.name} 模型`}
           </button>
           {loaded && <><label>服务商返回的模型<select defaultValue="" onChange={e => {
@@ -192,7 +194,7 @@ export function ModelCenter({
           <p role="status" className="v3-muted">已读取 {loaded.models.length} 个模型。{loaded.truncated
             ? loaded.nextAfterId ? "服务商还有后续页面。" : "列表尚未完整，可手动填写未显示的模型名称。"
             : "服务商当前列表已读完。"} 列表不代表模型能力已经验证。</p>
-          {loaded.nextAfterId && <button className="v3-button soft" aria-label={`读取 ${p.name} 下一批模型`} disabled={busy || discovering !== null || catalogWaitSeconds > 0}
+          {loaded.nextAfterId && <button className="v3-button soft" aria-label={`读取 ${p.name} 下一批模型`} disabled={busy || catalogReading || discovering !== null || catalogWaitSeconds > 0}
             onClick={() => void discover(p.id, p.revision!, loaded.nextAfterId)}>读取下一页</button>}</>}
         </div>})}
       </section>}

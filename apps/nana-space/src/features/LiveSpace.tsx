@@ -1878,6 +1878,7 @@ export function LiveSpace() {
                     disabled={busy || !healthy} onSave={saveProviderRuntime}/>}
                 <ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
+                catalogReading={catalogReading}
                 catalogReadAfter={catalogReadAfter}
                 catalogWaitSeconds={catalogWaitSeconds}
                 settings={data.provider_settings}

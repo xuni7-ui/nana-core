@@ -1681,6 +1681,9 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
   expect(reads).toBe(2); // No automatic retry at expiry.
   hold=true;await advanced.click();await expect.poll(()=>reads).toBe(3);
   await expect(check).toBeDisabled(); // Advanced request is still in flight.
+  await go(page,'memories');await go(page,'models','settings');
+  await expect(advanced).toBeDisabled();await expect(check).toBeDisabled();
+  expect(reads).toBe(3);
   release();await expect(check).toBeEnabled();
   await expect(page.getByText('服务商未接受凭据，请检查 API Key 和账户权限。')).toBeVisible();expect(reads).toBe(3);
 });
