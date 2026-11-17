@@ -5,6 +5,7 @@ import pytest
 from PIL import Image,ImageDraw,ImageChops
 from statistics import median
 import random
+import re
 
 from tools.nana_next_experience.experiments.video_motion_onset import propose,_compensated_rate
 from tools.nana_next_experience.experiments.video_pts_decode import decode
@@ -16,6 +17,11 @@ def gray(value,box=False):
     image=Image.new('RGB',(160,120),(value,)*3)
     if box:ImageDraw.Draw(image).rectangle((5,5,54,54),fill=(0,0,0))
     return image
+
+
+def test_fixed_open_sample_registry_contains_complete_sha256_values():
+    from tools.nana_next_experience.experiments.compare_opencv_tree import SAMPLES
+    assert all(re.fullmatch('[0-9a-f]{64}',sample['sha256']) for sample in SAMPLES.values())
 
 
 def test_histogram_rate_matches_direct_pixel_oracle_including_median_ties():

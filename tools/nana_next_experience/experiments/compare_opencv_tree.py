@@ -21,7 +21,7 @@ from tools.nana_next_experience.experiments.video_window_fusion import fuse_wind
 
 SAMPLES={
     'tree':{'path':'samples/data/tree.avi','size':1250680,'fps':15,'gap':8,
-        'sha256':'4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82dc',
+        'sha256':'4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82ac82dc',
         'annotation':'one visual inspection: hand enters frame about 23–24.5 seconds; tree/background motion continues'},
     'vtest':{'path':'samples/data/vtest.avi','size':8131690,'fps':10,'gap':20,
         'sha256':'45cddc9490be69345cbdab64ca583be65987e864ca408038e648db99e10516cf',
@@ -40,6 +40,7 @@ def run(args,*,payload=None,cwd=None):
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--video',type=Path,required=True)
     parser.add_argument('--sample',choices=tuple(SAMPLES),default='tree')
+    parser.add_argument('--native-core',action='store_true',help='also run original sandboxed S5 VIDEO decoder for the <=30s sample')
     parser.add_argument('--dsh',type=Path,required=True);parser.add_argument('--watch',type=Path,required=True)
     args=parser.parse_args();video=args.video.resolve(strict=True);sample=SAMPLES[args.sample]
     if video.stat().st_size!=sample['size'] or hashlib.sha256(video.read_bytes()).hexdigest()!=sample['sha256']:
@@ -108,6 +109,23 @@ def main():
         rows['watch_original_requested_offsets']['reported_cuts']=watch_timeline['cuts']
         rows['fusion_actual_frames']['selected_cues']=fusion['selected_cues']
         rows['fusion_with_onsets_actual_frames']['selected_cues']=onset_fusion['selected_cues']
+        native=None
+        if args.native_core:
+            if duration>30:raise ValueError('original S5 video duration bound is 30 seconds')
+            from nana_core.continuity.world_loop.perception import MediaDecoder
+            original=timed('original_s5_decoder',lambda:MediaDecoder().decode(video.read_bytes(),'VIDEO'))
+            old8=fuse_window(decoded,dsh,pairs,budget=8,max_gap=4.7)
+            new8=fuse_window(decoded,dsh,pairs,budget=8,max_gap=4.7,onsets=onsets)
+            def describe_eight(values):
+                points=[0,*values,duration]
+                return {'timestamps':values,'frames':len(values),
+                    'max_sampling_gap_seconds':max(b-a for a,b in zip(points,points[1:])),
+                    'hand_entry_23_to_24_5_seconds':any(23<=t<24.5 for t in values)}
+            native={'original_s5':describe_eight([f['sample_s'] for f in original['frames']]),
+                    'fusion_without_onset':describe_eight([f['seconds'] for f in old8['selected_frames']]),
+                    'fusion_with_onset':describe_eight([f['seconds'] for f in new8['selected_frames']]),
+                    'original_s5_pixels':[96,64],'candidate_pixels':[160,120],
+                    'limits':'8-frame comparison only; different image geometry, no matched Provider tokens or semantic score'}
         print(json.dumps({'sample':{'repository':'https://github.com/opencv/opencv',
             'commit':'5d0660acfed08650cafec4876b4792a369a20601','path':sample['path'],
             'sha256':sample['sha256'],'input_bytes':video.stat().st_size,'duration_seconds':duration,
@@ -116,6 +134,7 @@ def main():
             'frames_decoded':len(times),'declared_frames':measured['expected_frames'],
             'frame_size':[160,120],'decoded_rgb_bytes':len(decoded.rgb24)},
             'methods':rows,'ffmpeg_scan_complete':measured['scan_complete'],
+            'native_s5_eight_frame_comparison':native,
             'local_change_pairs':{'examined':pairs['pairs_examined'],'proposed':len(pairs['proposals']),
                                   'in_hand_entry':[p['after_seconds'] for p in pairs['proposals'] if 23<=p['after_seconds']<24.5]
                                       if args.sample=='tree' else None,

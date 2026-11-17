@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_COMPARISON",
+  "comparison": {
+    "original_s5": {
+      "timestamps": [
+        0.0,
+        4.066687,
+        8.200041,
+        11.800059,
+        16.466749,
+        20.600103,
+        25.000125,
+        29.533481
+      ],
+      "frames": 8,
+      "max_sampling_gap_seconds": 4.666690000000001,
+      "hand_entry_23_to_24_5_seconds": false
+    },
+    "fusion_without_onset": {
+      "timestamps": [
+        0.0,
+        2.066677,
+        6.333365,
+        10.66672,
+        14.66674,
+        19.000095,
+        23.133449,
+        27.33347
+      ],
+      "frames": 8,
+      "max_sampling_gap_seconds": 4.333355000000001,
+      "hand_entry_23_to_24_5_seconds": true
+    },
+    "fusion_with_onset": {
+      "timestamps": [
+        2.066677,
+        6.333365,
+        10.66672,
+        14.66674,
+        19.000095,
+        23.133449,
+        23.533451,
+        27.33347
+      ],
+      "frames": 8,
+      "max_sampling_gap_seconds": 4.333355000000001,
+      "hand_entry_23_to_24_5_seconds": true
+    },
+    "original_s5_pixels": [
+      96,
+      64
+    ],
+    "candidate_pixels": [
+      160,
+      120
+    ],
+    "limits": "8-frame comparison only; different image geometry, no matched Provider tokens or semantic score"
+  },
+  "sample": {
+    "repository": "https://github.com/opencv/opencv",
+    "commit": "5d0660acfed08650cafec4876b4792a369a20601",
+    "path": "samples/data/tree.avi",
+    "sha256": "4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82ac82dc",
+    "input_bytes": 1250680,
+    "duration_seconds": 29.600148,
+    "root_license": "Apache-2.0; separate video authorship/license not independently confirmed",
+    "event_annotation": "one visual inspection: hand enters frame about 23–24.5 seconds; tree/background motion continues",
+    "fusion_max_gap_target_seconds": 8,
+    "frames_decoded": 68,
+    "declared_frames": 444,
+    "frame_size": [
+      160,
+      120
+    ],
+    "decoded_rgb_bytes": 3916800
+  },
+  "original_s5_decoder_timing": {
+    "wall_seconds": 0.45595992098969873,
+    "parent_cpu_seconds": 0.012375611999999814,
+    "child_cpu_seconds": 0.007484000000000046
+  },
+  "onset_detector_timing": {
+    "wall_seconds": 0.04661039001075551,
+    "parent_cpu_seconds": 0.04389840899999997,
+    "child_cpu_seconds": -2.220446049250313e-16
+  },
+  "ffmpeg_scan_complete": false,
+  "verification": "30 related tests passed 19.43s including original H1 media binding; actual source and original Core MediaDecoder sandbox; no semantic model",
+  "interpretation": "original S5 selected 25.000125 seconds after annotated onset; baseline candidate selected 23.133449 seconds; onset candidate also selected 23.533451 but dropped original zero-second frame; image dimensions and potential model tokens differ",
+  "initial_failure": "after adding vtest support, tree SHA constant was accidentally truncated; sample hash check rejected it, corrected full SHA and added hash-shape test before successful run",
+  "limits": [
+    "source sample participated in motion parameter choice",
+    "single annotated video, no generalized event recall",
+    "96x64 Core and 160x120 candidate image geometry differ",
+    "no matched Provider requests, real token billing or measured semantic quality",
+    "sample authorship and specific video license not independently verified; no media committed"
+  ],
+  "sha256": {
+    "tools/nana_next_experience/experiments/compare_opencv_tree.py": "4fe3c49a17b0436706ee0c724b5d6b0aa8870b6a93949b3c49ff32f18481b026",
+    "tests/nana_next_experience/test_video_motion_onset.py": "6abc6cc1de1e45a678cf6c90772676ba5948ca6f6e4d54f09edb673b88fed86e"
+  }
+}
