@@ -42,7 +42,7 @@ class MediaCache:
     def put(self, chunks, *, source_ref, media_type='application/octet-stream'):
         if not isinstance(source_ref, str) or not 1 <= len(source_ref) <= 256 or not isinstance(media_type, str) or not 1 <= len(media_type) <= 128:
             raise CoreError('MEDIA_METADATA_BOUND')
-        if not self.current(source_ref):
+        if self.current(source_ref) is not True:
             raise CoreError('MEDIA_SOURCE_RETIRED')
         h, size = hashlib.sha256(), 0
         fd, name = tempfile.mkstemp(prefix='nanalink-', dir=self.root)
@@ -57,7 +57,7 @@ class MediaCache:
                     h.update(chunk)
                     stream.write(chunk)
                 stream.flush()
-            if not self.current(source_ref):
+            if self.current(source_ref) is not True:
                 raise CoreError('MEDIA_SOURCE_RETIRED')
             key = h.hexdigest()
             handle = MediaHandle(key, size, source_ref, media_type)
@@ -88,7 +88,7 @@ class MediaCache:
 
     def resolve(self, *, source_ref, sha256):
         """Resolve only a source/content pair already admitted to this session."""
-        if not self.current(source_ref):
+        if self.current(source_ref) is not True:
             raise CoreError('MEDIA_SOURCE_RETIRED')
         value = self.items.get(sha256)
         if not value or source_ref not in self.sources.get(sha256, set()):
@@ -96,7 +96,7 @@ class MediaCache:
         return MediaHandle(sha256, value[1], source_ref, 'application/octet-stream')
 
     def read(self, handle, *, offset=0, length=65536):
-        if not self.current(handle.source_ref):
+        if self.current(handle.source_ref) is not True:
             raise CoreError('MEDIA_SOURCE_RETIRED')
         if not 0 <= offset <= handle.size or not 1 <= length <= 1024 * 1024:
             raise CoreError('MEDIA_RANGE_BOUND')
@@ -109,7 +109,7 @@ class MediaCache:
             stream.seek(offset)
             data = stream.read(min(length, handle.size - offset))
         # A source may be withdrawn while the filesystem read is in progress.
-        if not self.current(handle.source_ref):
+        if self.current(handle.source_ref) is not True:
             raise CoreError('MEDIA_SOURCE_RETIRED')
         return data
 
