@@ -6,7 +6,7 @@ from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.records import RecordService
 from nana_core.continuity.world_loop.semantic_harness import semantic_harness
 from tests.world_loop.helpers import fresh
-from tests.world_loop.test_media_stream_binding import multitrack
+from tests.world_loop.test_media_stream_binding import multitrack,transport_video
 from .test_grounding import ingest,setup
 
 @pytest.mark.parametrize('modality',['VIDEO','AUDIO'])
@@ -126,3 +126,39 @@ def test_final_packet_duration_uses_available_metadata_or_a_point(tmp_path,multi
         assert result['covered_intervals'][-1]==[.75,end]
         assert result['unobserved_gaps']==([] if legacy else [[.75,1.]])
         assert state['calls']==1 and not r.store.all('actions') and not r.store.all('goals')
+
+
+def test_normalized_transport_timeline_reaches_original_semantic_parts_and_withdrawal(tmp_path,transport_video):
+    with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+        mid=ingest(r,'VIDEO',transport_video);service=setup(r,t)
+        cid=service.prepare('transport-time',mid,transport_video)
+        request=service.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']
+        parts=request['role_input']['parts']
+        assert parts[0]['start_s']==0 and parts[-1]['end_s']==1.
+        assert service.execute(cid)['state']=='PROPOSED'
+        result=service.ground(cid,entity_id='device')
+        assert result['covered_intervals'][0]==[0.,.04] and result['covered_intervals'][-1]==[.96,1.]
+        assert result['unobserved_gaps'] and result['coverage']=='EXPLICIT_SEGMENTS'
+        assert state['calls']==1
+        MemoryService(r.store,r.authority).forget(mid,r.authority)
+        with pytest.raises(CoreError):service.ground(cid,entity_id='device')
+        assert not r.store.all('actions') and not r.store.all('goals')
+
+
+def test_container_origin_preserves_a_real_leading_video_gap(tmp_path):
+    path=tmp_path/'delayed-video.ts'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_complex_threads','1',
+        '-itsoffset','0.5','-f','lavfi','-i','color=c=red:s=32x24:r=25:d=1',
+        '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=1.5',
+        '-map','0:v','-map','1:a','-c:v','mpeg2video','-c:a','mp2','-b:a','32k','-threads','1',
+        '-f','mpegts',str(path)],check=True,timeout=20)
+    data=path.read_bytes()
+    with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+        mid=ingest(r,'VIDEO',data);service=setup(r,t)
+        decoded=json.loads(MemoryService(r.store).read(mid)['text'])['decoded'];first=decoded['frames'][0]['sample_s']
+        assert first>.4
+        cid=service.prepare('leading-video-gap',mid,data);assert service.execute(cid)['state']=='PROPOSED'
+        result=service.ground(cid,entity_id='device')
+        assert result['unobserved_gaps'][0]==pytest.approx([0.,first])
+        assert result['covered_intervals'][0][0]==first and state['calls']==1
+        assert not r.store.all('actions') and not r.store.all('goals')

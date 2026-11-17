@@ -338,6 +338,10 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 
 原meta_learning.py及原test_meta_learning.py、原CI精确触发/消费者组、09/11/ACTIVE/STATUS、本白名单、evidence/meta-learning-domain-continuity-20261117原错/固定旧slot/全新后续数据迁移/相关/原CI/公开runner/指纹；无DB/私史/Key/新模型/新权威/账号/生产/CURRENT/APK。
 
+## 2026-11-17 A原S5容器相对PTS
+
+原perception.py、原world/H1 test_media_stream_binding.py、09/11/ACTIVE/STATUS、本白名单、evidence/native-container-relative-pts-20261117合成原错/真实owned字节元数据与双解码/旧投影/当前16/相关81与100ms诊断及双单项/原CI/公开probe/指纹；无DB/私史/Key/平台账号/付费/生产/CURRENT/APK；不复制B原型runner进Core。
+
 ## 2026-11-17 B简易模型目录检查
 
 持续授权：apps/nana-space/src/features/LiveSpace.tsx、src/features/next/ModelSetup.tsx、tests/v3.spec.ts、simple-model-catalog-check-20261117.json、09/11及B队列追加、本清单；无真实凭据/用户数据。

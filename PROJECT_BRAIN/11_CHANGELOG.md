@@ -4315,6 +4315,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 
 - 2026-11-17 CST｜revision280：原meta_learning已有独立候选/资格/原G消费者，全球8限额先截后筛导致8无关域成果挤掉当前策略；原封签同测试重启后G BLOCKED/NAIVE_SUM。现同scope/privacy/domain先筛再8候选，原记录进入下一全新garden/music数据的G HYPOTHESIZE，DONE/独立EVAL与TRANSFER过；撤回meta及其派生新G支持失效。2过.76s+32相关11.06s，0模型/selector0写，不改独立评价器，不称自改核心；279CI50过30.20s，280CI待。b196封签不含后继，CURRENT不变。 指纹锚9836def160f467fd2d81b41a8297917e4317a23c33845a84b88fc88d5d892636。
 
+- 2026-11-17 CST｜revision281：从B22固定d63c1ba吸收相对PTS机制到原S5隔离decoder，8460B真实1s TS原绝对1.44s被拒，旧3fail→新3过，最终原native/H1两文件16过9.55s；原C私问/来源撤回/H1部分覆盖、24fps精确tick/真实leading gap有效；旧0origin完整投影相同。相关81过1例100ms prepare超时STALE保留，原旧/当前单项各过，不放松门禁或称整批全过。280独立CI179过38.76s，281CI待。b196不含后继，CURRENT不变。 指纹锚6e0710f322088b0b0a3c146b9ec4e23e8de1ffda6d25e754580458d1f338be4e。
+
 
 ### 2026-11-17 · B简易模型目录手动检查候选
 
