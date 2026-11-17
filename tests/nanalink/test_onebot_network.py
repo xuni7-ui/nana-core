@@ -393,6 +393,33 @@ def test_disabled_account_queued_event_is_cancelled_without_blocking_other_accou
     asyncio.run(run())
 
 
+def test_bound_recall_is_reported_as_not_withdrawn_without_blocking_messages():
+    from nana_core.nanalink.sidecar import ForwardRoute
+    async def run():
+        route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
+        cfg=SessionConfig(alias='primary',account_id='42',mode='http',endpoint='http://127.0.0.1:1',port=18790,
+            upstream_secret_ref='upstream.test',core_api_secret_ref='core.test',forward_secret_ref='forward.test',
+            core_origin='http://127.0.0.1:2',routes=(route,))
+        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(cfg,)),resolver)
+        adapter=sidecar.adapters['primary'];sidecar.tasks.append(asyncio.create_task(sidecar._receive(cfg)))
+        try:
+            recall={'self_id':42,'time':1,'post_type':'notice','notice_type':'friend_recall','user_id':43,'message_id':1}
+            assert adapter.offer(recall)=='QUEUED'
+            assert adapter.offer({**recall,'user_id':44,'message_id':2})=='QUEUED'
+            assert adapter.offer(message(3))=='QUEUED'
+            async def processed():
+                while adapter.metrics['unhandled_recalls'] != 1 or sidecar.transport.size != 1:
+                    await asyncio.sleep(.01)
+            await asyncio.wait_for(processed(),2)
+            assert sidecar.last['primary']['state']=='RECALL_NOT_WITHDRAWN'
+            adapter._health=adapter._health.model_copy(update={'error':'INVALID_EVENT_DROPPED'})
+            assert adapter.health().error=='RECALL_NOT_WITHDRAWN'
+            assert sidecar.transport.size==1
+        finally:
+            await sidecar.close();resolver.clear()
+    asyncio.run(run())
+
+
 def test_http_rpc_limits_inflight_calls_and_releases_capacity():
     async def run():
         release = asyncio.Event(); all_started = asyncio.Event(); count = 0
