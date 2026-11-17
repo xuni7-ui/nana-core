@@ -47,7 +47,11 @@ class MediaCache:
             raise CoreError('MEDIA_CACHE_CLOSED')
         if self.retirement_overflow or source_ref in self.retired:
             raise CoreError('MEDIA_SOURCE_RETIRED')
-        if self.current(source_ref) is True:
+        try:
+            current = self.current(source_ref)
+        except Exception:
+            current = False
+        if current is True:
             return
         known = admission_started or any(source_ref in refs for refs in self.sources.values())
         if known:

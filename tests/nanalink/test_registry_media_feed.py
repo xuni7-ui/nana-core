@@ -55,6 +55,23 @@ def test_media_observed_withdrawal_cannot_be_undone_by_later_callback(tmp_path):
     with pytest.raises(CoreError,match='MEDIA_CACHE_CLOSED'):cache.put((b'image',),source_ref='new')
 
 
+def test_media_source_callback_error_retires_admitted_reference(tmp_path):
+    state={'fail':False}
+    def current(_):
+        if state['fail']:raise RuntimeError('synthetic source lookup failure')
+        return True
+    cache=MediaCache(tmp_path/'media',source_current=current,max_bytes=16,item_bytes=8,max_items=1)
+    try:
+        handle=cache.put((b'image',),source_ref='source')
+        state['fail']=True
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+        state['fail']=False
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+        assert cache.total==0
+    finally:
+        cache.close()
+
+
 def test_media_withdrawal_during_initial_ingest_stays_retired(tmp_path):
     state={'current':True}
     cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
