@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_CANDIDATE",
+  "contract": "original NanaLink with_current_public_video wraps trusted local callback; original Store PUBLIC VIDEO evidence and digest -> original MediaCache -> bounded FFmpeg windows -> original pinned dsh + local pairs -> global frame budget -> in-memory PNG -> original S5 IMAGE technical decoder; source current rechecked after callback",
+  "test": "15 passed 4.52s including original source gate/cache/global tests, real FFmpeg and dsh fixed SHA 0b4bd110074b3e2cd043da8b078f7272589d50b0",
+  "controlled_result": "synthetic 2-second 4fps video, two overlapping 6-frame windows, total budget 3; original source and file SHA preserved, output PTS deduplicated, decoded image pixel hash verified; original Store withdrawal during detector returns no candidate even when cache current callback remains true",
+  "prior_qualification": "original NanaLink source-gate tool: fixed B source hashes matched, original S5 technical perception and Store, synthetic PTS .5/.75/1/1.25, 100 gate calls median .2896ms p95 .7934ms process RSS 41404 KiB, not FFmpeg cost; initial invocation missing project root on PYTHONPATH failed then corrected",
+  "resource_scope": "two full source cache reads/hash and snapshots; decoded RGB 36864 bytes for 12 32x32 RGB frames; no measured end-to-end CPU, child RSS, real model Tokens, or bill",
+  "limitations": [
+    "PUBLIC original generic VIDEO only; no Bilibili account/file attribution",
+    "trusted detector callback may have arbitrary effects; gate does not sandbox callback",
+    "source may be revoked after return; consumer must recheck at actual use",
+    "max 8 windows, source <=16MiB and existing original S5 public observation <=30s",
+    "64MiB accumulated RGB bound checked after each decode; instantaneous peak can exceed bound",
+    "PTS equality does not independently verify equal overlapping decoded pixels",
+    "does not persist images, enter original C, call vision models, or establish semantic observation"
+  ],
+  "rollback": "remove isolated batch and test; no original Core change or data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_guarded_batch.py": "af908aed769b5e012566db0e95f4a8ffb9f832acd2dee8cfd11c578fea19f3b2",
+    "tests/nana_next_experience/test_video_guarded_batch.py": "c70758b2d3e414a8ee924f0196c2adc8e69ac34e5cbef068996210e88a78a9eb"
+  }
+}
