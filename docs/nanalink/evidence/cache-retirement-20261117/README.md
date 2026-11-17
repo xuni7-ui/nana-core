@@ -17,3 +17,5 @@ Fixed `f7e3d7ca127a73a92f802d8bb24b2c074971c204`: the local Python selection mat
 The recall-warning fixture was subsequently extended through an actual owned local HTTP `/nanalink/status` endpoint and the original `NanaLinkObserver`; the count and warning survived projection and the synthetic credential was absent from output (1 targeted test). It remains a volatile infrastructure alert, not a platform recall integration.
 
 A further two-account owned-sidecar test confirmed a bound recall changes only its own account warning while both accounts retain their separate ordinary event queue entries; the existing disabled-account isolation case also passed (2 tests).
+
+The existing NanaLink workflow previously filtered pull requests to A only, so the stacked PR could not trigger it. The candidate extends that same workflow to `feature/nanalink-*` base branches; actual GitHub trigger/result must be observed before claiming CI. No new workflow or broker is added.
