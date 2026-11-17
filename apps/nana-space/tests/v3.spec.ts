@@ -1654,9 +1654,10 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
       dispatch_happened:true,result:{configuration_revision:revision}})});
   });
   await page.route(`**${API}providers/models?*`,async route=>{
-    reads++;if(hold)await barrier;const query=new URL(route.request().url()).searchParams;
+    reads++;if(hold){await barrier;return route.fulfill({status:502,json:{code:'PROVIDER_CATALOG_AUTH'}});}
+    const query=new URL(route.request().url()).searchParams;
     return route.fulfill({status:200,json:envelope(state,{provider_profile_id:query.get('provider_profile_id'),
-      profile_revision:1,models:['deepseek-chat'],truncated:false,retry_after_ms:hold?0:10000})});
+      profile_revision:1,models:['deepseek-chat'],truncated:false,retry_after_ms:10000})});
   });
   await open(page,'models');
   await page.clock.install({time:new Date('2030-01-01T00:00:00Z')});
@@ -1680,7 +1681,8 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
   expect(reads).toBe(2); // No automatic retry at expiry.
   hold=true;await advanced.click();await expect.poll(()=>reads).toBe(3);
   await expect(check).toBeDisabled(); // Advanced request is still in flight.
-  release();await expect(check).toBeEnabled();expect(reads).toBe(3);
+  release();await expect(check).toBeEnabled();
+  await expect(page.getByText('服务商未接受凭据，请检查 API Key 和账户权限。')).toBeVisible();expect(reads).toBe(3);
 });
 
 for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as const) test(`SYNTHETIC model setup resumes original steps: ${outcome}`, async({page})=>{
