@@ -1,5 +1,6 @@
 """One actual owned Core, WS QQ and HTTP Bilibili under the same SDK envelope."""
 import asyncio
+import pytest
 from nana_core.contracts import GrantSpec, CoreError
 from nana_core.life.application import LifeApplication
 from nana_core.life.config import load_config, update_config
@@ -25,7 +26,8 @@ def envelope(adapter,mid,peer='43',privacy='PROJECT'):
                  observed_at_us=1,privacy=privacy,origin='SYNTHETIC_LOOPBACK',raw_sha256='a'*64,raw_reference='fixture:'+mid)
 
 
-def test_actual_original_core_two_platforms_common_contract_restart_and_duplicate(tmp_path,monkeypatch):
+@pytest.mark.parametrize('preexisting', [False, True])
+def test_actual_original_core_two_platforms_common_contract_restart_and_duplicate(tmp_path,monkeypatch,preexisting):
     home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
     bindings=(SurfaceBinding(binding_id='qq.primary',platform='qq.onebot',surface='chat.direct',adapter='qq.onebot',
                              mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PROJECT',)),
@@ -38,6 +40,9 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
         bc=BilibiliChannelBinding(channel_id='primary',binding_id='bili.primary',kind='comment',account_id=42,sender_id=43,
                             target_id=7,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,send_authorized=True)
         bili_state['comments']=[{'rpid':9,'root':0,'member':{'mid':43},'content':{'message':'Independent SDK public event'}}]
+        if preexisting:
+            bili_state['comments'].append({'rpid':99,'root':9,'parent':9,'member':{'mid':42},
+                                           'content':{'message':'A deliberately synthetic language response'}})
         def adapters(app,grant=True):
             if grant:
                 q=equip(app,qc,net['endpoint']);q.transport.credential=SecretReference(resolver,'core.test')
@@ -55,9 +60,10 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
             app.pause();qa,ba=adapters(app);identity=app.runtime.identity_id
             tables=[r[0] for r in app.runtime.store.db.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")]
             qr=qa.receive_event(envelope(qa,'1'));br=ba.receive_event(envelope(ba,'9','7','PUBLIC'))
-            assert qr.outcome==br.outcome==Outcome.CONFIRMED_SUCCESS
-            assert qr.action_id and br.action_id and qr.external_delivery and br.external_delivery
-            assert len(qq_state['sent'])==bili_state['posts']==1 and len(calls)==4
+            assert qr.outcome==Outcome.CONFIRMED_SUCCESS
+            assert br.outcome==(Outcome.CANCELLED if preexisting else Outcome.CONFIRMED_SUCCESS)
+            assert qr.action_id and br.action_id and qr.external_delivery and br.external_delivery is not preexisting
+            assert len(qq_state['sent'])==1 and bili_state['posts']==(0 if preexisting else 1) and len(calls)==4
             assert qa.workflow.store is ba.workflow.store is app.runtime.store
             from types import SimpleNamespace
             from nana_core.nanalink.core_bridge import CoreBridge,ChannelRoute
@@ -66,7 +72,10 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
                 ChannelRoute(qa.account.key,'primary','43','43','PROJECT','private'),
                 ChannelRoute(ba.account.key,'primary','7','43','PUBLIC','channel')])
             assert bridge.receipt(qr.action_id).outcome==Outcome.CONFIRMED_SUCCESS
-            assert bridge.receipt(br.action_id).outcome==Outcome.CONFIRMED_SUCCESS
+            assert bridge.receipt(br.action_id).outcome==(Outcome.CANCELLED if preexisting else Outcome.CONFIRMED_SUCCESS)
+            owner=SimpleNamespace(app=configured,qq=lambda *args:None,bilibili=lambda channel,mid:{'delivery':'SUCCEEDED','action_id':br.action_id,'external_delivery':True})
+            direct=CoreBridge(owner,[ChannelRoute(ba.account.key,'primary','7','43','PUBLIC','channel')])
+            assert direct.receive(envelope(ba,'9','7','PUBLIC')).outcome==(Outcome.CANCELLED if preexisting else Outcome.CONFIRMED_SUCCESS)
             wrong_qc=qc.model_copy(update={'account_id':'99'})
             wrong_qa=Account(platform='qq',adapter_id='qq.onebot',account_id='99')
             wrong_bc=bc.model_copy(update={'account_id':99})
@@ -101,8 +110,8 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
             app.pause();qa,ba=adapters(app,grant=False)
             assert app.runtime.identity_id==identity
             assert qa.receive_event(envelope(qa,'1')).outcome==Outcome.CONFIRMED_SUCCESS
-            assert ba.receive_event(envelope(ba,'9','7','PUBLIC')).outcome==Outcome.CONFIRMED_SUCCESS
-            assert len(qq_state['sent'])==bili_state['posts']==1 and len(calls)==4
+            assert ba.receive_event(envelope(ba,'9','7','PUBLIC')).outcome==(Outcome.CANCELLED if preexisting else Outcome.CONFIRMED_SUCCESS)
+            assert len(qq_state['sent'])==1 and bili_state['posts']==(0 if preexisting else 1) and len(calls)==4
             assert tables==[r[0] for r in app.runtime.store.db.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")]
             import json
             from nana_core.continuity.records import RecordService
@@ -115,6 +124,16 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
             assert support
             app.forget(support[0])
             assert bridge.receipt(qr.action_id).outcome==Outcome.UNKNOWN
+            bili_action=app.runtime.store.one('actions',br.action_id)
+            bili_event=app.runtime.store.event(json.loads(bili_action['body_json'])['verification_event_id'])
+            bili_record=app.runtime.store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',(bili_event['artifact_id'],)).fetchone()[0]
+            bili_support=RecordService(app.runtime.store).support(bili_record)
+            assert bili_support
+            app.forget(bili_support[0])
+            with monkeypatch.context() as patch:
+                patch.setattr(ba.workflow,'receive',lambda _: {'delivery':'SUCCEEDED','action_id':br.action_id,'external_delivery':True})
+                assert ba.receive_event(envelope(ba,'9','7','PUBLIC')).outcome==Outcome.UNKNOWN
+            assert len(qq_state['sent'])==1 and bili_state['posts']==(0 if preexisting else 1)
 
 
 def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path):
