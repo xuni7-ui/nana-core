@@ -337,3 +337,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原方法层跨域消费
 
 原meta_learning.py及原test_meta_learning.py、原CI精确触发/消费者组、09/11/ACTIVE/STATUS、本白名单、evidence/meta-learning-domain-continuity-20261117原错/固定旧slot/全新后续数据迁移/相关/原CI/公开runner/指纹；无DB/私史/Key/新模型/新权威/账号/生产/CURRENT/APK。
+
+## 2026-11-17 B简易模型目录检查
+
+持续授权：apps/nana-space/src/features/LiveSpace.tsx、src/features/next/ModelSetup.tsx、tests/v3.spec.ts、simple-model-catalog-check-20261117.json、09/11及B队列追加、本清单；无真实凭据/用户数据。

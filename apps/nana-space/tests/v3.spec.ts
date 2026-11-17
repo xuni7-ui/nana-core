@@ -1581,6 +1581,63 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC','QWEN'] as con
   await noHorizontalOverflow(page);
 });
 
+test('SYNTHETIC simple model setup checks catalog only when requested and reports its limits',async({page})=>{
+  const state=await installMock(page);
+  state.capabilities={provider_configuration_write:true,provider_model_discovery:true};
+  const saved=structuredClone(providerSettings);let revision=saved.revision;
+  const commands:Record<string,unknown>[]=[];let reads=0;
+  let outcome:'found'|'partial'|'missing'|'auth'|'mismatch'|'badformat'|'delayed'='found';
+  let release!:()=>void;const barrier=new Promise<void>(resolve=>{release=resolve;});
+  await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
+    {...viewData(state,'settings'),provider_settings:{...saved,revision}})}));
+  await page.route(`**${API}providers/commands`,async route=>{
+    const body=route.request().postDataJSON();commands.push(body.command);
+    if(body.command.provider)saved.providers.push({...body.command.provider,revision:1,secret_state:'AVAILABLE'});
+    if(body.command.model)saved.models.push(body.command.model);
+    revision++;state.revision++;
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{configuration_revision:revision}})});
+  });
+  await page.route(`**${API}providers/models?*`,async route=>{
+    reads++;const query=new URL(route.request().url()).searchParams;
+    const configured=commands[0].provider as Record<string,unknown>;
+    expect(query.get('provider_profile_id')).toBe(configured.provider_profile_id);
+    expect(query.get('profile_revision')).toBe('1');
+    if(outcome==='auth')return route.fulfill({status:502,json:{code:'PROVIDER_CATALOG_AUTH'}});
+    if(outcome==='delayed')await barrier;
+    return route.fulfill({status:200,json:envelope(state,{
+      provider_profile_id:outcome==='mismatch'?'provider.other':configured.provider_profile_id,
+      profile_revision:1,models:outcome==='badformat'?42:outcome==='found'?['deepseek-chat']:['other-model'],
+      truncated:outcome==='partial',...(outcome==='found'?{retry_after_ms:1000}:{}),
+      qualification:'NOT_ESTABLISHED',inference_calls:0})});
+  });
+  await open(page,'models');const setup=page.locator('.next-setup');
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+  await expect(setup).toContainText('供应商与模型已保存');
+  expect(commands).toHaveLength(2);expect(reads).toBe(0);
+  const check=setup.getByRole('button',{name:'检查模型目录连接',exact:true});
+  await check.click();await expect(setup).toContainText('已读取服务商目录并找到所选模型；能否实际对话仍需使用时验证。');
+  await expect(setup.getByRole('button',{name:/秒后可再次检查/})).toBeDisabled();
+  await expect(check).toBeEnabled({timeout:3000});expect(reads).toBe(1);
+  outcome='partial';await check.click();await expect(setup).toContainText('已读取部分目录，尚未找到所选模型');
+  outcome='missing';await check.click();await expect(setup).toContainText('已读取服务商目录，但未列出所选模型');
+  outcome='auth';await check.click();await expect(setup).toContainText('服务商未接受凭据，请检查 API Key 和账户权限。');
+  outcome='mismatch';await check.click();await expect(setup).toContainText('模型配置已更新，请刷新后重新确认。');
+  outcome='badformat';await check.click();await expect(setup).toContainText('服务商返回的列表格式不兼容，请直接填写模型名称。');
+  const model=saved.models.find(m=>m.model_profile_id===(commands[1].model as Record<string,unknown>).model_profile_id)!;
+  model.remote_model_id='changed-model';revision++;
+  await check.click();await expect(setup).toContainText('已保存的服务商或模型已被修改');
+  expect(reads).toBe(6);model.remote_model_id='deepseek-chat';revision++;
+  expect(commands).toHaveLength(2);
+  expect(state.requests.some(r=>r.path==='messages'||r.path==='providers/credential')).toBe(false);
+  await noHorizontalOverflow(page);
+  outcome='delayed';await check.click();await expect.poll(()=>reads).toBe(7);
+  await page.getByRole('button',{name:'退出并清除本机视图'}).click();release();
+  await expect(page.locator('.next-setup')).toHaveCount(0);
+  await expect(page.getByText('已读取服务商目录并找到所选模型；能否实际对话仍需使用时验证。',{exact:true})).toHaveCount(0);
+  expect(reads).toBe(7);expect(commands).toHaveLength(2);
+});
+
 for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as const) test(`SYNTHETIC model setup resumes original steps: ${outcome}`, async({page})=>{
   const state=await installMock(page);state.capabilities={provider_configuration_write:true};
   const saved=structuredClone(providerSettings);

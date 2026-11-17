@@ -4314,3 +4314,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision279：原S8方法已被反例暂停后64条新成功使原重启复验遗漏有效旧反例，原封签Core两privacy场景错误ACTIVE/真实选择器又可选。现近期独立支持不改，另以既有lesson索引流式检查完整当前反例，2fail→同2过/全文件4过1.12s与43相关15.47s；阻恢复0写入0模型，撤回反例后仍能恢复，受限privacy不伪造完整资格。b196封签候选不含本后继，不重打APK，CURRENT不变。 指纹锚a8cd76028c74c9a8bc8fb9f98e1b9bbb9c975326776faa16e9cf2deb1ca2bdb8。
 
 - 2026-11-17 CST｜revision280：原meta_learning已有独立候选/资格/原G消费者，全球8限额先截后筛导致8无关域成果挤掉当前策略；原封签同测试重启后G BLOCKED/NAIVE_SUM。现同scope/privacy/domain先筛再8候选，原记录进入下一全新garden/music数据的G HYPOTHESIZE，DONE/独立EVAL与TRANSFER过；撤回meta及其派生新G支持失效。2过.76s+32相关11.06s，0模型/selector0写，不改独立评价器，不称自改核心；279CI50过30.20s，280CI待。b196封签不含后继，CURRENT不变。 指纹锚9836def160f467fd2d81b41a8297917e4317a23c33845a84b88fc88d5d892636。
+
+
+### 2026-11-17 · B简易模型目录手动检查候选
+
+[源码/受控测试] A基线4f25b48；简易配置保存后可主动调用原已授权模型目录，先复核当前provider/model及回包ID/修订，分别提示找到、列表部分/未列出、认证与格式错误；遵守回包冷却，不自动重试或发送推理。把误称“连接并设为”改为“保存并设为”，目录成功不冒称实际对话可用。24模型相关单元、TS/Vite构建通过；原保存/未知回执及新功能桌面/390视口12项通过，后补模型被修改和退出后迟到响应两视口通过。无真实Provider、实际账单、Android设备或生产；自托管无需密钥仍受原REMOTE协议约束未完成。证据simple-model-catalog-check-20261117.json锚e72a238dfcaac6c6f53a0f470a5638354ef4a24c4d5d9a1e606848df06a7267b。
