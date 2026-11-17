@@ -1960,7 +1960,7 @@ test('NanaLink phone warns when recall did not withdraw memory',async({page})=>{
     nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
       health:{connection:'CONNECTED',login:'AUTHENTICATED',receive:'HEALTHY',error:'RECALL_NOT_WITHDRAWN'},capabilities:[]}]}})}));
   await open(page,'devices');
-  await expect(page.getByText('会话已连接 · 事件接收正常 · 检测到消息撤回，相关记忆尚未自动撤销，请检查',{exact:true})).toBeVisible();
+  await expect(page.getByText('会话已连接 · 事件接收正常 · 检测到消息撤回，相关记忆如已保存不会自动撤销，请检查',{exact:true})).toBeVisible();
   await noHorizontalOverflow(page);
 });
 
