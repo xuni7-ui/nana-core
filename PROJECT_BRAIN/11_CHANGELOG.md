@@ -4314,3 +4314,8 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision279：原S8方法已被反例暂停后64条新成功使原重启复验遗漏有效旧反例，原封签Core两privacy场景错误ACTIVE/真实选择器又可选。现近期独立支持不改，另以既有lesson索引流式检查完整当前反例，2fail→同2过/全文件4过1.12s与43相关15.47s；阻恢复0写入0模型，撤回反例后仍能恢复，受限privacy不伪造完整资格。b196封签候选不含本后继，不重打APK，CURRENT不变。 指纹锚a8cd76028c74c9a8bc8fb9f98e1b9bbb9c975326776faa16e9cf2deb1ca2bdb8。
 
 - 2026-11-17 CST｜revision280：原meta_learning已有独立候选/资格/原G消费者，全球8限额先截后筛导致8无关域成果挤掉当前策略；原封签同测试重启后G BLOCKED/NAIVE_SUM。现同scope/privacy/domain先筛再8候选，原记录进入下一全新garden/music数据的G HYPOTHESIZE，DONE/独立EVAL与TRANSFER过；撤回meta及其派生新G支持失效。2过.76s+32相关11.06s，0模型/selector0写，不改独立评价器，不称自改核心；279CI50过30.20s，280CI待。b196封签不含后继，CURRENT不变。 指纹锚9836def160f467fd2d81b41a8297917e4317a23c33845a84b88fc88d5d892636。
+
+
+### 2026-11-17 · B无密钥本机Provider隔离原型
+
+[源码/实测] A基线4f25b48；原配置拒绝非fixture回环端点、原工厂对REMOTE无密钥拒绝。隔离原型仅明确宿主授权的127.0.0.1精确端点、无Authorization，复用原OpenAI序列化/解析和CognitionSession隐私/预算/账本；同主体/Store内合成loopback成功，PERSONAL按原remote策略拒绝，超时UNKNOWN不重发，重定向/未授权/localhost/DNS及非白名单拒绝。独立本机HTTPS自签仅显式信任通过、默认CA拒绝；33相关11.06秒，补边界后7项3.22秒。原型未接原工厂、UI或真实模型；其测试子类先以HTTPS占位调用初始化再设置已验证HTTP，仅研究不得生产采用。现有账本按REAL_PROVIDER/UNKNOWN费用处理但后端实为合成替身，非实际Token/账单；旧reader对新协议或字段拒绝，须先设计迁移/回退及宿主端口身份。证据keyless-loopback-prototype-20261117.json锚a83518045831fc39ca3ecdedded02fdd30404ab9d0a2c6769946e37a0308de02。

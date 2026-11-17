@@ -2996,3 +2996,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-17 · B平台能力中文状态候选
 
 [源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。
+
+
+### 2026-11-17 · B无密钥本机Provider隔离原型
+
+[源码/实测] A基线4f25b48；原配置拒绝非fixture回环端点、原工厂对REMOTE无密钥拒绝。隔离原型仅明确宿主授权的127.0.0.1精确端点、无Authorization，复用原OpenAI序列化/解析和CognitionSession隐私/预算/账本；同主体/Store内合成loopback成功，PERSONAL按原remote策略拒绝，超时UNKNOWN不重发，重定向/未授权/localhost/DNS及非白名单拒绝。独立本机HTTPS自签仅显式信任通过、默认CA拒绝；33相关11.06秒，补边界后7项3.22秒。原型未接原工厂、UI或真实模型；其测试子类先以HTTPS占位调用初始化再设置已验证HTTP，仅研究不得生产采用。现有账本按REAL_PROVIDER/UNKNOWN费用处理但后端实为合成替身，非实际Token/账单；旧reader对新协议或字段拒绝，须先设计迁移/回退及宿主端口身份。证据keyless-loopback-prototype-20261117.json锚a83518045831fc39ca3ecdedded02fdd30404ab9d0a2c6769946e37a0308de02。

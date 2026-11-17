@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_RESEARCH_CANDIDATE_NOT_INSTALLED",
+  "problem": "original ProviderProfile disallows loopback OpenAI-compatible endpoints and original RuntimeProviderFactory requires secret for REMOTE; simple model UI therefore cannot configure a keyless local server",
+  "prototype": "explicit boolean host authorization + exact literal 127.0.0.1 HTTP base allowlist; reuse original OpenAIJSONTransport serialization, parsing and original CognitionSession privacy, reservation and ledger; no persistent schema, second subject or automatic action",
+  "fixture": "owned loopback fixture only; no Authorization header; synthetic source/response, not real model; original request accounting classifies remote path as REAL_PROVIDER and billing UNKNOWN, not fixture-zero or actual token/charge evidence",
+  "verification": [
+    "33 original routing, cognition-boundary and candidate tests passed in 11.06s",
+    "after adding additional forbidden endpoints 7 target tests passed in 3.22s",
+    "same original subject id and store across synthetic and keyless requests; private source denied under existing remote privacy policy",
+    "explicit false/string authorization, unlisted base, localhost hostname, other IP, https, path traversal and encoded path rejected; redirects not followed",
+    "timeout recorded UNKNOWN and not retransmitted",
+    "independent HTTPS fixture verifies a locally generated test CA and rejects the same cert without trust"
+  ],
+  "limits": [
+    "not wired into original provider factory, config, runtime, model directory, Android or Web",
+    "uses a trusted test-only subclass that calls original initializer with HTTPS placeholder before setting validated loopback HTTP; not recommended as production implementation",
+    "original strict configuration schema would reject new protocol/fields in an older reader; migration and rollback must be designed",
+    "requires host-side explicit authorization and service identity/port-reuse considerations",
+    "existing remote privacy and positive cost reservation remain conservative; local cost is UNKNOWN",
+    "no real user/model/production, network external to loopback, model token or bill qualification"
+  ],
+  "next": "A/B evaluate minimal original Provider factory/transport contract and host policy; implement and test old-reader rollback before exposing UI; do not reuse test-only placeholder hack in production",
+  "rollback": "remove isolated experiments/tests; no persistent config or schema changes",
+  "sha256": {
+    "tools/nana_next_experience/experiments/keyless_loopback_prototype.py": "dcd8e24c3569d515802129cea0f1028af79b4b2d114c8ea0e9101ab04845480c",
+    "tools/nana_next_experience/experiments/keyless_tls_fixture.py": "6597a14edc557a35f71b5328b589a2cf415029fbea8ab031d83880772f55f654",
+    "tests/nana_next_experience/test_keyless_tls_fixture.py": "b1fc403b9fc26ff7faf6c3a572fa974775887707ace058a302074dbf2cb2c26e"
+  }
+}

@@ -337,3 +337,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原方法层跨域消费
 
 原meta_learning.py及原test_meta_learning.py、原CI精确触发/消费者组、09/11/ACTIVE/STATUS、本白名单、evidence/meta-learning-domain-continuity-20261117原错/固定旧slot/全新后续数据迁移/相关/原CI/公开runner/指纹；无DB/私史/Key/新模型/新权威/账号/生产/CURRENT/APK。
+
+## 2026-11-17 B无密钥回环实验
+
+持续授权：keyless_loopback_prototype.py、keyless_tls_fixture.py、test_keyless_tls_fixture.py、keyless-loopback-prototype-20261117.json、09/11及B队列追加、本清单；测试自签密钥仅临时生成并清除，不入库。
