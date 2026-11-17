@@ -191,9 +191,17 @@ class FeedCoreBridge:
         from ..continuity.subject.contracts import SubjectInput
         from ..continuity.extensions import SurfaceEnvelope
         from ..presence.contracts import RuntimeEvent, Cause
-        if event.account != self.adapter.account or event.privacy != 'PUBLIC' or event.kind != 'feed.item':
+        if (not self.adapter.authorized or event.account != self.adapter.account
+                or event.privacy != 'PUBLIC' or event.kind != 'feed.item'):
             raise CoreError('FEED_SOURCE_BINDING_MISMATCH')
         binding = self.app.surfaces._binding(self.binding_id)
+        # The owner may still hold an older in-memory surface snapshot after a
+        # host configuration change. Do not admit a fresh feed event under a
+        # disabled, replaced, or privacy-restricted binding.
+        from ..life.config import load_config
+        current = next((b for b in load_config(self.app.home).surface_bindings if b.binding_id == self.binding_id), None)
+        if current != binding or binding.platform != 'web.feed' or 'PUBLIC' not in binding.permitted_privacy:
+            raise CoreError('FEED_PUBLIC_SURFACE_REQUIRED')
         runtime = self.app.runtime
         now = runtime.clock.utc_now_us()
         # Publication is ENVIRONMENT data, never the primary user's command.

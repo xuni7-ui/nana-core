@@ -99,6 +99,27 @@ def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path)
         assert not app.runtime.store.all('actions')
 
 
+def test_feed_bridge_rechecks_host_binding_and_adapter_authorization(tmp_path):
+    import pytest
+    home=tmp_path/'home';initialize(home);cfg=load_config(home)
+    binding=SurfaceBinding(binding_id='public.feed',platform='web.feed',surface='web.feed',adapter='web.feed',permitted_privacy=('PUBLIC',))
+    update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,)}),expected_revision=cfg.revision)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause();adapter=FeedAdapter('https://example.org/rss',authorized=True)
+        event=adapter.parse(b'<rss><channel><item><guid>x</guid><title>source</title></item></channel></rss>')[0]
+        bridge=FeedCoreBridge(app,adapter,binding.binding_id)
+        adapter.authorized=False
+        with pytest.raises(CoreError,match='FEED_SOURCE_BINDING_MISMATCH'):bridge.receive(event)
+        adapter.authorized=True
+        cfg=load_config(home)
+        disabled=binding.model_copy(update={'enabled':False})
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(disabled,)}),expected_revision=cfg.revision)
+        before=len(app.runtime.store.all('memories'))
+        with pytest.raises(CoreError,match='FEED_PUBLIC_SURFACE_REQUIRED'):bridge.receive(event)
+        assert len(app.runtime.store.all('memories'))==before
+        assert not app.runtime.store.all('runtime_queue')
+
+
 def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(tmp_path):
     from tests.living_release_v4.test_platform_runtime import initialize_channel
     home=tmp_path/'home';clock=VirtualClock()
