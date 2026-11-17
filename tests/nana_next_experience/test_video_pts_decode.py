@@ -215,7 +215,8 @@ def test_fractional_container_origin_uses_exact_first_stream_tick(tmp_path):
     decoded=decode('source.synthetic',path,width=32,height=24)
     assert len(decoded.timestamps)==24 and decoded.timestamps[0]==0
     assert decoded.pts_ticks[0]*decoded.time_base[0]/decoded.time_base[1] != float(decoded.container_origin_reported)
-    assert decoded.timeline_origin == '173/120'
+    from fractions import Fraction
+    assert Fraction(decoded.timeline_origin)==Fraction(decoded.pts_ticks[0]*decoded.time_base[0],decoded.time_base[1])
     part=decode('source.synthetic',path,width=32,height=24,start_seconds=0,end_seconds=.25)
     assert part.pts_ticks==decoded.pts_ticks[:6]
     assert part.rgb24==decoded.rgb24[:6*32*24*3]

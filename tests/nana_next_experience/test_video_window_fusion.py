@@ -112,7 +112,7 @@ def test_fractional_origin_survives_dsh_and_global_candidate_contract(tmp_path):
     from tools.nana_next_experience.experiments.video_selected_images import selected_images
     selected=select_windows(decoded.source_ref,decoded.duration_seconds,[output],budget=3,max_gap=.25)
     images=list(selected_images(decoded,project_window(selected,output,0)))
-    assert images and all(image.timeline_origin=='173/120' and image.png for image in images)
-    assert output['timeline_origin']=='173/120'
+    assert images and all(image.timeline_origin==decoded.timeline_origin and image.png for image in images)
+    assert output['timeline_origin']==decoded.timeline_origin
     assert selected['selected_frames'] and all(f['pts_tick'] in decoded.pts_ticks for f in selected['selected_frames'])
     assert output['whole_window_observed'] is False
