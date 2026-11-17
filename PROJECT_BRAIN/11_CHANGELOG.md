@@ -4343,3 +4343,6 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision281：从B22固定d63c1ba吸收相对PTS机制到原S5隔离decoder，8460B真实1s TS原绝对1.44s被拒，旧3fail→新3过，最终原native/H1两文件16过9.55s；原C私问/来源撤回/H1部分覆盖、24fps精确tick/真实leading gap有效；旧0origin完整投影相同。相关81过1例100ms prepare超时STALE保留，原旧/当前单项各过，不放松门禁或称整批全过。280独立CI179过38.76s，281CI待。b196不含后继，CURRENT不变。 指纹锚6e0710f322088b0b0a3c146b9ec4e23e8de1ffda6d25e754580458d1f338be4e。
 
 - [C 2026-11-17] PR25独立工作树增量继承A e5969b03原PTS契约，保留双方账本及B能力文案；原视频来源、帧、主体回执及A H1/媒体36项通过，真实平台未新增。
+- 2026-11-17 CST｜revision282：原S5同一捕获每次重解码、跨实体/范围错返旧Memory，原4fail；现只从原Evidence按字节/descriptor/privacy复用decoded，原两处Memory按entity/scope绑定并查current支持，撤回不重建，缺processor中断可由原证据接续，私PCM不被PUBLIC降级。6过1.40s/106相关34.92s；同视频重启3重放原9原生进程/1.046s→0/.001604s，两侧0写/原Record不变，非LLM/Token省费。281独立CI132过59.97s，282CI待；环境tmp/shm确已丢，源码/归档保留，b196候选不含后继/CURRENT不动。 指纹锚007871f2c9deb70d189ff7981abed8dda0905f211d695fe1bfebff81601a369d。
+
+- [C 2026-11-17] PR25独立工作树继承A 03e5227d原感知复用，保留原来源/实体/隐私校验；原复用、平台视频与原主体回执26项通过。

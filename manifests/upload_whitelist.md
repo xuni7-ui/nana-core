@@ -341,3 +341,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原S5容器相对PTS
 
 原perception.py、原world/H1 test_media_stream_binding.py、09/11/ACTIVE/STATUS、本白名单、evidence/native-container-relative-pts-20261117合成原错/真实owned字节元数据与双解码/旧投影/当前16/相关81与100ms诊断及双单项/原CI/公开probe/指纹；无DB/私史/Key/平台账号/付费/生产/CURRENT/APK；不复制B原型runner进Core。
+
+## 2026-11-17 A原观察复用与实体范围
+
+原perception.py、新既有world_loop/test_perception_reuse.py、原CI精确触发/组、09/11/ACTIVE/STATUS、本白名单、evidence/sourced-perception-reuse-20261117原4错/当前6/相关106/同字节原模块对照/实际CI/指纹；无DB/私史/Key/新缓存/新权威/账号/付费/生产/CURRENT/APK。tmp/shm丢失如实记录不伪造恢复。

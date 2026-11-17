@@ -220,21 +220,39 @@ class PerceptionService:
     def ingest(self,data,source,*,entity_id,scope):
         if self.store.schema_target<13 or scope not in self.policy.allowed_scopes or source.privacy not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
         if source.observed_time_us>self.store.clock.utc_now_us() or source.event_time_us>source.observed_time_us:raise CoreError('PERCEPTION_TIME_INVALID')
+        if type(data) is not bytes or not 1<=len(data)<=16*1024*1024:raise CoreError('MEDIA_BYTE_BOUND')
         if source.origin=='REAL_OS_CONTROLLED':
             from ..sensors.screen import ScreenCaptureReceipt
             receipt=ScreenCaptureReceipt.model_validate(source.screen_receipt)
             if source.privacy!='PUBLIC' or source.modality!='IMAGE' or source.source_kind!='SCREEN' or receipt.backend_id!=source.adapter_identity or (receipt.started_at_us,receipt.completed_at_us)!=(source.event_time_us,source.observed_time_us) or receipt.encoded_digest!=hashlib.sha256(data).hexdigest() or (receipt.source_profile_id,receipt.source_revision)!=(source.source_profile_id,source.source_revision):raise CoreError('SCREEN_RECEIPT_MISMATCH')
-        decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
-        if source.origin=='REAL_OS_CONTROLLED' and (decoded['pixel_digest'],decoded['width'],decoded['height'])!=(receipt.pixel_digest,receipt.width,receipt.height):raise CoreError('SCREEN_PIXEL_INTEGRITY')
-        body={'source':source.model_dump(mode='json',exclude_none=True),'source_byte_digest':hashlib.sha256(data).hexdigest(),'decoded':decoded}
         domain='SYNTHETIC_ONLY' if source.origin=='SYNTHETIC' else 'RECORDED_PUBLIC';prefix='synthetic' if source.origin=='SYNTHETIC' else 'recorded'
-        memory=self.records.memory
-        eid=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION'),text=canonical(body),privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
-        old=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(eid,)).fetchone()
+        provenance=Provenance(domain=domain,source_namespace=prefix+'.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION')
+        memory=self.records.memory;self.store.ensure_privacy_current()
+        previous=self.store.db.execute(
+            "SELECT * FROM continuity_evidence WHERE source_namespace=? AND source_reference=? AND source_revision=?",
+            (provenance.source_namespace,provenance.source_reference,provenance.source_revision)).fetchone()
+        byte_digest=hashlib.sha256(data).hexdigest();source_body=source.model_dump(mode='json',exclude_none=True)
+        if previous:
+            if previous['state']=='DELETED':raise CoreError('SOURCE_DELETED')
+            if previous['privacy_class']!=source.privacy:raise CoreError('SOURCE_KEY_COLLISION')
+            saved=json.loads(json.loads(self.store.artifact(previous['payload_artifact_id']))['text'])
+            if saved['source']!=source_body or saved['source_byte_digest']!=byte_digest:raise CoreError('SOURCE_KEY_COLLISION')
+            # The immutable, sourced observation already lives in the original
+            # evidence store. A decoder upgrade/restart must not recreate it.
+            decoded=validate_decoded(saved['decoded'],source.modality)
+        else:
+            decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
+        if source.origin=='REAL_OS_CONTROLLED' and (decoded['pixel_digest'],decoded['width'],decoded['height'])!=(receipt.pixel_digest,receipt.width,receipt.height):raise CoreError('SCREEN_PIXEL_INTEGRITY')
+        body={'source':source_body,'source_byte_digest':byte_digest,'decoded':decoded}
+        eid=memory.capture(EvidenceInput(provenance=provenance,text=canonical(body),privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
+        old=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=? AND entity_id=? AND scope=?',(eid,entity_id,scope)).fetchone()
         mid=old[0] if old else memory.add(MemoryCandidate(entity_id=entity_id,scope=scope,memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=canonical(body),confidence=1.))
+        if memory.read(mid)['privacy_class'] not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
         prior=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone()
         if prior:
-            self.records.read(prior[0]);return mid,prior[0]
+            self.records.read(prior[0])
+            if not self.records.current_support(prior[0]):raise CoreError('MEDIA_OBSERVATION_NOT_CURRENT')
+            return mid,prior[0]
         operation={'IMAGE':'understand_image','AUDIO':'understand_audio','VIDEO':'understand_video'}[source.modality]
         interpreted=getattr(self.session,operation)(self.model_id,(mid,),scopes=(scope,))
         result=json.loads(interpreted.result_json)
@@ -249,7 +267,7 @@ class PerceptionService:
         claim=SourcedClaim(entity_id=media_entity,predicate='media.technical',value={'modality':source.modality,'technical':item['technical_observation'],'source_byte_digest':body['source_byte_digest'],'semantic_model':'NOT_RUN'},kind='VERIFIED_RESULT',valid_from_us=source.event_time_us,confidence=1.)
         claim_text=canonical({'world_claim':claim.model_dump(mode='json')})
         verified=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.media-processor',source_reference=digest([source.source_id,body['source_byte_digest']]),source_kind='SYSTEM_VERIFICATION'),text=claim_text,privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
-        prior_claim=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(verified,)).fetchone()
+        prior_claim=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=? AND entity_id=? AND scope=?',(verified,entity_id,scope)).fetchone()
         claim_mid=prior_claim[0] if prior_claim else memory.add(MemoryCandidate(entity_id=entity_id,scope=scope,memory_type=MemoryType.SEMANTIC,epistemic_kind='OBSERVATION',source_evidence_id=verified,text=claim_text,derived_from=(mid,),confidence=1.))
         belief_id=WorldModel(self.store,scopes=(scope,),privacy_classes=(source.privacy,)).ingest(claim_mid)
         with self.store.transaction('world.media_observed',{'source_memory_id':mid,'modality':source.modality}) as tx:
