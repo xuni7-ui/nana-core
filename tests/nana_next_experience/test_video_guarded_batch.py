@@ -23,7 +23,7 @@ pytestmark=pytest.mark.skipif(not all(shutil.which(x) for x in ('ffmpeg','ffprob
                               reason='optional FFmpeg, sandbox and Node required')
 
 
-def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdrawal(tmp_path):
+def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdrawal(tmp_path,monkeypatch):
     upstream=os.environ.get('NANA_DSH_SOURCE')
     if not upstream:pytest.skip('trusted original dsh checkout required')
     assert subprocess.check_output(['git','-C',upstream,'rev-parse','HEAD'],text=True).strip()==\
@@ -62,6 +62,18 @@ def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdraw
             assert all(MediaDecoder().decode(frame.png,'IMAGE')['pixel_digest']==frame.pixel_sha256
                        for frame in batch.images)
             assert batch.state=='CANDIDATES_NOT_INGESTED' and batch.source_lifetime=='RECHECK_REQUIRED_AT_USE'
+            from tools.nana_next_experience.experiments import video_guarded_batch as module
+            from tools.nana_next_experience.experiments.video_pts_decode import FrameBoundExceeded
+            actual_decode=module.decode_cached_window;limits=[]
+            def bounded_decode(*args,**kwargs):
+                limits.append(kwargs['max_frames']);return actual_decode(*args,**kwargs)
+            with monkeypatch.context() as patch:
+                patch.setattr(module,'MAX_BATCH_RGB_BYTES',8*32*32*3)
+                patch.setattr(module,'decode_cached_window',bounded_decode)
+                with pytest.raises(FrameBoundExceeded):
+                    guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
+                                   detector=detector,budget=3,max_gap=1,width=32,height=32)
+            assert limits==[8,2]
             def revoke(decoded):
                 result=detector(decoded)
                 MemoryService(runtime.store,runtime.authority).forget(mid,runtime.authority)

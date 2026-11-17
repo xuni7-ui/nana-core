@@ -8,6 +8,8 @@ from tools.nana_next_experience.experiments.video_nanalink_cache import decode_c
 from tools.nana_next_experience.experiments.video_selected_images import selected_images
 from tools.nana_next_experience.experiments.video_window_fusion import fuse_window
 
+MAX_BATCH_RGB_BYTES=64*1024*1024
+
 
 @dataclass(frozen=True, repr=False)
 class GuardedImageBatch:
@@ -35,7 +37,9 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
     """
     if (type(windows) not in (tuple,list) or not 1<=len(windows)<=8 or not callable(detector) or
             type(budget) is not int or not 1<=budget<=256 or
-            type(max_gap) not in (int,float) or not math.isfinite(max_gap) or max_gap<=0):
+            type(max_gap) not in (int,float) or not math.isfinite(max_gap) or max_gap<=0 or
+            type(width) is not int or type(height) is not int or width<1 or height<1 or width*height>262144 or
+            type(max_frames) is not int or not 1<=max_frames<=1200):
         raise ValueError('invalid guarded batch bounds')
     requests=[]
     for item in windows:
@@ -47,10 +51,12 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
     def operation(handle):
         decoded=[];selections=[];total_bytes=0;duration=None
         for start,end in requests:
+            remaining_frames=(MAX_BATCH_RGB_BYTES-total_bytes)//(width*height*3)
+            if remaining_frames<1:raise ValueError('batch decoded-pixel bound exhausted')
             snapshot=decode_cached_window(cache,handle,privacy='PUBLIC',start_seconds=start,end_seconds=end,
-                                          width=width,height=height,max_frames=max_frames)
+                                          width=width,height=height,max_frames=min(max_frames,remaining_frames))
             window=snapshot.decoded;total_bytes+=len(window.rgb24)
-            if total_bytes>64*1024*1024:raise ValueError('batch decoded-pixel bound exceeded')
+            if total_bytes>MAX_BATCH_RGB_BYTES:raise ValueError('batch decoded-pixel bound exceeded')
             if duration is None:duration=window.duration_seconds
             if duration!=window.duration_seconds:raise ValueError('inconsistent media duration')
             if window.timestamps:
