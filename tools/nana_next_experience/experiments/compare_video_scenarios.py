@@ -10,9 +10,14 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from PIL import Image
 
 from tools.nana_next_experience.experiments.video_ffmpeg_probe import probe
 from tools.nana_next_experience.experiments.video_coverage_refine import refine
+from tools.nana_next_experience.experiments.video_pts_decode import decode
+from tools.nana_next_experience.experiments.video_local_pairs import propose
+from tools.nana_next_experience.experiments.video_motion_onset import propose as motion_onsets
+from tools.nana_next_experience.experiments.video_window_fusion import fuse_window
 
 ADAPTER=Path(__file__).with_name('dsh_pipeline_adapter.mjs')
 
@@ -66,6 +71,13 @@ def main():
                      'fps':4,'timestamps':[i/4 for i in range(32)],'max_frames_per_sheet':8}
             dsh=json.loads(run(['node',str(ADAPTER),str(args.dsh.resolve())],
                                payload=json.dumps(payload).encode()).stdout)
+            decoded=decode('synthetic.'+scenario,video,width=160,height=90,start_seconds=0,end_seconds=8)
+            frame_bytes=160*90*3
+            frames=[(t,Image.frombytes('RGB',(160,90),decoded.rgb24[i*frame_bytes:(i+1)*frame_bytes]))
+                    for i,t in enumerate(decoded.timestamps)]
+            pairs=propose(decoded.source_ref,frames);onsets=motion_onsets(decoded.source_ref,frames)
+            fusion=fuse_window(decoded,dsh,pairs,budget=4,max_gap=3)
+            fusion_onsets=fuse_window(decoded,dsh,pairs,budget=4,max_gap=3,onsets=onsets)
             vw=args.watch.resolve()/'vendor/vw.py'
             run([sys.executable,str(vw),'probe',str(video),'--out',str(out),'--no-audio'])
             run([sys.executable,str(vw),'plan',str(out/'timeline.json'),'--skeleton','2','--max','4',
@@ -74,7 +86,9 @@ def main():
             times={'uniform':[1,3,5,7],
                    'watch_original':[row['t'] for row in upstream['shots']],
                    'dsh_original':[row['seconds'] for row in dsh['selected']],
-                   'candidate_refined':list(candidate['timestamps'])}
+                   'candidate_refined':list(candidate['timestamps']),
+                   'fusion_without_onset':[x['seconds'] for x in fusion['selected_frames']],
+                   'fusion_with_onset':[x['seconds'] for x in fusion_onsets['selected_frames']]}
             result={}
             for name,values in times.items():
                 points=[0,*values,8]
@@ -87,6 +101,7 @@ def main():
                         any(3<=value<3.25 for value in values) if scenario=='brief_text_dynamic_brightness' else None}
             result['dsh_original']['reported_cut_times']=[x['seconds'] for x in dsh['selected'] if x['reason']=='cut']
             result['watch_original']['reported_cut_times']=json.loads((out/'timeline.json').read_text())['cuts']
+            result['fusion_with_onset']['motion_onset_times']=[x['seconds'] for x in onsets['proposals']]
             rows.append({'scenario':scenario,'ground_truth':{'dark_weak_cut':'hard edit at 4s',
                            'continuous_motion':'continuous synthetic motion, no edit',
                            'brief_text_dynamic_brightness':'text visible only in frame at 3s'}[scenario],

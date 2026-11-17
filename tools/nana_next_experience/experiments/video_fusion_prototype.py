@@ -8,7 +8,7 @@ from tools.nana_next_experience.experiments.video_coverage import Candidate
 from tools.nana_next_experience.experiments.video_coverage_refine import refine
 
 
-def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_gap):
+def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_gap, onsets=None):
     """Return only candidate times from actual decoded input, never observations.
 
     dsh contributes original cut timestamps; local pairs contribute both sides.
@@ -67,6 +67,20 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
                           'source_box':box,'coordinate_space':'input_pixels' if box is not None else 'UNKNOWN'})
         evidence.setdefault(a,set()).add('local_change_before')
         evidence.setdefault(b,set()).add('local_change_after')
+    if onsets is not None:
+        if (type(onsets) is not dict or onsets.get('source_ref')!=source_ref or
+                onsets.get('schema_version')!=1 or type(onsets.get('proposals')) is not list or
+                len(onsets['proposals'])>64 or type(onsets.get('truncated')) is not bool):
+            raise ValueError('invalid onset inputs')
+        seen=set()
+        for item in onsets['proposals']:
+            if type(item) is not dict:raise ValueError('invalid onset candidate')
+            t=item.get('seconds');before=item.get('previous_seconds')
+            if (type(t) not in (int,float) or type(before) not in (int,float) or
+                    not math.isfinite(t) or not math.isfinite(before) or t not in known or before not in known or
+                    positions[t]!=positions[before]+1 or t in seen):
+                raise ValueError('onset is not an adjacent decoded frame')
+            seen.add(t);evidence.setdefault(t,set()).add('motion_onset')
     candidate=[Candidate(t,motion=1.0 if t in evidence else 0.0) for t in decoded_timestamps]
     selected=refine(duration,candidate,budget,max_gap=max_gap)
     chosen=set(selected['timestamps']);selected_pairs=[]
@@ -78,7 +92,9 @@ def fuse(source_ref, duration, decoded_timestamps, dsh, pairs, *, budget, max_ga
         'coverage_target_met':selected['coverage_target_met'],
         'selected_cues':[{'seconds':t,'cues':sorted(evidence.get(t,()))} for t in selected['timestamps']],
         'selected_pair_refs':selected_pairs,
-        'pair_proposals_truncated':pairs['truncated'],'dsh_frame_limit':'PER_SHEET_ONLY',
+        'pair_proposals_truncated':pairs['truncated'],
+        'onset_proposals_truncated':onsets['truncated'] if onsets is not None else False,
+        'dsh_frame_limit':'PER_SHEET_ONLY',
         'dsh_dropped_sheets':dropped,'selection_state':'CANDIDATES_NOT_DELIVERED',
         'model_frame_budget':budget,'model_calls':0,'storage':'NONE',
         'meaning':'candidate sampling only; no semantic importance or source authorization inferred'}

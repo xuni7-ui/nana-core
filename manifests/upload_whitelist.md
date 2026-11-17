@@ -497,3 +497,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 B批次解码容量
 
 持续授权：video_guarded_batch.py、对应测试、video-batch-rgb-bound-20261117.json、09/11及B队列追加、本清单；仅合成数据，无真实媒体或凭据。
+
+## 2026-11-17 B相对运动与实拍对照
+
+持续授权：video_motion_onset.py、compare_opencv_tree.py、compare_video_scenarios.py、video_fusion_prototype.py、video_window_fusion.py、video_global_budget.py、video_guarded_batch.py及对应两测试、video-motion-onset-20261117.json、09/11及B队列追加、本清单；不提交第三方视频/上游源码/凭据。

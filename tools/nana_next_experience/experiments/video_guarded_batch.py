@@ -29,8 +29,8 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
                    width=160, height=90, max_frames=1200):
     """Run a trusted local detector within C's original public source gate.
 
-    The detector must return a materialized (dsh, local_pairs) pair for each
-    decoded window. It is trusted host code, not sandboxed by this function.
+    The detector returns materialized (dsh, local_pairs) or (dsh, local_pairs,
+    onsets) for each decoded window. It is trusted host code, not sandboxed.
     The source gate cannot prevent arbitrary callback effects. No claim is made
     about Bilibili account/file attribution, video semantics, or permissions
     after return; consumers must recheck source and authorization at use.
@@ -61,8 +61,9 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
             if duration!=window.duration_seconds:raise ValueError('inconsistent media duration')
             if window.timestamps:
                 signals=detector(window)
-                if type(signals) not in (tuple,list) or len(signals)!=2:raise ValueError('invalid detector result')
-                selected=fuse_window(window,signals[0],signals[1],budget=budget,max_gap=max_gap)
+                if type(signals) not in (tuple,list) or len(signals) not in (2,3):raise ValueError('invalid detector result')
+                selected=fuse_window(window,signals[0],signals[1],budget=budget,max_gap=max_gap,
+                                     onsets=signals[2] if len(signals)==3 else None)
             else:
                 selected=fuse_window(window,None,None,budget=budget,max_gap=max_gap)
             decoded.append(window);selections.append(selected)

@@ -1,0 +1,495 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_RESEARCH_CANDIDATE",
+  "technique": "optional relative motion-rate onset after global luminance compensation, robust recent baseline and configurable cooldown; gaps outside supported frame interval are UNKNOWN",
+  "real_sample_comparison": {
+    "sample": {
+      "repository": "https://github.com/opencv/opencv",
+      "commit": "5d0660acfed08650cafec4876b4792a369a20601",
+      "path": "samples/data/tree.avi",
+      "sha256": "4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82ac82dc",
+      "input_bytes": 1250680,
+      "duration_seconds": 29.600148,
+      "root_license": "Apache-2.0; separate video authorship/license not independently confirmed",
+      "event_annotation": "one visual inspection: hand enters frame about 23–24.5 seconds; tree/background motion continues",
+      "frames_decoded": 68,
+      "declared_frames": 444,
+      "frame_size": [
+        160,
+        120
+      ],
+      "decoded_rgb_bytes": 3916800
+    },
+    "methods": {
+      "uniform_actual_frames": {
+        "timestamps": [
+          3.733352,
+          11.000055,
+          18.600093,
+          25.933463
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 7.600038000000001,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": false
+      },
+      "ffmpeg_top_scene_actual_frames": {
+        "timestamps": [
+          25.933463,
+          26.933468,
+          28.66681,
+          29.533481
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 25.933463,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": false
+      },
+      "watch_original_requested_offsets": {
+        "timestamps": [
+          0.07,
+          7.38,
+          22.15,
+          29.47
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 14.77,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": false,
+        "reported_cuts": []
+      },
+      "dsh_original_selected": {
+        "timestamps": [
+          0,
+          20.133434,
+          25.533461
+        ],
+        "frames_or_offsets": 3,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 20.133434,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": false,
+        "reported_cuts": [],
+        "dropped_sheets": 1,
+        "fps_parameter": 15
+      },
+      "fusion_actual_frames": {
+        "timestamps": [
+          3.733352,
+          11.000055,
+          18.600093,
+          25.933463
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 7.600038000000001,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": false,
+        "selected_cues": [
+          {
+            "seconds": 3.733352,
+            "cues": []
+          },
+          {
+            "seconds": 11.000055,
+            "cues": []
+          },
+          {
+            "seconds": 18.600093,
+            "cues": []
+          },
+          {
+            "seconds": 25.933463,
+            "cues": []
+          }
+        ]
+      },
+      "fusion_with_onsets_actual_frames": {
+        "timestamps": [
+          3.733352,
+          11.000055,
+          18.600093,
+          23.533451
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 7.600038000000001,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": true,
+        "selected_cues": [
+          {
+            "seconds": 3.733352,
+            "cues": []
+          },
+          {
+            "seconds": 11.000055,
+            "cues": []
+          },
+          {
+            "seconds": 18.600093,
+            "cues": []
+          },
+          {
+            "seconds": 23.533451,
+            "cues": [
+              "motion_onset"
+            ]
+          }
+        ]
+      }
+    },
+    "ffmpeg_scan_complete": false,
+    "local_change_pairs": {
+      "examined": 67,
+      "proposed": 0,
+      "in_hand_entry": [],
+      "omitted": 0,
+      "truncated": false
+    },
+    "motion_onsets": {
+      "timestamps": [
+        23.533451,
+        27.33347
+      ],
+      "unknown_intervals": [],
+      "truncated": false
+    },
+    "timing": {
+      "ffmpeg_scene_probe": {
+        "wall_seconds": 0.20152786299877334,
+        "parent_cpu_seconds": 0.0016084989999999993,
+        "child_cpu_seconds": 0.207976
+      },
+      "decode_rgb": {
+        "wall_seconds": 0.30043690600723494,
+        "parent_cpu_seconds": 0.028782943000000005,
+        "child_cpu_seconds": 0.3147789999999999
+      },
+      "original_dsh": {
+        "wall_seconds": 0.30692030799400527,
+        "parent_cpu_seconds": 0.0006082650000000245,
+        "child_cpu_seconds": 0.421987
+      },
+      "original_watch": {
+        "wall_seconds": 0.5971976629953133,
+        "parent_cpu_seconds": 0.0017394639999999961,
+        "child_cpu_seconds": 0.690471
+      },
+      "local_change_pairs": {
+        "wall_seconds": 0.26366322400281206,
+        "parent_cpu_seconds": 0.263509063,
+        "child_cpu_seconds": -5.551115123125783e-17
+      },
+      "fusion_planning": {
+        "wall_seconds": 0.0008443650003755465,
+        "parent_cpu_seconds": 0.0008448649999999724,
+        "child_cpu_seconds": -5.551115123125783e-17
+      },
+      "motion_onset_probe": {
+        "wall_seconds": 0.2684554260049481,
+        "parent_cpu_seconds": 0.26830823499999995,
+        "child_cpu_seconds": -5.551115123125783e-17
+      },
+      "onset_fusion_planning": {
+        "wall_seconds": 0.0006402559956768528,
+        "parent_cpu_seconds": 0.0006404030000000116,
+        "child_cpu_seconds": -5.551115123125783e-17
+      }
+    },
+    "process_peak_rss_kib": 27900,
+    "rss_scope": "whole parent process peak; excludes child process RSS",
+    "limits": "one visually inspected clip; timestamp-in-range is not semantic accuracy; watch requests are not decoded images; dsh receives irregular actual frame timestamps with header-like fps 15; original dsh can exceed budget; no model/Token or platform calls"
+  },
+  "synthetic_comparison": {
+    "fixtures": "generated dark weak cut, continuous motion, and brief text under dynamic brightness",
+    "budget": "four selected frames; report any method exceeding it rather than silently truncating",
+    "scope": "one fixture each; dsh sheet limit 8, watch --max 4; requested offsets, not decoded text or a semantic/token benchmark",
+    "rows": [
+      {
+        "scenario": "dark_weak_cut",
+        "ground_truth": "hard edit at 4s",
+        "measurement_scan_complete": true,
+        "methods": {
+          "uniform": {
+            "timestamps": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2,
+            "within_budget": true,
+            "edit_followed_within_half_second": false,
+            "requested_offset_with_visible_text": null
+          },
+          "watch_original": {
+            "timestamps": [
+              0.25,
+              1.94,
+              5.81,
+              7.5
+            ],
+            "frames": 4,
+            "max_gap_seconds": 3.8699999999999997,
+            "within_budget": true,
+            "edit_followed_within_half_second": false,
+            "requested_offset_with_visible_text": null,
+            "reported_cut_times": []
+          },
+          "dsh_original": {
+            "timestamps": [
+              0
+            ],
+            "frames": 1,
+            "max_gap_seconds": 8,
+            "within_budget": true,
+            "edit_followed_within_half_second": false,
+            "requested_offset_with_visible_text": null,
+            "reported_cut_times": []
+          },
+          "candidate_refined": {
+            "timestamps": [
+              0.0,
+              1.25,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": true,
+            "requested_offset_with_visible_text": null
+          },
+          "fusion_without_onset": {
+            "timestamps": [
+              0.0,
+              1.25,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": true,
+            "requested_offset_with_visible_text": null
+          },
+          "fusion_with_onset": {
+            "timestamps": [
+              0.0,
+              1.25,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": true,
+            "requested_offset_with_visible_text": null,
+            "motion_onset_times": []
+          }
+        }
+      },
+      {
+        "scenario": "continuous_motion",
+        "ground_truth": "continuous synthetic motion, no edit",
+        "measurement_scan_complete": true,
+        "methods": {
+          "uniform": {
+            "timestamps": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null
+          },
+          "watch_original": {
+            "timestamps": [
+              0.25,
+              1.94,
+              5.81,
+              7.5
+            ],
+            "frames": 4,
+            "max_gap_seconds": 3.8699999999999997,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null,
+            "reported_cut_times": []
+          },
+          "dsh_original": {
+            "timestamps": [
+              0,
+              3.5,
+              6.25,
+              7.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 3.5,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null,
+            "reported_cut_times": [
+              7.75
+            ]
+          },
+          "candidate_refined": {
+            "timestamps": [
+              0.25,
+              2.0,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null
+          },
+          "fusion_without_onset": {
+            "timestamps": [
+              1.25,
+              4.0,
+              6.75,
+              7.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null
+          },
+          "fusion_with_onset": {
+            "timestamps": [
+              1.25,
+              4.0,
+              6.75,
+              7.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": null,
+            "motion_onset_times": []
+          }
+        }
+      },
+      {
+        "scenario": "brief_text_dynamic_brightness",
+        "ground_truth": "text visible only in frame at 3s",
+        "measurement_scan_complete": true,
+        "methods": {
+          "uniform": {
+            "timestamps": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": true
+          },
+          "watch_original": {
+            "timestamps": [
+              0.25,
+              1.94,
+              5.81,
+              7.5
+            ],
+            "frames": 4,
+            "max_gap_seconds": 3.8699999999999997,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": false,
+            "reported_cut_times": []
+          },
+          "dsh_original": {
+            "timestamps": [
+              0,
+              2.75,
+              5.25,
+              7.5
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": false,
+            "reported_cut_times": []
+          },
+          "candidate_refined": {
+            "timestamps": [
+              0.25,
+              3.25,
+              4.25,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 3.0,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": false
+          },
+          "fusion_without_onset": {
+            "timestamps": [
+              2.75,
+              3.0,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": true
+          },
+          "fusion_with_onset": {
+            "timestamps": [
+              2.75,
+              3.0,
+              4.0,
+              6.75
+            ],
+            "frames": 4,
+            "max_gap_seconds": 2.75,
+            "within_budget": true,
+            "edit_followed_within_half_second": null,
+            "requested_offset_with_visible_text": true,
+            "motion_onset_times": []
+          }
+        }
+      }
+    ]
+  },
+  "test": "21 passed 5.03s; actual FFmpeg, fixed original dsh, source gate and global budget",
+  "counterexamples": [
+    "camera-like scene shift produces a cue without proving importance",
+    "two independent changes within 3-second configured cooldown can suppress the latter",
+    "uniform brightness compensated; weak cut and one-frame text produce no onset cues in three prior synthetic scenarios",
+    "actual sample declares 444 frames but FFprobe decodes 68; scan completeness remains false",
+    "sample media authorship/license not independently confirmed; no sample bytes committed",
+    "one visually annotated recorded clip only, annotation was used during development, so no held-out accuracy estimate"
+  ],
+  "cost_scope": "OpenCV sample single run onset probe wall and CPU reported in timings; parent RSS excludes child processes; no actual Provider tokens, billing or semantic accuracy",
+  "integration": "optional onsets pass through isolated window fusion, global budget and source-gated candidate callback; no original Core/Memory/S5 consumer changed",
+  "rollback": "remove optional onsets argument/cue and isolated module/tests; no data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_motion_onset.py": "b1475cbdf7d04abb7d88408b84d37bf0e0428a3d81c265f4dd6128560a2e76d1",
+    "tools/nana_next_experience/experiments/compare_opencv_tree.py": "f8caa9bce606d0ad0c12f9082c76bde29b5b0be292b965fb7107452ff2331df7",
+    "tools/nana_next_experience/experiments/compare_video_scenarios.py": "43dee7cd1d44d8c87247725c475db82922e0f2432324b77877cb006cce97f5ae",
+    "tools/nana_next_experience/experiments/video_fusion_prototype.py": "3aaccb206bdd2d87340c76294c78c1d4eca6d47d77a5717f54b4a6bc1791619c",
+    "tools/nana_next_experience/experiments/video_window_fusion.py": "6b6b17198a2818911d46c96b60c8cab819f10c90ccc0065dec7baa2fe75c87e8",
+    "tools/nana_next_experience/experiments/video_global_budget.py": "bbfce322d875f811b867792067f42350a5e8295d92f0af2da379a55467312a9c",
+    "tools/nana_next_experience/experiments/video_guarded_batch.py": "d3c254e58db29b7f9839073133eeb39574812abd2990c6b88b7dec88b24d8992",
+    "tests/nana_next_experience/test_video_motion_onset.py": "2703c849dbd8aa238789df549b4fefdf4e7a26b46f8f06fa8dd986912360e74a",
+    "tests/nana_next_experience/test_video_guarded_batch.py": "b30ae81a86c0d506da7b0f0bb40813c06bc12d8aaba8968a3202a96ddba5a91f"
+  }
+}

@@ -5,7 +5,7 @@ from tools.nana_next_experience.experiments.video_pts_decode import DecodedFrame
 from tools.nana_next_experience.experiments.video_fusion_prototype import fuse
 
 
-def fuse_window(decoded, dsh, pairs, *, budget, max_gap):
+def fuse_window(decoded, dsh, pairs, *, budget, max_gap, onsets=None):
     """Rebase only for local planning, then return original PTS and coordinates.
 
     A decoded window, source ID and cue outputs are caller-supplied; this is
@@ -78,9 +78,29 @@ def fuse_window(decoded, dsh, pairs, *, budget, max_gap):
             raise ValueError('change box outside decoded frame')
     local_pairs={**pairs,'proposals':[{**item,'before_seconds':local_time(item['before_seconds']),
         'after_seconds':local_time(item['after_seconds'])} for item in pairs['proposals']]}
+    local_onsets=None;unknown_onsets=[]
+    if onsets is not None:
+        if (type(onsets) is not dict or onsets.get('source_ref')!=decoded.source_ref or
+                type(onsets.get('input_size')) not in (tuple,list) or tuple(onsets['input_size'])!=decoded.output_size or
+                type(onsets.get('pairs_examined')) is not int or onsets['pairs_examined']!=len(decoded.timestamps)-1 or
+                type(onsets.get('proposals')) is not list or type(onsets.get('unknown_intervals')) is not list or
+                any(type(item) is not dict or 'seconds' not in item or 'previous_seconds' not in item
+                    for item in onsets['proposals']) or
+                len(onsets['unknown_intervals'])>len(decoded.timestamps)-1):
+            raise ValueError('invalid onset source or geometry')
+        positions={t:i for i,t in enumerate(decoded.timestamps)}
+        for interval in onsets['unknown_intervals']:
+            if (type(interval) not in (tuple,list) or len(interval)!=2 or
+                    any(type(t) not in (int,float) or not math.isfinite(t) for t in interval) or
+                    interval[0] not in positions or interval[1] not in positions or
+                    positions[interval[1]]!=positions[interval[0]]+1):
+                raise ValueError('invalid onset unknown interval')
+            unknown_onsets.append(tuple(interval))
+        local_onsets={**onsets,'proposals':[{**item,'seconds':local_time(item['seconds']),
+            'previous_seconds':local_time(item['previous_seconds'])} for item in onsets['proposals']]}
     duration=float(window_end-window_start)
     result=fuse(decoded.source_ref,duration,[to_local[t] for t in decoded.timestamps],local_dsh,local_pairs,
-                budget=budget,max_gap=max_gap)
+                budget=budget,max_gap=max_gap,onsets=local_onsets)
     def global_time(value):
         if value==0:return start
         if value==duration:return end
@@ -101,5 +121,6 @@ def fuse_window(decoded, dsh, pairs, *, budget, max_gap):
         'coverage_target_met':result['coverage_target_met'],'whole_window_observed':False,
         'gap_definition':'ONLY_GAPS_OVER_REQUESTED_THRESHOLD',
         'pair_proposals_truncated':result['pair_proposals_truncated'],
+        'onset_proposals_truncated':result['onset_proposals_truncated'],'onset_unknown_intervals':unknown_onsets,
         'dsh_dropped_sheets':result['dsh_dropped_sheets'],
         'selection_state':'CANDIDATES_NOT_DELIVERED','model_calls':0,'storage':'NONE'}

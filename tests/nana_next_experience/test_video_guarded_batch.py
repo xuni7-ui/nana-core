@@ -17,6 +17,7 @@ from nana_core.nanalink.media import MediaCache
 from tests.world_loop.helpers import fresh,policy,providers
 from tools.nana_next_experience.experiments.video_guarded_batch import guarded_images
 from tools.nana_next_experience.experiments.video_local_pairs import propose
+from tools.nana_next_experience.experiments.video_motion_onset import propose as motion_onsets
 
 
 pytestmark=pytest.mark.skipif(not all(shutil.which(x) for x in ('ffmpeg','ffprobe','bwrap','node')),
@@ -51,7 +52,7 @@ def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdraw
                 pixels=32*32*3
                 frames=[(t,Image.frombytes('RGB',(32,32),decoded.rgb24[i*pixels:(i+1)*pixels]))
                         for i,t in enumerate(decoded.timestamps)]
-                return json.loads(result.stdout),propose(mid,frames)
+                return json.loads(result.stdout),propose(mid,frames),motion_onsets(mid,frames)
             batch=guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
                                  detector=detector,budget=3,max_gap=1,width=32,height=32)
             assert batch.source_ref==mid and batch.source_sha256==handle.sha256==hashlib.sha256(data).hexdigest()

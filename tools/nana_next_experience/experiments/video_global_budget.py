@@ -56,7 +56,7 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
             if (type(cue) is not dict or set(cue)!={'seconds','cues'} or
                     type(cue['seconds']) not in (int,float) or not math.isfinite(cue['seconds']) or
                     cue['seconds'] in cue_map or type(cue['cues']) is not list or
-                    any(x not in ('dsh_cut','local_change_before','local_change_after') for x in cue['cues']) or
+                    any(x not in ('dsh_cut','local_change_before','local_change_after','motion_onset') for x in cue['cues']) or
                     len(set(cue['cues']))!=len(cue['cues'])):
                 raise ValueError('invalid selected cues')
             cue_map[cue['seconds']]=cue['cues']
