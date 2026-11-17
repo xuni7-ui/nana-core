@@ -72,9 +72,62 @@ class CoreBridge:
 
     def receipt(self, action_id):
         """Query the existing authoritative action, never repeat its dispatch."""
+        import json
+        from .contracts import Account
+        from ..continuity.records import RecordService
         store = self.platforms.app.runtime.store
         row = store.one('actions', action_id)
         if row is None:
             raise CoreError('NANALINK_RECEIPT_NOT_FOUND')
+        config = self.platforms.app.config
+        bound = None
+        for route in self.routes:
+            for channel in config.qq_channels:
+                account = Account(platform='qq', account_id=str(channel.account_id), adapter_id='qq.'+channel.backend)
+                if (route.account_key == account.key and route.channel_id == channel.channel_id
+                        and route.conversation_kind == channel.target_kind and route.conversation_id == str(channel.target_id)
+                        and route.sender_id == str(channel.sender_id)
+                        and row['capability'] == 'world.contact' and row['resource'] == 'project://qq/'+channel.channel_id):
+                    bound = ('qq', str(channel.account_id), str(channel.target_id))
+            for channel in config.bilibili_channels:
+                account = Account(platform='bilibili', account_id=str(channel.account_id), adapter_id='bilibili.account')
+                if (route.account_key == account.key and route.channel_id == channel.channel_id
+                        and route.conversation_id == str(channel.target_id) and route.sender_id == str(channel.sender_id)
+                        and row['capability'] == 'bilibili.'+channel.kind+'.send'
+                        and row['resource'] == 'project://bilibili/'+channel.kind+'/'+str(channel.target_id)):
+                    bound = ('bilibili', str(channel.account_id), str(channel.target_id))
+        if bound is None:
+            raise CoreError('NANALINK_RECEIPT_NOT_FOUND')
+        verified = False
+        if row['state'] == 'SUCCEEDED':
+            try:
+                event = store.event(json.loads(row['body_json'])['verification_event_id'])
+                data = json.loads(event['data_json'])['data']
+                if event['kind'] != 'action.verified' or data['action_id'] != action_id:
+                    raise ValueError()
+                link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                        (event['artifact_id'],)).fetchone()
+                if not link:
+                    raise ValueError()
+                records = RecordService(store)
+                if not records.current_support(link[0]):
+                    raise ValueError()
+                result = records.read(link[0])['payload']
+                evidence = result['evidence']
+                bili_bound = (bound[0] == 'bilibili' and store.db.execute(
+                    "SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
+                    "AND json_extract(data_json,'$.data.action_id')=? "
+                    "AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
+                    (action_id, int(bound[1]))).fetchone() is not None)
+                verified = (result['verdict'] == 'MATCH' and type(evidence) is dict and
+                    ((bound[0] == 'qq' and evidence.get('independent_readback') is True
+                      and evidence.get('account_id') == bound[1] and evidence.get('target_id') == bound[2])
+                     or (bili_bound and evidence.get('platform') == 'bilibili'
+                         and evidence.get('read_only_platform_confirmation') is True)))
+            except (CoreError, ValueError, KeyError, TypeError):
+                verified = False
+        if row['state'] == 'SUCCEEDED' and not verified:
+            return OperationReceipt(operation_id=action_id, outcome=Outcome.UNKNOWN,
+                                    reason='ORIGINAL_CONFIRMATION_NOT_AVAILABLE', action_id=action_id)
         return receipt_from_core(action_id, {'delivery': row['state'], 'action_id': action_id,
-                                 'external_delivery': row['state'] == 'SUCCEEDED'})
+                                 'external_delivery': verified})

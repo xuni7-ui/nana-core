@@ -25,7 +25,7 @@ def envelope(adapter,mid,peer='43',privacy='PROJECT'):
                  observed_at_us=1,privacy=privacy,origin='SYNTHETIC_LOOPBACK',raw_sha256='a'*64,raw_reference='fixture:'+mid)
 
 
-def test_actual_original_core_two_platforms_common_contract_restart_and_duplicate(tmp_path):
+def test_actual_original_core_two_platforms_common_contract_restart_and_duplicate(tmp_path,monkeypatch):
     home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
     bindings=(SurfaceBinding(binding_id='qq.primary',platform='qq.onebot',surface='chat.direct',adapter='qq.onebot',
                              mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PROJECT',)),
@@ -59,6 +59,39 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
             assert qr.action_id and br.action_id and qr.external_delivery and br.external_delivery
             assert len(qq_state['sent'])==bili_state['posts']==1 and len(calls)==4
             assert qa.workflow.store is ba.workflow.store is app.runtime.store
+            from types import SimpleNamespace
+            from nana_core.nanalink.core_bridge import CoreBridge,ChannelRoute
+            configured=SimpleNamespace(runtime=app.runtime,config=SimpleNamespace(qq_channels=(qc,),bilibili_channels=(bc,)))
+            bridge=CoreBridge(SimpleNamespace(app=configured),[
+                ChannelRoute(qa.account.key,'primary','43','43','PROJECT','private'),
+                ChannelRoute(ba.account.key,'primary','7','43','PUBLIC','channel')])
+            assert bridge.receipt(qr.action_id).outcome==Outcome.CONFIRMED_SUCCESS
+            assert bridge.receipt(br.action_id).outcome==Outcome.CONFIRMED_SUCCESS
+            wrong_qc=qc.model_copy(update={'account_id':'99'})
+            wrong_qa=Account(platform='qq',adapter_id='qq.onebot',account_id='99')
+            wrong_bc=bc.model_copy(update={'account_id':99})
+            wrong_ba=Account(platform='bilibili',adapter_id='bilibili.account',account_id='99')
+            wrong_config=SimpleNamespace(runtime=app.runtime,config=SimpleNamespace(qq_channels=(wrong_qc,),bilibili_channels=(wrong_bc,)))
+            wrong_bridge=CoreBridge(SimpleNamespace(app=wrong_config),[
+                ChannelRoute(wrong_qa.key,'primary','43','43','PROJECT','private'),
+                ChannelRoute(wrong_ba.key,'primary','7','43','PUBLIC','channel')])
+            assert wrong_bridge.receipt(qr.action_id).outcome==Outcome.UNKNOWN
+            assert wrong_bridge.receipt(br.action_id).outcome==Outcome.UNKNOWN
+            import pytest
+            unbound=CoreBridge(SimpleNamespace(app=configured),[])
+            with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):unbound.receipt(qr.action_id)
+            other_session=CoreBridge(SimpleNamespace(app=configured),[
+                ChannelRoute(qa.account.key,'primary','99','43','PROJECT','private'),
+                ChannelRoute(ba.account.key,'primary','8','43','PUBLIC','channel')])
+            with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_session.receipt(qr.action_id)
+            with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_session.receipt(br.action_id)
+            store=app.runtime.store;original_one=store.one;action=original_one('actions',qr.action_id)
+            with monkeypatch.context() as patch:
+                patch.setattr(store,'one',lambda table,key: {**action,'body_json':'{}'} if table=='actions' and key==qr.action_id else original_one(table,key))
+                assert bridge.receipt(qr.action_id).outcome==Outcome.UNKNOWN
+            with monkeypatch.context() as patch:
+                patch.setattr(store,'one',lambda table,key: {**action,'capability':'world.compute'} if table=='actions' and key==qr.action_id else original_one(table,key))
+                with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):bridge.receipt(qr.action_id)
         with LifeApplication(home,clock=clock,router=router) as app:
             app.pause();qa,ba=adapters(app,grant=False)
             assert app.runtime.identity_id==identity
@@ -66,6 +99,17 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
             assert ba.receive_event(envelope(ba,'9','7','PUBLIC')).outcome==Outcome.CONFIRMED_SUCCESS
             assert len(qq_state['sent'])==bili_state['posts']==1 and len(calls)==4
             assert tables==[r[0] for r in app.runtime.store.db.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")]
+            import json
+            from nana_core.continuity.records import RecordService
+            configured=SimpleNamespace(runtime=app.runtime,config=SimpleNamespace(qq_channels=(qc,),bilibili_channels=(bc,)))
+            bridge=CoreBridge(SimpleNamespace(app=configured),[ChannelRoute(qa.account.key,'primary','43','43','PROJECT','private')])
+            action=app.runtime.store.one('actions',qr.action_id)
+            verification=app.runtime.store.event(json.loads(action['body_json'])['verification_event_id'])
+            record=app.runtime.store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',(verification['artifact_id'],)).fetchone()[0]
+            support=RecordService(app.runtime.store).support(record)
+            assert support
+            app.forget(support[0])
+            assert bridge.receipt(qr.action_id).outcome==Outcome.UNKNOWN
 
 
 def test_feed_enters_original_surface_without_a_second_subject_or_send(tmp_path):
