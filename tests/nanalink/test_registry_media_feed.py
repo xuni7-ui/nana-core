@@ -30,6 +30,97 @@ def test_media_source_validator_requires_explicit_boolean_true(tmp_path, invalid
         cache.close()
 
 
+def test_media_observed_withdrawal_cannot_be_undone_by_later_callback(tmp_path):
+    active={'old':True,'other':True,'new':True}
+    cache=MediaCache(tmp_path/'media',source_current=lambda ref:active[ref],max_bytes=16,item_bytes=8,max_items=2)
+    try:
+        old=cache.put((b'image',),source_ref='old')
+        other=cache.put((b'image',),source_ref='other')
+        active['old']=False
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(old)
+        active['old']=True
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(old)
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put((b'image',),source_ref='old')
+        assert cache.read(other)==b'image'
+        fresh=cache.put((b'image',),source_ref='new')
+        assert cache.read(fresh)==b'image'
+        active['other']=False
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(other)
+        assert cache.read(fresh)==b'image'
+        active['new']=False
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(fresh)
+        assert cache.total==0 and list((tmp_path/'media').iterdir())==[]
+    finally:
+        cache.close()
+    with pytest.raises(CoreError,match='MEDIA_CACHE_CLOSED'):cache.put((b'image',),source_ref='new')
+
+
+def test_media_withdrawal_during_initial_ingest_stays_retired(tmp_path):
+    state={'current':True}
+    cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+    def chunks():
+        yield b'image'
+        state['current']=False
+    try:
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put(chunks(),source_ref='source')
+        assert cache.total==0 and list((tmp_path/'media').iterdir())==[]
+        state['current']=True
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put((b'image',),source_ref='source')
+    finally:
+        cache.close()
+
+
+def test_media_retirement_budget_fails_closed(tmp_path):
+    state={'current':True}
+    cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+    try:
+        for n in range(65):
+            state['current']=True
+            handle=cache.put((b'x',),source_ref=f'source.{n}')
+            state['current']=False
+            with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+        state['current']=True
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put((b'x',),source_ref='new')
+        assert cache.total==0
+    finally:
+        cache.close()
+
+
+def test_media_retirement_unlink_failure_remains_tracked_for_cleanup(tmp_path, monkeypatch):
+    from pathlib import Path
+    state={'current':True}
+    cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+    handle=cache.put((b'x',),source_ref='source')
+    target=cache.items[handle.sha256][0]
+    original=Path.unlink
+    def fail_unlink(path,*args,**kwargs):
+        if path==target:raise OSError('synthetic unlink failure')
+        return original(path,*args,**kwargs)
+    state['current']=False
+    with monkeypatch.context() as patch:
+        patch.setattr(Path,'unlink',fail_unlink)
+        with pytest.raises(OSError):cache.read(handle)
+    assert handle.sha256 in cache.items and target.exists()
+    cache.close()
+    assert not target.exists()
+
+
+def test_media_eviction_unlink_failure_preserves_existing_entry(tmp_path, monkeypatch):
+    from pathlib import Path
+    cache=MediaCache(tmp_path/'media',source_current=lambda _:True,max_bytes=8,item_bytes=8,max_items=1)
+    old=cache.put((b'old',),source_ref='old')
+    target=cache.items[old.sha256][0]
+    original=Path.unlink
+    def fail_unlink(path,*args,**kwargs):
+        if path==target:raise OSError('synthetic unlink failure')
+        return original(path,*args,**kwargs)
+    with monkeypatch.context() as patch:
+        patch.setattr(Path,'unlink',fail_unlink)
+        with pytest.raises(OSError):cache.put((b'new',),source_ref='new')
+    assert cache.read(old)==b'old' and list((tmp_path/'media').iterdir())==[target]
+    cache.close()
+
+
 def test_real_feed_reads_rss_atom_no_model_and_no_send():
     async def run():
         payload=b'<rss><channel><item><guid>a</guid><title>hello</title><link>https://example.org/a</link></item></channel></rss>'
