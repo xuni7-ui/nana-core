@@ -110,6 +110,8 @@ def test_feed_bridge_rechecks_host_binding_and_adapter_authorization(tmp_path):
         bridge=FeedCoreBridge(app,adapter,binding.binding_id)
         adapter.authorized=False
         with pytest.raises(CoreError,match='FEED_SOURCE_BINDING_MISMATCH'):bridge.receive(event)
+        adapter.authorized='false'
+        with pytest.raises(CoreError,match='FEED_SOURCE_BINDING_MISMATCH'):bridge.receive(event)
         adapter.authorized=True
         cfg=load_config(home)
         disabled=binding.model_copy(update={'enabled':False})

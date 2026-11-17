@@ -8,6 +8,14 @@ from nana_core.nanalink.feed import FeedAdapter
 from nana_core.nanalink.media import MediaCache
 
 
+@pytest.mark.parametrize('authorized', ['false', 1, None])
+def test_feed_requires_explicit_boolean_read_authorization(authorized):
+    adapter=FeedAdapter('https://example.org/rss',authorized=authorized)
+    assert not adapter.capabilities()[0].available
+    with pytest.raises(CoreError,match='FEED_READ_NOT_AUTHORIZED'):
+        asyncio.run(adapter.connect())
+
+
 def test_real_feed_reads_rss_atom_no_model_and_no_send():
     async def run():
         payload=b'<rss><channel><item><guid>a</guid><title>hello</title><link>https://example.org/a</link></item></channel></rss>'

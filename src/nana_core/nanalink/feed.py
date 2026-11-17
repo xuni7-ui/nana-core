@@ -23,7 +23,7 @@ class FeedAdapter:
         if not 1024 <= max_bytes <= 1048576 or not 30 <= interval <= 86400:
             raise ValueError('feed budget')
         self.account = Account(platform='webfeed', account_id=hashlib.sha256(url.encode()).hexdigest(), adapter_id='web.feed')
-        self.url, self.authorized, self.max_bytes, self.interval = url, authorized, max_bytes, interval
+        self.url, self.authorized, self.max_bytes, self.interval = url, authorized is True, max_bytes, interval
         self._fetch = fetch
         self._health = SessionHealth(compatibility='RSS_ATOM')
         self.seen, self.pending = OrderedDict(), []
@@ -39,12 +39,12 @@ class FeedAdapter:
         return self._health
 
     def capabilities(self):
-        return (Capability(name='feed.receive', available=self.authorized),
+        return (Capability(name='feed.receive', available=self.authorized is True),
                 Capability(name='message.send', available=False, reason='READ_ONLY_SOURCE'),
                 Capability(name='media.reference', available=True))
 
     async def connect(self):
-        if not self.authorized:
+        if self.authorized is not True:
             raise CoreError('FEED_READ_NOT_AUTHORIZED')
         import aiohttp
         if self._fetch is None and self.session is None:
@@ -75,7 +75,7 @@ class FeedAdapter:
             return bytes(raw)
 
     async def receive(self):
-        if not self.authorized:
+        if self.authorized is not True:
             raise CoreError('FEED_READ_NOT_AUTHORIZED')
         if self.pending:
             return self.pending.pop(0)
@@ -191,7 +191,7 @@ class FeedCoreBridge:
         from ..continuity.subject.contracts import SubjectInput
         from ..continuity.extensions import SurfaceEnvelope
         from ..presence.contracts import RuntimeEvent, Cause
-        if (not self.adapter.authorized or event.account != self.adapter.account
+        if (self.adapter.authorized is not True or event.account != self.adapter.account
                 or event.privacy != 'PUBLIC' or event.kind != 'feed.item'):
             raise CoreError('FEED_SOURCE_BINDING_MISMATCH')
         binding = self.app.surfaces._binding(self.binding_id)
