@@ -1,0 +1,35 @@
+{
+  "same_encoded_source": "95abed512977fe0d9af1081f55f494e4721710187448439b56c6d25db1282eee",
+  "all_zero_origin_decoded_fields_equal": true,
+  "old_processes": [
+    {
+      "program": "ffprobe",
+      "output_bytes": 6708
+    },
+    {
+      "program": "ffprobe",
+      "output_bytes": 485
+    },
+    {
+      "program": "ffmpeg",
+      "output_bytes": 73728
+    }
+  ],
+  "new_processes": [
+    {
+      "program": "ffprobe",
+      "output_bytes": 6708
+    },
+    {
+      "program": "ffprobe",
+      "output_bytes": 651
+    },
+    {
+      "program": "ffmpeg",
+      "output_bytes": 73728
+    }
+  ],
+  "old_elapsed_seconds": 0.3447909049864393,
+  "new_elapsed_seconds": 0.34762133299955167,
+  "provider_calls": 0
+}

@@ -5,6 +5,7 @@ remains UNKNOWN unless an independently supplied reviewed adapter provides it.
 """
 import array,hashlib,io,json,math,os,shutil,subprocess,tempfile,warnings,stat
 from pathlib import Path
+from fractions import Fraction
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO,CoreError
@@ -111,8 +112,32 @@ class MediaDecoder:
                 return {'modality':'AUDIO','decoded':True,'duration_s':duration,'source_codec':stream['codec_name'],'source_sample_rate':int(stream['sample_rate']),'source_channels':int(stream['channels']),'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
             stream=next((s for s in meta['streams'] if s['codec_type']=='video'),None)
             if not stream or int(stream['width'])*int(stream['height'])>8_000_000:raise CoreError('MEDIA_VIDEO_BOUND')
-            frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp_time,duration_time,pkt_duration_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
-            points=[float(f['best_effort_timestamp_time']) for f in frame_meta['frames']]
+            frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp,best_effort_timestamp_time,duration_time,pkt_duration_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
+            if type(frame_meta.get('frames')) is not list or not 1<=len(frame_meta['frames'])<=4096:
+                raise CoreError('MEDIA_FRAME_TIME_INVALID')
+            # Adopt B22's container-relative PTS mechanism inside this original
+            # isolated decoder; do not import its unsandboxed prototype runner.
+            try:
+                origin=Fraction(str(meta['format'].get('start_time','0')))
+                base=Fraction(stream['time_base']) if stream.get('time_base') else None
+                if base is not None and base<=0:raise ValueError()
+                starts=[]
+                for item in meta['streams']:
+                    if type(item.get('start_pts')) is int and item.get('time_base'):
+                        starts.append(item['start_pts']*Fraction(item['time_base']))
+                # AVFormat's origin is in integer microseconds. Prefer the
+                # matching earliest exact stream tick, retaining genuine gaps
+                # when video starts later than another stream.
+                if starts and abs(min(starts)-origin)<=Fraction(1,1_000_000):origin=min(starts)
+                if abs(origin)>2**53:raise ValueError()
+                absolute=[f['best_effort_timestamp']*base if base is not None and type(f.get('best_effort_timestamp')) is int
+                    else Fraction(str(f['best_effort_timestamp_time'])) for f in frame_meta['frames']]
+                # Keep the existing zero-origin projection byte compatible;
+                # exact ticks are needed here to subtract a nonzero origin.
+                points=([float(t-origin) for t in absolute] if origin else
+                    [float(f['best_effort_timestamp_time']) for f in frame_meta['frames']])
+            except (KeyError,TypeError,ValueError,ZeroDivisionError,OverflowError):
+                raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
             if not 1<=len(points)<=4096 or any(not math.isfinite(t) or not 0<=t<duration for t in points) or points!=sorted(set(points)):raise CoreError('MEDIA_FRAME_TIME_INVALID')
             # Container duration can belong to a longer audio track. A final
             # video image does not establish visual coverage to that endpoint.
@@ -132,7 +157,13 @@ class MediaDecoder:
             frames=[]
             for i,index in enumerate(indices):
                 frame=raw[i*size:(i+1)*size];means=[sum(frame[channel::3])/(96*64) for channel in range(3)]
-                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else final_end],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest()})
+                timing={}
+                if origin:
+                    timing={'timeline_origin_s':float(origin)}
+                    if base is not None and type(frame_meta['frames'][index].get('best_effort_timestamp')) is int:
+                        timing.update(source_pts_ticks=frame_meta['frames'][index]['best_effort_timestamp'],source_time_base=str(base))
+                    else:timing['source_timestamp_s']=float(absolute[index])
+                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else final_end],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest(),**timing})
             changes=[{'start_s':frames[i-1]['sample_s'],'end_s':frames[i]['sample_s'],'mean_channel_delta':sum(abs(a-b) for a,b in zip(frames[i-1]['mean_rgb'],frames[i]['mean_rgb']))/3} for i in range(1,len(frames))]
             return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'source_frame_count':len(points),'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
 
