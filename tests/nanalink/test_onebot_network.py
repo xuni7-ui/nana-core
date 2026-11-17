@@ -426,14 +426,22 @@ def test_bound_recall_is_reported_as_not_withdrawn_without_blocking_messages():
             site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
             try:
                 port=site._server.sockets[0].getsockname()[1]
+                from nana_core.nanalink.console import NanaLinkObserver,ObservationBinding
+                binding=ObservationBinding(platform='qq',account_id='42',channel_id='primary',
+                    endpoint=f'http://127.0.0.1:{port}',credential_ref='core.test')
                 async with ClientSession() as client:
+                    adapter._health=adapter._health.model_copy(update={'login':'REQUIRED','error':'ACCOUNT_MISMATCH'})
+                    async with client.get(f'http://127.0.0.1:{port}/nanalink/status',headers={'Authorization':'Bearer '+token}) as response:
+                        status=await response.json()
+                        assert status['health']['error']=='ACCOUNT_MISMATCH'
+                        assert status['metrics']['unhandled_recalls']==1
+                    observed=await asyncio.to_thread(NanaLinkObserver((binding,),resolver).view)
+                    assert observed['sessions'][0]['health']['error']=='ACCOUNT_MISMATCH'
+                    adapter._health=adapter._health.model_copy(update={'error':None})
                     async with client.get(f'http://127.0.0.1:{port}/nanalink/status',headers={'Authorization':'Bearer '+token}) as response:
                         status=await response.json()
                         assert response.status==200 and status['metrics']['unhandled_recalls']==1
                         assert status['health']['error']=='RECALL_NOT_WITHDRAWN' and token not in json.dumps(status)
-                from nana_core.nanalink.console import NanaLinkObserver,ObservationBinding
-                binding=ObservationBinding(platform='qq',account_id='42',channel_id='primary',
-                    endpoint=f'http://127.0.0.1:{port}',credential_ref='core.test')
                 observed=await asyncio.to_thread(NanaLinkObserver((binding,),resolver).view)
                 assert observed['sessions'][0]['health']['error']=='RECALL_NOT_WITHDRAWN'
                 assert token not in json.dumps(observed)

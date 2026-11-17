@@ -146,7 +146,11 @@ class OneBotAdapter:
 
     def health(self):
         value = self._health
-        if self.metrics['unhandled_recalls']:
+        # Keep actionable login diagnostics visible. A dropped invalid frame
+        # can remain recorded indefinitely, so it must not mask the recall gap.
+        # The counter retains the gap until the more urgent error clears.
+        if self.metrics['unhandled_recalls'] and value.error not in {
+                'ACCOUNT_MISMATCH', 'CREDENTIAL_UNAVAILABLE', 'CREDENTIAL_REJECTED', 'SIDECAR_UNAVAILABLE'}:
             value = value.model_copy(update={'error':'RECALL_NOT_WITHDRAWN'})
         # A quiet conversation is not proof of a failed receive path. Heartbeat
         # staleness is reported only after a heartbeat was actually observed.
