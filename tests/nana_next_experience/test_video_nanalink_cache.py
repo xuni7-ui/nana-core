@@ -46,6 +46,9 @@ def test_cached_bytes_tampering_is_rejected_before_decode(cached_video,monkeypat
     monkeypatch.setattr(adapter,'decode',lambda *a,**kw:pytest.fail('must not decode modified bytes'))
     with pytest.raises(CoreError,match='MEDIA_CACHE_CONTENT_MISMATCH'):
         adapter.decode_cached_window(cache,handle,privacy='PUBLIC',start_seconds=0,end_seconds=1)
+    from tools.nana_next_experience.experiments.video_cached_snapshot import public_snapshot
+    with pytest.raises(CoreError,match='MEDIA_CACHE_CONTENT_MISMATCH'):
+        with public_snapshot(cache,handle,privacy='PUBLIC'):pytest.fail('tampered snapshot must not be yielded')
 
 
 def test_revoked_during_decode_cannot_return_a_candidate(cached_video,monkeypatch):
@@ -74,6 +77,20 @@ def test_private_media_never_enters_temporary_video_decoder(cached_video,monkeyp
     monkeypatch.setattr(adapter,'decode',lambda *a,**kw:pytest.fail('private decode must not run'))
     with pytest.raises(ValueError,match='public media'):
         adapter.decode_cached_window(cache,handle,privacy='PERSONAL',start_seconds=0,end_seconds=1)
+
+
+def test_shared_snapshot_removes_temporary_bytes_after_withdrawal(cached_video):
+    from tools.nana_next_experience.experiments.video_cached_snapshot import public_snapshot
+    cache,handle,data,current=cached_video
+    with public_snapshot(cache,handle,privacy='PUBLIC') as path:
+        assert path.read_bytes()==data
+    assert not path.exists()
+    with pytest.raises(ValueError,match='public media'):
+        with public_snapshot(cache,handle,privacy='PERSONAL'):pytest.fail('private media denied')
+    with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):
+        with public_snapshot(cache,handle,privacy='PUBLIC') as withdrawn:
+            current['value']=False
+    assert not withdrawn.exists()
 
 
 def test_original_cache_to_global_image_candidates_preserves_source_digest(cached_video):

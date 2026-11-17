@@ -63,6 +63,12 @@ def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdraw
             assert all(MediaDecoder().decode(frame.png,'IMAGE')['pixel_digest']==frame.pixel_sha256
                        for frame in batch.images)
             assert batch.state=='CANDIDATES_NOT_INGESTED' and batch.source_lifetime=='RECHECK_REQUIRED_AT_USE'
+            shared=guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
+                                  detector=detector,budget=3,max_gap=1,width=32,height=32,shared_snapshot=True)
+            assert shared.images==batch.images and shared.unrequested_intervals==batch.unrequested_intervals
+            assert shared.sampling_gaps==batch.sampling_gaps and shared.source_sha256==batch.source_sha256
+            assert shared.decoded_rgb_bytes==batch.decoded_rgb_bytes
+            assert shared.cache_bytes_hashed==len(data) and batch.cache_bytes_hashed==2*len(data)
             from tools.nana_next_experience.experiments import video_guarded_batch as module
             from tools.nana_next_experience.experiments.video_pts_decode import FrameBoundExceeded
             actual_decode=module.decode_cached_window;limits=[]
@@ -75,11 +81,21 @@ def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdraw
                     guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
                                    detector=detector,budget=3,max_gap=1,width=32,height=32)
             assert limits==[8,2]
+            current={'value':True}
+            def revoke_cache(decoded):
+                result=detector(decoded);current['value']=False;return result
+            with monkeypatch.context() as patch:
+                patch.setattr(cache,'current',lambda _:current['value'])
+                with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):
+                    guarded_images(app,cache,mid,scope='world',windows=((0,1),),detector=revoke_cache,
+                                   budget=2,max_gap=1,width=32,height=32,shared_snapshot=True)
             def revoke(decoded):
                 result=detector(decoded)
                 MemoryService(runtime.store,runtime.authority).forget(mid,runtime.authority)
                 return result
+            previous_calls=len(calls)
             with pytest.raises(CoreError):
-                guarded_images(app,cache,mid,scope='world',windows=((0,1),),detector=revoke,
-                               budget=2,max_gap=1,width=32,height=32)
+                guarded_images(app,cache,mid,scope='world',windows=((0,1),(1,2)),detector=revoke,
+                               budget=2,max_gap=1,width=32,height=32,shared_snapshot=True)
+            assert len(calls)==previous_calls+1
         finally:cache.close()

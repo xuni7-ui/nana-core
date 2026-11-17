@@ -509,3 +509,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 B与原S5采样对照
 
 持续授权：compare_opencv_tree.py、test_video_motion_onset.py、video-native-s5-comparison-20261117.json、09/11和B队列追加、本清单；仅性能/时间元数据，不含视频或凭据。
+
+## 2026-11-17 B单批次来源快照复用
+
+持续授权：video_cached_snapshot.py、video_guarded_batch.py、bench_video_batch_snapshot.py、对应两测试、video-shared-snapshot-20261117.json、09/11和B队列追加、本清单；不含第三方视频、真实用户数据或凭据。
