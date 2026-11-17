@@ -1,0 +1,1 @@
+{"python": "3.12.14", "sqlite": "3.53.1", "all_optional_modules_from_installed_venv": true, "versions": {"aiohttp": "3.14.3", "qrcode": "installed", "cryptography": "50.0.0", "PIL": "12.3.0", "pydantic": "2.13.4"}, "accounts_started": false, "model_calls": 0}

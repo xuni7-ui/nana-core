@@ -1,0 +1,1 @@
+A锚38da9f27/Brain274，收口同源集成候选。实际旧9a2已安装槽nn262：aiohttp/qrcode不存在，cryptography/Pillow存在；其原特征只HOST_VAULT/PUBLIC_VIDEO_FRAMES，没冒称平台依赖完整。为原构建器增加显式NANALINK可选组，与requirements-nanalink.lock既有锁一致；最小Core不变，不安装/启用账号或新后台进程。NANALINK包含crypto时平台glibc最低值需正确，Pillow单特征也按原实际2.27 wheel声明。随后固定源码/实际离线候选与同主体综合探针，而非再次局部无限精修。

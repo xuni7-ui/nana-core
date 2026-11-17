@@ -69,8 +69,17 @@ class EpisodeLearning:
             if row['verdict']=='SUCCESS':contexts.add(row['context_digest']);support.append(row['record_id'])
         if len(contexts)<2:raise CoreError('INDEPENDENT_REVALIDATION_REQUIRED')
         rule=self.experiences._rule(lesson)
-        for row in rows:
-            if row['verdict']!='COUNTEREXAMPLE' or not self.records.current_support(row['record_id']):continue
+        # Recent support is a bounded sample, never proof that older disproof
+        # vanished. Stream this lesson's counterexamples through the existing
+        # history index; do not load or replay all successful episodes.
+        counters=self.store.db.execute(
+            "SELECT record_id FROM strategy_assessments WHERE lesson_id=? AND verdict='COUNTEREXAMPLE' ORDER BY created_at_us DESC",
+            (lesson_id,))
+        for row in counters:
+            if not self.records.current_support(row['record_id']):continue
+            head=self.store.one('continuity_records',row['record_id'])
+            if head['scope'] not in self.scopes or head['privacy_class'] not in self.privacy:
+                raise CoreError('INDEPENDENT_REVALIDATION_REQUIRED')
             payload=self.records.read(row['record_id'])['payload']
             case=LearningCase.model_validate_json(canonical(payload['episode']['case']))
             if not self.evaluator.evaluate(rule.method,(case,))['all_passed']:raise CoreError('UNRESOLVED_COUNTEREXAMPLE')

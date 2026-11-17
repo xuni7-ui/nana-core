@@ -31,6 +31,8 @@ class FeedAdapter:
         self.next_at = 0
         self.etag = self.modified = None
         self._pending_validators = None
+        self._page = None
+        self._page_offset = 0
         self.metrics = dict(requests=0, bytes=0, events=0, duplicates=0)
 
     def health(self):
@@ -77,6 +79,14 @@ class FeedAdapter:
             raise CoreError('FEED_READ_NOT_AUTHORIZED')
         if self.pending:
             return self.pending.pop(0)
+        if self._page is not None:
+            self.pending, self._page_offset = self._parse_page(self._page, self._page_offset)
+            if self._page_offset is None:
+                self._page = None
+                if self._pending_validators is not None:
+                    self.etag, self.modified = self._pending_validators
+                    self._pending_validators = None
+            return self.pending.pop(0) if self.pending else None
         if time.monotonic() < self.next_at:
             return None
         self.next_at = time.monotonic() + self.interval
@@ -85,8 +95,11 @@ class FeedAdapter:
             raw = await self._get()
             if raw is not None:
                 self.metrics['bytes'] += len(raw)
-                self.pending = self.parse(raw)
-                if self._pending_validators is not None:
+                rows = self._parse_rows(raw)
+                self.pending, self._page_offset = self._parse_page(rows, 0)
+                if self._page_offset is not None:
+                    self._page = rows
+                elif self._pending_validators is not None:
                     self.etag, self.modified = self._pending_validators
                     self._pending_validators = None
             self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'receive': 'HEALTHY', 'error': None})
@@ -96,6 +109,9 @@ class FeedAdapter:
         return self.pending.pop(0) if self.pending else None
 
     def parse(self, raw):
+        return self._parse_page(self._parse_rows(raw), 0)[0]
+
+    def _parse_rows(self, raw):
         if not isinstance(raw, bytes) or len(raw) > self.max_bytes:
             raise CoreError('FEED_XML_BOUND_OR_DTD_DENIED')
         # XML markup is ASCII even in UTF-16/32; strip encoding NULs before
@@ -110,9 +126,14 @@ class FeedAdapter:
         if root.tag not in {'rss', '{http://www.w3.org/2005/Atom}feed'}:
             raise CoreError('FEED_FORMAT_UNSUPPORTED')
         atom = '{http://www.w3.org/2005/Atom}'
-        rows = root.findall('./channel/item') if root.tag == 'rss' else root.findall(atom + 'entry')
+        return root.findall('./channel/item') if root.tag == 'rss' else root.findall(atom + 'entry')
+
+    def _parse_page(self, rows, start):
+        atom = '{http://www.w3.org/2005/Atom}'
         events, stamp = [], time.time_ns() // 1000
-        for row in rows[:32]:
+        next_offset = None
+        for position in range(start, len(rows)):
+            row = rows[position]
             prefix = '' if row.tag == 'item' else atom
             ident = row.findtext(prefix + ('guid' if not prefix else 'id'))
             link = row.findtext('link') if not prefix else next((x.get('href') for x in row.findall(atom + 'link') if x.get('rel', 'alternate') == 'alternate'), None)
@@ -127,6 +148,9 @@ class FeedAdapter:
             title = (row.findtext(prefix + 'title') or '').strip()[:512]
             if not title:
                 continue
+            if len(events) == 32:
+                next_offset = position
+                break
             raw_hash = hashlib.sha256(ET.tostring(row)).hexdigest()
             self.seen[eid] = raw_hash
             while len(self.seen) > 1024:
@@ -137,7 +161,7 @@ class FeedAdapter:
                           Segment(kind='page', reference=link[:512] if link else None)), raw_sha256=raw_hash,
                           raw_reference='feed:' + eid))
         self.metrics['events'] += len(events)
-        return events
+        return events, next_offset
 
     async def send(self, invocation):
         return OperationReceipt(operation_id=getattr(invocation, 'action_id', 'unsupported'),

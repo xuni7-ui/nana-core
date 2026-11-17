@@ -1,0 +1,1 @@
+A锚e148e5df07d373cc7a5314da3efe45ce10d4f1da / Brain272，clean，无MERGE_HEAD，远端同。PR23固定a159b7d / 原A基线d5，原source check133447701925已实读success但不冒称实际平台；PR仍draft。A已检查三个原消费者和新候选门：原视频投影返回前重读、动态转发原作者/ID分离与畸形ID跳过、Feed大页分32条续读。原A上提取固定C新增测试的有效旧基线4fail1pass1.88s（源withdraw分支旧本就pass，frame分支fail）；初选择器变量遮蔽路径导致ERROR不算旧行为，保留。采用原消费者修复；PUBLIC视频缓存门仅候选，未接B22/平台文件归因、未授权Callback实际行为。正常双亲merge，不抢C/B未提交内容。

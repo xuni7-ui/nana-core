@@ -720,6 +720,16 @@ class ContextAssembler:
                 existing={block.block_id for _,block in candidates}
                 candidates.extend((score,block) for score,block in ExperienceService(self.store,self.authority).context_blocks(
                     request,privacy,selected_lesson_ids=lesson_ids) if block.block_id not in existing)
+        if request.task_class=='world.interpret' and conversation_topic is None and required_memory_ids:
+            # A sourced factual pass is not C's personal deliberation. Incidental
+            # receipt/self/relationship context must not contaminate an unrelated
+            # retained observation. Keep explicit facts, their complete conflicts,
+            # and the original task-matched learning inputs. Dialogue/SELF retain
+            # their existing private state and independently sourced projections.
+            primary=set(required_memory_ids)
+            candidates=[(score,block) for score,block in candidates
+                if (block.kind=='MEMORY' and primary.intersection(block.source_memory_ids))
+                or block.kind in {'UNRESOLVED_CONFLICT','LESSON','EXPERIENCE','INTERACTION_LESSON'}]
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
             if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')

@@ -116,6 +116,38 @@ def test_feed_actual_owned_http_conditional_fetch():
     asyncio.run(run())
 
 
+def test_feed_large_page_delivers_all_entries_before_committing_validator():
+    from aiohttp import web
+    async def run():
+        calls=[]
+        body=('<rss><channel>'+''.join(f'<item><guid>{i}</guid><title>Item {i}</title></item>'
+              for i in range(35))+'</channel></rss>').encode()
+        async def source(request):
+            calls.append(request.headers.get('If-None-Match'))
+            if calls[-1]=='"fixture"':
+                return web.Response(status=304)
+            return web.Response(body=body,headers={'ETag':'"fixture"'})
+        app=web.Application();app.router.add_get('/rss',source)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=FeedAdapter('http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1])+'/rss',authorized=True)
+        try:
+            await adapter.connect()
+            received=[]
+            for _ in range(33):
+                received.append((await adapter.receive()).segments[0].text)
+            await adapter.disconnect()
+            await adapter.connect()
+            for _ in range(2):
+                received.append((await adapter.receive()).segments[0].text)
+            assert received==[f'Item {i}' for i in range(35)] and calls==[None]
+            adapter.next_at=0
+            assert await adapter.receive() is None and calls==[None,'"fixture"']
+        finally:
+            await adapter.shutdown();await runner.cleanup()
+    asyncio.run(run())
+
+
 def test_feed_chunked_body_and_validators_commit_only_after_parse():
     from aiohttp import web
     async def run():

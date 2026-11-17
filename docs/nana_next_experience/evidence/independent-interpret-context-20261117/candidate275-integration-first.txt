@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/workspace/nana-275-journey-setup.py", line 31, in <module>
+    app.pause();result=space['setup'](app,Path('/tmp/np275'));assert app.runtime.identity_id==gateway['subject_id']
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<fixed-original-journey-setup-275>", line 44, in setup
+AssertionError

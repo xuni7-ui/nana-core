@@ -1,0 +1,30 @@
+{
+  "execution": "STOPPED_SAME_DEV_BINARY_READER_RETURN_NOT_PRODUCTION_START",
+  "reader_sequence": [
+    "b196f5d",
+    "00d643b",
+    "b196f5d"
+  ],
+  "all_three_semantic_views_equal": true,
+  "no_additional_cognitive_requests": true,
+  "no_actions_or_goals": true,
+  "private_intent_preserved_after_G_and_dream_restart": true,
+  "result": {
+    "identity_id": "d917be4a-892f-4424-85d5-148f846c2620",
+    "lineage_binding": "17df0c94df58756060ac256d9d9f45062a36d25ed56d4c3a599612139967adc9",
+    "private_record_id": "d8e376ae-a3f0-40a3-b1ac-e8e7bd66a103",
+    "private_intent_id": "1aa2191c-78fa-4832-af0e-7f7f0a55b4a3",
+    "private_content_sha256": "b2a0a55c263feadac43be7d7c77abfc7319621a0be6596dce1a9cb87ced35ddd",
+    "private_content_withheld": true,
+    "expression_boundary_preserved_cognition_still_allowed": true,
+    "withdrawn_learning_method_still_fenced": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 17,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    }
+  },
+  "real_provider_calls": 0
+}

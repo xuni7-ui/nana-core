@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/workspace/nana-video-tail-ablation.py", line 50, in <module>
+    decision=r.subject.cognize(event,model=model,authority=r.authority,policy=policy())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/subject/loop.py", line 733, in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/cognition.py", line 155, in run
+    proposal = CognitiveProposal.model_validate_json(raw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py", line 782, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for CognitiveProposal
+proposed_operations.0
+  Input should be 'READ_SOURCE', 'LOCATE_SOURCE', 'DRAFT', 'ASK' or 'WAIT' [type=literal_error]
+    For further information visit https://errors.pydantic.dev/2.13/v/literal_error
+proposed_operations
+  Tuple should have at least 1 item after validation, not 0 [type=too_short]
+    For further information visit https://errors.pydantic.dev/2.13/v/too_short

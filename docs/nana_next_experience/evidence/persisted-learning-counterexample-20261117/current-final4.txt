@@ -1,0 +1,4 @@
+..{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PUBLIC", "result": "UNRESOLVED_COUNTEREXAMPLE", "state": "SUSPENDED", "method_available": false, "elapsed_seconds": 0.01120508200256154, "cpu_seconds": 0.01119913699999997, "write_rows": 0, "model_calls": 0}
+.{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PERSONAL", "result": "UNRESOLVED_COUNTEREXAMPLE", "state": "SUSPENDED", "method_available": false, "elapsed_seconds": 0.009836056997301057, "cpu_seconds": 0.009836707000000056, "write_rows": 0, "model_calls": 0}
+.
+4 passed in 1.12s

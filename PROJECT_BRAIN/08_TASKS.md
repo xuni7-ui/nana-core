@@ -4,6 +4,8 @@
 
 ## CURRENT — NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT
 
+[北京时间2026-11-17现役补充] 同一原主任务，继承[用户整体验收增补](../docs/nana_next_experience/task_inputs/LONG_TERM_CAUSAL_GROWTH_AND_INTEGRATED_QUALIFICATION_2026_11_17.md)。原PR14/17/18/20/21及B24、C23已有采用消费者，按09后继不重开；B22仍draft原生接线待。A当前收口原S5真实覆盖→同C私人疑问因果，随后固定集成候选验证同主体重启/交流/内在倾向/G后续迁移；继续S3跨时间因果、S8/G独立迁移和S10受控机制改进候选。原长期/真实模型/手机/生产差额不混同，以下历史任务描述以09最新CURRENT/ACTIVE优先。
+
 [北京时间2026-11-16当前增补] 唯一主任务正在连续执行，下方11月8冻结为历史。A先完成PR14现役消费者集成，按实测决定PR17，对接PR18新来源并负责原S5/S2/S3/C/S8视觉接线；B负责两仓算法研究/移植，NanaLink负责平台/媒体接入，不抢占各自未提交工作。完整用户增补见docs/nana_next_experience/task_inputs/GLOBAL_COMPATIBILITY_VISUAL_FUSION_AND_DELIVERY_2026_11_16.md；最新进度只以09/ACTIVE/固定PR SHA和实际回执为准。
 
 [用户冻结2026-11-08 23:20北京时间] 已保存d2同源离线安装及首错/部分回归证据，创建启用明天11月9日03:30、09:30两次原任务实际续办；先排查安装梦境assert summary和恢复绝对PYTHONPATH全仓回归（本次407通过后因用户冻结中断，非全仓PASS），再连续推进全部原剩余项。见09及FROZEN_CHECKPOINT顶部；下方已恢复说明为历史。

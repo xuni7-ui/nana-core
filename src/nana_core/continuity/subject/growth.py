@@ -16,7 +16,13 @@ class Growth:
 
     def assertion_view(self, row, *, privacy_classes=None):
         signals=[];hidden=False
-        for s in self.store.all('assertion_signals'):
+        from ..store import ContinuityStore
+        # Existing owner index, same insertion order and evidence semantics.
+        # Historical read-only facades keep their own bounded/filtered reader;
+        # this fast path grants no direct SQL access to those facades.
+        rows=(self.store.db.execute('SELECT * FROM assertion_signals WHERE assertion_id=? ORDER BY rowid', (row['assertion_id'],))
+              if isinstance(self.store,ContinuityStore) else self.store.all('assertion_signals'))
+        for s in rows:
             if s['assertion_id']!=row['assertion_id']:continue
             head=self.store.one('continuity_records',s['record_id'])
             if privacy_classes is not None and head['privacy_class'] not in privacy_classes:

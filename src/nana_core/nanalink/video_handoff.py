@@ -90,6 +90,11 @@ def storyboard_samples(app, source_memory_id, *, scope, privacy_classes):
         blockers.append('SUBTITLE_OUTSIDE_DURATION')
     if len(set(seconds)) != len(seconds):
         blockers.append('DUPLICATE_SAMPLE_TIME')
+    # A source or individual frame may be withdrawn during projection.
+    # Recheck each original memory immediately before returning metadata.
+    for sample in samples:
+        memory.read(sample['source_memory_id'])
+    memory.read(source_memory_id)
     return {'schema_version': 1, 'platform': 'bilibili', 'account_key': None,
             'account_binding': 'PUBLIC_SOURCE_NOT_ACCOUNT_ATTRIBUTED', 'source_memory_id': source_memory_id,
             'scope': scope, 'privacy_class': source['privacy_class'], 'origin': body['origin'],
@@ -100,3 +105,77 @@ def storyboard_samples(app, source_memory_id, *, scope, privacy_classes):
             'bounded_sample_input_valid': not blockers, 'planning_blockers': blockers, 'cut_motion': 'NOT_MEASURED',
             'coverage': 'EXISTING_STORYBOARD_SAMPLES_ONLY', 'full_video_watched': False,
             'unobserved_intervals': 'NOT_INFERRED', 'network_calls': 0, 'model_calls': 0}
+
+
+def public_video_cache_handle(app, cache, source_memory_id, *, scope):
+    """Resolve original public VIDEO evidence to a cache handle, without granting use.
+
+    This does not fetch, decode, authenticate a platform, or prove raw bytes.
+    A consumer must verify the content hash and recheck this source at handoff.
+    """
+    from ..continuity.records import RecordService
+    from .media import MediaCache
+    if (type(cache) is not MediaCache or type(source_memory_id) is not str
+            or not 1 <= len(source_memory_id) <= 128 or type(scope) is not str
+            or scope not in app.policy.allowed_scopes or 'PUBLIC' not in app.policy.readable_privacy):
+        raise CoreError('NANALINK_VIDEO_SOURCE_DENIED')
+    memory = MemoryService(app.runtime.store)
+    row = memory.read(source_memory_id)
+    provenance = row.get('source_provenance') or {}
+    if (row.get('scope') != scope or row.get('entity_id') != app.runtime.config.entity_id
+            or row.get('privacy_class') != 'PUBLIC' or row.get('authority') != 'DIRECT'
+            or row.get('epistemic_kind') != 'OBSERVATION' or type(provenance) is not dict
+            or (provenance.get('domain'), provenance.get('source_namespace')) not in {
+                ('SYNTHETIC_ONLY', 'synthetic.public-media'), ('RECORDED_PUBLIC', 'recorded.public-media')}
+            or provenance.get('source_kind') != 'DIRECT_OBSERVATION'):
+        raise CoreError('NANALINK_VIDEO_SOURCE_DENIED')
+    try:
+        body = json.loads(row['text'])
+        source, decoded, sha = body['source'], body['decoded'], body['source_byte_digest']
+        if (type(source) is not dict or type(decoded) is not dict or source.get('modality') != 'VIDEO'
+                or source.get('privacy') != 'PUBLIC' or decoded.get('modality') != 'VIDEO'
+                or (provenance.get('domain'), source.get('origin')) not in {
+                    ('SYNTHETIC_ONLY', 'SYNTHETIC'), ('RECORDED_PUBLIC', 'RECORDED')}
+                or decoded.get('decoded') is not True or source.get('source_id') != provenance.get('source_reference')
+                or type(sha) is not str or not re.fullmatch(r'[0-9a-f]{64}', sha)):
+            raise ValueError()
+    except (ValueError, TypeError, KeyError):
+        raise CoreError('NANALINK_VIDEO_SOURCE_INVALID') from None
+    observation = app.runtime.store.db.execute(
+        "SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",
+        (source_memory_id,)).fetchone()
+    records = RecordService(app.runtime.store)
+    if not observation or not records.current_support(observation[0]):
+        raise CoreError('NANALINK_VIDEO_OBSERVATION_NOT_CURRENT')
+    handle = cache.resolve(source_ref=source_memory_id, sha256=sha)
+    if not 1 <= handle.size <= 16 * 1024 * 1024:
+        raise CoreError('NANALINK_VIDEO_BYTE_BOUND')
+    memory.read(source_memory_id)
+    if not records.current_support(observation[0]):
+        raise CoreError('NANALINK_VIDEO_OBSERVATION_NOT_CURRENT')
+    return handle
+
+
+def with_current_public_video(app, cache, source_memory_id, *, scope, operation):
+    """Run a trusted local candidate operation only while original evidence is current.
+
+    This guards the returned candidate, not arbitrary effects inside a callback.
+    The caller remains responsible for the original C/Grant/Kernel decision and
+    the operation must independently check cached bytes against the handle hash.
+    """
+    from collections.abc import AsyncIterator, Iterator
+    import inspect
+    if not callable(operation):
+        raise CoreError('NANALINK_VIDEO_OPERATION_REQUIRED')
+    before = public_video_cache_handle(app, cache, source_memory_id, scope=scope)
+    result = operation(before)
+    if inspect.isawaitable(result) or isinstance(result, (Iterator, AsyncIterator)):
+        if inspect.iscoroutine(result):
+            result.close()
+        raise CoreError('NANALINK_VIDEO_MATERIALIZED_RESULT_REQUIRED')
+    after = public_video_cache_handle(app, cache, source_memory_id, scope=scope)
+    if (before.source_ref, before.sha256, before.size) != (after.source_ref, after.sha256, after.size):
+        raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
+    if (getattr(result, 'source_ref', None), getattr(result, 'source_sha256', None)) != (before.source_ref, before.sha256):
+        raise CoreError('NANALINK_VIDEO_OUTPUT_SOURCE_MISMATCH')
+    return result

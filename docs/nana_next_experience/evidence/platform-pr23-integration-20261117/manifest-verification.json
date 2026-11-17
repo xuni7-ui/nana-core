@@ -1,0 +1,13 @@
+{
+  "fixed_C_sha": "a159b7ddb7c60ffaf893f607585531dfde0e9499",
+  "fixed_manifest_sha256": "e544dbc0ee41fa47a328a7e7ddefdc0c0d011367e3e34031c6ffe41c0e98a4ea",
+  "files_verified": 107,
+  "merged_manifest_sha256": "1e99e6e1702047ed408ae6cc16bb31843d6e0940396bb7c3e3cd02c23d2f1b5e",
+  "previously_merged_PR24_files_refreshed": [
+    "apps/nana-space/src/data/nanalink.ts",
+    "apps/nana-space/src/features/v3/PlatformPanel.tsx",
+    "apps/nana-space/tests/nanalink-health.test.ts",
+    "apps/nana-space/tests/v3.spec.ts"
+  ],
+  "core_and_C_source_changes_by_A": []
+}

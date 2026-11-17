@@ -1,0 +1,19 @@
+{
+  "source_commit_compatible_with": "b196f5d44e032fe6f18dcc5db59760286170cdb7",
+  "actual_build_source": "3598ebbfa4de4bb8495efb7d2a2459acb59cf328",
+  "source_inputs_237_equal": true,
+  "reused_existing_ts_vite_browser_qualification": true,
+  "archive_root": "nana-space-web",
+  "two_archive_packings_only_not_two_vite_builds": [
+    {
+      "path": "/tmp/nana-277-web/web-a.tar.gz",
+      "bytes": 633959,
+      "sha256": "5963d5948fa51823541f4692f529efbbba4345b9ac075bef7af2abbd9de21243"
+    },
+    {
+      "path": "/tmp/nana-277-web/web-b.tar.gz",
+      "bytes": 633959,
+      "sha256": "5963d5948fa51823541f4692f529efbbba4345b9ac075bef7af2abbd9de21243"
+    }
+  ]
+}

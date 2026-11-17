@@ -70,7 +70,8 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
     row={'id_str':'123','type':'DYNAMIC_TYPE_AV','modules':{'module_author':{'mid':43,'pub_ts':1},
         'module_dynamic':{'desc':{'text':'Synthetic event'},'major':{}}}}
     with counterpart() as (upstream, state), notification_front(upstream.endpoint) as (url, front), LifeApplication(home,clock=clock) as app:
-        app.pause();front['dynamic']=[row];workflow=equipped(app,channel,url,grant=False)
+        invalid={**row,'id_str':'122','modules':{**row['modules'],'module_author':{'mid':10**200,'pub_ts':1}}}
+        app.pause();front['dynamic']=[invalid,row];workflow=equipped(app,channel,url,grant=False)
         result=poll_dynamics(workflow)
         assert result['observations']==1 and result['model_calls']==0
         assert poll_dynamics(workflow)['state']=='ALREADY_POLLED_NO_RETRY'
@@ -81,6 +82,15 @@ def test_owned_http_pump_budget_dedupe_and_no_social_send(tmp_path):
         changed=poll_dynamics(workflow)
         assert changed['changed_withdrawn']==1 and changed['observations']==1
         assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==1
+        # A newly reported forward relationship changes the source rather than
+        # silently retaining the previous attribution under the same event ID.
+        front['dynamic']=[{**row,'id_str':'124','orig':{'id_str':'456','modules':{'module_author':{'mid':99}}}}]
+        for _ in range(30):
+            clock.advance(10_000_000)
+            app.runtime.lease.heartbeat(force=True)
+        forwarded=poll_dynamics(workflow)
+        assert forwarded['changed_withdrawn']==1 and forwarded['observations']==0
+        assert app.runtime.store.db.execute("SELECT count(*) FROM memories WHERE privacy_class='PERSONAL' AND lifecycle='ACTIVE'").fetchone()[0]==0
         assert state['posts']==0
 
 

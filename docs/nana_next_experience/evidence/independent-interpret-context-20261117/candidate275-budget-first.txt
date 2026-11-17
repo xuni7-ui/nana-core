@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/workspace/nana-275-journey-setup.py", line 25, in <module>
+    app.pause();result=space['setup'](app,Path('/tmp/np275'));assert app.runtime.identity_id==gateway['subject_id']
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<fixed-original-journey-setup-275>", line 38, in setup
+  File "/tmp/ni275/src/nana_core/continuity/world_loop/cognition.py", line 432, in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/ni275/src/nana_core/continuity/world_loop/cognition.py", line 624, in _prepare
+    if resource.calls>=r.config.max_calls_per_day:raise CoreError('COGNITION_DAILY_BUDGET')
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+nana_core.contracts.CoreError: COGNITION_DAILY_BUDGET

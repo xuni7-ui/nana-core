@@ -1,0 +1,70 @@
+{
+  "reason": "274 actual CI45 omitted changed H1 tests; source new H1 local evidence remains valid",
+  "cases": [
+    {
+      "path": "tests/h1_semantics/test_media_stream_binding.py",
+      "old_selected": [
+        "tests/h2_perception/test_capture.py",
+        "tests/world_loop/test_boundaries.py",
+        "tests/world_loop/test_foundation.py",
+        "tests/world_loop/test_media_stream_binding.py"
+      ],
+      "new_selected": [
+        "tests/cloud_life/test_provider_budget.py",
+        "tests/h1_live_semantics",
+        "tests/h1_semantics",
+        "tests/h2_perception/test_capture.py",
+        "tests/independent_life/test_unknown_background_contract.py",
+        "tests/living_release_v4/test_bilibili_frame_unknown.py",
+        "tests/living_release_v4/test_bilibili_frames.py",
+        "tests/living_release_v4/test_bilibili_life.py",
+        "tests/provider_routing/test_timeout_inheritance.py",
+        "tests/world_loop/test_boundaries.py",
+        "tests/world_loop/test_foundation.py",
+        "tests/world_loop/test_media_stream_binding.py",
+        "tests/world_loop/test_wire_reservation.py"
+      ]
+    },
+    {
+      "path": "src/nana_core/continuity/world_loop/perception.py",
+      "old_selected": [
+        "tests/h2_perception/test_capture.py",
+        "tests/world_loop/test_boundaries.py",
+        "tests/world_loop/test_foundation.py",
+        "tests/world_loop/test_media_stream_binding.py"
+      ],
+      "new_selected": [
+        "tests/cloud_life/test_provider_budget.py",
+        "tests/h1_live_semantics",
+        "tests/h1_semantics",
+        "tests/h2_perception/test_capture.py",
+        "tests/independent_life/test_unknown_background_contract.py",
+        "tests/living_release_v4/test_bilibili_frame_unknown.py",
+        "tests/living_release_v4/test_bilibili_frames.py",
+        "tests/living_release_v4/test_bilibili_life.py",
+        "tests/provider_routing/test_timeout_inheritance.py",
+        "tests/world_loop/test_boundaries.py",
+        "tests/world_loop/test_foundation.py",
+        "tests/world_loop/test_media_stream_binding.py",
+        "tests/world_loop/test_wire_reservation.py"
+      ]
+    },
+    {
+      "path": "tests/h1_live_semantics/test_life.py",
+      "old_selected": [],
+      "new_selected": [
+        "tests/cloud_life/test_provider_budget.py",
+        "tests/h1_live_semantics",
+        "tests/h1_semantics",
+        "tests/independent_life/test_unknown_background_contract.py",
+        "tests/living_release_v4/test_bilibili_frame_unknown.py",
+        "tests/living_release_v4/test_bilibili_frames.py",
+        "tests/living_release_v4/test_bilibili_life.py",
+        "tests/provider_routing/test_timeout_inheritance.py",
+        "tests/world_loop/test_wire_reservation.py"
+      ]
+    }
+  ],
+  "python_blocks_compiled": 7,
+  "first_extraction_error": "assumed standalone list closing bracket; corrected AST slice before selected assignment; no CI/source failure inferred"
+}

@@ -1,0 +1,34 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[False] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f52756d8da0>
+primary_receipt = False
+
+    @pytest.mark.parametrize('primary_receipt',[False,True])
+    def test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts(app,primary_receipt):
+        app.chat('PROJECT 请按现有来源说明当前状态',privacy='PROJECT',message_id='receipt-before-owned-source')
+        r=app.runtime;s=r.store
+>       rows=s.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.domain='LOCAL_INTERACTION_METADATA' AND m.lifecycle='ACTIVE'").fetchall()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlite3.OperationalError: no such column: e.domain
+
+tests/person_self/test_independent_interpret_context.py:15: OperationalError
+_ test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[True] _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f52756da000>
+primary_receipt = True
+
+    @pytest.mark.parametrize('primary_receipt',[False,True])
+    def test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts(app,primary_receipt):
+        app.chat('PROJECT 请按现有来源说明当前状态',privacy='PROJECT',message_id='receipt-before-owned-source')
+        r=app.runtime;s=r.store
+>       rows=s.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.domain='LOCAL_INTERACTION_METADATA' AND m.lifecycle='ACTIVE'").fetchall()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlite3.OperationalError: no such column: e.domain
+
+tests/person_self/test_independent_interpret_context.py:15: OperationalError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_independent_interpret_context.py::test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[False]
+FAILED tests/person_self/test_independent_interpret_context.py::test_independent_interpretation_preserves_primary_retention_without_incidental_chat_receipts[True]
+2 failed in 0.22s

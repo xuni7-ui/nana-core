@@ -1,0 +1,1 @@
+A锚631444986043bb3153a772983a20090126daee91/Brain273，已推clean。B22 d63整数PTS/音视频错开反例提示A核查原S5消费者：当前最后视频帧source_interval_s直接延长到容器duration，可能把仅音轨尾部当已观看图像。生成video1s/audio3s同源文件，走原S5/S2/H1 MEDIA/ground验证真实覆盖，再按实际帧duration修复；不复制B算法/不解除原bwrap/不扩大30s或16MiB/8帧/无模型权限变更。

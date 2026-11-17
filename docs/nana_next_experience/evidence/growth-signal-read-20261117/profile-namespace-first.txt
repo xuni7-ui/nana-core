@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/nana-growth-signal-profile.py", line 30, in <module>
+    expected=OriginalGrowth(store).assertions('project-work',kind,privacy_classes=privacy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<fixed-d5c0a42-growth>", line 54, in assertions
+  File "<fixed-d5c0a42-growth>", line 54, in <genexpr>
+  File "<fixed-d5c0a42-growth>", line 25, in assertion_view
+NameError: name 'live_record' is not defined

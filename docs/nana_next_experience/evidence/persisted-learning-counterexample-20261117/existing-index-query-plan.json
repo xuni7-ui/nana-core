@@ -1,0 +1,30 @@
+[
+  {
+    "fixture": "test_later_success_population_0",
+    "counter_query_plan": [
+      [
+        4,
+        0,
+        62,
+        "SEARCH strategy_assessments USING INDEX strategy_history (lesson_id=?)"
+      ]
+    ],
+    "assessment_rows": 65,
+    "counterexamples": 1,
+    "model_requests": 0
+  },
+  {
+    "fixture": "test_later_success_population_1",
+    "counter_query_plan": [
+      [
+        4,
+        0,
+        62,
+        "SEARCH strategy_assessments USING INDEX strategy_history (lesson_id=?)"
+      ]
+    ],
+    "assessment_rows": 65,
+    "counterexamples": 1,
+    "model_requests": 0
+  }
+]

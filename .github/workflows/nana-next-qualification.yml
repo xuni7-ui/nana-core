@@ -24,8 +24,12 @@ on:
       - requirements-nanalink.lock
       - requirements-core-dev.lock
       - src/nana_core/continuity/context.py
+      - src/nana_core/continuity/subject/growth.py
       - src/nana_core/continuity/subject/growth_life.py
       - src/nana_core/continuity/world_loop/learning.py
+      - src/nana_core/continuity/open_life/meta_learning.py
+      - tests/open_life/test_meta_learning.py
+      - tests/person_self/test_independent_interpret_context.py
       - tests/person_self/test_growth_attention_visibility.py
       - tests/person_self/test_growth_assessment_identity.py
       - tests/person_self/test_growth_context_population.py
@@ -345,9 +349,12 @@ jobs:
               subprocess.run([sys.executable,'-m','tools.nana_first_life_android_v2.schema'],check=True)
               subprocess.run(['git','diff','--exit-code','--','contracts/nana-space-live-v2/api-v2.schema.json','contracts/nana-space-live-v2/openapi.json','apps/nana-space/src/data/v2.generated.ts'],check=True)
           groups=[
+            (('open_life/meta_learning.py','test_meta_learning.py'), ['tests/open_life/test_meta_learning.py','tests/open_autonomy/test_learning.py','tests/open_life/test_learning_renewal.py','tests/person_self/test_growth_inner_choice.py']),
+            (('continuity/context.py','test_independent_interpret_context.py'), ['tests/person_self/test_independent_interpret_context.py']),
+            (('subject/growth.py',), ['tests/continuous_self/test_subject_loop.py','tests/continuous_self/test_subject_life.py','tests/portable_subject/test_relational_reuse.py','tests/person_self/test_social_tendency_competition.py','tests/person_self/test_fresh_social_choice.py','tests/first_life_hardening/test_inspector.py']),
             (('experiments/video_coverage.py','test_video_coverage_prototype.py'), ['tests/nana_next_experience/test_video_coverage_prototype.py']),
             (('subject/policy.py','subject/loop.py','continuity/maintenance.py','presence/living.py','test_memory_review_choice.py','test_memory_review_condition.py','test_deliberated_replan_choice.py'), ['tests/person_self/test_deliberated_replan_choice.py','tests/person_self/test_memory_review_choice.py','tests/person_self/test_memory_review_condition.py','tests/person_self/test_dream_recall.py','tests/living_autonomy/test_maintenance.py']),
-            (('life/bilibili_frames.py','world_loop/semantics.py','test_bilibili_frames.py','test_bilibili_frame_unknown.py'), ['tests/living_release_v4/test_bilibili_frame_unknown.py','tests/living_release_v4/test_bilibili_frames.py','tests/living_release_v4/test_bilibili_life.py','tests/h1_semantics','tests/h1_live_semantics','tests/independent_life/test_unknown_background_contract.py','tests/cloud_life/test_provider_budget.py','tests/world_loop/test_wire_reservation.py','tests/provider_routing/test_timeout_inheritance.py']),
+            (('life/bilibili_frames.py','world_loop/semantics.py','world_loop/perception.py','tests/h1_semantics/','tests/h1_live_semantics/','test_bilibili_frames.py','test_bilibili_frame_unknown.py'), ['tests/living_release_v4/test_bilibili_frame_unknown.py','tests/living_release_v4/test_bilibili_frames.py','tests/living_release_v4/test_bilibili_life.py','tests/h1_semantics','tests/h1_live_semantics','tests/independent_life/test_unknown_background_contract.py','tests/cloud_life/test_provider_budget.py','tests/world_loop/test_wire_reservation.py','tests/provider_routing/test_timeout_inheritance.py']),
             (('nanalink/','test_nanalink','life/platform_runtime.py','live_api/platform_setup.py','live_api/platform_login.py','live_api/platform_adapters.py'), ['tests/nanalink','tests/person_self/test_nanalink_media_choice.py','tests/engineering_quality/test_nanalink_portable_closure.py']),
             (('open_agency/learning.py','open_agency/service.py','continuity/learning.py','continuity/cognition.py','presence/living.py','subject/loop.py','subject/contracts.py','subject/opportunities.py','subject/policy.py','test_private_learning_selection.py'), ['tests/person_self/test_private_learning_selection.py','tests/open_life/test_learning_renewal.py','tests/real_life/test_project_work.py','tests/continuous_self/test_learning.py','tests/continuous_self/test_privacy.py']),
             (('continuity/accounting.py','presence/resources.py','test_reported_usage.py'), ['tests/person_self/test_reported_usage.py','tests/provider_routing/test_anthropic_native.py','tests/portable_subject/test_package.py','tests/continuous_self/test_privacy.py']),
@@ -390,11 +397,11 @@ jobs:
           if '.github/workflows/nana-next-qualification.yml' in changed:
               # Exercise the host dependency path when changing this workflow;
               # this original boundary includes real PUBLIC frame decoding.
-              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py','tests/world_loop/test_media_stream_binding.py','tests/h1_semantics/test_grounding.py'})
+              selected=sorted(set(selected)|{'tests/world_loop/test_boundaries.py','tests/world_loop/test_media_stream_binding.py','tests/h1_semantics/test_grounding.py','tests/h1_semantics/test_media_stream_binding.py::test_last_video_frame_does_not_claim_the_unobserved_audio_tail'})
           print('TARGETED_CHECKS',selected,flush=True)
           if any(test.startswith('tests/nanalink') for test in selected):
               subprocess.run(['uv','pip','install','--python',sys.executable,'-r','requirements-nanalink.lock'],check=True)
-          assert all(pathlib.Path(test).exists() for test in selected)
+          assert all(pathlib.Path(test.split('::',1)[0]).exists() for test in selected)
           if any(test in selected for test in ('tests/world_loop/test_boundaries.py','tests/world_loop','tests/provider_routing')):
               # Select dependencies from actual tests, not only source-path
               # guesses: original C integration can select media boundaries.

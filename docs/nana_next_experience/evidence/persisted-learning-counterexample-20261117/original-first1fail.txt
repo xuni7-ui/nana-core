@@ -1,0 +1,48 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart _
+
+tmp_path = PosixPath('/dev/shm/nq279old/test_later_success_population_0')
+
+    def test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart(tmp_path):
+        """Recent good episodes cannot certify a method whose older defect remains."""
+        from nana_core.presence.runtime import NanaRuntime
+        from nana_core.continuity.records import RecordService
+        path=tmp_path/'long'/'self.db'
+        with fresh(path) as r:
+            r.work.configure_open_learning((numeric_learning(),))
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',
+                program_id='learn.numbers',possible_behaviors=('LEARN',))
+            m=MemoryService(r.store);e=m.capture(EvidenceInput(provenance=Provenance(
+                source_namespace='synthetic.long-learning',source_reference='cue',source_kind='DIRECT_OBSERVATION'),
+                text=cue.model_dump_json(),privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+            mid=m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,
+                epistemic_kind='OBSERVATION',source_evidence_id=e,text=cue.model_dump_json(),predicate_key='concern.numbers'))
+            inp=SubjectInput(source_key='synthetic.long-learning',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+                scope='world',source_memory_ids=(mid,),observed_at_us=r.clock.utc_now_us())
+            r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
+                causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us()));r.drain(32)
+            lesson=r.store.all('lessons')[0];lesson_id=lesson['lesson_id'];assert lesson['state']=='ACTIVE'
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            def assess(key,data,expected):
+                body={'strategy_episode':{'episode_key':key,'lesson_id':lesson_id,'case':LearningCase(
+                    case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
+                source=capture(r,key,body);return source,review.assess(lesson_id,source,authority=r.authority)
+            counter,aid=assess('old-precision-counter',[.1,.2],.3)
+            for i in range(64):assess('later-success-'+str(i),[i,.5],i+.5)
+            assert r.store.one('lessons',lesson_id)['state']=='SUSPENDED'
+            config,clock,identity=r.config,r.clock,r.identity_id
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            r.work.configure_open_learning((numeric_learning(),))
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            records=RecordService(r.store)
+            assert records.current_support(r.store.one('strategy_assessments',aid)['record_id'])
+>           with pytest.raises(CoreError,match='UNRESOLVED_COUNTEREXAMPLE'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+tests/world_loop/test_learning.py:107: Failed
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_learning.py::test_later_success_population_cannot_hide_a_persisted_counterexample_on_restart
+1 failed in 0.61s

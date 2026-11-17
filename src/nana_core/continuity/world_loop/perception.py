@@ -111,9 +111,19 @@ class MediaDecoder:
                 return {'modality':'AUDIO','decoded':True,'duration_s':duration,'source_codec':stream['codec_name'],'source_sample_rate':int(stream['sample_rate']),'source_channels':int(stream['channels']),'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
             stream=next((s for s in meta['streams'] if s['codec_type']=='video'),None)
             if not stream or int(stream['width'])*int(stream['height'])>8_000_000:raise CoreError('MEDIA_VIDEO_BOUND')
-            frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
+            frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp_time,duration_time,pkt_duration_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
             points=[float(f['best_effort_timestamp_time']) for f in frame_meta['frames']]
             if not 1<=len(points)<=4096 or any(not math.isfinite(t) or not 0<=t<duration for t in points) or points!=sorted(set(points)):raise CoreError('MEDIA_FRAME_TIME_INVALID')
+            # Container duration can belong to a longer audio track. A final
+            # video image does not establish visual coverage to that endpoint.
+            # Missing packet duration establishes only the sampled point.
+            last_meta=frame_meta['frames'][-1]
+            last_span=last_meta.get('duration_time')
+            if last_span in (None,'N/A'):last_span=last_meta.get('pkt_duration_time')
+            try:last_span=float(last_span) if last_span not in (None,'N/A') else 0.
+            except (TypeError,ValueError):raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
+            if not math.isfinite(last_span) or not 0<=last_span<=30:raise CoreError('MEDIA_FRAME_TIME_INVALID')
+            final_end=min(duration,points[-1]+last_span)
             count=min(8,len(points));indices=sorted({int(i*(len(points)-1)/max(1,count-1)) for i in range(count)})
             expression='+'.join('eq(n,'+str(i)+')' for i in indices)
             raw=self._run(prefix+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
@@ -122,7 +132,7 @@ class MediaDecoder:
             frames=[]
             for i,index in enumerate(indices):
                 frame=raw[i*size:(i+1)*size];means=[sum(frame[channel::3])/(96*64) for channel in range(3)]
-                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else duration],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest()})
+                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else final_end],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest()})
             changes=[{'start_s':frames[i-1]['sample_s'],'end_s':frames[i]['sample_s'],'mean_channel_delta':sum(abs(a-b) for a,b in zip(frames[i-1]['mean_rgb'],frames[i]['mean_rgb']))/3} for i in range(1,len(frames))]
             return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'source_frame_count':len(points),'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
 

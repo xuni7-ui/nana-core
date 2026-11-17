@@ -1,0 +1,187 @@
+FFF.F                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_forwarded_dynamic_preserves_origin_without_conflating_authors ______
+
+    def test_forwarded_dynamic_preserves_origin_without_conflating_authors():
+        account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
+        row={'id_str':'123','type':'DYNAMIC_TYPE_FORWARD','modules':{'module_author':{'mid':43,'pub_ts':1},
+             'module_dynamic':{'desc':{'text':'forwarder comment'}}},
+             'orig':{'id_str':'456','modules':{'module_author':{'mid':99},
+                     'module_dynamic':{'desc':{'text':'original text is not promoted'}}}}}
+        event=normalize_dynamic(account,row,now_us=2000000,origin='SYNTHETIC_LOOPBACK')
+>       assert event.sender_id=='43' and event.parent_id=='456'
+E       AssertionError: assert ('43' == '43'
+E         
+E           43 and None == '456')
+E        +  where None = Event(schema_version=1, account=Account(platform='bilibili', account_id='42', adapter_id='bilibili.account'), event_id...IC_LOOPBACK', raw_sha256='61db0d7570fc39b4dd3f5d86ecfa7072b58ef4fe39a48bfd951ec2a779d7df19', sequence=None, priority=1).parent_id
+
+/dev/shm/nana-pr23-baseline/test_bilibili_dynamic.py:26: AssertionError
+______ test_oversized_author_identifier_is_rejected_without_stopping_poll ______
+
+    def test_oversized_author_identifier_is_rejected_without_stopping_poll():
+        account=Account(platform='bilibili',adapter_id='bilibili.account',account_id='42')
+        row={'id_str':'123','modules':{'module_author':{'mid':10**200,'pub_ts':1},
+             'module_dynamic':{'desc':{'text':'invalid author'}}}}
+>       assert normalize_dynamic(account,row,now_us=2000000,origin='SYNTHETIC_LOOPBACK') is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/dev/shm/nana-pr23-baseline/test_bilibili_dynamic.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+account = Account(platform='bilibili', account_id='42', adapter_id='bilibili.account')
+row = {'id_str': '123', 'modules': {'module_author': {'mid': 100000000000000000...0000000000000000000, 'pub_ts': 1}, 'module_dynamic': {'desc': {'text': 'invalid author'}}}}
+now_us = 2000000, origin = 'SYNTHETIC_LOOPBACK'
+
+    def normalize_dynamic(account, row, *, now_us, origin):
+        if type(account) is not Account or account.platform != 'bilibili' or type(row) is not dict:
+            return None
+        event_id = row.get('id_str')
+        if type(event_id) is not str or not re.fullmatch(r'[1-9][0-9]{0,24}', event_id):
+            return None
+        modules = row.get('modules')
+        if type(modules) is not dict:
+            return None
+        author, content = modules.get('module_author'), modules.get('module_dynamic')
+        if type(author) is not dict or type(content) is not dict:
+            return None
+        mid, published = author.get('mid'), author.get('pub_ts')
+        if type(mid) is not int or mid <= 0 or type(published) is not int or not 0 <= published*1000000 <= now_us:
+            return None
+        desc, major = content.get('desc') or {}, content.get('major') or {}
+        if type(desc) is not dict or type(major) is not dict:
+            return None
+        text = plain(desc.get('text'), 2048)
+        archive = major.get('archive') or {}
+        parts = []
+        if type(archive) is dict and re.fullmatch(r'BV[A-Za-z0-9]{10}',str(archive.get('bvid'))):
+            parts.append(Segment(kind='video',reference=archive['bvid']))
+            if not text:
+                text = plain(archive.get('title'),2048)
+        if text:
+            parts.insert(0, Segment(kind='text',text=text))
+        parts.append(Segment(kind='dynamic',reference='bilibili:dynamic:'+event_id))
+        # Stable semantic projection avoids duplicate events from changing counters.
+        identity = {'id':event_id,'author_id':mid,'published':published,'type':row.get('type'),
+                    'segments':[part.model_dump() for part in parts]}
+>       return Event(account=account,event_id=event_id,kind='dynamic.created',sender_id=str(mid),
+                     conversation_id='subscriptions',conversation_kind='feed',occurred_at_us=published*1000000,
+                     observed_at_us=now_us,privacy='PERSONAL',origin=origin,segments=tuple(parts),
+                     raw_sha256=digest(identity),raw_reference='bilibili:dynamic:'+event_id)
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for Event
+E       sender_id
+E         String should have at most 128 characters [type=string_too_long, input_value='100000000000000000000000...00000000000000000000000', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/string_too_long
+
+src/nana_core/nanalink/bilibili_dynamic.py:44: ValidationError
+____ test_feed_large_page_delivers_all_entries_before_committing_validator _____
+
+    def test_feed_large_page_delivers_all_entries_before_committing_validator():
+        from aiohttp import web
+        async def run():
+            calls=[]
+            body=('<rss><channel>'+''.join(f'<item><guid>{i}</guid><title>Item {i}</title></item>'
+                  for i in range(35))+'</channel></rss>').encode()
+            async def source(request):
+                calls.append(request.headers.get('If-None-Match'))
+                if calls[-1]=='"fixture"':
+                    return web.Response(status=304)
+                return web.Response(body=body,headers={'ETag':'"fixture"'})
+            app=web.Application();app.router.add_get('/rss',source)
+            runner=web.AppRunner(app,access_log=None);await runner.setup()
+            site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+            adapter=FeedAdapter('http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1])+'/rss',authorized=True)
+            try:
+                await adapter.connect()
+                received=[]
+                for _ in range(33):
+                    received.append((await adapter.receive()).segments[0].text)
+                await adapter.disconnect()
+                await adapter.connect()
+                for _ in range(2):
+                    received.append((await adapter.receive()).segments[0].text)
+                assert received==[f'Item {i}' for i in range(35)] and calls==[None]
+                adapter.next_at=0
+                assert await adapter.receive() is None and calls==[None,'"fixture"']
+            finally:
+                await adapter.shutdown();await runner.cleanup()
+>       asyncio.run(run())
+
+/dev/shm/nana-pr23-baseline/test_registry_media_feed.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    async def run():
+        calls=[]
+        body=('<rss><channel>'+''.join(f'<item><guid>{i}</guid><title>Item {i}</title></item>'
+              for i in range(35))+'</channel></rss>').encode()
+        async def source(request):
+            calls.append(request.headers.get('If-None-Match'))
+            if calls[-1]=='"fixture"':
+                return web.Response(status=304)
+            return web.Response(body=body,headers={'ETag':'"fixture"'})
+        app=web.Application();app.router.add_get('/rss',source)
+        runner=web.AppRunner(app,access_log=None);await runner.setup()
+        site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+        adapter=FeedAdapter('http://127.0.0.1:'+str(site._server.sockets[0].getsockname()[1])+'/rss',authorized=True)
+        try:
+            await adapter.connect()
+            received=[]
+            for _ in range(33):
+>               received.append((await adapter.receive()).segments[0].text)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AttributeError: 'NoneType' object has no attribute 'segments'
+
+/dev/shm/nana-pr23-baseline/test_registry_media_feed.py:138: AttributeError
+___ test_storyboard_projection_rechecks_source_after_last_frame_read[frame] ____
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-141/test_storyboard_projection_rec1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fbcc10074a0>
+withdraw_target = 'frame'
+
+    @pytest.mark.parametrize('withdraw_target', ['source', 'frame'])
+    def test_storyboard_projection_rechecks_source_after_last_frame_read(tmp_path, monkeypatch, withdraw_target):
+        from nana_core.contracts import CoreError
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.life.bilibili import BilibiliPublicTransport
+        from nana_core.life.bilibili_frames import BilibiliFrameService
+        from nana_core.nanalink.video_handoff import storyboard_samples
+        from tests.living_release_v4.bilibili_loopback import counterpart
+        with counterpart() as (opener, platform), fresh(tmp_path/'subject.db', Clock()) as runtime:
+            platform['video_duration'] = 12
+            transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                                loopback_endpoint=opener.endpoint)
+            reading = transport.read_video('BV1t55v6DE2v', visual=True)
+            app = SimpleNamespace(runtime=runtime, policy=policy())
+            source = BilibiliSourceAdapter(app).ingest(reading)
+            frames = BilibiliFrameService(app).capture(source, reading.frames)
+            original = MemoryService.read
+            calls = {'last_frame': 0}
+            def read_and_withdraw(self, memory_id, *args, **kwargs):
+                row = original(self, memory_id, *args, **kwargs)
+                if memory_id == frames[-1]:
+                    calls['last_frame'] += 1
+                    if calls['last_frame'] == 2:
+                        target = source if withdraw_target == 'source' else frames[-1]
+                        MemoryService(runtime.store, runtime.authority).forget(target, runtime.authority)
+                return row
+            monkeypatch.setattr(MemoryService, 'read', read_and_withdraw)
+>           with pytest.raises(CoreError):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+/dev/shm/nana-pr23-baseline/test_bilibili_video_history.py:121: Failed
+=========================== short test summary info ============================
+FAILED ../../dev/shm/nana-pr23-baseline/test_bilibili_dynamic.py::test_forwarded_dynamic_preserves_origin_without_conflating_authors
+FAILED ../../dev/shm/nana-pr23-baseline/test_bilibili_dynamic.py::test_oversized_author_identifier_is_rejected_without_stopping_poll
+FAILED ../../dev/shm/nana-pr23-baseline/test_registry_media_feed.py::test_feed_large_page_delivers_all_entries_before_committing_validator
+FAILED ../../dev/shm/nana-pr23-baseline/test_bilibili_video_history.py::test_storyboard_projection_rechecks_source_after_last_frame_read[frame]
+4 failed, 1 passed in 1.88s

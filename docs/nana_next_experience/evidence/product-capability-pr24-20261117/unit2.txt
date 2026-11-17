@@ -1,0 +1,14 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts tests/nanalink-health.test.ts
+
+
+ RUN  v3.2.7 /tmp/nana-pr24-product
+
+ ✓ tests/nanalink-health.test.ts (2 tests) 5ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  18:34:02
+   Duration  270ms (transform 57ms, setup 0ms, collect 64ms, tests 5ms, environment 0ms, prepare 63ms)
+

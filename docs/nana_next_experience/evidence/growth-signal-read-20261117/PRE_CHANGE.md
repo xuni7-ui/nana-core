@@ -1,0 +1,1 @@
+A锚3598ebb/Brain271，PR24已提交。原48偏好/96实际独立信号同Store基线：原Growth.assertions完整投影48次全assertion_signals扫描、65800近似SQLite VM步/865SQL、中位20.902ms（6次）。原已有subject_assertion_roots(assertion_id,root_evidence_id)，无须新索引/缓存/Store。仅owner定向读本断言，rowid顺序和独立计数/来源/反证/隐私/旧只读fallback保持；先同比全部输出再相关旧回归。

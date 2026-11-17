@@ -74,3 +74,55 @@ def test_same_container_unequal_tracks_are_linked_without_claiming_temporal_alig
         with pytest.raises(CoreError):service.associate_audio(*ids)
         assert MemoryService(r.store).read(mids[0])
         assert not r.store.all('actions') and not r.store.all('goals') and not r.store.all('grants')
+
+
+def test_last_video_frame_does_not_claim_the_unobserved_audio_tail(tmp_path):
+    path=tmp_path/'short-video-long-audio.mkv'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_complex_threads','1',
+        '-f','lavfi','-i','color=c=red:s=32x24:r=4:d=1',
+        '-f','lavfi','-i','anullsrc=r=16000:cl=mono:d=3',
+        '-map','0:v','-map','1:a','-t','3','-c:v','ffv1','-c:a','pcm_s16le',str(path)],check=True,timeout=20)
+    data=path.read_bytes()
+    with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+        mid=ingest(r,'VIDEO',data);service=setup(r,t)
+        request_id=service.prepare('video-tail',mid,data)
+        assert service.execute(request_id)['state']=='PROPOSED'
+        result=service.ground(request_id,entity_id='device')
+        # A three-second container does not establish that its last video frame
+        # spans the remaining audio. Preserve that unobserved interval in H1.
+        assert [1.,3.] in result['unobserved_gaps']
+        decoded=json.loads(MemoryService(r.store).read(mid)['text'])['decoded']
+        assert decoded['duration_s']==3
+        assert decoded['frames'][-1]['source_interval_s']==[.75,1.]
+        assert result['covered_intervals'][-1]==[.75,1.]
+        assert result['coverage']=='EXPLICIT_SEGMENTS' and state['calls']==1
+        MemoryService(r.store,r.authority).forget(mid,r.authority)
+        with pytest.raises(CoreError):service.ground(request_id,entity_id='device')
+        assert not r.store.all('actions') and not r.store.all('goals')
+
+
+@pytest.mark.parametrize('duration_value,legacy,end',[(None,False,.75),('N/A',False,.75),('N/A',True,1.)])
+def test_final_packet_duration_uses_available_metadata_or_a_point(tmp_path,multitrack,monkeypatch,duration_value,legacy,end):
+    from nana_core.continuity.world_loop.perception import MediaDecoder
+    run=MediaDecoder._run
+    def unknown_duration(self,args,**kwargs):
+        raw=run(self,args,**kwargs)
+        if args[0]=='ffprobe' and '-show_frames' in args:
+            metadata=json.loads(raw);last=metadata['frames'][-1]
+            known=last.get('duration_time',last.get('pkt_duration_time'))
+            last.pop('duration_time',None);last.pop('pkt_duration_time',None)
+            if legacy:last['pkt_duration_time']=known
+            if duration_value is not None:last['duration_time']=duration_value
+            return json.dumps(metadata).encode()
+        return raw
+    # Controlled metadata availability ablation over actual encoded bytes;
+    # no simulated pixels, fake Provider success or unsandboxed decoder.
+    monkeypatch.setattr(MediaDecoder,'_run',unknown_duration)
+    with fresh(tmp_path/'subject/self.db') as r,semantic_harness() as (t,state):
+        mid=ingest(r,'VIDEO',multitrack);service=setup(r,t)
+        cid=service.prepare('unknown-final-duration',mid,multitrack)
+        assert service.execute(cid)['state']=='PROPOSED'
+        result=service.ground(cid,entity_id='device')
+        assert result['covered_intervals'][-1]==[.75,end]
+        assert result['unobserved_gaps']==([] if legacy else [[.75,1.]])
+        assert state['calls']==1 and not r.store.all('actions') and not r.store.all('goals')
