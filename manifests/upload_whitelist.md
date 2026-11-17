@@ -345,3 +345,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原观察复用与实体范围
 
 原perception.py、新既有world_loop/test_perception_reuse.py、原CI精确触发/组、09/11/ACTIVE/STATUS、本白名单、evidence/sourced-perception-reuse-20261117原4错/当前6/相关106/同字节原模块对照/实际CI/指纹；无DB/私史/Key/新缓存/新权威/账号/付费/生产/CURRENT/APK。tmp/shm丢失如实记录不伪造恢复。
+
+## 2026-11-17 B简易模型目录检查
+
+持续授权：apps/nana-space/src/features/LiveSpace.tsx、src/features/next/ModelSetup.tsx、tests/v3.spec.ts、simple-model-catalog-check-20261117.json、09/11及B队列追加、本清单；无真实凭据/用户数据。

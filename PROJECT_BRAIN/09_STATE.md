@@ -3000,3 +3000,8 @@ chat主题位于interaction_signal而非event.topic；仅补fallback，原C Appr
 ### 2026-11-17 · B平台能力中文状态候选
 
 [源码/受控测试] A基线d5c0a42；客户端解析原NanaLink受限reason，将通知、视频、文本、动态能力显示为中文，区分未授权/入口暂停、未接通及解码器缺失；未知能力和原因不暴露原始代码，available仍以后端为准，主体名称不硬编码。npm锁定依赖离线安装；2项Vitest、TS/Vite构建、桌面及390宽模拟手机浏览器2项通过，无横向溢出。浏览器首轮模拟B站漏send_configured被现有解析器丢弃，补全夹具后通过；非真手机/平台/生产。源码nanalink.ts SHA256 95400578eba8c4c651ebe711981e30e81ce0234850eaa9c8d50c81fcd8fe0282，PlatformPanel.tsx 9e465dd91d6c99366c4a88cd11be8cc18d5e3e015d61b3d9c689a71ee54ad5f8；回退两文件与对应测试，无数据迁移。
+
+
+### 2026-11-17 · B简易模型目录手动检查候选
+
+[源码/受控测试] A基线4f25b48；简易配置保存后可主动调用原已授权模型目录，先复核当前provider/model及回包ID/修订，分别提示找到、列表部分/未列出、认证与格式错误；遵守回包冷却，不自动重试或发送推理。把误称“连接并设为”改为“保存并设为”，目录成功不冒称实际对话可用。24模型相关单元、TS/Vite构建通过；原保存/未知回执及新功能桌面/390视口12项通过，后补模型被修改和退出后迟到响应两视口通过。无真实Provider、实际账单、Android设备或生产；自托管无需密钥仍受原REMOTE协议约束未完成。证据simple-model-catalog-check-20261117.json锚e72a238dfcaac6c6f53a0f470a5638354ef4a24c4d5d9a1e606848df06a7267b。
