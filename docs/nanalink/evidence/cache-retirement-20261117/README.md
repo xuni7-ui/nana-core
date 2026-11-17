@@ -15,3 +15,5 @@ OneBot recall gap: `_receive` previously discarded even a host-bound `message.re
 Fixed `f7e3d7ca127a73a92f802d8bb24b2c074971c204`: the local Python selection matching the NanaLink source workflow passed 223 tests in 74.61s, including NanaLink, original platform bridge/runtime/credentials/settings/events, original QQ media choice and Bilibili account/runtime. This is a local environment, not GitHub CI. Web build and targeted phone browser results above remain separate.
 
 The recall-warning fixture was subsequently extended through an actual owned local HTTP `/nanalink/status` endpoint and the original `NanaLinkObserver`; the count and warning survived projection and the synthetic credential was absent from output (1 targeted test). It remains a volatile infrastructure alert, not a platform recall integration.
+
+A further two-account owned-sidecar test confirmed a bound recall changes only its own account warning while both accounts retain their separate ordinary event queue entries; the existing disabled-account isolation case also passed (2 tests).
