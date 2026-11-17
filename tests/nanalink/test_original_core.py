@@ -85,6 +85,11 @@ def test_actual_original_core_two_platforms_common_contract_restart_and_duplicat
                 ChannelRoute(ba.account.key,'primary','8','43','PUBLIC','channel')])
             with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_session.receipt(qr.action_id)
             with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_session.receipt(br.action_id)
+            other_privacy=CoreBridge(SimpleNamespace(app=configured),[
+                ChannelRoute(qa.account.key,'primary','43','43','PERSONAL','private'),
+                ChannelRoute(ba.account.key,'primary','7','43','PROJECT','channel')])
+            with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_privacy.receipt(qr.action_id)
+            with pytest.raises(CoreError,match='NANALINK_RECEIPT_NOT_FOUND'):other_privacy.receipt(br.action_id)
             store=app.runtime.store;original_one=store.one;action=original_one('actions',qr.action_id)
             with monkeypatch.context() as patch:
                 patch.setattr(store,'one',lambda table,key: {**action,'body_json':'{}'} if table=='actions' and key==qr.action_id else original_one(table,key))
@@ -168,6 +173,8 @@ def test_feed_bridge_rechecks_host_binding_and_adapter_authorization(tmp_path):
 
 def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(tmp_path):
     from tests.living_release_v4.test_platform_runtime import initialize_channel
+    from types import SimpleNamespace
+    from nana_core.nanalink.core_bridge import CoreBridge,ChannelRoute
     home=tmp_path/'home';clock=VirtualClock()
     with network() as (net,state,resolver,_):
         channel=initialize_channel(home,net['endpoint'])
@@ -179,6 +186,10 @@ def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(t
                 adapter=qq_adapter(flow);asyncio.run(adapter.connect())
                 result=adapter.receive_event(envelope(adapter,'1'))
                 assert result.outcome==Outcome.UNKNOWN and not result.external_delivery
+                assert result.action_id
+                configured=SimpleNamespace(runtime=app.runtime,config=SimpleNamespace(qq_channels=(channel,),bilibili_channels=()))
+                bridge=CoreBridge(SimpleNamespace(app=configured),[ChannelRoute(adapter.account.key,channel.channel_id,'43','43','PROJECT','private')])
+                assert bridge.receipt(result.action_id).outcome==Outcome.UNKNOWN
                 identity=app.runtime.identity_id
             with LifeApplication(home,clock=clock,router=router) as app:
                 app.pause()
@@ -186,6 +197,9 @@ def test_original_core_ws_unknown_survives_restart_without_extra_send_or_model(t
                                              credential=SecretReference(resolver,'core.test'))
                 adapter=qq_adapter(QQReplyWorkflow(app,channel,transport));asyncio.run(adapter.connect())
                 assert adapter.receive_event(envelope(adapter,'1')).outcome==Outcome.UNKNOWN
+                configured=SimpleNamespace(runtime=app.runtime,config=SimpleNamespace(qq_channels=(channel,),bilibili_channels=()))
+                bridge=CoreBridge(SimpleNamespace(app=configured),[ChannelRoute(adapter.account.key,channel.channel_id,'43','43','PROJECT','private')])
+                assert bridge.receipt(result.action_id).outcome==Outcome.UNKNOWN
                 assert len(state['sent'])==1 and len(calls)==2 and app.runtime.identity_id==identity
 
 

@@ -86,13 +86,14 @@ class CoreBridge:
                 account = Account(platform='qq', account_id=str(channel.account_id), adapter_id='qq.'+channel.backend)
                 if (route.account_key == account.key and route.channel_id == channel.channel_id
                         and route.conversation_kind == channel.target_kind and route.conversation_id == str(channel.target_id)
-                        and route.sender_id == str(channel.sender_id)
+                        and route.sender_id == str(channel.sender_id) and route.privacy == channel.privacy_class
                         and row['capability'] == 'world.contact' and row['resource'] == 'project://qq/'+channel.channel_id):
                     bound = ('qq', str(channel.account_id), str(channel.target_id))
             for channel in config.bilibili_channels:
                 account = Account(platform='bilibili', account_id=str(channel.account_id), adapter_id='bilibili.account')
                 if (route.account_key == account.key and route.channel_id == channel.channel_id
                         and route.conversation_id == str(channel.target_id) and route.sender_id == str(channel.sender_id)
+                        and route.privacy == ('PERSONAL' if channel.kind == 'dm' else 'PUBLIC')
                         and row['capability'] == 'bilibili.'+channel.kind+'.send'
                         and row['resource'] == 'project://bilibili/'+channel.kind+'/'+str(channel.target_id)):
                     bound = ('bilibili', str(channel.account_id), str(channel.target_id))
