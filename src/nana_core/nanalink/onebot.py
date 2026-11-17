@@ -121,7 +121,7 @@ class OneBotAdapter:
         if mode != 'reverse-websocket':
             safe_endpoint(endpoint, schemes=('ws', 'wss') if mode == 'websocket' else ('https', 'http'))
         self.account = Account(platform='qq', account_id=str(account_id), adapter_id='qq.onebot')
-        self.mode, self.endpoint, self.token, self.allow_send = mode, endpoint, token, allow_send
+        self.mode, self.endpoint, self.token, self.allow_send = mode, endpoint, token, allow_send is True
         self.timeout = timeout
         self.events = asyncio.Queue(capacity)
         self.pending, self.recent = {}, OrderedDict()
@@ -155,8 +155,8 @@ class OneBotAdapter:
     def capabilities(self):
         ready = self._health.login == 'AUTHENTICATED'
         return (Capability(name='message.receive', available=ready),
-                Capability(name='message.text.send.via_core', available=ready and self.allow_send,
-                           reason='' if self.allow_send else 'HOST_SEND_DISABLED'),
+                Capability(name='message.text.send.via_core', available=ready and self.allow_send is True,
+                           reason='' if self.allow_send is True else 'HOST_SEND_DISABLED'),
                 Capability(name='message.readback', available=ready),
                 Capability(name='media.reference', available=True),
                 Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
@@ -308,7 +308,7 @@ class OneBotAdapter:
     async def rpc(self, action, params, *, _identity_probe=False):
         if action not in ACTIONS or type(params) is not dict:
             raise CoreError('ONEBOT_OPERATION_DENIED')
-        if action in WRITES and not self.allow_send:
+        if action in WRITES and self.allow_send is not True:
             raise CoreError('ONEBOT_HOST_SEND_DISABLED')
         if action != 'get_login_info' and self._health.login != 'AUTHENTICATED':
             raise CoreError('ONEBOT_ACCOUNT_NOT_VERIFIED')

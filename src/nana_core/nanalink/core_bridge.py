@@ -38,6 +38,57 @@ def receipt_from_core(operation_id, value):
                             external_delivery=outcome == Outcome.CONFIRMED_SUCCESS)
 
 
+def bilibili_execution_status(store, action):
+    """Inspect the original current execution receipt; never infer a send."""
+    import json
+    from ..continuity.records import RecordService
+    try:
+        attempt = store.one('attempts', action['attempt_id'])
+        event = store.event(attempt['receipt_event_id'])
+        if (event['kind'] != 'action.receipt_received'
+                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
+            return 'UNKNOWN'
+        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                (event['artifact_id'],)).fetchone()
+        records = RecordService(store)
+        if not link or not records.current_support(link[0]):
+            return 'UNKNOWN'
+        receipt = records.read(link[0])['payload']['result']
+        count = receipt.get('send_count')
+        if receipt.get('state') == 'PRE_EXIST' and type(count) is int and count == 0:
+            return 'PRE_EXIST'
+        if receipt.get('state') == 'ACCEPTED_NEEDS_VERIFY' and type(count) is int and count == 1:
+            return 'ATTEMPTED'
+    except (CoreError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    return 'UNKNOWN'
+
+
+def bilibili_verification_current(store, action, account_id):
+    """Require the original account-bound readback and its current support."""
+    import json
+    from ..continuity.records import RecordService
+    try:
+        event = store.event(json.loads(action['body_json'])['verification_event_id'])
+        if (event['kind'] != 'action.verified'
+                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
+            return False
+        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                (event['artifact_id'],)).fetchone()
+        records = RecordService(store)
+        if not link or not records.current_support(link[0]):
+            return False
+        payload = records.read(link[0])['payload']
+        evidence = payload['evidence']
+        bound = store.db.execute("SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
+            "AND json_extract(data_json,'$.data.action_id')=? AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
+            (action['action_id'], int(account_id))).fetchone()
+        return (payload['verdict'] == 'MATCH' and type(evidence) is dict and bound is not None
+                and evidence.get('platform') == 'bilibili' and evidence.get('read_only_platform_confirmation') is True)
+    except (CoreError, ValueError, KeyError, TypeError):
+        return False
+
+
 class CoreBridge:
     """Call on the ORIGINAL owner thread/safe point; never in a connector thread.
 
@@ -67,14 +118,86 @@ class CoreBridge:
                                     reason='CORE_PLATFORM_CAPABILITY_UNAVAILABLE')
         # Raw segments are NOT trusted as authoritative input. Original ingress
         # independently fetches and validates account/peer/content and consent.
-        return receipt_from_core(event.key, callback(matches[0].channel_id, event.message_id))
+        result = callback(matches[0].channel_id, event.message_id)
+        if event.account.platform == 'bilibili' and result.get('delivery') == 'SUCCEEDED':
+            try:
+                checked = self.receipt(result.get('action_id'))
+                source_key = result.get('source_key')
+                return OperationReceipt.model_validate({**checked.model_dump(), 'operation_id': event.key,
+                    'source_key': source_key if type(source_key) is str and len(source_key) <= 128 else None})
+            except (CoreError, AttributeError, TypeError):
+                action_id = result.get('action_id')
+                return OperationReceipt(operation_id=event.key, outcome=Outcome.UNKNOWN,
+                    reason='ORIGINAL_CONFIRMATION_NOT_AVAILABLE',
+                    action_id=action_id if type(action_id) is str and 1 <= len(action_id) <= 128 else None)
+        return receipt_from_core(event.key, result)
 
 
     def receipt(self, action_id):
         """Query the existing authoritative action, never repeat its dispatch."""
+        import json
+        from .contracts import Account
+        from ..continuity.records import RecordService
         store = self.platforms.app.runtime.store
         row = store.one('actions', action_id)
         if row is None:
             raise CoreError('NANALINK_RECEIPT_NOT_FOUND')
+        config = self.platforms.app.config
+        bound = None
+        for route in self.routes:
+            for channel in config.qq_channels:
+                account = Account(platform='qq', account_id=str(channel.account_id), adapter_id='qq.'+channel.backend)
+                if (route.account_key == account.key and route.channel_id == channel.channel_id
+                        and route.conversation_kind == channel.target_kind and route.conversation_id == str(channel.target_id)
+                        and route.sender_id == str(channel.sender_id) and route.privacy == channel.privacy_class
+                        and row['capability'] == 'world.contact' and row['resource'] == 'project://qq/'+channel.channel_id):
+                    bound = ('qq', str(channel.account_id), str(channel.target_id))
+            for channel in config.bilibili_channels:
+                account = Account(platform='bilibili', account_id=str(channel.account_id), adapter_id='bilibili.account')
+                if (route.account_key == account.key and route.channel_id == channel.channel_id
+                        and route.conversation_id == str(channel.target_id) and route.sender_id == str(channel.sender_id)
+                        and route.privacy == ('PERSONAL' if channel.kind == 'dm' else 'PUBLIC')
+                        and row['capability'] == 'bilibili.'+channel.kind+'.send'
+                        and row['resource'] == 'project://bilibili/'+channel.kind+'/'+str(channel.target_id)):
+                    bound = ('bilibili', str(channel.account_id), str(channel.target_id))
+        if bound is None:
+            raise CoreError('NANALINK_RECEIPT_NOT_FOUND')
+        verified = False
+        if row['state'] == 'SUCCEEDED':
+            try:
+                event = store.event(json.loads(row['body_json'])['verification_event_id'])
+                data = json.loads(event['data_json'])['data']
+                if event['kind'] != 'action.verified' or data['action_id'] != action_id:
+                    raise ValueError()
+                link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                        (event['artifact_id'],)).fetchone()
+                if not link:
+                    raise ValueError()
+                records = RecordService(store)
+                if not records.current_support(link[0]):
+                    raise ValueError()
+                result = records.read(link[0])['payload']
+                evidence = result['evidence']
+                bili_bound = (bound[0] == 'bilibili' and store.db.execute(
+                    "SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
+                    "AND json_extract(data_json,'$.data.action_id')=? "
+                    "AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
+                    (action_id, int(bound[1]))).fetchone() is not None)
+                verified = (result['verdict'] == 'MATCH' and type(evidence) is dict and
+                    ((bound[0] == 'qq' and evidence.get('independent_readback') is True
+                      and evidence.get('account_id') == bound[1] and evidence.get('target_id') == bound[2])
+                     or (bili_bound and evidence.get('platform') == 'bilibili'
+                         and evidence.get('read_only_platform_confirmation') is True)))
+                if verified and bound[0] == 'bilibili':
+                    status = bilibili_execution_status(store, row)
+                    if status == 'PRE_EXIST':
+                        return OperationReceipt(operation_id=action_id, outcome=Outcome.CANCELLED,
+                                                reason='PLATFORM_MESSAGE_PREEXISTED_NO_SEND', action_id=action_id)
+                    verified = status == 'ATTEMPTED'
+            except (CoreError, ValueError, KeyError, TypeError):
+                verified = False
+        if row['state'] == 'SUCCEEDED' and not verified:
+            return OperationReceipt(operation_id=action_id, outcome=Outcome.UNKNOWN,
+                                    reason='ORIGINAL_CONFIRMATION_NOT_AVAILABLE', action_id=action_id)
         return receipt_from_core(action_id, {'delivery': row['state'], 'action_id': action_id,
-                                 'external_delivery': row['state'] == 'SUCCEEDED'})
+                                 'external_delivery': verified})

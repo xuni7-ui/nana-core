@@ -77,6 +77,8 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       </ul></details> : null}
       {!row.read_authorized && <p className="v3-muted">等待账号与读取范围授权。请在对应平台完成登录，并由宿主绑定授权；保存配置不会自动读取。</p>}
       <p className="v3-muted">{row.state === "SUCCEEDED" ? "最近一次投递已核实" : row.state === "UNKNOWN" ? "最近投递待核实，不会重发"
+        : row.state === "PLATFORM_MESSAGE_PREEXISTED_NO_SEND" ? "平台已有相同内容，本次未发送"
+        : row.state === "ORIGINAL_CONFIRMATION_NOT_AVAILABLE" ? "最近投递缺少有效确认，不会重发"
         : row.state === "NOT_OBSERVED" ? "尚无本次运行的投递记录" : "最近状态待核对"}</p>
       <button className="v3-button soft" disabled={busy || !canManage || row.read_authorized !== true}
         onClick={() => void toggle(row)}>{row.enabled ? "暂停入口" : "启用已授权入口"}</button>

@@ -24,6 +24,22 @@ def test_five_outcomes_and_no_false_delivery():
         OperationReceipt(operation_id='x', outcome='UNKNOWN', reason='TEST', retry_allowed=True)
 
 
+@pytest.mark.parametrize('permission', ['false', 1, None])
+def test_qq_backends_require_literal_boolean_send_permission(permission):
+    from nana_core.nanalink.onebot import OneBotAdapter
+    from nana_core.nanalink.official import OfficialQQAdapter
+    onebot=OneBotAdapter('42',mode='http',endpoint='http://127.0.0.1:12345',allow_send=permission)
+    official=OfficialQQAdapter('42',bot_id='bot_42',token='fixture',allow_send=permission,
+                               endpoint='http://127.0.0.1:12345',realm='SYNTHETIC_LOOPBACK')
+    for adapter,code in ((onebot,'ONEBOT_HOST_SEND_DISABLED'),(official,'QQ_OFFICIAL_SEND_NOT_AUTHORIZED')):
+        adapter._health=adapter._health.model_copy(update={'login':'AUTHENTICATED'})
+        with pytest.raises(CoreError,match=code):asyncio.run(adapter.rpc('send_private_msg',{}))
+        adapter.allow_send=permission
+        with pytest.raises(CoreError,match=code):asyncio.run(adapter.rpc('send_private_msg',{}))
+        assert next(c for c in adapter.capabilities() if c.name=='message.text.send.via_core').available is False
+        assert adapter.metrics['writes']==0
+
+
 def test_event_account_identity_not_nickname_and_collision():
     a, b = event(), event(account='44')
     assert a.key != b.key
