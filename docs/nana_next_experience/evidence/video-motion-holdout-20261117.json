@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "status": "ISOLATED_RESEARCH_CANDIDATE",
+  "heldout_recorded_sample": {
+    "sample": {
+      "repository": "https://github.com/opencv/opencv",
+      "commit": "5d0660acfed08650cafec4876b4792a369a20601",
+      "path": "samples/data/vtest.avi",
+      "sha256": "45cddc9490be69345cbdab64ca583be65987e864ca408038e648db99e10516cf",
+      "input_bytes": 8131690,
+      "duration_seconds": 79.5,
+      "root_license": "Apache-2.0; separate video authorship/license not independently confirmed",
+      "event_annotation": "held-out fixed-camera pedestrian motion; no frame-level semantic ground truth",
+      "fusion_max_gap_target_seconds": 20,
+      "frames_decoded": 795,
+      "declared_frames": 795,
+      "frame_size": [
+        160,
+        120
+      ],
+      "decoded_rgb_bytes": 45792000
+    },
+    "methods": {
+      "uniform_actual_frames": {
+        "timestamps": [
+          9.9,
+          29.8,
+          49.7,
+          69.6
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 19.900000000000002,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null
+      },
+      "ffmpeg_top_scene_actual_frames": {
+        "timestamps": [
+          0.1,
+          25.0,
+          50.0,
+          75.0
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 25.0,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null
+      },
+      "watch_original_requested_offsets": {
+        "timestamps": [
+          0.1,
+          19.85,
+          59.55,
+          79.3
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 39.699999999999996,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null,
+        "reported_cuts": []
+      },
+      "dsh_original_selected": {
+        "timestamps": [
+          0,
+          20,
+          40,
+          60
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 20,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null,
+        "reported_cuts": [],
+        "dropped_sheets": 1,
+        "fps_parameter": 10
+      },
+      "fusion_actual_frames": {
+        "timestamps": [
+          9.9,
+          29.8,
+          49.7,
+          69.6
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 19.900000000000002,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null,
+        "selected_cues": [
+          {
+            "seconds": 9.9,
+            "cues": []
+          },
+          {
+            "seconds": 29.8,
+            "cues": []
+          },
+          {
+            "seconds": 49.7,
+            "cues": []
+          },
+          {
+            "seconds": 69.6,
+            "cues": []
+          }
+        ]
+      },
+      "fusion_with_onsets_actual_frames": {
+        "timestamps": [
+          10.5,
+          29.9,
+          49.7,
+          60.3
+        ],
+        "frames_or_offsets": 4,
+        "within_four_frame_budget": true,
+        "max_sampling_gap_seconds": 19.800000000000004,
+        "in_visually_annotated_hand_entry_23_to_24_5_seconds": null,
+        "selected_cues": [
+          {
+            "seconds": 10.5,
+            "cues": [
+              "motion_onset"
+            ]
+          },
+          {
+            "seconds": 29.9,
+            "cues": [
+              "motion_onset"
+            ]
+          },
+          {
+            "seconds": 49.7,
+            "cues": []
+          },
+          {
+            "seconds": 60.3,
+            "cues": [
+              "motion_onset"
+            ]
+          }
+        ]
+      }
+    },
+    "ffmpeg_scan_complete": true,
+    "local_change_pairs": {
+      "examined": 794,
+      "proposed": 28,
+      "in_hand_entry": null,
+      "omitted": 0,
+      "truncated": false
+    },
+    "motion_onsets": {
+      "timestamps": [
+        1.0,
+        4.7,
+        10.5,
+        13.7,
+        17.4,
+        21.8,
+        25.0,
+        29.9,
+        32.9,
+        36.1,
+        40.4,
+        46.0,
+        50.3,
+        57.3,
+        60.3,
+        65.9,
+        71.5,
+        74.5,
+        77.5
+      ],
+      "unknown_intervals": [],
+      "truncated": false
+    },
+    "timing": {
+      "ffmpeg_scene_probe": {
+        "wall_seconds": 0.681647264995263,
+        "parent_cpu_seconds": 0.003605128000000013,
+        "child_cpu_seconds": 0.75658
+      },
+      "decode_rgb": {
+        "wall_seconds": 1.08029406699643,
+        "parent_cpu_seconds": 0.4082797,
+        "child_cpu_seconds": 1.4755109999999998
+      },
+      "original_dsh": {
+        "wall_seconds": 0.7864636599988444,
+        "parent_cpu_seconds": 0.0009838269999999927,
+        "child_cpu_seconds": 0.8935339999999997
+      },
+      "original_watch": {
+        "wall_seconds": 4.175019155998598,
+        "parent_cpu_seconds": 0.0012966679999999453,
+        "child_cpu_seconds": 6.302765000000001
+      },
+      "local_change_pairs": {
+        "wall_seconds": 2.1698884880024707,
+        "parent_cpu_seconds": 2.163025605,
+        "child_cpu_seconds": 6.661338147750939e-16
+      },
+      "fusion_planning": {
+        "wall_seconds": 0.004913650991511531,
+        "parent_cpu_seconds": 0.004915553000000017,
+        "child_cpu_seconds": 6.661338147750939e-16
+      },
+      "motion_onset_probe": {
+        "wall_seconds": 2.10411380000005,
+        "parent_cpu_seconds": 2.099595996,
+        "child_cpu_seconds": 6.661338147750939e-16
+      },
+      "onset_fusion_planning": {
+        "wall_seconds": 0.006554271996719763,
+        "parent_cpu_seconds": 0.006556439999999775,
+        "child_cpu_seconds": 6.661338147750939e-16
+      }
+    },
+    "process_peak_rss_kib": 124096,
+    "rss_scope": "whole parent process peak; excludes child process RSS",
+    "limits": "one visually inspected clip per run; timestamp-in-range is not semantic accuracy; watch requests are not decoded images; dsh receives actual timestamps and a nominal fps parameter; original dsh can exceed budget; no model/Token or platform calls"
+  },
+  "exact_output_performance_comparison": {
+    "sample_sha256": "45cddc9490be69345cbdab64ca583be65987e864ca408038e648db99e10516cf",
+    "baseline_git_commit": "b942268c86fdf0ff7e8837b7c3ddfc603f6d79f5",
+    "baseline_sha256": "b1475cbdf7d04abb7d88408b84d37bf0e0428a3d81c265f4dd6128560a2e76d1",
+    "frames": 795,
+    "frame_size": [
+      160,
+      120
+    ],
+    "output_identical": true,
+    "onset_timestamps": [
+      1.0,
+      4.7,
+      10.5,
+      13.7,
+      17.4,
+      21.8,
+      25.0,
+      29.9,
+      32.9,
+      36.1,
+      40.4,
+      46.0,
+      50.3,
+      57.3,
+      60.3,
+      65.9,
+      71.5,
+      74.5,
+      77.5
+    ],
+    "baseline_wall_seconds": [
+      1.983276056998875,
+      1.9749706339935074,
+      1.9667937039921526
+    ],
+    "candidate_wall_seconds": [
+      0.3956767749914434,
+      0.37434585200389847,
+      0.37584853600128554
+    ],
+    "baseline_wall_median": 1.9749706339935074,
+    "candidate_wall_median": 0.37584853600128554,
+    "baseline_cpu_seconds": [
+      1.9803209880000001,
+      1.973266835,
+      1.9649128849999995
+    ],
+    "candidate_cpu_seconds": [
+      0.39552436600000007,
+      0.37395397399999997,
+      0.3756644170000003
+    ],
+    "python_traced_peak_bytes_first_five_frames_only": {
+      "baseline": 434478,
+      "candidate": 21048
+    },
+    "process_peak_rss_platform_units": 123832,
+    "rss_scope": "whole process including both modes and decoded frames, not per-mode",
+    "limits": "one recorded sample; timings exclude decode and models; no semantic quality or token claim"
+  },
+  "verification": "22 related tests passed in 5.06s, including 200 fixed-seed direct pixel-oracle cases with odd and even median sizes, original dsh and source gate",
+  "interpretation": "held-out vtest fixed camera with pedestrian motion generated 19 cues and changed 4-frame selections; no annotated event ground truth, so usefulness and semantic accuracy unknown; the exact histogram optimization preserves every output for this sample",
+  "limitations": [
+    "only one held-out video, no representative accuracy estimate",
+    "video-specific authorship and license not independently verified; no video bytes in repository",
+    "nominal dsh FPS and original queue may not correspond to same provider budget",
+    "watch outputs requested offsets, not decoded frames",
+    "5-frame tracemalloc peak is not full-video RSS; process RSS includes decoded frames, excludes child RSS",
+    "onset probe cost excludes input decode and model calls; no actual token or bill"
+  ],
+  "rollback": "revert histogram optimization and optional second sample benchmark; no Core or data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_motion_onset.py": "ca2229d3c0e407e48ad807be4f12e4e4fe5bfbf1f37b12049e4b96305aafe05d",
+    "tools/nana_next_experience/experiments/bench_video_motion_onset.py": "4b433b45807b21dd49779796ee14f9f8558690736f4ec2271b73d1b4547f6894",
+    "tools/nana_next_experience/experiments/compare_opencv_tree.py": "582891562206ba71d42524be736efacab5aebbf54649203c217eb1140ee58d0b",
+    "tests/nana_next_experience/test_video_motion_onset.py": "a5456e55f44a47c530b4d03e2dec414c9297fd28032e89b2d1eb695908b6df6e"
+  }
+}

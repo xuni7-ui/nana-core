@@ -3,6 +3,23 @@ from statistics import median
 import math
 
 
+def _compensated_rate(before, after, dt):
+    """Exact median-compensated grayscale difference using bounded histograms."""
+    from PIL import ImageChops
+    positive=ImageChops.subtract(after,before).histogram()
+    negative=ImageChops.subtract(before,after).histogram()
+    count=before.width*before.height
+    zeros=count-sum(positive[1:])-sum(negative[1:])
+    bins=[(-i,negative[i]) for i in range(255,0,-1)]+[(0,zeros)]+[(i,positive[i]) for i in range(1,256)]
+    lower=(count-1)//2;upper=count//2;seen=0;low=None;high=None
+    for value,n in bins:
+        seen+=n
+        if low is None and seen>lower:low=value
+        if seen>upper:high=value;break
+    shift=(low+high)/2
+    return sum(abs(value-shift)*n for value,n in bins)/count/dt
+
+
 def propose(source_ref, frames, *, history_seconds=3, ratio=1.8, min_rate=8,
             cooldown_seconds=3, min_interval=.04, max_interval=1.5, max_proposals=64):
     """Find abrupt motion-rate increases relative to recent measured frames.
@@ -32,16 +49,15 @@ def propose(source_ref, frames, *, history_seconds=3, ratio=1.8, min_rate=8,
     width,height=size
     if width<1 or height<1 or width*height>262144 or width*height*len(frames)>64000000:
         raise ValueError('onset frame resource bound')
-    history=[];events=[];unknown=[];previous_time=None;previous_pixels=None;last_event=None
+    history=[];events=[];unknown=[];previous_time=None;previous_image=None;last_event=None
     for seconds,image in frames:
-        pixels=image.convert('L').filter(ImageFilter.GaussianBlur(2)).tobytes()
-        if previous_pixels is not None:
+        blurred=image.convert('L').filter(ImageFilter.GaussianBlur(2))
+        if previous_image is not None:
             dt=seconds-previous_time
             if not min_interval<=dt<=max_interval:
                 unknown.append((previous_time,seconds));history.clear();last_event=None
             else:
-                changes=[b-a for a,b in zip(previous_pixels,pixels)];shift=median(changes)
-                rate=sum(abs(value-shift) for value in changes)/len(changes)/dt
+                rate=_compensated_rate(previous_image,blurred,dt)
                 history=[item for item in history if 0<seconds-item[0]<=history_seconds]
                 if len(history)>=3:
                     baseline=median(item[1] for item in history)
@@ -51,7 +67,7 @@ def propose(source_ref, frames, *, history_seconds=3, ratio=1.8, min_rate=8,
                                        'rate':rate,'baseline_rate':baseline})
                         last_event=seconds
                 history.append((seconds,rate))
-        previous_time=seconds;previous_pixels=pixels
+        previous_time=seconds;previous_image=blurred
     return {'schema_version':1,'source_ref':source_ref,'input_size':size,'pairs_examined':len(frames)-1,
         'proposals':events[:max_proposals],'truncated':len(events)>max_proposals,
         'omitted_proposals':max(0,len(events)-max_proposals),'unknown_intervals':unknown,

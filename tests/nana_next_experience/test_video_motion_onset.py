@@ -3,8 +3,10 @@ import subprocess
 
 import pytest
 from PIL import Image,ImageDraw,ImageChops
+from statistics import median
+import random
 
-from tools.nana_next_experience.experiments.video_motion_onset import propose
+from tools.nana_next_experience.experiments.video_motion_onset import propose,_compensated_rate
 from tools.nana_next_experience.experiments.video_pts_decode import decode
 from tools.nana_next_experience.experiments.video_window_fusion import fuse_window
 from tools.nana_next_experience.experiments.video_global_budget import select_windows
@@ -14,6 +16,18 @@ def gray(value,box=False):
     image=Image.new('RGB',(160,120),(value,)*3)
     if box:ImageDraw.Draw(image).rectangle((5,5,54,54),fill=(0,0,0))
     return image
+
+
+def test_histogram_rate_matches_direct_pixel_oracle_including_median_ties():
+    rng=random.Random(20261117)
+    for width,height in ((1,1),(2,1),(3,3),(16,17)):
+        for _ in range(50):
+            a=bytes(rng.randrange(256) for _ in range(width*height))
+            b=bytes(rng.randrange(256) for _ in range(width*height))
+            values=[y-x for x,y in zip(a,b)];shift=median(values);dt=.25
+            expected=sum(abs(v-shift) for v in values)/len(values)/dt
+            assert _compensated_rate(Image.frombytes('L',(width,height),a),
+                                     Image.frombytes('L',(width,height),b),dt)==expected
 
 
 def test_motion_onset_is_only_change_cue_and_global_brightness_is_compensated():
