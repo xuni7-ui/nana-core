@@ -125,7 +125,7 @@ class OfficialQQAdapter(OneBotAdapter):
     def capabilities(self):
         ready = self.health().login == 'AUTHENTICATED'
         return (Capability(name='message.receive', available=ready),
-                Capability(name='message.text.send.via_core', available=ready and self.allow_send),
+                Capability(name='message.text.send.via_core', available=ready and self.allow_send is True),
                 Capability(name='delivery.independent_readback', available=False, reason='C2C_GROUP_API_NOT_AVAILABLE'),
                 Capability(name='media.reference', available=True),
                 Capability(name='message.image.send.via_core', available=False, reason='ORIGINAL_MEDIA_ACTION_NOT_WIRED'),
@@ -211,7 +211,7 @@ class OfficialQQAdapter(OneBotAdapter):
             if value is None:
                 raise CoreError('QQ_OFFICIAL_MESSAGE_NOT_IN_VOLATILE_CAPTURE')
             return value[1]
-        if action not in {'send_private_msg', 'send_group_msg'} or not self.allow_send:
+        if action not in {'send_private_msg', 'send_group_msg'} or self.allow_send is not True:
             raise CoreError('QQ_OFFICIAL_SEND_NOT_AUTHORIZED')
         kind = 'private' if action == 'send_private_msg' else 'group'
         peer = params.get('user_id' if kind == 'private' else 'group_id')
