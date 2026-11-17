@@ -1,8 +1,8 @@
-## 现役revision281 — 原S5时间轴及下一同源观察复用
+## 现役revision282 — 原Store复用，不重造事实/缓存
 
-从B22固定d63c1ba吸收相对PTS机制到原S5隔离decoder，8460B真实1s TS原绝对1.44s被拒，旧3fail→新3过，最终原native/H1两文件16过9.55s；原C私问/来源撤回/H1部分覆盖、24fps精确tick/真实leading gap有效；旧0origin完整投影相同。相关81过1例100ms prepare超时STALE保留，原旧/当前单项各过，不放松门禁或称整批全过。280独立CI179过38.76s，281CI待。b196不含后继，CURRENT不变。
+原S5同一捕获每次重解码、跨实体/范围错返旧Memory，原4fail；现只从原Evidence按字节/descriptor/privacy复用decoded，原两处Memory按entity/scope绑定并查current支持，撤回不重建，缺processor中断可由原证据接续，私PCM不被PUBLIC降级。6过1.40s/106相关34.92s；同视频重启3重放原9原生进程/1.046s→0/.001604s，两侧0写/原Record不变，非LLM/Token省费。281独立CI132过59.97s，282CI待；环境tmp/shm确已丢，源码/归档保留，b196候选不含后继/CURRENT不动。
 
-下一核对原PerceptionService/Memory/Record已保存观察：同源重试先解码、实体/范围与字节绑定、撤回后不重建，在原Store复用而非第二缓存。B22其余采样/长窗/平台来源和原S3/S8-S10/A–H继续；281独立CI须实读，100ms首错不隐藏，b196匹配候选不冒充新安装。证据evidence/native-container-relative-pts-20261117/README.md。
+下一原S3长期经历/多动机/关系反馈→C后续选择，原G/meta/视觉后继归入下一适时同源节点；B22剩余算法/私平台/存储Token/多端及原A–H不缩减。282CI须读实际结果。2026-11-17 tmp/shm旧制品/DEV确已丢，不能引用为现存安装；原固定delivery b79e9ba6可取得，b196不含279–282。证据evidence/sourced-perception-reuse-20261117/README.md。
 
 ## 现役revision196
 
