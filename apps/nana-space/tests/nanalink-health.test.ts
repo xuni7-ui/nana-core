@@ -12,4 +12,12 @@ describe('NanaLink phone health',()=>{
     expect(capabilityWords(health!.capabilities[0].name)).toBe('经奈奈发送图片');
     expect(health!.capabilities[0].available).toBe(false);
   });
+  it('explains safe diagnostics without displaying unrecognized server text',()=>{
+    const base={connection:'DISCONNECTED',login:'UNKNOWN',receive:'NOT_OBSERVED',reconnects:0,capabilities:[]};
+    expect(healthWords({...base,error:'ACCOUNT_MISMATCH'})).toContain('账号不匹配');
+    expect(healthWords({...base,error:'CREDENTIAL_UNAVAILABLE'})).toContain('连接凭据不可用');
+    expect(healthWords({...base,error:'CREDENTIAL_REJECTED'})).toContain('连接凭据未获接受');
+    expect(healthWords({...base,error:'SIDECAR_UNAVAILABLE'})).toContain('连接服务暂不可达');
+    expect(healthWords({...base,error:'UNEXPECTED_DETAIL'})).not.toContain('UNEXPECTED_DETAIL');
+  });
 });
