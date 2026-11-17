@@ -35,15 +35,48 @@ class MediaCache:
         self.max_bytes, self.item_bytes, self.max_items = max_bytes, item_bytes, max_items
         self.items, self.total = OrderedDict(), 0
         self.sources = {}
+        self.retired = set()
+        self.retirement_overflow = False
+        self.closed = False
         # This process only manages files it created. Unknown prior cache files
         # are neither trusted nor erased; use a fresh per-session directory.
         self.metrics = dict(ingested_bytes=0, reused_bytes=0, evicted_bytes=0)
 
+    def _require_current(self, source_ref, *, admission_started=False):
+        if self.closed:
+            raise CoreError('MEDIA_CACHE_CLOSED')
+        if self.retirement_overflow or source_ref in self.retired:
+            raise CoreError('MEDIA_SOURCE_RETIRED')
+        try:
+            current = self.current(source_ref)
+        except Exception:
+            current = False
+        if current is True:
+            return
+        known = admission_started or any(source_ref in refs for refs in self.sources.values())
+        if known:
+            # Once this session observes withdrawal, later reauthorization must
+            # use a new source reference. Bounded overflow fails closed.
+            if len(self.retired) >= self.max_items * 64:
+                self.retirement_overflow = True
+            else:
+                self.retired.add(source_ref)
+            for key in tuple(self.sources):
+                refs = self.sources[key]
+                refs.discard(source_ref)
+                if not refs:
+                    path, size = self.items[key]
+                    path.unlink(missing_ok=True)
+                    del self.items[key]
+                    del self.sources[key]
+                    self.total -= size
+                    self.metrics['evicted_bytes'] += size
+        raise CoreError('MEDIA_SOURCE_RETIRED')
+
     def put(self, chunks, *, source_ref, media_type='application/octet-stream'):
         if not isinstance(source_ref, str) or not 1 <= len(source_ref) <= 256 or not isinstance(media_type, str) or not 1 <= len(media_type) <= 128:
             raise CoreError('MEDIA_METADATA_BOUND')
-        if self.current(source_ref) is not True:
-            raise CoreError('MEDIA_SOURCE_RETIRED')
+        self._require_current(source_ref)
         h, size = hashlib.sha256(), 0
         fd, name = tempfile.mkstemp(prefix='nanalink-', dir=self.root)
         try:
@@ -57,8 +90,7 @@ class MediaCache:
                     h.update(chunk)
                     stream.write(chunk)
                 stream.flush()
-            if self.current(source_ref) is not True:
-                raise CoreError('MEDIA_SOURCE_RETIRED')
+            self._require_current(source_ref, admission_started=True)
             key = h.hexdigest()
             handle = MediaHandle(key, size, source_ref, media_type)
             self.metrics['ingested_bytes'] += size
@@ -71,9 +103,11 @@ class MediaCache:
                 # A new source may independently support the same content.
                 return handle
             while self.items and (self.total + size > self.max_bytes or len(self.items) >= self.max_items):
-                old_key, (old_path, old_size) = self.items.popitem(last=False)
-                self.sources.pop(old_key, None)
+                old_key = next(iter(self.items))
+                old_path, old_size = self.items[old_key]
                 old_path.unlink()
+                del self.items[old_key]
+                self.sources.pop(old_key, None)
                 self.total -= old_size
                 self.metrics['evicted_bytes'] += old_size
             path = Path(name)
@@ -88,16 +122,14 @@ class MediaCache:
 
     def resolve(self, *, source_ref, sha256):
         """Resolve only a source/content pair already admitted to this session."""
-        if self.current(source_ref) is not True:
-            raise CoreError('MEDIA_SOURCE_RETIRED')
+        self._require_current(source_ref)
         value = self.items.get(sha256)
         if not value or source_ref not in self.sources.get(sha256, set()):
             raise CoreError('MEDIA_CACHE_MISS')
         return MediaHandle(sha256, value[1], source_ref, 'application/octet-stream')
 
     def read(self, handle, *, offset=0, length=65536):
-        if self.current(handle.source_ref) is not True:
-            raise CoreError('MEDIA_SOURCE_RETIRED')
+        self._require_current(handle.source_ref)
         if not 0 <= offset <= handle.size or not 1 <= length <= 1024 * 1024:
             raise CoreError('MEDIA_RANGE_BOUND')
         value = self.items.get(handle.sha256)
@@ -109,13 +141,14 @@ class MediaCache:
             stream.seek(offset)
             data = stream.read(min(length, handle.size - offset))
         # A source may be withdrawn while the filesystem read is in progress.
-        if self.current(handle.source_ref) is not True:
-            raise CoreError('MEDIA_SOURCE_RETIRED')
+        self._require_current(handle.source_ref)
         return data
 
     def close(self):
+        self.closed = True
         for path, _ in self.items.values():
             path.unlink(missing_ok=True)
         self.items.clear()
         self.sources.clear()
+        self.retired.clear()
         self.total = 0

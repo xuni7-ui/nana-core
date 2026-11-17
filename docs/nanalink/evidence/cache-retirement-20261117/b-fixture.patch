@@ -1,0 +1,38 @@
+--- a/tests/nana_next_experience/test_video_guarded_batch.py
++++ b/tests/nana_next_experience/test_video_guarded_batch.py
+@@ -44,7 +44,7 @@
+             calls=[]
+             def detector(decoded):
+                 raw=tmp_path/'frames.rgb';raw.write_bytes(decoded.rgb24);calls.append(len(decoded.timestamps))
+-                request={'source_ref':mid,'rgb_path':str(raw),'width':32,'height':32,'fps':4,
++                request={'source_ref':decoded.source_ref,'rgb_path':str(raw),'width':32,'height':32,'fps':4,
+                          'timestamps':decoded.timestamps,'max_frames_per_sheet':4}
+                 script=Path(__file__).resolve().parents[2]/'tools/nana_next_experience/experiments/dsh_pipeline_adapter.mjs'
+                 result=subprocess.run(['node',str(script),upstream],input=json.dumps(request),
+@@ -52,7 +52,7 @@
+                 pixels=32*32*3
+                 frames=[(t,Image.frombytes('RGB',(32,32),decoded.rgb24[i*pixels:(i+1)*pixels]))
+                         for i,t in enumerate(decoded.timestamps)]
+-                return json.loads(result.stdout),propose(mid,frames),motion_onsets(mid,frames)
++                return json.loads(result.stdout),propose(decoded.source_ref,frames),motion_onsets(decoded.source_ref,frames)
+             batch=guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
+                                  detector=detector,budget=3,max_gap=1,width=32,height=32)
+             assert batch.source_ref==mid and batch.source_sha256==handle.sha256==hashlib.sha256(data).hexdigest()
+@@ -82,12 +82,15 @@
+                                    detector=detector,budget=3,max_gap=1,width=32,height=32)
+             assert limits==[8,2]
+             current={'value':True}
++            other_source=source.model_copy(update={'source_id':'synthetic-video-independent'})
++            other_mid,_=PerceptionService(runtime.store,providers(),app.policy).ingest(data,other_source,entity_id='observer',scope='world')
++            cache.put([data],source_ref=other_mid,media_type='video/mp4')
+             def revoke_cache(decoded):
+                 result=detector(decoded);current['value']=False;return result
+             with monkeypatch.context() as patch:
+-                patch.setattr(cache,'current',lambda _:current['value'])
++                patch.setattr(cache,'current',lambda ref: current['value'] if ref==other_mid else True)
+                 with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):
+-                    guarded_images(app,cache,mid,scope='world',windows=((0,1),),detector=revoke_cache,
++                    guarded_images(app,cache,other_mid,scope='world',windows=((0,1),),detector=revoke_cache,
+                                    budget=2,max_gap=1,width=32,height=32,shared_snapshot=True)
+             def revoke(decoded):
+                 result=detector(decoded)
