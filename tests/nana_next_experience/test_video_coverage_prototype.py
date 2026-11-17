@@ -23,6 +23,18 @@ def test_remaining_budget_selects_change_without_losing_coverage():
     assert result['coverage_target_met']
 
 
+def test_exact_duration_is_not_lost_to_floating_window_endpoint():
+    duration=23167.081846406618
+    assert duration*235/235<duration
+    result=plan(duration,[Candidate(duration)],235,max_gap=duration/234.5)
+    assert result['timestamps']==(duration,)
+
+
+def test_midpoint_tie_keeps_earlier_frame_and_duration_endpoint():
+    result=plan(10,[Candidate(2),Candidate(3),Candidate(10)],2,max_gap=5)
+    assert result['timestamps']==(2,10)
+
+
 @pytest.mark.parametrize('candidates',[[Candidate(float('nan'))],[Candidate(1),Candidate(1)],[Candidate(11)],[Candidate(1,motion=-1)]])
 def test_invalid_measurements_are_rejected(candidates):
     with pytest.raises(ValueError):plan(10,candidates,3,max_gap=2)

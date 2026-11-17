@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "a_baseline_at_start": "d5c0a42c65bc348074952c9663418c636c1817f6",
+  "owner": "Codex B",
+  "status": "ISOLATED_CANDIDATE",
+  "problem": "coverage planning repeatedly scans every timestamp for each time window and checks list membership",
+  "change": "binary searches sorted timestamps near midpoint and uses selected-time set; preserve exact endpoint rule",
+  "equivalence": "3000 fixed-seed varied synthetic cases against fixed old source including endpoints; 28 related tests passed in 4.01 seconds",
+  "measurement": {
+    "baseline_git_commit": "d63c1ba163c47209aafda00b46768615a531c29f",
+    "baseline_sha256": "6b11af1e8ee253ef987e5cceb0284e2ba4427fa710411d930466a6f15ee201fd",
+    "cases": [
+      {
+        "candidates": 80,
+        "budget": 4,
+        "max_gap": 20,
+        "output_identical": true,
+        "baseline_wall_seconds": [
+          0.0001993830082938075,
+          0.0001320509909419343,
+          0.0009436539985472336
+        ],
+        "candidate_wall_seconds": [
+          0.00010239200491923839,
+          0.0022425679926527664,
+          7.4377006967552e-05
+        ],
+        "baseline_wall_median": 0.0001993830082938075,
+        "candidate_wall_median": 0.00010239200491923839,
+        "baseline_cpu_seconds": [
+          0.0001956620000000131,
+          0.0001321730000000132,
+          0.0009382500000000016
+        ],
+        "candidate_cpu_seconds": [
+          0.00010272000000000059,
+          0.0022443530000000045,
+          7.44490000000042e-05
+        ],
+        "python_traced_peak_bytes": {
+          "baseline": 11264,
+          "candidate": 11384
+        }
+      },
+      {
+        "candidates": 10000,
+        "budget": 256,
+        "max_gap": 40,
+        "output_identical": true,
+        "baseline_wall_seconds": [
+          1.0160267949977424,
+          0.5157263280125335,
+          0.49182386600296013
+        ],
+        "candidate_wall_seconds": [
+          0.009375959998578764,
+          0.009520644001895562,
+          0.008511206004186533
+        ],
+        "baseline_wall_median": 0.5157263280125335,
+        "candidate_wall_median": 0.009375959998578764,
+        "baseline_cpu_seconds": [
+          1.01112723,
+          0.513718251,
+          0.4918194790000001
+        ],
+        "candidate_cpu_seconds": [
+          0.00938083100000009,
+          0.009524413999999926,
+          0.008515772000000421
+        ],
+        "python_traced_peak_bytes": {
+          "baseline": 911608,
+          "candidate": 1005036
+        }
+      }
+    ],
+    "process_peak_rss_platform_units": 17008,
+    "rss_scope": "whole benchmark including both modes, not per-mode memory",
+    "ffmpeg_model_or_network_calls": 0,
+    "token_cost": "not measured"
+  },
+  "limits": [
+    "only B isolated planner; not connected to original S5",
+    "small 3-run samples and synthetic data",
+    "Python allocation plus RSS scopes as measured; no full process memory attribution",
+    "no real video end-to-end, provider tokens, bill or model quality claims",
+    "candidate choice and gap target unchanged in tested inputs"
+  ],
+  "rollback": "revert isolated video_coverage.py and remove optional benchmark; no data migration",
+  "sha256": {
+    "tools/nana_next_experience/experiments/video_coverage.py": "4272aab2eb99dda543a25fc5fcf9e714048a4bbf158b5ad08541c618eafc4edf",
+    "tools/nana_next_experience/experiments/bench_video_coverage_planner.py": "530ec796a759cae6ac7711fcb72353d83da9a41037c2dbc228f46031b3a273b5",
+    "tests/nana_next_experience/test_video_coverage_prototype.py": "e2abe6719236579a5877bdbaf8137fb1f974c022cbb67679938f4ebf905ffb0a"
+  }
+}
