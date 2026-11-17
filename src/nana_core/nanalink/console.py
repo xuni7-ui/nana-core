@@ -1,5 +1,6 @@
 """Read-only sidecar health into the ORIGINAL authenticated Nana Space panel."""
 import json
+import urllib.error
 import urllib.request
 from typing import Literal
 from pydantic import Field, model_validator, model_serializer
@@ -115,6 +116,19 @@ class NanaLinkObserver:
         for binding in self.bindings[:4]:
             try:
                 rows.append(self._one(binding))
+            except CoreError as exc:
+                # Only expose a short allowlisted diagnostic, never endpoint,
+                # credential, or raw connector exception text.
+                error = {'NANALINK_OBSERVED_ACCOUNT_MISMATCH': 'ACCOUNT_MISMATCH',
+                         'NANALINK_CREDENTIAL_UNAVAILABLE': 'CREDENTIAL_UNAVAILABLE'}.get(exc.code, 'SIDECAR_UNAVAILABLE')
+                rows.append({'platform': binding.platform, 'channel_id': binding.channel_id,
+                             'health': SessionHealth(connection='DISCONNECTED', error=error).model_dump(),
+                             'capabilities': []})
+            except urllib.error.HTTPError as exc:
+                error = 'CREDENTIAL_REJECTED' if exc.code in {401, 403} else 'SIDECAR_UNAVAILABLE'
+                rows.append({'platform': binding.platform, 'channel_id': binding.channel_id,
+                             'health': SessionHealth(connection='DISCONNECTED', error=error).model_dump(),
+                             'capabilities': []})
             except Exception:
                 rows.append({'platform': binding.platform, 'channel_id': binding.channel_id,
                              'health': SessionHealth(connection='DISCONNECTED', error='SIDECAR_UNAVAILABLE').model_dump(),
