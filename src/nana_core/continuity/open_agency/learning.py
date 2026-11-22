@@ -650,16 +650,16 @@ class LearningService:
     def strategy(self, domain, scope):
         if scope not in self.scopes:
             raise CoreError("LEARNING_SCOPE_DENIED")
+        if not self.privacy:
+            return None
+        privacy_slots = ",".join("?" for _ in self.privacy)
         for row in self.store.db.execute(
-            "SELECT * FROM lessons WHERE task_class=? AND state='ACTIVE' ORDER BY rowid DESC LIMIT 16", (domain,)
+            "SELECT l.* FROM lessons l JOIN continuity_records h ON h.record_id=l.record_id "
+            "WHERE l.task_class=? AND l.state='ACTIVE' AND h.scope=? AND h.lifecycle='ACTIVE' "
+            f"AND h.privacy_class IN ({privacy_slots}) ORDER BY l.rowid DESC LIMIT 16",
+            (domain, scope, *self.privacy),
         ):
-            head = self.store.one("continuity_records", row["record_id"])
-            if (
-                head["scope"] != scope
-                or head["privacy_class"] not in self.privacy
-                or head["lifecycle"] != "ACTIVE"
-                or not self.records.current_support(head["record_id"])
-            ):
+            if not self.records.current_support(row["record_id"]):
                 continue
             rule = ExperienceService(self.store, self.authority)._rule(row)
             if isinstance(rule, MethodStrategyRule):

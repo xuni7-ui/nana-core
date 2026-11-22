@@ -1,0 +1,36 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_private_lessons_do_not_hide_an_earlier_project_strategy _________
+
+tmp_path = PosixPath('/dev/shm/nq305base/test_private_lessons_do_not_hi0')
+
+    def test_private_lessons_do_not_hide_an_earlier_project_strategy(tmp_path):
+        with fresh(tmp_path/'s'/'self.db') as r:
+            original=number_learning()
+    
+            def qualify(spec,key,privacy):
+                r.work.configure_open_learning((spec,))
+                concern=ConcernCue(cue_kind='OPEN_LOOP',motivation_source='CAPABILITY_GAP',
+                    topic_key=key,program_id=spec.learning_key,possible_behaviors=('LEARN',))
+                mid=capture(r,key,concern.model_dump_json(),predicate='concern.'+key,privacy=privacy)
+                send(r,key,(mid,),privacy_class=privacy);r.drain(24)
+                lesson=r.store.db.execute("SELECT record_id FROM lessons ORDER BY rowid DESC LIMIT 1").fetchone()
+                assert lesson and RecordService(r.store).read(lesson[0])['privacy_class']==privacy
+                return lesson[0]
+    
+            visible=qualify(original,'original-visible-method','PROJECT')
+            reader=LearningService(r.store,r.authority,(),privacy_classes=('PROJECT',),scopes=('lab',))
+            assert reader.strategy('numbers','lab')==(visible,'NUMERIC_SUM')
+            for index in range(16):
+                key=f'personal-method-{index}'
+                qualify(original.model_copy(update={'learning_key':f'learn.{key}'}),key,'PERSONAL')
+            assert len(r.store.all('lessons'))==17
+>           assert reader.strategy('numbers','lab')==(visible,'NUMERIC_SUM')
+E           AssertionError: assert None == ('87878043-245d-4b42-9f4e-33084b1682d2', 'NUMERIC_SUM')
+E            +  where None = strategy('numbers', 'lab')
+E            +    where strategy = <nana_core.continuity.open_agency.learning.LearningService object at 0x7f14054db650>.strategy
+
+tests/open_autonomy/test_learning.py:63: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_autonomy/test_learning.py::test_private_lessons_do_not_hide_an_earlier_project_strategy
+1 failed in 0.85s

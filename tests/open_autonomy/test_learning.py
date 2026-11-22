@@ -39,6 +39,34 @@ def test_learning_heldout_transfer_changes_actual_later_plan_and_judgment(tmp_pa
         assert ls.monitor(data['lesson_id'],(LearningCase(case_id='regression',context='negative',data=[1,2],expected=99),),authority=r.authority)['all_passed'] is False
         assert ls.strategy('numbers','lab') is None
 
+def test_private_lessons_do_not_hide_an_earlier_project_strategy(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r:
+        original=number_learning()
+
+        def qualify(spec,key,privacy):
+            r.work.configure_open_learning((spec,))
+            concern=ConcernCue(cue_kind='OPEN_LOOP',motivation_source='CAPABILITY_GAP',
+                topic_key=key,program_id=spec.learning_key,possible_behaviors=('LEARN',))
+            mid=capture(r,key,concern.model_dump_json(),predicate='concern.'+key,privacy=privacy)
+            send(r,key,(mid,),privacy_class=privacy);r.drain(24)
+            lesson=r.store.db.execute("SELECT record_id FROM lessons ORDER BY rowid DESC LIMIT 1").fetchone()
+            assert lesson and RecordService(r.store).read(lesson[0])['privacy_class']==privacy
+            return lesson[0]
+
+        visible=qualify(original,'original-visible-method','PROJECT')
+        reader=LearningService(r.store,r.authority,(),privacy_classes=('PROJECT',),scopes=('lab',))
+        assert reader.strategy('numbers','lab')==(visible,'NUMERIC_SUM')
+        for index in range(16):
+            key=f'personal-method-{index}'
+            qualify(original.model_copy(update={'learning_key':f'learn.{key}'}),key,'PERSONAL')
+        assert len(r.store.all('lessons'))==17
+        assert reader.strategy('numbers','lab')==(visible,'NUMERIC_SUM')
+        source=RecordService(r.store).support(visible)[0]
+        MemoryService(r.store,r.authority).forget(source,r.authority)
+        assert reader.strategy('numbers','lab') is None
+        assert not r.store.all('actions') and not r.store.all('grants')
+
+
 def test_different_domain_and_timeout_does_not_advance_learning_cursor(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:
         spec=language_learning();ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',));r.work.open_learning=ls

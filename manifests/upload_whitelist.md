@@ -437,3 +437,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-23 A 模型路由限制及目录冷却
 
 原客户端模型设置、SDK、Android桥源码、既有测试、事实账、B接续与 `docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123` 受控证据。
+
+## 2026-11-23 A 原学习方法可见范围
+
+原学习查询、定向测试、事实账及 `docs/nana_next_experience/evidence/strategy-visible-window-20261123` 受控证据。
