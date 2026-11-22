@@ -1,8 +1,14 @@
 import json
+from pathlib import Path
+import signal
+import subprocess
+import sys
 
 import pytest
 from pydantic import ValidationError
 
+import nana_core
+from nana_core.clock import ManualClock
 from nana_core.continuity import ContinuityStore
 from nana_core.continuity.contracts import (EvidenceInput, IngressQualification,
     MemoryCandidate, MemoryType, Provenance, RealMemoryIngress)
@@ -61,6 +67,61 @@ def test_index_rebuild_keeps_last_complete_projection_on_interruption(cognitive,
     assert not store.db.in_transaction
     memory.rebuild_index()
     assert terms() == canonical_terms
+
+
+def test_index_rebuild_survives_process_loss_before_commit(tmp_path):
+    path = tmp_path / "self.db"
+    clock = ManualClock(12_000_000)
+
+    def terms(store):
+        return {tuple(row) for row in store.db.execute("SELECT memory_id,term FROM memory_terms")}
+
+    with ContinuityStore(path, clock, schema_target=13) as store:
+        memory = MemoryService(store)
+        memory.entity("synthetic-sister", "PERSON")
+        first = add(memory, evidence(memory, "crash-index-one", "synthetic first"), "synthetic first")
+        add(memory, evidence(memory, "crash-index-two", "synthetic later"), "synthetic later")
+        canonical_terms = terms(store)
+        store.db.execute("INSERT INTO memory_terms VALUES(?,?)", (first, "old-index-term"))
+        previous_terms = terms(store)
+        previous_snapshot = store.snapshot()
+        previous_events = store.all("events")
+
+    program = """
+import os
+from pathlib import Path
+import signal
+import sys
+
+sys.path.insert(0, sys.argv[1])
+from nana_core.clock import ManualClock
+from nana_core.continuity import ContinuityStore
+from nana_core.continuity.memory import MemoryService
+
+with ContinuityStore(Path(sys.argv[2]), ManualClock(12_000_000), schema_target=13) as store:
+    memory = MemoryService(store)
+    original = memory._index
+
+    def interrupt(memory_id, text):
+        original(memory_id, text)
+        os.write(1, b"first posting inserted")
+        os.kill(os.getpid(), signal.SIGKILL)
+
+    memory._index = interrupt
+    memory.rebuild_index()
+"""
+    source = Path(nana_core.__file__).resolve().parent.parent
+    worker = subprocess.run([sys.executable, "-I", "-B", "-c", program, str(source), str(path)],
+                            capture_output=True, timeout=15)
+    assert worker.returncode == -signal.SIGKILL, worker.stderr.decode()
+    assert worker.stdout == b"first posting inserted"
+    with ContinuityStore(path, clock, schema_target=13) as store:
+        assert terms(store) == previous_terms
+        assert store.db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+        MemoryService(store).rebuild_index()
+        assert terms(store) == canonical_terms
+        assert store.snapshot() == previous_snapshot
+        assert store.all("events") == previous_events
 
 
 def test_claim_correction_conflict_and_inference_cannot_upgrade(cognitive):
