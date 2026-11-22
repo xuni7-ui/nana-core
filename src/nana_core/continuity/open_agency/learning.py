@@ -648,10 +648,14 @@ class LearningService:
             tx.update("jobs", work_id, state="WAITING", revision=job["revision"] + 1)
 
     def strategy(self, domain, scope):
+        return next(self.strategies(domain, scope), None)
+
+    def strategies(self, domain, scope):
         if scope not in self.scopes:
             raise CoreError("LEARNING_SCOPE_DENIED")
         if not self.privacy:
-            return None
+            return
+        experience = ExperienceService(self.store, self.authority)
         privacy_slots = ",".join("?" for _ in self.privacy)
         for row in self.store.db.execute(
             "SELECT l.* FROM lessons l JOIN continuity_records h ON h.record_id=l.record_id "
@@ -661,10 +665,9 @@ class LearningService:
         ):
             if not self.records.current_support(row["record_id"]):
                 continue
-            rule = ExperienceService(self.store, self.authority)._rule(row)
+            rule = experience._rule(row)
             if isinstance(rule, MethodStrategyRule):
-                return row["record_id"], rule.method
-        return None
+                yield row["record_id"], rule.method
 
     def monitor(self, lesson_id, cases, *, authority):
         if authority is not self.authority:

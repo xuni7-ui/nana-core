@@ -1,3 +1,9 @@
+## 当前接续 独立学习召回 revision310
+
+原G先后独立获TEXT32/16；同主体20笔记时较新窄法不再阻断旧宽法，原RENDER查到后续来源，撤回后失效，旧1错→60相关。
+
+继续匹配恢复候选、成长机制及原存储物理闭包。原 A–H 与正式资格按上方原边界继承。证据 docs/nana_next_experience/evidence/qualified-recall-scope-20261123/README.md。
+
 ## 当前接续 来源关联撤回 revision309
 
 原隐私日志按来源走SQLite关联；同源/衍生/版本边与冷副本保持。51变更摘要一致，带索引286→8ms、冷293→15ms，76相关通过。

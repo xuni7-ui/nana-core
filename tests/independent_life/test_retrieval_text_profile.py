@@ -164,6 +164,47 @@ def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and
             assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
 
 
+def test_later_narrower_text_lesson_does_not_hide_checked_wider_recall(tmp_path):
+    from nana_core.continuity.retrieval_growth import qualified_note_limit
+    from nana_core.life.config import load_config, update_config
+
+    home=tmp_path/'home';clock=VirtualClock();initialize_expanded(home)
+    with LifeApplication(home,clock=clock) as app:
+        training=[save(app,text=text,privacy='PROJECT',request_id=f'older-text-{i}')['memory_id']
+                  for i,text in enumerate(TRAIN)]
+        growth=app.runtime.work.note_retrieval_growth
+        for _ in range(2):
+            assert growth.slice(SCOPE)['note_retrieval']=='OFFERED_TO_C'
+            advance(app)
+        wide=selected(app)
+        assert wide[1]=='NFKC_CASEFOLD' and qualified_note_limit(app.runtime.store,wide)==32
+        identity=app.runtime.identity_id
+
+    def change_limit(limit):
+        previous=load_config(home)
+        changed=previous.model_copy(update={'note_retrieval_notes_limit':limit,'revision':previous.revision+1})
+        update_config(home,changed,expected_revision=previous.revision)
+
+    change_limit(16)
+    with LifeApplication(home,clock=clock) as app:
+        assert app.runtime.work.note_retrieval_growth.slice(SCOPE)['note_retrieval']=='OFFERED_TO_C'
+        advance(app)
+        narrow=selected(app)
+        assert narrow[0]!=wide[0] and qualified_note_limit(app.runtime.store,narrow)==16
+        fillers(app,16)
+        unseen=save(app,text='SYNTHETIC Ｃ＋＋ later source',privacy='PROJECT',request_id='wide-unseen')['memory_id']
+
+    change_limit(32)
+    with relay(home,'CHAT',renderer=render_from_supplied_sources,recall_query_terms=('C++',)) as (router,calls):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();assert app.runtime.identity_id==identity and selected(app)==narrow
+            app.chat('SYNTHETIC symbolic lookup after changing scope',privacy='PROJECT',message_id='wide-scope')
+            assert [note['memory_id'] for note in supplied_notes(calls[-1])]==[unseen]
+            app.forget(training[0]);assert selected(app) is None
+            app.chat('SYNTHETIC symbolic lookup after withdrawal',privacy='PROJECT',message_id='wide-withdrawn')
+            assert supplied_notes(calls[-1])==[] and len(calls)==4
+
+
 def test_old_wordlike_trial_cannot_certify_new_method_or_query_shape(tmp_path):
     home=tmp_path/'home';initialize(home,active=0)
     with LifeApplication(home,clock=VirtualClock()) as app:

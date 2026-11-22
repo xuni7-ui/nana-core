@@ -225,37 +225,66 @@ class NoteRetrievalEvaluator:
 
 
 def qualified_method(store, authority, entity_id, scope, privacy_classes):
+    selected = next(_qualified_methods(store, authority, entity_id, scope, privacy_classes), None)
+    return selected[:2] if selected else None
+
+
+def _qualified_methods(store, authority, entity_id, scope, privacy_classes):
     """Read original G only; a provider/user statement cannot mint a lesson."""
     if store.schema_target < 13:
-        return None
+        return
     reader = LearningService(store, authority, (), scopes=(scope,), privacy_classes=privacy_classes)
-    selected = reader.strategy(DOMAIN, scope)
-    if not selected:
-        return None
-    lesson_record, method = selected
-    if not any(method in methods for methods in QUALIFICATION_METHODS.values()):
-        return None
     records = RecordService(store)
-    rule = records.read(lesson_record)["payload"]["rule"]
-    trial = records.read(rule["trial_record_id"])
-    if trial["record_kind"] != "LEARNING_TRIAL" or trial["payload"].get("domain") != DOMAIN:
-        return None
-    profiles = []
-    for stage in ("EVALUATE", "TRANSFER"):
-        result = trial["payload"]["results"].get(stage, {})
-        profile = result.get('evaluator')
+    for lesson, method in reader.strategies(DOMAIN, scope):
+        rule = records.read(lesson)["payload"]["rule"]
+        trial = records.read(rule["trial_record_id"])
+        if trial["record_kind"] != "LEARNING_TRIAL" or trial["payload"].get("domain") != DOMAIN:
+            continue
+        results = trial["payload"]["results"]
+        evaluated, transferred = (results.get(stage, {}) for stage in ("EVALUATE", "TRANSFER"))
+        profile = evaluated.get('evaluator')
         if (
             type(profile) is not str or profile not in QUALIFICATION_SCOPES
-            or result.get("entity_id") != entity_id
-            or result.get("qualification_scope") != QUALIFICATION_SCOPES.get(profile)
-            or result.get("all_passed") is not True
-            or method not in QUALIFICATION_METHODS.get(profile, ())
+            or method not in QUALIFICATION_METHODS[profile]
         ):
-            return None
-        profiles.append(profile)
-    if len(set(profiles)) != 1:
-        return None
-    return lesson_record, method
+            continue
+        if all(
+            result.get('evaluator') == profile and result.get('entity_id') == entity_id
+            and result.get('qualification_scope') == QUALIFICATION_SCOPES[profile]
+            and result.get('all_passed') is True
+            for result in (evaluated, transferred)
+        ):
+            yield lesson, method, profile
+
+
+def recall_with_qualified_method(store, authority, entity_id, scopes, privacy_classes, terms):
+    """The owner has already tested literal recall at this safe point."""
+    evaluator = NoteRetrievalEvaluator(store, entity_id, scopes, privacy_classes)
+    bound_hit = False
+    for scope in scopes:
+        exceeded = 0
+        for lesson, method, profile in _qualified_methods(store, authority, entity_id, scope, privacy_classes):
+            capacity = QUALIFICATION_SCOPES[profile]['max_notes']
+            if capacity <= exceeded or not query_allowed(profile, terms):
+                continue
+            try:
+                snapshot = evaluator.snapshot(scope, max_notes=capacity, profile=profile)
+            except CoreError as exc:
+                if exc.code != 'NOTE_STRATEGY_SCOPE_BOUND':
+                    raise
+                exceeded = capacity
+                continue
+            rows = evaluator._normalized_lookup(method, terms, snapshot)
+            if rows:
+                return rows, (lesson,)
+            # A checked method found no matches. Extra methods adjudicate
+            # applicability only and cannot turn this into a positive recall.
+            break
+        else:
+            bound_hit = bound_hit or bool(exceeded)
+    if bound_hit:
+        raise CoreError('NOTE_STRATEGY_SCOPE_BOUND')
+    return [], ()
 
 
 def qualified_query_profile(store, selected):

@@ -457,3 +457,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-23 A 原来源关联撤回
 
 原撤回及验证、定向测试、事实账及 `docs/nana_next_experience/evidence/source-linked-erasure-20261123` 受控证据。
+
+## 2026-11-23 A 原独立学习召回
+
+原G选择与原笔记召回、定向测试、事实账及 `docs/nana_next_experience/evidence/qualified-recall-scope-20261123` 受控证据。
