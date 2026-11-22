@@ -1,0 +1,47 @@
+{
+  "source_commit": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+  "runtime_files": 264,
+  "installed_business_modules": 160,
+  "external_factories": [
+    "nana_core.continuity.open_agency.fixtures",
+    "nana_core.continuity.world_loop.harness",
+    "nana_core.continuity.world_loop.reference"
+  ],
+  "exit_code": 0,
+  "selected_tests": [
+    "tests/independent_life/test_note_cache_maintenance.py",
+    "tests/independent_life/test_retrieval_text_profile.py",
+    "tests/open_autonomy/test_learning.py",
+    "tests/continuous_self/test_privacy.py",
+    "tests/continuous_self/test_privacy_copy_increment.py"
+  ],
+  "fixture_source_sha256": {
+    "tests/continuous_self/test_privacy_copy_increment.py": "dbd750295313f0ab5eec2784b0ac85d95ded3220ee30a50d16f2446ae84292a7",
+    "tests/conftest.py": "80be994f44da8fcf67dec8c18e3855d3bae0061fbaf0e3940b02c6ab3d0b815f",
+    "tests/continuous_self/conftest.py": "074f4248111cf8b2985d604b2a28d36400530405df7e28c9536d6764c8a8baf2",
+    "tests/continuous_self/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/continuous_self/test_privacy.py": "42390d4b135ef37c59aa893c2cf0aa899d0cc07e644082b960d25f49a7024c5f",
+    "tests/continuous_self/test_memory.py": "b9a422fd7c2415c308974ec6e2f59bf862b41944717e4ced468d5a9a224c005d",
+    "tools/nana_next_experience/live_memory_inventory.py": "1653586a6d2b80042ea0a35d64985ff706870bc1ad357c109e95e86a973c5505",
+    "tools/nana_next_experience/__init__.py": "45665ef3c80757d5f46d72cf439b165c045949eb9639805334f98153362d4b00",
+    "tests/open_autonomy/test_learning.py": "7f55f8b660b1335a4a015a1d556f5100bac0349d368ccc4d010d6e5d4a91a705",
+    "tests/open_autonomy/helpers.py": "8dd5017dde8ab887c08a49b8c2f7c14a745d723bd5c214bd58482051b1052c78",
+    "tests/open_autonomy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/independent_life/test_retrieval_text_profile.py": "4dc49ab6741586fac62f85ae3543bc0f3818cf566ed06fa3fe089fa3f8cf9027",
+    "tests/independent_life/test_retrieval_growth.py": "1851cf4807d5dc8d4b461feccabca369f8851d4870d96b25097f37719db07a7a",
+    "tests/independent_life/test_retrieval_growth_expanded.py": "6f4fc114e4e879bf607cca49bde373f401ba70dd728114a394e2755e264aba13",
+    "tests/independent_life/test_note_recall.py": "8c1a2ca6666d0656dbb3cc364d27a50bb3a294cfa0d2e41a1165ddfe4fdb1f81",
+    "tools/nana_next_experience/literal_two_prefix_probe.py": "c6921eb0e6aeed9629b6383366e764fcb9ba4951a7c052f765ff69f90398eec0",
+    "tools/nana_next_experience/memory_diverse_compare.py": "703520d71f210ae8f4c0436f11d36396adc8490d84329fe91a640f0941067e67",
+    "tests/independent_life/conftest.py": "68eaf6dc958b60d7dbb28b5f6ab96103e2cd9a2421397dd56f8a02a37474bcce",
+    "tests/independent_life/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/independent_life/test_dialogue.py": "57473f00881ebdd52e7a1588a57d41ceb234ff11d7f1a501b2ca3e9100528ab4",
+    "tests/independent_life/test_note_cache_maintenance.py": "ddc7ca6ddd084c0147e331b06e91d7ae78f4912e6daf8a5ff30ccb522c3c70ec",
+    "src/nana_core/continuity/recurrence.py": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+    "src/nana_core/continuity/extensions.py": "166913192338661d5c5ddd283e2d9cd80c1eb219a794326f15f1f9ab3f00b61e",
+    "src/nana_core/continuity/identity.py": "98fa194db674532d7449ad8e4431aeacbfeaad2634e2a7af3a18c61b32632eec",
+    "src/nana_core/continuity/autonomy/requests.py": "8fe9172bcaf170d1bd91ccd831039c3de21e8ddcef5e6e6e8d0b67bf17abee5d",
+    "src/nana_core/continuity/subject/social.py": "ac4a0d5fdf12d5c088beb243b18d65e1cbf28ad8da9dffc3e90c12ab803020e3",
+    "tools/nana_next_experience/qualification/note_query_diversity_v1.json": "f4ad65683558c235b937ce5dbffaf344b321d7389920855a7ac50804443edf3d"
+  }
+}
