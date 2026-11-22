@@ -1,0 +1,54 @@
+{
+  "source_commit": "2864240b50a86caa49441663a1775ce69019a9b8",
+  "core_sha256": "9cd4b6a136c8e0c6cfb9fac5c24bc4ad6d6ad86e5285343374dbe1620eca9cba",
+  "two_builds_identical": true,
+  "bundle_files": 313,
+  "runtime_files": 264,
+  "dependencies": {
+    "pydantic": "2.13.4",
+    "pydantic-core": "2.46.4",
+    "annotated-types": "0.8.0",
+    "typing-extensions": "4.16.0",
+    "typing-inspection": "0.4.3",
+    "cryptography": "50.0.0",
+    "cffi": "2.1.1",
+    "pycparser": "3.0",
+    "aiohttp": "3.14.3",
+    "aiohappyeyeballs": "2.7.1",
+    "aiosignal": "1.4.0",
+    "attrs": "26.1.0",
+    "frozenlist": "1.8.0",
+    "multidict": "6.9.1",
+    "propcache": "0.5.4",
+    "yarl": "1.25.1",
+    "idna": "3.20",
+    "qrcode": "8.2",
+    "pillow": "12.3.0"
+  },
+  "features": [
+    "HOST_VAULT",
+    "NANALINK",
+    "PUBLIC_VIDEO_FRAMES"
+  ],
+  "web_sha256": "83e8015a0c55024480d11a49793e5c0a894b252cd6e6dfac02b0655265a3ea9f",
+  "web_actual_build_source": "ab89a9ec8bd43622abf2f82e0cb0afd9f3e15eac",
+  "web_source_input_blobs_unchanged": 237,
+  "android_rebuilt": false,
+  "installed_targeted_tests": 39,
+  "integrated_one_dev": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "stopped_reader_sequence": [
+    "2864240b50a86caa49441663a1775ce69019a9b8",
+    "305fda8b98ae0ae1040301eb758d91a27497f442",
+    "2864240b50a86caa49441663a1775ce69019a9b8"
+  ],
+  "real_provider_calls": 0,
+  "produced_by": "A_INTEGRATION",
+  "status": "CONTROLLED_CANDIDATE",
+  "production_deployed": false
+}
