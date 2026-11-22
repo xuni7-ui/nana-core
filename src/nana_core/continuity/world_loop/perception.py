@@ -5,6 +5,7 @@ remains UNKNOWN unless an independently supplied reviewed adapter provides it.
 """
 import array,hashlib,io,json,math,os,shutil,subprocess,tempfile,warnings,stat
 from pathlib import Path
+from bisect import bisect_left
 from fractions import Fraction
 from typing import Literal
 from pydantic import Field
@@ -40,6 +41,34 @@ class MediaSourceDescriptor(DTO):
     capture_coverage:str
     sequence:int=Field(ge=0)
     screen_receipt:dict|None=None
+
+def _video_sampling_indices(points, time_quantum):
+    """Use B22's time coverage idea within the existing eight-frame budget."""
+    count = min(8, len(points))
+    if len(points) == count:
+        return list(range(count))
+    last = len(points) - 1
+    by_index = [i * last // (count - 1) for i in range(count)]
+    spacings = [right - left for left, right in zip(points, points[1:])]
+    # Retain existing selection for regular video, including one tick of
+    # rate quantization and FFprobe's microsecond timestamp rounding.
+    if max(spacings) - min(spacings) <= time_quantum + 0.000001:
+        return by_index
+    by_time = [0]
+    for i in range(1, count - 1):
+        target = points[0] + (points[-1] - points[0]) * i / (count - 1)
+        lower = by_time[-1] + 1
+        upper = last - (count - 1 - i)
+        position = bisect_left(points, target, lower, upper + 1)
+        candidates = (j for j in (position - 1, position) if lower <= j <= upper)
+        by_time.append(min(candidates, key=lambda j: (abs(points[j] - target), j)))
+    by_time.append(last)
+
+    def largest_gap(indices):
+        return max(points[right] - points[left] for left, right in zip(indices, indices[1:]))
+
+    return by_time if largest_gap(by_time) < largest_gap(by_index) else by_index
+
 
 class MediaDecoder:
     def _run(self,args,*,limit=4*1024*1024,input_root=None):
@@ -149,7 +178,8 @@ class MediaDecoder:
             except (TypeError,ValueError):raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
             if not math.isfinite(last_span) or not 0<=last_span<=30:raise CoreError('MEDIA_FRAME_TIME_INVALID')
             final_end=min(duration,points[-1]+last_span)
-            count=min(8,len(points));indices=sorted({int(i*(len(points)-1)/max(1,count-1)) for i in range(count)})
+            indices=_video_sampling_indices(points,float(base) if base is not None else 0.000001)
+            count=len(indices)
             expression='+'.join('eq(n,'+str(i)+')' for i in indices)
             raw=self._run(prefix+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
             size=96*64*3

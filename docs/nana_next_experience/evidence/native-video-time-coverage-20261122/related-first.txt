@@ -1,0 +1,56 @@
+.......{"dense_first": true, "sample_times": [0.0, 1.6, 3.1, 4.7, 6.0, 8.0, 9.0, 11.0], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25360, "source_sha256": "da43a909e1b9bc9f6e7aec63e406a868cf7e452fafdcb45fe94d878abc4d402a", "native_processes": 3, "wall_s": 0.3496398350000618}
+.{"dense_first": false, "sample_times": [0.0, 2.0, 3.0, 5.0, 6.8, 8.5, 10.2, 11.9], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25302, "source_sha256": "ba4fb9780f41e1a1fbbdda7305ce6f2d2af68680ca7f4267079930588d9fcb19", "native_processes": 3, "wall_s": 0.3469525790001171}
+.........F...................................................
+=================================== FAILURES ===================================
+___ test_actual_media_grounding_temporal_lineage_summary_and_erasure[VIDEO] ____
+
+tmp_path = PosixPath('/dev/shm/nq292current/test_actual_media_grounding_te2')
+modality = 'VIDEO'
+
+    @pytest.mark.parametrize('modality',['IMAGE','AUDIO','VIDEO'])
+    def test_actual_media_grounding_temporal_lineage_summary_and_erasure(tmp_path,modality):
+        with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,metrics):
+>           data=media_samples()[modality];mid=ingest(r,modality,data);service=setup(r,t)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/h1_semantics/test_grounding.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/h1_semantics/test_grounding.py:16: in ingest
+    return PerceptionService(r.store,providers(),policy()).ingest(data,PublicMediaSource(source_id=key,modality=modality,origin='SYNTHETIC',event_time_us=now,observed_time_us=now),entity_id='observer',scope='world')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/perception.py:274: in ingest
+    decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/perception.py:184: in decode
+    raw=self._run(prefix+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.perception.MediaDecoder object at 0x7f03326aab10>
+args = ['bwrap', '--unshare-all', '--die-with-parent', '--new-session', '--cap-drop', 'ALL', ...]
+limit = 147456, input_root = PosixPath('/dev/shm/subject-media-4p35inwg')
+
+    def _run(self,args,*,limit=4*1024*1024,input_root=None):
+        if not shutil.which('bwrap'):raise CoreError('MEDIA_SANDBOX_UNAVAILABLE')
+        if input_root is None:raise CoreError('MEDIA_INPUT_ROOT_REQUIRED')
+        command=['bwrap','--unshare-all','--die-with-parent','--new-session','--cap-drop','ALL','--clearenv','--setenv','PATH','/usr/bin','--setenv','LD_LIBRARY_PATH','/usr/lib/x86_64-linux-gnu/blas:/usr/lib/x86_64-linux-gnu/lapack']
+        for system in ('/usr/bin','/usr/lib','/usr/lib64','/lib','/lib64'):
+            if Path(system).exists():command+=['--ro-bind',system,system]
+        if Path('/etc/ld.so.cache').exists():command+=['--ro-bind','/etc/ld.so.cache','/etc/ld.so.cache']
+        command+=['--proc','/proc','--dev','/dev','--tmpfs','/tmp','--ro-bind',str(input_root),'/input','--chdir','/tmp','/usr/bin/python3','-I','-c',
+            'import os,resource,sys;resource.setrlimit(resource.RLIMIT_AS,(536870912,536870912));resource.setrlimit(resource.RLIMIT_CPU,(10,10));resource.setrlimit(resource.RLIMIT_FSIZE,(4194304,4194304));os.execvp(sys.argv[1],sys.argv[1:])']
+        args=[str(a).replace(str(input_root)+'/','/input/') for a in args]
+        args=command+args
+        with tempfile.TemporaryDirectory(prefix='subject-decode-') as d:
+            out=Path(d)/'out';err=Path(d)/'err'
+            with out.open('wb') as o,err.open('wb') as e:
+                try:p=subprocess.run(args,stdin=subprocess.DEVNULL,stdout=o,stderr=e,timeout=12,env={'PATH':os.defpath},check=False)
+                except (subprocess.TimeoutExpired,OSError):raise CoreError('MEDIA_DECODER_UNAVAILABLE_OR_TIMEOUT') from None
+>           if p.returncode:raise CoreError('MEDIA_MALFORMED_OR_UNSUPPORTED')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: MEDIA_MALFORMED_OR_UNSUPPORTED
+
+src/nana_core/continuity/world_loop/perception.py:90: CoreError
+=========================== short test summary info ============================
+FAILED tests/h1_semantics/test_grounding.py::test_actual_media_grounding_temporal_lineage_summary_and_erasure[VIDEO]
+1 failed, 68 passed in 32.71s

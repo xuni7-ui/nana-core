@@ -1,0 +1,74 @@
+{"dense_first": true, "sample_times": [0.0, 0.9, 1.8, 2.7, 3.7, 4.6, 5.5, 11.0], "largest_internal_sampling_gap_s": 5.5, "frame_count": 66, "selected_frames": 8, "source_bytes": 25360, "source_sha256": "faf351ea76d2e911206f9ccd68df156c80ddc325d2aad21a42ec9c2a62060ce9", "native_processes": 3, "wall_s": 0.39579300500008685}
+F{"dense_first": false, "sample_times": [0.0, 6.3, 7.2, 8.1, 9.1, 10.0, 10.9, 11.9], "largest_internal_sampling_gap_s": 6.3, "frame_count": 66, "selected_frames": 8, "source_bytes": 25302, "source_sha256": "bf3be27ba204ceffa9ef698ad57a4dafc763e7bf8629b5771f166a482670dc47", "native_processes": 3, "wall_s": 0.35089204799987783}
+F
+=================================== FAILURES ===================================
+_____ test_video_skeleton_spans_wall_time_under_uneven_frame_density[True] _____
+
+tmp_path = PosixPath('/dev/shm/nq292old/test_video_skeleton_spans_wall0')
+dense_first = True
+
+    @pytest.mark.parametrize('dense_first',[True,False])
+    def test_video_skeleton_spans_wall_time_under_uneven_frame_density(tmp_path,dense_first):
+        import hashlib
+        import time
+    
+        path=tmp_path/'synthetic-irregular.mkv'
+        dense='lt(n,60)' if dense_first else 'gte(n,60)'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_threads','1','-f','lavfi','-i',
+            'testsrc=size=32x24:rate=10:duration=12','-vf',f"select='{dense}+not(mod(n,10))'",'-fps_mode','vfr',
+            '-c:v','ffv1','-threads','1',str(path)],check=True,timeout=20)
+        class MeasuredDecoder(MediaDecoder):
+            native_processes=0
+            def _run(self,*args,**kwargs):
+                self.native_processes+=1
+                return super()._run(*args,**kwargs)
+        data=path.read_bytes();decoder=MeasuredDecoder();start=time.perf_counter()
+        observed=decoder.decode(data,'VIDEO');wall=time.perf_counter()-start
+        times=[f['sample_s'] for f in observed['frames']]
+        maximum=max(right-left for left,right in zip(times,times[1:]))
+        print(json.dumps({'dense_first':dense_first,'sample_times':times,'largest_internal_sampling_gap_s':maximum,
+            'frame_count':observed['source_frame_count'],'selected_frames':len(times),'source_bytes':len(data),
+            'source_sha256':hashlib.sha256(data).hexdigest(),'native_processes':decoder.native_processes,'wall_s':wall}))
+        assert observed['source_frame_count']==66 and len(times)==8
+        assert times[0]==0 and times[-1]==pytest.approx(11.9 if not dense_first else 11.)
+>       assert maximum<=2.1
+E       assert 5.5 <= 2.1
+
+tests/world_loop/test_media_stream_binding.py:153: AssertionError
+____ test_video_skeleton_spans_wall_time_under_uneven_frame_density[False] _____
+
+tmp_path = PosixPath('/dev/shm/nq292old/test_video_skeleton_spans_wall1')
+dense_first = False
+
+    @pytest.mark.parametrize('dense_first',[True,False])
+    def test_video_skeleton_spans_wall_time_under_uneven_frame_density(tmp_path,dense_first):
+        import hashlib
+        import time
+    
+        path=tmp_path/'synthetic-irregular.mkv'
+        dense='lt(n,60)' if dense_first else 'gte(n,60)'
+        subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_threads','1','-f','lavfi','-i',
+            'testsrc=size=32x24:rate=10:duration=12','-vf',f"select='{dense}+not(mod(n,10))'",'-fps_mode','vfr',
+            '-c:v','ffv1','-threads','1',str(path)],check=True,timeout=20)
+        class MeasuredDecoder(MediaDecoder):
+            native_processes=0
+            def _run(self,*args,**kwargs):
+                self.native_processes+=1
+                return super()._run(*args,**kwargs)
+        data=path.read_bytes();decoder=MeasuredDecoder();start=time.perf_counter()
+        observed=decoder.decode(data,'VIDEO');wall=time.perf_counter()-start
+        times=[f['sample_s'] for f in observed['frames']]
+        maximum=max(right-left for left,right in zip(times,times[1:]))
+        print(json.dumps({'dense_first':dense_first,'sample_times':times,'largest_internal_sampling_gap_s':maximum,
+            'frame_count':observed['source_frame_count'],'selected_frames':len(times),'source_bytes':len(data),
+            'source_sha256':hashlib.sha256(data).hexdigest(),'native_processes':decoder.native_processes,'wall_s':wall}))
+        assert observed['source_frame_count']==66 and len(times)==8
+        assert times[0]==0 and times[-1]==pytest.approx(11.9 if not dense_first else 11.)
+>       assert maximum<=2.1
+E       assert 6.3 <= 2.1
+
+tests/world_loop/test_media_stream_binding.py:153: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_video_skeleton_spans_wall_time_under_uneven_frame_density[True]
+FAILED tests/world_loop/test_media_stream_binding.py::test_video_skeleton_spans_wall_time_under_uneven_frame_density[False]
+2 failed, 7 deselected in 1.31s

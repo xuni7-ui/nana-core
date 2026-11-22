@@ -1,0 +1,113 @@
+{
+  "dense_first": {
+    "source_sha256": "faf351ea76d2e911206f9ccd68df156c80ddc325d2aad21a42ec9c2a62060ce9",
+    "bytes": 25360,
+    "old": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        0.9,
+        1.8,
+        2.7,
+        3.7,
+        4.6,
+        5.5,
+        11.0
+      ],
+      "wall_s": 0.3474811639998734,
+      "cpu_s": 0.003585014999999969,
+      "maximum_internal_gap_s": 5.5
+    },
+    "new": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        1.6,
+        3.1,
+        4.7,
+        6.0,
+        8.0,
+        9.0,
+        11.0
+      ],
+      "wall_s": 0.3501192760002141,
+      "cpu_s": 0.0033565260000000263,
+      "maximum_internal_gap_s": 2.0
+    },
+    "whole_observation_equal": false
+  },
+  "dense_last": {
+    "source_sha256": "bf3be27ba204ceffa9ef698ad57a4dafc763e7bf8629b5771f166a482670dc47",
+    "bytes": 25302,
+    "old": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        6.3,
+        7.2,
+        8.1,
+        9.1,
+        10.0,
+        10.9,
+        11.9
+      ],
+      "wall_s": 0.34621425099999215,
+      "cpu_s": 0.0036311669999999907,
+      "maximum_internal_gap_s": 6.3
+    },
+    "new": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        2.0,
+        3.0,
+        5.0,
+        6.8,
+        8.5,
+        10.2,
+        11.9
+      ],
+      "wall_s": 0.34971862699990197,
+      "cpu_s": 0.0032529190000000208,
+      "maximum_internal_gap_s": 2.0
+    },
+    "whole_observation_equal": false
+  },
+  "regular": {
+    "source_sha256": "7b461f42fbae84b5589de029e089a0095f4e5f1bf5a59f07a3b0c881467c48ea",
+    "bytes": 11828,
+    "old": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        0.133,
+        0.267,
+        0.4,
+        0.533,
+        0.667,
+        0.8,
+        0.967
+      ],
+      "wall_s": 0.35597879000010835,
+      "cpu_s": 0.0040022279999999966,
+      "maximum_internal_gap_s": 0.16699999999999993
+    },
+    "new": {
+      "native_processes": 3,
+      "samples": [
+        0.0,
+        0.133,
+        0.267,
+        0.4,
+        0.533,
+        0.667,
+        0.8,
+        0.967
+      ],
+      "wall_s": 0.3445519150000109,
+      "cpu_s": 0.0035440549999999904,
+      "maximum_internal_gap_s": 0.16699999999999993
+    },
+    "whole_observation_equal": true
+  }
+}

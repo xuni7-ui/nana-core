@@ -124,3 +124,32 @@ def test_quantized_container_origin_uses_the_matching_exact_stream_tick(tmp_path
     assert first['timeline_origin_s']==first['source_pts_ticks']/90000
     assert first['timeline_origin_s']!=round(first['timeline_origin_s'],6)
     assert decoded['frames'][-1]['source_interval_s'][-1]==1.
+
+
+@pytest.mark.parametrize('dense_first',[True,False])
+def test_video_skeleton_spans_wall_time_under_uneven_frame_density(tmp_path,dense_first):
+    import hashlib
+    import time
+
+    path=tmp_path/'synthetic-irregular.mkv'
+    dense='lt(n,60)' if dense_first else 'gte(n,60)'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_threads','1','-f','lavfi','-i',
+        'testsrc=size=32x24:rate=10:duration=12','-vf',f"select='{dense}+not(mod(n,10))'",'-fps_mode','vfr',
+        '-c:v','ffv1','-threads','1',str(path)],check=True,timeout=20)
+    class MeasuredDecoder(MediaDecoder):
+        native_processes=0
+        def _run(self,*args,**kwargs):
+            self.native_processes+=1
+            return super()._run(*args,**kwargs)
+    data=path.read_bytes();decoder=MeasuredDecoder();start=time.perf_counter()
+    observed=decoder.decode(data,'VIDEO');wall=time.perf_counter()-start
+    times=[f['sample_s'] for f in observed['frames']]
+    maximum=max(right-left for left,right in zip(times,times[1:]))
+    print(json.dumps({'dense_first':dense_first,'sample_times':times,'largest_internal_sampling_gap_s':maximum,
+        'frame_count':observed['source_frame_count'],'selected_frames':len(times),'source_bytes':len(data),
+        'source_sha256':hashlib.sha256(data).hexdigest(),'native_processes':decoder.native_processes,'wall_s':wall}))
+    assert observed['source_frame_count']==66 and len(times)==8
+    assert times[0]==0 and times[-1]==pytest.approx(11.9 if not dense_first else 11.)
+    assert maximum<=2.1
+    assert decoder.native_processes==3
+    assert observed['unobserved_between_samples'] and observed['semantic_interpretation']=='UNKNOWN'
