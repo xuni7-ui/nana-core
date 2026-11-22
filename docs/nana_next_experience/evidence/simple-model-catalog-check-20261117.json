@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "a_baseline": "4f25b48ab673ed43507c4b7cd058cbeac022f729",
+  "owner": "Codex B",
+  "problem": "simple setup called save/bind/route a connection without testing provider and required users to find advanced catalog UI",
+  "change": "after saved, explicitly request existing authorized model catalog; verify current provider/model projection and echoed identity; describe found, partial, missing, auth and format states; honor reported cooldown; do not call inference or automatically retry",
+  "validation": [
+    "locked npm ci offline; TS/Vite build passed",
+    "24 provider catalog/config unit tests passed",
+    "12 desktop/390 browser tests passed before final added stale-model guard",
+    "after final guard, 2 desktop/390 browser scenarios passed including found/partial/missing/auth/invalid format/mismatched echo, cooldown, changed-model no request, delayed response after logout",
+    "all HTTP/credentials/model identifiers synthetic"
+  ],
+  "limits": [
+    "catalog availability or listing a model does not prove inference works",
+    "catalog unsupported or no key still requires manual configuration",
+    "no real Provider, billed request, physical Android device, deployment or production qualification",
+    "server credential/Vault and authorization paths unchanged",
+    "self-hosted no-key endpoints remain outside current REMOTE-only path"
+  ],
+  "rollback": "revert LiveSpace.tsx, ModelSetup.tsx and test diff; no data migration",
+  "sha256": {
+    "apps/nana-space/src/features/LiveSpace.tsx": "a47da7a3fe115abbe4f81c97558fcdb28997daac3b8e0d081ede380be2cd29f1",
+    "apps/nana-space/src/features/next/ModelSetup.tsx": "e73f14cb4b19f099ac9141459d99abd55bac1f89d0cedabd92e5c77e36159314",
+    "apps/nana-space/tests/v3.spec.ts": "0c02c430326b9a01921f0268ecf51672986d0d63692ed3396d06f6e81d716fd0"
+  }
+}

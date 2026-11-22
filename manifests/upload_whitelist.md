@@ -365,3 +365,11 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-22 A 原 B站回执
 
 原账号及工作流、既有NanaLink消费者和定向测试，原CI、4项原清单、账本及本地合成验证。无真实账号或资料。
+
+## 2026-11-17 B简易模型目录检查
+
+持续授权：apps/nana-space/src/features/LiveSpace.tsx、src/features/next/ModelSetup.tsx、tests/v3.spec.ts、simple-model-catalog-check-20261117.json、09/11及B队列追加、本清单；无真实凭据/用户数据。
+
+## 2026-11-22 A 集成 B26
+
+B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览器清单、A现场合成证据。

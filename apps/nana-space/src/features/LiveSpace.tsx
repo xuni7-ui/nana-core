@@ -119,6 +119,7 @@ const reasons: Record<string, string> = {
   RECEIPT_ACTIVE_CAPACITY: "当前仍有多项操作处理中，请稍后查看原回执。",
   REVISION_CONFLICT: "状态已更新，请刷新后重新确认。",
   PROVIDER_CONFIG_REVISION_CONFLICT: "模型配置已更新，请刷新后重新确认。",
+  CONFIGURATION_UNAVAILABLE: "暂时读取不到模型配置，请刷新后重试。",
   PROVIDER_VAULT_REVISION_CONFLICT: "凭据状态已更新，请刷新后重新确认。",
   PROVIDER_VAULT_REVISION_REQUIRED: "尚未取得保险库的当前状态，请刷新后重新确认。",
   PROVIDER_HOST_NOT_AUTHORIZED: "该服务地址尚未得到宿主网络授权，请由运行负责人确认。",
@@ -236,8 +237,27 @@ export function LiveSpace() {
   const modelSetupPending = useRef<number | null>(null);
   const [modelSetupPhase,setModelSetupPhase] = useState<ModelSetupPhase>("NEW");
   const [modelSetupGeneration,setModelSetupGeneration] = useState(0);
+  // The BFF rate limit is shared by both model setup surfaces.
+  const catalogRequestPending = useRef<object | null>(null);
+  const [catalogReading, setCatalogReading] = useState(false);
+  const [catalogReadAfter, setCatalogReadAfter] = useState(0);
+  const [catalogClock, setCatalogClock] = useState(0);
+  const catalogWaitSeconds = Math.ceil(Math.max(0, catalogReadAfter - catalogClock) / 1000);
+  useEffect(() => {
+    const remaining = catalogReadAfter - Date.now();
+    if (remaining <= 0) return;
+    const timer = window.setTimeout(() => setCatalogClock(Date.now()), Math.min(1000, remaining));
+    return () => window.clearTimeout(timer);
+  }, [catalogReadAfter, catalogClock]);
+  const noteCatalogCooldown = (delay?: number) => {
+    if (delay === undefined || delay <= 0) return;
+    const now = Date.now();
+    setCatalogClock(now);
+    setCatalogReadAfter(previous => Math.max(previous, now + delay));
+  };
   const clearModelSetup = useCallback(() => {
     modelSetupProgress.current=null;setModelSetupPhase("NEW");
+    catalogRequestPending.current=null;setCatalogReading(false);
     setModelSetupGeneration(value=>value+1);
   }, []);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
@@ -1181,6 +1201,51 @@ export function LiveSpace() {
       if(version===sessionVersion.current){setBusy(false);writePending.current=false;}
     }
   };
+  const testSetupCatalog = async (setStatus: (s:string) => void) => {
+    const version=sessionVersion.current,progress=modelSetupProgress.current;
+    if(!progress || progress.step!==3 || busy || writePending.current || catalogRequestPending.current)return;
+    writePending.current=true;setBusy(true);
+    const current=()=>{
+      if(version!==sessionVersion.current || modelSetupProgress.current!==progress)
+        throw new V2Error("SESSION_REVOKED");
+    };
+    try {
+      setStatus("正在读取服务商模型目录；不会生成回复…");
+      const bootstrap=await fresh();current();
+      if(bootstrap.capabilities.provider_model_discovery!==true)throw new V2Error("CAPABILITY_UNAVAILABLE");
+      const settings=readProviderSettings((await client.current.view("settings")).data.provider_settings);current();
+      if(settings.state!=="CURRENT" || settings.revision===undefined)throw new V2Error("CONFIGURATION_UNAVAILABLE");
+      const profile=settings.providers.find(p=>p.id===progress.pid);
+      const expected=providerCommand(progress.draft,progress.pid,settings.revision).provider!;
+      if(!profile || !profile.enabled || profile.revision===undefined || profile.baseUrl!==expected.base_url ||
+         profile.protocol!==expected.protocol || profile.name!==expected.display_name ||
+         profile.timeoutMs!==expected.default_timeout_ms ||
+         (progress.providerRevision!==undefined && profile.revision!==progress.providerRevision))
+        throw new V2Error("PROVIDER_SETUP_CHANGED");
+      const model=settings.models.find(m=>m.id===progress.mid);
+      if(!model || !model.enabled || model.providerId!==progress.pid || model.remoteModel!==progress.draft.modelId ||
+         model.operations.length!==1 || model.operations[0]!==progress.draft.operation ||
+         model.contextLimit!==progress.draft.contextLimit || model.outputLimit!==progress.draft.outputLimit)
+        throw new V2Error("PROVIDER_SETUP_CHANGED");
+      const response=await client.current.providerModels(progress.pid,profile.revision);current();
+      const data=object(response.data);
+      if(data.provider_profile_id!==progress.pid || data.profile_revision!==profile.revision)
+        throw new V2Error("PROVIDER_CONFIG_REVISION_CONFLICT");
+      let catalog;
+      try {catalog=readModelCatalog(data);} catch {throw new V2Error("PROVIDER_CATALOG_FORMAT");}
+      setStatus(catalog.models.includes(progress.draft.modelId)
+        ? "已读取服务商目录并找到所选模型；能否实际对话仍需使用时验证。"
+        : catalog.truncated
+          ? "已读取部分目录，尚未找到所选模型；可继续手动确认，实际对话仍需使用时验证。"
+          : "已读取服务商目录，但未列出所选模型；请核对模型名称，实际可用性尚未验证。");
+      noteCatalogCooldown(catalog.retryAfterMs);
+      return catalog.retryAfterMs;
+    } catch(error) {
+      if(version===sessionVersion.current && modelSetupProgress.current===progress)setStatus(explain(error));
+    } finally {
+      if(version===sessionVersion.current){writePending.current=false;setBusy(false);}
+    }
+  };
   const saveProviderRuntime = async (input: RuntimeBudgetInput) => {
     const version=sessionVersion.current;
     if (busy || writePending.current || runtimeBudgetPending.current===version) throw new V2Error("REQUEST_BUSY");
@@ -1807,12 +1872,15 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel}/>
+              <><ModelSetup catalogReadAfter={catalogReadAfter} catalogWaitSeconds={catalogWaitSeconds} disabled={busy || catalogReading || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} key={modelSetupGeneration} phase={modelSetupPhase} savedDraft={modelSetupProgress.current?.draft} onNew={clearModelSetup} onSetup={setupModel} onTest={admin && healthy && bootstrap?.capabilities.provider_model_discovery===true ? testSetupCatalog : undefined}/>
                 {admin && bootstrap?.capabilities.provider_runtime_configuration===true && Boolean(providerRuntime) &&
                   <ProviderRuntimeSettings key={JSON.stringify([object(providerRuntime).configuration_revision,object(providerRuntime).profiles])} data={providerRuntime}
                     disabled={busy || !healthy} onSave={saveProviderRuntime}/>}
                 <ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
+                catalogReading={catalogReading}
+                catalogReadAfter={catalogReadAfter}
+                catalogWaitSeconds={catalogWaitSeconds}
                 settings={data.provider_settings}
                 available={healthy}
                 onNotice={notify}
@@ -1826,15 +1894,26 @@ export function LiveSpace() {
                 credentialStatus={credentialStatus}
                 onDiscover={admin && healthy && bootstrap?.capabilities.provider_model_discovery === true ? async (id, revision, afterId) => {
                   const version = sessionVersion.current;
+                  if (catalogRequestPending.current || writePending.current) throw new Error("模型目录正在读取，请稍候。");
+                  const requestToken = {};
+                  catalogRequestPending.current = requestToken;
+                  setCatalogReading(true);
                   try {
                     const result = await client.current.providerModels(id, revision, afterId);
                     if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
                     const value = object(result.data);
                     if(value.provider_profile_id !== id || value.profile_revision !== revision)
                       throw new V2Error("PROVIDER_CONFIG_REVISION_CONFLICT");
-                    return readModelCatalog(value);
+                    const catalog = readModelCatalog(value);
+                    noteCatalogCooldown(catalog.retryAfterMs);
+                    return catalog;
 
                   } catch (error) { throw new Error(explain(error)); }
+                  finally {
+                    if (catalogRequestPending.current === requestToken) {
+                      catalogRequestPending.current = null; setCatalogReading(false);
+                    }
+                  }
                 } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
                 onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}
