@@ -1,0 +1,23 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --project=desktop --project=phone-390 --grep NanaLink|platform
+
+[WebServer] (node:4959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:4991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.9s)
+  ✓  2 [desktop] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.3s)
+  ✓  3 [desktop] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (1.1s)
+  ✓  4 [desktop] › tests/v3.spec.ts:1940:1 › NanaLink phone health explains a mismatched account (1.2s)
+(node:5292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [phone-390] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.6s)
+  ✓  6 [phone-390] › tests/v3.spec.ts:1883:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.2s)
+  ✓  7 [phone-390] › tests/v3.spec.ts:1913:1 › NanaLink health: connected session does not invent received events or delivery (1.1s)
+  ✓  8 [phone-390] › tests/v3.spec.ts:1940:1 › NanaLink phone health explains a mismatched account (1.0s)
+
+  8 passed (14.5s)

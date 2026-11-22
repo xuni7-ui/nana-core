@@ -1,0 +1,8 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --project=desktop --project=android --grep platform|NanaLink
+
+Error: Project(s) "android" not found. Available projects: "desktop", "phone-360", "phone-390", "phone-412"
+    at Object.filterProjects (/tmp/nana-pr25-web/node_modules/playwright/lib/runner/index.js:2164:11)
+    at runTests (/tmp/nana-pr25-web/node_modules/playwright/lib/cli/testActions.js:59:30)
+    at _Command.<anonymous> (/tmp/nana-pr25-web/node_modules/playwright/lib/program.js:55:7)

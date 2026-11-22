@@ -5,7 +5,7 @@ Nothing here creates or owns another LifeApplication, account agent or Store.
 """
 from .contracts import Account, Capability, OperationReceipt, Outcome, SessionHealth
 from .sdk import AdapterManifest
-from .core_bridge import receipt_from_core
+from .core_bridge import receipt_from_core, bilibili_execution_status, bilibili_verification_current
 from ..contracts import Invocation, CoreError
 
 
@@ -46,6 +46,16 @@ class CoreWorkflowAdapter:
         # A prior Core receipt may return without connector I/O. Do not infer
         # current login/connection health from a successful historical action.
         self._health = self._health.model_copy(update={'receive': 'HEALTHY', 'last_event_us': event.observed_at_us})
+        if self.account.platform == 'bilibili' and result.get('delivery') == 'SUCCEEDED':
+            action_id = result.get('action_id')
+            action = self.workflow.store.one('actions', action_id) if action_id else None
+            status = bilibili_execution_status(self.workflow.store, action) if action else 'UNKNOWN'
+            if action and not bilibili_verification_current(self.workflow.store, action, self.workflow.channel.account_id):
+                status = 'UNKNOWN'
+            if status != 'ATTEMPTED':
+                return OperationReceipt(operation_id=event.key, action_id=action_id,
+                    outcome=Outcome.CANCELLED if status == 'PRE_EXIST' else Outcome.UNKNOWN,
+                    reason='PLATFORM_MESSAGE_PREEXISTED_NO_SEND' if status == 'PRE_EXIST' else 'ORIGINAL_CONFIRMATION_NOT_AVAILABLE')
         return receipt_from_core(event.key, result)
 
     async def send(self, invocation):

@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 285,
-  "as_of_us": 1795340523386886,
+  "revision": 286,
+  "as_of_us": 1795340761044977,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "合入C25固定f4a05620：平台回执按当前独立验证、已有同文0发送、QQ/Feed显式许可、媒体来源及平台诊断。原平台与便携148过，Web构建/102单测/8桌面390，真实0。原直接B站入口差额待补。",
     "305fda8b联合候选双构建91316708、实际离线双槽263文件/19依赖、远端0cfe18d取得24SHA。各同DEV 7本地模型0动作、S2/S3/G/梦境72虚拟h及各305→b196→305，33安装定向；283CI848、284CI226；Web237输入同，CURRENT266+409。",
     "原G策略取代提案时不再读取另一任务last_record_id；有效旧2错（UNKNOWN/错误依赖）→新版实际G两DONE/独立迁移/撤回旧提案不影响新方法。19相关与52集成通过，各总1本地LEARN、后续0/真实0。",
     "原S3既有社交兴趣影响C有限关系请求，旧ASK→ACCEPT覆写，现ASK暂置/复查。49虚拟h重启与消融，正常请求/D各1本地SELF/无自动采纳；定向16过，扩展243过1时序首错、原新单项通过，真实0，完整wire+669B。",
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
     "279持久反例恢复/280原meta按域资格先筛后8窗口已修，原后续G新数据BLOCKED→DONE，独立评价不变。280匹配CI179过1warning38.76s/clientSKIP，真实0；独立候选/自主深改及更广迁移继续，不称S10完成。",
     "b196固定Core312/263双SHA6f7d309f，Web237输入复用B24归档5963d594；delivery b79e9ba6共22件，新GitHub克隆21SHA/第二离线19deps/263同源。同DEV交流-私创作-G迁移-梦境72虚拟h串联，两槽各7fixture/0动作Goal；安装28过，CURRENT266+409。",
-    "同来源观察复用282独立CI138过45.26s；原3重放9原生→0及0写、来源/实体/范围、原PTS及撤回证据继承。",
-    "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。"
+    "同来源观察复用282独立CI138过45.26s；原3重放9原生→0及0写、来源/实体/范围、原PTS及撤回证据继承。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -45,20 +45,24 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-17再次重建：workspace源码/归档与远端保留，tmp/shm旧安装/DEV/轮子/下载均丢，不假称现存。Python3.12.14/SQLite3.53.1与原bwrap实重新可用；旧20万13SHA为历史证据，本轮不作磁盘新P95或恢复新验收。",
-    "305固定Core/BFF/Web联合候选已归档并独立下载安装；真实模型/手机/账号/自然度/跨日、物理闭包与最终发行待。原Experience→C、独立S8→S10候选因果、B/C视觉平台、A–H续办。CURRENT266+409。"
+    "305双槽候选先于PR25；CURRENT266+409。补原B站直接回执真实语义，接收B26并评审堆叠C27/B22，继续内心→选择、S8-S10独立迁移与A–H；真实账号/设备/长期/生产未资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/pr25-platform-receipts-20261122/README.md",
     "docs/nana_next_experience/evidence/matched-integrated-305fda8b-20261122/README.md",
     "docs/nana_next_experience/evidence/learning-nomination-source-20261122/README.md",
     "docs/nana_next_experience/evidence/relational-choice-continuity-20261122/README.md",
     "docs/nana_next_experience/evidence/sourced-perception-reuse-20261117/README.md",
     "docs/nana_next_experience/evidence/native-container-relative-pts-20261117/README.md",
     "docs/nana_next_experience/evidence/meta-learning-domain-continuity-20261117/README.md",
-    "docs/nana_next_experience/evidence/persisted-learning-counterexample-20261117/README.md",
-    "docs/nana_next_experience/evidence/matched-integrated-b196f5d-20261117/README.md"
+    "docs/nana_next_experience/evidence/persisted-learning-counterexample-20261117/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision286证据指纹锚：`18381acf5baa2a47639091b602378783397b33edbfc1a0ed5102338370bbd97d`（source.sha256不含自身/09）。
+
+[C候选2026-11-17] PR23已由A合入；本增量基于A `4f25b48a`，保留B能力文案，手机连接状态区分账号不符、凭据缺失/被拒及服务不可达；本地HTTP定向1、Web定向3及构建通过；390手机浏览器2项通过，首轮夹具缺字段修正，Android实机未验，e9ac1f4c匹配CI 44006164184通过，固定e9 Android debug APK签名/资源核对通过SHA `3fb3f447eff6f41fdf97bf32e14e06f70c732cdf3ca99ed667bdbf58982ff429`。RSS桥在每次新事件前核对授权与现行宿主绑定，相关20项通过；不宣称撤销已有记忆或原子配置锁。93a875db匹配CI 44006653418通过。RSS读取授权仅接受显式布尔true，字符串false/整数/空值拒绝，原桥及Feed 23项、最新4项通过；QQ OneBot/官方发送开关只接受布尔true，字符串false/整数/空值不能发送；原回执、两后端和契约47项通过；登录态下畸形开关不误报发送可用3项通过，未对外发送。媒体缓存来源回调仅接受布尔true，异常非布尔值及读取中撤权均不交付，媒体/原主体选择34项与针对5项通过。48019a20匹配CI 44007519156通过；严格来源回调与B固定b942268隔离副本缓存6项、原dsh固定0b4bd11受控解码/撤回1项通过，非真实平台。df817ba0匹配CI 44008026356通过；统一回执查询限制原平台账号/会话并核对仍有效的原验证记录，缺证或撤回UNKNOWN，错账号/会话不误报；原QQ/B站受控及后端55项通过。d3916562匹配CI 44045934739通过；回执再校验通道隐私及B站原账号绑定，错隐私/账号、QQ丢ACK跨重启不重发反例和原主体契约26项通过。86acc5ee匹配CI 44046490194通过。B站原评论先前已存在时Kernel记目标成功但实际0发送：NanaLink桥/适配器现读原执行及当前验证记录并返回CANCELLED，不冒报外发；源撤回UNKNOWN、跨重启不重复，相关62项及最终8项通过。原BFF/主体直读Kernel仍须A协调解释。14b3b307匹配CI 44048316684通过；手机页显示已有同内容未发送/缺有效确认不重发，Web构建及390手机视口2项通过；固定850f9f49匹配CI 44049453539通过；离线debug APK SHA `5ad102863a7278c2b99c8fa8fab3dc4a7e3e3e5342f981affd77c069c6f508ac` 签名/42个Web资源核对通过，手机实机未验。固定850离线wheel SHA `71a8bb48b0e50dbaef1e8cec0997085aa74562e1a1976b1dc827d69d6ae4bf6b` 与14源码wheel字节一致；隔离无依赖安装310文件一致、3原QQ/B站受控测试通过。PR25已Ready待A审阅，非完整工程完成；B站平台字节来源、QQ私人媒体契约与真实账号仍未资格。清单锚点 `46d7a19f1c424d3ecd37e0af1644b51378990b9b9b4db72a9f6dad6ef99b8c09`。 已核对并增量合并A `e5969b03` 原容器相对PTS修复，保留A revision281及C能力；原视频来源、帧、主体回执和A原H1/媒体定向36项19.37秒通过，合并提交匹配CI待。 再增量继承A `03e5227d` 原感知去重复用及revision282；来源、故事板、原主体回执与A复用26项10.19秒通过，合并CI待。
 
 A revision285证据指纹锚：`ba47690501cd00f46213d4aca8ed41ba6ae794a6bd2258a14b7525e8f504a9e9`（source.sha256不含自身/09）。
 

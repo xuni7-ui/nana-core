@@ -8,6 +8,28 @@ from nana_core.nanalink.feed import FeedAdapter
 from nana_core.nanalink.media import MediaCache
 
 
+@pytest.mark.parametrize('authorized', ['false', 1, None])
+def test_feed_requires_explicit_boolean_read_authorization(authorized):
+    adapter=FeedAdapter('https://example.org/rss',authorized=authorized)
+    assert not adapter.capabilities()[0].available
+    with pytest.raises(CoreError,match='FEED_READ_NOT_AUTHORIZED'):
+        asyncio.run(adapter.connect())
+
+
+@pytest.mark.parametrize('invalid', ['false', 1, None])
+def test_media_source_validator_requires_explicit_boolean_true(tmp_path, invalid):
+    state={'value':True}
+    cache=MediaCache(tmp_path/'media',source_current=lambda _:state['value'],max_bytes=16,item_bytes=8,max_items=2)
+    try:
+        handle=cache.put((b'image',),source_ref='source')
+        state['value']=invalid
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.resolve(source_ref='source',sha256=handle.sha256)
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put((b'image',),source_ref='source')
+    finally:
+        cache.close()
+
+
 def test_real_feed_reads_rss_atom_no_model_and_no_send():
     async def run():
         payload=b'<rss><channel><item><guid>a</guid><title>hello</title><link>https://example.org/a</link></item></channel></rss>'
@@ -218,11 +240,12 @@ def test_feed_utf16_preserves_valid_input_and_rejects_dtd():
         adapter.parse(hostile)
 
 
-def test_streaming_cache_discards_read_if_source_revoked_during_io(tmp_path):
+@pytest.mark.parametrize('revoked', [False, 'false'])
+def test_streaming_cache_discards_read_if_source_revoked_during_io(tmp_path, revoked):
     state = {'checks': 0, 'revoke_on_second': False}
     def current(_):
         state['checks'] += 1
-        return not state['revoke_on_second'] or state['checks'] < 2
+        return True if not state['revoke_on_second'] or state['checks'] < 2 else revoked
     cache = MediaCache(tmp_path / 'media', source_current=current, max_bytes=16, item_bytes=8, max_items=2)
     handle = cache.put([b'abc'], source_ref='source.a')
     state.update(checks=0, revoke_on_second=True)

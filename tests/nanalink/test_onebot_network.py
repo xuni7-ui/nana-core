@@ -182,7 +182,15 @@ def test_observer_binds_exact_account_and_redacts_configuration():
         raw=json.dumps(result)
         assert 'FIXTURE_ONLY' not in raw and net['endpoint'] not in raw and 'core.test' not in raw
         wrong=ObservationBinding(platform='qq',account_id='43',channel_id='wrong',endpoint=net['endpoint'],credential_ref='core.test')
-        assert NanaLinkObserver((wrong,),resolver).view()['sessions'][0]['health']['connection']=='DISCONNECTED'
+        wrong_health=NanaLinkObserver((wrong,),resolver).view()['sessions'][0]['health']
+        assert wrong_health['connection']=='DISCONNECTED' and wrong_health['error']=='ACCOUNT_MISMATCH'
+        missing=NanaLinkObserver((wrong,),None).view()['sessions'][0]['health']
+        assert missing['connection']=='DISCONNECTED' and missing['error']=='CREDENTIAL_UNAVAILABLE'
+        resolver.bind('bad.test','FIXTURE_ONLY_WRONG_NOT_A_REAL_SECRET')
+        rejected=ObservationBinding(platform='qq',account_id='42',channel_id='primary',endpoint=net['endpoint'],credential_ref='bad.test')
+        denied=NanaLinkObserver((rejected,),resolver).view()['sessions'][0]['health']
+        assert denied['connection']=='DISCONNECTED' and denied['error']=='CREDENTIAL_REJECTED'
+        assert 'FIXTURE_ONLY' not in json.dumps(denied) and net['endpoint'] not in json.dumps(denied)
 
 
 @pytest.mark.parametrize('mode', ['websocket', 'http'])

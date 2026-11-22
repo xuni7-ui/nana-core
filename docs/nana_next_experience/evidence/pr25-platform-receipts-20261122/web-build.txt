@@ -1,0 +1,45 @@
+
+> @nana/space@4.0.3 build
+> tsc -b && vite build --mode live
+
+vite v6.4.5 building for live...
+transforming...
+✓ 1791 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.73 kB │ gzip:  0.47 kB
+dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+dist/assets/LiveSpace-BiVBQygR.css      51.63 kB │ gzip: 10.32 kB
+dist/assets/clock-3-DMRRZoU7.js          0.35 kB │ gzip:  0.27 kB
+dist/assets/eye-e-60yx6R.js              0.42 kB │ gzip:  0.30 kB
+dist/assets/lock-keyhole-0D4CY4VP.js     0.42 kB │ gzip:  0.32 kB
+dist/assets/shield-check-DqhCbSKp.js     0.48 kB │ gzip:  0.35 kB
+dist/assets/radio-acCVVTwN.js            0.83 kB │ gzip:  0.40 kB
+dist/assets/refresh-cw-CJ-tgn3Q.js       0.84 kB │ gzip:  0.42 kB
+dist/assets/sparkles-DFxOQg0Z.js         0.92 kB │ gzip:  0.44 kB
+dist/assets/smartphone-Cgt1Pe4b.js       1.08 kB │ gzip:  0.46 kB
+dist/assets/plus-DT2zyH1x.js             1.16 kB │ gzip:  0.46 kB
+dist/assets/Avatar-sYA5k73z.js           1.57 kB │ gzip:  0.92 kB
+dist/assets/upload-CNjw9U36.js           1.69 kB │ gzip:  0.67 kB
+dist/assets/ui-BJm7IX3c.js               1.69 kB │ gzip:  0.64 kB
+dist/assets/sun-BqTpskJg.js              1.85 kB │ gzip:  0.59 kB
+dist/assets/monitor-CHVSOGeb.js          1.94 kB │ gzip:  0.70 kB
+dist/assets/x-Cn8qZ3zG.js                2.42 kB │ gzip:  0.83 kB
+dist/assets/preferences-DNkGWz_C.js      3.31 kB │ gzip:  1.24 kB
+dist/assets/ChatPage-1eh-3XNT.js         7.31 kB │ gzip:  3.42 kB
+dist/assets/SettingsPage-Cet6v79r.js    10.20 kB │ gzip:  4.67 kB
+dist/assets/RuntimePage-Dtu9JCdI.js     16.46 kB │ gzip:  6.42 kB
+dist/assets/CoreApp-DO_1JZY_.js         19.67 kB │ gzip:  8.37 kB
+dist/assets/ExplorePages-CKkWkIKG.js    27.19 kB │ gzip:  8.99 kB
+dist/assets/index-PnsY0amv.js          120.23 kB │ gzip: 37.21 kB
+dist/assets/LiveSpace-BnqupHOV.js      205.20 kB │ gzip: 68.27 kB
+dist/assets/index-CVGjR_qM.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 3.56s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

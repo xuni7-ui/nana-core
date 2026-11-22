@@ -1,0 +1,28 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /tmp/nana-pr25-web
+
+ ✓ tests/living.test.ts (20 tests) 12ms
+ ✓ tests/adapters.test.ts (12 tests) 1454ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  442ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  814ms
+ ✓ tests/v2-client.test.ts (9 tests) 18ms
+ ✓ tests/memory-center.test.ts (10 tests) 14ms
+ ✓ tests/provider-center.test.ts (16 tests) 9ms
+ ✓ tests/chat-stream.test.ts (9 tests) 80ms
+ ✓ tests/native-continuation.test.ts (6 tests) 111ms
+ ✓ tests/live.test.ts (4 tests) 12ms
+ ✓ tests/model-catalog.test.ts (4 tests) 18ms
+ ✓ tests/nanalink-health.test.ts (3 tests) 9ms
+ ✓ tests/provider-commands.test.ts (4 tests) 5ms
+ ✓ tests/feedback.test.ts (3 tests) 7ms
+ ✓ tests/local-speech.test.ts (2 tests) 4ms
+
+ Test Files  13 passed (13)
+      Tests  102 passed (102)
+   Start at  09:43:58
+   Duration  5.32s (transform 462ms, setup 0ms, collect 716ms, tests 1.75s, environment 3ms, prepare 959ms)
+
