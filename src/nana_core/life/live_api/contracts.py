@@ -202,6 +202,7 @@ class Receipt(DTO):
 
 
 class ApiError(Exception):
-    def __init__(self, code: str, status: int = 400):
+    def __init__(self, code: str, status: int = 400, *, retry_after_ms: int | None = None):
         self.code, self.status = code, status
+        self.retry_after_ms = retry_after_ms
         super().__init__(code)

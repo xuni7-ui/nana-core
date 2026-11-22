@@ -1,0 +1,102 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_authenticated_catalog_from_existing_vault_does_not_change_routes[OPENAI_COMPATIBLE_CHAT] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fd76d3fcb30>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fd76d1ce840>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd76d19e930>
+protocol = 'OPENAI_COMPATIBLE_CHAT'
+
+    @pytest.mark.parametrize('protocol',['OPENAI_COMPATIBLE_CHAT','ANTHROPIC'])
+    def test_authenticated_catalog_from_existing_vault_does_not_change_routes(running, monkeypatch,protocol):
+        server, service = running
+        headers = login(server, service)
+        service.allow_provider_configuration = True
+        service.credential_resolver = MemorySecretResolver()
+        service.credential_resolver.bind('catalog.main', 'TEST_ONLY_NOT_SECRET_CATALOG')
+        cfg, authority = config_service(service.supervisor.home/'providers.json')
+        update(cfg, authority, 'UPSERT_PROVIDER', provider=profile(protocol=protocol))
+        life = load_config(service.supervisor.home)
+        update_config(service.supervisor.home, life.model_copy(update={
+            'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
+        before = (service.supervisor.home/'providers.json').read_bytes()
+        calls = []
+        fail_read = False
+        def read(p, value):
+            calls.append(p.provider_profile_id)
+            assert value=='TEST_ONLY_NOT_SECRET_CATALOG'
+            if fail_read:
+                raise ApiError('PROVIDER_CATALOG_AUTH',502)
+            return {'models':['catalog.model'], 'truncated':False}
+        monkeypatch.setattr(provider_models, 'read_catalog', read)
+        path = 'providers/models?provider_profile_id=catalog.main&profile_revision=1'
+        assert http(server, path)[0]==401
+        status, result, _ = http(server, path, headers=headers)
+        assert status==200 and result['data']['models']==['catalog.model']
+        assert result['data']['qualification']=='NOT_ESTABLISHED'
+        assert result['data']['inference_calls']==0 and len(calls)==1
+        assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in json.dumps(result)
+        assert (service.supervisor.home/'providers.json').read_bytes()==before
+        assert http(server, path, headers=headers)[0]==429 and len(calls)==1
+        service.provider_catalog_after = 0
+        fail_read = True
+        status, failure, _ = http(server, path, headers=headers)
+        assert status == 502 and failure['code'] == 'PROVIDER_CATALOG_AUTH'
+>       assert type(failure.get('retry_after_ms')) is int and 0 < failure['retry_after_ms'] <= 10000
+E       AssertionError: assert (<class 'NoneType'> is int)
+E        +  where <class 'NoneType'> = type(None)
+E        +    where None = <built-in method get of dict object at 0x7fd76d0dba00>('retry_after_ms')
+E        +      where <built-in method get of dict object at 0x7fd76d0dba00> = {'contract': 'nana-space-live/v2', 'code': 'PROVIDER_CATALOG_AUTH'}.get
+
+tests/first_life_android_v2/test_provider_models.py:58: AssertionError
+_ test_authenticated_catalog_from_existing_vault_does_not_change_routes[ANTHROPIC] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fd76d0a9ca0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fd76d0abcb0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd76d1cf0e0>
+protocol = 'ANTHROPIC'
+
+    @pytest.mark.parametrize('protocol',['OPENAI_COMPATIBLE_CHAT','ANTHROPIC'])
+    def test_authenticated_catalog_from_existing_vault_does_not_change_routes(running, monkeypatch,protocol):
+        server, service = running
+        headers = login(server, service)
+        service.allow_provider_configuration = True
+        service.credential_resolver = MemorySecretResolver()
+        service.credential_resolver.bind('catalog.main', 'TEST_ONLY_NOT_SECRET_CATALOG')
+        cfg, authority = config_service(service.supervisor.home/'providers.json')
+        update(cfg, authority, 'UPSERT_PROVIDER', provider=profile(protocol=protocol))
+        life = load_config(service.supervisor.home)
+        update_config(service.supervisor.home, life.model_copy(update={
+            'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
+        before = (service.supervisor.home/'providers.json').read_bytes()
+        calls = []
+        fail_read = False
+        def read(p, value):
+            calls.append(p.provider_profile_id)
+            assert value=='TEST_ONLY_NOT_SECRET_CATALOG'
+            if fail_read:
+                raise ApiError('PROVIDER_CATALOG_AUTH',502)
+            return {'models':['catalog.model'], 'truncated':False}
+        monkeypatch.setattr(provider_models, 'read_catalog', read)
+        path = 'providers/models?provider_profile_id=catalog.main&profile_revision=1'
+        assert http(server, path)[0]==401
+        status, result, _ = http(server, path, headers=headers)
+        assert status==200 and result['data']['models']==['catalog.model']
+        assert result['data']['qualification']=='NOT_ESTABLISHED'
+        assert result['data']['inference_calls']==0 and len(calls)==1
+        assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in json.dumps(result)
+        assert (service.supervisor.home/'providers.json').read_bytes()==before
+        assert http(server, path, headers=headers)[0]==429 and len(calls)==1
+        service.provider_catalog_after = 0
+        fail_read = True
+        status, failure, _ = http(server, path, headers=headers)
+        assert status == 502 and failure['code'] == 'PROVIDER_CATALOG_AUTH'
+>       assert type(failure.get('retry_after_ms')) is int and 0 < failure['retry_after_ms'] <= 10000
+E       AssertionError: assert (<class 'NoneType'> is int)
+E        +  where <class 'NoneType'> = type(None)
+E        +    where None = <built-in method get of dict object at 0x7fd76d159c80>('retry_after_ms')
+E        +      where <built-in method get of dict object at 0x7fd76d159c80> = {'contract': 'nana-space-live/v2', 'code': 'PROVIDER_CATALOG_AUTH'}.get
+
+tests/first_life_android_v2/test_provider_models.py:58: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_authenticated_catalog_from_existing_vault_does_not_change_routes[OPENAI_COMPATIBLE_CHAT]
+FAILED tests/first_life_android_v2/test_provider_models.py::test_authenticated_catalog_from_existing_vault_does_not_change_routes[ANTHROPIC]
+2 failed, 32 deselected in 3.53s

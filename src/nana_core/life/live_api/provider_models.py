@@ -100,11 +100,16 @@ def read_catalog(profile, credential, *, after_id=None):
         raise ApiError('PROVIDER_CATALOG_UNAVAILABLE',502) from None
 
 
+def _catalog_retry_ms(deadline, now):
+    return max(0, min(10000, math.ceil((deadline - now) * 1000)))
+
+
 def discover(service, principal, provider_id, revision, after_id=None):
     principal.require(Role.HOST_ADMIN)
     if not service.allow_provider_configuration or service.credential_resolver is None:
         raise ApiError('PROVIDER_CONFIGURATION_DISABLED', 403)
     config_service = ProviderConfigService(service.supervisor.home/'providers.json', ProviderConfigurationAuthority())
+    admitted = False
     try:
         config = config_service.load()
         profile = next((p for p in config.providers if p.provider_profile_id==provider_id), None)
@@ -122,9 +127,10 @@ def discover(service, principal, provider_id, revision, after_id=None):
         with service.read_lock:
             now = time.monotonic()
             if now < service.provider_catalog_after:
-                raise ApiError('PROVIDER_CATALOG_WAIT', 429)
+                raise ApiError('PROVIDER_CATALOG_WAIT', 429, retry_after_ms=_catalog_retry_ms(service.provider_catalog_after, now))
             # Throttle explicit reads without blocking Core/normal conversation.
             service.provider_catalog_after = now+10
+            admitted = True
         secret = service.credential_resolver.resolve(profile.secret_ref)
         try:
             result = (read_catalog(profile, secret.reveal_for_header()) if after_id is None
@@ -133,11 +139,17 @@ def discover(service, principal, provider_id, revision, after_id=None):
             secret.clear()
         if config_service.load().revision!=config.revision:
             raise ApiError('PROVIDER_CONFIG_REVISION_CONFLICT', 409)
-        result={**result,'retry_after_ms':max(0,min(10000,math.ceil((service.provider_catalog_after-time.monotonic())*1000)))}
+        result={**result,'retry_after_ms':_catalog_retry_ms(service.provider_catalog_after, time.monotonic())}
         return service.envelope({**result, 'provider_profile_id':provider_id,
             **({'continued_after_id':after_id} if after_id is not None else {}),
             'profile_revision':revision, 'source':'PROVIDER_CATALOG',
             'qualification':'NOT_ESTABLISHED', 'inference_calls':0,
             'configuration_changed':False}, principal=principal)
+    except ApiError as exc:
+        if not admitted:
+            raise
+        retry_after_ms = _catalog_retry_ms(service.provider_catalog_after, time.monotonic())
+        raise ApiError(exc.code, exc.status, retry_after_ms=retry_after_ms) from None
     except CoreError as exc:
-        raise ApiError(exc.code, 409) from None
+        retry_after_ms = _catalog_retry_ms(service.provider_catalog_after, time.monotonic()) if admitted else None
+        raise ApiError(exc.code, 409, retry_after_ms=retry_after_ms) from None

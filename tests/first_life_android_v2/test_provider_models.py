@@ -34,9 +34,12 @@ def test_authenticated_catalog_from_existing_vault_does_not_change_routes(runnin
         'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
     before = (service.supervisor.home/'providers.json').read_bytes()
     calls = []
+    fail_read = False
     def read(p, value):
         calls.append(p.provider_profile_id)
         assert value=='TEST_ONLY_NOT_SECRET_CATALOG'
+        if fail_read:
+            raise ApiError('PROVIDER_CATALOG_AUTH',502)
         return {'models':['catalog.model'], 'truncated':False}
     monkeypatch.setattr(provider_models, 'read_catalog', read)
     path = 'providers/models?provider_profile_id=catalog.main&profile_revision=1'
@@ -49,11 +52,23 @@ def test_authenticated_catalog_from_existing_vault_does_not_change_routes(runnin
     assert (service.supervisor.home/'providers.json').read_bytes()==before
     assert http(server, path, headers=headers)[0]==429 and len(calls)==1
     service.provider_catalog_after = 0
+    fail_read = True
+    status, failure, _ = http(server, path, headers=headers)
+    assert status == 502 and failure['code'] == 'PROVIDER_CATALOG_AUTH'
+    assert type(failure.get('retry_after_ms')) is int and 0 < failure['retry_after_ms'] <= 10000
+    assert 'TEST_ONLY_NOT_SECRET_CATALOG' not in json.dumps(failure)
+    status, waiting, _ = http(server, path, headers=headers)
+    assert status == 429 and waiting['code'] == 'PROVIDER_CATALOG_WAIT'
+    assert type(waiting.get('retry_after_ms')) is int and 0 < waiting['retry_after_ms'] <= failure['retry_after_ms']
+    assert len(calls) == 2 and (service.supervisor.home/'providers.json').read_bytes()==before
+    status, anonymous, _ = http(server, path)
+    assert status == 401 and 'retry_after_ms' not in anonymous
+    service.provider_catalog_after = 0
     assert http(server, path.replace('revision=1','revision=2'), headers=headers)[0]==409
     life = load_config(service.supervisor.home)
     update_config(service.supervisor.home, life.model_copy(update={
         'revision':life.revision+1, 'provider_hosts':()}), expected_revision=life.revision)
-    assert http(server, path, headers=headers)[0]==403 and len(calls)==1
+    assert http(server, path, headers=headers)[0]==403 and len(calls)==2
     assert http(server, path+'&profile_revision=1', headers=headers)[0]==400
 
 

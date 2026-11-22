@@ -215,7 +215,11 @@ class Handler(BaseHTTPRequestHandler):
             if getattr(self,'_stream_started',False):
                 try:self._stream_frame({'event':'error','code':exc.code,'no_retry':True})
                 except OSError:pass
-            else:self._json(exc.status, {"contract": "nana-space-live/v2", "code": exc.code})
+            else:
+                body = {"contract": "nana-space-live/v2", "code": exc.code}
+                if exc.retry_after_ms is not None:
+                    body['retry_after_ms'] = exc.retry_after_ms
+                self._json(exc.status, body)
         except (OSError, TimeoutError):
             self.close_connection = True
         except Exception:
