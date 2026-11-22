@@ -1,0 +1,42 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_large_maintenance_slice_repairs_notes_outside_consolidation_choices ___
+
+tmp_path = PosixPath('/dev/shm/nq304baseline/test_large_maintenance_slice_r0')
+
+    def test_large_maintenance_slice_repairs_notes_outside_consolidation_choices(tmp_path):
+        from nana_core.continuity.memory import NOTE_GRAM_COMPLETE, NOTE_GRAM_PREFIX
+    
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            app.pause()
+            store=app.runtime.store;db=store.db
+            notes=[save(app,text=f'SYNTHETIC legacy FLOWER-{i}',privacy='PROJECT',request_id=f'large-slice-{i}')['memory_id']
+                for i in range(6)]
+            before=[store.one('memories',mid) for mid in notes]
+            for mid in notes:
+                db.execute('DELETE FROM memory_terms WHERE memory_id=? AND substr(term,1,?)=?',
+                    (mid,len(NOTE_GRAM_PREFIX),NOTE_GRAM_PREFIX))
+            service=app.runtime.work.maintenance;service.batch=16;service.interval=1_000_000;service.discover()
+            due=db.execute("SELECT min(due_at_us) FROM jobs WHERE work_kind='SCAN' AND state='WAITING'").fetchone()[0]
+            clock.advance(max(1,due-clock.utc_now_us()));app.runtime.lease.heartbeat()
+            result=service.slice()
+            offered={mid for rid in result['candidate_record_ids'] for mid in service.candidate(rid)[1]['memory_ids']}
+            assert len(offered)<=4 and set(notes)-offered
+            repaired={mid for mid in notes if db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',
+                (mid,NOTE_GRAM_COMPLETE)).fetchone()}
+>           assert repaired==set(notes)
+E           AssertionError: assert {'333b2eef-e7...923ff40825e4'} == {'13864d0e-77...77e25df0470b'}
+E             
+E             Extra items in the right set:
+E             '13864d0e-77ba-470d-8cd7-0fd41a19e7e8'
+E             '30ae89b2-8718-4eec-b9d5-1eb89024fadd'
+E             'dc01e1bb-8c09-4262-ba80-a141089f94e8'
+E             '8b3a56e7-da71-4c43-a822-cf54150025bf'
+E             'fea76c0a-55a1-40d5-b2a8-77e25df0470b'
+E             Use -v to get more diff
+
+tests/independent_life/test_note_lookup_bounds.py:155: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_note_lookup_bounds.py::test_large_maintenance_slice_repairs_notes_outside_consolidation_choices
+1 failed in 0.13s

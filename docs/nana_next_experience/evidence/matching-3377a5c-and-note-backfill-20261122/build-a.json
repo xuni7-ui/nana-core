@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-302-candidate/build-a/nana-first-life-portable-v1.tar.gz",
+  "sha256": "3da5417cb80242bb49f0df0041ea0629edbfeb91a214d37d639ec3092fbb277e",
+  "source_commit": "3377a5c31fe745ff5867fe0cafe23a264d0045b3",
+  "bundle_files": 313,
+  "new_provider_calls": 0
+}

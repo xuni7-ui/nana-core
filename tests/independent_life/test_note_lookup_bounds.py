@@ -129,3 +129,29 @@ def test_original_maintenance_slice_backfills_legacy_lookup_without_new_fact_or_
         assert not app.runtime.store.all('cognitive_requests') and not app.runtime.store.all('actions')
         app.forget(mid)
         assert not db.execute('SELECT 1 FROM memory_terms WHERE memory_id=?',(mid,)).fetchone()
+
+
+def test_large_maintenance_slice_repairs_notes_outside_consolidation_choices(tmp_path):
+    from nana_core.continuity.memory import NOTE_GRAM_COMPLETE, NOTE_GRAM_PREFIX
+
+    home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+    with LifeApplication(home,clock=clock) as app:
+        app.pause()
+        store=app.runtime.store;db=store.db
+        notes=[save(app,text=f'SYNTHETIC legacy FLOWER-{i}',privacy='PROJECT',request_id=f'large-slice-{i}')['memory_id']
+            for i in range(6)]
+        before=[store.one('memories',mid) for mid in notes]
+        for mid in notes:
+            db.execute('DELETE FROM memory_terms WHERE memory_id=? AND substr(term,1,?)=?',
+                (mid,len(NOTE_GRAM_PREFIX),NOTE_GRAM_PREFIX))
+        service=app.runtime.work.maintenance;service.batch=16;service.interval=1_000_000;service.discover()
+        due=db.execute("SELECT min(due_at_us) FROM jobs WHERE work_kind='SCAN' AND state='WAITING'").fetchone()[0]
+        clock.advance(max(1,due-clock.utc_now_us()));app.runtime.lease.heartbeat()
+        result=service.slice()
+        offered={mid for rid in result['candidate_record_ids'] for mid in service.candidate(rid)[1]['memory_ids']}
+        assert len(offered)<=4 and set(notes)-offered
+        repaired={mid for mid in notes if db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',
+            (mid,NOTE_GRAM_COMPLETE)).fetchone()}
+        assert repaired==set(notes)
+        assert [store.one('memories',mid) for mid in notes]==before
+        assert not store.all('cognitive_requests') and not store.all('actions')

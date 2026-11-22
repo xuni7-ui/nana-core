@@ -8,6 +8,8 @@ from ..storage import canonical,digest,uid
 from .records import RecordService
 from .contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
 
+CONSOLIDATION_SOURCE_LIMIT = 4
+
 
 def source_stamp(store,mids):
     records=RecordService(store);values=[]
@@ -63,7 +65,8 @@ class MaintenanceService:
                 if self.store.db.in_transaction:self.store.db.execute('ROLLBACK')
                 raise
             return {'candidate_record_id':None,'work_id':job['job_id'],'read_count':0,'operational_only':True}
-        selected=self._select(rows,scope)
+        eligible=self._select(rows,scope,limit=None)
+        selected=eligible[:CONSOLIDATION_SOURCE_LIMIT]
         candidates=[]
         for privacy in dict.fromkeys(r['privacy_class'] for r in selected):
             group=tuple(r for r in selected if r['privacy_class']==privacy)
@@ -84,7 +87,7 @@ class MaintenanceService:
             # Old writers leave per-note markers absent, so cursor recovery and
             # weekly review can upgrade those notes without a startup full scan.
             from .memory import is_user_note,NOTE_GRAM_COMPLETE,NOTE_GRAM_MAX_CHARS,NOTE_END_PREFIX
-            for source in selected:
+            for source in eligible:
                 if is_user_note(source) and len(source['text'])<=NOTE_GRAM_MAX_CHARS:
                     tail=NOTE_END_PREFIX+source['text'].casefold()[-2:]
                     covered={row[0] for row in self.store.db.execute('SELECT term FROM memory_terms WHERE memory_id=? AND term IN (?,?)',
@@ -118,7 +121,7 @@ class MaintenanceService:
                     data['record_id']=candidate
         return candidate
 
-    def _select(self,rows,scope):
+    def _select(self,rows,scope,*,limit=CONSOLIDATION_SOURCE_LIMIT):
         """Choose existing source value, not sentiment or an invented experience.
 
         A raw local receipt is not retained conversation. Different privacy
@@ -143,7 +146,7 @@ class MaintenanceService:
             r['event_time_us'] if r['event_time_us'] is not None else r['observed_time_us']),reverse=True)
         if not candidates:return ()
         # No eligibility decision promotes reported speech to a world fact.
-        return tuple(candidates)[:4]
+        return tuple(candidates[:limit])
 
     @staticmethod
     def _fragment(memory,terms=()):

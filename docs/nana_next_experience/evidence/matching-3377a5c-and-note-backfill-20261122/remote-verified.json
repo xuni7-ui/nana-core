@@ -1,0 +1,19 @@
+{
+  "source": "3377a5c31fe745ff5867fe0cafe23a264d0045b3",
+  "delivery": "5f96aa1c8af12d885690bb0b6ad9448081ad89fb",
+  "verified_remote_files": 29,
+  "core_runtime_blobs": 264,
+  "sidecar_wheel_runtime_blobs": 323,
+  "web_files": 42,
+  "both_isolated_profile_counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "same_stopped_profile_302_286_302": true,
+  "independent_https": true,
+  "physical_phone": false,
+  "real_provider_calls": 0
+}

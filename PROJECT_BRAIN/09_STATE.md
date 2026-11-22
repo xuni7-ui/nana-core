@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 302,
-  "as_of_us": 1795360987385673,
+  "revision": 303,
+  "as_of_us": 1795361667684635,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "固定3377a5c匹配Core/BFF/Web及独立NanaLink轮子交付5f96aa1。独立HTTPS重取29文件摘要、Core46安装项、侧车18本地网络项、两套同主体停机302→286→302通过，真实0。",
+    "原S2大维护批次复用全部已读合格来源补索引，巩固仍限4；旧漏修反例→6旧笔记全部覆盖，30相关通过。此修复晚于远端302候选。",
     "原C补选先确认存在可见成功评估再计名额。32真实合成新课未复验不再挤掉独立验证的语言能力；正常D/C后续形成私人问题，原撤回有效，旧1错→20项通过。",
     "复用C27撤回状态提示。绑定会话可看到记忆仍需检查，真实授权和删除仍沿原边界。旧1错→49项平台、3单测、2手机视口、TS/Vite通过。",
     "固定edca3d5本地Core/BFF/Web集成候选单次构建及离线安装，42安装定向。原主体跨7次本地调用、虚拟72h与停机300→286→300保持一致；真实0。早于撤回提示。",
     "原S8/S10策略必须独立迁移自己在练习选中的方法。旧1错→29项相关通过；实测同主体旧合格策略保留，不能迁移的旧策略停用选择，下一原G换方法独立迁移DONE。真实模型0。",
     "历史视频原来源与已落地结果保留。新推断和重启后未落地提案按已核对区间或样本点引用。原1错，142相关及最终2定向通过；固定旧库同身份升级，旧空档提案拒绝、采样点可用、原键0复发。",
-    "用户《复用优先、元思考与工程效率 V1.0》原文归现有指令目录，AGENTS与续办入口均链接，作为A/B/C与后续执行者的长期规则。",
-    "原C与S3社交投影先按原可见范围再限候选。65不可见新源不再挤掉较早的可见动机或阻塞普通互动，旧2错→94项相关通过，0真实模型或外发。",
-    "原S5以已知帧时长限制新VFR样本区间。实际6秒样本从[6,7]限至[6,6.1]，原H1拒绝空档且接受帧内依据；旧1错→72相关通过，同CFR完整一致，真实模型0。"
+    "用户《复用优先、元思考与工程效率 V1.0》原文归现有指令目录，AGENTS与续办入口均链接，作为A/B/C与后续执行者的长期规则。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -45,20 +45,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409；286远端候选与300本地候选过各自安装。301/302须随后统一匹配交付；正式来源、真机、真实模型、实际跨日和签发仍待。"
+    "CURRENT266+409；302远端联合候选已独立重取安装。后续S2差额须统一匹配交付，正式来源、真人真机、真实模型、实际跨日和签发仍待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/matching-3377a5c-and-note-backfill-20261122/README.md",
     "docs/nana_next_experience/evidence/growth-attention-checked-lessons-20261122/README.md",
     "docs/nana_next_experience/evidence/recall-status-and-local-candidate-20261122/README.md",
     "docs/nana_next_experience/evidence/meta-selection-independent-transfer-20261122/README.md",
     "docs/nana_next_experience/evidence/historical-video-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/social-attention-visibility-20261122/README.md",
     "docs/nana_next_experience/evidence/native-video-packet-coverage-20261122/README.md",
-    "docs/nana_next_experience/evidence/matched-integrated-2864240-20261122/README.md",
-    "docs/nana_next_experience/evidence/public-video-portable-closure-20261122/README.md"
+    "docs/nana_next_experience/evidence/matched-integrated-2864240-20261122/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision303证据指纹锚：`9558999dff6fc457519dc8bb283e2b9b17f03bdcc68c8002bccac3856955e340`（source.sha256不含自身/09）。
 
 A revision302证据指纹锚：`5f2999185fd8f7b49dbedd3c0bbad10769cfc4e48647913fa3fa13d208ba468b`（source.sha256不含自身/09）。
 

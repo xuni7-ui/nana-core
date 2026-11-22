@@ -429,3 +429,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-22 A 成长补选资格
 
 原成长查询、现有因果测试、事实账、`docs/nana_next_experience/evidence/growth-attention-checked-lessons-20261122` 原与当前受控结果及指纹。
+
+## 2026-11-22 A 匹配交付与旧笔记索引
+
+原维护及单个定向反例、事实账与 `docs/nana_next_experience/evidence/matching-3377a5c-and-note-backfill-20261122` 合成安装、实际下载和旧新定向证据。交付二进制在固定 delivery 提交5f96aa1独立目录。
