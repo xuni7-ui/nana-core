@@ -1,0 +1,26 @@
+{
+  "actual_commit": "305fda8b98ae0ae1040301eb758d91a27497f442",
+  "runtime_files_matching_git": 263,
+  "same_subject_and_lineage_across_probes": true,
+  "same_remote_subject_counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "first_profile_counts": {
+    "identities": 1,
+    "subject_cycles": 17,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "independent_profiles_extra_living_reviews": [
+    1,
+    0
+  ],
+  "withheld_and_withdrawal_and_stopped_rollback": true,
+  "download_files_verified": 24,
+  "remote_delivery_commit": "0cfe18dc70610b6b9c9d6e181eac92f6665e643e"
+}

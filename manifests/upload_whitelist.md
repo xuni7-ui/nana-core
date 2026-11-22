@@ -353,3 +353,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-22 A 原 G 策略来源
 
 原open_agency/learning.py、已有meta测试、复用原CI、09/11/ACTIVE/STATUS及本批公开合成证据，无私人数据与凭据。
+
+## 2026-11-22 A 同源候选回执
+
+09/11/ACTIVE/STATUS、已核对的固定候选安装、独立下载、原CI和同合成主体证据。制品只追加现有交付分支，无用户资料、凭据、生产记录或 CURRENT 变更。
