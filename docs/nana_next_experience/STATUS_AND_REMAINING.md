@@ -1,3 +1,9 @@
+## 当前接续：原 B站直接回执，revision287
+
+原B站直接入口与NanaLink共用原账户回执判定。已有同文0发送→准确未发送；新发1保持，缺确认不补发，重放零请求。先46相关后精确绑定最终16通过，无真实账号及模型。
+
+下一复用 B26 产品交接，C27/B22适配按源。原S3/S8/S10与A–H继续。证据 docs/nana_next_experience/evidence/bilibili-original-delivery-view-20261122/README.md。
+
 ## 当前接续：PR25 平台回执，revision286
 
 PR25 固定f4a05620合并，原回执、连接诊断、Feed/QQ布尔授权、媒体来源原链。平台及闭包148过，Web构建、102单测、8浏览器通过。无真实账号和新APK。B站直接入口仍需原A补同一回执判定；305候选先于本批。

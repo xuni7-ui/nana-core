@@ -1,0 +1,4 @@
+...{"already_present": false, "reported_delivery": "SUCCEEDED", "posted": 1}
+.{"already_present": true, "reported_delivery": "PLATFORM_MESSAGE_PREEXISTED_NO_SEND", "posted": 0}
+..........................................
+46 passed in 27.60s

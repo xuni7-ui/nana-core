@@ -3,6 +3,7 @@ import re
 from dataclasses import dataclass
 from .contracts import Event, OperationReceipt, Outcome
 from ..contracts import CoreError
+from ..life.bilibili_account import bilibili_delivery_status
 
 
 @dataclass(frozen=True)
@@ -25,6 +26,8 @@ def receipt_from_core(operation_id, value):
         outcome, reason = Outcome.UNSUPPORTED, state
     elif state in {'FAILED', 'FAILED_EFFECT', 'NOT_APPLIED', 'REJECTED', 'BLOCKED_MANAGER'}:
         outcome, reason = Outcome.CONFIRMED_FAILURE, state
+    elif state == 'PLATFORM_MESSAGE_PREEXISTED_NO_SEND':
+        outcome, reason = Outcome.CANCELLED, state
     elif state in {'CANCELLED', 'NO_SOCIAL_DISPATCH_REPLY_NOT_REPLAYED', 'C_SILENCE_OR_REPLY_UNAVAILABLE',
                    'NOT_AUTHORIZED_OR_NO_MODEL_WORDING'}:
         outcome, reason = Outcome.CANCELLED, 'ORIGINAL_ACTION_CANCELLED'
@@ -36,57 +39,6 @@ def receipt_from_core(operation_id, value):
     return OperationReceipt(operation_id=operation_id, outcome=outcome, reason=reason,
                             action_id=action, source_key=value.get('source_key'),
                             external_delivery=outcome == Outcome.CONFIRMED_SUCCESS)
-
-
-def bilibili_execution_status(store, action):
-    """Inspect the original current execution receipt; never infer a send."""
-    import json
-    from ..continuity.records import RecordService
-    try:
-        attempt = store.one('attempts', action['attempt_id'])
-        event = store.event(attempt['receipt_event_id'])
-        if (event['kind'] != 'action.receipt_received'
-                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
-            return 'UNKNOWN'
-        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
-                                (event['artifact_id'],)).fetchone()
-        records = RecordService(store)
-        if not link or not records.current_support(link[0]):
-            return 'UNKNOWN'
-        receipt = records.read(link[0])['payload']['result']
-        count = receipt.get('send_count')
-        if receipt.get('state') == 'PRE_EXIST' and type(count) is int and count == 0:
-            return 'PRE_EXIST'
-        if receipt.get('state') == 'ACCEPTED_NEEDS_VERIFY' and type(count) is int and count == 1:
-            return 'ATTEMPTED'
-    except (CoreError, ValueError, KeyError, TypeError, AttributeError):
-        pass
-    return 'UNKNOWN'
-
-
-def bilibili_verification_current(store, action, account_id):
-    """Require the original account-bound readback and its current support."""
-    import json
-    from ..continuity.records import RecordService
-    try:
-        event = store.event(json.loads(action['body_json'])['verification_event_id'])
-        if (event['kind'] != 'action.verified'
-                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
-            return False
-        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
-                                (event['artifact_id'],)).fetchone()
-        records = RecordService(store)
-        if not link or not records.current_support(link[0]):
-            return False
-        payload = records.read(link[0])['payload']
-        evidence = payload['evidence']
-        bound = store.db.execute("SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
-            "AND json_extract(data_json,'$.data.action_id')=? AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
-            (action['action_id'], int(account_id))).fetchone()
-        return (payload['verdict'] == 'MATCH' and type(evidence) is dict and bound is not None
-                and evidence.get('platform') == 'bilibili' and evidence.get('read_only_platform_confirmation') is True)
-    except (CoreError, ValueError, KeyError, TypeError):
-        return False
 
 
 class CoreBridge:
@@ -162,6 +114,10 @@ class CoreBridge:
                     bound = ('bilibili', str(channel.account_id), str(channel.target_id))
         if bound is None:
             raise CoreError('NANALINK_RECEIPT_NOT_FOUND')
+        if bound[0] == 'bilibili' and row['state'] == 'SUCCEEDED':
+            delivery = bilibili_delivery_status(store, row, bound[1])
+            return receipt_from_core(action_id, {'delivery': delivery, 'action_id': action_id,
+                                                 'external_delivery': delivery == 'SUCCEEDED'})
         verified = False
         if row['state'] == 'SUCCEEDED':
             try:
@@ -178,22 +134,9 @@ class CoreBridge:
                     raise ValueError()
                 result = records.read(link[0])['payload']
                 evidence = result['evidence']
-                bili_bound = (bound[0] == 'bilibili' and store.db.execute(
-                    "SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
-                    "AND json_extract(data_json,'$.data.action_id')=? "
-                    "AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
-                    (action_id, int(bound[1]))).fetchone() is not None)
-                verified = (result['verdict'] == 'MATCH' and type(evidence) is dict and
-                    ((bound[0] == 'qq' and evidence.get('independent_readback') is True
-                      and evidence.get('account_id') == bound[1] and evidence.get('target_id') == bound[2])
-                     or (bili_bound and evidence.get('platform') == 'bilibili'
-                         and evidence.get('read_only_platform_confirmation') is True)))
-                if verified and bound[0] == 'bilibili':
-                    status = bilibili_execution_status(store, row)
-                    if status == 'PRE_EXIST':
-                        return OperationReceipt(operation_id=action_id, outcome=Outcome.CANCELLED,
-                                                reason='PLATFORM_MESSAGE_PREEXISTED_NO_SEND', action_id=action_id)
-                    verified = status == 'ATTEMPTED'
+                verified = (result['verdict'] == 'MATCH' and type(evidence) is dict
+                            and evidence.get('independent_readback') is True
+                            and evidence.get('account_id') == bound[1] and evidence.get('target_id') == bound[2])
             except (CoreError, ValueError, KeyError, TypeError):
                 verified = False
         if row['state'] == 'SUCCEEDED' and not verified:

@@ -146,7 +146,8 @@ def test_dm_private_read_and_grant_are_separate(tmp_path):
             assert platform["posts"] == 0 and platform["requests"] == []
 
 
-def test_public_comment_original_c_reply_uses_exact_thread_and_independent_verify(tmp_path):
+@pytest.mark.parametrize('already_present',[False,True])
+def test_public_comment_original_c_reply_uses_exact_thread_and_independent_verify(tmp_path,monkeypatch,already_present):
     with counterpart() as (opener, platform):
         home = tmp_path / "home"
         c = channel(home)
@@ -161,6 +162,9 @@ def test_public_comment_original_c_reply_uses_exact_thread_and_independent_verif
         platform["comments"] = [
             {"rpid": 9, "root": 0, "member": {"mid": 43}, "content": {"message": "Public project source question"}}
         ]
+        if already_present:
+            platform["comments"].append({"rpid": 99, "root": 9, "parent": 9, "member": {"mid": 42},
+                "content": {"message": "A deliberately synthetic language response"}})
         with relay(home, "CHAT") as (router, calls), LifeApplication(home, clock=VirtualClock(), router=router) as app:
             app.pause()
             flow = equipped(app, c, opener.endpoint, grant=False)
@@ -174,7 +178,26 @@ def test_public_comment_original_c_reply_uses_exact_thread_and_independent_verif
                 app.runtime.authority,
             )
             result = flow.receive("9")
-            assert result["delivery"] == "SUCCEEDED" and platform["posts"] == 1 and len(calls) == 2
+            expected_delivery = "PLATFORM_MESSAGE_PREEXISTED_NO_SEND" if already_present else "SUCCEEDED"
+            assert app.runtime.store.one('actions',result['action_id'])['state'] == 'SUCCEEDED'
+            print(json.dumps({'already_present':already_present,'reported_delivery':result['delivery'],'posted':platform['posts']}))
+            assert result["delivery"] == expected_delivery and result['external_delivery'] is not already_present
+            assert platform["posts"] == (0 if already_present else 1) and len(calls) == 2
+            read_count = len(platform['requests'])
+            replay = flow.receive('9')
+            assert replay['action_id'] == result['action_id'] and replay['delivery'] == expected_delivery and replay['resent'] is False
+            assert len(platform['requests']) == read_count and len(calls) == 2
             sent = platform["comments"][-1]
             assert sent["root"] == sent["parent"] == 9
             assert any("/x/v2/reply/reply?" in path and "root=9" in path for method, path in platform["requests"])
+            # A missing independent receipt is not evidence of delivery, even
+            # when the stored Kernel goal state remains SUCCEEDED.
+            store = app.runtime.store
+            original_one = store.one
+            action = original_one('actions',result['action_id'])
+            with monkeypatch.context() as patch:
+                patch.setattr(store,'one',lambda table,key: {**action,'body_json':'{}'}
+                    if table=='actions' and key==result['action_id'] else original_one(table,key))
+                report = flow.receive('9')
+            assert report['delivery'] == 'ORIGINAL_CONFIRMATION_NOT_AVAILABLE' and not report['external_delivery']
+            assert len(platform['requests']) == read_count and len(calls) == 2

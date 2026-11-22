@@ -5,7 +5,8 @@ Nothing here creates or owns another LifeApplication, account agent or Store.
 """
 from .contracts import Account, Capability, OperationReceipt, Outcome, SessionHealth
 from .sdk import AdapterManifest
-from .core_bridge import receipt_from_core, bilibili_execution_status, bilibili_verification_current
+from .core_bridge import receipt_from_core
+from ..life.bilibili_account import bilibili_delivery_status
 from ..contracts import Invocation, CoreError
 
 
@@ -49,13 +50,8 @@ class CoreWorkflowAdapter:
         if self.account.platform == 'bilibili' and result.get('delivery') == 'SUCCEEDED':
             action_id = result.get('action_id')
             action = self.workflow.store.one('actions', action_id) if action_id else None
-            status = bilibili_execution_status(self.workflow.store, action) if action else 'UNKNOWN'
-            if action and not bilibili_verification_current(self.workflow.store, action, self.workflow.channel.account_id):
-                status = 'UNKNOWN'
-            if status != 'ATTEMPTED':
-                return OperationReceipt(operation_id=event.key, action_id=action_id,
-                    outcome=Outcome.CANCELLED if status == 'PRE_EXIST' else Outcome.UNKNOWN,
-                    reason='PLATFORM_MESSAGE_PREEXISTED_NO_SEND' if status == 'PRE_EXIST' else 'ORIGINAL_CONFIRMATION_NOT_AVAILABLE')
+            delivery = bilibili_delivery_status(self.workflow.store, action, self.workflow.channel.account_id)
+            result = {**result, 'delivery': delivery, 'external_delivery': delivery == 'SUCCEEDED'}
         return receipt_from_core(event.key, result)
 
     async def send(self, invocation):

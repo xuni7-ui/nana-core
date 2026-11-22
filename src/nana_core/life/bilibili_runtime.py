@@ -13,7 +13,7 @@ from ..storage import digest
 from ..continuity.autonomy.contracts import RealizationTarget
 from ..continuity.open_agency.delivery import DeliveryAdmission, DeliveryPolicy, ReplyWindowBinding
 from .platform_authority import PlatformActivation, require_platform_authority
-from .bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport, BilibiliAccountRealization
+from .bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport, BilibiliAccountRealization, bilibili_delivery_status
 from .surfaces import SurfaceObservation
 
 
@@ -128,6 +128,12 @@ class BilibiliReplyWorkflow:
         root = int(row.get("root") or message_id)
         return text, 0, root
 
+    def _delivery_report(self, state, action_id):
+        if state == "SUCCEEDED":
+            action = self.store.one("actions", action_id)
+            state = bilibili_delivery_status(self.store, action, self.channel.account_id)
+        return {"delivery": state, "action_id": action_id, "external_delivery": state == "SUCCEEDED"}
+
     def receive(self, message_id):
         c = self.channel
         if not c.enabled or not c.read_authorized:
@@ -156,9 +162,7 @@ class BilibiliReplyWorkflow:
             state = self.realization.dispatch(cycle.intention_id, action[0], expected_revision=1)
             return {
                 "platform": "bilibili",
-                "delivery": state,
-                "action_id": action[0],
-                "external_delivery": state == "SUCCEEDED",
+                **self._delivery_report(state, action[0]),
                 "resent": False,
             }
         reservation = digest([c.channel_id, message_id])
@@ -249,7 +253,7 @@ class BilibiliReplyWorkflow:
                 self.runtime.subject.transition_intention(
                     cycle.intention_id, expected_revision=current["revision"], state="COMPLETED"
                 )
-        return {**result, "delivery": state, "action_id": action, "external_delivery": state == "SUCCEEDED"}
+        return {**result, **self._delivery_report(state, action)}
 
 
 def account_workflow(app, resolver, channel_id):

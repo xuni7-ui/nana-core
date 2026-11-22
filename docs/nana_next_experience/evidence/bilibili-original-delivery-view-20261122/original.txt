@@ -1,0 +1,54 @@
+{"already_present": false, "reported_delivery": "SUCCEEDED", "posted": 1}
+.{"already_present": true, "reported_delivery": "SUCCEEDED", "posted": 0}
+F
+=================================== FAILURES ===================================
+_ test_public_comment_original_c_reply_uses_exact_thread_and_independent_verify[True] _
+
+tmp_path = PosixPath('/dev/shm/nq287orig/test_public_comment_original_c1')
+already_present = True
+
+    @pytest.mark.parametrize('already_present',[False,True])
+    def test_public_comment_original_c_reply_uses_exact_thread_and_independent_verify(tmp_path,already_present):
+        with counterpart() as (opener, platform):
+            home = tmp_path / "home"
+            c = channel(home)
+            cfg = load_config(home)
+            b = cfg.surface_bindings[0].model_copy(update={"permitted_privacy": ("PUBLIC",)})
+            update_config(
+                home,
+                cfg.model_copy(update={"revision": cfg.revision + 1, "surface_bindings": (b,)}),
+                expected_revision=cfg.revision,
+            )
+            c = c.model_copy(update={"kind": "comment", "target_id": 7, "private_read_authorized": False})
+            platform["comments"] = [
+                {"rpid": 9, "root": 0, "member": {"mid": 43}, "content": {"message": "Public project source question"}}
+            ]
+            if already_present:
+                platform["comments"].append({"rpid": 99, "root": 9, "parent": 9, "member": {"mid": 42},
+                    "content": {"message": "A deliberately synthetic language response"}})
+            with relay(home, "CHAT") as (router, calls), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+                app.pause()
+                flow = equipped(app, c, opener.endpoint, grant=False)
+                flow.realization.kernel.grant(
+                    GrantSpec(
+                        capabilities=("bilibili.comment.send", "bilibili.action.verify"),
+                        resources=(flow.resource,),
+                        not_before_us=app.runtime.clock.utc_now_us(),
+                        expires_at_us=app.runtime.clock.utc_now_us() + 100_000000,
+                    ),
+                    app.runtime.authority,
+                )
+                result = flow.receive("9")
+                expected_delivery = "PLATFORM_MESSAGE_PREEXISTED_NO_SEND" if already_present else "SUCCEEDED"
+                assert app.runtime.store.one('actions',result['action_id'])['state'] == 'SUCCEEDED'
+                print(json.dumps({'already_present':already_present,'reported_delivery':result['delivery'],'posted':platform['posts']}))
+>               assert result["delivery"] == expected_delivery and result['external_delivery'] is not already_present
+E               AssertionError: assert ('SUCCEEDED' == 'PLATFORM_MES...ISTED_NO_SEND'
+E                 
+E                 - PLATFORM_MESSAGE_PREEXISTED_NO_SEND
+E                 + SUCCEEDED)
+
+tests/living_release_v4/test_bilibili_runtime.py:184: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_runtime.py::test_public_comment_original_c_reply_uses_exact_thread_and_independent_verify[True]
+1 failed, 1 passed, 3 deselected in 2.02s

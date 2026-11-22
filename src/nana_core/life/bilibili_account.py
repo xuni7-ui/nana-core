@@ -23,6 +23,70 @@ from ..storage import digest
 from .bilibili import NoRedirect, plain, BilibiliLoopbackOpener
 
 
+def bilibili_execution_status(store, action):
+    """Inspect the original current execution receipt; never infer a send."""
+    import json
+    from ..continuity.records import RecordService
+    try:
+        attempt = store.one('attempts', action['attempt_id'])
+        event = store.event(attempt['receipt_event_id'])
+        if (event['kind'] != 'action.receipt_received'
+                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
+            return 'UNKNOWN'
+        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                (event['artifact_id'],)).fetchone()
+        records = RecordService(store)
+        if not link or not records.current_support(link[0]):
+            return 'UNKNOWN'
+        receipt = records.read(link[0])['payload']['result']
+        count = receipt.get('send_count')
+        if receipt.get('state') == 'PRE_EXIST' and type(count) is int and count == 0:
+            return 'PRE_EXIST'
+        if receipt.get('state') == 'ACCEPTED_NEEDS_VERIFY' and type(count) is int and count == 1:
+            return 'ATTEMPTED'
+    except (CoreError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    return 'UNKNOWN'
+
+
+def bilibili_verification_current(store, action, account_id):
+    """Require the original account-bound readback and its current support."""
+    import json
+    from ..continuity.records import RecordService
+    try:
+        event = store.event(json.loads(action['body_json'])['verification_event_id'])
+        if (event['kind'] != 'action.verified'
+                or json.loads(event['data_json'])['data']['action_id'] != action['action_id']):
+            return False
+        link = store.db.execute('SELECT record_id FROM continuity_records WHERE payload_artifact_id=?',
+                                (event['artifact_id'],)).fetchone()
+        records = RecordService(store)
+        if not link or not records.current_support(link[0]):
+            return False
+        payload = records.read(link[0])['payload']
+        evidence = payload['evidence']
+        bound = store.db.execute("SELECT 1 FROM events WHERE kind='bilibili.account_bound' "
+            "AND json_extract(data_json,'$.data.action_id')=? AND json_extract(data_json,'$.data.attempt_id')=? "
+            "AND json_extract(data_json,'$.data.args_hash')=? AND json_extract(data_json,'$.data.account_id')=? LIMIT 1",
+            (action['action_id'], action['attempt_id'], action['args_hash'], int(account_id))).fetchone()
+        return (payload['verdict'] == 'MATCH' and type(evidence) is dict and bound is not None
+                and evidence.get('platform') == 'bilibili' and evidence.get('read_only_platform_confirmation') is True)
+    except (CoreError, ValueError, KeyError, TypeError):
+        return False
+
+
+def bilibili_delivery_status(store, action, account_id):
+    """Project delivery from the existing account-bound execution and readback."""
+    if action is None or action['state'] != 'SUCCEEDED' or not bilibili_verification_current(store, action, account_id):
+        return 'ORIGINAL_CONFIRMATION_NOT_AVAILABLE'
+    execution = bilibili_execution_status(store, action)
+    if execution == 'PRE_EXIST':
+        return 'PLATFORM_MESSAGE_PREEXISTED_NO_SEND'
+    if execution == 'ATTEMPTED':
+        return 'SUCCEEDED'
+    return 'ORIGINAL_CONFIRMATION_NOT_AVAILABLE'
+
+
 @dataclass(frozen=True)
 class BilibiliAccountPolicy:
     account_id: int
