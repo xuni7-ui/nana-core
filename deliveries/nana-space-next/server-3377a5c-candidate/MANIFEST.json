@@ -1,0 +1,39 @@
+{
+  "source_commit": "3377a5c31fe745ff5867fe0cafe23a264d0045b3",
+  "status": "CONTROLLED_CANDIDATE",
+  "core_sha256": "3da5417cb80242bb49f0df0041ea0629edbfeb91a214d37d639ec3092fbb277e",
+  "core_two_builds_identical": true,
+  "core_bundle_files": 313,
+  "core_runtime_files": 264,
+  "core_offline_locked_dependencies": 19,
+  "web_sha256": "84720d1029b00fd48fdd84b6198e8d0cf98654eb2b7906923b52d64beb0819c3",
+  "web_actual_build_commit": "fe9adb6f4d9010ab77d0e6073ee5fd4d3dd6a6ee",
+  "web_input_git_blobs": 237,
+  "sidecar_wheel": "nanalink/nana_core_offline-0.1.0-py3-none-any.whl",
+  "sidecar_sha256": "3de15462b83ea2b1e6773d577c0903071911812d1f60fb9b7461e3cc12a46036",
+  "sidecar_offline_locked_dependencies": 18,
+  "sidecar_is_separate": true,
+  "core_installed_tests": 46,
+  "sidecar_installed_tests": 18,
+  "same_stopped_dev_rollback": {
+    "source": "3377a5c31fe745ff5867fe0cafe23a264d0045b3",
+    "fallback": "edca3d5d4729054149ba96e32f0696fda5478bb0",
+    "same_stopped_dev": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 16,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    },
+    "real_provider_calls": 0,
+    "web_source_files_equal": 237,
+    "public_fallback": "2864240b50a86caa49441663a1775ce69019a9b8",
+    "public_fallback_archive": "e3afb03019c62c3e3f2c5543946c5950cc1ae611",
+    "same_stopped_dev_public_fallback": true
+  },
+  "android_rebuilt": false,
+  "physical_phone": false,
+  "real_provider_calls": 0,
+  "production_deployed": false
+}

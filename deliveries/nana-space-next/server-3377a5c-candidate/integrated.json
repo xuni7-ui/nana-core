@@ -1,0 +1,17 @@
+{
+  "source": "3377a5c31fe745ff5867fe0cafe23a264d0045b3",
+  "fallback": "edca3d5d4729054149ba96e32f0696fda5478bb0",
+  "same_stopped_dev": true,
+  "counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "real_provider_calls": 0,
+  "web_source_files_equal": 237,
+  "public_fallback": "2864240b50a86caa49441663a1775ce69019a9b8",
+  "public_fallback_archive": "e3afb03019c62c3e3f2c5543946c5950cc1ae611",
+  "same_stopped_dev_public_fallback": true
+}
