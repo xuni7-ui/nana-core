@@ -1,0 +1,14 @@
+{
+  "source_commit": "c79297c414d4e4c0225d9abc068d53a4c99f61de",
+  "file": "nana-space-c79297c-debug.apk",
+  "sha256": "622b287e2a6638b7f54edab2dadd14c5005288bd07c490d6dbf7d2b94c1ebe11",
+  "build_type": "DEBUG_LOCAL_KEY",
+  "application_id": "life.nana.space.dev",
+  "version_code": 409,
+  "jdk": "Temurin 21.0.13.1+2",
+  "gradle": "8.11.1",
+  "platform": "android-35 revision 2",
+  "checked_compiled_web_assets": 42,
+  "can_replace_production_application": false,
+  "phone_run": false
+}

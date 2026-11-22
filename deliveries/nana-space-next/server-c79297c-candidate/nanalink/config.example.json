@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "sessions": [{
+    "alias": "primary",
+    "account_id": "42",
+    "mode": "reverse-websocket",
+    "port": 18790,
+    "upstream_secret_ref": "adapter.qq.primary.upstream",
+    "core_api_secret_ref": "adapter.qq.primary.core",
+    "allow_send": false,
+    "routes": []
+  }]
+}
