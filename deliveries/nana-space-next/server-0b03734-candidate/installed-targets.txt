@@ -1,0 +1,7 @@
+{"source": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5", "installed_blobs_verified": 264, "fixed_fixture_files": 27, "external_factories": 3}
+{"mode": "incremental", "repaired": 6, "legacy_grams_missing": false, "term_write_statements": 6, "max_source_rows_per_slice": 2, "excluded_untouched": 3, "extra_model_calls": 0}
+.{"mode": "weekly", "repaired": 6, "legacy_grams_missing": false, "term_write_statements": 6, "max_source_rows_per_slice": 2, "excluded_untouched": 3, "extra_model_calls": 0}
+.{"mode": "incremental", "repaired": 6, "legacy_grams_missing": true, "term_write_statements": 132, "max_source_rows_per_slice": 2, "excluded_untouched": 3, "extra_model_calls": 0}
+.{"mode": "weekly", "repaired": 6, "legacy_grams_missing": true, "term_write_statements": 132, "max_source_rows_per_slice": 2, "excluded_untouched": 3, "extra_model_calls": 0}
+..............................
+33 passed in 15.61s

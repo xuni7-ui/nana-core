@@ -1,0 +1,10 @@
+{
+  "source_commit": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+  "reused_web_android_build_source": "c79297c414d4e4c0225d9abc068d53a4c99f61de",
+  "actual_matching_web_inputs": 73,
+  "actual_matching_android_inputs": 61,
+  "previous_bundle_manifest_sha256": "632e260edd7dbad9facb32ad8f35a7371b64adc9fc928eb4d6ff06364ae83954",
+  "web_sha256": "59ebf034b0da1b7c9160367459f931093b3c165fa0e60c1e0fa5cb1b27ae10be",
+  "debug_sha256": "622b287e2a6638b7f54edab2dadd14c5005288bd07c490d6dbf7d2b94c1ebe11",
+  "rebuilt": false
+}

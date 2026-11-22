@@ -1,0 +1,58 @@
+{
+  "source_commit": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+  "status": "CONTROLLED_CANDIDATE",
+  "core_sha256": "aa61c967c930913d3ca775772fd3a544d33b8aacc931a95ad7b9400081a6f79d",
+  "core_two_builds_identical": true,
+  "core_bundle_files": 313,
+  "core_runtime_files": 264,
+  "core_offline_locked_dependencies": 19,
+  "web_sha256": "59ebf034b0da1b7c9160367459f931093b3c165fa0e60c1e0fa5cb1b27ae10be",
+  "web_source_input_files": 73,
+  "web_static_files": 42,
+  "client_input_equivalence": {
+    "source_commit": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+    "reused_web_android_build_source": "c79297c414d4e4c0225d9abc068d53a4c99f61de",
+    "actual_matching_web_inputs": 73,
+    "actual_matching_android_inputs": 61,
+    "previous_bundle_manifest_sha256": "632e260edd7dbad9facb32ad8f35a7371b64adc9fc928eb4d6ff06364ae83954",
+    "web_sha256": "59ebf034b0da1b7c9160367459f931093b3c165fa0e60c1e0fa5cb1b27ae10be",
+    "debug_sha256": "622b287e2a6638b7f54edab2dadd14c5005288bd07c490d6dbf7d2b94c1ebe11",
+    "rebuilt": false
+  },
+  "sidecar_wheel": "nanalink/nana_core_offline-0.1.0-py3-none-any.whl",
+  "sidecar_sha256": "812abc102185bd33ea723fc7f1a70bb38c8d678c25876392eeccaf18e9fcadc5",
+  "sidecar_offline_locked_dependencies": 18,
+  "sidecar_is_separate": true,
+  "core_installed_tests": 33,
+  "sidecar_installed_tests": 18,
+  "same_stopped_dev_rollback": {
+    "source": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+    "fallback": "c79297c414d4e4c0225d9abc068d53a4c99f61de",
+    "same_stopped_dev": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 16,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    },
+    "real_provider_calls": 0
+  },
+  "android_debug": {
+    "source_commit": "c79297c414d4e4c0225d9abc068d53a4c99f61de",
+    "file": "nana-space-c79297c-debug.apk",
+    "sha256": "622b287e2a6638b7f54edab2dadd14c5005288bd07c490d6dbf7d2b94c1ebe11",
+    "build_type": "DEBUG_LOCAL_KEY",
+    "application_id": "life.nana.space.dev",
+    "version_code": 409,
+    "jdk": "Temurin 21.0.13.1+2",
+    "gradle": "8.11.1",
+    "platform": "android-35 revision 2",
+    "checked_compiled_web_assets": 42,
+    "can_replace_production_application": false,
+    "phone_run": false
+  },
+  "physical_phone": false,
+  "real_provider_calls": 0,
+  "production_deployed": false
+}
