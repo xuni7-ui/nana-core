@@ -1,3 +1,9 @@
+## 当前接续：C27 媒体缓存撤回，revision290
+
+吸收C27固定636eb88的原缓存撤回与两个测试文件。旧同会话旧源可复活等6错1过，现源隐私与原消费者46通过。真实账号未操作，平台撤回通知及授权仍有原合同工作。
+
+后续读取B22实际固定源码并择可验证小机制。原A–H及S3/S8/S10继续。证据 docs/nana_next_experience/evidence/pr27-media-retirement-20261122/README.md。
+
 ## 当前接续：原策略适用性，revision289
 
 原G遇策略不适用留出原C/G选择。两个HYPOTHESIZE旧UNKNOWN变为实际DONE/验证迁移，或原提案后的明确BLOCKED。21相关及45集成通过，无真实模型。

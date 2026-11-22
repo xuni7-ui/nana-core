@@ -1,0 +1,201 @@
+FFFFFF.                                                                  [100%]
+=================================== FAILURES ===================================
+______ test_media_observed_withdrawal_cannot_be_undone_by_later_callback _______
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_observed_withdrawal0')
+
+    def test_media_observed_withdrawal_cannot_be_undone_by_later_callback(tmp_path):
+        active={'old':True,'other':True,'new':True}
+        cache=MediaCache(tmp_path/'media',source_current=lambda ref:active[ref],max_bytes=16,item_bytes=8,max_items=2)
+        try:
+            old=cache.put((b'image',),source_ref='old')
+            other=cache.put((b'image',),source_ref='other')
+            active['old']=False
+            with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(old)
+            active['old']=True
+>           with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(old)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+tests/nanalink/test_registry_media_feed.py:42: Failed
+_________ test_media_source_callback_error_retires_admitted_reference __________
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_source_callback_err0')
+
+    def test_media_source_callback_error_retires_admitted_reference(tmp_path):
+        state={'fail':False}
+        def current(_):
+            if state['fail']:raise RuntimeError('synthetic source lookup failure')
+            return True
+        cache=MediaCache(tmp_path/'media',source_current=current,max_bytes=16,item_bytes=8,max_items=1)
+        try:
+            handle=cache.put((b'image',),source_ref='source')
+            state['fail']=True
+>           with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+                                                                       ^^^^^^^^^^^^^^^^^^
+
+tests/nanalink/test_registry_media_feed.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/nanalink/media.py:99: in read
+    if self.current(handle.source_ref) is not True:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_ = 'source'
+
+    def current(_):
+>       if state['fail']:raise RuntimeError('synthetic source lookup failure')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: synthetic source lookup failure
+
+tests/nanalink/test_registry_media_feed.py:61: RuntimeError
+__________ test_media_withdrawal_during_initial_ingest_stays_retired ___________
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_withdrawal_during_i0')
+
+    def test_media_withdrawal_during_initial_ingest_stays_retired(tmp_path):
+        state={'current':True}
+        cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+        def chunks():
+            yield b'image'
+            state['current']=False
+        try:
+            with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put(chunks(),source_ref='source')
+            assert cache.total==0 and list((tmp_path/'media').iterdir())==[]
+            state['current']=True
+>           with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put((b'image',),source_ref='source')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+tests/nanalink/test_registry_media_feed.py:85: Failed
+__________________ test_media_retirement_budget_fails_closed ___________________
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_retirement_budget_f0')
+
+    def test_media_retirement_budget_fails_closed(tmp_path):
+        state={'current':True}
+        cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+        try:
+            for n in range(65):
+                state['current']=True
+>               handle=cache.put((b'x',),source_ref=f'source.{n}')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/nanalink/test_registry_media_feed.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.nanalink.media.MediaCache object at 0x7f534a0f2f90>
+chunks = (b'x',), source_ref = 'source.64'
+media_type = 'application/octet-stream'
+
+    def put(self, chunks, *, source_ref, media_type='application/octet-stream'):
+        if not isinstance(source_ref, str) or not 1 <= len(source_ref) <= 256 or not isinstance(media_type, str) or not 1 <= len(media_type) <= 128:
+            raise CoreError('MEDIA_METADATA_BOUND')
+        if self.current(source_ref) is not True:
+            raise CoreError('MEDIA_SOURCE_RETIRED')
+        h, size = hashlib.sha256(), 0
+        fd, name = tempfile.mkstemp(prefix='nanalink-', dir=self.root)
+        try:
+            with os.fdopen(fd, 'wb') as stream:
+                for chunk in chunks:
+                    if type(chunk) is not bytes or len(chunk) > 1024 * 1024:
+                        raise CoreError('MEDIA_CHUNK_BOUND')
+                    size += len(chunk)
+                    if size > self.item_bytes:
+                        raise CoreError('MEDIA_ITEM_BUDGET')
+                    h.update(chunk)
+                    stream.write(chunk)
+                stream.flush()
+            if self.current(source_ref) is not True:
+                raise CoreError('MEDIA_SOURCE_RETIRED')
+            key = h.hexdigest()
+            handle = MediaHandle(key, size, source_ref, media_type)
+            self.metrics['ingested_bytes'] += size
+            if key in self.items:
+                self.metrics['reused_bytes'] += size
+                self.items.move_to_end(key)
+                if len(self.sources[key]) >= 64 and source_ref not in self.sources[key]:
+>                   raise CoreError('MEDIA_SOURCE_REFERENCE_BUDGET')
+E                   nana_core.contracts.CoreError: MEDIA_SOURCE_REFERENCE_BUDGET
+
+src/nana_core/nanalink/media.py:69: CoreError
+_______ test_media_retirement_unlink_failure_remains_tracked_for_cleanup _______
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_retirement_unlink_f0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f534a0f2030>
+
+    def test_media_retirement_unlink_failure_remains_tracked_for_cleanup(tmp_path, monkeypatch):
+        from pathlib import Path
+        state={'current':True}
+        cache=MediaCache(tmp_path/'media',source_current=lambda _:state['current'],max_bytes=16,item_bytes=8,max_items=1)
+        handle=cache.put((b'x',),source_ref='source')
+        target=cache.items[handle.sha256][0]
+        original=Path.unlink
+        def fail_unlink(path,*args,**kwargs):
+            if path==target:raise OSError('synthetic unlink failure')
+            return original(path,*args,**kwargs)
+        state['current']=False
+        with monkeypatch.context() as patch:
+            patch.setattr(Path,'unlink',fail_unlink)
+>           with pytest.raises(OSError):cache.read(handle)
+                                        ^^^^^^^^^^^^^^^^^^
+
+tests/nanalink/test_registry_media_feed.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.nanalink.media.MediaCache object at 0x7f534a0f2000>
+handle = MediaHandle(sha256='2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881', size=1, source_ref='source', media_type='application/octet-stream')
+offset = 0, length = 65536
+
+    def read(self, handle, *, offset=0, length=65536):
+        if self.current(handle.source_ref) is not True:
+>           raise CoreError('MEDIA_SOURCE_RETIRED')
+E           nana_core.contracts.CoreError: MEDIA_SOURCE_RETIRED
+
+src/nana_core/nanalink/media.py:100: CoreError
+_________ test_media_eviction_unlink_failure_preserves_existing_entry __________
+
+tmp_path = PosixPath('/dev/shm/nq290old/test_media_eviction_unlink_fai0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f534a0f2f60>
+
+    def test_media_eviction_unlink_failure_preserves_existing_entry(tmp_path, monkeypatch):
+        from pathlib import Path
+        cache=MediaCache(tmp_path/'media',source_current=lambda _:True,max_bytes=8,item_bytes=8,max_items=1)
+        old=cache.put((b'old',),source_ref='old')
+        target=cache.items[old.sha256][0]
+        original=Path.unlink
+        def fail_unlink(path,*args,**kwargs):
+            if path==target:raise OSError('synthetic unlink failure')
+            return original(path,*args,**kwargs)
+        with monkeypatch.context() as patch:
+            patch.setattr(Path,'unlink',fail_unlink)
+            with pytest.raises(OSError):cache.put((b'new',),source_ref='new')
+>       assert cache.read(old)==b'old' and list((tmp_path/'media').iterdir())==[target]
+               ^^^^^^^^^^^^^^^
+
+tests/nanalink/test_registry_media_feed.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.nanalink.media.MediaCache object at 0x7f534a0f2ed0>
+handle = MediaHandle(sha256='cba06b5736faf67e54b07b561eae94395e774c517a7d910a54369e1263ccfbd4', size=3, source_ref='old', media_type='application/octet-stream')
+offset = 0, length = 65536
+
+    def read(self, handle, *, offset=0, length=65536):
+        if self.current(handle.source_ref) is not True:
+            raise CoreError('MEDIA_SOURCE_RETIRED')
+        if not 0 <= offset <= handle.size or not 1 <= length <= 1024 * 1024:
+            raise CoreError('MEDIA_RANGE_BOUND')
+        value = self.items.get(handle.sha256)
+        if not value or value[1] != handle.size or handle.source_ref not in self.sources.get(handle.sha256, set()):
+>           raise CoreError('MEDIA_CACHE_MISS')
+E           nana_core.contracts.CoreError: MEDIA_CACHE_MISS
+
+src/nana_core/nanalink/media.py:105: CoreError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_observed_withdrawal_cannot_be_undone_by_later_callback
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_source_callback_error_retires_admitted_reference
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_withdrawal_during_initial_ingest_stays_retired
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_retirement_budget_fails_closed
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_retirement_unlink_failure_remains_tracked_for_cleanup
+FAILED tests/nanalink/test_registry_media_feed.py::test_media_eviction_unlink_failure_preserves_existing_entry
+6 failed, 1 passed, 22 deselected in 0.45s

@@ -101,3 +101,28 @@ def test_public_video_handle_rejects_evidence_without_original_observation_recor
             assert called == []
         finally:
             cache.close()
+
+
+def test_original_memory_tombstone_rejects_old_media_reference_after_restart(tmp_path):
+    path=tmp_path/'subject.db';data=b'fixture'
+    with fresh(path) as runtime:
+        old=capture(runtime,'old-media',{'synthetic':'old'})
+        def current(ref):
+            try:MemoryService(runtime.store).read(ref);return True
+            except CoreError:return False
+        cache=MediaCache(tmp_path/'first-cache',source_current=current,max_bytes=32,item_bytes=16,max_items=2)
+        handle=cache.put([data],source_ref=old)
+        MemoryService(runtime.store,runtime.authority).forget(old,runtime.authority)
+        with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.read(handle)
+        cache.close()
+    with fresh(path) as runtime:
+        def current(ref):
+            try:MemoryService(runtime.store).read(ref);return True
+            except CoreError:return False
+        cache=MediaCache(tmp_path/'second-cache',source_current=current,max_bytes=32,item_bytes=16,max_items=2)
+        try:
+            with pytest.raises(CoreError,match='MEDIA_SOURCE_RETIRED'):cache.put([data],source_ref=old)
+            new=capture(runtime,'new-media',{'synthetic':'new'})
+            assert new!=old and cache.read(cache.put([data],source_ref=new))==data
+        finally:
+            cache.close()
