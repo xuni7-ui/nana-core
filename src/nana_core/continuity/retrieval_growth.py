@@ -362,20 +362,27 @@ class NoteRetrievalGrowth:
         """Recover trusted pending specs only after rechecking current sources."""
         r = self.runtime
         self.restored_specs = {}
+        scopes, privacy = r.config.scopes, r.config.privacy_classes
+        if not scopes or not privacy:
+            return
+        scope_slots = ','.join('?' for _ in scopes)
+        privacy_slots = ','.join('?' for _ in privacy)
         # RUNTIME_WORK preserves the frozen proposed spec before queued C runs;
-        # OPEN_LEARNING remains original G's authoritative job/trial state.
+        # limit recovery to records the current host can use. OPEN_LEARNING
+        # remains original G's authoritative job/trial state.
         rows = r.store.db.execute(
             "SELECT * FROM continuity_records WHERE record_kind='RUNTIME_WORK' "
-            "AND lifecycle='ACTIVE' AND target_id LIKE 'learn.note-retrieval.%' ORDER BY rowid DESC LIMIT 16"
+            "AND lifecycle='ACTIVE' AND target_id LIKE 'learn.note-retrieval.%' "
+            f"AND scope IN ({scope_slots}) AND privacy_class IN ({privacy_slots}) ORDER BY rowid DESC LIMIT 16",
+            (*scopes, *privacy),
         ).fetchall()
         from .open_agency.learning import LearningSpec
 
+        records = RecordService(r.store)
         for row in rows:
-            if row['scope'] not in r.config.scopes or row['privacy_class'] not in r.config.privacy_classes:
+            if not records.current_support(row["record_id"]):
                 continue
-            if not RecordService(r.store).current_support(row["record_id"]):
-                continue
-            body = RecordService(r.store).read(row["record_id"])["payload"]
+            body = records.read(row["record_id"])["payload"]
             if type(body.get("kind")) is not str or body["kind"] not in QUALIFICATION_SCOPES or body.get("entity_id") != r.config.entity_id:
                 continue
             spec = LearningSpec.model_validate_json(canonical(body["spec"]))

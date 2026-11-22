@@ -22,7 +22,7 @@ TRAIN=('SYNTHETIC ＭＩＳＴ  ＧＡＲＤＥＮ','SYNTHETIC ＯＲＢＩＴ  
 FROZEN=Path(__file__).resolve().parents[2]/'tools/nana_next_experience/qualification/note_query_diversity_v1.json'
 
 
-@pytest.mark.parametrize('boundary', ['resume', 'paused', 'dropped', 'expired', 'withdrawn'])
+@pytest.mark.parametrize('boundary', ['resume', 'crowded', 'paused', 'dropped', 'expired', 'withdrawn'])
 def test_retained_c_learning_choice_recovers_after_host_lacked_spec(tmp_path, boundary):
     home=tmp_path/'home';clock=VirtualClock();initialize(home,active=0)
     with LifeApplication(home,clock=clock) as app:
@@ -43,6 +43,18 @@ def test_retained_c_learning_choice_recovers_after_host_lacked_spec(tmp_path, bo
         assert len(choices)==1
         intention,cycle=choices[0]
         assert not r.store.db.execute("SELECT 1 FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchone()
+        if boundary=='crowded':
+            records=RecordService(r.store)
+            checkpoint=r.store.db.execute(
+                "SELECT record_id FROM continuity_records WHERE record_kind='RUNTIME_WORK' AND target_id=?",(key,),
+            ).fetchone()[0]
+            payload=records.read(checkpoint)['payload']
+            with r.store.transaction('test.unavailable_note_checkpoints') as tx:
+                for index in range(16):
+                    other_key=f'learn.note-retrieval.private-{index}'
+                    records.create(tx,kind='RUNTIME_WORK',scope=SCOPE,target_id=other_key,
+                        payload={**payload,'spec':{**payload['spec'],'learning_key':other_key}},
+                        records=(checkpoint,),privacy_floor='SECRET')
         if boundary=='paused':app.pause()
         if boundary=='dropped':r.subject.transition_intention(intention['intention_id'],expected_revision=intention['revision'],state='DROPPED')
         if boundary=='expired':clock.advance(intention['expires_at_us']-r.clock.utc_now_us()+1)
@@ -53,9 +65,12 @@ def test_retained_c_learning_choice_recovers_after_host_lacked_spec(tmp_path, bo
         assert r.identity_id==identity
         growth.slice(SCOPE)
         jobs=r.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchall()
-        assert len(jobs)==(1 if boundary=='resume' else 0)
+        resumes=boundary in ('resume','crowded')
+        assert len(jobs)==int(resumes)
         assert len(r.store.all('subject_cycles'))==before_cycles  # no second judgment
-        if boundary=='resume':
+        if resumes:
+            assert key in growth.restored_specs
+            assert not any(k.startswith('learn.note-retrieval.private-') for k in growth.restored_specs)
             assert r.store.one('subject_intentions',intention['intention_id'])['state']=='COMPLETED'
             growth.slice(SCOPE)
             assert len(r.store.all('subject_cycles'))==before_cycles
