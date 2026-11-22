@@ -44,6 +44,7 @@ def personality_tendencies(store,*,scope,privacy_classes,entity_id=None):
 
 def social_appetite(store,*,scope,privacy_classes):
     """No entity/anchor input: familiar company does not satisfy a desire by fiat."""
+    privacy_classes=tuple(dict.fromkeys(privacy_classes))
     token=state_token(store);now=store.clock.utc_now_us();records=RecordService(store)
     assertions=Growth(store).assertions(scope,privacy_classes=privacy_classes)
     adopted=[a for a in assertions if a['state']=='ADOPTED' and a['topic'] in {'social_exploration','social_connection','social_play'}]
@@ -51,7 +52,11 @@ def social_appetite(store,*,scope,privacy_classes):
     tendencies={'SEEKING':tuple(dict.fromkeys(refs))} if adopted else {}
     state='SEEKING' if adopted else 'UNKNOWN'
     from ..subject.opportunities import cues_from,directions
-    rows=store.db.execute("SELECT memory_id FROM memories WHERE scope=? AND predicate_key LIKE 'concern.%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC LIMIT 64",(scope,)).fetchall()
+    marks=','.join('?' for _ in privacy_classes)
+    rows=store.db.execute(
+        f"SELECT memory_id FROM memories WHERE scope=? AND privacy_class IN ({marks}) "
+        "AND predicate_key LIKE 'concern.%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') "
+        "ORDER BY created_at_us DESC LIMIT 64",(scope,*privacy_classes)).fetchall()
     for mid,cue in cues_from(store,tuple(x[0] for x in rows),scope=scope,privacy_classes=privacy_classes):
         if cue.cue_kind!='CONSTRAINT' and 'SOCIALIZE' in directions(cue):
             mids.append(mid)

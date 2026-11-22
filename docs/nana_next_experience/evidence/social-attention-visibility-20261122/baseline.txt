@@ -1,0 +1,173 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_hidden_cues_do_not_consume_allowed_subject_attention[False] _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7fe8adedebd0>
+hidden_constraint = False
+
+    @pytest.mark.parametrize('hidden_constraint',[False,True])
+    def test_hidden_cues_do_not_consume_allowed_subject_attention(app,hidden_constraint):
+        from nana_core.continuity.contracts import EvidenceInput,MemoryCandidate,MemoryType,Provenance
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.presence.contracts import SECOND
+    
+        r=app.runtime
+        visible=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='visible-cue')
+        visible_mid=capture(r,'visible-cue',visible.model_dump(mode='json'),predicate='concern.visible-cue')
+        assert social_appetite(r.store,scope='project-work',privacy_classes=('PROJECT',)).state=='OPEN'
+        assert 'SECRET' not in r.subject.privacy_classes
+        memory=MemoryService(r.store)
+        r.clock.source.advance(SECOND)
+        now=r.clock.utc_now_us()
+        hidden=ConcernCue(cue_kind='CONSTRAINT' if hidden_constraint else 'DISCOVERY',
+            motivation_source='RELATIONSHIP',topic_key='unavailable-cue',prohibited_behaviors=('SOCIALIZE',))
+        for index in range(65):
+            text=hidden.model_copy(update={'topic_key':f'private-cue-{index}'}).model_dump_json()
+            evidence=memory.capture(EvidenceInput(
+                provenance=Provenance(source_namespace='synthetic.private-attention',source_reference=str(index),
+                    source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='SECRET',observed_time_us=now))
+            memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
+                epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=text,
+                predicate_key=f'concern.{"constraint." if hidden_constraint else ""}private-cue-{index}'))
+        result=r.subject.run(SubjectInput(source_key='synthetic.visible-social-consideration',kind='INTERACTION',origin='USER',
+            entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=now,
+            text='SYNTHETIC consider whether to continue the current ordinary conversation.'))
+        view=social_appetite(r.store,scope='project-work',privacy_classes=('PROJECT',))
+>       assert view.state=='OPEN' and view.source_memory_ids==(visible_mid,)
+E       AssertionError: assert ('UNKNOWN' == 'OPEN'
+E         
+E         - OPEN
+E         + UNKNOWN)
+
+tests/person_self/test_social_tendency_competition.py:40: AssertionError
+_______ test_hidden_cues_do_not_consume_allowed_subject_attention[True] ________
+
+app = <nana_core.life.application.LifeApplication object at 0x7fe8adedca10>
+hidden_constraint = True
+
+    @pytest.mark.parametrize('hidden_constraint',[False,True])
+    def test_hidden_cues_do_not_consume_allowed_subject_attention(app,hidden_constraint):
+        from nana_core.continuity.contracts import EvidenceInput,MemoryCandidate,MemoryType,Provenance
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.presence.contracts import SECOND
+    
+        r=app.runtime
+        visible=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='visible-cue')
+        visible_mid=capture(r,'visible-cue',visible.model_dump(mode='json'),predicate='concern.visible-cue')
+        assert social_appetite(r.store,scope='project-work',privacy_classes=('PROJECT',)).state=='OPEN'
+        assert 'SECRET' not in r.subject.privacy_classes
+        memory=MemoryService(r.store)
+        r.clock.source.advance(SECOND)
+        now=r.clock.utc_now_us()
+        hidden=ConcernCue(cue_kind='CONSTRAINT' if hidden_constraint else 'DISCOVERY',
+            motivation_source='RELATIONSHIP',topic_key='unavailable-cue',prohibited_behaviors=('SOCIALIZE',))
+        for index in range(65):
+            text=hidden.model_copy(update={'topic_key':f'private-cue-{index}'}).model_dump_json()
+            evidence=memory.capture(EvidenceInput(
+                provenance=Provenance(source_namespace='synthetic.private-attention',source_reference=str(index),
+                    source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='SECRET',observed_time_us=now))
+            memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
+                epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=text,
+                predicate_key=f'concern.{"constraint." if hidden_constraint else ""}private-cue-{index}'))
+>       result=r.subject.run(SubjectInput(source_key='synthetic.visible-social-consideration',kind='INTERACTION',origin='USER',
+            entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=now,
+            text='SYNTHETIC consider whether to continue the current ordinary conversation.'))
+
+tests/person_self/test_social_tendency_competition.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/loop.py:364: in run
+    situation = self.situation(event, source)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.loop.SubjectLoop object at 0x7fe8adf525d0>
+event = SubjectInput(communication_method_record_id=None, private_thought_ref=None, conversation_proposal=None, problem_frame=...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+source = {'subject_event_id': '7b5bc9e2-4e4f-474b-beaf-00fde67314e9', 'source_key': 'synthetic.visible-social-consideration', 'entity_id': 'project-user', 'scope': 'project-work', ...}
+
+    def situation(self, event, source):
+        now = self.store.clock.utc_now_us()
+        records, memories, projects, commitments, due, methods = [], [], [], [], [], []
+        continued=None;method=None
+        if event.private_thought_ref is not None:
+            if self.store.schema_target<13:raise CoreError('PRIVATE_CONTINUATION_SCHEMA_REQUIRED')
+            from ..autonomy.private_intent import continuation_target
+            continued=continuation_target(self.store,event.private_thought_ref,scope=event.scope,privacy_classes=self.privacy_classes)
+            event=event.model_copy(update={'topic':continued[1].topic})
+        if event.communication_method_record_id is not None:
+            from .context_fit import method_consideration
+            method=method_consideration(self.store,event.communication_method_record_id,scope=event.scope,entity_id=event.entity_id,privacy_classes=self.privacy_classes)
+            if method is None:raise CoreError('COMMUNICATION_METHOD_CONSIDERATION_UNAVAILABLE')
+            event=event.model_copy(update={'topic':method['topic']})
+            records.extend(method['record_ids']);memories.extend(method['memory_ids'])
+        if source['record_id']:
+            if not self.visible(source['record_id'], event.scope):
+                raise CoreError('SUBJECT_SOURCE_UNAVAILABLE')
+            records.append(source['record_id'])
+            memories.extend(self.records.support(source['record_id']))
+        if self.store.schema_target>=13 and event.world_concern_id:
+            from ..world_loop.concern_source import binding as concern_binding
+            concern=self.store.one('open_concerns',event.world_concern_id)
+            if not concern or event.source_key!=concern_binding(self.store,concern)[0] or not self.visible(concern['record_id'],event.scope):raise CoreError('STALE_OR_UNSUPPORTED_WORLD_CONCERN')
+            records.append(concern['record_id']);memories.extend(self.records.support(concern['record_id']))
+        for mid in (*event.source_memory_ids, *event.constraint_memory_ids):
+            item = self.records.memory.read(mid)
+            if item['scope'] != event.scope or item['privacy_class'] not in self.privacy_classes:
+                raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+            memories.append(mid)
+        for r in self.store.all('projects'):
+            if r['state'] == 'ACTIVE' and self.visible(r['record_id'], event.scope):
+                projects.append(r['project_id']); records.append(r['record_id'])
+        for r in self.store.all('commitments'):
+            if r['state'] in {'ADOPTED','ACTIVE'} and self.visible(r['record_id'], event.scope):
+                commitments.append(r['commitment_id']); records.append(r['record_id'])
+                if r['due_at_us'] is not None and r['due_at_us'] <= now:
+                    if self.store.schema_target>=10 and event.kind=='WAKE' and event.commitment_check_id!=r['commitment_id']:
+                        from ..relational.accommodation import implicit_review_available
+                        if not implicit_review_available(self.store,r,privacy_classes=self.privacy_classes):
+                            continue
+                    due.append(r['commitment_id'])
+                elif event.commitment_check_id==r['commitment_id']:due.append(r['commitment_id'])
+        if event.commitment_check_id and event.commitment_check_id not in commitments:raise CoreError('COMMITMENT_CHECK_SOURCE_STALE')
+        for mid in event.constraint_memory_ids:
+            try:
+                value = json.loads(self.records.memory.read(mid)['text'])
+            except ValueError:
+                continue
+            if type(value) is dict and type(value.get('allowed_methods')) is list:
+                methods.extend(x for x in value['allowed_methods'] if type(x) is str and len(x) <= 128)
+        assertions = [a for a in self.growth.assertions(event.scope, privacy_classes=self.privacy_classes) if a['state'] == 'ADOPTED'
+            and all(self.visible(r, event.scope) for r in a['source_record_ids'])]
+        interests = tuple(a['topic'] for a in assertions if a['kind'] == 'PREFERENCE' and a['topic'])
+        for a in assertions:
+            records.extend(a['source_record_ids'])
+        for r in records:
+            memories.extend(self.records.support(r))
+        pending = self.pending(event.scope)
+        for current in pending:
+            records.append(current['record_id']);memories.extend(self.records.support(current['record_id']))
+        influence=None
+        if self.store.schema_target>=9:
+            from ..autonomy.relationships import relationship_influence,legacy_style
+            influence=relationship_influence(self.store,event.entity_id,scope=event.scope,privacy_classes=self.privacy_classes)
+            relation=legacy_style(influence)
+        else:relation = self.growth.relationship(event.entity_id, event.scope, privacy_classes=self.privacy_classes)
+        if not all(self.visible(r, event.scope) for r in relation['source_record_ids']):
+            relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
+        records.extend(relation['source_record_ids'])
+        for rid in relation['source_record_ids']:memories.extend(self.records.support(rid))
+        lesson_rows = [r for r in self.store.all('lessons') if r['task_class'] == event.task_class
+            and r['state'] == 'ACTIVE' and self.visible(r['record_id'], event.scope)]
+        records.extend(r['record_id'] for r in lesson_rows)
+        for r in lesson_rows:
+            memories.extend(self.records.support(r['record_id']))
+        norm_rows=self.store.db.execute("SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) AND predicate_key LIKE 'concern.constraint%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') LIMIT 65",
+            (event.scope,event.entity_id,self.store.identity['identity_id'])).fetchall()
+>       if len(norm_rows)>64:raise CoreError('SUBJECT_NORM_CAPACITY_REQUIRES_REVIEW')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: SUBJECT_NORM_CAPACITY_REQUIRES_REVIEW
+
+src/nana_core/continuity/subject/loop.py:119: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_social_tendency_competition.py::test_hidden_cues_do_not_consume_allowed_subject_attention[False]
+FAILED tests/person_self/test_social_tendency_competition.py::test_hidden_cues_do_not_consume_allowed_subject_attention[True]
+2 failed in 0.40s

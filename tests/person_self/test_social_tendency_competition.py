@@ -9,6 +9,40 @@ from nana_core.continuity.project_work.service import capture
 from .test_private_tendency import form,current
 
 
+@pytest.mark.parametrize('hidden_constraint',[False,True])
+def test_hidden_cues_do_not_consume_allowed_subject_attention(app,hidden_constraint):
+    from nana_core.continuity.contracts import EvidenceInput,MemoryCandidate,MemoryType,Provenance
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.presence.contracts import SECOND
+
+    r=app.runtime
+    visible=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='visible-cue')
+    visible_mid=capture(r,'visible-cue',visible.model_dump(mode='json'),predicate='concern.visible-cue')
+    assert social_appetite(r.store,scope='project-work',privacy_classes=('PROJECT',)).state=='OPEN'
+    assert 'SECRET' not in r.subject.privacy_classes
+    memory=MemoryService(r.store)
+    r.clock.source.advance(SECOND)
+    now=r.clock.utc_now_us()
+    hidden=ConcernCue(cue_kind='CONSTRAINT' if hidden_constraint else 'DISCOVERY',
+        motivation_source='RELATIONSHIP',topic_key='unavailable-cue',prohibited_behaviors=('SOCIALIZE',))
+    for index in range(65):
+        text=hidden.model_copy(update={'topic_key':f'private-cue-{index}'}).model_dump_json()
+        evidence=memory.capture(EvidenceInput(
+            provenance=Provenance(source_namespace='synthetic.private-attention',source_reference=str(index),
+                source_kind='DIRECT_OBSERVATION'),text=text,privacy_class='SECRET',observed_time_us=now))
+        memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
+            epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=text,
+            predicate_key=f'concern.{"constraint." if hidden_constraint else ""}private-cue-{index}'))
+    result=r.subject.run(SubjectInput(source_key='synthetic.visible-social-consideration',kind='INTERACTION',origin='USER',
+        entity_id='project-user',scope='project-work',privacy_class='PROJECT',observed_at_us=now,
+        text='SYNTHETIC consider whether to continue the current ordinary conversation.'))
+    view=social_appetite(r.store,scope='project-work',privacy_classes=('PROJECT',))
+    assert view.state=='OPEN' and view.source_memory_ids==(visible_mid,)
+    connection=next(m for m in result.motivations if m.source=='SOCIAL_CONNECTION')
+    assert visible_mid in connection.source_ids
+    assert not r.store.all('actions') and not r.store.all('grants')
+
+
 @pytest.mark.parametrize('tendency,state',[('social_recovery_needed','RECOVERING'),('social_quiet_preference','QUIET')])
 @pytest.mark.parametrize('choice,guard,expected',[('SOCIALIZE','none','SOCIALIZE'),('REST','none','REST'),(None,'none','IGNORE'),('SOCIALIZE','declined','STAY_SILENT'),('SOCIALIZE','norm','REST'),('SOCIALIZE','withdrawn','SOCIALIZE'),('EXPLORE','research','EXPLORE'),('SOCIALIZE','repeated-delivery','STAY_SILENT')])
 def test_current_c_can_compare_a_private_connection_wish_with_its_quiet_tendency(app,tendency,state,choice,guard,expected):

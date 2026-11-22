@@ -409,3 +409,7 @@ B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览�
 ## 2026-11-22 A VFR 样本实际区间
 
 原感知、定向测试、事实账与 `docs/nana_next_experience/evidence/native-video-packet-coverage-20261122` 的合成旧新回执及指纹。
+
+## 2026-11-22 A 社交线索可见范围
+
+原C、S3投影、定向测试、事实账与 `docs/nana_next_experience/evidence/social-attention-visibility-20261122` 的合成旧新回执及指纹。

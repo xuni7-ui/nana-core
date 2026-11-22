@@ -114,8 +114,12 @@ class SubjectLoop:
         records.extend(r['record_id'] for r in lesson_rows)
         for r in lesson_rows:
             memories.extend(self.records.support(r['record_id']))
-        norm_rows=self.store.db.execute("SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) AND predicate_key LIKE 'concern.constraint%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') LIMIT 65",
-            (event.scope,event.entity_id,self.store.identity['identity_id'])).fetchall()
+        privacy_marks=','.join('?' for _ in self.privacy_classes)
+        norm_rows=self.store.db.execute(
+            "SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) "
+            f"AND privacy_class IN ({privacy_marks}) AND predicate_key LIKE 'concern.constraint%' "
+            "AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') LIMIT 65",
+            (event.scope,event.entity_id,self.store.identity['identity_id'],*self.privacy_classes)).fetchall()
         if len(norm_rows)>64:raise CoreError('SUBJECT_NORM_CAPACITY_REQUIRES_REVIEW')
         norm_ids=tuple(r['memory_id'] for r in norm_rows)
         candidates=cues_from(self.store,(*event.source_memory_ids,*norm_ids),scope=event.scope,privacy_classes=self.privacy_classes)
