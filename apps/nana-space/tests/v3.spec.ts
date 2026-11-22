@@ -2059,6 +2059,18 @@ test('NanaLink phone health explains a mismatched account',async({page})=>{
   await noHorizontalOverflow(page);
 });
 
+test('NanaLink phone warns when recall did not withdraw memory',async({page})=>{
+  const state=await installMock(page);state.capabilities={platform_configuration_write:true};
+  await page.route(`**${API}platform/status`,route=>route.fulfill({status:200,json:envelope(state,{
+    configuration_revision:4,channels:[{platform:'qq',channel_id:'primary',account_label:'账号尾号 0042',
+      conversation_kind:'private',enabled:true,read_authorized:true,send_configured:false,secret_state:'AVAILABLE',state:'NOT_OBSERVED'}],
+    nanalink:{schema_version:1,sessions:[{platform:'qq',channel_id:'primary',
+      health:{connection:'CONNECTED',login:'AUTHENTICATED',receive:'HEALTHY',error:'RECALL_NOT_WITHDRAWN'},capabilities:[]}]}})}));
+  await open(page,'devices');
+  await expect(page.getByText('会话已连接 · 事件接收正常 · 检测到消息撤回，相关记忆如已保存不会自动撤销，请检查',{exact:true})).toBeVisible();
+  await noHorizontalOverflow(page);
+});
+
 test("SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft", async ({page}) => {
   await page.clock.install();
   const state=await installMock(page);

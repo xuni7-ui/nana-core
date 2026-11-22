@@ -328,6 +328,12 @@ class OneBotSidecar:
             # peers never spend a Core cognition call merely by arriving.
             matches = [r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
                        == (event.sender_id, event.conversation_kind, event.conversation_id)]
+            if event.kind == 'message.recalled' and len(matches) == 1:
+                # There is no original-owner recall operation yet. Report the
+                # gap without claiming that source memory was withdrawn.
+                adapter.metrics['unhandled_recalls'] += 1
+                self.last[config.alias] = {'state':'RECALL_NOT_WITHDRAWN', 'no_retry':True}
+                continue
             if event.kind != 'message.created' or len(matches) != 1:
                 continue
             state = self.transport.offer(event)

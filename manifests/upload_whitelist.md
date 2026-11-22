@@ -421,3 +421,7 @@ B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览�
 ## 2026-11-22 A 原策略独立迁移
 
 原G元学习、定向测试、事实账、`docs/nana_next_experience/evidence/meta-selection-independent-transfer-20261122` 合成验证与指纹。
+
+## 2026-11-22 A C27 撤回提示与本地集成验证
+
+C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `docs/nana_next_experience/evidence/recall-status-and-local-candidate-20261122` 合成测试与本地包回执。

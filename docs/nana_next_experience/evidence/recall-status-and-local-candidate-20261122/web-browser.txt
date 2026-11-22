@@ -1,0 +1,15 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --project=phone-390 -g NanaLink phone (warns when recall|health explains a mismatched account)
+
+[WebServer] (node:25594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:25612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone-390] › tests/v3.spec.ts:2047:1 › NanaLink phone health explains a mismatched account (916ms)
+  ✓  2 [phone-390] › tests/v3.spec.ts:2062:1 › NanaLink phone warns when recall did not withdraw memory (738ms)
+
+  2 passed (3.4s)

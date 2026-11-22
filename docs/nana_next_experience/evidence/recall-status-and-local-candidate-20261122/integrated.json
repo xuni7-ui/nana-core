@@ -1,0 +1,14 @@
+{
+  "source": "edca3d5d4729054149ba96e32f0696fda5478bb0",
+  "fallback": "2864240b50a86caa49441663a1775ce69019a9b8",
+  "same_stopped_dev": true,
+  "counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "real_provider_calls": 0,
+  "web_source_files_equal": 237
+}

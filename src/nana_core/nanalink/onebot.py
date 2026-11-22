@@ -131,7 +131,7 @@ class OneBotAdapter:
         self.closed = False
         self.echo = 0
         self.metrics = dict(frames=0, invalid_events=0, duplicates=0, backpressure=0, rpc=0, unknown=0, writes=0,
-                            http_inflight=0, http_peak_inflight=0, http_backpressure=0)
+                            http_inflight=0, http_peak_inflight=0, http_backpressure=0, unhandled_recalls=0)
 
     def __repr__(self):
         return '<OneBotAdapter account-bound; credentials redacted>'
@@ -146,6 +146,12 @@ class OneBotAdapter:
 
     def health(self):
         value = self._health
+        # Keep actionable login diagnostics visible. A dropped invalid frame
+        # can remain recorded indefinitely, so it must not mask the recall gap.
+        # The counter retains the gap until the more urgent error clears.
+        if self.metrics['unhandled_recalls'] and value.error not in {
+                'ACCOUNT_MISMATCH', 'CREDENTIAL_UNAVAILABLE', 'CREDENTIAL_REJECTED', 'SIDECAR_UNAVAILABLE'}:
+            value = value.model_copy(update={'error':'RECALL_NOT_WITHDRAWN'})
         # A quiet conversation is not proof of a failed receive path. Heartbeat
         # staleness is reported only after a heartbeat was actually observed.
         if value.last_heartbeat_us and time.time_ns() // 1000 - value.last_heartbeat_us > 120000000:
