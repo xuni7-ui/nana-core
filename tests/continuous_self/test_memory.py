@@ -36,6 +36,33 @@ def test_seven_memory_types_provenance_dedup_and_restart(cognitive):
     assert not any(store.all(t) for t in ("actions", "grants", "attempts", "strategies"))
 
 
+def test_index_rebuild_keeps_last_complete_projection_on_interruption(cognitive, monkeypatch):
+    store, memory, _ = cognitive
+    one = add(memory, evidence(memory, "index-one", "synthetic first memory"), "synthetic first memory")
+    add(memory, evidence(memory, "index-two", "synthetic later memory"), "synthetic later memory")
+
+    def terms():
+        return {tuple(row) for row in store.db.execute("SELECT memory_id,term FROM memory_terms")}
+
+    canonical_terms = terms()
+    store.db.execute("INSERT INTO memory_terms VALUES(?,?)", (one, "old-index-term"))
+    previous_terms = terms()
+    original = memory._index
+
+    def interrupted(memory_id, text):
+        original(memory_id, text)
+        raise RuntimeError("synthetic interrupted rebuild")
+
+    with monkeypatch.context() as patch:
+        patch.setattr(memory, "_index", interrupted)
+        with pytest.raises(RuntimeError, match="interrupted rebuild"):
+            memory.rebuild_index()
+    assert terms() == previous_terms
+    assert not store.db.in_transaction
+    memory.rebuild_index()
+    assert terms() == canonical_terms
+
+
 def test_claim_correction_conflict_and_inference_cannot_upgrade(cognitive):
     store, memory, _ = cognitive
     a = add(memory, evidence(memory, "old", "I prefer A", when=100), "A", predicate_key="preference")

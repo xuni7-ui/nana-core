@@ -608,7 +608,19 @@ class MemoryService:
                                  ((memory_id, t) for t in terms))
 
     def rebuild_index(self):
-        self.store.db.execute("DELETE FROM memory_terms")
-        for row in self.store.all("memories"):
-            if row["lifecycle"] == "ACTIVE" and row["assessment"] in {"CURRENT", "UNASSESSED"}:
-                self._index(row["memory_id"], self.store.artifact(row["payload_artifact_id"]).decode())
+        self._fresh()
+        db = self.store.db
+        db.execute("SAVEPOINT rebuild_memory_terms")
+        try:
+            db.execute("DELETE FROM memory_terms")
+            for memory_id, artifact_id in db.execute(
+                "SELECT memory_id,payload_artifact_id FROM memories "
+                "WHERE lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY rowid"
+            ):
+                self._index(memory_id, self.store.artifact(artifact_id).decode())
+            db.execute("RELEASE rebuild_memory_terms")
+        except BaseException:
+            if db.in_transaction:
+                db.execute("ROLLBACK TO rebuild_memory_terms")
+                db.execute("RELEASE rebuild_memory_terms")
+            raise
