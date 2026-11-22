@@ -1,0 +1,82 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered[explicit] _
+
+tmp_path = PosixPath('/dev/shm/nq294old/test_deferred_review_survives_0')
+reconsideration = 'explicit'
+
+    @pytest.mark.parametrize('reconsideration',['explicit','expiry'])
+    def test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered(tmp_path,reconsideration):
+        from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+    
+        path=tmp_path/'subject/self.db'
+        with fresh(path) as r:
+            prepare(r)
+            initial=request(r,'retain-deferred-review')
+            review_at=r.clock.utc_now_us()+3_600_000_000
+            initial=initial.model_copy(update={'relational_request':initial.relational_request.model_copy(update={'review_at_us':review_at})})
+            cycle=r.subject.cognize(initial,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+            service=VoluntaryAccommodationService(r.store,r.authority)
+            cid=service.materialize(cycle.cycle_id,r.authority)
+            saved=dict(r.store.one('commitments',cid));config,clock,identity=r.config,r.clock.source,r.identity_id
+        clock.advance(3_600_000_000)
+        with NanaRuntime(path,config,clock=clock) as r:
+            due=SubjectInput(source_key='synthetic.defer-current-commitment',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',
+                privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),task_class='relational.accommodation.review',commitment_check_id=cid)
+            deferred=r.subject.cognize(due,model=Specify('WAIT'),authority=r.authority,policy=policy())
+            assert deferred.judgment.stance=='DEFER' and deferred.relational_decision.review_choice is None
+            assert VoluntaryAccommodationService(r.store,r.authority).materialize(deferred.cycle_id,r.authority) is None
+        clock.advance(3_600_000_000)
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            ordinary=SubjectInput(source_key='synthetic.ordinary-wake-after-deferred',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+                scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+            ordinary_cycle=r.subject.run(ordinary)
+            service=VoluntaryAccommodationService(r.store,r.authority)
+>           assert ordinary_cycle.relational_decision is None and service.materialize(ordinary_cycle.cycle_id,r.authority) is None
+E           AssertionError: assert (RelationalDecision(request=RelationalRequest(request_id='retain-deferred-review', requesting_entity='observer', operat...ase='REVIEW', review_commitment_id='61e901fb-fe54-42f9-9a05-f605a92768c6', review_revision=3, review_choice='CONTINUE') is None)
+E            +  where RelationalDecision(request=RelationalRequest(request_id='retain-deferred-review', requesting_entity='observer', operat...ase='REVIEW', review_commitment_id='61e901fb-fe54-42f9-9a05-f605a92768c6', review_revision=3, review_choice='CONTINUE') = CycleResult(communication_choice=None, conversation_decision=None, experience_need=None, problem_frame=None, context_f...se='REVIEW', review_commitment_id='61e901fb-fe54-42f9-9a05-f605a92768c6', review_revision=3, review_choice='CONTINUE')).relational_decision
+
+tests/person_self/test_relational_cognitive_choice.py:249: AssertionError
+_ test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered[expiry] _
+
+tmp_path = PosixPath('/dev/shm/nq294old/test_deferred_review_survives_1')
+reconsideration = 'expiry'
+
+    @pytest.mark.parametrize('reconsideration',['explicit','expiry'])
+    def test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered(tmp_path,reconsideration):
+        from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+    
+        path=tmp_path/'subject/self.db'
+        with fresh(path) as r:
+            prepare(r)
+            initial=request(r,'retain-deferred-review')
+            review_at=r.clock.utc_now_us()+3_600_000_000
+            initial=initial.model_copy(update={'relational_request':initial.relational_request.model_copy(update={'review_at_us':review_at})})
+            cycle=r.subject.cognize(initial,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+            service=VoluntaryAccommodationService(r.store,r.authority)
+            cid=service.materialize(cycle.cycle_id,r.authority)
+            saved=dict(r.store.one('commitments',cid));config,clock,identity=r.config,r.clock.source,r.identity_id
+        clock.advance(3_600_000_000)
+        with NanaRuntime(path,config,clock=clock) as r:
+            due=SubjectInput(source_key='synthetic.defer-current-commitment',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',
+                privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),task_class='relational.accommodation.review',commitment_check_id=cid)
+            deferred=r.subject.cognize(due,model=Specify('WAIT'),authority=r.authority,policy=policy())
+            assert deferred.judgment.stance=='DEFER' and deferred.relational_decision.review_choice is None
+            assert VoluntaryAccommodationService(r.store,r.authority).materialize(deferred.cycle_id,r.authority) is None
+        clock.advance(3_600_000_000)
+        with NanaRuntime(path,config,clock=clock) as r:
+            assert r.identity_id==identity
+            ordinary=SubjectInput(source_key='synthetic.ordinary-wake-after-deferred',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+                scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+            ordinary_cycle=r.subject.run(ordinary)
+            service=VoluntaryAccommodationService(r.store,r.authority)
+>           assert ordinary_cycle.relational_decision is None and service.materialize(ordinary_cycle.cycle_id,r.authority) is None
+E           AssertionError: assert (RelationalDecision(request=RelationalRequest(request_id='retain-deferred-review', requesting_entity='observer', operat...ase='REVIEW', review_commitment_id='15db919b-c110-49f8-8768-b2dee6f87dc6', review_revision=3, review_choice='CONTINUE') is None)
+E            +  where RelationalDecision(request=RelationalRequest(request_id='retain-deferred-review', requesting_entity='observer', operat...ase='REVIEW', review_commitment_id='15db919b-c110-49f8-8768-b2dee6f87dc6', review_revision=3, review_choice='CONTINUE') = CycleResult(communication_choice=None, conversation_decision=None, experience_need=None, problem_frame=None, context_f...se='REVIEW', review_commitment_id='15db919b-c110-49f8-8768-b2dee6f87dc6', review_revision=3, review_choice='CONTINUE')).relational_decision
+
+tests/person_self/test_relational_cognitive_choice.py:249: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered[explicit]
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered[expiry]
+2 failed, 16 deselected in 0.35s

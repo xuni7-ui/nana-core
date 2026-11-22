@@ -75,6 +75,10 @@ class SubjectLoop:
             if r['state'] in {'ADOPTED','ACTIVE'} and self.visible(r['record_id'], event.scope):
                 commitments.append(r['commitment_id']); records.append(r['record_id'])
                 if r['due_at_us'] is not None and r['due_at_us'] <= now:
+                    if self.store.schema_target>=10 and event.kind=='WAKE' and event.commitment_check_id!=r['commitment_id']:
+                        from ..relational.accommodation import implicit_review_available
+                        if not implicit_review_available(self.store,r,privacy_classes=self.privacy_classes):
+                            continue
                     due.append(r['commitment_id'])
                 elif event.commitment_check_id==r['commitment_id']:due.append(r['commitment_id'])
         if event.commitment_check_id and event.commitment_check_id not in commitments:raise CoreError('COMMITMENT_CHECK_SOURCE_STALE')
@@ -299,8 +303,7 @@ class SubjectLoop:
     def _review_focus(self,event,situation):
         review_event=event
         if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
-            # A deferred due review can be reconsidered on an ordinary later
-            # wake. C selects the concern; Scheduler neither adopts nor sends.
+            # The situation has already filtered still-deferred revisions.
             for cid in situation.due_commitment_ids:
                 row=self.store.one('commitments',cid)
                 if self.records.read(row['record_id'])['payload'].get('voluntary'):
@@ -649,8 +652,12 @@ class SubjectLoop:
                             or _deliberation.proposal.preferred_behavior is not None or situation.private_interest_records or relational is not None else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
+                target = None
+                if relational and relational.phase == 'REVIEW':
+                    from ..relational.accommodation import review_target_key
+                    target = review_target_key(relational.review_commitment_id, relational.review_revision)
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
-                    payload=result.model_dump(mode='json'), records=parents, memories=supports)
+                    payload=result.model_dump(mode='json'), records=parents, memories=supports, target_id=target)
                 if evaluation:
                     from ..autonomy.history import record_disposition
                     record_disposition(self.store,tx,cycle_id=cycle_id,intention_id=intention_id,intention_revision=1,

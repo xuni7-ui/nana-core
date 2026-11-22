@@ -4,11 +4,35 @@ No timer grants adoption/action, and no new restraint daemon exists. The same
 SubjectLoop decides every review; existing CommitmentService owns persistence.
 """
 from ...contracts import CoreError
-from ...storage import canonical
+from ...storage import canonical,digest
 from ..records import RecordService
 from .contracts import VoluntaryTerms,RelationalDecision,RelationalRequest,DAY
 from .deliberation import deliberate
 from .projections import personality_tendencies
+
+
+def review_target_key(commitment_id, revision):
+    return 'relational-review.' + digest([commitment_id, revision])
+
+
+def implicit_review_available(store, commitment, *, privacy_classes):
+    head = store.db.execute(
+        "SELECT * FROM continuity_records WHERE record_kind='SUBJECT_CYCLE' AND target_id=? AND scope=? "
+        "ORDER BY created_at_us DESC,rowid DESC LIMIT 1",
+        (review_target_key(commitment['commitment_id'], commitment['revision']), commitment['scope']),
+    ).fetchone()
+    if not head or head['lifecycle'] != 'ACTIVE' or head['privacy_class'] not in privacy_classes:
+        return True
+    records = RecordService(store)
+    if not records.current_support(head['record_id']):
+        return True
+    cycle = records.read(head['record_id'])['payload']
+    if cycle['judgment']['stance'] != 'DEFER' or cycle['relational_decision']['review_choice'] is not None:
+        return True
+    raw_terms = records.read(commitment['record_id'])['payload']['voluntary']
+    terms = VoluntaryTerms.model_validate_json(canonical(raw_terms))
+    # An expired restraint still needs the existing END decision.
+    return store.clock.utc_now_us() >= terms.end_us
 
 
 def review_context(store,event,*,privacy_classes):

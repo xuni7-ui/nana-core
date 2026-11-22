@@ -216,3 +216,50 @@ def test_current_acceptance_does_not_survive_withdrawal_of_the_actual_request(tm
         with pytest.raises(CoreError,match='RELATIONAL_DECISION_UNAVAILABLE'):
             VoluntaryAccommodationService(r.store,r.authority).materialize(cycle.cycle_id,r.authority)
         assert not r.store.all('commitments') and not r.store.all('actions') and not r.store.all('grants')
+
+
+@pytest.mark.parametrize('reconsideration',['explicit','expiry'])
+def test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered(tmp_path,reconsideration):
+    from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+
+    path=tmp_path/'subject/self.db'
+    with fresh(path) as r:
+        prepare(r)
+        initial=request(r,'retain-deferred-review')
+        review_at=r.clock.utc_now_us()+3_600_000_000
+        initial=initial.model_copy(update={'relational_request':initial.relational_request.model_copy(update={'review_at_us':review_at})})
+        cycle=r.subject.cognize(initial,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+        service=VoluntaryAccommodationService(r.store,r.authority)
+        cid=service.materialize(cycle.cycle_id,r.authority)
+        saved=dict(r.store.one('commitments',cid));config,clock,identity=r.config,r.clock.source,r.identity_id
+    clock.advance(3_600_000_000)
+    with NanaRuntime(path,config,clock=clock) as r:
+        due=SubjectInput(source_key='synthetic.defer-current-commitment',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',
+            privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),task_class='relational.accommodation.review',commitment_check_id=cid)
+        deferred=r.subject.cognize(due,model=Specify('WAIT'),authority=r.authority,policy=policy())
+        assert deferred.judgment.stance=='DEFER' and deferred.relational_decision.review_choice is None
+        assert VoluntaryAccommodationService(r.store,r.authority).materialize(deferred.cycle_id,r.authority) is None
+    clock.advance(3_600_000_000)
+    with NanaRuntime(path,config,clock=clock) as r:
+        assert r.identity_id==identity
+        ordinary=SubjectInput(source_key='synthetic.ordinary-wake-after-deferred',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+            scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+        ordinary_cycle=r.subject.run(ordinary)
+        service=VoluntaryAccommodationService(r.store,r.authority)
+        assert ordinary_cycle.relational_decision is None and service.materialize(ordinary_cycle.cycle_id,r.authority) is None
+        assert ordinary_cycle.intention.slot_key!='commitment-review'
+        assert dict(r.store.one('commitments',cid))==saved
+        if reconsideration=='explicit':
+            next_review=due.model_copy(update={'source_key':'synthetic.explicit-later-reconsideration','observed_at_us':r.clock.utc_now_us()})
+            selected=r.subject.cognize(next_review,model=Specify('DECLINE_REQUEST'),authority=r.authority,policy=policy())
+            assert selected.relational_decision.review_choice=='END'
+            assert service.materialize(selected.cycle_id,r.authority)==cid
+            assert r.store.one('commitments',cid)['state']=='CANCELLED'
+    if reconsideration=='expiry':
+        clock.advance(DAY-2*3_600_000_000)
+        with NanaRuntime(path,config,clock=clock) as r:
+            event=ordinary.model_copy(update={'source_key':'synthetic.wake-at-original-expiry','observed_at_us':r.clock.utc_now_us()})
+            cycle=r.subject.run(event)
+            assert cycle.relational_decision.review_choice=='END'
+            assert VoluntaryAccommodationService(r.store,r.authority).materialize(cycle.cycle_id,r.authority)==cid
+            assert r.store.one('commitments',cid)['state']=='CANCELLED' and not r.store.all('actions')

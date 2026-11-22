@@ -1,3 +1,9 @@
+## 当前接续：复查暂缓连续性，revision294
+
+暂缓复查同版本跨重启，普通唤醒不覆盖或产生重复复查待办，明确再审与原期限END保持。固定旧2错，62项最终通过。
+
+继续最新匹配Core/BFF/Web候选、原S3/S8/S10及A–H。证据 docs/nana_next_experience/evidence/relational-deferral-continuity-20261122/README.md。
+
 ## 当前接续：模型目录失败后的冷却，revision293
 
 A补原BFF目录错误/429的实际剩余冷却，旧2错到56原相关通过，未授权响应不携字段，协议兼容；B26匹配CI102/168，B客户端接线待。
