@@ -108,6 +108,12 @@ def storyboard_samples(app, source_memory_id, *, scope, privacy_classes):
 
 
 def public_video_cache_handle(app, cache, source_memory_id, *, scope):
+    """Return the cache handle for one current original public observation."""
+    handle, _ = _public_video_cache_binding(app, cache, source_memory_id, scope=scope)
+    return handle
+
+
+def _public_video_cache_binding(app, cache, source_memory_id, *, scope):
     """Resolve original public VIDEO evidence to a cache handle, without granting use.
 
     This does not fetch, decode, authenticate a platform, or prove raw bytes.
@@ -141,19 +147,27 @@ def public_video_cache_handle(app, cache, source_memory_id, *, scope):
             raise ValueError()
     except (ValueError, TypeError, KeyError):
         raise CoreError('NANALINK_VIDEO_SOURCE_INVALID') from None
-    observation = app.runtime.store.db.execute(
-        "SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",
-        (source_memory_id,)).fetchone()
-    records = RecordService(app.runtime.store)
-    if not observation or not records.current_support(observation[0]):
+    store = app.runtime.store
+    observations = store.db.execute(
+        "SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=? "
+        "AND scope=? AND privacy_class='PUBLIC' AND lifecycle='ACTIVE' LIMIT 2",
+        (source_memory_id, scope)).fetchall()
+    records = RecordService(store)
+    if len(observations) != 1:
+        raise CoreError('NANALINK_VIDEO_OBSERVATION_NOT_CURRENT')
+    observation_id = observations[0]['record_id']
+    observation = records.read(observation_id)
+    if (observation['payload'].get('source_memory_id') != source_memory_id
+            or not records.current_support(observation_id)):
         raise CoreError('NANALINK_VIDEO_OBSERVATION_NOT_CURRENT')
     handle = cache.resolve(source_ref=source_memory_id, sha256=sha)
     if not 1 <= handle.size <= 16 * 1024 * 1024:
         raise CoreError('NANALINK_VIDEO_BYTE_BOUND')
     memory.read(source_memory_id)
-    if not records.current_support(observation[0]):
+    head = store.one('continuity_records', observation_id)
+    if not head or head['lifecycle'] != 'ACTIVE' or not records.current_support(observation_id):
         raise CoreError('NANALINK_VIDEO_OBSERVATION_NOT_CURRENT')
-    return handle
+    return handle, observation_id
 
 
 def with_current_public_video(app, cache, source_memory_id, *, scope, operation):
@@ -167,14 +181,15 @@ def with_current_public_video(app, cache, source_memory_id, *, scope, operation)
     import inspect
     if not callable(operation):
         raise CoreError('NANALINK_VIDEO_OPERATION_REQUIRED')
-    before = public_video_cache_handle(app, cache, source_memory_id, scope=scope)
+    before, before_observation = _public_video_cache_binding(app, cache, source_memory_id, scope=scope)
     result = operation(before)
     if inspect.isawaitable(result) or isinstance(result, (Iterator, AsyncIterator)):
         if inspect.iscoroutine(result):
             result.close()
         raise CoreError('NANALINK_VIDEO_MATERIALIZED_RESULT_REQUIRED')
-    after = public_video_cache_handle(app, cache, source_memory_id, scope=scope)
-    if (before.source_ref, before.sha256, before.size) != (after.source_ref, after.sha256, after.size):
+    after, after_observation = _public_video_cache_binding(app, cache, source_memory_id, scope=scope)
+    if (before_observation, before.source_ref, before.sha256, before.size) != (
+            after_observation, after.source_ref, after.sha256, after.size):
         raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
     if (getattr(result, 'source_ref', None), getattr(result, 'source_sha256', None)) != (before.source_ref, before.sha256):
         raise CoreError('NANALINK_VIDEO_OUTPUT_SOURCE_MISMATCH')

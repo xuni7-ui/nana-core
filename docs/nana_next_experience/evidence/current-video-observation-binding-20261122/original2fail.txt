@@ -1,0 +1,94 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_video_handoff_is_bound_to_the_same_active_original_observation[before-cache-use] _
+
+tmp_path = PosixPath('/dev/shm/nq291old/test_video_handoff_is_bound_to0')
+when = 'before-cache-use'
+
+    @pytest.mark.parametrize('when',['before-cache-use','while-producing-candidate'])
+    def test_video_handoff_is_bound_to_the_same_active_original_observation(tmp_path,when):
+        from nana_core.continuity.records import RecordService
+        from nana_core.nanalink.video_handoff import with_current_public_video
+    
+        with fresh(tmp_path/'subject.db') as runtime:
+            app=SimpleNamespace(runtime=runtime,policy=policy())
+            now=runtime.clock.utc_now_us()
+            data=b'fixture-original-observation-revision'
+            service=PerceptionService(runtime.store,providers(),app.policy,decoder=SyntheticDecoder())
+            source=PublicMediaSource(source_id='video-checked-revision',modality='VIDEO',origin='SYNTHETIC',
+                                     event_time_us=now,observed_time_us=now)
+            mid,rid=service.ingest(data,source,entity_id='observer',scope='world')
+            records=RecordService(runtime.store)
+            original=records.read(rid)
+            original_support=records.support(rid)
+            cache=MediaCache(tmp_path/'cache',source_current=lambda _:True,max_bytes=128,item_bytes=64,max_items=4)
+            try:
+                cache.put([data],source_ref=mid)
+                candidates=[]
+                def revise(*,keep_target):
+                    with runtime.store.transaction('synthetic.media_observation_revised') as tx:
+                        records.create(tx,kind='MEDIA_OBSERVATION',scope='world',payload=original['payload'],
+                                       memories=original_support,supersedes=rid,target_id=mid if keep_target else None)
+                    assert records.current_support(rid) and runtime.store.one('continuity_records',rid)['lifecycle']=='SUPERSEDED'
+                    assert records.memory.read(mid)['memory_id']==mid
+                if when=='before-cache-use':
+                    revise(keep_target=False)
+                def operation(handle):
+                    candidates.append(handle.source_ref)
+                    if when=='while-producing-candidate':
+                        revise(keep_target=True)
+                    return SimpleNamespace(source_ref=handle.source_ref,source_sha256=handle.sha256)
+                code='NANALINK_VIDEO_OBSERVATION_NOT_CURRENT' if when=='before-cache-use' else 'NANALINK_VIDEO_SOURCE_CHANGED'
+>               with pytest.raises(CoreError,match=code):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE CoreError
+
+tests/nanalink/test_public_video_source.py:165: Failed
+_ test_video_handoff_is_bound_to_the_same_active_original_observation[while-producing-candidate] _
+
+tmp_path = PosixPath('/dev/shm/nq291old/test_video_handoff_is_bound_to1')
+when = 'while-producing-candidate'
+
+    @pytest.mark.parametrize('when',['before-cache-use','while-producing-candidate'])
+    def test_video_handoff_is_bound_to_the_same_active_original_observation(tmp_path,when):
+        from nana_core.continuity.records import RecordService
+        from nana_core.nanalink.video_handoff import with_current_public_video
+    
+        with fresh(tmp_path/'subject.db') as runtime:
+            app=SimpleNamespace(runtime=runtime,policy=policy())
+            now=runtime.clock.utc_now_us()
+            data=b'fixture-original-observation-revision'
+            service=PerceptionService(runtime.store,providers(),app.policy,decoder=SyntheticDecoder())
+            source=PublicMediaSource(source_id='video-checked-revision',modality='VIDEO',origin='SYNTHETIC',
+                                     event_time_us=now,observed_time_us=now)
+            mid,rid=service.ingest(data,source,entity_id='observer',scope='world')
+            records=RecordService(runtime.store)
+            original=records.read(rid)
+            original_support=records.support(rid)
+            cache=MediaCache(tmp_path/'cache',source_current=lambda _:True,max_bytes=128,item_bytes=64,max_items=4)
+            try:
+                cache.put([data],source_ref=mid)
+                candidates=[]
+                def revise(*,keep_target):
+                    with runtime.store.transaction('synthetic.media_observation_revised') as tx:
+                        records.create(tx,kind='MEDIA_OBSERVATION',scope='world',payload=original['payload'],
+                                       memories=original_support,supersedes=rid,target_id=mid if keep_target else None)
+                    assert records.current_support(rid) and runtime.store.one('continuity_records',rid)['lifecycle']=='SUPERSEDED'
+                    assert records.memory.read(mid)['memory_id']==mid
+                if when=='before-cache-use':
+                    revise(keep_target=False)
+                def operation(handle):
+                    candidates.append(handle.source_ref)
+                    if when=='while-producing-candidate':
+                        revise(keep_target=True)
+                    return SimpleNamespace(source_ref=handle.source_ref,source_sha256=handle.sha256)
+                code='NANALINK_VIDEO_OBSERVATION_NOT_CURRENT' if when=='before-cache-use' else 'NANALINK_VIDEO_SOURCE_CHANGED'
+>               with pytest.raises(CoreError,match=code):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: DID NOT RAISE CoreError
+
+tests/nanalink/test_public_video_source.py:165: Failed
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_public_video_source.py::test_video_handoff_is_bound_to_the_same_active_original_observation[before-cache-use]
+FAILED tests/nanalink/test_public_video_source.py::test_video_handoff_is_bound_to_the_same_active_original_observation[while-producing-candidate]
+2 failed, 4 deselected in 0.40s
