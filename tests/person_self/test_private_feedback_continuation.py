@@ -8,6 +8,10 @@ from nana_core.presence.authority import VirtualClock
 from nana_core.presence.contracts import SECOND
 from nana_core.continuity.lived_language import LanguageService,LanguageSample
 from nana_core.continuity.autonomy.private_intent import candidates
+from nana_core.continuity.contracts import EvidenceInput,MemoryCandidate,MemoryType,Provenance
+from nana_core.continuity.learning import ExperienceInput,ExperienceService
+from nana_core.continuity.memory import MemoryService
+from nana_core.storage import canonical,digest
 from tests.independent_life.test_dialogue import relay
 from .conftest import initialize
 from .test_private_tendency import form,current,PRIVATE
@@ -27,9 +31,10 @@ def wording(request):
     return 'SYNTHETIC listening method' if choice and choice['approach']=='LISTEN' else 'SYNTHETIC ordinary-chat method'
 
 
-@pytest.mark.parametrize('choice',['revise','rest','source-race','revise-current','rest-current-revision','learn','rest-future'])
+@pytest.mark.parametrize('choice',['revise','revise-after-hidden-history','rest','source-race','revise-current','rest-current-revision','learn','rest-future'])
 def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice(tmp_path,choice):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();feedback=[];self_requests=[]
+    revises=choice in {'revise','revise-after-hidden-history','revise-current'}
     def inner(request):
         self_requests.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
         frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
@@ -52,6 +57,22 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
         return {'interpretation':'SYNTHETIC reconsider a bounded explicit opinion, not emotional effectiveness','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC own care can use a different method without claiming a changed mood','proposed_operations':['DRAFT'] if grounded else ['WAIT'],**({'private_tendency':{'topic':'own-concern','tendency':'SYNTHETIC I still care, but prefer ordinary-chat after this explicit opinion; the actual emotional effect is unknown.','revises_record_id':own[0]['record_id']}} if grounded else {})}}
     with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
+            hidden=[]
+            if choice=='revise-after-hidden-history':
+                r=app.runtime;memory=MemoryService(r.store);experience=ExperienceService(r.store,r.authority)
+                for index in range(32):
+                    data={'SYNTHETIC_SEPARATE_RESULT':index};raw=canonical({'data':data})
+                    source=memory.capture(EvidenceInput(
+                        provenance=Provenance(domain='SYNTHETIC_ONLY',source_namespace='synthetic.hidden-reflection',
+                            source_reference=str(index),source_kind='SYSTEM_VERIFICATION'),
+                        text=raw,privacy_class='SECRET',observed_time_us=clock.utc_now_us()))
+                    result=memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
+                        epistemic_kind='OBSERVATION',source_evidence_id=source,text=raw))
+                    verified=experience.verify_structured_result(result,digest(data),r.authority)
+                    hidden.append(experience.record(ExperienceInput(context_memory_ids=(result,),scope='project-work',
+                        task_class='unrelated.local.reflection',decision='Check a separate synthetic result',
+                        result_memory_id=result,verification_memory_id=verified)))
+                clock.advance(SECOND);r.lease.heartbeat()
             app.pause();form(app);identity=app.runtime.identity_id;first_id,first=current(app)[0]
             before=app.chat('SYNTHETIC initial related situation',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='before')
             assert before['text']=='SYNTHETIC listening method'
@@ -88,6 +109,8 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             clock.advance(2*SECOND);app.runtime.lease.heartbeat();app.runtime.refresh_attention()
             for _ in range(8):app.tick()
             assert len(self_requests)==1
+            assert not {row['experience_id'] for row in app.runtime.store.all('subject_reflections')}.intersection(hidden)
+            assert all('SYNTHETIC_SEPARATE_RESULT' not in req['context_json'] for req in requests)
             new_id,tendency=current(app)[0]
             measure=app.runtime.store.one('cognitive_requests',self_requests[0]['request_id'])
             assert feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids']
@@ -99,7 +122,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 'feedback_in_frame':feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids'],
                 'tendency_revised':new_id!=first_id,'sqlite_allocated_bytes':sum(Path(str(app.runtime.store.path)+suffix).stat().st_size for suffix in ('','-wal','-shm') if Path(str(app.runtime.store.path)+suffix).exists()),
                 'record_count':len(app.runtime.store.all('continuity_records'))},sort_keys=True))
-            if choice in {'revise','revise-current'}:assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
+            if revises:assert new_id!=first_id and 'ordinary-chat' in tendency.content_summary
             else:assert new_id==first_id and tendency.content_summary==prior_text
             if choice=='learn':
                 jobs=[j for j in app.runtime.store.all('jobs') if j['work_kind']=='LEARNING'];assert len(jobs)==1
@@ -131,7 +154,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
                 assert app.runtime.store.snapshot()==snapshot and app.runtime.store.db.total_changes==writes
             app.pause()
             after=app.chat('SYNTHETIC a different later conversation',topic='own-concern',privacy='PROJECT',message_id='after')
-            assert after['text']==('SYNTHETIC ordinary-chat method' if choice in {'revise','revise-current'} else 'SYNTHETIC listening method')
+            assert after['text']==('SYNTHETIC ordinary-chat method' if revises else 'SYNTHETIC listening method')
             assert not any('exact_feedback_excerpt' in json.loads(b['data_json']) for b in json.loads(requests[-1]['context_json'])['blocks'] if b['kind']=='COMMUNICATION_FEEDBACK')
             assert tendency.content_summary not in requests[-1]['context_json']
             assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
@@ -141,7 +164,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             else:
                 assert all(v['state']!='ACTIVE' for v in app.runtime.store.all('lessons'))
                 if choice!='rest-future':app.forget(feedback[0])
-                assert (not current(app)) if choice in {'revise','revise-current'} else current(app)[0][1].content_summary.startswith(prior_text)
+                assert (not current(app)) if revises else current(app)[0][1].content_summary.startswith(prior_text)
         if choice in {'learn','rest-future'}:
             # The original G method must actually matter after restart, on a
             # different approved file, under explicit isolated local Grants.

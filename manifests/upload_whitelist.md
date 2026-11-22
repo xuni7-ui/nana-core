@@ -445,3 +445,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-23 A 原笔记学习重启恢复
 
 原笔记恢复查询、定向测试、事实账及 `docs/nana_next_experience/evidence/note-learning-restart-visibility-20261123` 受控证据。
+
+## 2026-11-23 A 固定集成候选及反馈连续性
+
+原D反馈经历查询、定向测试、事实账及 `docs/nana_next_experience/evidence/integrated-c79297c-and-feedback-visibility-20261123` 受控证据。

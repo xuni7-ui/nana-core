@@ -1,0 +1,18 @@
+{
+  "files": 35,
+  "sha256sums": "bc41570e99126803fa4fe53aadd6051563795a22ed4e02daae42e1d1345ea3fe",
+  "candidate_path": "deliveries/nana-space-next/server-c79297c-candidate",
+  "download_commit": "8e4b90a4fe9c2048bfa96b1c7f91ce86d20581d8",
+  "listed_files_verified": 34,
+  "independent_offline_core": true,
+  "independent_offline_sidecar": true,
+  "independent_apk_signer_verified": true,
+  "rollback_and_return_same_identity": true,
+  "counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  }
+}

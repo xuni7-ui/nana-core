@@ -31,6 +31,7 @@ class AttentionOpportunity(DTO):
 def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us):
     store,records=loop.store,RecordService(loop.store)
     result=[];growth_results=[]
+    privacy_slots=','.join('?' for _ in loop.privacy_classes) or 'NULL'
     for scope in loop.scopes:
         from .growth_life import opportunities,availability
         recipient,recipient_refs=availability(store,entity_id,scope=scope,privacy_classes=loop.privacy_classes)
@@ -104,7 +105,13 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
             result.append(AttentionOpportunity(key='project-'+digest([row['project_id'],row['revision']]),source_kind='PROJECT',source_id=row['project_id'],source_revision=row['revision'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['updated_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='PROJECT_EVENT',wake_trigger='GOAL_TRIGGER',priority=2))
-        for row in store.db.execute("SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id WHERE r.scope=? AND r.lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) ORDER BY e.created_at_us LIMIT 32",(scope,)):
+        for row in store.db.execute(
+            "SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id "
+            "WHERE r.scope=? AND r.lifecycle='ACTIVE' "
+            f"AND r.privacy_class IN ({privacy_slots}) "
+            "AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) "
+            "ORDER BY e.created_at_us LIMIT 32",(scope,*loop.privacy_classes),
+        ):
             if not loop.visible(row['record_id'],scope):continue
             if store.db.execute('SELECT 1 FROM subject_reflections WHERE experience_id=?',(row['experience_id'],)).fetchone():continue
             from ..autonomy.private_intent import feedback_continuation
