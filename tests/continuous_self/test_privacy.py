@@ -10,8 +10,10 @@ from nana_core.actions import OperatorAuthority
 from nana_core.clock import ManualClock
 from nana_core.contracts import CoreError
 from nana_core.continuity import ContinuityStore, IdentityService
+from nana_core.continuity.cold_history import ColdHistoryService
 from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
 from nana_core.continuity.memory import MemoryService
+from nana_core.continuity.records import RecordService
 from .conftest import evidence
 from .test_memory import add
 
@@ -63,6 +65,41 @@ def test_correction_invalidates_summaries_and_delete_erases_all_controlled_paylo
             assert not extra.exists() or CANARY.encode() not in extra.read_bytes()
     assert CANARY not in store.privacy.path.read_text()
     assert not store.db.execute("SELECT 1 FROM memory_terms WHERE memory_id IN (?,?)", (a, summary)).fetchone()
+
+
+def test_erasure_follows_shared_sources_and_historical_revision_edges_into_cold_copy(cognitive):
+    store, memory, authority = cognitive
+    source = evidence(memory, "shared-erasure-source", CANARY)
+    first = add(memory, source, CANARY)
+    sibling = add(memory, source, CANARY, kind=MemoryType.EPISODIC)
+    summary = derived(memory, sibling, evidence(memory, "derived-erasure-source", CANARY, kind="MODEL_DERIVATION"))
+    independent = add(memory, evidence(memory, "independent-erasure-control", "unrelated"), "unrelated")
+    records = RecordService(store)
+    with store.transaction("synthetic.related_record") as tx:
+        old = records.create(tx, kind="LESSON", scope="synthetic-home", payload={"text": CANARY}, memories=(summary,))
+    with store.transaction("synthetic.revise_record") as tx:
+        revised = records.create(tx, kind="LESSON", scope="synthetic-home", payload={"text": CANARY},
+                                 memories=(independent,), supersedes=old)
+        unrelated = records.create(tx, kind="LESSON", scope="synthetic-home", payload={"text": "unrelated"},
+                                   memories=(independent,))
+    cold = store.path.with_name("history.db")
+    ColdHistoryService(store, authority).create(cold, authority=authority)
+    assert CANARY.encode() in cold.read_bytes()
+
+    assert memory.forget(first, authority)["state"] == "COMPLETE"
+    for path in (store.path, cold):
+        assert CANARY.encode() not in path.read_bytes()
+    erased_memories = store.db.execute("SELECT memory_id FROM memories WHERE lifecycle='DELETED'")
+    erased_records = store.db.execute("SELECT record_id FROM continuity_records WHERE lifecycle='DELETED'")
+    assert {row[0] for row in erased_memories} == {first, sibling, summary}
+    assert {row[0] for row in erased_records} == {old, revised}
+    with ContinuityStore(cold, store.clock) as restored:
+        assert restored.one("core_meta", "recovery_quarantine")["value_json"] == "true"
+        assert MemoryService(restored).read(independent)["text"] == "unrelated"
+        assert RecordService(restored).read(unrelated)["payload"]["text"] == "unrelated"
+        for record_id in (old, revised):
+            with pytest.raises(CoreError, match="RECORD_UNAVAILABLE"):
+                RecordService(restored).read(record_id, include_history=True)
 
 
 def test_suppression_archive_confidence_and_no_resurrection(cognitive):

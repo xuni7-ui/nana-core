@@ -1,0 +1,98 @@
+[
+  {
+    "case": "old-warm-1",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 362490,
+    "python_peak_bytes": 10036778,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "old-cold-1",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 358485,
+    "python_peak_bytes": 10036506,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "old-warm-2",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 282297,
+    "python_peak_bytes": 10036778,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "old-cold-2",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 292541,
+    "python_peak_bytes": 10036506,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "old-warm-3",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 286479,
+    "python_peak_bytes": 10036778,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "old-cold-3",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 291076,
+    "python_peak_bytes": 10036506,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-warm-1",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 9183,
+    "python_peak_bytes": 128560,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-cold-1",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 22506,
+    "python_peak_bytes": 128512,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-warm-2",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 6984,
+    "python_peak_bytes": 128560,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-cold-2",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 13913,
+    "python_peak_bytes": 128512,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-warm-3",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 7518,
+    "python_peak_bytes": 128560,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  },
+  {
+    "case": "new-cold-3",
+    "unrelated_memories_and_records_each": 3000,
+    "mutated_rows": 51,
+    "purge_us": 15011,
+    "python_peak_bytes": 128512,
+    "changes_sha256": "57490347466c2cb9644811a2056a9d4db1db579db59126f7f743e593cb2946a6"
+  }
+]

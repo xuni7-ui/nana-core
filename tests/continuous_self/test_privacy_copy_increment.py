@@ -37,15 +37,15 @@ def erased(path,mid):
 def test_new_withdrawal_does_not_rescan_old_intents_in_unchanged_copies(copies,monkeypatch):
     store,memory,authority,ids,paths=copies
     for mid in ids[:12]:assert memory.forget(mid,authority)['state']=='COMPLETE'
-    scans=[];original=sqlite3.connect;names={str(p) for p in paths}
+    purges=[];original=sqlite3.connect;names={str(p) for p in paths}
     def observed(database,*args,**kwargs):
         db=original(database,*args,**kwargs)
         if str(database) in names:
-            db.set_trace_callback(lambda sql:scans.append(str(database)) if sql=='SELECT * FROM memories' else None)
+            db.set_trace_callback(lambda sql:purges.append(str(database)) if sql=='BEGIN IMMEDIATE' else None)
         return db
     monkeypatch.setattr(sqlite3,'connect',observed)
     assert memory.forget(ids[12],authority)['state']=='COMPLETE'
-    assert len(scans)==len(paths)
+    assert sorted(purges)==sorted(names)
     for path in paths:
         erased(path,ids[0]);erased(path,ids[12])
     # Busy original writer lock keeps the new deletion pending, never COMPLETE.

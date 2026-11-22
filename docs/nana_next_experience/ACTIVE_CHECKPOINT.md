@@ -1,3 +1,9 @@
+## 当前接续 来源关联撤回 revision309
+
+原隐私日志按来源走SQLite关联；同源/衍生/版本边与冷副本保持。51变更摘要一致，带索引286→8ms、冷293→15ms，76相关通过。
+
+继续匹配恢复候选、成长机制及原存储物理闭包。原 A–H 与正式资格按上方原边界继承。证据 docs/nana_next_experience/evidence/source-linked-erasure-20261123/README.md。
+
 ## 当前接续 原事件恢复 revision308
 
 原Store在同一读快照流式重放。相同合成库交替三组，峰RSS中位56.3→30.3MiB；事件、制品、原身份与隔离一致，42相关通过，包括真实本地SIGKILL。

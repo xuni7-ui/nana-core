@@ -318,70 +318,70 @@ class PrivacyJournal:
 
     def _purge(self, db, intent):
         """Conservative source-object closure; never retain a partial private blob."""
-        evidence = set(intent["evidence_ids"])
-        memories = set(intent["memory_ids"])
-        rows = [dict(r) for r in db.execute("SELECT * FROM memories")]
-        dependencies = list(db.execute("SELECT * FROM memory_dependencies"))
-        changed = True
-        while changed:
-            before = len(evidence), len(memories)
-            for row in rows:
-                if row["source_evidence_id"] in evidence or row["memory_id"] in memories:
-                    memories.add(row["memory_id"])
-                    evidence.add(row["source_evidence_id"])
-            for edge in dependencies:
-                parents = evidence if edge["parent_kind"] == "EVIDENCE" else memories
-                if edge["parent_id"] in parents:
-                    memories.add(edge["memory_id"])
-            changed = before != (len(evidence), len(memories))
         artifacts, changes = set(), []
         db.execute("BEGIN IMMEDIATE")
         try:
-            for row in rows:
-                if row["memory_id"] in memories:
+            has_records = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='continuity_records'").fetchone()
+            # UNION deduplicates shared ancestry and terminates on cycles. An
+            # affected memory pulls in its own source and all siblings from that
+            # source, and each record revision edge can propagate erasure.
+            record_edges = """
+                UNION SELECT 'RECORD',d.record_id FROM affected a CROSS JOIN record_dependencies d
+                    ON d.parent_kind=a.kind AND d.parent_id=a.id
+            """ if has_records else ""
+            targets = {"MEMORY": [], "EVIDENCE": [], "RECORD": []}
+            for kind, key in db.execute(f"""
+                WITH RECURSIVE affected(kind,id) AS (
+                    SELECT 'MEMORY',value FROM json_each(?)
+                    UNION SELECT 'EVIDENCE',value FROM json_each(?)
+                    UNION SELECT 'EVIDENCE',m.source_evidence_id FROM affected a CROSS JOIN memories m
+                        ON m.memory_id=a.id WHERE a.kind='MEMORY'
+                    UNION SELECT 'MEMORY',m.memory_id FROM affected a CROSS JOIN memories m
+                        ON m.source_evidence_id=a.id WHERE a.kind='EVIDENCE'
+                    UNION SELECT 'MEMORY',d.memory_id FROM affected a CROSS JOIN memory_dependencies d
+                        ON d.parent_kind=a.kind AND d.parent_id=a.id
+                    {record_edges}
+                ) SELECT kind,id FROM affected
+            """, (canonical(intent["memory_ids"]), canonical(intent["evidence_ids"]))):
+                targets[kind].append(key)
+
+            def rows(table, key, kind):
+                return db.execute(f"SELECT * FROM {table} WHERE {key} IN (SELECT value FROM json_each(?)) ORDER BY rowid",
+                                  (canonical(targets[kind]),)).fetchall()
+
+            for raw in rows("memories", "memory_id", "MEMORY"):
+                row = dict(raw)
+                artifacts.add(row["payload_artifact_id"])
+                if row["lifecycle"] != "DELETED":
+                    row.update(lifecycle="DELETED", assessment="WITHDRAWN", updated_at_us=intent["created_at_us"])
+                    db.execute(
+                        "UPDATE memories SET lifecycle='DELETED',assessment='WITHDRAWN',updated_at_us=? "
+                        "WHERE memory_id=?",
+                        (row["updated_at_us"], row["memory_id"]),
+                    )
+                    changes.append({"table": "memories", "row": row})
+                db.execute("DELETE FROM memory_terms WHERE memory_id=?", (row["memory_id"],))
+            for raw in rows("continuity_evidence", "evidence_id", "EVIDENCE"):
+                row = dict(raw)
+                artifacts.add(row["payload_artifact_id"])
+                if row["state"] != "DELETED":
+                    row["state"] = "DELETED"
+                    db.execute(
+                        "UPDATE continuity_evidence SET state='DELETED' WHERE evidence_id=?", (row["evidence_id"],)
+                    )
+                    changes.append({"table": "continuity_evidence", "row": row})
+            # Other permanent cognitive records use the same payload/dependency discipline.
+            if targets["RECORD"]:
+                for raw in rows("continuity_records", "record_id", "RECORD"):
+                    row = dict(raw)
                     artifacts.add(row["payload_artifact_id"])
                     if row["lifecycle"] != "DELETED":
-                        row.update(lifecycle="DELETED", assessment="WITHDRAWN", updated_at_us=intent["created_at_us"])
+                        row["lifecycle"] = "DELETED"
                         db.execute(
-                            "UPDATE memories SET lifecycle='DELETED',assessment='WITHDRAWN',updated_at_us=? "
-                            "WHERE memory_id=?",
-                            (row["updated_at_us"], row["memory_id"]),
+                            "UPDATE continuity_records SET lifecycle='DELETED' WHERE record_id=?",
+                            (row["record_id"],),
                         )
-                        changes.append({"table": "memories", "row": row})
-                    db.execute("DELETE FROM memory_terms WHERE memory_id=?", (row["memory_id"],))
-            for raw in db.execute("SELECT * FROM continuity_evidence").fetchall():
-                row = dict(raw)
-                if row["evidence_id"] in evidence:
-                    artifacts.add(row["payload_artifact_id"])
-                    if row["state"] != "DELETED":
-                        row["state"] = "DELETED"
-                        db.execute(
-                            "UPDATE continuity_evidence SET state='DELETED' WHERE evidence_id=?", (row["evidence_id"],)
-                        )
-                        changes.append({"table": "continuity_evidence", "row": row})
-            # Other permanent cognitive records use the same payload/dependency discipline.
-            tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-            if "continuity_records" in tables:
-                records = set()
-                edges = list(db.execute("SELECT * FROM record_dependencies"))
-                while True:
-                    before = len(records)
-                    for edge in edges:
-                        if edge["parent_id"] in (memories if edge["parent_kind"] == "MEMORY" else records):
-                            records.add(edge["record_id"])
-                    if len(records) == before:
-                        break
-                for raw in db.execute("SELECT * FROM continuity_records").fetchall():
-                    row = dict(raw)
-                    if row["record_id"] in records:
-                        artifacts.add(row["payload_artifact_id"])
-                        if row["lifecycle"] != "DELETED":
-                            row["lifecycle"] = "DELETED"
-                            db.execute(
-                                "UPDATE continuity_records SET lifecycle='DELETED' WHERE record_id=?",
-                                (row["record_id"],),
-                            )
-                            changes.append({"table": "continuity_records", "row": row})
+                        changes.append({"table": "continuity_records", "row": row})
             for artifact in artifacts:
                 db.execute(
                     "UPDATE artifacts SET payload=NULL,sha256='',completeness='UNAVAILABLE' WHERE artifact_id=?",

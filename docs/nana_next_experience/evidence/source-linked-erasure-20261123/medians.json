@@ -1,0 +1,18 @@
+{
+  "old-warm": {
+    "purge_us": 286479,
+    "python_peak_bytes": 10036778
+  },
+  "old-cold": {
+    "purge_us": 292541,
+    "python_peak_bytes": 10036506
+  },
+  "new-warm": {
+    "purge_us": 7518,
+    "python_peak_bytes": 128560
+  },
+  "new-cold": {
+    "purge_us": 15011,
+    "python_peak_bytes": 128512
+  }
+}
