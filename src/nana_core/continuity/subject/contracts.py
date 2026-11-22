@@ -8,7 +8,7 @@ from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEva
 from ..extensions import SurfaceEnvelope
 from ..agency_contracts import GoalStepRef,GoalReviewRef
 
-from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
+from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName,VoluntaryTerms
 
 from .context_fit import InteractionSignal,ContextFitAssessment
 from .framing import ProblemFrame,FrameAssessment
@@ -196,6 +196,8 @@ class DeliberationFrame(DTO):
     learning_programs:tuple[LearningProgramOption,...]=Field(default=(),max_length=16)
     learning_selection_optional:Literal[True]|None=None
     experience_need:ExperienceNeed|None=None
+    relational_request:RelationalRequest|None=None
+    relational_terms:VoluntaryTerms|None=None
 
     @model_serializer(mode='wrap')
     def compatible_options(self,handler):
@@ -204,6 +206,8 @@ class DeliberationFrame(DTO):
         if not self.learning_programs:result.pop('learning_programs',None)
         if self.learning_selection_optional is None:result.pop('learning_selection_optional',None)
         if self.experience_need is None:result.pop('experience_need',None)
+        if self.relational_request is None:result.pop('relational_request',None)
+        if self.relational_terms is None:result.pop('relational_terms',None)
         return result
 
 

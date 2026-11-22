@@ -1,0 +1,58 @@
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 37180)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-next-refinement-work/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tests/person_self/test_relational_cognitive_choice.py", line 166, in propose
+    assert value.role=='SELF'
+           ^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py", line 1042, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'CognitionRequest' object has no attribute 'role'
+----------------------------------------
+F
+=================================== FAILURES ===================================
+_ test_normal_provider_queue_honors_current_choice_once_without_adopting_terms _
+
+tmp_path = PosixPath('/dev/shm/nq283provider3/test_normal_provider_queue_hon0')
+
+    def test_normal_provider_queue_honors_current_choice_once_without_adopting_terms(tmp_path):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        from tests.person_self.test_private_method_continuation import bind
+        from tests.world_loop.test_model_framing import bind as bind_counter
+        seen=[]
+        def propose(value):
+            context=json.loads(value.context_json);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            seen.append({'frame':frame,'context_bytes':len(value.context_json.encode())})
+            assert value.role=='SELF'
+            return StructuredProposal(interpretation='SYNTHETIC current bounded choice',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                interpretation='SYNTHETIC_PRIVATE_PROVIDER_RATIONALE',proposed_operations=('DECLINE_REQUEST',)))
+        with fresh(tmp_path/'subject/self.db') as r,provider_harness(proposer=propose) as (transport,state):
+            prepare(r);bind_counter(transport);bind(r,transport,policy());event=request(r,'normal-provider')
+            queued=RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,
+                causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=r.clock.utc_now_us())
+            qid=r.submit(queued);result=r.step()
+>           assert result['queue_id']==qid and result['cycle'].relational_decision.response.decision=='DECLINE', (result['mode'],result['reason'],state,seen)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'relational_decision'
+
+tests/person_self/test_relational_cognitive_choice.py:175: AttributeError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_normal_provider_queue_honors_current_choice_once_without_adopting_terms
+1 failed, 11 deselected in 0.40s

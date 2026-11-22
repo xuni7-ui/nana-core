@@ -13,6 +13,7 @@ from ..contracts import CoreError, DTO
 from .autonomy.contracts import MediaSelection
 from .autonomy.private_intent import PrivateQuestionProposal,PrivatePlanProposal,PrivateTendencyProposal
 from .subject.opportunities import Behavior,LearningProgramRef
+from .relational.contracts import REQUEST_RESPONSE_OPERATIONS
 
 
 class FrozenModelInput(DTO):
@@ -39,7 +40,7 @@ class CognitiveProposal(DTO):
     identity_id: str
     identity_revision: int = Field(ge=1)
     interpretation: str = Field(min_length=1, max_length=2048)
-    proposed_operations: tuple[Literal["READ_SOURCE", "LOCATE_SOURCE", "DRAFT", "ASK", "WAIT"], ...] = Field(min_length=1, max_length=8)
+    proposed_operations: tuple[Literal["READ_SOURCE", "LOCATE_SOURCE", "DRAFT", "ASK", "WAIT", "ACCEPT_REQUEST", "NEGOTIATE_REQUEST", "DECLINE_REQUEST"], ...] = Field(min_length=1, max_length=8)
     memory_refs: tuple[str, ...] = Field(default=(), max_length=64)
     lesson_refs: tuple[str, ...] = Field(default=(), max_length=32)
 
@@ -131,6 +132,13 @@ def validate_cognitive_proposal(proposal, context):
     optional=any(b.kind=='SUBJECT_APPRAISAL' and json.loads(b.data_json).get('learning_selection_optional') is True for b in context.blocks)
     if programs and proposal.preferred_behavior=='LEARN' and selected is None and not optional:
         raise CoreError('PRIVATE_LEARNING_SELECTION_REQUIRED')
+    responses=set(proposal.proposed_operations)&set(REQUEST_RESPONSE_OPERATIONS)
+    private_edits=(proposal.private_question,proposal.private_plan,proposal.private_tendency)
+    if (len(responses)>1 or (responses and (proposal.preferred_behavior is not None
+            or any(v is not None for v in private_edits) or set(proposal.proposed_operations)&{'ASK','WAIT'}))):
+        raise CoreError('AMBIGUOUS_RELATIONAL_RESPONSE')
+    if responses and not any(b.kind=='SUBJECT_APPRAISAL' and json.loads(b.data_json).get('relational_request') for b in context.blocks):
+        raise CoreError('UNSUPPORTED_RELATIONAL_RESPONSE')
     for candidate,category in ((proposal.private_question,'PRIVATE_QUESTION'),(proposal.private_plan,'PRIVATE_PLAN'),(proposal.private_tendency,'PRIVATE_TENDENCY')):
         if candidate is None:continue
         private_refs={rid for b in context.blocks if b.kind=='PRIVATE_INTERNAL_STATE' for rid in b.source_record_ids}

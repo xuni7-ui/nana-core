@@ -345,3 +345,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 A原观察复用与实体范围
 
 原perception.py、新既有world_loop/test_perception_reuse.py、原CI精确触发/组、09/11/ACTIVE/STATUS、本白名单、evidence/sourced-perception-reuse-20261117原4错/当前6/相关106/同字节原模块对照/实际CI/指纹；无DB/私史/Key/新缓存/新权威/账号/付费/生产/CURRENT/APK。tmp/shm丢失如实记录不伪造恢复。
+
+## 2026-11-22 A 原 C 关系选择
+
+仅本批 cognition/subject/relational/presence 8 个 Core 文件、匹配测试、原CI、两条原清单项、09/11/ACTIVE/STATUS及关系选择合成证据。无私史、生产数据或凭据。

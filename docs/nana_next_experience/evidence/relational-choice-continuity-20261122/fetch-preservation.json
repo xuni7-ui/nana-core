@@ -1,0 +1,8 @@
+{
+  "reason": "Own stopped git archive promisor fetch; temporary unindexed pack preserved byte-for-byte, no indexed pack/Store/source deleted",
+  "bytes": 619364351,
+  "sha256": "42141414aa615972fb1eb2b28c9146b9d29b75a3384b68bba2873e2595e5b57a",
+  "original": ".git/objects/pack/tmp_pack_RdKCpa",
+  "preserved": "/tmp/nana-283-preserved-fetch-tmp_pack_RdKCpa",
+  "original_path_symlink": true
+}

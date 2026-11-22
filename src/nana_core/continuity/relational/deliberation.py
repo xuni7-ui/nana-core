@@ -1,7 +1,7 @@
 """Qualitative context-sensitive tradeoff, no score, authority or extra loop."""
 from ...contracts import CoreError
 from ...storage import digest
-from .contracts import (DAY,WillingDeferenceView,SelfAuthorshipAppraisal,DeliberationFactor,RelationalResponsePlan,RelationalDecision)
+from .contracts import (REQUEST_RESPONSE_OPERATIONS,DAY,WillingDeferenceView,SelfAuthorshipAppraisal,DeliberationFactor,RelationalResponsePlan,RelationalDecision)
 from .bootstrap import anchor_view
 from .projections import personality_tendencies
 
@@ -28,7 +28,16 @@ def willing_deference(request,*,relationship,anchor,personality,appetite,commitm
         counterconsiderations=tuple(counters),domain=request.trust_domain)
 
 
-def deliberate(store,event,situation,*,source_record_id,privacy_classes):
+def cognitive_response(proposal):
+    if proposal is None:return None,False
+    chosen=next((REQUEST_RESPONSE_OPERATIONS[x] for x in proposal.proposed_operations if x in REQUEST_RESPONSE_OPERATIONS),None)
+    deferred=(not chosen and (bool(set(proposal.proposed_operations)&{'ASK','WAIT'})
+        or proposal.preferred_behavior in {'REFLECT','REST'}
+        or any(x is not None for x in (proposal.private_question,proposal.private_plan,proposal.private_tendency))))
+    return chosen,bool(deferred)
+
+
+def deliberate(store,event,situation,*,source_record_id,privacy_classes,preferred_choice=None,deferred=False):
     request=event.relational_request
     if request is None:return None
     if not source_record_id or event.retention=='DO_NOT_REMEMBER':return None
@@ -51,6 +60,8 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     # Every option stays possible in its context. Personality changes sensitivity,
     # bounded compromise and review threshold, not an unconditional winning rank.
     if own_boundary:choice='DECLINE'
+    elif deferred:choice='NEGOTIATE'
+    elif preferred_choice is not None:choice=preferred_choice
     elif indefinite:
         choice='DECLINE' if traits['conflict_style']=='FIRM' and traits['conviction_persistence']=='HIGH' else 'NEGOTIATE'
     elif request.consequence=='HIGH' and (willingness.assessment in {'UNKNOWN','LIMITED'} or traits['conviction_persistence']=='HIGH'):choice='DECLINE'
@@ -64,8 +75,11 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     elif willingness.assessment in {'STRONG','MODERATE'} and traits['relational_accommodation'] in {'HIGH','MODERATE'} and request.consequence!='HIGH':choice='ACCEPT'
     elif request.operation=='PREFER' and request.consequence=='LOW':choice='ACCEPT'
     else:choice='NEGOTIATE'
-    accepted=None if choice=='DECLINE' else min(duration if duration and duration>0 else 3*DAY,3*DAY if indefinite else 30*DAY)
-    if choice=='NEGOTIATE' and desired and traits['self_direction_sensitivity']=='HIGH':accepted=min(accepted,DAY)
+    # A current wish cannot silently promise unbounded terms. The existing
+    # finite agreement/review contract stays separate from that wish.
+    if choice=='ACCEPT' and indefinite:choice='NEGOTIATE'
+    accepted=None if choice=='DECLINE' or deferred else min(duration if duration and duration>0 else 3*DAY,3*DAY if indefinite else 30*DAY)
+    if accepted is not None and choice=='NEGOTIATE' and desired and traits['self_direction_sensitivity']=='HIGH':accepted=min(accepted,DAY)
     boundary=now+accepted if accepted else None
     review=min(boundary,request.review_at_us) if boundary and request.review_at_us and request.review_at_us>now else boundary
     factors=[]

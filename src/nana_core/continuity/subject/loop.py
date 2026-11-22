@@ -277,7 +277,15 @@ class SubjectLoop:
             learning_privacy=tuple(p for p in self.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[event.privacy_class])
             learning_programs=self.learning_program_catalog(event.scope,learning_privacy)
             learning_selection_optional=bool(learning_programs)
-        return Situation(goal_review_id=goal_review_id,goal_review_purpose=event.goal_review.purpose if goal_review_id else None,memory_review_id=event.memory_review_id,plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        relational_request=event.relational_request if source['record_id'] and event.retention!='DO_NOT_REMEMBER' else None
+        relational_terms=None
+        if self.store.schema_target>=10 and event.task_class=='relational.accommodation.review':
+            from ..relational.accommodation import review_context
+            prepared=review_context(self.store,event,privacy_classes=self.privacy_classes)
+            if prepared:
+                row,relational_terms,relational_request=prepared
+                records.append(row['record_id']);memories.extend(self.records.support(row['record_id']))
+        return Situation(relational_request=relational_request,relational_terms=relational_terms,goal_review_id=goal_review_id,goal_review_purpose=event.goal_review.purpose if goal_review_id else None,memory_review_id=event.memory_review_id,plan_step=plan_step,learning_programs=learning_programs,learning_selection_optional=learning_selection_optional,private_interest_records=private_interests,experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -287,6 +295,18 @@ class SubjectLoop:
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
             reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes,
             relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9,social_appetite=appetite,voluntary_restraints=tuple(voluntary))
+
+    def _review_focus(self,event,situation):
+        review_event=event
+        if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
+            # A deferred due review can be reconsidered on an ordinary later
+            # wake. C selects the concern; Scheduler neither adopts nor sends.
+            for cid in situation.due_commitment_ids:
+                row=self.store.one('commitments',cid)
+                if self.records.read(row['record_id'])['payload'].get('voluntary'):
+                    review_event=event.model_copy(update={'task_class':'relational.accommodation.review','commitment_check_id':cid,'entity_id':row['entity_id']})
+                    break
+        return review_event
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -441,11 +461,13 @@ class SubjectLoop:
                 judgment=Judgment(stance='ALTERNATIVE',reason='A checked later consequence supports reviewing context before repeating a decision',source_ids=situation.memory_ids,
                     selected_method=lesson_method(rule),lesson_ids=situation.lesson_ids)
                 intention=Intention(kind='REFLECTION',purpose='Review the supported consequence without acquiring authority',slot_key='learned-disposition-review',source_ids=situation.memory_ids,self_generated=event.origin=='SELF_WAKE',behavior='REFLECT')
+            from ..relational.deliberation import cognitive_response
+            relational_choice,relational_deferred=cognitive_response(_deliberation.proposal if _deliberation is not None else None)
             relational=None
             if self.store.schema_target>=10 and event.relational_request and event.retention!='DO_NOT_REMEMBER':
                 from ..relational.deliberation import deliberate
                 from .contracts import Intention,Judgment
-                relational=deliberate(self.store,event,situation,source_record_id=source['record_id'],privacy_classes=self.privacy_classes)
+                relational=deliberate(self.store,event,situation,source_record_id=source['record_id'],privacy_classes=self.privacy_classes,preferred_choice=relational_choice,deferred=relational_deferred)
                 if relational:
                     choice=relational.response.decision
                     refs=tuple(dict.fromkeys((*relational.deference.relationship_refs,*relational.deference.personality_refs)))
@@ -456,6 +478,13 @@ class SubjectLoop:
                         reason='Subject-owned relational tradeoff; retained desire is not rewritten and no authority is created',source_ids=situation.memory_ids)
                     intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
                         purpose='Consider bounded accommodation or discuss its scope',slot_key='relational-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
+                    if relational_deferred and choice!='DECLINE':
+                        attention='DEFER'
+                        judgment=judgment.model_copy(update={'stance':'ASK' if 'ASK' in _deliberation.proposal.proposed_operations else 'DEFER',
+                            'reason':'Current C defers this request without adopting an accommodation'})
+                        intention=Intention(kind='NO_ACTION',purpose='Retain the request and own concerns without adopting terms',
+                            slot_key='quiet',source_ids=situation.memory_ids,self_generated=False,
+                            behavior=_deliberation.proposal.preferred_behavior or 'DEFER')
             conversation=None
             if event.conversation_proposal:
                 from ..person_self import consider
@@ -465,23 +494,21 @@ class SubjectLoop:
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='AGREE' if choice in {'ADOPT','WITHDRAW','PLAY_ONLY'} else 'DISAGREE' if choice=='DECLINE' else 'ASK' if choice=='ASK' else 'WATCH',reason=conversation.reason,source_ids=situation.memory_ids)
                 intention=Intention(kind='NO_ACTION' if choice=='DECLINE' else 'SOCIAL_INTERACTION',purpose=conversation.reason,slot_key='conversation-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
-            review_event=event
-            if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
-                # A deferred due review can be reconsidered on an ordinary later
-                # wake. C selects the concern; Scheduler neither adopts nor sends.
-                for cid in situation.due_commitment_ids:
-                    row=self.store.one('commitments',cid)
-                    if self.records.read(row['record_id'])['payload'].get('voluntary'):
-                        review_event=event.model_copy(update={'task_class':'relational.accommodation.review','commitment_check_id':cid,'entity_id':row['entity_id']})
-                        break
+            review_event=self._review_focus(event,situation)
             if self.store.schema_target>=10 and review_event.task_class=='relational.accommodation.review':
                 from ..relational.accommodation import review
                 from .contracts import Intention,Judgment
                 review_situation=situation if review_event is event else self.situation(review_event,source)
-                relational=review(self.store,review_event,review_situation,privacy_classes=self.privacy_classes)
+                relational=review(self.store,review_event,review_situation,privacy_classes=self.privacy_classes,preferred_choice=relational_choice,deferred=relational_deferred)
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)
+                if relational.review_choice is None:
+                    attention='DEFER'
+                    judgment=judgment.model_copy(update={'stance':'DEFER','reason':'Current C has not adopted new review terms'})
+                    intention=Intention(kind='NO_ACTION',purpose='Keep the bounded agreement pending a later considered review',
+                        slot_key='quiet',source_ids=situation.memory_ids,self_generated=True,
+                        behavior=_deliberation.proposal.preferred_behavior or 'DEFER')
             private_question=None;private_plan=None;private_tendency=None;formation=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
@@ -619,7 +646,7 @@ class SubjectLoop:
                         canonical(_deliberation.proposal.model_copy(update={'private_question':None,'private_plan':None,'private_tendency':None,'passing_thought':None,
                             'interpretation':'Private deliberation contents withheld from the ordinary cycle trace'}).model_dump(mode='json'))
                         if _deliberation.proposal.passing_thought or _deliberation.proposal.private_question or _deliberation.proposal.private_plan or _deliberation.proposal.private_tendency
-                            or _deliberation.proposal.preferred_behavior is not None or situation.private_interest_records else _deliberation.raw_proposal_json})
+                            or _deliberation.proposal.preferred_behavior is not None or situation.private_interest_records or relational is not None else _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
@@ -711,22 +738,25 @@ class SubjectLoop:
         # This is a tentative view, not a committed judgment/intention. The
         # transaction re-appraises against current support before acceptance.
         situation = self.situation(event, source)
-        appraisal = appraise(event, situation)
-        motives = motivate(event, situation, appraisal)
-        attention = decide(event, situation, appraisal, motives)[0]
+        focus_event=self._review_focus(event,situation)
+        if focus_event is not event:situation=self.situation(focus_event,source)
+        appraisal = appraise(focus_event, situation)
+        motives = motivate(focus_event, situation, appraisal)
+        attention = decide(focus_event, situation, appraisal, motives)[0]
         if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
             return self.run(event, expected_revision=revision)
         if (self.store.schema_target>=13 and getattr(model,'requires_request_anchor',False)
                 and not situation.memory_ids and not situation.support_record_ids):
             from ..autonomy.private_intent import anchor_provider_consideration
             event=anchor_provider_consideration(self.store,event,authority=authority)
+            focus_event=event
             situation=self.situation(event,source);appraisal=appraise(event,situation);motives=motivate(event,situation,appraisal)
             attention=decide(event,situation,appraisal,motives)[0]
         from .policy import deliberation_frame
         frame=deliberation_frame(source['subject_event_id'],situation,appraisal,motives,attention)
         assembler = ContextAssembler(self.store, authority)
-        request = ContextRequest(entity_id=event.entity_id, scopes=(event.scope,),
-            task_class=event.task_class or 'subject_deliberation',
+        request = ContextRequest(entity_id=focus_event.entity_id, scopes=(event.scope,),
+            task_class=focus_event.task_class or 'subject_deliberation',
             task=event.text or 'Assess current concerns; silence is allowed', task_privacy_class=event.privacy_class,
             max_input_tokens=65536, output_reserve_tokens=4096)
         context = assembler.assemble(request, policy, subject_frame=frame,capabilities=capabilities,limitations=limitations)

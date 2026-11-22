@@ -1,0 +1,5 @@
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.{"case": "original-runtime-provider-review", "calls": 1, "context_bytes": 24032, "decision": "DECLINE", "real_models": 0}
+..
+16 passed in 2.35s

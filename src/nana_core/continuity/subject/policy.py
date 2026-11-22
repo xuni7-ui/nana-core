@@ -3,7 +3,7 @@ from ...contracts import DTO
 from typing import Literal
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import Behavior,ConcernCue,directions,LearningProgramOption
-from ..relational.contracts import SocialAppetiteView
+from ..relational.contracts import SocialAppetiteView,RelationalRequest,VoluntaryTerms
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
 from .context_fit import ContextFitAssessment
@@ -14,6 +14,8 @@ from .experience_need import ExperienceNeed
 class Situation(DTO):
     learning_programs:tuple[LearningProgramOption,...]=()
     learning_selection_optional:bool=False
+    relational_request:RelationalRequest|None=None
+    relational_terms:VoluntaryTerms|None=None
     preferred_behavior:Behavior|None=None
     private_interest_records: tuple[str,...] = ()
     experience_need: ExperienceNeed | None = None
@@ -53,6 +55,7 @@ class Situation(DTO):
 
 
 def offered_directions(situation):
+    if situation.relational_request:return tuple(dict.fromkeys((*(directions(situation.cue) if situation.cue else ()), 'REFLECT','REST')))
     if situation.memory_review_id:return ('MAINTAIN','REST')
     if situation.goal_review_purpose=='REPLAN':
         return tuple(dict.fromkeys((*(directions(situation.cue) if situation.cue else ()), 'LEARN','REST')))
@@ -65,6 +68,7 @@ def deliberation_frame(subject_event_id,situation,appraisal,motives,attention):
     return DeliberationFrame(subject_event_id=subject_event_id,scope=situation.scope,appraisal=appraisal,motivations=motives,learning_programs=situation.learning_programs,
         learning_selection_optional=True if situation.learning_selection_optional else None,
         experience_need=situation.experience_need,
+        relational_request=situation.relational_request,relational_terms=situation.relational_terms,
         attention=attention,source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids,
         behavior_options=tuple(dict.fromkeys(offered_directions(situation))))
 

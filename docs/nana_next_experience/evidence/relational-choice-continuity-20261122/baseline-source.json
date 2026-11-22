@@ -1,0 +1,7 @@
+{
+  "baseline": "03e5227d273673d1094f792e41d1cf1d3e50afc3",
+  "copied_tracked_core_files": 323,
+  "missing": [],
+  "mismatches": [],
+  "method": "Current actual Core plus all 8 changed modules replaced from exact HEAD; every present file independently compared to git index blob SHA1 without blob fetch"
+}

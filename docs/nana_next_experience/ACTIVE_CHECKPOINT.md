@@ -1,3 +1,9 @@
+## 当前接续：关系请求与有期限复查，revision283
+
+原C询问曾被固定同意覆盖。现有限关系请求与原D复查可由C决定或暂缓，保留原期限、来源和原采纳机制。49虚拟h重启及消融，定向16、最终 29 passed in 13.92s。扩展首轮243过1抢占时序差额，旧新版定向复跑通过。原固定对照wire 36176→36845B，各1本地SELF。282匹配CI138过。
+
+继续原体验结果→自主选择、S8独立迁移→S10，待匹配发行节点。历史b196候选不含本批及279–282。CURRENT266+409。详细证据 docs/nana_next_experience/evidence/relational-choice-continuity-20261122/README.md。
+
 ## 当前接续：原来源观察复用与实体范围闭包，revision282
 
 原S5同一捕获每次重解码、跨实体/范围错返旧Memory，原4fail；现只从原Evidence按字节/descriptor/privacy复用decoded，原两处Memory按entity/scope绑定并查current支持，撤回不重建，缺processor中断可由原证据接续，私PCM不被PUBLIC降级。6过1.40s/106相关34.92s；同视频重启3重放原9原生进程/1.046s→0/.001604s，两侧0写/原Record不变，非LLM/Token省费。281独立CI132过59.97s，282CI待；环境tmp/shm确已丢，源码/归档保留，b196候选不含后继/CURRENT不动。

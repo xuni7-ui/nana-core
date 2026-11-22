@@ -1,0 +1,35 @@
+........................................................................ [ 29%]
+........................................................................ [ 59%]
+........................................................................ [ 88%]
+........F...................                                             [100%]
+=================================== FAILURES ===================================
+_ test_provider_foreground_preemption_remains_unknown_without_retrying_after_restart _
+
+tmp_path = PosixPath('/dev/shm/nq283relatedfinal2/test_provider_foreground_preem0')
+
+    def test_provider_foreground_preemption_remains_unknown_without_retrying_after_restart(tmp_path):
+        from nana_core.presence import NanaRuntime
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        from nana_core.continuity.subject import SubjectInput
+        clock=VirtualClock();runtime,rid,plan=_private_d_fixture(tmp_path,clock);config=runtime.config;path=runtime.store.path;identity=runtime.identity_id
+        with provider_harness(proposer=proposer,delay=.15) as (transport,state):
+            with runtime as r:
+                bind(r,transport);incoming=[]
+                def control():
+                    if incoming:return
+                    event=SubjectInput(source_key='synthetic.provider-d-user',kind='INTERACTION',origin='USER',entity_id='counterparty',scope='own-scope',
+                        privacy_class='PROJECT',observed_at_us=clock.utc_now_us(),text='SYNTHETIC foreground interruption',source_memory_ids=plan.source_memory_ids)
+                    incoming.append(r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=plan.source_memory_ids[0]),),due_at_us=clock.utc_now_us())))
+                r.control_progress=control;clock.advance(3*SECOND);r.refresh_attention()
+                result=r.step()
+                assert result['reason']=='PREEMPTED_NO_AUTOMATIC_RETRY' and result['cycle'] is None
+>               request=dict(r.store.all('cognitive_requests')[0]);assert request['state']=='UNKNOWN' and state['calls']==1
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: assert ('UNKNOWN' == 'UNKNOWN'
+E                 
+E                   UNKNOWN and 0 == 1)
+
+tests/person_self/test_provider_subject_runtime.py:87: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_provider_subject_runtime.py::test_provider_foreground_preemption_remains_unknown_without_retrying_after_restart
+1 failed, 243 passed in 56.50s

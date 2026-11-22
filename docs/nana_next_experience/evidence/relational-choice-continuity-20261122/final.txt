@@ -1,0 +1,67 @@
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.F.
+=================================== FAILURES ===================================
+_ test_normal_provider_queue_honors_current_choice_once_without_adopting_terms[review] _
+
+tmp_path = PosixPath('/dev/shm/nq283final/test_normal_provider_queue_hon1')
+phase = 'review'
+
+    @pytest.mark.parametrize('phase',['initial','review'])
+    def test_normal_provider_queue_honors_current_choice_once_without_adopting_terms(tmp_path,phase):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        from tests.person_self.test_private_method_continuation import bind
+        from tests.world_loop.test_model_framing import bind as bind_counter
+        seen=[]
+        def propose(value):
+            context=json.loads(value.context_json);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            seen.append({'frame':frame,'context_bytes':len(value.context_json.encode())})
+            assert value.cognitive_role=='SELF'
+            return StructuredProposal(interpretation='SYNTHETIC current bounded choice',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                interpretation='SYNTHETIC_PRIVATE_PROVIDER_RATIONALE',proposed_operations=('DECLINE_REQUEST',)))
+        with fresh(tmp_path/'subject/self.db') as r,provider_harness(proposer=propose) as (transport,state):
+            prepare(r);bind_counter(transport)
+            event=request(r,'normal-provider')
+            if phase=='review':
+                from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+                event=event.model_copy(update={'relational_request':event.relational_request.model_copy(update={'review_at_us':r.clock.utc_now_us()+3_600_000_000})})
+                prior=r.subject.cognize(event,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+                cid=VoluntaryAccommodationService(r.store,r.authority).materialize(prior.cycle_id,r.authority)
+                old=dict(r.store.one('commitments',cid));r.clock.source.advance(3_600_000_000)
+                event=SubjectInput(source_key='synthetic.provider-review-wake',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',
+                    privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+>           bind(r,transport,policy())
+
+tests/person_self/test_relational_cognitive_choice.py:182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_private_method_continuation.py:59: in bind
+    r.cognition.bind_provider(lambda event:session.subject_port(privacy_class=event.privacy_class,budget=budget),preview)
+src/nana_core/presence/cognition.py:81: in bind_provider
+    self.lease.assert_current()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7f49c5441b50>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_normal_provider_queue_honors_current_choice_once_without_adopting_terms[review]
+1 failed, 15 passed in 1.90s

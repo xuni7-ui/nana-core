@@ -135,10 +135,17 @@ class CognitionCoordinator:
 
     def _choose(self,row,event,loop,source,*,preview=True):
         situation=loop.situation(event,source)
+        # Preview the same current request/review that original C will consider.
+        # A simple default answer is not evidence that an open social choice
+        # needs no judgment; resource admission still governs the one attempt.
+        explicit_relational_choice=situation.relational_request is not None
+        focus=loop._review_focus(event,situation)
+        if focus is not event:
+            event=focus;situation=loop.situation(event,source)
         from ..continuity.subject.policy import appraise
         appraisal=appraise(event,situation)
         if event.retention=='DO_NOT_REMEMBER':return 'LIGHT_COGNITION','NONRETENTION_NO_MODEL'
-        need=appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH')
+        need=explicit_relational_choice or (appraisal.uncertainty in {'RELEVANT','HIGH'} and (appraisal.risk=='HIGH' or event.significance=='HIGH' or appraisal.novelty=='HIGH'))
         from ..continuity.autonomy.private_intent import is_private_consideration
         private_opportunity=is_private_consideration(event)
         if private_opportunity:

@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 282,
-  "as_of_us": 1794926128303522,
+  "revision": 283,
+  "as_of_us": 1795339848674440,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原S3既有社交兴趣影响C有限关系请求，旧ASK→ACCEPT覆写，现ASK暂置/复查。49虚拟h重启与消融，正常请求/D各1本地SELF/无自动采纳；定向16过，扩展243过1时序首错、原新单项通过，真实0，完整wire+669B。",
     "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
     "279持久反例恢复/280原meta按域资格先筛后8窗口已修，原后续G新数据BLOCKED→DONE，独立评价不变。280匹配CI179过1warning38.76s/clientSKIP，真实0；独立候选/自主深改及更广迁移继续，不称S10完成。",
     "b196固定Core312/263双SHA6f7d309f，Web237输入复用B24归档5963d594；delivery b79e9ba6共22件，新GitHub克隆21SHA/第二离线19deps/263同源。同DEV交流-私创作-G迁移-梦境72虚拟h串联，两槽各7fixture/0动作Goal；安装28过，CURRENT266+409。",
-    "B22相对PTS原生S5已过281独立CI132项59.97s，原100ms门禁不改。现同来源观察在原Store复用且source/claim memory按实体范围绑定，原4fail→4过/补恢复与私PCM共6过1.40s，106相关34.92s；3重放9原生→0、原记录/0写不变，非Token收益。",
+    "同来源观察复用282独立CI138过45.26s；原3重放9原生→0及0写、来源/实体/范围、原PTS及撤回证据继承。",
     "原私Question/Plan/Tendency生命周期保持；现原GoalReview不再因菜单含WITHDRAW就结束Goal，原C明确REST实际SUSPENDED。28f旧6fail3pass→9过/58相关16.53s；同身份/同plan/原Grant不变，明确放弃及规范保持，两侧1SELF/22757requestbytes同预算，真实0。",
     "原方法反馈/G迁移保留；现有效巩固候选在C模型前接原Frame，MAINTAIN/REST与实际判断共用，保留来源/规范/默认压力休息。精确341原263模块旧7fail1pass→8过.91s/前49相关7.71s；正常Runtime.step一SELF/原job PAUSED/同条件不重调，拒不保留0写，真实0。",
-    "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。",
-    "原G结果已改变当前能力动机/123相关保留；原V4私倾向投影现给Core时钟elapsed，不改持久契约/定时器。dd756旧1行为错+1缺字段→2通过/74相关40.35s；同主体重启虚拟49h短倾向LISTEN→CHAT/长期仍LISTEN，去字段消融、撤回/回拨有效；每chat仍2HTTP/+39投影bytes非Token。"
+    "上下文压缩连续性五项归原S1–S10：原获准交流先裁剪_recent后存Record的缺口修复，原1fail1pass→新2过；完整Record先提交/重启精确384字摘录/重复0调用/撤回失效/默认不存。51相关35.05s+25HTTP25.78s；原49虚拟h私念消融/同主体跨平台/私人计划复验，真实0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -45,20 +45,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-17再次重建：workspace源码/归档与远端保留，tmp/shm旧安装/DEV/轮子/下载均丢，不假称现存。Python3.12.14/SQLite3.53.1与原bwrap实重新可用；旧20万13SHA为历史证据，本轮不作磁盘新P95或恢复新验收。",
-    "b196双槽联合候选不含279–282；282匹配CI待实读，原Core源码定向已过，未新安装。下一回原S3长期经历/多动机→C、原S8-S10迁移及适时新同源节点；B22其余/私平台/存储Token/产品A–H继续，真实资格及CURRENT266+409不变。"
+    "b196双槽候选不含279–283，CURRENT266+409。下一由原Experience/G可靠反馈结果影响不同场景的自主选择；S8→S10独立迁移及原A–H、产品、视听、存储Token、匹配候选和真实资格继续。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/relational-choice-continuity-20261122/README.md",
     "docs/nana_next_experience/evidence/sourced-perception-reuse-20261117/README.md",
     "docs/nana_next_experience/evidence/native-container-relative-pts-20261117/README.md",
     "docs/nana_next_experience/evidence/meta-learning-domain-continuity-20261117/README.md",
     "docs/nana_next_experience/evidence/persisted-learning-counterexample-20261117/README.md",
     "docs/nana_next_experience/evidence/matched-integrated-b196f5d-20261117/README.md",
     "docs/nana_next_experience/evidence/integrated-qualification-tools-20261117/README.md",
-    "docs/nana_next_experience/evidence/independent-interpret-context-20261117/README.md",
-    "docs/nana_next_experience/evidence/integrated-platform-feature-20261117/README.md"
+    "docs/nana_next_experience/evidence/independent-interpret-context-20261117/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision283证据指纹锚：`e189f20d36df24dc8c15fa1fa81271661e7b3583679bcc2e4eadfe8b11cd33b7`（source.sha256不含自身/09）。
 
 A revision282证据指纹锚：`007871f2c9deb70d189ff7981abed8dda0905f211d695fe1bfebff81601a369d`（source.sha256不含自身/09）。
 

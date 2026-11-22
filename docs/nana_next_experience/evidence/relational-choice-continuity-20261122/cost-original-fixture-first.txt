@@ -1,0 +1,47 @@
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 59634)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/tmp/nana283-fixed-old/src/nana_core/continuity/world_loop/harness.py", line 91, in do_POST
+    content=proposer(request).model_dump_json()
+            ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-283-comparison.py", line 14, in propose
+    return StructuredProposal(interpretation='SYNTHETIC same bounded request',subject_cognition=CognitiveProposal.model_validate(raw))
+                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py", line 732, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 3 validation errors for CognitiveProposal
+proposed_operations
+  Input should be a valid tuple [type=tuple_type]
+    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+memory_refs
+  Input should be a valid tuple [type=tuple_type]
+    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+lesson_refs
+  Input should be a valid tuple [type=tuple_type]
+    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+----------------------------------------
+Traceback (most recent call last):
+  File "/workspace/nana-283-comparison.py", line 19, in <module>
+    cycle=r.subject.cognize(event,model=session.subject_port(privacy_class='PERSONAL',budget=budget),authority=r.authority,policy=policy())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana283-fixed-old/src/nana_core/continuity/subject/loop.py", line 733, in cognize
+    result = DeliberationSession(assembler).run(model, context, request, policy)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana283-fixed-old/src/nana_core/continuity/cognition.py", line 152, in run
+    raw = model.propose(envelope)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nana283-fixed-old/src/nana_core/continuity/world_loop/cognition.py", line 923, in propose
+    if result['state']!='PROPOSED':raise CoreError(result.get('error_code') or 'SUBJECT_COGNITION_'+result['state'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+nana_core.contracts.CoreError: PROVIDER_INVALID_REPLY

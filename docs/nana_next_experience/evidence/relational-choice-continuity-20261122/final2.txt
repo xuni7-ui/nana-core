@@ -1,0 +1,52 @@
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.F.
+=================================== FAILURES ===================================
+_ test_normal_provider_queue_honors_current_choice_once_without_adopting_terms[review] _
+
+tmp_path = PosixPath('/dev/shm/nq283final2/test_normal_provider_queue_hon1')
+phase = 'review'
+
+    @pytest.mark.parametrize('phase',['initial','review'])
+    def test_normal_provider_queue_honors_current_choice_once_without_adopting_terms(tmp_path,phase):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        from tests.person_self.test_private_method_continuation import bind
+        from tests.world_loop.test_model_framing import bind as bind_counter
+        seen=[]
+        def propose(value):
+            context=json.loads(value.context_json);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            seen.append({'frame':frame,'context_bytes':len(value.context_json.encode())})
+            assert value.cognitive_role=='SELF'
+            return StructuredProposal(interpretation='SYNTHETIC current bounded choice',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                interpretation='SYNTHETIC_PRIVATE_PROVIDER_RATIONALE',proposed_operations=('DECLINE_REQUEST',)))
+        with fresh(tmp_path/'subject/self.db') as r,provider_harness(proposer=propose) as (transport,state):
+            prepare(r);bind_counter(transport)
+            event=request(r,'normal-provider')
+            if phase=='review':
+                from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+                event=event.model_copy(update={'relational_request':event.relational_request.model_copy(update={'review_at_us':r.clock.utc_now_us()+1_000_000})})
+                prior=r.subject.cognize(event,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+                cid=VoluntaryAccommodationService(r.store,r.authority).materialize(prior.cycle_id,r.authority)
+                old=dict(r.store.one('commitments',cid));r.clock.source.advance(1_000_000)
+                event=SubjectInput(source_key='synthetic.provider-review-wake',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',
+                    privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+            bind(r,transport,policy())
+            queued=RuntimeEvent(event_type='USER_EVENT' if phase=='initial' else 'SELF_EVENT',trigger='INCOMING_EVENT' if phase=='initial' else 'SELF_TRIGGER',input=event,
+                causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=r.clock.utc_now_us())
+            qid=r.submit(queued);result=r.step()
+>           assert result['queue_id']==qid and result['cycle'].relational_decision.response.decision=='DECLINE', (result['mode'],result['reason'],state,seen)
+E           AssertionError: ('FULL_COGNITION', 'IMPORTANT_UNCERTAIN_SOURCE', {'calls': 1, 'request_ids': ['6166a19c-e788-4ff4-90fe-840235960bc3']}...oal_relevance': 'NONE', 'relationship_relevance': 'LOW', 'self_relevance': 'LOW', ...}, ...}, 'context_bytes': 24032}])
+E           assert ('f07441e8-584...-808aaa645438' == 'df18c314-da5...-2dbd3c421cc1'
+E             
+E             - df18c314-da5c-4f9b-a853-2dbd3c421cc1
+E             + f07441e8-5845-4c4e-9e5a-808aaa645438)
+
+tests/person_self/test_relational_cognitive_choice.py:186: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_normal_provider_queue_honors_current_choice_once_without_adopting_terms[review]
+1 failed, 15 passed in 2.54s

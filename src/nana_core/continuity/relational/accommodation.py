@@ -11,10 +11,13 @@ from .deliberation import deliberate
 from .projections import personality_tendencies
 
 
-def review(store,event,situation,*,privacy_classes):
+def review_context(store,event,*,privacy_classes):
     if event.task_class!='relational.accommodation.review' or not event.commitment_check_id:return None
     row=store.one('commitments',event.commitment_check_id);records=RecordService(store)
     if not row or row['state'] not in {'ADOPTED','ACTIVE'} or row['scope']!=event.scope or row['entity_id']!=event.entity_id:raise CoreError('VOLUNTARY_REVIEW_TARGET_INVALID')
+    head=store.one('continuity_records',row['record_id'])
+    if not head or head['privacy_class'] not in privacy_classes or not records.current_support(row['record_id']):
+        raise CoreError('VOLUNTARY_REVIEW_CONTEXT_UNAVAILABLE')
     body=records.read(row['record_id'])['payload']
     if not body.get('voluntary'):raise CoreError('NOT_VOLUNTARY_COMMITMENT')
     terms=VoluntaryTerms.model_validate_json(canonical(body['voluntary']))
@@ -22,10 +25,25 @@ def review(store,event,situation,*,privacy_classes):
     source=store.db.execute('SELECT * FROM subject_cycles WHERE cycle_id=?',(terms.source_cycle_id,)).fetchone()
     old=records.read(source['record_id'])['payload']['relational_decision']
     req=RelationalRequest.model_validate_json(canonical(old['request']))
+    if req.requesting_entity!=event.entity_id:raise CoreError('VOLUNTARY_REVIEW_CONTEXT_UNAVAILABLE')
+    return row,terms,req
+
+
+def review(store,event,situation,*,privacy_classes,preferred_choice=None,deferred=False):
+    prepared=review_context(store,event,privacy_classes=privacy_classes)
+    if prepared is None:return None
+    row,terms,req=prepared
     context=situation.model_copy(update={'commitment_ids':tuple(c for c in situation.commitment_ids if c!=row['commitment_id'])})
-    current=deliberate(store,event.model_copy(update={'relational_request':req}),context,source_record_id=row['record_id'],privacy_classes=privacy_classes)
+    current=deliberate(store,event.model_copy(update={'relational_request':req}),context,source_record_id=row['record_id'],privacy_classes=privacy_classes,preferred_choice=preferred_choice,deferred=deferred)
     now=store.clock.utc_now_us();traits={f.name:f.assessment for f in personality_tendencies(store,scope=event.scope,privacy_classes=privacy_classes).facets}
-    choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' or not situation.social_appetite.available else 'MODIFY' if current.response.decision=='NEGOTIATE' or (traits['self_direction_sensitivity']=='HIGH' and (situation.social_appetite.state=='SEEKING' or bool(situation.social_appetite.sources_for('SEEKING')))) else 'CONTINUE'
+    if deferred and now<terms.end_us and current.response.decision!='DECLINE':
+        # Asking/waiting is not a newly adopted change of terms. The original
+        # commitment remains bounded/current until an actual later decision.
+        return current.model_copy(update={'phase':'REVIEW','review_commitment_id':row['commitment_id'],
+            'review_revision':row['revision'],'review_choice':None,'accepted_duration_us':None,'review_at_us':terms.review_at_us})
+    if preferred_choice is not None:
+        choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' else 'MODIFY' if current.response.decision=='NEGOTIATE' else 'CONTINUE'
+    else:choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' or not situation.social_appetite.available else 'MODIFY' if current.response.decision=='NEGOTIATE' or (traits['self_direction_sensitivity']=='HIGH' and (situation.social_appetite.state=='SEEKING' or bool(situation.social_appetite.sources_for('SEEKING')))) else 'CONTINUE'
     duration=None if choice=='END' else min(terms.end_us-now,DAY) if choice=='MODIFY' else terms.end_us-now
     response=current.response.model_copy(update={'decision':'DECLINE' if choice=='END' else 'NEGOTIATE' if choice=='MODIFY' else 'ACCEPT',
         'temporal_boundary_us':now+duration if duration else None,'proposed_scope':'TARGETED' if choice=='MODIFY' else terms.accepted_scope})
@@ -48,6 +66,7 @@ class VoluntaryAccommodationService:
         if not raw:return None
         decision=RelationalDecision.model_validate_json(canonical(raw))
         if decision.phase=='REVIEW':
+            if decision.review_choice is None:return None
             if body['judgment']['stance'] not in {'AGREE','ALTERNATIVE'} or body['evaluation']['normative']!='ENDORSED':return None
             return self.commitments.review_voluntary(cycle_id,authority=authority)
         if decision.response.decision!='ACCEPT' or body['judgment']['stance']!='AGREE' or body['evaluation']['normative']!='ENDORSED':return None

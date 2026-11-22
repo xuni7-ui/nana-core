@@ -1,0 +1,26 @@
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "ACCEPT", "wish_seen": true}
+F
+=================================== FAILURES ===================================
+_ test_sourced_wish_can_change_relational_choice_across_restart_without_erasing_care _
+
+tmp_path = PosixPath('/dev/shm/nq283old/test_sourced_wish_can_change_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f272f0e38f0>
+
+    def test_sourced_wish_can_change_relational_choice_across_restart_without_erasing_care(tmp_path,monkeypatch):
+        path=tmp_path/'subject/self.db';model=ConsiderExistingWish()
+        with fresh(path) as r:
+            prepare(r);identity=r.identity_id;retained=social_appetite(r.store,scope='world',privacy_classes=('PERSONAL',))
+            cycle=r.subject.cognize(request(r,'first'),model=model,authority=r.authority,policy=policy())
+            print(json.dumps({'case':'initial-request','model_operations':['ASK'],'actual_decision':cycle.relational_decision.response.decision,'wish_seen':model.seen[-1]}))
+>           assert model.seen==[True] and cycle.relational_decision.response.decision=='NEGOTIATE'
+E           AssertionError: assert ([True] == [True]
+E             
+E             Use -v to get more diff and 'ACCEPT' == 'NEGOTIATE'
+E             
+E             - NEGOTIATE
+E             + ACCEPT)
+
+tests/person_self/test_relational_cognitive_choice.py:53: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_sourced_wish_can_change_relational_choice_across_restart_without_erasing_care
+1 failed in 0.15s

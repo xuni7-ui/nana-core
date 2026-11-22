@@ -1,0 +1,1 @@
+{"calls": 1, "case": "same-existing-ASK-original-C-and-SELF", "measurements": [{"context_bytes": 17586, "schema_bytes": 6843, "wire_bytes": 36845}], "parent_cpu_seconds": 0.385526114, "real_models": 0, "real_provider_cost": null, "real_provider_tokens": null, "result": "NEGOTIATE", "sqlite_allocated_bytes": 2711552, "wall_seconds": 0.3884669239996583}

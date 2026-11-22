@@ -8,6 +8,9 @@ Level=Literal['LOW','MODERATE','HIGH']
 FacetName=Literal['self_direction_sensitivity','relational_accommodation','commitment_seriousness','conflict_style','social_exploration_tendency','conviction_persistence','repair_orientation','uncertainty_style']
 DAY=86_400_000_000
 
+# Tentative original-C responses, never Grants or an adopted commitment.
+REQUEST_RESPONSE_OPERATIONS={'ACCEPT_REQUEST':'ACCEPT','NEGOTIATE_REQUEST':'NEGOTIATE','DECLINE_REQUEST':'DECLINE'}
+
 class RelationalAnchorSpec(DTO):
     domain: Literal['SYNTHETIC_BOOTSTRAP'] = 'SYNTHETIC_BOOTSTRAP'
     identity_id: str

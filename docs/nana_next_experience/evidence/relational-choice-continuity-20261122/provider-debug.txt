@@ -1,0 +1,40 @@
+F
+=================================== FAILURES ===================================
+_ test_normal_provider_queue_honors_current_choice_once_without_adopting_terms _
+
+tmp_path = PosixPath('/dev/shm/nq283provider2/test_normal_provider_queue_hon0')
+
+    def test_normal_provider_queue_honors_current_choice_once_without_adopting_terms(tmp_path):
+        from nana_core.continuity.cognition import CognitiveProposal
+        from nana_core.continuity.world_loop.cognition import StructuredProposal
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.presence.contracts import RuntimeEvent,Cause
+        from tests.person_self.test_private_method_continuation import bind
+        from tests.world_loop.test_model_framing import bind as bind_counter
+        seen=[]
+        def propose(value):
+            context=json.loads(value.context_json);manifest=context['manifest']
+            frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
+            seen.append({'frame':frame,'context_bytes':len(value.context_json.encode())})
+            assert value.role=='SELF'
+            return StructuredProposal(interpretation='SYNTHETIC current bounded choice',subject_cognition=CognitiveProposal(
+                identity_id=manifest['identity_id'],identity_revision=manifest['identity_revision'],
+                interpretation='SYNTHETIC_PRIVATE_PROVIDER_RATIONALE',proposed_operations=('DECLINE_REQUEST',)))
+        with fresh(tmp_path/'subject/self.db') as r,provider_harness(proposer=propose) as (transport,state):
+            prepare(r);bind_counter(transport);bind(r,transport,policy());event=request(r,'normal-provider')
+            queued=RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,
+                causes=(Cause(kind='CANONICAL_SELF',reference_id=r.identity_id),),due_at_us=r.clock.utc_now_us())
+            qid=r.submit(queued);result=r.step()
+>           assert result['queue_id']==qid and result['cycle'].relational_decision.response.decision=='DECLINE', (result['mode'],result['reason'],state,seen)
+E           AssertionError: ('LIGHT_COGNITION', 'C_POLICY_SUFFICIENT', {'calls': 0, 'request_ids': []}, [])
+E           assert ('7018743a-59d...-02ca6bbc1ce5' == '7018743a-59d...-02ca6bbc1ce5'
+E             
+E               7018743a-59d0-4d4e-81ff-02ca6bbc1ce5 and 'ACCEPT' == 'DECLINE'
+E             
+E             - DECLINE
+E             + ACCEPT)
+
+tests/person_self/test_relational_cognitive_choice.py:175: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_normal_provider_queue_honors_current_choice_once_without_adopting_terms
+1 failed, 11 deselected in 0.27s
