@@ -39,6 +39,8 @@ from nana_core.life.config import LifeConfig,write_config
 from nana_core.continuity.project_work.service import material_for
 from nana_core.life.application import LifeApplication
 from nana_core.life.live_api.bridge import GatewayService
+from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
+assert callable(public_video_cache_handle) and callable(with_current_public_video)
 material=lambda name:material_for(root,'src/nana_core/continuity/'+name)
 home=root.parent/'dev';home.mkdir(mode=0o700)
 write_config(home,LifeConfig(project_root=str(root),materials=(material('recurrence.py'),),

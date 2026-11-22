@@ -1,0 +1,79 @@
+{"source": "9582c7b1369ea965728ac837940a795bda15ef16", "installed_blobs_verified": 263, "fixed_fixture_files": 29, "external_factories": 3}
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.{"case": "original-runtime-provider-review", "calls": 1, "context_bytes": 24032, "decision": "DECLINE", "real_models": 0}
+.....{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0, "selector_seconds": 0.0004472620003070915, "selector_cpu_seconds": 0.0004463299999999393, "selector_write_rows": 0}
+.{"same_method": false, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"same_method": true, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"compatible_available": true, "state": "DONE", "stage": "MONITOR", "used_original_strategy": true, "proposer_calls": 0}
+.{"compatible_available": false, "state": "BLOCKED", "stage": "CONSOLIDATE", "used_original_strategy": false, "proposer_calls": 1}
+.FFF.FF.......{"dense_first": true, "sample_times": [0.0, 1.6, 3.1, 4.7, 6.0, 8.0, 9.0, 11.0], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25360, "source_sha256": "06c82353fb9129d9ef312a57c31af9f0ba1d8bcea574782332be2c4f95258ee2", "native_processes": 3, "wall_s": 0.35080179799979305}
+.{"dense_first": false, "sample_times": [0.0, 2.0, 3.0, 5.0, 6.8, 8.5, 10.2, 11.9], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25302, "source_sha256": "f858df20c81e76e4cd44baf50e2941595fc79ef4dfc48ff9a5db5864a2cd5536", "native_processes": 3, "wall_s": 0.35092341099971236}
+.
+=================================== FAILURES ===================================
+__ test_video_handle_requires_current_original_public_observation[SYNTHETIC] ___
+
+tmp_path = PosixPath('/dev/shm/n294installed/test_video_handle_requires_cur0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd2de4ef6e0>
+origin = 'SYNTHETIC'
+
+    @pytest.mark.parametrize('origin', ['SYNTHETIC', 'RECORDED'])
+    def test_video_handle_requires_current_original_public_observation(tmp_path, monkeypatch, origin):
+>       from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
+E       ModuleNotFoundError: No module named 'nana_core.nanalink.video_handoff'
+
+tests/nanalink/test_public_video_source.py:24: ModuleNotFoundError
+___ test_video_handle_requires_current_original_public_observation[RECORDED] ___
+
+tmp_path = PosixPath('/dev/shm/n294installed/test_video_handle_requires_cur1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd2de4ef980>
+origin = 'RECORDED'
+
+    @pytest.mark.parametrize('origin', ['SYNTHETIC', 'RECORDED'])
+    def test_video_handle_requires_current_original_public_observation(tmp_path, monkeypatch, origin):
+>       from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
+E       ModuleNotFoundError: No module named 'nana_core.nanalink.video_handoff'
+
+tests/nanalink/test_public_video_source.py:24: ModuleNotFoundError
+_ test_public_video_handle_rejects_evidence_without_original_observation_record _
+
+tmp_path = PosixPath('/dev/shm/n294installed/test_public_video_handle_rejec0')
+
+    def test_public_video_handle_rejects_evidence_without_original_observation_record(tmp_path):
+        import hashlib
+        from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
+>       from nana_core.nanalink.video_handoff import public_video_cache_handle, with_current_public_video
+E       ModuleNotFoundError: No module named 'nana_core.nanalink.video_handoff'
+
+tests/nanalink/test_public_video_source.py:79: ModuleNotFoundError
+_ test_video_handoff_is_bound_to_the_same_active_original_observation[before-cache-use] _
+
+tmp_path = PosixPath('/dev/shm/n294installed/test_video_handoff_is_bound_to0')
+when = 'before-cache-use'
+
+    @pytest.mark.parametrize('when',['before-cache-use','while-producing-candidate'])
+    def test_video_handoff_is_bound_to_the_same_active_original_observation(tmp_path,when):
+        from nana_core.continuity.records import RecordService
+>       from nana_core.nanalink.video_handoff import with_current_public_video
+E       ModuleNotFoundError: No module named 'nana_core.nanalink.video_handoff'
+
+tests/nanalink/test_public_video_source.py:134: ModuleNotFoundError
+_ test_video_handoff_is_bound_to_the_same_active_original_observation[while-producing-candidate] _
+
+tmp_path = PosixPath('/dev/shm/n294installed/test_video_handoff_is_bound_to1')
+when = 'while-producing-candidate'
+
+    @pytest.mark.parametrize('when',['before-cache-use','while-producing-candidate'])
+    def test_video_handoff_is_bound_to_the_same_active_original_observation(tmp_path,when):
+        from nana_core.continuity.records import RecordService
+>       from nana_core.nanalink.video_handoff import with_current_public_video
+E       ModuleNotFoundError: No module named 'nana_core.nanalink.video_handoff'
+
+tests/nanalink/test_public_video_source.py:134: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_public_video_source.py::test_video_handle_requires_current_original_public_observation[SYNTHETIC]
+FAILED tests/nanalink/test_public_video_source.py::test_video_handle_requires_current_original_public_observation[RECORDED]
+FAILED tests/nanalink/test_public_video_source.py::test_public_video_handle_rejects_evidence_without_original_observation_record
+FAILED tests/nanalink/test_public_video_source.py::test_video_handoff_is_bound_to_the_same_active_original_observation[before-cache-use]
+FAILED tests/nanalink/test_public_video_source.py::test_video_handoff_is_bound_to_the_same_active_original_observation[while-producing-candidate]
+5 failed, 34 passed in 7.31s

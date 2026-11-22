@@ -267,3 +267,4 @@ src/nana_core/nanalink/media_candidates.py
 src/nana_core/nanalink/onebot.py
 src/nana_core/nanalink/private_source.py
 src/nana_core/nanalink/sdk.py
+src/nana_core/nanalink/video_handoff.py
