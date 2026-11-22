@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 288,
-  "as_of_us": 1795341126874266,
+  "revision": 289,
+  "as_of_us": 1795341309441911,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原G策略遇不可用候选或无适用方法不再错误UNKNOWN；旧2错→可行时DONE/独立迁移、无适用时回原提案1次并独立判定BLOCKED。21相关45集成通过，原策略权威及真实0。",
     "合入B26 f800f4a：简易设置使用原受权显式目录，跨页与高级共用在途/冷却，部分/错误反馈清楚，推理0。现役TS/Vite、102单测、22桌面390、44原BFF模型通过。",
     "原B站直接回复现在复用SDK事实判定，同文已存在不称外发。原本地SUCCEEDED/0 POST→准确未发送，真实新发1，缺证不确认，重放0平台/模型；46相关/最终16通过，原Kernel结果保留。",
     "合入C25固定f4a05620：平台回执按当前独立验证、已有同文0发送、QQ/Feed显式许可、媒体来源及平台诊断。原平台与便携148过，Web构建/102单测/8桌面390，真实0。原直接B站入口差额待补。",
     "305fda8b联合候选双构建91316708、实际离线双槽263文件/19依赖、远端0cfe18d取得24SHA。各同DEV 7本地模型0动作、S2/S3/G/梦境72虚拟h及各305→b196→305，33安装定向；283CI848、284CI226；Web237输入同，CURRENT266+409。",
     "原G策略取代提案时不再读取另一任务last_record_id；有效旧2错（UNKNOWN/错误依赖）→新版实际G两DONE/独立迁移/撤回旧提案不影响新方法。19相关与52集成通过，各总1本地LEARN、后续0/真实0。",
     "原S3既有社交兴趣影响C有限关系请求，旧ASK→ACCEPT覆写，现ASK暂置/复查。49虚拟h重启与消融，正常请求/D各1本地SELF/无自动采纳；定向16过，扩展243过1时序首错、原新单项通过，真实0，完整wire+669B。",
-    "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。",
-    "279持久反例恢复/280原meta按域资格先筛后8窗口已修，原后续G新数据BLOCKED→DONE，独立评价不变。280匹配CI179过1warning38.76s/clientSKIP，真实0；独立候选/自主深改及更广迁移继续，不称S10完成。"
+    "原G另一能力可回到C/私问保持；当前SELF旧formal报告改有来源引用投影，当前/显式/查询/未知附加正文full。旧1fail→1过/81相关+物理撤回1过；两侧均2SELF/1私问，input合计220294→194761B(-11.6%)非Token。32索引成员仍支持原请求，撤回使请求失效/主DB与WAL内容清除，真实0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -45,20 +45,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "环境2026-11-17再次重建：workspace源码/归档与远端保留，tmp/shm旧安装/DEV/轮子/下载均丢，不假称现存。Python3.12.14/SQLite3.53.1与原bwrap实重新可用；旧20万13SHA为历史证据，本轮不作磁盘新P95或恢复新验收。",
-    "305候选早于PR25/26与原B站修正，CURRENT266+409。模型目录错误剩余冷却/自托管合同、C27/B22、内心与S8→S10长期因果、其余A–H及联合匹配多端继续。真实资格待。"
+    "305候选早于PR25/26及G后继，CURRENT266+409。继续C27媒体生命周期/B22真实来源视觉、S3/S8-S10长期候选验证、模型协议与原A–H，匹配最终多端与真实资格待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/meta-strategy-applicability-20261122/README.md",
     "docs/nana_next_experience/evidence/pr26-simple-model-catalog-20261122/README.md",
     "docs/nana_next_experience/evidence/bilibili-original-delivery-view-20261122/README.md",
     "docs/nana_next_experience/evidence/pr25-platform-receipts-20261122/README.md",
     "docs/nana_next_experience/evidence/matched-integrated-305fda8b-20261122/README.md",
     "docs/nana_next_experience/evidence/learning-nomination-source-20261122/README.md",
     "docs/nana_next_experience/evidence/relational-choice-continuity-20261122/README.md",
-    "docs/nana_next_experience/evidence/sourced-perception-reuse-20261117/README.md",
-    "docs/nana_next_experience/evidence/native-container-relative-pts-20261117/README.md"
+    "docs/nana_next_experience/evidence/sourced-perception-reuse-20261117/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision289证据指纹锚：`4068465ff5653b9f7bd7e84eb3a2e2c987a09e65fd00a8139cc67c47ec2e8da5`（source.sha256不含自身/09）。
 
 A revision288证据指纹锚：`3818c46cf46e2aa185da664a9cdfbe8ff7fde72f6cb41721f26e45929db8b28e`（source.sha256不含自身/09）。
 

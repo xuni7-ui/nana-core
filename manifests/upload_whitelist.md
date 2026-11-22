@@ -373,3 +373,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-22 A 集成 B26
 
 B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览器清单、A现场合成证据。
+
+## 2026-11-22 A 原 G 策略适用性
+
+仅原 meta_learning、已有定向测试、事实账及合成证据。

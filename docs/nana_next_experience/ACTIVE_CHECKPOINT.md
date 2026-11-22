@@ -1,3 +1,9 @@
+## 当前接续：原策略适用性，revision289
+
+原G遇策略不适用留出原C/G选择。两个HYPOTHESIZE旧UNKNOWN变为实际DONE/验证迁移，或原提案后的明确BLOCKED。21相关及45集成通过，无真实模型。
+
+继续C27来源撤回、B22视觉，以及原S3/S8-S10和全部A–H。305候选为固定历史联合证据。证据 docs/nana_next_experience/evidence/meta-strategy-applicability-20261122/README.md。
+
 ## 当前接续：PR26 简易模型目录，revision288
 
 B26固定f800f4a合入现役，简易和高级目录共享请求/冷却、真实状态和错误提示，无推理。TS/Vite、102单测、22浏览器、44原BFF通过。错误剩余冷却未加新契约，原自托管仍候选。

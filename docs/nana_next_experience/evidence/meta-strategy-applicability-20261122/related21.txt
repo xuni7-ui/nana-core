@@ -1,0 +1,11 @@
+.{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0, "selector_seconds": 0.0010184109999045177, "selector_cpu_seconds": 0.0010191429999999446, "selector_write_rows": 0}
+.{"same_method": false, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"same_method": true, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"compatible_available": true, "state": "DONE", "stage": "MONITOR", "used_original_strategy": true, "proposer_calls": 0}
+.{"compatible_available": false, "state": "BLOCKED", "stage": "CONSOLIDATE", "used_original_strategy": false, "proposer_calls": 1}
+.PRIVATE_QUESTION_S8_FIXTURE baseline_passed 0 evaluation True transfer True later_method NUMERIC_SUM same_subject_restart True fixture_cognition_calls 2 revision_enabled False private_question_revision 1 input_limits [61440, 61440] synthetic_actions 0
+.PRIVATE_QUESTION_S8_FIXTURE baseline_passed 0 evaluation True transfer True later_method NUMERIC_SUM same_subject_restart True fixture_cognition_calls 2 revision_enabled True private_question_revision 2 input_limits [61440, 61440] synthetic_actions 0
+........{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PUBLIC", "result": "UNRESOLVED_COUNTEREXAMPLE", "state": "SUSPENDED", "method_available": false, "elapsed_seconds": 0.010523941999963426, "cpu_seconds": 0.010524132999999658, "write_rows": 0, "model_calls": 0}
+.{"measurement": "persisted_counterexample_after64_successes", "counter_privacy": "PERSONAL", "result": "UNRESOLVED_COUNTEREXAMPLE", "state": "SUSPENDED", "method_available": false, "elapsed_seconds": 0.009945146000063687, "cpu_seconds": 0.009945641000000283, "write_rows": 0, "model_calls": 0}
+.....
+21 passed in 3.63s

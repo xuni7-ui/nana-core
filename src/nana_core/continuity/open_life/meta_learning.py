@@ -27,6 +27,18 @@ def checks(records,rule):
         'independent_selection_experiment':bool(experiment and experiment['authority']=='DIRECT' and experiment['source_provenance']['source_kind']=='SYSTEM_VERIFICATION' and data.get('criterion_met') is True and data.get('filtered_passed',0)>data.get('baseline_passed',0)),
         'not_verifier_replacement':not rule.changes_evaluator,'no_authority':not rule.grants_authority}
 
+def _first_passing_hypothesis(problem, evaluator):
+    for method in problem.hypotheses:
+        try:
+            if evaluator.evaluate(method, problem.practice)['all_passed']:
+                return method
+        except (CoreError, ValueError, TypeError):
+            # These are sealed local methods. An inapplicable method may reject
+            # practice inputs, while another current candidate can still fit.
+            continue
+    return None
+
+
 def propose(store,method_lesson_id,*,authority):
     records=RecordService(store);lesson=store.one('lessons',method_lesson_id)
     if not lesson or lesson['state']!='ACTIVE':raise CoreError('META_VERIFIED_METHOD_LESSON_REQUIRED')
@@ -46,7 +58,7 @@ def propose(store,method_lesson_id,*,authority):
     job=store.one('jobs',trial['work_id'])
     spec=LearningSpec.model_validate_json(canonical(records.read(job['record_id'])['payload']['spec']))
     evaluator=IndependentEvaluator()
-    chosen=next((m for m in spec.hypotheses if evaluator.evaluate(m,spec.practice)['all_passed']),None)
+    chosen=_first_passing_hypothesis(spec,evaluator)
     if not chosen:raise CoreError('META_NO_PRACTICE_CANDIDATE')
     baseline=evaluator.evaluate(spec.baseline_method,spec.evaluation)
     checked=evaluator.evaluate(chosen,spec.evaluation)
@@ -89,7 +101,8 @@ def select(store,problem,*,scope,privacy):
         rule=LearningStrategyLesson.model_validate_json(canonical(records.read(head['record_id'])['payload']['rule']))
         if rule.domain!=problem.domain:continue
         from ..open_agency.learning import IndependentEvaluator
-        for method in problem.hypotheses:
-            if IndependentEvaluator().evaluate(method,problem.practice)['all_passed']:return method,head['record_id']
-        return problem.baseline_method,head['record_id']
+        method=_first_passing_hypothesis(problem,IndependentEvaluator())
+        # The baseline is a comparison, and may not be a valid nomination.
+        # Leave the current proposer in charge when this strategy finds no fit.
+        return (method,head['record_id']) if method is not None else (None,None)
     return None,None

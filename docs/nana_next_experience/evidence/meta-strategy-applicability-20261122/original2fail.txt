@@ -1,0 +1,111 @@
+{"compatible_available": true, "state": "UNKNOWN", "stage": "HYPOTHESIZE", "used_original_strategy": false, "proposer_calls": 0}
+F{"compatible_available": false, "state": "UNKNOWN", "stage": "HYPOTHESIZE", "used_original_strategy": false, "proposer_calls": 0}
+F
+=================================== FAILURES ===================================
+_ test_verified_meta_strategy_can_handle_a_changed_candidate_population[True] __
+
+tmp_path = PosixPath('/dev/shm/nq289old/test_verified_meta_strategy_ca0')
+compatible_available = True
+
+    @pytest.mark.parametrize('compatible_available',[True,False])
+    def test_verified_meta_strategy_can_handle_a_changed_candidate_population(tmp_path,compatible_available):
+        import json
+        from nana_core.continuity.open_agency.learning import LearningCase
+    
+        with fresh(tmp_path/'self.db') as runtime:
+            original=number_learning()
+            service=LearningService(runtime.store,runtime.authority,(original,),privacy_classes=('PERSONAL',),scopes=('lab',))
+            runtime.work.open_learning=service
+            start_learning(runtime,original,'meta-training')
+            original_lesson=runtime.store.all('lessons')[0]
+            strategy=propose(runtime.store,original_lesson['lesson_id'],authority=runtime.authority)
+            experience=ExperienceService(runtime.store,runtime.authority)
+            assert all(experience.test_lesson(strategy).values())
+            experience.activate(strategy,runtime.authority)
+            record=runtime.store.one('lessons',strategy)['record_id']
+            future=original.model_copy(update={
+                'learning_key':'learn.changed-methods',
+                'hypotheses':('CASEFOLD','NUMERIC_SUM') if compatible_available else ('NUMERIC_SUM',),
+                'practice':(LearningCase(case_id='changed-practice',context='meal',data=[1.75,1.25],expected=3.0 if compatible_available else [1.25,1.75]),),
+                'evaluation':(LearningCase(case_id='changed-heldout',context='meal',data=[2.5,2.25],expected=4.75 if compatible_available else [2.25,2.5]),),
+                'transfer':(LearningCase(case_id='changed-transfer',context='drawing',data=[3.5,.625],expected=4.125 if compatible_available else [.625,3.5]),),
+            })
+            seen=[]
+            class CurrentProposer:
+                def propose_method(self,problem):
+                    assert isinstance(problem,LearningProblem)
+                    assert not hasattr(problem,'evaluation') and not hasattr(problem,'transfer')
+                    seen.append(problem.learning_key)
+                    return 'NUMERIC_SUM'
+            service.proposer=CurrentProposer()
+            service.specs[future.learning_key]=future
+            start_learning(runtime,future,'new-strategy-conditions')
+            job=runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+            body=RecordService(runtime.store).read(job['record_id'])['payload']
+            print(json.dumps({'compatible_available':compatible_available,'state':job['state'],'stage':body['stage'],
+                'used_original_strategy':body.get('learning_strategy_record_id')==record,'proposer_calls':len(seen)}))
+            if compatible_available:
+>               assert job['state']=='DONE' and body['learning_strategy_record_id']==record
+E               AssertionError: assert ('UNKNOWN' == 'DONE'
+E                 
+E                 - DONE
+E                 + UNKNOWN)
+
+tests/open_life/test_meta_learning.py:192: AssertionError
+_ test_verified_meta_strategy_can_handle_a_changed_candidate_population[False] _
+
+tmp_path = PosixPath('/dev/shm/nq289old/test_verified_meta_strategy_ca1')
+compatible_available = False
+
+    @pytest.mark.parametrize('compatible_available',[True,False])
+    def test_verified_meta_strategy_can_handle_a_changed_candidate_population(tmp_path,compatible_available):
+        import json
+        from nana_core.continuity.open_agency.learning import LearningCase
+    
+        with fresh(tmp_path/'self.db') as runtime:
+            original=number_learning()
+            service=LearningService(runtime.store,runtime.authority,(original,),privacy_classes=('PERSONAL',),scopes=('lab',))
+            runtime.work.open_learning=service
+            start_learning(runtime,original,'meta-training')
+            original_lesson=runtime.store.all('lessons')[0]
+            strategy=propose(runtime.store,original_lesson['lesson_id'],authority=runtime.authority)
+            experience=ExperienceService(runtime.store,runtime.authority)
+            assert all(experience.test_lesson(strategy).values())
+            experience.activate(strategy,runtime.authority)
+            record=runtime.store.one('lessons',strategy)['record_id']
+            future=original.model_copy(update={
+                'learning_key':'learn.changed-methods',
+                'hypotheses':('CASEFOLD','NUMERIC_SUM') if compatible_available else ('NUMERIC_SUM',),
+                'practice':(LearningCase(case_id='changed-practice',context='meal',data=[1.75,1.25],expected=3.0 if compatible_available else [1.25,1.75]),),
+                'evaluation':(LearningCase(case_id='changed-heldout',context='meal',data=[2.5,2.25],expected=4.75 if compatible_available else [2.25,2.5]),),
+                'transfer':(LearningCase(case_id='changed-transfer',context='drawing',data=[3.5,.625],expected=4.125 if compatible_available else [.625,3.5]),),
+            })
+            seen=[]
+            class CurrentProposer:
+                def propose_method(self,problem):
+                    assert isinstance(problem,LearningProblem)
+                    assert not hasattr(problem,'evaluation') and not hasattr(problem,'transfer')
+                    seen.append(problem.learning_key)
+                    return 'NUMERIC_SUM'
+            service.proposer=CurrentProposer()
+            service.specs[future.learning_key]=future
+            start_learning(runtime,future,'new-strategy-conditions')
+            job=runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+            body=RecordService(runtime.store).read(job['record_id'])['payload']
+            print(json.dumps({'compatible_available':compatible_available,'state':job['state'],'stage':body['stage'],
+                'used_original_strategy':body.get('learning_strategy_record_id')==record,'proposer_calls':len(seen)}))
+            if compatible_available:
+                assert job['state']=='DONE' and body['learning_strategy_record_id']==record
+                assert seen==[] and body['results']['EVALUATE']['all_passed'] and body['results']['TRANSFER']['all_passed']
+            else:
+>               assert job['state']=='BLOCKED' and body['terminal_reason']=='LEARNING_NOT_TRANSFERRED_OR_NO_IMPROVEMENT'
+E               AssertionError: assert ('UNKNOWN' == 'BLOCKED'
+E                 
+E                 - BLOCKED
+E                 + UNKNOWN)
+
+tests/open_life/test_meta_learning.py:195: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_verified_meta_strategy_can_handle_a_changed_candidate_population[True]
+FAILED tests/open_life/test_meta_learning.py::test_verified_meta_strategy_can_handle_a_changed_candidate_population[False]
+2 failed, 4 deselected in 0.51s

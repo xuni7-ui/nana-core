@@ -149,3 +149,52 @@ def test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use(tmp_
         MemoryService(runtime.store, runtime.authority).forget(prior_provider_source, runtime.authority)
         assert not records.current_support(prior_proposal)
         assert records.current_support(runtime.store.one('lessons', body['lesson_id'])['record_id'])
+
+
+@pytest.mark.parametrize('compatible_available',[True,False])
+def test_verified_meta_strategy_can_handle_a_changed_candidate_population(tmp_path,compatible_available):
+    import json
+    from nana_core.continuity.open_agency.learning import LearningCase
+
+    with fresh(tmp_path/'self.db') as runtime:
+        original=number_learning()
+        service=LearningService(runtime.store,runtime.authority,(original,),privacy_classes=('PERSONAL',),scopes=('lab',))
+        runtime.work.open_learning=service
+        start_learning(runtime,original,'meta-training')
+        original_lesson=runtime.store.all('lessons')[0]
+        strategy=propose(runtime.store,original_lesson['lesson_id'],authority=runtime.authority)
+        experience=ExperienceService(runtime.store,runtime.authority)
+        assert all(experience.test_lesson(strategy).values())
+        experience.activate(strategy,runtime.authority)
+        record=runtime.store.one('lessons',strategy)['record_id']
+        future=original.model_copy(update={
+            'learning_key':'learn.changed-methods',
+            'hypotheses':('CASEFOLD','NUMERIC_SUM') if compatible_available else ('NUMERIC_SUM',),
+            'practice':(LearningCase(case_id='changed-practice',context='meal',data=[1.75,1.25],expected=3.0 if compatible_available else [1.25,1.75]),),
+            'evaluation':(LearningCase(case_id='changed-heldout',context='meal',data=[2.5,2.25],expected=4.75 if compatible_available else [2.25,2.5]),),
+            'transfer':(LearningCase(case_id='changed-transfer',context='drawing',data=[3.5,.625],expected=4.125 if compatible_available else [.625,3.5]),),
+        })
+        seen=[]
+        class CurrentProposer:
+            def propose_method(self,problem):
+                assert isinstance(problem,LearningProblem)
+                assert not hasattr(problem,'evaluation') and not hasattr(problem,'transfer')
+                seen.append(problem.learning_key)
+                return 'NUMERIC_SUM'
+        service.proposer=CurrentProposer()
+        service.specs[future.learning_key]=future
+        start_learning(runtime,future,'new-strategy-conditions')
+        job=runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+        body=RecordService(runtime.store).read(job['record_id'])['payload']
+        print(json.dumps({'compatible_available':compatible_available,'state':job['state'],'stage':body['stage'],
+            'used_original_strategy':body.get('learning_strategy_record_id')==record,'proposer_calls':len(seen)}))
+        if compatible_available:
+            assert job['state']=='DONE' and body['learning_strategy_record_id']==record
+            assert seen==[] and body['results']['EVALUATE']['all_passed'] and body['results']['TRANSFER']['all_passed']
+        else:
+            assert job['state']=='BLOCKED'
+            event=runtime.store.db.execute("SELECT data_json FROM events WHERE kind='open.learning_parked' AND json_extract(data_json,'$.data.work_id')=?",(job['job_id'],)).fetchone()
+            assert json.loads(event[0])['data']['reason']=='LEARNING_NOT_TRANSFERRED_OR_NO_IMPROVEMENT'
+            assert 'learning_strategy_record_id' not in body and seen==[future.learning_key]
+            assert not body['results']['EVALUATE']['all_passed'] and not body['results']['TRANSFER']['all_passed']
+        assert runtime.store.one('lessons',strategy)['state']=='ACTIVE' and not runtime.store.all('actions')
