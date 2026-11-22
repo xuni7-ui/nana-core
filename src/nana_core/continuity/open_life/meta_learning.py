@@ -1,4 +1,5 @@
 """Original G's bounded practice-selection lesson; never replace its grader."""
+import json
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO,CoreError
@@ -17,14 +18,16 @@ class LearningStrategyLesson(DTO):
 
 def checks(records,rule):
     trial=records.read(rule.trial_record_id);b=trial['payload'];results=b.get('results',{})
-    import json
     experiment=records.memory.read(rule.experiment_memory_id) if rule.experiment_memory_id else None
     data=json.loads(experiment['text']).get('data',{}) if experiment else {}
     return {'current_trial':trial['record_kind']=='LEARNING_TRIAL' and records.current_support(rule.trial_record_id),
         'same_domain':b.get('domain')==rule.domain,
         'improved':results.get('EVALUATE',{}).get('passed',0)>results.get('BASELINE',{}).get('passed',0),
         'practice_heldout_transfer':all(results.get(k,{}).get('all_passed') and results[k].get('checked',0)>0 for k in ('PRACTICE','EVALUATE','TRANSFER')),
-        'independent_selection_experiment':bool(experiment and experiment['authority']=='DIRECT' and experiment['source_provenance']['source_kind']=='SYSTEM_VERIFICATION' and data.get('criterion_met') is True and data.get('filtered_passed',0)>data.get('baseline_passed',0)),
+        'independent_selection_experiment':bool(experiment and experiment['authority']=='DIRECT'
+            and experiment['source_provenance']['source_kind']=='SYSTEM_VERIFICATION'
+            and data.get('criterion_met') is True and data.get('filtered_passed',0)>data.get('baseline_passed',0)
+            and _selection_transferred(records,b,data)),
         'not_verifier_replacement':not rule.changes_evaluator,'no_authority':not rule.grants_authority}
 
 def _first_passing_hypothesis(problem, evaluator):
@@ -37,6 +40,32 @@ def _first_passing_hypothesis(problem, evaluator):
             # practice inputs, while another current candidate can still fit.
             continue
     return None
+
+
+def _original_spec(records,trial):
+    from ..open_agency.learning import LearningSpec
+    job=records.store.one('jobs',trial['work_id'])
+    return LearningSpec.model_validate_json(canonical(records.read(job['record_id'])['payload']['spec']))
+
+
+def _transfer_result(spec,evaluator,chosen):
+    try:return evaluator.evaluate(chosen,spec.transfer)
+    except (CoreError,ValueError,TypeError):return None
+
+
+def _selection_transferred(records,trial,data):
+    if 'transfer_checked' in data:
+        return type(data['transfer_checked']) is int and data['transfer_checked']>0 and data.get('transfer_all_passed') is True
+    # Recheck an older receipt in place using its original, separate cases.
+    # Never replace the original selected candidate using these answers.
+    from ..open_agency.learning import IndependentEvaluator
+    try:
+        spec=_original_spec(records,trial);evaluator=IndependentEvaluator()
+        chosen=_first_passing_hypothesis(spec,evaluator)
+        if not chosen or not evaluator.evaluate(chosen,spec.evaluation)['all_passed']:return False
+        result=_transfer_result(spec,evaluator,chosen)
+        return bool(result and result['all_passed'])
+    except (CoreError,KeyError,TypeError,ValueError):return False
 
 
 def propose(store,method_lesson_id,*,authority):
@@ -53,17 +82,20 @@ def propose(store,method_lesson_id,*,authority):
     # selection experiment through the original Experience gate; never duplicate
     # or rewrite the method-learning Experience just to attach another rule.
     from ..learning import ExperienceService,ExperienceInput
-    from ..open_agency.learning import LearningSpec,IndependentEvaluator
+    from ..open_agency.learning import IndependentEvaluator
     trial=records.read(candidate.trial_record_id)['payload']
-    job=store.one('jobs',trial['work_id'])
-    spec=LearningSpec.model_validate_json(canonical(records.read(job['record_id'])['payload']['spec']))
+    spec=_original_spec(records,trial)
     evaluator=IndependentEvaluator()
     chosen=_first_passing_hypothesis(spec,evaluator)
     if not chosen:raise CoreError('META_NO_PRACTICE_CANDIDATE')
     baseline=evaluator.evaluate(spec.baseline_method,spec.evaluation)
     checked=evaluator.evaluate(chosen,spec.evaluation)
+    transfer=_transfer_result(spec,evaluator,chosen)
+    if not checked['all_passed'] or checked['passed']<=baseline['passed'] or not transfer or not transfer['all_passed']:
+        raise CoreError('META_SELECTION_NOT_TRANSFERRED')
     from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
-    data={'baseline_passed':baseline['passed'],'filtered_passed':checked['passed'],'practice_only_selection':True,'fixed_independent_evaluator':True,'criterion_met':checked['passed']>baseline['passed']}
+    data={'baseline_passed':baseline['passed'],'filtered_passed':checked['passed'],'practice_only_selection':True,
+        'fixed_independent_evaluator':True,'criterion_met':True,'transfer_checked':transfer['checked'],'transfer_all_passed':True}
     text=canonical({'data':data,'origin':'INDEPENDENT_EXECUTED_META_TRIAL_NOT_NEW_WORLD_FACT'})
     project=head['privacy_class']=='PROJECT'
     eid=records.memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if project else 'SYNTHETIC_ONLY',source_namespace='recorded.project.learning-transfer' if project else 'synthetic.learning-strategy',source_reference=key,source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class=head['privacy_class'],observed_time_us=head['created_at_us']))
@@ -99,7 +131,7 @@ def select(store,problem,*,scope,privacy):
         head=store.one('continuity_records',row['record_id'])
         if not head or head['scope']!=scope or head['privacy_class'] not in privacy or head['lifecycle']!='ACTIVE' or not records.current_support(head['record_id']):continue
         rule=LearningStrategyLesson.model_validate_json(canonical(records.read(head['record_id'])['payload']['rule']))
-        if rule.domain!=problem.domain:continue
+        if rule.domain!=problem.domain or not all(checks(records,rule).values()):continue
         from ..open_agency.learning import IndependentEvaluator
         method=_first_passing_hypothesis(problem,IndependentEvaluator())
         # The baseline is a comparison, and may not be a valid nomination.

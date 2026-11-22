@@ -1,0 +1,3 @@
+Original 6bddff4 runtime: all 323 Git blobs verified.
+{"old_meta_choices": ["CASEFOLD", "NFKC_CASEFOLD"], "old_active_meta_count": 2}
+{"same_subject": true, "new_meta_choices": [null, "NFKC_CASEFOLD"], "selection_write_rows": 0, "qualified_old_rule_retained": true, "future_method": "NFKC_CASEFOLD", "future_state": "DONE", "independent_future_transfer": true, "ordinary_proposer_calls": 1, "external_model_calls": 0}

@@ -34,6 +34,37 @@ def test_actual_trial_meta_lesson_changes_later_hypothesis_not_grader(tmp_path):
         with pytest.raises(CoreError):propose(r.store,method['lesson_id'],authority=r.authority)
 
 
+def test_meta_lesson_requires_transfer_of_its_own_practice_selection(tmp_path):
+    from nana_core.continuity.open_agency.learning import LearningCase,LearningSpec
+
+    with fresh(tmp_path/'self.db') as runtime:
+        spec=LearningSpec(learning_key='learn.normalize',domain='labels',baseline_method='IDENTITY',
+            hypotheses=('CASEFOLD','NFKC_CASEFOLD'),
+            practice=(LearningCase(case_id='practice',context='labels',data='ALPHA',expected='alpha'),),
+            evaluation=(LearningCase(case_id='heldout',context='labels',data='BETA',expected='beta'),),
+            transfer=(LearningCase(case_id='transfer',context='catalog',data='ＧＡＭＭＡ',expected='gamma'),))
+
+        class Proposer:
+            def propose_method(self,problem):
+                assert not hasattr(problem,'transfer')
+                return 'NFKC_CASEFOLD'
+
+        service=LearningService(runtime.store,runtime.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',),
+            proposer=Proposer())
+        runtime.work.open_learning=service
+        start_learning(runtime,spec,'normalize-labels')
+        method=runtime.store.all('lessons')[0]
+        assert method['state']=='ACTIVE' and service.strategy('labels','lab')[1]=='NFKC_CASEFOLD'
+        before=len(runtime.store.all('experiences'))
+        with pytest.raises(CoreError,match='META_SELECTION_NOT_TRANSFERRED'):
+            propose(runtime.store,method['lesson_id'],authority=runtime.authority)
+        assert len(runtime.store.all('experiences'))==before
+        assert len(runtime.store.all('lessons'))==1
+        assert select(runtime.store,LearningProblem.from_spec(spec),scope='lab',privacy=('PERSONAL',))==(None,None)
+        assert service.strategy('labels','lab')[1]=='NFKC_CASEFOLD'
+        assert not runtime.store.all('actions')
+
+
 def test_other_domains_do_not_displace_a_verified_learning_strategy_before_later_g(tmp_path):
     """The original learning-policy lesson must reach its existing G consumer."""
     from nana_core.presence.runtime import NanaRuntime

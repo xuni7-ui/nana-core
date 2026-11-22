@@ -417,3 +417,7 @@ B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览�
 ## 2026-11-22 A 历史视频依据与长期工程纪律
 
 原感知与语义、定向测试、用户规则原文及现有交接入口，以及 `docs/nana_next_experience/evidence/historical-video-coverage-20261122` 合成证据、事实账和指纹。
+
+## 2026-11-22 A 原策略独立迁移
+
+原G元学习、定向测试、事实账、`docs/nana_next_experience/evidence/meta-selection-independent-transfer-20261122` 合成验证与指纹。

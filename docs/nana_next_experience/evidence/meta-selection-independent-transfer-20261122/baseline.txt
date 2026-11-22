@@ -1,0 +1,36 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_meta_lesson_requires_transfer_of_its_own_practice_selection _______
+
+tmp_path = PosixPath('/dev/shm/nq300baseline/test_meta_lesson_requires_tran0')
+
+    def test_meta_lesson_requires_transfer_of_its_own_practice_selection(tmp_path):
+        from nana_core.continuity.open_agency.learning import LearningCase,LearningSpec
+    
+        with fresh(tmp_path/'self.db') as runtime:
+            spec=LearningSpec(learning_key='learn.normalize',domain='labels',baseline_method='IDENTITY',
+                hypotheses=('CASEFOLD','NFKC_CASEFOLD'),
+                practice=(LearningCase(case_id='practice',context='labels',data='ALPHA',expected='alpha'),),
+                evaluation=(LearningCase(case_id='heldout',context='labels',data='BETA',expected='beta'),),
+                transfer=(LearningCase(case_id='transfer',context='catalog',data='ＧＡＭＭＡ',expected='gamma'),))
+    
+            class Proposer:
+                def propose_method(self,problem):
+                    assert not hasattr(problem,'transfer')
+                    return 'NFKC_CASEFOLD'
+    
+            service=LearningService(runtime.store,runtime.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',),
+                proposer=Proposer())
+            runtime.work.open_learning=service
+            start_learning(runtime,spec,'normalize-labels')
+            method=runtime.store.all('lessons')[0]
+            assert method['state']=='ACTIVE' and service.strategy('labels','lab')[1]=='NFKC_CASEFOLD'
+            before=len(runtime.store.all('experiences'))
+>           with pytest.raises(CoreError,match='META_SELECTION_NOT_TRANSFERRED'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE CoreError
+
+tests/open_life/test_meta_learning.py:59: Failed
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_meta_lesson_requires_transfer_of_its_own_practice_selection
+1 failed in 0.40s

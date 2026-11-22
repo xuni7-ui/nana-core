@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 299,
-  "as_of_us": 1795360288628257,
+  "revision": 300,
+  "as_of_us": 1795360549955972,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原S8/S10策略必须独立迁移自己在练习选中的方法。旧1错→29项相关通过；实测同主体旧合格策略保留，不能迁移的旧策略停用选择，下一原G换方法独立迁移DONE。真实模型0。",
     "历史视频原来源与已落地结果保留。新推断和重启后未落地提案按已核对区间或样本点引用。原1错，142相关及最终2定向通过；固定旧库同身份升级，旧空档提案拒绝、采样点可用、原键0复发。",
     "用户《复用优先、元思考与工程效率 V1.0》原文归现有指令目录，AGENTS与续办入口均链接，作为A/B/C与后续执行者的长期规则。",
     "原C与S3社交投影先按原可见范围再限候选。65不可见新源不再挤掉较早的可见动机或阻塞普通互动，旧2错→94项相关通过，0真实模型或外发。",
     "原S5以已知帧时长限制新VFR样本区间。实际6秒样本从[6,7]限至[6,6.1]，原H1拒绝空档且接受帧内依据；旧1错→72相关通过，同CFR完整一致，真实模型0。",
     "2864240 联合候选双构建、独立下载与双槽离线安装通过。安装定向39项，原5项缺模块失败均修复；匹配Core CI 169项。两槽各一DEV身份，原交流、独立G迁移、虚拟72h、撤回与停机286→305→286连续性通过。",
     "原C暂缓有限承诺复查可跨重启，同一版本普通wake不再改CONTINUE或开重复待办；后续明确复查与真实到期仍有原END。旧2错→62相关通过，真实0。",
-    "原BFF目录鉴权失败及429带实际单调时钟retry_after_ms；两个协议旧2错、56相关通过，原权限/配置/阻止重复读取，真实0。B26正式CI102单测168浏览器过，客户端字段消费交B。",
-    "B22时间覆盖接原隔离S5：同实际VFR原5.5/6.3s间隔→各2s，8帧/3进程不变，CFR完整结果相同。旧2错，首轮68过1波动，旧/新该项各过、最终69过。无真实模型。"
+    "原BFF目录鉴权失败及429带实际单调时钟retry_after_ms；两个协议旧2错、56相关通过，原权限/配置/阻止重复读取，真实0。B26正式CI102单测168浏览器过，客户端字段消费交B。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -48,17 +48,19 @@
     "CURRENT266+409；286候选已过双槽受控验证。后继须匹配安装。B22/C27正式来源、S3/S8-S10跨日、真实模型手机生产与最终签发继承。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/meta-selection-independent-transfer-20261122/README.md",
     "docs/nana_next_experience/evidence/historical-video-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/social-attention-visibility-20261122/README.md",
     "docs/nana_next_experience/evidence/native-video-packet-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/matched-integrated-2864240-20261122/README.md",
     "docs/nana_next_experience/evidence/public-video-portable-closure-20261122/README.md",
     "docs/nana_next_experience/evidence/relational-deferral-continuity-20261122/README.md",
-    "docs/nana_next_experience/evidence/catalog-error-cooldown-20261122/README.md",
-    "docs/nana_next_experience/evidence/native-video-time-coverage-20261122/README.md"
+    "docs/nana_next_experience/evidence/catalog-error-cooldown-20261122/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision300证据指纹锚：`3ffe0e3056e1a9ae31ad5edd69ff57047a609af22c16d97ac66205e50a78a042`（source.sha256不含自身/09）。
 
 A revision299证据指纹锚：`29ebf7bc06644aea2b5b30bc82dce2d11259cc179206969b73882512c0de1277`（source.sha256不含自身/09）。
 
