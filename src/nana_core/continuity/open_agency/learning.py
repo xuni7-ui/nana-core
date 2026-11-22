@@ -390,9 +390,13 @@ class LearningService:
 
             problem = LearningProblem.from_spec(spec)
             method, strategy_record = select(self.store, problem, scope=head["scope"], privacy=self.privacy)
+            parent = None
             if method is None:
                 method = self.proposer.propose_method(problem)
+                parent = getattr(self.proposer, "last_record_id", None)
             else:
+                # The verified strategy nominated this method. The proposer was
+                # not called and may still hold another job's proposal record.
                 new["learning_strategy_record_id"] = strategy_record
             if method not in spec.hypotheses:
                 raise CoreError("LEARNING_HYPOTHESIS_REJECTED")
@@ -410,7 +414,6 @@ class LearningService:
                     "selection_scope": "PRACTICE_ONLY_NOT_QUALIFICATION",
                 }
             new["selected_method"] = method
-            parent = getattr(self.proposer, "last_record_id", None)
             if parent:
                 record = self.records.read(parent)
                 if (

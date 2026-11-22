@@ -1,0 +1,635 @@
+F
+=================================== FAILURES ===================================
+_ test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[False] _
+
+tmp_path = PosixPath('/dev/shm/nq284diag/test_later_meta_strategy_has_i0')
+same_method = False
+
+    @pytest.mark.parametrize('same_method', [False, True])
+    def test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use(tmp_path, same_method):
+        import json
+    
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.open_agency.learning import LearningCase
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.ports import CognitionLearningProposer
+        from tests.open_autonomy.helpers import capture
+        from tests.open_autonomy.test_learning import language_learning
+        from tests.world_loop.test_model_framing import bind
+    
+        with fresh(tmp_path / 'self.db', schema_target=13) as runtime, provider_harness() as (transport, calls):
+            original = number_learning()
+            service = LearningService(runtime.store, runtime.authority, (original,), privacy_classes=('PERSONAL',), scopes=('lab',))
+            runtime.work.open_learning = service
+            start_learning(runtime, original, 'first-numeric')
+            records = RecordService(runtime.store)
+            method = runtime.store.all('lessons')[0]
+            strategy_id = propose(runtime.store, method['lesson_id'], authority=runtime.authority)
+            experience = ExperienceService(runtime.store, runtime.authority)
+            assert all(experience.test_lesson(strategy_id).values())
+            experience.activate(strategy_id, runtime.authority)
+            strategy_record = runtime.store.one('lessons', strategy_id)['record_id']
+    
+            prior = (original.model_copy(update={'learning_key': 'learn.unrelated-numbers', 'domain': 'inventory'})
+                     if same_method else language_learning())
+            prior_provider_source = capture(runtime, 'prior-provider-only', 'Synthetic context exclusive to the previous proposal', privacy='PUBLIC')
+            policy = ContextPolicy(policy_id='meta-provenance', allowed_scopes=('lab',), readable_privacy=('PUBLIC', 'PERSONAL'))
+            bind(transport)
+            proposer = CognitionLearningProposer(CognitionSession(runtime, transport, policy), (prior_provider_source,))
+>           assert proposer.propose_method(LearningProblem.from_spec(prior)) == prior.hypotheses[0]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_meta_learning.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/world_loop/ports.py:19: in propose_method
+    cid=self.session.prepare('hypothesis:'+digest([spec.model_dump(mode='json'),self.source_ids]),'LEARN',self.source_ids,role_input=spec.model_dump(mode='json'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/cognition.py:432: in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+src/nana_core/continuity/world_loop/cognition.py:525: in _prepare
+    context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None,private_record_ids=private_refs,subject_frame=subject_frame,subject_task_class=subject_task_class)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.context.ContextAssembler object at 0x7f2215d994c0>
+request = ContextRequest(schema_version=1, entity_id='synthetic-person', scopes=('lab',), task_class='world.learn', task='Interp...rivacy_class='PUBLIC', query_terms=(), destination='LOCAL_FIXTURE', max_input_tokens=16384, output_reserve_tokens=2048)
+policy = ContextPolicy(policy_id='meta-provenance', allowed_scopes=('lab',), readable_privacy=('PUBLIC', 'PERSONAL'), remote_privacy=())
+capabilities = (), limitations = ('NO_AUTHORITY_IN_MODEL_OUTPUT',)
+subject_frame = None
+required_memory_ids = ('4a8723db-38fc-408a-a392-3971cf3a23b5',)
+source_only = False, pinned_only = False, require_current_state = False
+conversation_topic = None, recipient_context = None, private_record_ids = ()
+subject_task_class = None
+
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None, private_record_ids=(), subject_task_class=None):
+        if not set(request.scopes) <= set(policy.allowed_scopes):
+            raise CoreError("CONTEXT_SCOPE_DENIED")
+        lesson_request=request
+        if subject_task_class is not None:
+            if subject_frame is None or request.task_class!='world.self':raise CoreError('SUBJECT_TASK_CLASS_BINDING_REQUIRED')
+            # Only lesson selection follows the original C task category. The
+            # SELF role/privacy ceiling and stored task descriptor stay intact.
+            lesson_request=ContextRequest.model_validate_json(canonical({**request.model_dump(mode='json'),'task_class':subject_task_class}))
+        privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
+        if conversation_topic is not None or (subject_frame is not None and request.task_class=='world.self'):
+            from .memory import PRIVACY_RANK
+            privacy=tuple(p for p in privacy if PRIVACY_RANK[p]<=PRIVACY_RANK[request.task_privacy_class])
+        if request.task_privacy_class not in privacy:
+            raise CoreError("CONTEXT_TASK_PRIVACY_DENIED")
+        frame = self_frame(self.store, self.authority, entity_id=request.entity_id,
+            scopes=request.scopes, privacy_classes=privacy, capabilities=capabilities, limitations=limitations)
+        memory_service = MemoryService(self.store)
+        memory_query = dict(scopes=request.scopes, privacy_classes=privacy,
+            entity_ids=(request.entity_id, frame.identity.identity_id), include_conflicts=True)
+        # Pinned dialogue discards unrelated raw-memory blocks below anyway.
+        # Fetch its explicit sources/notes only; self/relationship/lessons still
+        # use their original independent sourced projections.
+        memories = [] if pinned_only else memory_service.query(**memory_query, query_terms=request.query_terms)
+        note_ids=set();platform_ids=set();note_strategy_refs=();recall_gap=None
+        note_terms=tuple(t for t in request.query_terms if 2<=len(t)<=64)[:8]
+        if pinned_only and conversation_topic is not None and note_terms:
+            try:
+                notes=memory_service.literal_notes(entity_ids=(request.entity_id,),scopes=request.scopes,
+                    privacy_classes=privacy,terms=note_terms)
+                if not notes and 'PROJECT' in privacy:
+                    from .retrieval_growth import (NoteRetrievalEvaluator, qualified_method, qualified_query_profile,
+                        QUALIFICATION_SCOPES, query_allowed)
+                    for scope in request.scopes:
+                        selected=qualified_method(self.store,self.authority,request.entity_id,scope,privacy)
+                        if selected:
+                            profile=qualified_query_profile(self.store,selected)
+                            if not query_allowed(profile,note_terms):continue
+                            evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
+                            snapshot=evaluator.snapshot(scope,max_notes=QUALIFICATION_SCOPES[profile]['max_notes'],profile=profile)
+                            # Same owner/safe point already found the literal miss;
+                            # query shape comes from the actual independent trial.
+                            notes=evaluator._normalized_lookup(selected[1],note_terms,snapshot)
+                            if notes:
+                                note_strategy_refs=(selected[0],)
+                                break
+                note_ids={m['memory_id'] for m in notes}
+                memories.extend(m for m in notes if not any(old['memory_id']==m['memory_id'] for old in memories))
+            except CoreError as exc:
+                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED','NOTE_RECALL_INDEX_DEFINITION_MISMATCH','NOTE_STRATEGY_SCOPE_BOUND'}:raise
+                recall_gap=exc.code+'_NO_ABSENCE_CLAIM'
+        if pinned_only and conversation_topic is not None and note_terms and 'PERSONAL' in privacy:
+            # Bounded source-aware continuation, only from explicitly retained
+            # platform observations in the same scope/privacy. No name-based
+            # person binding and no untrusted platform instruction authority.
+            recent=memory_service.query(**memory_query,query_terms=note_terms,limit=64,
+                source_namespaces=('recorded.platform.bilibili.dynamic',))
+            for row in recent:
+                provenance=row.get('source_provenance',{})
+                if (provenance.get('domain')=='CONSENTED_PLATFORM'
+                        and provenance.get('source_namespace')=='recorded.platform.bilibili.dynamic'
+                        and provenance.get('source_kind')=='DIRECT_OBSERVATION'
+                        and any(term.casefold() in row['text'].casefold() for term in note_terms)):
+                    platform_ids.add(row['memory_id'])
+                    if not any(old['memory_id']==row['memory_id'] for old in memories):
+                        memories.append(row)
+                    if len(platform_ids)>=4:
+                        break
+        if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
+        for mid in required_memory_ids:
+            head=self.store.one('memories',mid)
+            if not head or head['scope'] not in request.scopes or head['privacy_class'] not in privacy or head['entity_id'] not in {request.entity_id,frame.identity.identity_id}:
+                raise CoreError('CONTEXT_REQUIRED_SOURCE_DENIED')
+            row=memory_service.read(mid)
+            if not any(m['memory_id']==mid for m in memories):memories.append(row)
+        retrieval_total = memory_service.query_count(**memory_query)
+        self._retrieval = (len(memories), retrieval_total)
+        coverage = self._coverage(request.scopes)
+        candidates = []
+        growth = None
+        self_fallbacks = {}
+        mandatory = [ContextBlock(block_id="identity", kind="IDENTITY",
+            data_json=frame.identity.model_dump_json(),
+            source_event_ids=(self.store.all("identity_revisions")[-1]["event_id"],)),
+            ContextBlock(block_id="task", kind="TASK_CONSTRAINTS", data_json=canonical({
+                "task": request.task, "task_class": request.task_class, "capabilities": frame.capabilities,
+                "limitations": frame.limitations, "execution_authority": "NONE", "context_is_derived": True}))]
+        current=None
+        if self.project_state_source is not None:
+            current=self.project_state_source.projection(scopes=request.scopes,privacy_classes=privacy,now_us=self.store.clock.utc_now_us())
+        if require_current_state and current is None:raise CoreError('PROJECT_CURRENT_STATE_NOT_BOUND_OR_DENIED')
+        if current is not None:
+            block=ContextBlock(block_id='project-current-state',kind='PROJECT_CURRENT_STATE',data_json=canonical(current))
+            if require_current_state:mandatory.append(block)
+            else:candidates.append((950.0,block))
+        if private_record_ids and (request.task_class!='world.interpret' or conversation_topic is None or subject_frame is not None or self.store.schema_target<13):
+            raise CoreError('PRIVATE_CONTEXT_ROLE_DENIED')
+        if request.task_class=='world.interpret' and conversation_topic is not None and self.store.schema_target>=13:
+            from .subject.context_fit import communication_strategy_projection
+            from .lived_language import communication_feedback
+            for scope in request.scopes:
+                review=communication_feedback(self.store,scope=scope,entity_id=request.entity_id,topic=conversation_topic,
+                    recipient_context=recipient_context,privacy=privacy)
+                if review:
+                    rid=review['record_id']
+                    candidates.append((939.0,ContextBlock(block_id='communication-feedback:'+rid,kind='COMMUNICATION_FEEDBACK',
+                        data_json=canonical(review),source_record_ids=(rid,))))
+                strategy=communication_strategy_projection(self.store,scope=scope,entity_id=request.entity_id,
+                    topic=conversation_topic,recipient_context=recipient_context,privacy_classes=privacy)
+                if strategy:
+                    rid=strategy['record_id']
+                    candidates.append((938.0,ContextBlock(block_id='communication-method:'+rid,kind='COMMUNICATION_STRATEGY',
+                        data_json=canonical(strategy),source_record_ids=(rid,))))
+                    # A prior own method is not a world-fact citation source.
+                    # Its Record dependency preserves full withdrawal closure
+                    # without adding every historic receipt to the prompt.
+        if private_record_ids:
+            from .autonomy.private_intent import internal_projection
+            thoughts=tuple(item for scope in request.scopes for item in
+                internal_projection(self.store,private_record_ids,scope=scope,privacy_classes=privacy))
+            if not set(private_record_ids)<={item['record_id'] for item in thoughts}:
+                raise CoreError('PRIVATE_CONTEXT_REFERENCE_UNAVAILABLE')
+            for thought in thoughts:
+                rid=thought['record_id']
+                candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
+                    data_json=canonical(thought),source_record_ids=(rid,),source_memory_ids=RecordService(self.store).support(rid))))
+        subject_thoughts=()
+        if subject_frame is not None:
+            from .subject.contracts import DeliberationFrame
+            if not isinstance(subject_frame, DeliberationFrame) or subject_frame.scope not in request.scopes:
+                raise CoreError("INVALID_SUBJECT_DELIBERATION_FRAME")
+            source = self.store.one("subject_events", subject_frame.subject_event_id)
+            if not source or source["scope"] != subject_frame.scope:
+                raise CoreError("INVALID_SUBJECT_DELIBERATION_SOURCE")
+            for mid in subject_frame.source_memory_ids:
+                row = self.store.one("memories", mid)
+                if not row or row["scope"] not in request.scopes or row["privacy_class"] not in privacy:
+                    raise CoreError("SUBJECT_FRAME_PRIVACY_DENIED")
+                memory_service.read(mid)
+            for rid in subject_frame.source_record_ids:
+                row = self.store.one("continuity_records", rid)
+                if not row or row["scope"] not in request.scopes or row["privacy_class"] not in privacy:
+                    raise CoreError("SUBJECT_FRAME_PRIVACY_DENIED")
+                RecordService(self.store).read(rid)
+            mandatory.append(ContextBlock(block_id="subject-deliberation",kind="SUBJECT_APPRAISAL",
+                data_json=subject_frame.model_dump_json(), source_memory_ids=subject_frame.source_memory_ids,
+                source_record_ids=subject_frame.source_record_ids))
+            # An optional, source-backed menu for original C; this is neither
+            # automatic selection nor a Grant. Only actual included blocks may
+            # later be cited by the existing cognition validation.
+            from ..nanalink.media_candidates import candidate as media_candidate
+            choices=[]
+            # Include bounded original retrieval, not just the current input;
+            # C may choose a previously observed image, or choose none.
+            loaded={row['memory_id']:row for row in memories}
+            media_sources=tuple(dict.fromkeys((*subject_frame.source_memory_ids, *loaded)))
+            for mid in media_sources:
+                row=loaded.get(mid) or memory_service.read(mid)
+                if (row['entity_id'] not in {request.entity_id,frame.identity.identity_id}
+                        or media_candidate(row) is None):
+                    continue
+                # Recheck only eligible candidates at the owner privacy safe
+                # point; ordinary retrieved memories need no second read.
+                item=media_candidate(memory_service.read(mid))
+                observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone() if item is not None else None
+                if observation and RecordService(self.store).current_support(observation[0]):
+                    choices.append(item)
+                if len(choices)>=4:
+                    break
+            if choices:
+                candidates.append((936.0,ContextBlock(block_id='subject-media-candidates',kind='MEDIA_CANDIDATES',
+                    data_json=canonical({'candidates':[x.model_dump(mode='json') for x in choices],
+                                         'instruction':'Optional original-C choice; no execution permission.'}),
+                    source_memory_ids=tuple(x.source_memory_id for x in choices))))
+            if self.store.schema_target>=13:
+                from .autonomy.private_intent import internal_projection
+                from .subject.growth_life import context_projection
+                growth=context_projection(self.store,subject_frame.subject_event_id,scope=subject_frame.scope,
+                    entity_id=request.entity_id,privacy_classes=privacy,selected_record_ids=subject_frame.source_record_ids)
+                if growth:
+                    candidates.append((938.0,ContextBlock(block_id='growth-change:'+growth.assessment_id,kind='GROWTH_CHANGE',
+                        data_json=growth.model_dump_json(),source_record_ids=growth.source_record_ids,source_memory_ids=growth.source_memory_ids)))
+                # Only original C's selected references, never all private history.
+                # Ordinary reply/context calls have no subject_frame and cannot
+                # receive these contents. Each thought competes in the existing
+                # complete-package budget rather than a fixed thought-count cap.
+                from .lived_language import selected_communication_feedback
+                for opinion in selected_communication_feedback(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,entity_id=request.entity_id,privacy=privacy):
+                    rid=opinion['record_id']
+                    candidates.append((939.0,ContextBlock(block_id='communication-feedback:'+rid,kind='COMMUNICATION_FEEDBACK',
+                        data_json=canonical(opinion),source_record_ids=(rid,opinion['review_record_id']))))
+                from .subject.context_fit import method_consideration
+                for rid in subject_frame.source_record_ids:
+                    method=method_consideration(self.store,rid,scope=subject_frame.scope,entity_id=request.entity_id,privacy_classes=privacy)
+                    if method:
+                        candidates.append((938.0,ContextBlock(block_id='communication-method:'+rid,kind='COMMUNICATION_STRATEGY',
+                            data_json=canonical(method['strategy']),source_record_ids=method['record_ids'])))
+                        meaning=method.get('formation_meaning')
+                        if meaning:
+                            candidates.append((938.0,ContextBlock(block_id='interaction-meaning:'+rid,kind='INTERACTION_MEANING',
+                                data_json=canonical(meaning['data']),source_record_ids=meaning['record_ids'],source_memory_ids=meaning['memory_ids'])))
+                subject_thoughts=internal_projection(self.store,subject_frame.source_record_ids,
+                        scope=subject_frame.scope,privacy_classes=privacy)
+                for thought in subject_thoughts:
+                    rid=thought['record_id']
+                    candidates.append((937.0,ContextBlock(block_id='private-internal:'+rid,kind='PRIVATE_INTERNAL_STATE',
+                        data_json=canonical(thought),source_record_ids=(rid,),
+                        source_memory_ids=RecordService(self.store).support(rid))))
+        # No duplicate relationship prose; it is supplied as individual memory blocks.
+        candidates.append((900.0, ContextBlock(block_id="relationship", kind="RELATIONSHIP_LINKS", data_json=canonical({
+            "entity_id": frame.relationship.entity_id,
+            "adopted_commitment_ids": frame.relationship.adopted_commitment_ids,
+            "shared_project_ids": frame.relationship.shared_project_ids}))))
+        for promise in frame.active_commitments:
+            row = self.store.one("commitments", promise.commitment_id)
+            data = promise.model_dump(mode="json") if promise.support_current else {
+                "commitment_id": promise.commitment_id, "state": promise.state, "support": "REQUIRES_REVIEW"}
+            candidates.append((1000.0, ContextBlock(block_id="commitment:" + promise.commitment_id,
+                kind="COMMITMENT", data_json=canonical(data), source_memory_ids=promise.source_memory_ids,
+                source_record_ids=(row["record_id"],))))
+        for project in frame.active_projects:
+            row = self.store.one("projects", project.project_id)
+            data = project.model_dump(mode="json") if project.support_current else {
+                "project_id": project.project_id, "state": project.state, "support": "REQUIRES_REVIEW"}
+            candidates.append((800.0, ContextBlock(block_id="project:" + project.project_id,
+                kind="PROJECT", data_json=canonical(data), source_memory_ids=project.source_memory_ids,
+                source_record_ids=(row["record_id"],))))
+        conflicts = {}
+        now = self.store.clock.utc_now_us()
+        def memory_score(row):
+            text = row["text"].casefold()
+            relevance = sum(t.casefold() in text for t in request.query_terms)
+            occurrence = row["event_time_us"] if row["event_time_us"] is not None else row["ingested_time_us"]
+            age_days = max(0, now - occurrence) / 86_400_000_000
+            score = (100 if row["authority"] == "DIRECT" else 10) + 200 * relevance
+            score += 100 * row["importance"] + 50 * row["significance"] + 20 / (1 + age_days)
+            # Explicit task-relevant evidence must survive optional generic
+            # projections at scale. Identity/required sources remain mandatory;
+            # retrieval rank never changes memory truth or execution authority.
+            if relevance:score += 1000
+            if row["memory_type"] == "SELF":
+                score += 50
+            if row['memory_id'] in (note_ids | platform_ids) and row['memory_id'] not in required_memory_ids:
+                # Keep person-self and established language policy ahead of
+                # optional lookup, while questions outrank generic projections.
+                score=975.0
+            return score
+        # Only a qualified current growth SELF uses this compact view. Ordinary
+        # dialogue, explicit sources and other cognitive contexts stay literal.
+        protected=set(required_memory_ids)
+        if growth is not None:
+            protected.update(growth.source_memory_ids)
+            protected.update(subject_frame.source_memory_ids)
+            for rid in subject_frame.source_record_ids:protected.update(RecordService(self.store).support(rid))
+        def literal(item):
+            return ContextBlock(block_id="memory:" + item["memory_id"], kind="MEMORY",
+                data_json=canonical({k: item[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
+                    "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
+                source_memory_ids=(item["memory_id"],), source_event_ids=(item["event_id"],),
+                source_evidence_ids=(item["source_evidence_id"],))
+        def prefer_compact(block,originals):
+            compact_cost=self._package(frame,request,policy,coverage,mandatory+[block],(),()).manifest.input_tokens
+            try:literal_cost=self._package(frame,request,policy,coverage,mandatory+originals,(),()).manifest.input_tokens
+            except CoreError as exc:
+                if exc.code!='MODEL_TOKEN_COUNTER_RESULT_INVALID':raise
+                return False  # Hypothetical aggregate cannot reject original per-report selection.
+            return compact_cost<literal_cost
+        memory_groups=_verification_groups(memories,protected) if growth is not None else [(row,[(row,None)]) for row in memories]
+        references={};indexed=set()
+        for row,reports in memory_groups if growth is not None else ():
+            if len(reports)!=1 or reports[0][1] is None:continue
+            if any(term.casefold() in row['text'].casefold() for term in request.query_terms):continue
+            body=json.loads(row['text']);episode=body['strategy_episode'];case=episode['case']
+            # Only known formal proof envelopes. Extra observations or unknown
+            # fields keep their full original body, never an inferred summary.
+            if (set(body)!={'strategy_episode'} or set(episode)-{'episode_key','lesson_id','case','action_id','actual_result_digest'}
+                    or set(case)!={'case_id','context','data','expected'}
+                    or type(case['case_id']) is not str or type(case['context']) is not str
+                    or any(type(episode[k]) is not str for k in ('action_id','actual_result_digest') if k in episode)):
+                continue
+            provenance=row['source_provenance']
+            key=canonical([*(row[k] for k in ('entity_id','scope','privacy_class','memory_type','epistemic_kind',
+                'assessment','confidence','authority','importance','significance','predicate_key')),
+                provenance.get('domain'),provenance.get('source_namespace'),provenance.get('source_revision'),episode['lesson_id']])
+            references.setdefault(key,[]).append((row,episode))
+        for key,items in references.items():
+            if len(items)<2:continue
+            row=items[0][0]
+            body={k:row[k] for k in ('memory_type','epistemic_kind','assessment','confidence','authority','importance','significance')}
+            body.update(lesson_id=items[0][1]['lesson_id'],report_scope=row['scope'],report_privacy=row['privacy_class'],
+                report_bodies_included=False,establishes_independent_growth=False,
+                purpose='OPTIONAL_OTHER_PROOF_REFERENCES_NOT_FULL_REPORTS',body_digest_format='CANONICAL_JSON_STRING_SHA256_V1',
+                reports=[{'memory_id':item['memory_id'],'episode_key':episode['episode_key'],
+                    'case_id':episode['case']['case_id'],'context':episode['case']['context'],'body_digest':digest(item['text']),
+                    **{k:item[k] for k in ('event_time_us','observed_time_us','ingested_time_us')},
+                    'source_evidence_id':item['source_evidence_id'],'source_event_id':item['event_id'],
+                    **{k:episode[k] for k in ('action_id','actual_result_digest') if k in episode}} for item,episode in items])
+            block=ContextBlock(block_id='proof-references:'+digest(key),kind='MEMORY_REFERENCE_INDEX',data_json=canonical(body),
+                source_memory_ids=tuple(item['memory_id'] for item,_ in items),
+                source_evidence_ids=tuple(dict.fromkeys(item['source_evidence_id'] for item,_ in items)),
+                source_event_ids=tuple(dict.fromkeys(item['event_id'] for item,_ in items)))
+            if not prefer_compact(block,[literal(item) for item,_ in items]):continue
+            candidates.append((max(memory_score(item) for item,_ in items),block))
+            indexed.update(block.source_memory_ids)
+            self_fallbacks[block.block_id]=(literal(row).model_copy(update={'block_id':block.block_id}),)
+        for row,reports in memory_groups:
+            if row['memory_id'] in indexed:continue
+            if row["assessment"] == "DISPUTED":
+                family = canonical([row["entity_id"], row["scope"], row["predicate_key"]])
+                if family not in conflicts:
+                    conflicts[family] = memory_service.conflict_bundle(row, privacy)
+                continue
+            score=max(memory_score(item) for item,_ in reports)
+            block = literal(row)
+            if len(reports)>1:
+                body=json.loads(block.data_json)
+                body['equivalent_verification_reports']={
+                    'count_in_retrieved_window':len(reports),'additional_independent_contexts_established':False,
+                    'semantics':'SHARED_BODY_EXCEPT_EPISODE_KEY_REPORTS_NOT_MERGED',
+                    'reports':[{'memory_id':item['memory_id'],'episode_key':key,
+                        'event_time_us':item['event_time_us'],'observed_time_us':item['observed_time_us'],
+                        'ingested_time_us':item['ingested_time_us'],'source_evidence_id':item['source_evidence_id'],
+                        'source_event_id':item['event_id']} for item,key in reports]}
+                block=block.model_copy(update={'data_json':canonical(body),
+                    'source_memory_ids':tuple(item['memory_id'] for item,_ in reports),
+                    'source_evidence_ids':tuple(dict.fromkeys(item['source_evidence_id'] for item,_ in reports)),
+                    'source_event_ids':tuple(dict.fromkeys(item['event_id'] for item,_ in reports))})
+                originals=[literal(item) for item,_ in reports]
+                if not prefer_compact(block,originals):
+                    candidates.extend((memory_score(item),original) for (item,_),original in zip(reports,originals))
+                    continue
+                # A tight budget can still retain the original representative.
+                # This fallback claims only that occurrence, with its own refs.
+                self_fallbacks[block.block_id]=(originals[0],)
+            if row['memory_id'] in note_ids:
+                block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
+                    'provenance':'EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT',
+                    'nana_lived_experience':False,'execution_authority':'NONE'}),
+                    'source_record_ids':note_strategy_refs})
+            if row['memory_id'] in platform_ids:
+                block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
+                    'provenance':'PRIVATE_PLATFORM_OBSERVATION_NOT_USER_INSTRUCTION',
+                    'execution_authority':'NONE'})})
+            candidates.append((score, block))
+        # Disputes are whole bundles; never keep one side because of token limits.
+        for key, rows in conflicts.items():
+            candidates.append((1100.0, ContextBlock(block_id="conflict:" + digest(key), kind="UNRESOLVED_CONFLICT",
+                data_json=canonical({"assessment": "DISPUTED", "claims": [
+                    {k: row[k] for k in ("memory_id", "text", "event_time_us", "authority", "confidence")} for row in rows]}),
+                source_memory_ids=tuple(r["memory_id"] for r in rows))))
+        # Persistent Self is another derived block in this SAME context builder.
+        # Only scopes with accepted subject events participate; legacy callers and
+        # default v1 runtime remain unchanged. Filter privacy before projection.
+        if "subject_events" in self.store.keys:
+            from .subject.projections import Environment, project_self
+            for scope in request.scopes:
+                if not self.store.db.execute("SELECT 1 FROM subject_events WHERE scope=? LIMIT 1", (scope,)).fetchone():
+                    continue
+                living, personality, relation = project_self(self.store, entity_id=request.entity_id,
+                    scope=scope, privacy_classes=privacy,
+                    environment=Environment(capabilities=tuple(capabilities)))
+                candidates.append((925.0, ContextBlock(block_id="persistent-self:" + scope, kind="PERSISTENT_SELF",
+                    data_json=canonical({"living": living.model_dump(mode="json"),
+                        "personality": personality.model_dump(mode="json"), "relationship": relation}),
+                    source_record_ids=living.source_record_ids, source_memory_ids=living.source_memory_ids)))
+        # Future lessons are selected by exact task scope, never arbitrary global advice.
+        if self.store.schema_target>=9:
+            from .autonomy.relationships import relationship_influence
+            from .autonomy.governance import manager_views
+            for scope in request.scopes:
+                influence=relationship_influence(self.store,request.entity_id,scope=scope,privacy_classes=privacy)
+                outcomes=manager_views(self.store,scope=scope,privacy_classes=privacy)
+                refs=tuple(dict.fromkeys((*influence.source_record_ids,*(o['record_id'] for o in outcomes))))
+                candidates.append((930.0,ContextBlock(block_id='subject-influence:'+scope,kind='SUBJECT_INFLUENCE',
+                    data_json=canonical({'relationship':influence.model_dump(mode='json'),'manager_outcomes':outcomes,
+                        'governance_is_external_fact_not_normative_directive':True,'execution_authority':'NONE'}),
+                    source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+        if self.store.schema_target>=10:
+            from .relational.bootstrap import anchor_view
+            from .relational.projections import personality_tendencies,social_appetite,self_narrative
+            for scope in request.scopes:
+                anchor=anchor_view(self.store,request.entity_id,scope=scope,privacy_classes=privacy)
+                tendency=personality_tendencies(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
+                appetite=social_appetite(self.store,scope=scope,privacy_classes=privacy)
+                narrative=self_narrative(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
+                refs=tuple(dict.fromkeys((*tendency.source_record_ids,*appetite.source_record_ids,*((anchor.source_record_id,) if anchor else ()))))
+                data={'anchor':anchor.model_dump(mode='json') if anchor else None,'personality':tendency.model_dump(mode='json'),
+                    'social_appetite':appetite.model_dump(mode='json'),'self_narrative':narrative.model_dump(mode='json'),'execution_authority':'NONE'}
+                previous=self.store.db.execute('SELECT c.* FROM subject_cycles c JOIN subject_events e ON e.subject_event_id=c.subject_event_id WHERE e.entity_id=? AND e.scope=? ORDER BY c.revision DESC LIMIT 1',(request.entity_id,scope)).fetchone()
+                if previous and previous['record_id']:
+                    h=self.store.one('continuity_records',previous['record_id'])
+                    if h['lifecycle']=='ACTIVE' and h['privacy_class'] in privacy and RecordService(self.store).current_support(h['record_id']):
+                        past=RecordService(self.store).read(h['record_id'])['payload'].get('relational_decision')
+                        if past:
+                            data['historical_tradeoff_not_current_policy']=past;refs=(*refs,h['record_id'])
+                candidates.append((935.0,ContextBlock(block_id='relational-subject:'+scope,kind='RELATIONAL_SUBJECT',data_json=canonical(data),source_record_ids=refs,
+                    source_memory_ids=tuple(sorted({*appetite.source_memory_ids,*(m for rid in refs for m in RecordService(self.store).support(rid))})))))
+        if self.store.schema_target>=13 and not (pinned_only or source_only):
+            from .world_loop.world import WorldModel
+            records=RecordService(self.store)
+            for view in WorldModel(self.store,scopes=request.scopes,privacy_classes=privacy).snapshot(limit=16):
+                candidates.append((945.0,ContextBlock(block_id='world:'+digest([view.entity_id,view.predicate]),kind='WORLD_BELIEF',data_json=view.model_dump_json(),source_record_ids=view.support_records,source_memory_ids=tuple(sorted({m for rid in view.support_records for m in records.support(rid)})))))
+        if self.store.schema_target>=13:
+            from .autonomy.private_intent import metadata as private_metadata
+            for scope in request.scopes:
+                values=[v for v in private_metadata(self.store,scope,privacy) if v.get('activity_state')!='ABANDONED'][:2]
+                if values:
+                    # Recipient expression may know a private activity exists,
+                    # never its purpose/content, even when data privacy is PUBLIC.
+                    safe=[{k:v[k] for k in ('category','status','activity_state','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
+                    candidates.append((936.0,ContextBlock(block_id='private-intent-state:'+scope,kind='PRIVATE_INTENT_STATE',data_json=canonical({'activities':safe,'content_withheld':True,'delivery_authority':False}),source_record_ids=tuple(v['record_id'] for v in values),source_memory_ids=tuple(sorted({m for v in values for m in v['source_memory_ids']})))))
+        if conversation_topic is not None and self.store.schema_target>=13:
+            from .person_self import project, compact, stable_core, recall_core
+            for scope in request.scopes:
+                person=project(self.store,entity_id=request.entity_id,scope=scope,privacy=privacy,topic=conversation_topic,query_terms=request.query_terms)
+                candidates.append((980.0,ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',
+                    data_json=canonical(compact(person,query_terms=request.query_terms)),source_record_ids=person['source_record_ids'],source_memory_ids=person['source_memory_ids'])))
+                refs=person['stable_source_record_ids']
+                recall_refs=tuple(dict.fromkeys((*refs,*(person['exchange_source_records'][mid] for mid in person['preferred_exchange_memory_ids'][:1]))))
+                self_fallbacks['person-self:'+scope]=(
+                    ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(recall_core(person,query_terms=request.query_terms)),source_record_ids=recall_refs,source_memory_ids=tuple(sorted({m for rid in recall_refs for m in RecordService(self.store).support(rid)}))),
+                    ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(stable_core(person)),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)}))))
+        if conversation_topic is not None and self.store.schema_target>=13:
+            from .lived_language import context as language_context
+            for scope in request.scopes:
+                language=language_context(self.store,scope=scope,privacy=privacy,mode='PROJECT' if require_current_state or conversation_topic in {'project','technical'} else 'CASUAL')
+                refs=language['policy']['source_record_ids']
+                if refs:
+                    candidates.append((979.0,ContextBlock(block_id='lived-language:'+scope,kind='LIVED_LANGUAGE',data_json=canonical({'policy':language['policy'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+                if language['examples']:
+                    refs=language['source_record_ids']
+                    candidates.append((500.0,ContextBlock(block_id='language-examples:'+scope,kind='LANGUAGE_EXAMPLES',data_json=canonical({'examples':language['examples'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+        if conversation_topic is not None and self.store.schema_target>=11 and note_terms:
+            from .maintenance import MaintenanceService
+            consolidation=MaintenanceService(self.store,scopes=request.scopes,entity_id=request.entity_id,privacy_classes=privacy)
+            try:consolidated=consolidation.recall(note_terms)
+            except CoreError as exc:
+                if exc.code not in {'CONSOLIDATION_RECALL_TIME_BOUND','CONSOLIDATION_RECALL_SAFE_POINT_REQUIRED'}:raise
+                omitted_reason=exc.code+'_NO_ABSENCE_CLAIM'
+                candidates.append((0.0,ContextBlock(block_id='consolidation-recall-status',kind='CONSOLIDATED_RECALL',
+                    data_json=canonical({'status':omitted_reason,'authority':False}))))
+                consolidated=()
+            for review in consolidated:
+                candidates.append((981.0,ContextBlock(block_id='consolidated:'+review['summary_memory_id'],
+                    kind='CONSOLIDATED_RECALL',data_json=canonical(review),
+                    source_memory_ids=(review['summary_memory_id'],*review['source_memory_ids']),
+                    source_record_ids=(review['candidate_record_id'],))))
+        # Both restricted paths discard EXPERIENCE/LESSON blocks below. Do
+        # not scan them first; their sourced effects inside Subject/Person-Self
+        # remain independent of this optional context projection.
+        if conversation_topic is not None and not source_only and self.store.schema_target>=13:
+            from .lived_language import memory_use_guidance
+            for scope in request.scopes:
+                guidance=memory_use_guidance(self.store,entity_id=request.entity_id,scope=scope,
+                    privacy=privacy,memory_ids=tuple(m['memory_id'] for m in memories),recipient_context=recipient_context)
+                if guidance['items']:
+                    refs=guidance['source_record_ids']
+                    candidates.append((979.0,ContextBlock(block_id='memory-use-guidance:'+scope,
+                        kind='MEMORY_USE_GUIDANCE',data_json=canonical({'memory_use_guidance':guidance['items'],
+                            'changes_fact_credibility':False,'grants_authority':False}),source_record_ids=refs,
+                        source_memory_ids=tuple(sorted({mid for rid in refs for mid in RecordService(self.store).support(rid)})))))
+        if not (pinned_only or source_only):
+            candidates.extend(self._lessons(lesson_request, privacy))
+            if subject_thoughts:
+                from .autonomy.private_intent import deliberated_lesson_refs
+                from .learning import ExperienceService
+                lesson_ids=deliberated_lesson_refs(self.store,subject_thoughts,scope=subject_frame.scope,privacy_classes=privacy)
+                existing={block.block_id for _,block in candidates}
+                candidates.extend((score,block) for score,block in ExperienceService(self.store,self.authority).context_blocks(
+                    request,privacy,selected_lesson_ids=lesson_ids) if block.block_id not in existing)
+        if request.task_class=='world.interpret' and conversation_topic is None and required_memory_ids:
+            # A sourced factual pass is not C's personal deliberation. Incidental
+            # receipt/self/relationship context must not contaminate an unrelated
+            # retained observation. Keep explicit facts, their complete conflicts,
+            # and the original task-matched learning inputs. Dialogue/SELF retain
+            # their existing private state and independently sourced projections.
+            primary=set(required_memory_ids)
+            candidates=[(score,block) for score,block in candidates
+                if (block.kind=='MEMORY' and primary.intersection(block.source_memory_ids))
+                or block.kind in {'UNRESOLVED_CONFLICT','LESSON','EXPERIENCE','INTERACTION_LESSON'}]
+        if required_memory_ids:
+            required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
+            if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
+            mandatory.extend(required)
+        if pinned_only:
+            # Dialogue gets explicit verified facts plus existing filtered self/
+            # relation projections; never the whole unrelated source corpus.
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids|platform_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL','COMMUNICATION_STRATEGY','COMMUNICATION_FEEDBACK'} or (private_record_ids and block.kind=='PRIVATE_INTERNAL_STATE')]
+        if source_only:
+            # Media processors receive only the pinned, policy-filtered source,
+            # never unrelated relationship, project or memory context.
+            candidates=[(score,block) for score,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
+            def source_metadata(block):
+                if block.kind not in {'MEMORY','UNRESOLVED_CONFLICT'}:return block
+                body=json.loads(block.data_json)
+                if block.kind=='MEMORY':body.pop('text',None)
+                else:
+                    for claim in body['claims']:claim.pop('text',None)
+                body['content_routed_in_typed_parts']=True
+                return block.model_copy(update={'data_json':canonical(body)})
+            mandatory=[source_metadata(block) for block in mandatory]
+            candidates=[(score,source_metadata(block)) for score,block in candidates]
+        candidates.sort(key=lambda item: (-item[0], item[1].block_id))
+        selected, omitted = list(mandatory), [recall_gap] if recall_gap else []
+        if retrieval_total > len(memories):
+            omitted.append("EXPLICIT_SOURCE_SELECTION" if pinned_only else "RETRIEVAL_CANDIDATE_LIMIT")
+        conflict_ids = tuple(block.block_id for _, block in candidates if block.kind == "UNRESOLVED_CONFLICT")
+        for _, block in candidates:
+            if block.block_id in {x.block_id for x in selected}:
+                continue
+            proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
+            if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
+                selected.append(block)
+            elif (block.kind == 'MEMORY' and set(block.source_memory_ids) & (note_ids | platform_ids)) or block.kind == 'MEMORY_USE_GUIDANCE':
+                # Qualified lookup and its source-bound use feedback can carry
+                # larger proofs, especially after independent delivery. Reuse the
+                # existing sourced self fallback before dropping the answer's
+                # evidence. Canonical identity/adopted conventions remain; no
+                # mandatory block, conflict bundle or token limit is weakened.
+                fitted = False
+                for index, current in enumerate(selected):
+                    if current in mandatory:
+                        continue
+                    for fallback in self_fallbacks.get(current.block_id, ()):
+                        if fallback == current:
+                            continue
+                        trimmed = [*selected[:index], fallback, *selected[index+1:]]
+                        partial = omitted + [current.block_id + ':CURRENT_AND_LIVED_DETAIL_FOR_RECALL']
+                        proposal = self._package(frame, request, policy, coverage, trimmed + [block], partial, conflict_ids)
+                        if proposal.manifest.input_tokens <= proposal.manifest.input_limit:
+                            selected, omitted, fitted = trimmed + [block], partial, True
+                            break
+                    if fitted:
+                        break
+                if not fitted:
+                    omitted.append(block.block_id)
+            elif block.block_id in self_fallbacks:
+                partial_omission=omitted+[block.block_id+(':OTHER_REPORT_OCCURRENCES' if block.kind in {'MEMORY','MEMORY_REFERENCE_INDEX'} else ':CURRENT_AND_LIVED_DETAIL')]
+                for fallback in self_fallbacks[block.block_id]:
+                    proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
+                    if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
+                        selected.append(fallback);omitted=partial_omission;break
+                else:omitted.append(block.block_id)
+            else:
+                omitted.append(block.block_id)
+        package = self._package(frame, request, policy, coverage, selected, omitted, conflict_ids)
+        # Omission metadata itself consumes budget; drop complete optional blocks
+        # until the whole serialized input (not only prose) fits.
+        while package.manifest.input_tokens > package.manifest.input_limit and len(selected) > len(mandatory):
+            last=selected[-1]
+            # Omission metadata can tip an initially fitting self block over the
+            # limit. Try its smaller sourced forms before losing the whole self.
+            for fallback in self_fallbacks.get(last.block_id,()):
+                if len(fallback.model_dump_json())>=len(last.model_dump_json()):continue
+                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+(':OTHER_REPORT_OCCURRENCES' if last.kind in {'MEMORY','MEMORY_REFERENCE_INDEX'} else ':CURRENT_AND_LIVED_DETAIL'))))
+                trial=self._package(frame,request,policy,coverage,[*selected[:-1],fallback],trial_omitted,conflict_ids)
+                if trial.manifest.input_tokens<=trial.manifest.input_limit:
+                    selected[-1]=fallback;omitted=trial_omitted;package=trial;break
+            else:
+                omitted.append(selected.pop().block_id)
+                package = self._package(frame, request, policy, coverage, selected, omitted, conflict_ids)
+        if package.manifest.input_tokens > package.manifest.input_limit:
+>           raise CoreError("INSUFFICIENT_CONTEXT_BUDGET")
+E           nana_core.contracts.CoreError: INSUFFICIENT_CONTEXT_BUDGET
+
+src/nana_core/continuity/context.py:815: CoreError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 2 deselected in 0.79s

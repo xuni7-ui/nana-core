@@ -4320,3 +4320,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-17 CST｜revision282：原S5同一捕获每次重解码、跨实体/范围错返旧Memory，原4fail；现只从原Evidence按字节/descriptor/privacy复用decoded，原两处Memory按entity/scope绑定并查current支持，撤回不重建，缺processor中断可由原证据接续，私PCM不被PUBLIC降级。6过1.40s/106相关34.92s；同视频重启3重放原9原生进程/1.046s→0/.001604s，两侧0写/原Record不变，非LLM/Token省费。281独立CI132过59.97s，282CI待；环境tmp/shm确已丢，源码/归档保留，b196候选不含后继/CURRENT不动。 指纹锚007871f2c9deb70d189ff7981abed8dda0905f211d695fe1bfebff81601a369d。
 
 - 2026-11-22 CST｜revision283。原C询问曾被固定同意覆盖。现有限关系请求与原D复查可由C决定或暂缓，保留原期限、来源和原采纳机制。49虚拟h重启及消融，定向16、最终 29 passed in 13.92s。扩展首轮243过1抢占时序差额，旧新版定向复跑通过。原固定对照wire 36176→36845B，各1本地SELF。282匹配CI138过。 指纹锚 `e189f20d36df24dc8c15fa1fa81271661e7b3583679bcc2e4eadfe8b11cd33b7`。
+
+- 2026-11-22 CST｜revision284。原G复用已验策略时只记录本次真实来源。旧版不同方法导致UNKNOWN、同名方法错误依赖，修复后两项实际原G DONE且独立迁移，撤回旧提案不影响新方法。19相关及52集成通过。各总1本地LEARN、后续0，真实0。 指纹 `c813e8baa4cf562bd2c4b0b2d5b3cc0e337fb64ce74080cec05908fbb6f942f3`。

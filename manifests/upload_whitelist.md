@@ -349,3 +349,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-22 A 原 C 关系选择
 
 仅本批 cognition/subject/relational/presence 8 个 Core 文件、匹配测试、原CI、两条原清单项、09/11/ACTIVE/STATUS及关系选择合成证据。无私史、生产数据或凭据。
+
+## 2026-11-22 A 原 G 策略来源
+
+原open_agency/learning.py、已有meta测试、复用原CI、09/11/ACTIVE/STATUS及本批公开合成证据，无私人数据与凭据。

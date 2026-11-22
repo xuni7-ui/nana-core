@@ -1,0 +1,102 @@
+FF
+=================================== FAILURES ===================================
+_ test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[False] _
+
+tmp_path = PosixPath('/dev/shm/nq284baseline2/test_later_meta_strategy_has_i0')
+same_method = False
+
+    @pytest.mark.parametrize('same_method', [False, True])
+    def test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use(tmp_path, same_method):
+        import json
+    
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.open_agency.learning import LearningCase
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.ports import CognitionLearningProposer
+        from tests.open_autonomy.helpers import capture
+        from tests.open_autonomy.test_learning import language_learning
+        from tests.world_loop.test_model_framing import bind
+    
+        with fresh(tmp_path / 'self.db', schema_target=13) as runtime, provider_harness() as (transport, calls):
+            original = number_learning()
+            service = LearningService(runtime.store, runtime.authority, (original,), privacy_classes=('PERSONAL',), scopes=('lab',))
+            runtime.work.open_learning = service
+            start_learning(runtime, original, 'first-numeric')
+            records = RecordService(runtime.store)
+            method = runtime.store.all('lessons')[0]
+            strategy_id = propose(runtime.store, method['lesson_id'], authority=runtime.authority)
+            experience = ExperienceService(runtime.store, runtime.authority)
+            assert all(experience.test_lesson(strategy_id).values())
+            experience.activate(strategy_id, runtime.authority)
+            strategy_record = runtime.store.one('lessons', strategy_id)['record_id']
+    
+            prior = (original.model_copy(update={'learning_key': 'learn.unrelated-numbers', 'domain': 'inventory'})
+                     if same_method else language_learning())
+            prior_provider_source = capture(runtime, 'prior-provider-only', 'Synthetic context exclusive to the previous proposal', privacy='PUBLIC')
+            policy = ContextPolicy(policy_id='meta-provenance', allowed_scopes=('lab',), readable_privacy=('PUBLIC', 'PERSONAL'))
+            bind(transport)
+            proposer = CognitionLearningProposer(CognitionSession(runtime, transport, policy), (prior_provider_source,))
+            service.proposer = proposer
+            service.specs[prior.learning_key] = prior
+            start_learning(runtime, prior, 'prior-proposer-job')
+            prior_job = runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+>           assert prior_job['state'] == 'DONE' and calls['calls'] == 1
+E           AssertionError: assert ('UNKNOWN' == 'DONE'
+E             
+E             - DONE
+E             + UNKNOWN)
+
+tests/open_life/test_meta_learning.py:133: AssertionError
+_ test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[True] _
+
+tmp_path = PosixPath('/dev/shm/nq284baseline2/test_later_meta_strategy_has_i1')
+same_method = True
+
+    @pytest.mark.parametrize('same_method', [False, True])
+    def test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use(tmp_path, same_method):
+        import json
+    
+        from nana_core.continuity.context import ContextPolicy
+        from nana_core.continuity.open_agency.learning import LearningCase
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.world_loop.harness import provider_harness
+        from nana_core.continuity.world_loop.ports import CognitionLearningProposer
+        from tests.open_autonomy.helpers import capture
+        from tests.open_autonomy.test_learning import language_learning
+        from tests.world_loop.test_model_framing import bind
+    
+        with fresh(tmp_path / 'self.db', schema_target=13) as runtime, provider_harness() as (transport, calls):
+            original = number_learning()
+            service = LearningService(runtime.store, runtime.authority, (original,), privacy_classes=('PERSONAL',), scopes=('lab',))
+            runtime.work.open_learning = service
+            start_learning(runtime, original, 'first-numeric')
+            records = RecordService(runtime.store)
+            method = runtime.store.all('lessons')[0]
+            strategy_id = propose(runtime.store, method['lesson_id'], authority=runtime.authority)
+            experience = ExperienceService(runtime.store, runtime.authority)
+            assert all(experience.test_lesson(strategy_id).values())
+            experience.activate(strategy_id, runtime.authority)
+            strategy_record = runtime.store.one('lessons', strategy_id)['record_id']
+    
+            prior = (original.model_copy(update={'learning_key': 'learn.unrelated-numbers', 'domain': 'inventory'})
+                     if same_method else language_learning())
+            prior_provider_source = capture(runtime, 'prior-provider-only', 'Synthetic context exclusive to the previous proposal', privacy='PUBLIC')
+            policy = ContextPolicy(policy_id='meta-provenance', allowed_scopes=('lab',), readable_privacy=('PUBLIC', 'PERSONAL'))
+            bind(transport)
+            proposer = CognitionLearningProposer(CognitionSession(runtime, transport, policy), (prior_provider_source,))
+            service.proposer = proposer
+            service.specs[prior.learning_key] = prior
+            start_learning(runtime, prior, 'prior-proposer-job')
+            prior_job = runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+>           assert prior_job['state'] == 'DONE' and calls['calls'] == 1
+E           AssertionError: assert ('UNKNOWN' == 'DONE'
+E             
+E             - DONE
+E             + UNKNOWN)
+
+tests/open_life/test_meta_learning.py:133: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[False]
+FAILED tests/open_life/test_meta_learning.py::test_later_meta_strategy_has_its_own_provenance_after_real_proposer_use[True]
+2 failed, 2 deselected in 1.12s
