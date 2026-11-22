@@ -1,0 +1,49 @@
+{
+  "source_commit": "305fda8b98ae0ae1040301eb758d91a27497f442",
+  "execution": "ORIGINAL_SETUP_FUNCTION_IN_ACTUAL_INSTALLED_DEV_NOT_FULL_RESIDENCY",
+  "same_gateway_subject": true,
+  "identity_id": "3d68a670-ee15-4058-9509-1becf4baedba",
+  "lineage_binding": "78f2d38be818acaaef4ce6259fcbc3e1521e82f170ea7f01fe4641c758bf2f84",
+  "result": {
+    "identity_id": "3d68a670-ee15-4058-9509-1becf4baedba",
+    "semantic": {
+      "execution": "SYNTHETIC_LOOPBACK_NOT_LIVE",
+      "identity_id": "3d68a670-ee15-4058-9509-1becf4baedba",
+      "request_id": "1575a003-e06b-4e28-8363-37694da0e610",
+      "source_to_world_to_concern_to_c": true,
+      "before": "SUPPORTED_BELIEF",
+      "conflict": "CONFLICT",
+      "corrected": "SUPPORTED_BELIEF",
+      "withdrawn": "UNKNOWN",
+      "after_choice": "NO_ACTION",
+      "fixture_calls": 1,
+      "real_provider_calls": 0,
+      "no_duplicate_dispatch": true
+    },
+    "private_intent": {
+      "cycle_id": "70926502-007b-455f-b64a-8fed5bc64a14",
+      "intent_id": "d5c4fc1f-97a5-46b0-8be8-a06a1950f21f",
+      "record_id": "3ed65e77-87ce-429c-89d5-44fa6cd7b58b",
+      "policy": "PRIVATE_FOR_NOW",
+      "withheld": true,
+      "inspector_read_only": true,
+      "no_action_or_grant_created": true
+    },
+    "manager": {
+      "original_normative": "ENDORSED",
+      "result": "BLOCK",
+      "no_action": true,
+      "revocation_no_old_replay": true
+    },
+    "conversation_refusal_not_cognitive_boundary": true
+  },
+  "original_setup_source_sha256": "8438f9b291affd14f8ed22d209e54112516c616ef7791a248b987b4e943aff55",
+  "all_business_modules_from_installed_slot": 152,
+  "external_public_fixture_factories": {
+    "nana_core.continuity.open_agency.fixtures": "d8f5289a08abd190cac30d1f67ecad4e4763e9104b2b30475e79b46b52521239",
+    "nana_core.continuity.world_loop.reference": "f9a4f5fe7a5a74ac2a690ea4424713b46b1157630836811753a2bd93a1743700",
+    "nana_core.continuity.world_loop.harness": "667ddcc537e3d2ee93919af5f34d58cf1c78ca31c7eb95a91317a3f4da5e31c8"
+  },
+  "real_provider_calls": 0,
+  "production_changed": false
+}

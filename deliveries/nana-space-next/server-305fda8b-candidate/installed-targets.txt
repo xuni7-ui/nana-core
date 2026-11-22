@@ -1,0 +1,9 @@
+{"source": "305fda8b98ae0ae1040301eb758d91a27497f442", "installed_blobs_verified": 263, "fixed_fixture_files": 28, "external_factories": 3}
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.{"case": "original-runtime-provider-review", "calls": 1, "context_bytes": 24032, "decision": "DECLINE", "real_models": 0}
+...{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0, "selector_seconds": 0.0005946959999505452, "selector_cpu_seconds": 0.0005943219999995364, "selector_write_rows": 0}
+.{"same_method": false, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"same_method": true, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+..............
+33 passed in 8.11s

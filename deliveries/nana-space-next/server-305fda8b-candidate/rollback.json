@@ -1,0 +1,27 @@
+{
+  "source_sequence": [
+    "305fda8b98ae0ae1040301eb758d91a27497f442",
+    "b196f5d44e032fe6f18dcc5db59760286170cdb7",
+    "305fda8b98ae0ae1040301eb758d91a27497f442"
+  ],
+  "same_stopped_dev_readings": {
+    "identity_id": "3d68a670-ee15-4058-9509-1becf4baedba",
+    "lineage_binding": "78f2d38be818acaaef4ce6259fcbc3e1521e82f170ea7f01fe4641c758bf2f84",
+    "private_record_id": "3ed65e77-87ce-429c-89d5-44fa6cd7b58b",
+    "private_intent_id": "d5c4fc1f-97a5-46b0-8be8-a06a1950f21f",
+    "private_content_sha256": "b2a0a55c263feadac43be7d7c77abfc7319621a0be6596dce1a9cb87ced35ddd",
+    "private_content_withheld": true,
+    "expression_boundary_preserved_cognition_still_allowed": true,
+    "withdrawn_learning_method_still_fenced": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 17,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    }
+  },
+  "same_semantics": true,
+  "new_request_count": 0,
+  "new_actions": 0
+}
