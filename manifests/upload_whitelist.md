@@ -425,3 +425,7 @@ B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览�
 ## 2026-11-22 A C27 撤回提示与本地集成验证
 
 C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `docs/nana_next_experience/evidence/recall-status-and-local-candidate-20261122` 合成测试与本地包回执。
+
+## 2026-11-22 A 成长补选资格
+
+原成长查询、现有因果测试、事实账、`docs/nana_next_experience/evidence/growth-attention-checked-lessons-20261122` 原与当前受控结果及指纹。

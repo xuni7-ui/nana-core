@@ -1,0 +1,65 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_normal_c_can_still_consider_a_different_checked_skill[32-False-32] ____
+
+tmp_path = PosixPath('/dev/shm/nq302baseline2/test_normal_c_can_still_consid0')
+newer_checks = 32, withdrawn = False, unreviewed = 32
+
+    @pytest.mark.parametrize('newer_checks,withdrawn,unreviewed',[(0,False,0),(32,False,0),(32,True,0),(32,False,32)])
+    def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_checks,withdrawn,unreviewed):
+        clock=VirtualClock();seen=[];language_id=None;checked_sources={}
+        def propose(request):
+            context=json.loads(request.context_json);identity=context['manifest']
+            growth=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='GROWTH_CHANGE')
+            seen.append(growth['lesson_id']);use=growth['lesson_id']==language_id
+            return StructuredProposal(interpretation='SYNTHETIC original C may use a different skill',subject_cognition=CognitiveProposal(
+                identity_id=identity['identity_id'],identity_revision=identity['identity_revision'],
+                interpretation='SYNTHETIC own language curiosity' if use else 'SYNTHETIC leave numeric outcome alone',
+                preferred_behavior='REFLECT' if use else 'WATCH',proposed_operations=('DRAFT',) if use else ('WAIT',),
+                private_question={'topic':'own-language-play','question':'SYNTHETIC Could this checked text method support my own wordplay?'} if use else None))
+        with grown(tmp_path/'life',clock) as (r,first,origin,reuse,math_id),provider_harness(proposer=propose) as (transport,state):
+            r.work.configure_open_learning((numeric_learning(),language_learning()))
+            request=cue(r,'language-gap',ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',
+                topic_key='own-language-gap',program_id='learn.language',possible_behaviors=('LEARN',)))
+            post(r,'language-study',(request,),task_class='language');advance(r,clock,30)
+            jobs=[row for row in r.store.all('jobs') if row['work_kind']=='LEARNING' and row['state']=='DONE']
+            assert len(jobs)==2
+            language_id=next(RecordService(r.store).read(row['record_id'])['payload']['lesson_id'] for row in jobs
+                if RecordService(r.store).read(row['record_id'])['payload']['lesson_id']!=math_id)
+            review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
+            def check(key,lesson,case):
+                mid=source(r,key,{'strategy_episode':{'episode_key':key,'lesson_id':lesson,'case':case.model_dump(mode='json')}},kind='SYSTEM_VERIFICATION')
+                checked_sources[key]=mid
+                aid=review.assess(lesson,mid,authority=r.authority)
+                assert growth_life.project(r.store,aid,scope='world',privacy_classes=('PUBLIC',))
+                return aid
+            check('language-unseen',language_id,LearningCase(case_id='language-unseen',context='own-wordplay',data='Ｓky\tblue',expected=['Sky','blue']))
+            for i in range(newer_checks):
+                clock.advance(SECOND);r.lease.heartbeat()
+                check('numeric-unseen-'+str(i),math_id,LearningCase(case_id='numeric-unseen-'+str(i),context='mathematical-check-'+str(i),data=[100+i,.25],expected=100.25+i))
+            for i in range(unreviewed):
+                key=f'unreviewed-{i}'
+                spec=numeric_learning().model_copy(update={'learning_key':f'learn.{key}','domain':key})
+                r.work.configure_open_learning((spec,))
+                request=cue(r,key,ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',
+                    topic_key=key,program_id=spec.learning_key,possible_behaviors=('LEARN',)))
+                post(r,key,(request,),task_class=spec.domain)
+                advance(r,clock,24)
+            assert len([job for job in r.store.all('jobs') if job['work_kind']=='LEARNING' and job['state']=='DONE'])==2+unreviewed
+            if withdrawn:MemoryService(r.store,r.authority).forget(checked_sources['language-unseen'],r.authority)
+            before=r.store.db.total_changes
+            views=growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
+            print(json.dumps({'math':math_id,'language':language_id,'views':[v.lesson_id for v in views], 'states':[(row['lesson_id'],row['state']) for row in r.store.all('lessons')]}))
+>           assert {v.lesson_id for v in views}==({math_id} if withdrawn else {math_id,language_id})
+E           AssertionError: assert {'c4f6408c-a7...db7442cd26f6'} == {'90d81b64-f3...db7442cd26f6'}
+E             
+E             Extra items in the right set:
+E             '90d81b64-f372-4fb5-878b-21c2a1e3c162'
+E             Use -v to get more diff
+
+tests/person_self/test_growth_lesson_attention.py:68: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{"math": "c4f6408c-a799-4cf2-97a5-db7442cd26f6", "language": "90d81b64-f372-4fb5-878b-21c2a1e3c162", "views": ["c4f6408c-a799-4cf2-97a5-db7442cd26f6"], "states": [["c4f6408c-a799-4cf2-97a5-db7442cd26f6", "ACTIVE"], ["90d81b64-f372-4fb5-878b-21c2a1e3c162", "ACTIVE"], ["62a94b1b-1553-462c-8c0a-004a76995138", "ACTIVE"], ["7901c64e-5d91-4c98-bf00-a8d6a847c871", "ACTIVE"], ["72d1fb7e-9c1a-426b-90f7-1c8c4c60eb85", "ACTIVE"], ["6de7c584-f4ad-4e53-9ebd-c6f6758eeb4c", "ACTIVE"], ["cbf654bc-d88e-4579-9251-7bf9671c3415", "ACTIVE"], ["1c2087a3-1ad8-4935-93fc-7aa4addeea5d", "ACTIVE"], ["68007f76-eb9f-46a9-9b26-e863688d16f5", "ACTIVE"], ["b7eaaa0e-c734-49cd-9ba5-0af24da10aed", "ACTIVE"], ["481d8f34-5cfa-4f89-bf4b-53aa59cc2183", "ACTIVE"], ["3b89fc8a-43f4-49a5-846f-23f7cbb3b9a3", "ACTIVE"], ["814624ba-acbf-46b6-a0c2-220219f3a95c", "ACTIVE"], ["956f456e-2b97-4b21-80f4-03f44da96737", "ACTIVE"], ["4849ed2c-37ae-483f-9b1a-6bfb36261040", "ACTIVE"], ["621f8962-952e-4e2b-bafe-7145db14dc75", "ACTIVE"], ["c4204697-9e7c-456c-bef4-4ba48f0ec157", "ACTIVE"], ["fe209f17-3276-42c1-9818-eedd7c89d5b9", "ACTIVE"], ["0e31eb8b-a252-42f8-b338-8f9b3b4ff924", "ACTIVE"], ["8e7121e9-3926-418b-acbe-df8a4d93e3f2", "ACTIVE"], ["d6c73437-3ea1-459b-8e23-5deee301da5d", "ACTIVE"], ["b166c6f5-2fd9-4202-99f3-1bcf887dbe5e", "ACTIVE"], ["8d1b2280-77fe-4a9c-b4b0-e8bcd993cf8b", "ACTIVE"], ["2145d79c-d938-4234-949e-e9ac0d1b86ef", "ACTIVE"], ["411cffa8-2102-4d55-9e44-07bdbe494f1d", "ACTIVE"], ["c734ba17-9cf2-4d3c-b140-68b5481c602b", "ACTIVE"], ["370c3d4f-5b03-4c03-b6a7-17631d4b5270", "ACTIVE"], ["503792a0-666c-4c4e-ba7d-b575c8d8d253", "ACTIVE"], ["cb2e4a58-be9f-4c31-bdc0-f82f69b3c527", "ACTIVE"], ["50ef8324-9a07-4896-aa37-04e9784a82e2", "ACTIVE"], ["1af8a15c-6d51-4bb7-bd5e-0db0a7430d62", "ACTIVE"], ["08dff841-a41e-4283-9f0f-0a4710b3c080", "ACTIVE"], ["0b8ea766-f1e5-4d66-b4c3-fb08f5147f4c", "ACTIVE"], ["55f0d2c1-aa68-42bd-86e9-b8738b001fbe", "ACTIVE"]]}
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_lesson_attention.py::test_normal_c_can_still_consider_a_different_checked_skill[32-False-32]
+1 failed in 9.04s

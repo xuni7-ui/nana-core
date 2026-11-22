@@ -20,8 +20,8 @@ from .test_growth_inner_choice import grown
 from .test_private_method_continuation import bind
 
 
-@pytest.mark.parametrize('newer_checks,withdrawn',[(0,False),(32,False),(32,True)])
-def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_checks,withdrawn):
+@pytest.mark.parametrize('newer_checks,withdrawn,unreviewed',[(0,False,0),(32,False,0),(32,True,0),(32,False,32)])
+def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_checks,withdrawn,unreviewed):
     clock=VirtualClock();seen=[];language_id=None;checked_sources={}
     def propose(request):
         context=json.loads(request.context_json);identity=context['manifest']
@@ -52,6 +52,15 @@ def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_ch
         for i in range(newer_checks):
             clock.advance(SECOND);r.lease.heartbeat()
             check('numeric-unseen-'+str(i),math_id,LearningCase(case_id='numeric-unseen-'+str(i),context='mathematical-check-'+str(i),data=[100+i,.25],expected=100.25+i))
+        for i in range(unreviewed):
+            key=f'unreviewed-{i}'
+            spec=numeric_learning().model_copy(update={'learning_key':f'learn.{key}','domain':key})
+            r.work.configure_open_learning((spec,))
+            request=cue(r,key,ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',
+                topic_key=key,program_id=spec.learning_key,possible_behaviors=('LEARN',)))
+            post(r,key,(request,),task_class=spec.domain)
+            advance(r,clock,24)
+        assert len([job for job in r.store.all('jobs') if job['work_kind']=='LEARNING' and job['state']=='DONE'])==2+unreviewed
         if withdrawn:MemoryService(r.store,r.authority).forget(checked_sources['language-unseen'],r.authority)
         before=r.store.db.total_changes
         views=growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
@@ -73,6 +82,6 @@ def test_normal_c_can_still_consider_a_different_checked_skill(tmp_path,newer_ch
             assert not RecordService(r.store).current_support(own[0][0])
         assert r.store.one('lessons',language_id)['state']=='ACTIVE'
         assert language_id not in {v.lesson_id for v in growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))}
-        print(json.dumps({'other_method_checks':newer_checks,'source_withdrawn_before_c':withdrawn,'original_learning_jobs':2,
+        print(json.dumps({'other_method_checks':newer_checks,'source_withdrawn_before_c':withdrawn,'original_learning_jobs':2+unreviewed,
             'language_considered':language_id in seen,'own_questions':len(own),'self_calls':calls,'real_provider_calls':0,'new_actions_or_grants':False,
             'input_bytes':[row['input_bytes'] for row in r.store.all('cognitive_requests')]}))

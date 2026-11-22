@@ -118,7 +118,10 @@ def opportunities(store,*,scope,privacy_classes):
             "SELECT l.lesson_id FROM lessons l JOIN continuity_records lr ON lr.record_id=l.record_id "
             f"WHERE l.state='ACTIVE' AND lr.scope=? AND lr.privacy_class IN ({marks}) "
             f"AND lr.lifecycle='ACTIVE' AND l.lesson_id NOT IN ({excluded}) "
-            "ORDER BY lr.created_at_us DESC,l.rowid DESC LIMIT 32",(scope,*allowed,*represented)).fetchall()
+            "AND EXISTS (SELECT 1 FROM strategy_assessments a JOIN continuity_records ar ON ar.record_id=a.record_id "
+            "WHERE a.lesson_id=l.lesson_id AND a.verdict='SUCCESS' AND ar.scope=lr.scope "
+            f"AND ar.privacy_class IN ({marks}) AND ar.lifecycle='ACTIVE') "
+            "ORDER BY lr.created_at_us DESC,l.rowid DESC LIMIT 32",(scope,*allowed,*represented,*allowed)).fetchall()
         for lesson_head in other_lessons:
             extra=store.db.execute(base+"AND a.lesson_id=? ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 1",
                 (*args,lesson_head['lesson_id'])).fetchone()
