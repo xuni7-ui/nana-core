@@ -330,6 +330,7 @@ class Store:
         if Path(destination).exists():
             raise CoreError("DESTINATION_EXISTS")
         target = sqlite3.connect(destination, isolation_level=None)
+        source_read = False
         try:
             target.executescript(Path(__file__).with_name("schema_v1.sql").read_text())
             if self.schema_target > 1:
@@ -338,16 +339,21 @@ class Store:
                 install(target, 1, self.schema_target)
             target.execute("PRAGMA foreign_keys=ON")
             target.execute("BEGIN IMMEDIATE")
-            for row in self.all("events"):
-                columns = list(row)
+            if not self.db.in_transaction:
+                self.db.execute("BEGIN")
+                source_read = True
+            # Keep one source view through every pass, without materializing
+            # the lifetime event or artifact tables in Python.
+            for row in self.db.execute("SELECT * FROM events ORDER BY rowid"):
+                columns = row.keys()
                 target.execute(
                     f"INSERT INTO events({','.join(columns)}) VALUES({','.join('?' for _ in columns)})",
-                    list(row.values()),
+                    tuple(row),
                 )
-            for row in self.all("artifacts"):
-                target.execute("INSERT INTO artifacts VALUES(?,?,?,?,?)", list(row.values()))
-            for event in self.all("events"):
-                for change in json.loads(event["data_json"])["changes"]:
+            target.executemany("INSERT INTO artifacts VALUES(?,?,?,?,?)",
+                self.db.execute("SELECT * FROM artifacts ORDER BY rowid"))
+            for row in self.db.execute("SELECT data_json FROM events ORDER BY rowid"):
+                for change in json.loads(row[0])["changes"]:
                     table, row = change["table"], change["row"]
                     if table not in self.keys:
                         raise CoreError("INVALID_REPLAY_TABLE")
@@ -367,6 +373,8 @@ class Store:
                 target.execute("ROLLBACK")
             raise
         finally:
+            if source_read:
+                self.db.execute("ROLLBACK")
             target.close()
 
     def backup(self, destination):

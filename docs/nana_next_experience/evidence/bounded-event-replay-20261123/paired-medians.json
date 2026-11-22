@@ -1,0 +1,12 @@
+{
+  "old": {
+    "replay_seconds": 0.48707,
+    "python_traced_peak_bytes": 26014526,
+    "process_peak_kib": 57632
+  },
+  "new": {
+    "replay_seconds": 0.32049,
+    "python_traced_peak_bytes": 16816739,
+    "process_peak_kib": 31008
+  }
+}

@@ -1,0 +1,37 @@
+.......F..................................                               [100%]
+=================================== FAILURES ===================================
+_____ test_real_sigkill_after_durable_delete_intent_recovers_before_reads ______
+
+tmp_path = PosixPath('/dev/shm/nq308current/test_real_sigkill_after_durabl0')
+
+    def test_real_sigkill_after_durable_delete_intent_recovers_before_reads(tmp_path):
+        path = tmp_path / "crash.db"
+        authority = OperatorAuthority()
+        with ContinuityStore(path, ManualClock()) as store:
+            identity = IdentityService(store, authority).current().identity_id
+            memory = MemoryService(store, authority)
+            memory.entity("synthetic-sister", "PERSON")
+            a = add(memory, evidence(memory, "crash-source", CANARY), CANARY)
+        # Real child process dies after journal fsync, before SQLite erasure begins.
+        code = '''
+    import os,signal,sys
+    from nana_core.continuity import ContinuityStore
+    from nana_core.actions import OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.continuity.memory import MemoryService
+    with ContinuityStore(sys.argv[1], ManualClock()) as s:
+     a=OperatorAuthority()
+     def killed(): os.kill(os.getpid(),signal.SIGKILL)
+     s.privacy.ensure_current=killed
+     MemoryService(s,a).forget(sys.argv[2],a)
+    '''
+        child = subprocess.run([sys.executable, "-c", code, str(path), a], capture_output=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/workspace/nana-test-env/bin/python', '-c', '\nimport os,signal,sys\nfrom nana_core.continuity...most recent call last):\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/continuous_self/test_privacy.py:106: AssertionError
+=========================== short test summary info ============================
+FAILED tests/continuous_self/test_privacy.py::test_real_sigkill_after_durable_delete_intent_recovers_before_reads
+1 failed, 41 passed in 7.59s

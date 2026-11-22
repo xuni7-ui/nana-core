@@ -23,42 +23,44 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 307,
-  "as_of_us": 1795385738311455,
+  "revision": 308,
+  "as_of_us": 1795385967381289,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原Store在同一读快照流式重放。相同合成库交替三组，峰RSS中位56.3→30.3MiB；事件、制品、原身份与隔离一致，42相关通过，包括真实本地SIGKILL。",
     "同源c79297c Core/BFF/Web/独立侧车/Android .dev已归档并独立复取。原D经历先按隐私后截32；同主体重启后确切意见参与原C、后续表达改变，旧1错→56相关，真实0。",
     "原G笔记规格重启前按当前范围和隐私过滤。16条不可见新记录不再挤掉已由C采纳的工作，同主体恢复一次且不重判，撤回/主动取消保留，旧1错→48相关通过。",
     "原G选法在原上限16前核作用域/隐私。16条实际合成私人课不再挤掉PROJECT已验证方法。该方法撤回即失效，旧1错→40相关通过，真实0。",
     "客户端换模型保留原路由隐私、启停、超时、费用、上下文和输出限制及备用次序；目录错误冷却同源接两界面和Android桥源码。旧双反例→104单测、4浏览器与构建通过，Java真机待。",
     "固定3377a5c匹配Core/BFF/Web及独立NanaLink轮子交付5f96aa1。独立HTTPS重取29文件摘要、Core46安装项、侧车18本地网络项、两套同主体停机302→286→302通过，真实0。",
     "原S2大维护批次复用全部已读合格来源补索引，巩固仍限4；旧漏修反例→6旧笔记全部覆盖，30相关通过。此修复晚于远端302候选。",
-    "原C补选先确认存在可见成功评估再计名额。32真实合成新课未复验不再挤掉独立验证的语言能力；正常D/C后续形成私人问题，原撤回有效，旧1错→20项通过。",
-    "复用C27撤回状态提示。绑定会话可看到记忆仍需检查，真实授权和删除仍沿原边界。旧1错→49项平台、3单测、2手机视口、TS/Vite通过。"
+    "原C补选先确认存在可见成功评估再计名额。32真实合成新课未复验不再挤掉独立验证的语言能力；正常D/C后续形成私人问题，原撤回有效，旧1错→20项通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
     "原G WORDLIKE/TEXT仍独立16/32；两码点1k/10k/100k有限literal本批资格，旧20万144/144与2timeout历史不动；在线有界旧库补项/大量未索引/更广语义学习、Core-Iris活索引绑定/长期迁移及匹配安装回退仍待。",
-    "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
+    "原Store事件重放流式化已受控，冷物理驱逐、跨归档引用、隐私闭包和实际灾备仍待。主文件显式整理只有受控实验，保留停机复制与原来源永久历史。",
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409；c79297c综合候选8e4b90a已独立复取、双槽与Android .dev验签。307反馈修复晚于此包；平台来源、真实模型、真机、实际跨日和签发仍待。"
+    "CURRENT266+409；c79297c 综合候选8e4b90a独立复取并验签。307反馈与308重放晚于候选；真实平台来源、模型、真机、实际跨日和签发仍待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/bounded-event-replay-20261123/README.md",
     "docs/nana_next_experience/evidence/integrated-c79297c-and-feedback-visibility-20261123/README.md",
     "docs/nana_next_experience/evidence/note-learning-restart-visibility-20261123/README.md",
     "docs/nana_next_experience/evidence/strategy-visible-window-20261123/README.md",
     "docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123/README.md",
     "docs/nana_next_experience/evidence/matching-3377a5c-and-note-backfill-20261122/README.md",
     "docs/nana_next_experience/evidence/growth-attention-checked-lessons-20261122/README.md",
-    "docs/nana_next_experience/evidence/recall-status-and-local-candidate-20261122/README.md",
-    "docs/nana_next_experience/evidence/meta-selection-independent-transfer-20261122/README.md"
+    "docs/nana_next_experience/evidence/recall-status-and-local-candidate-20261122/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision308证据指纹锚：`7760310d8ba683c49ada3d59e15d4aa0a2441fe2fe0d3b3a998286b047f53f38`（source.sha256不含自身/09）。
 
 A revision307证据指纹锚：`32b0925168065035e4f6d28dbcb528abc5416b9d603fa9ff4f2cedb5f18e2448`（source.sha256不含自身/09）。
 

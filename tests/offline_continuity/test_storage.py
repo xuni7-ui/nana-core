@@ -60,12 +60,18 @@ def test_single_writer_and_corrupt_database_fail_closed(tmp_path):
     assert bad.read_bytes() == b"not a database"
 
 
-def test_append_only_and_pure_replay(tmp_path):
+def test_append_only_and_pure_replay(tmp_path, monkeypatch):
     with Store(tmp_path / "nana.db") as store:
         store.ingest(observation())
         with pytest.raises(sqlite3.IntegrityError, match="append-only"):
             store.db.execute("UPDATE events SET kind='forged'")
-        store.replay(tmp_path / "replay.db")
+        def deny_table_copy(table):
+            pytest.fail(f"Replay materialized the source table {table}")
+
+        with monkeypatch.context() as patch:
+            patch.setattr(store, "all", deny_table_copy)
+            store.replay(tmp_path / "replay.db")
+        assert not store.db.in_transaction
         with Store(tmp_path / "replay.db") as replay:
             original, reconstructed = store.snapshot(), replay.snapshot()
             for row in original["core_meta"]:

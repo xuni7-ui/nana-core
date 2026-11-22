@@ -1,3 +1,9 @@
+## 当前接续 原事件恢复 revision308
+
+原Store在同一读快照流式重放。相同合成库交替三组，峰RSS中位56.3→30.3MiB；事件、制品、原身份与隔离一致，42相关通过，包括真实本地SIGKILL。
+
+继续原存储物理闭包和长期成长，联合候选等待后继定点打包及真实资格。原 A–H 与正式资格按上方原边界继承。证据 docs/nana_next_experience/evidence/bounded-event-replay-20261123/README.md。
+
 ## 当前接续：固定候选及反馈连续性 revision307
 
 同源c79297c Core/BFF/Web/独立侧车/Android .dev已归档并独立复取。原D经历先按隐私后截32；同主体重启后确切意见参与原C、后续表达改变，旧1错→56相关，真实0。
