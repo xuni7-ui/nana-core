@@ -1,0 +1,13 @@
+{"source": "2864240b50a86caa49441663a1775ce69019a9b8", "installed_blobs_verified": 264, "fixed_fixture_files": 29, "external_factories": 3}
+{"case": "initial-request", "model_operations": ["ASK"], "actual_decision": "NEGOTIATE", "wish_seen": true}
+.............{"case": "original-runtime-provider-initial", "calls": 1, "context_bytes": 17597, "decision": "DECLINE", "real_models": 0}
+.{"case": "original-runtime-provider-review", "calls": 1, "context_bytes": 24032, "decision": "DECLINE", "real_models": 0}
+.....{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0, "selector_seconds": 0.00041563899867469445, "selector_cpu_seconds": 0.00041495499999966157, "selector_write_rows": 0}
+.{"same_method": false, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"same_method": true, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"compatible_available": true, "state": "DONE", "stage": "MONITOR", "used_original_strategy": true, "proposer_calls": 0}
+.{"compatible_available": false, "state": "BLOCKED", "stage": "CONSOLIDATE", "used_original_strategy": false, "proposer_calls": 1}
+..............{"dense_first": true, "sample_times": [0.0, 1.6, 3.1, 4.7, 6.0, 8.0, 9.0, 11.0], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25360, "source_sha256": "a81b63e9fe349d557a31d93446e32b3b8781333687761252971bb3822f3c5d75", "native_processes": 3, "wall_s": 0.35087957799987635}
+.{"dense_first": false, "sample_times": [0.0, 2.0, 3.0, 5.0, 6.8, 8.5, 10.2, 11.9], "largest_internal_sampling_gap_s": 2.0, "frame_count": 66, "selected_frames": 8, "source_bytes": 25302, "source_sha256": "2738b3946b4bdb34d086646c37c2623948f04443b827c2dbe5af941d7837b578", "native_processes": 3, "wall_s": 0.35111976500047604}
+.
+39 passed in 7.40s

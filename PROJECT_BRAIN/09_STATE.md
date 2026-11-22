@@ -23,13 +23,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 295,
-  "as_of_us": 1795359084076947,
+  "revision": 296,
+  "as_of_us": 1795359518857450,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "9582隔离安装实测缺公开视频来源门模块，5失效34过。补同一便携清单与最小依赖实际导入，10相关过，待固定后继重建后独立安装。",
+    "2864240 联合候选双构建、独立下载与双槽离线安装通过。安装定向39项，原5项缺模块失败均修复；匹配Core CI 169项。两槽各一DEV身份，原交流、独立G迁移、虚拟72h、撤回与停机286→305→286连续性通过。",
     "原C暂缓有限承诺复查可跨重启，同一版本普通wake不再改CONTINUE或开重复待办；后续明确复查与真实到期仍有原END。旧2错→62相关通过，真实0。",
     "原BFF目录鉴权失败及429带实际单调时钟retry_after_ms；两个协议旧2错、56相关通过，原权限/配置/阻止重复读取，真实0。B26正式CI102单测168浏览器过，客户端字段消费交B。",
     "B22时间覆盖接原隔离S5：同实际VFR原5.5/6.3s间隔→各2s，8帧/3进程不变，CFR完整结果相同。旧2错，首轮68过1波动，旧/新该项各过、最终69过。无真实模型。",
@@ -44,21 +44,23 @@
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
-    "环境2026-11-17再次重建：workspace源码/归档与远端保留，tmp/shm旧安装/DEV/轮子/下载均丢，不假称现存。Python3.12.14/SQLite3.53.1与原bwrap实重新可用；旧20万13SHA为历史证据，本轮不作磁盘新P95或恢复新验收。",
-    "CURRENT266+409，9582候选缺模块未发行。后继固定包需新版/回退和实际下载验证。原A–H、B22/C27正式来源、S3/S8-S10跨日、真实模型手机生产继续。"
+    "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
+    "CURRENT266+409；286候选已过双槽受控验证，待原A–H、B22/C27正式来源、S3/S8-S10跨日、真实模型手机生产与最终签发。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/matched-integrated-2864240-20261122/README.md",
     "docs/nana_next_experience/evidence/public-video-portable-closure-20261122/README.md",
     "docs/nana_next_experience/evidence/relational-deferral-continuity-20261122/README.md",
     "docs/nana_next_experience/evidence/catalog-error-cooldown-20261122/README.md",
     "docs/nana_next_experience/evidence/native-video-time-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/current-video-observation-binding-20261122/README.md",
     "docs/nana_next_experience/evidence/pr27-media-retirement-20261122/README.md",
-    "docs/nana_next_experience/evidence/meta-strategy-applicability-20261122/README.md",
-    "docs/nana_next_experience/evidence/pr26-simple-model-catalog-20261122/README.md"
+    "docs/nana_next_experience/evidence/meta-strategy-applicability-20261122/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision296证据指纹锚：`5a87b28eeec6ccd30f987fedd009ef572c256ce08e13dd46b5e585fbc03866c7`（source.sha256不含自身/09）。
 
 A revision295证据指纹锚：`19cb37e43b3cb4e0674655d6c903e176796cb2f10b404539896d7b9f37e925b9`（source.sha256不含自身/09）。
 

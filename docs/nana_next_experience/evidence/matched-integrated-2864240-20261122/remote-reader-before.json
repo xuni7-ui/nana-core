@@ -1,0 +1,18 @@
+{
+  "identity_id": "571035b3-0361-4c87-b632-89ba8f48bba7",
+  "lineage_binding": "97db8ba3e4b98b6b8a1f86f58e8a956670eb4efe6aee09e4cd3bbd7af8c3be41",
+  "private_record_id": "f70f48f5-d39a-418b-9af6-dd64942bc2a5",
+  "private_intent_id": "57eff26d-ac57-47a0-a95e-344f857c6dfd",
+  "private_content_sha256": "b2a0a55c263feadac43be7d7c77abfc7319621a0be6596dce1a9cb87ced35ddd",
+  "private_content_withheld": true,
+  "expression_boundary_preserved_cognition_still_allowed": true,
+  "withdrawn_learning_method_still_fenced": true,
+  "counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "clock_us": 1795618541413486
+}

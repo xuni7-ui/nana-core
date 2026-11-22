@@ -1,0 +1,23 @@
+{
+  "source": "2864240b50a86caa49441663a1775ce69019a9b8",
+  "delivery": "e3afb03019c62c3e3f2c5543946c5950cc1ae611",
+  "verified_remote_files": 24,
+  "installed_exact_paths": 264,
+  "local_profile_counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "remote_profile_counts": {
+    "identities": 1,
+    "subject_cycles": 16,
+    "cognitive_requests": 7,
+    "actions": 0,
+    "goals": 0
+  },
+  "same_each_profile_rollback": true,
+  "independent_https": true,
+  "provider_calls_real": 0
+}

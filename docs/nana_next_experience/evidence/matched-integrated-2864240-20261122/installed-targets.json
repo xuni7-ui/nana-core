@@ -1,0 +1,48 @@
+{
+  "source_commit": "2864240b50a86caa49441663a1775ce69019a9b8",
+  "runtime_files": 264,
+  "installed_business_modules": 141,
+  "external_factories": [
+    "nana_core.continuity.open_agency.fixtures",
+    "nana_core.continuity.world_loop.harness",
+    "nana_core.continuity.world_loop.reference"
+  ],
+  "exit_code": 0,
+  "selected_tests": [
+    "tests/person_self/test_relational_cognitive_choice.py",
+    "tests/open_life/test_meta_learning.py",
+    "tests/nanalink/test_public_video_source.py",
+    "tests/world_loop/test_media_stream_binding.py"
+  ],
+  "fixture_source_sha256": {
+    "tests/world_loop/test_media_stream_binding.py": "5dbc8fb6180e3df129c39322f86bf3a653a4abca6fea7a89c479c9e65c54c64b",
+    "tools/nana_vision_first/demo.py": "e0e2db62f3b7e5c5701b47184f26cbca9a33800ccd423ccc4edeaa1cc4be6ae5",
+    "tools/nana_vision_first/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/world_loop/helpers.py": "8fde3b5ce10c6ab901affd29e2f5896e7c290bd82e71850e4cb6462c4680c2c2",
+    "tests/conftest.py": "80be994f44da8fcf67dec8c18e3855d3bae0061fbaf0e3940b02c6ab3d0b815f",
+    "tests/world_loop/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/nanalink/test_public_video_source.py": "09c2f31eb9c883f16c58cfb2c7799d952a4138c439aecadbba33a5dda3e2ee49",
+    "tests/nanalink/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/open_life/test_meta_learning.py": "33b89e3dc1da2c3c16bd28cdba646525f14103ccdf5eb5f6d29844f559f4408f",
+    "tests/open_autonomy/test_learning.py": "f176ed22c63af2dfbf489b3f05b8e2c5f5a475c3dbbcb638cc2dc4342f5b1033",
+    "tests/open_autonomy/helpers.py": "8dd5017dde8ab887c08a49b8c2f7c14a745d723bd5c214bd58482051b1052c78",
+    "tests/open_autonomy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/open_life/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/person_self/test_relational_cognitive_choice.py": "ea85d9c340326510ffc18b95e012923f8efe9c4d77a2db25982421d10b6dae1c",
+    "tests/world_loop/test_model_framing.py": "83d4913a3bbd0647578928a03678048e6fddcec906ac51540f6d92d5c73c535b",
+    "tests/independent_life/test_dialogue.py": "57473f00881ebdd52e7a1588a57d41ceb234ff11d7f1a501b2ca3e9100528ab4",
+    "tests/independent_life/conftest.py": "68eaf6dc958b60d7dbb28b5f6ab96103e2cd9a2421397dd56f8a02a37474bcce",
+    "tests/independent_life/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/person_self/test_private_method_continuation.py": "4e81482448105a5fae7ed2b6c6cec757c298143093b5d60877d760a28fbace23",
+    "tests/continuous_self/test_memory.py": "b9a422fd7c2415c308974ec6e2f59bf862b41944717e4ced468d5a9a224c005d",
+    "tools/nana_next_experience/live_memory_inventory.py": "1653586a6d2b80042ea0a35d64985ff706870bc1ad357c109e95e86a973c5505",
+    "tools/nana_next_experience/__init__.py": "45665ef3c80757d5f46d72cf439b165c045949eb9639805334f98153362d4b00",
+    "tests/continuous_self/conftest.py": "074f4248111cf8b2985d604b2a28d36400530405df7e28c9536d6764c8a8baf2",
+    "tests/continuous_self/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/continuous_self/test_learning.py": "911a8fc858d1e65a59c041abe44229b1c24ce1c3595cfa9fcc9f29420e5628ef",
+    "tests/continuous_self/test_context.py": "37dae1a432c1ca537bff51b56c9965252e193098a10849206c1703c48b3983ec",
+    "tests/continuous_self/test_privacy.py": "709b67b4339af54175bc16bdfee4ef3b4ef355818cb87a81e4220a01a60b57b8",
+    "tests/person_self/conftest.py": "9855208d7afcd2425676d4a5fce28af6bed15c7153e9158c2049671f8548d9a3",
+    "tests/person_self/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "delivery_commit": "e3afb03019c62c3e3f2c5543946c5950cc1ae611",
+  "files_sha256_verified": [
+    {
+      "path": "HANDOFF.md",
+      "bytes": 2767,
+      "sha256": "9f6e269ba27f1e63a38eaa50a06c5705a771437a030f1c8e322e43e2b0194755"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 1552,
+      "sha256": "3529997fa5bc18ea48f4db171e3ff866796fa91de5341666b2257a202518a632"
+    },
+    {
+      "path": "continuity-reader.py",
+      "bytes": 3111,
+      "sha256": "1249354a7e0de4948dd01d3908662b8670d7ef91123b70383a4a20b4b8d7d5b3"
+    },
+    {
+      "path": "gateway.json",
+      "bytes": 815,
+      "sha256": "d195d5141d1751901f24110959f706c032155a839cda809c71b1a02f5b18b0fe"
+    },
+    {
+      "path": "growth.json",
+      "bytes": 1965,
+      "sha256": "2e315d37040dcfb1f8aaad4523f98c934f27e596e6758a72efdc828fdc3bf8e0"
+    },
+    {
+      "path": "install.txt",
+      "bytes": 3833,
+      "sha256": "d8f694ae0185bbfe46c5f76bc3825cbb8dff54b5dddd72ce71cc00dd338744b2"
+    },
+    {
+      "path": "installed-targets.json",
+      "bytes": 3816,
+      "sha256": "e0839194539b00570993013cf576734deb18579c74e6b86bdbd8cbea053d3188"
+    },
+    {
+      "path": "installed-targets.txt",
+      "bytes": 2129,
+      "sha256": "f958cc57e3143e6db99141888fb4652017e48f2e110982dab9e4ed405055cb30"
+    },
+    {
+      "path": "installed_gateway_probe.py",
+      "bytes": 11349,
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347"
+    },
+    {
+      "path": "installed_living_memory_probe.py",
+      "bytes": 10728,
+      "sha256": "adf028e835ee242fae59409e9d6a3901f43149d9d23c10910862872054d89d8b"
+    },
+    {
+      "path": "installed_note_recall_probe.py",
+      "bytes": 19483,
+      "sha256": "97f87b36a4d5e389bfd996b094368985b95a54007922849fa05ef4ecbc69758b"
+    },
+    {
+      "path": "integrated_setup_probe.py",
+      "bytes": 4470,
+      "sha256": "b3349bdf3c7d9cf00ceea5137609c6f48aa4c6f3628bf9e172acea2ee8ca7b87"
+    },
+    {
+      "path": "living.json",
+      "bytes": 2381,
+      "sha256": "f8c373d06a4da9367456ba135e8b8641509beeb0ed8e86dc576ea34ce7418e33"
+    },
+    {
+      "path": "nana-core-2864240-portable.tar.gz",
+      "bytes": 18044778,
+      "sha256": "9cd4b6a136c8e0c6cfb9fac5c24bc4ad6d6ad86e5285343374dbe1620eca9cba"
+    },
+    {
+      "path": "nana-unpack.py",
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    {
+      "path": "nana-web-2864240.tar.gz",
+      "bytes": 634738,
+      "sha256": "83e8015a0c55024480d11a49793e5c0a894b252cd6e6dfac02b0655265a3ea9f"
+    },
+    {
+      "path": "qualification/continuity/open_agency/fixtures.py",
+      "bytes": 2243,
+      "sha256": "d8f5289a08abd190cac30d1f67ecad4e4763e9104b2b30475e79b46b52521239"
+    },
+    {
+      "path": "qualification/continuity/world_loop/harness.py",
+      "bytes": 8215,
+      "sha256": "667ddcc537e3d2ee93919af5f34d58cf1c78ca31c7eb95a91317a3f4da5e31c8"
+    },
+    {
+      "path": "qualification/continuity/world_loop/reference.py",
+      "bytes": 4363,
+      "sha256": "f9a4f5fe7a5a74ac2a690ea4424713b46b1157630836811753a2bd93a1743700"
+    },
+    {
+      "path": "qualification/journey.py",
+      "bytes": 9626,
+      "sha256": "8438f9b291affd14f8ed22d209e54112516c616ef7791a248b987b4e943aff55"
+    },
+    {
+      "path": "rollback.json",
+      "bytes": 960,
+      "sha256": "e99fc5165b3f6b4d2dc1599dc4603038b65102513b52826e47989bd9f3484465"
+    },
+    {
+      "path": "setup.json",
+      "bytes": 2071,
+      "sha256": "09a8a28f0514e799fc9d2e46dab0572ab71af8fb0adadfd0bb998eb0920d7eae"
+    },
+    {
+      "path": "web-build-inputs.json",
+      "bytes": 29953,
+      "sha256": "94d0e86fff5714a3eabe7683a881954accde2d66972ae6b97bddd80f67522cdf"
+    },
+    {
+      "path": "web-input-blobs.txt",
+      "bytes": 24458,
+      "sha256": "23e95e2670f7e427e35329845a96f5174fc72c83af62377b5bd23bc276fe661c"
+    }
+  ],
+  "independent_https_raw_download": true
+}
