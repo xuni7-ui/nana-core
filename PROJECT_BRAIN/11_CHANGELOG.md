@@ -4409,3 +4409,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-23 CST｜revision311。固定0b03734集成候选fa7c929独立核36文件、33安装Core、18侧车回环；Web73/Android61输入同原，验签及同主体双槽停机回退恢复通过。 指纹 `c1fa0897c348b5de7839309d582bbffc7c73aa3887923ec0afbd8f7e305eb06f`。
 
 - 2026-11-23 CST｜revision312。[实测] 旧索引重建中断丢弃此前完整投影；[源码] 改用 SQLite 保存点和逐条读取，回归冻结首错，开发分支 CI 待确认。
+
+- 2026-11-23 CST｜revision312 验证回执。[实测] 固定 `c298760` 受影响 Core CI 通过，客户端按变更范围跳过。候选资格仍钉在 `0b03734`。[Core CI](https://github.com/xuni7-ui/nana-core/actions/runs/45079241917/job/137383556874)

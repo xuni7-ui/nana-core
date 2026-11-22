@@ -29,7 +29,7 @@
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "原索引重建在中断时只保留首条索引的反例已本地复现。改用流式读取与原 SQLite 保存点，开发分支验证待。",
+    "原索引重建遇中断时保留此前完整投影，重试恢复全部。流式读与SQLite保存点已接入原Store，固定c298760受影响Core CI通过。",
     "固定0b03734集成候选fa7c929独立核36文件、33安装Core、18侧车回环；Web73/Android61输入同原，验签及同主体双槽停机回退恢复通过。",
     "原G先后独立获TEXT32/16；同主体20笔记时较新窄法不再阻断旧宽法，原RENDER查到后续来源，撤回后失效，旧1错→60相关。",
     "原隐私日志按来源走SQLite关联；同源/衍生/版本边与冷副本保持。51变更摘要一致，带索引286→8ms、冷293→15ms，76相关通过。",
