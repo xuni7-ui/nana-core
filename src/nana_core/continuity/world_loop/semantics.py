@@ -11,12 +11,20 @@ from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
 from ..records import RecordService
 from .cognition import CognitionSession,CognitionBudget,CognitionRequest,CognitionReply,OpenAIJSONTransport
 from .semantic_contracts import SemanticDescriptor,MediaPart,MediaSemanticInput
-from .perception import MediaDecoder
+from .perception import MediaDecoder,VIDEO_FRAME_INTERVAL_BASIS
 from .world import SourcedClaim,WorldModel
 
 
 def _part(data,kind,start=0,end=0):
     return MediaPart(kind=kind,mime='image/png' if kind=='IMAGE' else 'audio/wav',data_b64=base64.b64encode(data).decode('ascii'),digest=hashlib.sha256(data).hexdigest(),start_s=start,end_s=end)
+
+
+def _video_frame_interval(frame):
+    if frame.get('source_interval_basis')==VIDEO_FRAME_INTERVAL_BASIS:
+        return frame['source_interval_s']
+    # Historical frame timestamps remain useful even when the stored endpoint
+    # came from the next timestamp. New interpretations only cite the sample.
+    return [frame['sample_s'],frame['sample_s']]
 
 
 def _source_locator(source,body):
@@ -62,7 +70,7 @@ def package_media(data,body,decoder=None):
             if len(raw)!=len(d['frames'])*size:raise CoreError('MEDIA_FRAME_INVALID')
             for i,f in enumerate(d['frames']):
                 out=io.BytesIO();Image.frombytes('RGB',(96,64),raw[i*size:(i+1)*size]).save(out,format='PNG')
-                parts.append(_part(out.getvalue(),'IMAGE',*f['source_interval_s']))
+                parts.append(_part(out.getvalue(),'IMAGE',*_video_frame_interval(f)))
         if mod=='AUDIO':
             raw=decoder._run(cmd+['-map','0:a:0','-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(root))
             out=io.BytesIO()
@@ -103,14 +111,14 @@ def validate_media_input(session,body,source_ids):
     if envelope.modality=='VIDEO':
         if len(visual)!=len(d['frames']):raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
         for (part,sha),frame in zip(visual,d['frames']):
-            if sha!=frame['pixel_digest'] or [part.start_s,part.end_s]!=frame['source_interval_s']:raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
+            if sha!=frame['pixel_digest'] or [part.start_s,part.end_s]!=_video_frame_interval(frame):raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
         # Technical v1 does not pin decoded video audio PCM. Do not transmit an
         # unverified audio association; separate audio ingress is required.
         if audios:raise CoreError('VIDEO_AUDIO_REQUIRES_INDEPENDENT_INGRESS')
     return envelope
 
 
-def validate_semantics(request,reply,transport):
+def validate_semantics(request,reply,transport,*,part_intervals=None):
     inp=MediaSemanticInput.model_validate_json(canonical(request.role_input));out=reply.proposal.media
     if not out or (out.source_memory_id,out.source_byte_digest)!=(inp.source_memory_id,inp.source_byte_digest):raise ValueError('semantic source mismatch')
     if reply.proposal.interests or reply.proposal.plan_operator_ids or reply.proposal.skill_source or reply.proposal.method:raise ValueError('media cannot propose goals or code')
@@ -118,11 +126,15 @@ def validate_semantics(request,reply,transport):
     has_transcript=any(ob.kind=='ASR_TRANSCRIPT' for ob in out.observations)
     if (out.asr_status=='TRANSCRIPT_PROPOSED')!=has_transcript:raise ValueError('empty or unreported transcript')
     if out.asr_status=='TRANSCRIPT_PROPOSED' and not inp.asr_supported:raise ValueError('unsupported ASR')
+    intervals=part_intervals if part_intervals is not None else [(p.start_s,p.end_s) for p in inp.parts]
     for i,ob in enumerate(out.observations):
         if any(j<0 or j>=len(inp.parts) for j in ob.part_indices):raise ValueError('part citation')
         parts=[inp.parts[j] for j in ob.part_indices]
         if ob.end_s>inp.duration_s or ob.start_s>inp.duration_s:raise ValueError('out of clip')
-        if inp.modality!='IMAGE' and ob.kind!='SUMMARY' and not any(p.start_s<=ob.start_s<=ob.end_s<=p.end_s for p in parts):raise ValueError('unobserved gap')
+        if inp.modality!='IMAGE' and ob.kind!='SUMMARY' and not any(
+                intervals[j][0]<=ob.start_s<=ob.end_s<=intervals[j][1] for j in ob.part_indices):
+            if part_intervals is not None:raise CoreError('SEMANTIC_VIDEO_COVERAGE_UNVERIFIED')
+            raise ValueError('unobserved gap')
         if ob.kind=='ASR_TRANSCRIPT' and (not inp.asr_supported or not all(p.kind=='AUDIO' for p in parts) or out.asr_status!='TRANSCRIPT_PROPOSED'):raise ValueError('fabricated transcript')
         if ob.kind=='ACOUSTIC_EVENT' and not all(p.kind=='AUDIO' for p in parts):raise ValueError('acoustic source')
         if ob.kind not in {'SUMMARY','ASR_TRANSCRIPT','ACOUSTIC_EVENT'} and not all(p.kind=='IMAGE' for p in parts):raise ValueError('visual source')
@@ -151,6 +163,12 @@ class MediaSemanticService:
             comparison=envelope.model_dump(mode='json')
             if ephemeral:
                 for part in comparison['parts']:part['data_b64']=None
+            if original['role_input']!=comparison and d['modality']=='VIDEO':
+                # Match an already frozen request without recreating its wider
+                # envelope or issuing a second provider call.
+                for part,frame in zip(comparison['parts'],d['frames']):
+                    if frame.get('source_interval_basis')!=VIDEO_FRAME_INTERVAL_BASIS:
+                        part['start_s'],part['end_s']=frame['source_interval_s']
             if original['role_input']!=comparison or original['cognitive_role']!='MEDIA':raise CoreError('MEDIA_IDEMPOTENCY_KEY_MISMATCH')
         full=envelope.model_dump(mode='json');safe=json.loads(canonical(full))
         if ephemeral:
@@ -174,15 +192,25 @@ class MediaSemanticService:
         parent=self.records.read(proposal[0]);reply=CognitionReply.model_validate_json(canonical(parent['payload']['reply']))
         if row['response_digest']!=digest(reply.model_dump(mode='json')) or parent['payload']['response_digest']!=row['response_digest'] or reply.request_digest!=row['request_digest']:raise CoreError('SEMANTIC_RESPONSE_DIGEST_MISMATCH')
         if (reply.provider_id,reply.model_id)!=(request_record['payload']['provider'],request_record['payload']['model']):raise CoreError('SEMANTIC_PROVIDER_MISMATCH')
-        validate_semantics(request,reply,self.session.transport)
         target='semantic:'+request_id
         old=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(target,)).fetchone()
         if old:
+            validate_semantics(request,reply,self.session.transport)
             result=self.records.read(old[0])['payload']
             if result['entity_id']!=entity_id or result['predicate']!=predicate:raise CoreError('SEMANTIC_BINDING_MISMATCH')
             return result
         inp=MediaSemanticInput.model_validate_json(canonical(request.role_input));source=self.records.memory.read(inp.source_memory_id)
-        locator=_source_locator(source,json.loads(source['text']))
+        body=json.loads(source['text']);locator=_source_locator(source,body)
+        video_intervals=None
+        if inp.modality=='VIDEO':
+            frames=body['decoded']['frames']
+            if len(frames)!=len(inp.parts):raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
+            video_intervals=[]
+            for part,frame in zip(inp.parts,frames):
+                start,end=_video_frame_interval(frame)
+                if part.kind!='IMAGE' or part.start_s!=start:raise CoreError('MEDIA_FRAME_COVERAGE_MISMATCH')
+                video_intervals.append([start,min(end,part.end_s)])
+        validate_semantics(request,reply,self.session.transport,part_intervals=video_intervals)
         self.records.memory.entity(entity_id,'OBJECT');memories=[];beliefs=[]
         for i,ob in enumerate(reply.proposal.media.observations):
             # Summary is its own derived claim; deleting it never deletes raw bytes metadata.
@@ -197,7 +225,7 @@ class MediaSemanticService:
             # Link the full accepted proposal too, for erasure/revalidation.
             bid=WorldModel(self.store,scopes=(source['scope'],),privacy_classes=(source['privacy_class'],)).ingest(mid)
             memories.append(mid);beliefs.append(bid)
-        covered=sorted([p.start_s,p.end_s] for p in inp.parts if p.kind=='IMAGE') if inp.modality=='VIDEO' else [[0.,inp.duration_s]]
+        covered=sorted(video_intervals) if video_intervals is not None else [[0.,inp.duration_s]]
         gaps=[];end=0
         for start,stop in covered:
             if start>end:gaps.append([end,start])

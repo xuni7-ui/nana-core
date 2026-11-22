@@ -1,0 +1,62 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_historical_video_does_not_support_new_inference_across_frame_gaps ____
+
+tmp_path = PosixPath('/dev/shm/nq299baseline/test_historical_video_does_not0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f34d7f51af0>
+
+    def test_historical_video_does_not_support_new_inference_across_frame_gaps(tmp_path,monkeypatch):
+        from nana_core.contracts import CoreError
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.world_loop.semantic_harness import semantic_harness,semantic_proposer
+        from nana_core.continuity.world_loop.semantics import MediaSemanticService
+        from nana_core.presence.runtime import NanaRuntime
+    
+        class HistoricalDecoder(MediaDecoder):
+            def decode(self,data,modality):
+                decoded=super().decode(data,modality)
+                for frame in decoded['frames']:
+                    frame.pop('source_interval_basis',None)
+                    if frame['sample_s']==6.:
+                        frame['source_interval_s']=[6.,7.]
+                return decoded
+    
+        path=tmp_path/'synthetic-irregular.mkv'
+        _write_irregular_video(path,True)
+        data=path.read_bytes()
+        db=tmp_path/'subject/self.db'
+        clock=VirtualClock()
+        with fresh(db,clock) as r:
+            now=clock.utc_now_us()
+            source=PublicMediaSource(source_id='synthetic-historical-gap',modality='VIDEO',origin='SYNTHETIC',
+                event_time_us=now,observed_time_us=now)
+            mid,record=PerceptionService(r.store,providers(),policy(),decoder=HistoricalDecoder()).ingest(
+                data,source,entity_id='observer',scope='world')
+            before=MemoryService(r.store).read(mid)['text']
+            archived=RecordService(r.store).read(record)
+            config,identity=r.config,r.identity_id
+        with NanaRuntime(db,config,clock=clock) as r:
+            proposed=[]
+            def propose(request):
+                out=semantic_proposer(request)
+                parts=request.role_input['parts']
+                index=next(i for i,part in enumerate(parts) if part['start_s']==6.)
+                proposed.append(parts[index]['end_s'])
+                start,end=(6.3,6.5) if len(proposed)==1 else (6.,6.)
+                observation=out.media.observations[0].model_copy(update={
+                    'part_indices':(index,),'start_s':start,'end_s':end})
+                return out.model_copy(update={'media':out.media.model_copy(update={'observations':(observation,)})})
+            with semantic_harness(proposer=propose) as (transport,state):
+                assert r.identity_id==identity
+                service=MediaSemanticService(CognitionSession(r,transport,policy()))
+                gap=service.prepare('legacy-gap',mid,data)
+>               assert service.execute(gap)['state']=='REJECTED'
+E               AssertionError: assert 'PROPOSED' == 'REJECTED'
+E                 
+E                 - REJECTED
+E                 + PROPOSED
+
+tests/world_loop/test_media_stream_binding.py:243: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_historical_video_does_not_support_new_inference_across_frame_gaps
+1 failed in 1.14s

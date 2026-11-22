@@ -23,20 +23,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 298,
-  "as_of_us": 1795359854684616,
+  "revision": 299,
+  "as_of_us": 1795360288628257,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "历史视频原来源与已落地结果保留。新推断和重启后未落地提案按已核对区间或样本点引用。原1错，142相关及最终2定向通过；固定旧库同身份升级，旧空档提案拒绝、采样点可用、原键0复发。",
+    "用户《复用优先、元思考与工程效率 V1.0》原文归现有指令目录，AGENTS与续办入口均链接，作为A/B/C与后续执行者的长期规则。",
     "原C与S3社交投影先按原可见范围再限候选。65不可见新源不再挤掉较早的可见动机或阻塞普通互动，旧2错→94项相关通过，0真实模型或外发。",
     "原S5以已知帧时长限制新VFR样本区间。实际6秒样本从[6,7]限至[6,6.1]，原H1拒绝空档且接受帧内依据；旧1错→72相关通过，同CFR完整一致，真实模型0。",
     "2864240 联合候选双构建、独立下载与双槽离线安装通过。安装定向39项，原5项缺模块失败均修复；匹配Core CI 169项。两槽各一DEV身份，原交流、独立G迁移、虚拟72h、撤回与停机286→305→286连续性通过。",
     "原C暂缓有限承诺复查可跨重启，同一版本普通wake不再改CONTINUE或开重复待办；后续明确复查与真实到期仍有原END。旧2错→62相关通过，真实0。",
     "原BFF目录鉴权失败及429带实际单调时钟retry_after_ms；两个协议旧2错、56相关通过，原权限/配置/阻止重复读取，真实0。B26正式CI102单测168浏览器过，客户端字段消费交B。",
-    "B22时间覆盖接原隔离S5：同实际VFR原5.5/6.3s间隔→各2s，8帧/3进程不变，CFR完整结果相同。旧2错，首轮68过1波动，旧/新该项各过、最终69过。无真实模型。",
-    "原B22来源接线只接受范围内唯一现役原媒体观察，交付前后固定同一原记录和字节。旧2反例（失效/同字节换观察）→相关28通过，真实0。",
-    "C27缓存部分固定636eb88原样吸收3文件：撤回不能在同会话复活，独立源共享与旧Store墓碑保留。旧6错1过→现相关46过。PR25 CI141 Core/102单测168浏览器，原B站回执CI204；真实0。"
+    "B22时间覆盖接原隔离S5：同实际VFR原5.5/6.3s间隔→各2s，8帧/3进程不变，CFR完整结果相同。旧2错，首轮68过1波动，旧/新该项各过、最终69过。无真实模型。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2匹配双槽Core/BFF安装已受控；原生SDK5项，Java/新APK/手机/真实投递/自然度/实际跨日长期待。新源未全仓发行，连续消息/私人意向/C自主交流继续。",
@@ -45,20 +45,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量本批补齐，未实测真实Provider用量/费用。原生文字/目录续页受控，媒体/真实API/Java手机及最终匹配安装仍未资格，原未完边界保留。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409；286候选已过双槽受控验证，待原A–H、B22/C27正式来源、S3/S8-S10跨日、真实模型手机生产与最终签发。 历史VFR区间及本批新源匹配安装待验证。"
+    "CURRENT266+409；286候选已过双槽受控验证。后继须匹配安装。B22/C27正式来源、S3/S8-S10跨日、真实模型手机生产与最终签发继承。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/historical-video-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/social-attention-visibility-20261122/README.md",
     "docs/nana_next_experience/evidence/native-video-packet-coverage-20261122/README.md",
     "docs/nana_next_experience/evidence/matched-integrated-2864240-20261122/README.md",
     "docs/nana_next_experience/evidence/public-video-portable-closure-20261122/README.md",
     "docs/nana_next_experience/evidence/relational-deferral-continuity-20261122/README.md",
     "docs/nana_next_experience/evidence/catalog-error-cooldown-20261122/README.md",
-    "docs/nana_next_experience/evidence/native-video-time-coverage-20261122/README.md",
-    "docs/nana_next_experience/evidence/current-video-observation-binding-20261122/README.md"
+    "docs/nana_next_experience/evidence/native-video-time-coverage-20261122/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision299证据指纹锚：`29ebf7bc06644aea2b5b30bc82dce2d11259cc179206969b73882512c0de1277`（source.sha256不含自身/09）。
 
 A revision298证据指纹锚：`f8399086e83de64c51303b2f424a345e32828c4856b40e82b35dd6e0b0b36036`（source.sha256不含自身/09）。
 

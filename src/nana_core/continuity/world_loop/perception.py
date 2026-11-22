@@ -15,6 +15,8 @@ from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
 from ..records import RecordService
 from ..providers import MediaProposal,MediaSession
 
+VIDEO_FRAME_INTERVAL_BASIS = 'FRAME_DURATION_OR_POINT_V1'
+
 class PublicMediaSource(DTO):
     source_id:str=Field(pattern=r'^[a-z][a-z0-9._:-]{0,95}$')
     modality:Literal['IMAGE','AUDIO','VIDEO']
@@ -199,7 +201,8 @@ class MediaDecoder:
                     if base is not None and type(frame_meta['frames'][index].get('best_effort_timestamp')) is int:
                         timing.update(source_pts_ticks=frame_meta['frames'][index]['best_effort_timestamp'],source_time_base=str(base))
                     else:timing['source_timestamp_s']=float(absolute[index])
-                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],frame_ends[i]],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest(),**timing})
+                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],frame_ends[i]],
+                    'source_interval_basis':VIDEO_FRAME_INTERVAL_BASIS,'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest(),**timing})
             changes=[{'start_s':frames[i-1]['sample_s'],'end_s':frames[i]['sample_s'],'mean_channel_delta':sum(abs(a-b) for a,b in zip(frames[i-1]['mean_rgb'],frames[i]['mean_rgb']))/3} for i in range(1,len(frames))]
             return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'source_frame_count':len(points),'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
 

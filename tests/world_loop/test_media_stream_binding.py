@@ -193,3 +193,62 @@ def test_video_packet_gap_cannot_ground_a_semantic_observation(tmp_path):
         result=service.ground(observed,entity_id='device')
         assert inspected==[6.1,6.1] and state['calls']==2
         assert any(start==6.1 and end>=7. for start,end in result['unobserved_gaps'])
+
+
+def test_historical_video_does_not_support_new_inference_across_frame_gaps(tmp_path):
+    from nana_core.contracts import CoreError
+    from nana_core.continuity.world_loop.cognition import CognitionSession
+    from nana_core.continuity.world_loop.semantic_harness import semantic_harness,semantic_proposer
+    from nana_core.continuity.world_loop.semantics import MediaSemanticService
+    from nana_core.presence.runtime import NanaRuntime
+
+    class HistoricalDecoder(MediaDecoder):
+        def decode(self,data,modality):
+            decoded=super().decode(data,modality)
+            for frame in decoded['frames']:
+                frame.pop('source_interval_basis',None)
+                if frame['sample_s']==6.:
+                    frame['source_interval_s']=[6.,7.]
+            return decoded
+
+    path=tmp_path/'synthetic-irregular.mkv'
+    _write_irregular_video(path,True)
+    data=path.read_bytes()
+    db=tmp_path/'subject/self.db'
+    clock=VirtualClock()
+    with fresh(db,clock) as r:
+        now=clock.utc_now_us()
+        source=PublicMediaSource(source_id='synthetic-historical-gap',modality='VIDEO',origin='SYNTHETIC',
+            event_time_us=now,observed_time_us=now)
+        mid,record=PerceptionService(r.store,providers(),policy(),decoder=HistoricalDecoder()).ingest(
+            data,source,entity_id='observer',scope='world')
+        before=MemoryService(r.store).read(mid)['text']
+        archived=RecordService(r.store).read(record)
+        config,identity=r.config,r.identity_id
+    with NanaRuntime(db,config,clock=clock) as r:
+        proposed=[]
+        def propose(request):
+            out=semantic_proposer(request)
+            parts=request.role_input['parts']
+            index=next(i for i,part in enumerate(parts) if part['start_s']==6.)
+            proposed.append(parts[index]['end_s'])
+            start,end=(6.3,6.5) if len(proposed)==1 else (6.,6.)
+            observation=out.media.observations[0].model_copy(update={
+                'part_indices':(index,),'start_s':start,'end_s':end})
+            return out.model_copy(update={'media':out.media.model_copy(update={'observations':(observation,)})})
+        with semantic_harness(proposer=propose) as (transport,state):
+            assert r.identity_id==identity
+            service=MediaSemanticService(CognitionSession(r,transport,policy()))
+            gap=service.prepare('legacy-gap',mid,data)
+            assert service.execute(gap)['state']=='REJECTED'
+            observed=service.prepare('legacy-observed',mid,data)
+            assert service.execute(observed)['state']=='PROPOSED'
+            assert service.prepare('legacy-observed',mid,data)==observed
+            assert service.execute(observed)['replayed']
+            result=service.ground(observed,entity_id='device')
+            assert [6.,6.] in result['covered_intervals']
+            assert proposed==[6.,6.] and state['calls']==2
+            assert MemoryService(r.store).read(mid)['text']==before
+            assert RecordService(r.store).read(record)==archived
+            MemoryService(r.store,r.authority).forget(mid,r.authority)
+            with pytest.raises(CoreError):service.ground(observed,entity_id='device')

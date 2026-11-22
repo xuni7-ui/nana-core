@@ -413,3 +413,7 @@ B26 固定客户端、原浏览器与B回执，合并双方账本及旧C浏览�
 ## 2026-11-22 A 社交线索可见范围
 
 原C、S3投影、定向测试、事实账与 `docs/nana_next_experience/evidence/social-attention-visibility-20261122` 的合成旧新回执及指纹。
+
+## 2026-11-22 A 历史视频依据与长期工程纪律
+
+原感知与语义、定向测试、用户规则原文及现有交接入口，以及 `docs/nana_next_experience/evidence/historical-video-coverage-20261122` 合成证据、事实账和指纹。

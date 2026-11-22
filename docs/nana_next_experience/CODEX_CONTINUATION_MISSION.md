@@ -1,5 +1,7 @@
 # Nana Core 完整续办命令：Next Experience 与十域长期精修
 
+**长期工程纪律（2026-11-22）**。每次接续均执行[复用优先、元思考与工程效率 V1.0](task_inputs/REUSE_METATHINKING_AND_ENGINEERING_EFFICIENCY_V1_2026_11_22.md)。该原则适用于 A、B、C 与后续所有执行者，直接作用于本主任务的取舍、实现和验证。
+
 **2026-11-17 A同主任务验收增补：**继承[长期行为因果、S8/S10渐进闭环与整体验收](task_inputs/LONG_TERM_CAUSAL_GROWTH_AND_INTEGRATED_QUALIFICATION_2026_11_17.md)原文。S3/私人倾向须跨场景/重启影响未来选择；G有效方法独立后续迁移，S10以候选/对照/验证/继承逐步推进，不开放候选自裁或造第二权威。复用已有资格，适时固定同源集成候选，在同一主体观察交流/主动/情感/记忆/学习并存，避免无限局部修饰；真实模型/真机/生产/长期分别验收。原A–H/全部13节19节及63标准继续，A唯一Core集成，B/NanaLink职责不变。
 
 **2026-11-13同主任务深化：**继承[十域机制级深度进化与全域因果协同](task_inputs/TEN_DOMAIN_MECHANISM_AND_CAUSAL_SYNERGY_2026_11_13.md)逐节要求。以最新09/ACTIVE/实际HEAD为准，参考revision176不覆盖后继；窄查真实断点，沿原C/D/G/Store/Context/Delivery形成可消融、跨时间的行为变化，不以结构/测试数或模型自述验收，不把短念转任务、情感转权重、学习转唯一目的。A/B新分工与原A–H、63标准、授权边界完整保留。
