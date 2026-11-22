@@ -4413,3 +4413,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-23 CST｜revision312 验证回执。[实测] 固定 `c298760` 受影响 Core CI 通过，客户端按变更范围跳过。候选资格仍钉在 `0b03734`。[Core CI](https://github.com/xuni7-ui/nana-core/actions/runs/45079241917/job/137383556874)
 
 - 2026-11-23 CST｜revision313。[源码] 索引重建新增真实 SIGKILL 回归，核对重开前后索引、原状态及重试；开发分支 CI 待确认。Cloud 执行器再次断开，固定离线候选仍为 0b03734。
+
+- 2026-11-23 CST｜revision313 验证回执。[实测] 固定 `2a8359e` 受影响 Core CI 通过，含真实进程中断与重试；客户端按变更范围跳过。[Core CI](https://github.com/xuni7-ui/nana-core/actions/runs/45080586983/job/137387790845)
