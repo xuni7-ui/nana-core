@@ -168,17 +168,23 @@ class MediaDecoder:
             except (KeyError,TypeError,ValueError,ZeroDivisionError,OverflowError):
                 raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
             if not 1<=len(points)<=4096 or any(not math.isfinite(t) or not 0<=t<duration for t in points) or points!=sorted(set(points)):raise CoreError('MEDIA_FRAME_TIME_INVALID')
-            # Container duration can belong to a longer audio track. A final
-            # video image does not establish visual coverage to that endpoint.
-            # Missing packet duration establishes only the sampled point.
-            last_meta=frame_meta['frames'][-1]
-            last_span=last_meta.get('duration_time')
-            if last_span in (None,'N/A'):last_span=last_meta.get('pkt_duration_time')
-            try:last_span=float(last_span) if last_span not in (None,'N/A') else 0.
-            except (TypeError,ValueError):raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
-            if not math.isfinite(last_span) or not 0<=last_span<=30:raise CoreError('MEDIA_FRAME_TIME_INVALID')
-            final_end=min(duration,points[-1]+last_span)
             indices=_video_sampling_indices(points,float(base) if base is not None else 0.000001)
+            frame_ends=[]
+            for index in indices:
+                meta_frame=frame_meta['frames'][index]
+                span=meta_frame.get('duration_time')
+                if span in (None,'N/A'):span=meta_frame.get('pkt_duration_time')
+                try:span=float(span) if span not in (None,'N/A') else 0.
+                except (TypeError,ValueError):raise CoreError('MEDIA_FRAME_TIME_INVALID') from None
+                if not math.isfinite(span) or not 0<=span<=30:raise CoreError('MEDIA_FRAME_TIME_INVALID')
+                # PTS spacing can include a gap. Without a duration, only the
+                # sample point is supported. Preserve the adjacent endpoint
+                # when its difference is only FFprobe's decimal rounding.
+                end=points[index]+span
+                if index+1<len(points):
+                    following=points[index+1]
+                    if span>0 and following-end<=0.000001:end=following
+                frame_ends.append(min(duration,end))
             count=len(indices)
             expression='+'.join('eq(n,'+str(i)+')' for i in indices)
             raw=self._run(prefix+['-map','0:v:0','-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
@@ -193,7 +199,7 @@ class MediaDecoder:
                     if base is not None and type(frame_meta['frames'][index].get('best_effort_timestamp')) is int:
                         timing.update(source_pts_ticks=frame_meta['frames'][index]['best_effort_timestamp'],source_time_base=str(base))
                     else:timing['source_timestamp_s']=float(absolute[index])
-                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else final_end],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest(),**timing})
+                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],frame_ends[i]],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest(),**timing})
             changes=[{'start_s':frames[i-1]['sample_s'],'end_s':frames[i]['sample_s'],'mean_channel_delta':sum(abs(a-b) for a,b in zip(frames[i-1]['mean_rgb'],frames[i]['mean_rgb']))/3} for i in range(1,len(frames))]
             return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'source_frame_count':len(points),'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
 

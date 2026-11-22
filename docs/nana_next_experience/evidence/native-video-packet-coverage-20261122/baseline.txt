@@ -1,0 +1,44 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_video_packet_gap_cannot_ground_a_semantic_observation __________
+
+tmp_path = PosixPath('/dev/shm/nq297baseline/test_video_packet_gap_cannot_g0')
+
+    def test_video_packet_gap_cannot_ground_a_semantic_observation(tmp_path):
+        from nana_core.continuity.world_loop.cognition import CognitionSession
+        from nana_core.continuity.world_loop.semantic_harness import semantic_harness,semantic_proposer
+        from nana_core.continuity.world_loop.semantics import MediaSemanticService
+    
+        path=tmp_path/'synthetic-irregular.mkv'
+        _write_irregular_video(path,True)
+        data=path.read_bytes()
+        inspected=[]
+    
+        def propose(request):
+            out=semantic_proposer(request)
+            parts=request.role_input['parts']
+            index=next(i for i,part in enumerate(parts) if part['start_s']==6.)
+            inspected.append(parts[index]['end_s'])
+            start,end=(6.3,6.5) if len(inspected)==1 else (6.,6.05)
+            observation=out.media.observations[0].model_copy(update={
+                'part_indices':(index,),'start_s':start,'end_s':end})
+            return out.model_copy(update={'media':out.media.model_copy(update={'observations':(observation,)})})
+    
+        clock=VirtualClock()
+        with fresh(tmp_path/'subject/self.db',clock) as r,semantic_harness(proposer=propose) as (transport,state):
+            now=clock.utc_now_us()
+            source=PublicMediaSource(source_id='synthetic-video-gap',modality='VIDEO',origin='SYNTHETIC',
+                event_time_us=now,observed_time_us=now)
+            mid,_=PerceptionService(r.store,providers(),policy()).ingest(data,source,entity_id='observer',scope='world')
+            service=MediaSemanticService(CognitionSession(r,transport,policy()))
+            gap=service.prepare('gap',mid,data)
+>           assert service.execute(gap)['state']=='REJECTED'
+E           AssertionError: assert 'PROPOSED' == 'REJECTED'
+E             
+E             - REJECTED
+E             + PROPOSED
+
+tests/world_loop/test_media_stream_binding.py:190: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_media_stream_binding.py::test_video_packet_gap_cannot_ground_a_semantic_observation
+1 failed in 1.13s

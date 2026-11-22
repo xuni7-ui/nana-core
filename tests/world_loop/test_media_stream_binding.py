@@ -126,16 +126,20 @@ def test_quantized_container_origin_uses_the_matching_exact_stream_tick(tmp_path
     assert decoded['frames'][-1]['source_interval_s'][-1]==1.
 
 
+def _write_irregular_video(path,dense_first):
+    dense='lt(n,60)' if dense_first else 'gte(n,60)'
+    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_threads','1','-f','lavfi','-i',
+        'testsrc=size=32x24:rate=10:duration=12','-vf',f"select='{dense}+not(mod(n,10))'",'-fps_mode','vfr',
+        '-c:v','ffv1','-threads','1',str(path)],check=True,timeout=20)
+
+
 @pytest.mark.parametrize('dense_first',[True,False])
 def test_video_skeleton_spans_wall_time_under_uneven_frame_density(tmp_path,dense_first):
     import hashlib
     import time
 
     path=tmp_path/'synthetic-irregular.mkv'
-    dense='lt(n,60)' if dense_first else 'gte(n,60)'
-    subprocess.run(['ffmpeg','-nostdin','-v','error','-threads','1','-filter_threads','1','-f','lavfi','-i',
-        'testsrc=size=32x24:rate=10:duration=12','-vf',f"select='{dense}+not(mod(n,10))'",'-fps_mode','vfr',
-        '-c:v','ffv1','-threads','1',str(path)],check=True,timeout=20)
+    _write_irregular_video(path,dense_first)
     class MeasuredDecoder(MediaDecoder):
         native_processes=0
         def _run(self,*args,**kwargs):
@@ -153,3 +157,39 @@ def test_video_skeleton_spans_wall_time_under_uneven_frame_density(tmp_path,dens
     assert maximum<=2.1
     assert decoder.native_processes==3
     assert observed['unobserved_between_samples'] and observed['semantic_interpretation']=='UNKNOWN'
+
+
+def test_video_packet_gap_cannot_ground_a_semantic_observation(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionSession
+    from nana_core.continuity.world_loop.semantic_harness import semantic_harness,semantic_proposer
+    from nana_core.continuity.world_loop.semantics import MediaSemanticService
+
+    path=tmp_path/'synthetic-irregular.mkv'
+    _write_irregular_video(path,True)
+    data=path.read_bytes()
+    inspected=[]
+
+    def propose(request):
+        out=semantic_proposer(request)
+        parts=request.role_input['parts']
+        index=next(i for i,part in enumerate(parts) if part['start_s']==6.)
+        inspected.append(parts[index]['end_s'])
+        start,end=(6.3,6.5) if len(inspected)==1 else (6.,6.05)
+        observation=out.media.observations[0].model_copy(update={
+            'part_indices':(index,),'start_s':start,'end_s':end})
+        return out.model_copy(update={'media':out.media.model_copy(update={'observations':(observation,)})})
+
+    clock=VirtualClock()
+    with fresh(tmp_path/'subject/self.db',clock) as r,semantic_harness(proposer=propose) as (transport,state):
+        now=clock.utc_now_us()
+        source=PublicMediaSource(source_id='synthetic-video-gap',modality='VIDEO',origin='SYNTHETIC',
+            event_time_us=now,observed_time_us=now)
+        mid,_=PerceptionService(r.store,providers(),policy()).ingest(data,source,entity_id='observer',scope='world')
+        service=MediaSemanticService(CognitionSession(r,transport,policy()))
+        gap=service.prepare('gap',mid,data)
+        assert service.execute(gap)['state']=='REJECTED'
+        observed=service.prepare('observed',mid,data)
+        assert service.execute(observed)['state']=='PROPOSED'
+        result=service.ground(observed,entity_id='device')
+        assert inspected==[6.1,6.1] and state['calls']==2
+        assert any(start==6.1 and end>=7. for start,end in result['unobserved_gaps'])

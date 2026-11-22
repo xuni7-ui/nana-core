@@ -1,0 +1,16 @@
+{
+  "baseline": "0cb5cab7358a3b101811d566122aaa265fc499fe",
+  "vfr_source_sha256": "faf351ea76d2e911206f9ccd68df156c80ddc325d2aad21a42ec9c2a62060ce9",
+  "same_selected_samples_digests_and_count": true,
+  "old_source_interval_s": [
+    6.0,
+    7.0
+  ],
+  "new_source_interval_s": [
+    6.0,
+    6.1
+  ],
+  "cfr_source_sha256": "d760737fc5d425db194faadf3330fc9f7ca2fe85e8e0ed218f443239ac0db073",
+  "cfr_complete_equal": true,
+  "real_provider_calls": 0
+}
