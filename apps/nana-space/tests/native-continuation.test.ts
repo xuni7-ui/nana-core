@@ -23,6 +23,18 @@ test('native catalog sends the same bounded page cursor without a write or repla
   expect(bridge.call).toHaveBeenCalledTimes(count);
 });
 
+test('native catalog preserves only a bounded retry hint from a rejected read',async()=>{
+  bridge.call.mockResolvedValueOnce(identity);
+  const client=new V2Client();await client.bootstrap();
+  for(const [hint,expected] of [[3000,3000],[10001,undefined],["3000",undefined]] as const){
+    bridge.call.mockRejectedValueOnce({message:'PROVIDER_CATALOG_AUTH',data:{retry_after_ms:hint}});
+    await expect(client.providerModels('provider.native',3)).rejects.toMatchObject({
+      code:'PROVIDER_CATALOG_AUTH',retryAfterMs:expected,
+    });
+  }
+  expect(bridge.call).toHaveBeenCalledTimes(4);
+});
+
 test.each([false,true])('one native stream permits a bound buffered child; logout=%s suppresses late root',async(logout)=>{
   let finish!:(value:unknown)=>void,progress!:(value:unknown)=>void;
   const remove=vi.fn(async()=>{});

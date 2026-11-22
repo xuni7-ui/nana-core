@@ -1654,7 +1654,7 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
       dispatch_happened:true,result:{configuration_revision:revision}})});
   });
   await page.route(`**${API}providers/models?*`,async route=>{
-    reads++;if(hold){await barrier;return route.fulfill({status:502,json:{code:'PROVIDER_CATALOG_AUTH'}});}
+    reads++;if(hold){await barrier;return route.fulfill({status:502,json:{code:'PROVIDER_CATALOG_AUTH',retry_after_ms:3000}});}
     const query=new URL(route.request().url()).searchParams;
     return route.fulfill({status:200,json:envelope(state,{provider_profile_id:query.get('provider_profile_id'),
       profile_revision:1,models:['deepseek-chat'],truncated:false,retry_after_ms:10000})});
@@ -1684,8 +1684,13 @@ test('SYNTHETIC simple and advanced model catalog share server cooldown',async({
   await go(page,'memories');await go(page,'models','settings');
   await expect(advanced).toBeDisabled();await expect(check).toBeDisabled();
   expect(reads).toBe(3);
-  release();await expect(check).toBeEnabled();
-  await expect(page.getByText('服务商未接受凭据，请检查 API Key 和账户权限。')).toBeVisible();expect(reads).toBe(3);
+  release();
+  await expect(page.getByText('服务商未接受凭据，请检查 API Key 和账户权限。')).toBeVisible();
+  await expect(advanced).toBeDisabled();
+  await expect(setup.getByRole('button',{name:/秒后可再次检查/})).toBeDisabled();
+  await page.clock.runFor(2000);await expect(advanced).toBeDisabled();
+  await page.clock.runFor(1000);await expect(advanced).toBeEnabled();await expect(check).toBeEnabled();
+  expect(reads).toBe(3);
 });
 
 for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as const) test(`SYNTHETIC model setup resumes original steps: ${outcome}`, async({page})=>{
@@ -2069,6 +2074,37 @@ test('NanaLink phone warns when recall did not withdraw memory',async({page})=>{
   await open(page,'devices');
   await expect(page.getByText('会话已连接 · 事件接收正常 · 检测到消息撤回，相关记忆如已保存不会自动撤销，请检查',{exact:true})).toBeVisible();
   await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC changing the primary model keeps route limits and ordered fallbacks", async ({page}) => {
+  const state=await installMock(page);state.capabilities={provider_configuration_write:true};
+  const provider={...providerSettings.providers[0],provider_profile_id:"provider.local"};
+  const models=["model.old","model.next","model.fallback"].map(id=>({
+    ...providerSettings.models[0],model_profile_id:id,remote_model_id:id,provider_profile_id:provider.provider_profile_id,
+  }));
+  const limits={permitted_privacy:["PUBLIC"],timeout_ceiling_ms:185000,cost_ceiling:0,
+    context_ceiling:4096,output_ceiling:384,enabled:false};
+  const settings={...providerSettings,providers:[provider],models,routes:[{
+    operation:"COGNITION",primary_model_profile_id:"model.old",
+    fallback_model_profile_ids:["model.next","model.fallback"],...limits,
+  }]};
+  const sent:unknown[]=[];
+  await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
+    {...viewData(state,"settings"),provider_settings:settings})}));
+  await page.route(`**${API}providers/commands`,route=>{
+    const body=route.request().postDataJSON();sent.push(body.command);
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:"VERIFIED",
+      dispatch_happened:true,result:{configuration_revision:settings.revision+1}})});
+  });
+  await open(page,"models");
+  const card=page.locator(".v3-capability-card").filter({has:page.getByRole("heading",{name:"文本与推理"})});
+  await card.getByText("准备路由调整",{exact:true}).click();
+  await card.getByLabel("文本与推理 Primary").selectOption("model.next");
+  await expect(card.getByRole("button",{name:"移除备用模型 model.fallback"})).toBeVisible();
+  await card.getByRole("button",{name:"应用此路由"}).click();
+  await expect.poll(()=>sent).toEqual([{operation:"SET_CAPABILITY_ROUTE",expected_revision:settings.revision,route:{
+    operation:"COGNITION",primary_model_profile_id:"model.next",fallback_model_profile_ids:["model.fallback"],...limits,
+  }}]);
 });
 
 test("SYNTHETIC model catalog: explicit continuation respects cooldown and native provider draft", async ({page}) => {

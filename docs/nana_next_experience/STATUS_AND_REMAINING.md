@@ -1,3 +1,9 @@
+## 当前接续：模型路由限制与目录错误冷却，revision304
+
+客户端换模型保留原路由隐私、启停、超时、费用、上下文和输出限制及备用次序；目录错误冷却同源接两界面和Android桥源码。旧双反例→104单测、4浏览器与构建通过，Java真机待。
+
+继续原 S3/S8/S10、S2 大库、S4/S7 自主互动和后续匹配交付。证据 docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123/README.md。
+
 ## 当前接续：匹配交付与旧笔记索引，revision303
 
 固定3377a5c匹配Core/BFF/Web及独立NanaLink轮子交付5f96aa1。独立HTTPS重取29文件摘要、Core46安装项、侧车18本地网络项、两套同主体停机302→286→302通过，真实0。

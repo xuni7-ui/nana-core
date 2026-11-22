@@ -4,7 +4,7 @@ import {
   modelCommand,
   routeCommand,
 } from "../src/data/provider-commands";
-import { newProviderDraft } from "../src/data/provider-center";
+import { newProviderDraft, readProviderSettings } from "../src/data/provider-center";
 const draft = () => ({
   ...newProviderDraft(),
   baseUrl: "https://provider.example/v1",
@@ -49,4 +49,28 @@ test("provider and selected-model registration validate only their own fields", 
   expect(()=>providerCommand({...draft(),baseUrl:'http://untrusted.example'},'provider.catalog',4)).toThrow();
   expect(()=>modelCommand({...draft(),modelId:''},'provider.catalog','model.selected',5)).toThrow();
   expect(()=>modelCommand({...draft(),contextLimit:0},'provider.catalog','model.selected',5)).toThrow();
+});
+
+test("switching the model preserves the route policy returned by Core", () => {
+  const revision = 9;
+  const policy = {
+    permitted_privacy: ["PUBLIC"],
+    timeout_ceiling_ms: 185000,
+    cost_ceiling: 0,
+    context_ceiling: 4096,
+    output_ceiling: 384,
+    enabled: false,
+  };
+  const settings = readProviderSettings({
+    schema_version: 1, execution_authority: false, revision,
+    providers: [providerCommand(draft(), "provider.a", revision).provider],
+    models: ["model.old", "model.next"].map(id => modelCommand(draft(), "provider.a", id, revision).model),
+    routes: [{ operation: "COGNITION", primary_model_profile_id: "model.old", ...policy }],
+  });
+  expect(settings.state).toBe("CURRENT");
+  const command = routeCommand("COGNITION", "model.next", [], revision, settings.routes[0]);
+  expect(command.expected_revision).toBe(revision);
+  expect(command.route).toEqual({
+    operation: "COGNITION", primary_model_profile_id: "model.next", fallback_model_profile_ids: [], ...policy,
+  });
 });

@@ -1,0 +1,57 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts tests/provider-commands.test.ts
+
+
+ RUN  v3.2.7 /tmp/nana-304-route/web
+
+ ❯ tests/provider-commands.test.ts (5 tests | 1 failed) 17ms
+   ✓ commands use original model/provider IDs and exact config revision without secrets 3ms
+   ✓ unsupported protocol, wrong IDs and repeated fallback refuse locally 1ms
+   ✓ native Anthropic configuration preserves its protocol and refuses unwired media 0ms
+   ✓ provider and selected-model registration validate only their own fields 1ms
+   × switching the model preserves the route policy returned by Core 10ms
+     → expected { operation: 'COGNITION', …(6) } to deeply equal { operation: 'COGNITION', …(8) }
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/provider-commands.test.ts > switching the model preserves the route policy returned by Core
+AssertionError: expected { operation: 'COGNITION', …(6) } to deeply equal { operation: 'COGNITION', …(8) }
+
+- Expected
++ Received
+
+  {
+-   "context_ceiling": 4096,
+-   "cost_ceiling": 0,
+-   "enabled": false,
++   "cost_ceiling": 1000,
++   "enabled": true,
+    "fallback_model_profile_ids": [],
+    "operation": "COGNITION",
+-   "output_ceiling": 384,
+    "permitted_privacy": [
+      "PUBLIC",
++     "PROJECT",
+    ],
+    "primary_model_profile_id": "model.next",
+-   "timeout_ceiling_ms": 185000,
++   "timeout_ceiling_ms": 120000,
+  }
+
+ ❯ tests/provider-commands.test.ts:73:25
+     71|   const command = routeCommand("COGNITION", "model.next", [], revision…
+     72|   expect(command.expected_revision).toBe(revision);
+     73|   expect(command.route).toEqual({
+       |                         ^
+     74|     operation: "COGNITION", primary_model_profile_id: "model.next", fa…
+     75|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  15:36:32
+   Duration  376ms (transform 93ms, setup 0ms, collect 97ms, tests 17ms, environment 0ms, prepare 79ms)
+

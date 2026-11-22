@@ -554,16 +554,18 @@ export function ModelCenter({
                           <select
                             aria-label={`${capability.title} Primary`}
                             value={edited?.primary ?? route?.primary ?? ""}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              const primary = e.currentTarget.value;
                               setRouteDraft((x) => ({
                                 ...x,
                                 [op]: {
                                   revision: view.revision,
-                                  primary: e.target.value,
-                                  fallbacks: [],
+                                  primary,
+                                  fallbacks: (x[op]?.fallbacks ?? route?.fallbacks ?? [])
+                                    .filter(id => id !== primary),
                                 },
-                              }))
-                            }
+                              }));
+                            }}
                           >
                             <option value="">
                               选择已启用且支持此能力的模型
@@ -696,6 +698,7 @@ export function ModelCenter({
                                     edited.primary,
                                     edited.fallbacks,
                                     view.revision!,
+                                    route,
                                   ),
                                 )
                               }

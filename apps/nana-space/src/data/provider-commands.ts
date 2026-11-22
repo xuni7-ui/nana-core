@@ -9,6 +9,7 @@ import {
   safeProviderUrl,
   type ProviderDraft,
   type CoreOperation,
+  type RouteView,
 } from "./provider-center";
 const id = /^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$/;
 function profile(value: string) {
@@ -91,11 +92,14 @@ export function routeCommand(
   primary: string,
   fallbacks: string[],
   revision: number,
+  current?: RouteView,
 ): ProviderCommand {
   profile(primary);
   fallbacks.forEach(profile);
   if (new Set([primary, ...fallbacks]).size !== fallbacks.length + 1)
     throw new Error("Primary 和备用模型不能重复。");
+  if (current && current.operation !== op)
+    throw new Error("当前路由与待修改的能力不一致。");
   return {
     operation: "SET_CAPABILITY_ROUTE",
     expected_revision: revision,
@@ -103,10 +107,12 @@ export function routeCommand(
       operation: op,
       primary_model_profile_id: primary,
       fallback_model_profile_ids: fallbacks,
-      permitted_privacy: ["PUBLIC", "PROJECT"],
-      timeout_ceiling_ms: 120000,
-      cost_ceiling: 1000,
-      enabled: true,
+      permitted_privacy: current ? (current.privacy?.length ? current.privacy : ["PUBLIC"]) : ["PUBLIC", "PROJECT"],
+      timeout_ceiling_ms: current?.timeoutMs ?? 120000,
+      cost_ceiling: current?.costCeiling ?? 1000,
+      ...(current?.contextCeiling === undefined ? {} : { context_ceiling: current.contextCeiling }),
+      ...(current?.outputCeiling === undefined ? {} : { output_ceiling: current.outputCeiling }),
+      enabled: current?.enabled ?? true,
     },
   };
 }

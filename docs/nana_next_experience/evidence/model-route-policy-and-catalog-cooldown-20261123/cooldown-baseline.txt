@@ -1,0 +1,43 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --project=phone-390 -g simple and advanced model catalog share server cooldown
+
+[WebServer] (node:30065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:30083) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [phone-390] › tests/v3.spec.ts:1641:1 › SYNTHETIC simple and advanced model catalog share server cooldown (6.7s)
+
+
+  1) [phone-390] › tests/v3.spec.ts:1641:1 › SYNTHETIC simple and advanced model catalog share server cooldown 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByLabel('读取服务商模型').getByRole('button', { name: /读取 .* 模型/ })
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" getByLabel('读取服务商模型').getByRole('button', { name: /读取 .* 模型/ }) with timeout 5000ms
+      - waiting for getByLabel('读取服务商模型').getByRole('button', { name: /读取 .* 模型/ })
+        14 × locator resolved to <button class="v3-button soft">读取 DeepSeek 模型</button>
+           - unexpected value "enabled"
+
+
+      1687 |   release();
+      1688 |   await expect(page.getByText('服务商未接受凭据，请检查 API Key 和账户权限。')).toBeVisible();
+    > 1689 |   await expect(advanced).toBeDisabled();
+           |                          ^
+      1690 |   await expect(setup.getByRole('button',{name:/秒后可再次检查/})).toBeDisabled();
+      1691 |   await page.clock.runFor(2000);await expect(advanced).toBeDisabled();
+      1692 |   await page.clock.runFor(1000);await expect(advanced).toBeEnabled();await expect(check).toBeEnabled();
+        at /tmp/nana-304-route/web/tests/v3.spec.ts:1689:26
+
+    Error Context: test-results/v3-SYNTHETIC-simple-and-ad-062f9-talog-share-server-cooldown-phone-390/error-context.md
+
+  1 failed
+    [phone-390] › tests/v3.spec.ts:1641:1 › SYNTHETIC simple and advanced model catalog share server cooldown 

@@ -116,6 +116,13 @@ public class NanaHostPlugin extends Plugin {
             throw new Exception("HTTPS_ORIGIN_REQUIRED");
         return "https://" + uri.getRawAuthority().toLowerCase(java.util.Locale.ROOT);
     }
+    private static final class CatalogFailure extends Exception {
+        final int retryAfterMs;
+        CatalogFailure(String code, int retryAfterMs) {
+            super(code);
+            this.retryAfterMs = retryAfterMs;
+        }
+    }
     private JSONObject http(String base, String path, String method, JSONObject body, String token) throws Exception {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(base) + PREFIX + path).openConnection();
         connection.setInstanceFollowRedirects(false);
@@ -152,6 +159,11 @@ public class NanaHostPlugin extends Plugin {
                 String code = result.optString("code", "REQUEST_REJECTED");
                 if (!code.matches("[A-Z_]{1,96}")) code = "REQUEST_REJECTED";
                 if (status == 401) access = null;
+                Object retryAfter = result.opt("retry_after_ms");
+                if (path.startsWith("providers/models?") && (retryAfter instanceof Integer || retryAfter instanceof Long)) {
+                    long delay = ((Number) retryAfter).longValue();
+                    if (delay >= 0 && delay <= 10000) throw new CatalogFailure(code, (int) delay);
+                }
                 throw new Exception(code);
             }
             return result;
@@ -182,8 +194,13 @@ public class NanaHostPlugin extends Plugin {
         }
     }
     private void reject(PluginCall call, Exception ex) {
-        String code = ex.getMessage();
-        call.reject(code != null && code.matches("[A-Z_]{1,96}") ? code : "NETWORK_OR_EXECUTION_UNKNOWN");
+        String message = ex.getMessage();
+        String code = message != null && message.matches("[A-Z_]{1,96}") ? message : "NETWORK_OR_EXECUTION_UNKNOWN";
+        if (ex instanceof CatalogFailure) {
+            JSObject data = new JSObject();
+            data.put("retry_after_ms", ((CatalogFailure) ex).retryAfterMs);
+            call.reject(code, data);
+        } else call.reject(code);
     }
     @PluginMethod public void status(PluginCall call) {
         getBridge().execute(() -> {

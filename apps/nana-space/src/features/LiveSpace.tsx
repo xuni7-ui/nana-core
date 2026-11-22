@@ -1172,10 +1172,11 @@ export function LiveSpace() {
           }
         }
         const step=progress.step;
+        const currentRoute=settings.routes.find(route=>route.operation==="COGNITION");
         setStatus(["保存供应商…","保存模型…","凭据已绑定，设置默认对话模型…"][step]);
         const command=step===0?providerCommand(progress.draft,pid,settings.revision)
           :step===1?modelCommand(progress.draft,pid,mid,settings.revision)
-          :routeCommand("COGNITION",mid,[],settings.revision);
+          :routeCommand("COGNITION",mid,currentRoute?.fallbacks.filter(id=>id!==mid)??[],settings.revision,currentRoute);
         if(command.provider)command.provider.secret_ref="next."+suffix;
         const id=crypto.randomUUID();progress.pendingId=id;
         const response=await client.current.write("providers.command",{...writeBase(b,id),command});currentStep();
@@ -1241,7 +1242,10 @@ export function LiveSpace() {
       noteCatalogCooldown(catalog.retryAfterMs);
       return catalog.retryAfterMs;
     } catch(error) {
-      if(version===sessionVersion.current && modelSetupProgress.current===progress)setStatus(explain(error));
+      if(version===sessionVersion.current){
+        if(error instanceof V2Error)noteCatalogCooldown(error.retryAfterMs);
+        if(modelSetupProgress.current===progress)setStatus(explain(error));
+      }
     } finally {
       if(version===sessionVersion.current){writePending.current=false;setBusy(false);}
     }
@@ -1908,7 +1912,11 @@ export function LiveSpace() {
                     noteCatalogCooldown(catalog.retryAfterMs);
                     return catalog;
 
-                  } catch (error) { throw new Error(explain(error)); }
+                  } catch (error) {
+                    if (version === sessionVersion.current && error instanceof V2Error)
+                      noteCatalogCooldown(error.retryAfterMs);
+                    throw new Error(explain(error));
+                  }
                   finally {
                     if (catalogRequestPending.current === requestToken) {
                       catalogRequestPending.current = null; setCatalogReading(false);

@@ -1,6 +1,7 @@
 /** A sanitized view of the existing host-local ProviderConfiguration v1.
  * These UI drafts are memory-only. They neither resolve secrets nor issue requests.
  */
+import type { CapabilityRoute } from "./v2.generated";
 export type { ModelCatalogPage as ProviderCatalogPage } from "./model-catalog";
 export const coreOperations = [
   "COGNITION",
@@ -200,6 +201,9 @@ export interface RouteView {
   fallbacks: string[];
   timeoutMs?: number;
   costCeiling?: number;
+  contextCeiling?: number;
+  outputCeiling?: number;
+  privacy?: CapabilityRoute["permitted_privacy"];
   enabled: boolean;
 }
 export interface ProviderSettingsView {
@@ -328,6 +332,12 @@ export function readProviderSettings(value: unknown): ProviderSettingsView {
       fallbacks: strings(row.fallback_model_profile_ids),
       timeoutMs: number(row.timeout_ceiling_ms),
       costCeiling: number(row.cost_ceiling),
+      contextCeiling: number(row.context_ceiling),
+      outputCeiling: number(row.output_ceiling),
+      privacy: strings(row.permitted_privacy).filter(
+        (value): value is "PUBLIC" | "PROJECT" | "PERSONAL" | "SECRET" =>
+          ["PUBLIC", "PROJECT", "PERSONAL", "SECRET"].includes(value),
+      ),
       enabled: row.enabled === true,
     };
   });

@@ -12,6 +12,13 @@ export interface ModelCatalog extends ModelCatalogPage {
 export const catalogDisplayLimit = 1024;
 const modelId = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/;
 
+export function catalogRetryAfterMs(value: unknown): number | undefined {
+  const delay = value && typeof value === "object" && "retry_after_ms" in value
+    ? value.retry_after_ms : undefined;
+  return typeof delay === "number" && Number.isInteger(delay) && delay >= 0 && delay <= 10000
+    ? delay : undefined;
+}
+
 export function readModelCatalog(value: unknown): ModelCatalogPage {
   const raw = value as Record<string, unknown> | null;
   if (!raw || !Array.isArray(raw.models) || raw.models.length > 256 ||
@@ -22,10 +29,10 @@ export function readModelCatalog(value: unknown): ModelCatalogPage {
   const next = raw.next_after_id;
   if (next != null && (typeof next !== "string" || !modelId.test(next) || raw.truncated !== true))
     throw new Error("服务商分页信息无效，请重新读取列表。");
+  const retryAfterMs = catalogRetryAfterMs(raw);
   return {
     models: [...new Set(raw.models as string[])],
-    ...(typeof raw.retry_after_ms === "number" && Number.isInteger(raw.retry_after_ms) &&
-      raw.retry_after_ms >= 0 && raw.retry_after_ms <= 10000 ? {retryAfterMs:raw.retry_after_ms} : {}),
+    ...(retryAfterMs === undefined ? {} : { retryAfterMs }),
     // Older servers without completion metadata cannot attest a full catalog.
     truncated: raw.truncated !== false,
     ...(typeof next === "string" ? { nextAfterId: next } : {}),

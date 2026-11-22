@@ -433,3 +433,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-22 A 匹配交付与旧笔记索引
 
 原维护及单个定向反例、事实账与 `docs/nana_next_experience/evidence/matching-3377a5c-and-note-backfill-20261122` 合成安装、实际下载和旧新定向证据。交付二进制在固定 delivery 提交5f96aa1独立目录。
+
+## 2026-11-23 A 模型路由限制及目录冷却
+
+原客户端模型设置、SDK、Android桥源码、既有测试、事实账、B接续与 `docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123` 受控证据。

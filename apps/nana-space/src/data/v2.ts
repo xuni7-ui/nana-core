@@ -1,5 +1,6 @@
 import { Capacitor, registerPlugin } from "@capacitor/core";
 import { readChatFrames, StreamError } from "./chat-stream";
+import { catalogRetryAfterMs } from "./model-catalog";
 export interface ChatProgress { state: "INTERPRETING"|"RENDERING"|"PROVISIONAL_MODEL_DRAFT"; text?: string; }
 import type {
   Envelope,
@@ -77,7 +78,7 @@ interface NativePort {
 export const nativePort = registerPlugin<NativePort>("NanaHost");
 export const isNative = () => Capacitor.isNativePlatform();
 export class V2Error extends Error {
-  constructor(public code: string) {
+  constructor(public code: string, public readonly retryAfterMs?: number) {
     super(code);
   }
 }
@@ -210,6 +211,7 @@ export class V2Client {
         typeof code === "string" && /^[A-Z_]{1,96}$/.test(code)
           ? code
           : "REQUEST_REJECTED",
+        path.startsWith("providers/models?") ? catalogRetryAfterMs(parsed) : undefined,
       );
     }
     return parsed;
@@ -225,10 +227,12 @@ export class V2Client {
       if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
       const code = error instanceof Error ? error.message
         : error && typeof error === "object" && "message" in error ? error.message : undefined;
+      const retryAfterMs = options.operation === "providers.models" && error && typeof error === "object" && "data" in error
+        ? catalogRetryAfterMs(error.data) : undefined;
       // Android's call.reject supplies its bounded error in message. Normalize
       // it before UI permission handling or the two pre-dispatch fallbacks.
       throw new V2Error(typeof code === "string" && /^[A-Z_]{1,96}$/.test(code)
-        ? code : "NETWORK_OR_EXECUTION_UNKNOWN");
+        ? code : "NETWORK_OR_EXECUTION_UNKNOWN", retryAfterMs);
     }
     if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
     return result;
