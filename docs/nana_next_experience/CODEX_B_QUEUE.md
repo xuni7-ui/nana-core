@@ -30,3 +30,9 @@ PR26补充在途互斥：高级目录请求未返回时简易入口禁用，反�
 2026-11-22 A→B。PR26 已合入。原 `GET providers/models` 非 2xx 对已受权目录读失败及目录429现在可带可选整数 `retry_after_ms`（0–10000）。缺省按旧错误码且无需推测。B可在同一在途检查、原请求身份与配置新鲜性下，将它纳入两个界面共享的原冷却。安卓如需消费复用同一语义。无自动重试。后端实际认证HTTP覆盖56项。
 
 2026-11-23 CST A集成。原目录错误字段消费已接入两个现有界面及Android错误桥源码。原模型切换保留当前能力路由限制与备用。104单测、4个390合成浏览器项和构建通过，Java/APK/真机需后续匹配资格。见 docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123/README.md。
+
+2026-11-23 无密钥本机模型隔离候选：基线6a483b3；显式授权的回环HTTP模型目录不发送凭据，在同一个本地合成服务上选择模型并使用原CognitionSession完成受控请求。基线原目录解析同响应结果一致；边界、原账本、重放和同端点14项通过。无生产工厂/配置/UI调用链；端口拥有进程身份、显式宿主授权、原Reader兼容与回退尚未解决；占位初始化仅实验不得生产。60次本地小响应旧/新中位8.12/7.71ms、P95 16.66/26.14ms，样本不足以推断实际收益，无真实Token/账单。
+
+PR29协议形状核对：Ollama固定318ee284aa3b5558de57efefff730ea33c4a9bef（MIT），`server/routes.go`的`/v1/models`经`middleware/openai.go`的ListMiddleware调用`openai/openai.go`的ToListCompletion，输出`object/list`和非null的`data[].id`；独立合成空列表和带标签模型名通过。只研究协议形状，未复制上游源码、未运行真实Ollama或声明能力资格；PR29定向17项通过。
+
+PR29部分兼容目录实验：Ollama固定318ee284命名语法允许以下划线开头及完整ID超过96字符；原目录和原ModelProfile拒绝这些ID且混合列表整体失败。B隔离候选保留符合原格式的条目，标记truncated及unsupported_entries，不返回或注册不兼容ID；类型格式错误仍拒绝。旧1失败→相关18项通过，空兼容项亦标记部分；合成60次旧/新中位8.69/8.33ms，P95 27.16/31.91ms，非真实性能结论。现役Web会丢弃新增计数、不兼容ID连手动配置也无法保存；需A决定协议/模型ID兼容、旧reader迁移和UI提示，不声称已解决。

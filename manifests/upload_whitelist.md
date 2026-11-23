@@ -465,3 +465,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-23 A 固定集成候选
 
 固定制品验收、原回退、事实账及 `docs/nana_next_experience/evidence/integrated-0b03734-20261123` 受控证据。
+
+## 2026-11-23 B无密钥回环独立候选
+
+keyless_loopback_prototype.py、keyless_loopback_catalog.py、keyless_tls_fixture.py、bench_keyless_catalog.py、test_keyless_loopback_catalog.py、test_keyless_tls_fixture.py及B队列/11/本清单；无真实凭据、生产、私有数据或Core修改。
