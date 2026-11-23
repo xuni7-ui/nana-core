@@ -345,3 +345,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-23 B无密钥目录隔离实验
 
 tools/nana_next_experience/experiments/keyless_loopback_prototype.py、keyless_loopback_catalog.py、tests/nana_next_experience/test_keyless_loopback_catalog.py及B队列/本清单追加；仅本机合成测试，无真实密钥/用户数据/生产改动。
+
+## 2026-11-23 B无密钥目录本地对照
+
+tools/nana_next_experience/experiments/bench_keyless_catalog.py；单进程本地合成HTTP对照，不含真实凭据、用户数据或外部推理。
