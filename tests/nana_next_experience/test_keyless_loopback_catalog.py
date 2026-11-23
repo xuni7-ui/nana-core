@@ -64,3 +64,15 @@ def test_local_catalog_never_follows_redirect(catalog_server):
     base,state=catalog_server;state['status']=302
     with pytest.raises(CoreError,match='PROVIDER_REDIRECT_DENIED'):read(base)
     assert state['visits']==[('/v1/models',False)]
+
+
+def test_keyless_catalog_matches_original_compatible_parser_for_same_response(catalog_server):
+    from types import SimpleNamespace
+    from nana_core.life.live_api.provider_models import read_catalog
+    base,state=catalog_server
+    profile=SimpleNamespace(protocol='OPENAI_COMPATIBLE_CHAT',base_url=base)
+    original=read_catalog(profile,'SYNTHETIC_FIXTURE_CREDENTIAL')
+    candidate=read(base)
+    assert {'models':candidate['models'],'truncated':candidate['truncated']}==original
+    assert state['visits']==[('/v1/models',True),('/v1/models',False)]
+    assert candidate['inference_calls']==0 and candidate['qualification']=='NOT_ESTABLISHED'
