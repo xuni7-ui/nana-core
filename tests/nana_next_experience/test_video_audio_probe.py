@@ -44,6 +44,22 @@ def test_unclosed_silence_is_unknown_instead_of_extending_to_end(tmp_path,monkey
     result=measure(path)
     assert result['state']=='INCOMPLETE' and result['open_silence_start']==2.5
     assert result['silence_intervals']==[]
+    assert result['coverage_state']=='UNKNOWN'
+
+
+def test_unclosed_silence_cannot_hide_bad_frame_timing(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from tools.nana_next_experience.experiments import video_audio_probe as module
+    path=tmp_path/'input.mkv';path.write_bytes(b'fixture')
+    responses=iter([SimpleNamespace(stdout=b'{"format":{"duration":"6"},"streams":[{"codec_type":"audio"}]}',stderr=b''),
+                    SimpleNamespace(stdout=b'',stderr=(
+                        b'[Parsed_ashowinfo_1 @ 0x1] n:0 pts:0 pts_time:0 rate:1 nb_samples:6\n'
+                        b'[Parsed_ashowinfo_1 @ 0x1] n:2 pts:1 pts_time:1 rate:1 nb_samples:1\n'
+                        b'[silencedetect] silence_start: 2.5\n'))])
+    monkeypatch.setattr(module,'_run_bounded',lambda *args,**kwargs:next(responses))
+    result=measure(path)
+    assert result['state']=='INCOMPLETE' and result['open_silence_start']==2.5
+    assert result['measured_intervals']==[(0.0,6.0)] and result['coverage_state']=='UNKNOWN'
 
 
 def test_delayed_audio_has_explicit_coverage_and_outside_subtitles_unknown(tmp_path):

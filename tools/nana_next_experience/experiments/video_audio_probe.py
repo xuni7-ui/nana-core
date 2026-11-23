@@ -142,7 +142,8 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
         # A missing end marker is not an observed end; retain UNKNOWN rather
         # than silently extending to the media duration.
         return qualified({'state':'INCOMPLETE','duration':duration,'silence_intervals':records,
-                'measured_intervals':measured,'coverage_state':coverage_state,'open_silence_start':start,'meaning':'acoustic threshold only; end unknown'})
+                'measured_intervals':measured,'coverage_state':'UNKNOWN' if bad_timing or not measured else coverage_state,
+                'open_silence_start':start,'meaning':'acoustic threshold only; end unknown'})
     if bad_timing or not measured:
         return qualified({'state':'INCOMPLETE','duration':duration,'silence_intervals':records,
                 'measured_intervals':measured,'coverage_state':'UNKNOWN',
