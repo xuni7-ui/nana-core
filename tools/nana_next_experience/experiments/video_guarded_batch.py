@@ -29,7 +29,7 @@ class GuardedImageBatch:
 
 
 def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, budget, max_gap,
-                   width=160, height=90, max_frames=1200, shared_snapshot=False):
+                   width=160, height=90, max_frames=1200, shared_snapshot=False, orientation="raw"):
     """Run a trusted local detector within C's original public source gate.
 
     The detector returns materialized (dsh, local_pairs) or (dsh, local_pairs,
@@ -42,7 +42,8 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
             type(budget) is not int or not 1<=budget<=256 or
             type(max_gap) not in (int,float) or not math.isfinite(max_gap) or max_gap<=0 or
             type(width) is not int or type(height) is not int or width<1 or height<1 or width*height>262144 or
-            type(max_frames) is not int or not 1<=max_frames<=1200 or type(shared_snapshot) is not bool):
+            type(max_frames) is not int or not 1<=max_frames<=1200 or type(shared_snapshot) is not bool or
+            type(orientation) is not str or orientation not in ("raw","display")):
         raise ValueError('invalid guarded batch bounds')
     requests=[]
     for item in windows:
@@ -88,13 +89,13 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
         if not shared_snapshot:
             def per_window(start,end,limit):
                 return decode_cached_window(cache,handle,privacy='PUBLIC',start_seconds=start,end_seconds=end,
-                                            width=width,height=height,max_frames=limit).decoded
+                                            width=width,height=height,max_frames=limit,orientation=orientation).decoded
             return produce(handle,per_window,handle.size*len(requests))
         with public_snapshot(cache,handle,privacy='PUBLIC') as path:
             def shared_window(start,end,limit):
                 cache.resolve(source_ref=handle.source_ref,sha256=handle.sha256)
                 result=decode(handle.source_ref,path,width=width,height=height,max_frames=limit,
-                              start_seconds=start,end_seconds=end)
+                              start_seconds=start,end_seconds=end,orientation=orientation)
                 cache.resolve(source_ref=handle.source_ref,sha256=handle.sha256)
                 return result
             return produce(handle,shared_window,handle.size)

@@ -21,6 +21,7 @@ class ImageCandidate:
     png: bytes = field(repr=False)
     source_attestation: str = 'CALLER_SUPPLIED_UNVERIFIED'
     state: str = 'CANDIDATE_NOT_INGESTED'
+    coordinate_space: str = 'decoded_scaled_pixels_no_rotation'
 
 
 def selected_images(decoded, selection):
@@ -38,7 +39,8 @@ def selected_images(decoded, selection):
             selection.get('requested_window') != decoded.requested_window or
             selection.get('timeline_origin') != decoded.timeline_origin or
             selection.get('decoded_size') != decoded.output_size or
-            decoded.coordinate_space != 'decoded_scaled_pixels_no_rotation' or
+            decoded.coordinate_space not in ('decoded_scaled_pixels_no_rotation','ffmpeg_autorotate_scaled_pixels') or
+            selection.get('coordinate_space','decoded_scaled_pixels_no_rotation') != decoded.coordinate_space or
             type(decoded.requested_window) is not tuple or len(decoded.requested_window)!=2 or
             any(type(n) not in (int,float) or not math.isfinite(n) for n in decoded.requested_window) or
             not 0<=decoded.requested_window[0]<decoded.requested_window[1] or
@@ -81,4 +83,4 @@ def selected_images(decoded, selection):
         stream=io.BytesIO();Image.frombytes('RGB',decoded.output_size,pixels).save(stream,format='PNG')
         yield ImageCandidate(decoded.source_ref,decoded.requested_window,seconds,tick,
             decoded.time_base,decoded.timeline_origin,decoded.output_size,hashlib.sha256(pixels).hexdigest(),
-            stream.getvalue())
+            stream.getvalue(),coordinate_space=decoded.coordinate_space)

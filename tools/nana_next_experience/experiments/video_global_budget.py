@@ -19,7 +19,7 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
             type(budget) is not int or not 1<=budget<=256 or
             type(max_gap) not in (int,float) or not math.isfinite(max_gap) or max_gap<=0):
         raise ValueError('invalid global budget bounds')
-    frames={};intervals=[];origin=None;time_base=None;size=None;source_size=None
+    frames={};intervals=[];origin=None;time_base=None;size=None;source_size=None;coordinate_space=None
     for window_index,window in enumerate(window_results):
         if (type(window) is not dict or window.get('source_ref')!=source_ref or
                 window.get('status') not in ('WINDOW_CANDIDATES_ONLY','NO_NEW_FRAME_DECODED_NOT_OBSERVED') or
@@ -36,7 +36,7 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
             continue
         if (window.get('selection_state')!='CANDIDATES_NOT_DELIVERED' or
                 window.get('timestamp_basis')!='container_relative' or
-                window.get('coordinate_space')!='decoded_scaled_pixels_no_rotation' or
+                window.get('coordinate_space') not in ('decoded_scaled_pixels_no_rotation','ffmpeg_autorotate_scaled_pixels') or
                 type(window.get('decoded_size')) is not tuple or len(window['decoded_size'])!=2 or
                 any(type(v) is not int or v<1 for v in window['decoded_size']) or
                 type(window.get('source_size')) is not tuple or len(window['source_size'])!=2 or
@@ -45,8 +45,10 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
             raise ValueError('incompatible window geometry or state')
         try:window_origin=Fraction(window['timeline_origin'])
         except (KeyError,ValueError,TypeError,ZeroDivisionError) as exc:raise ValueError('invalid origin') from exc
-        if origin is None:origin=window_origin;size=window['decoded_size'];source_size=window['source_size']
-        if window_origin!=origin or window['decoded_size']!=size or window['source_size']!=source_size:
+        if origin is None:
+            origin=window_origin;size=window['decoded_size'];source_size=window['source_size'];coordinate_space=window['coordinate_space']
+        if (window_origin!=origin or window['decoded_size']!=size or window['source_size']!=source_size or
+                window['coordinate_space']!=coordinate_space):
             raise ValueError('incompatible window origin or size')
         cues=window.get('selected_cues',[])
         if type(cues) is not list or len(cues)>len(window['selected_frames']):
@@ -96,6 +98,7 @@ def select_windows(source_ref, duration, window_results, *, budget, max_gap):
         chosen=[];gaps=((0.0,duration),) if duration>max_gap else ();gap_target=False
     return {'schema_version':1,'source_ref':source_ref,'source_attestation':'CALLER_SUPPLIED_UNVERIFIED',
             'duration_basis':'CALLER_SUPPLIED_UNVERIFIED','selected_frames':chosen,
+            'coordinate_space':coordinate_space,
             'candidate_count':len(frames),'candidate_deduplication':'PTS_ONLY_BYTES_UNVERIFIED',
             'model_frame_budget':budget,'unrequested_intervals':unrequested,
             'sampling_gaps_over_threshold':gaps,'sampling_gap_target_met':gap_target,
@@ -119,6 +122,7 @@ def project_window(global_selection, window, window_index):
             type(window) is not dict or window.get('status')!='WINDOW_CANDIDATES_ONLY' or
             window.get('selection_state')!='CANDIDATES_NOT_DELIVERED' or
             window.get('source_ref')!=global_selection.get('source_ref') or
+            window.get('coordinate_space')!=global_selection.get('coordinate_space','decoded_scaled_pixels_no_rotation') or
             type(window.get('selected_frames')) is not list):
         raise ValueError('invalid global window projection')
     local=set()
@@ -148,4 +152,5 @@ def project_window(global_selection, window, window_index):
     return {'status':'WINDOW_CANDIDATES_ONLY','selection_state':'CANDIDATES_NOT_DELIVERED',
             'source_ref':window['source_ref'],'requested_window':window['requested_window'],
             'timeline_origin':window['timeline_origin'],'decoded_size':window['decoded_size'],
+            'coordinate_space':window['coordinate_space'],
             'selected_frames':frames}

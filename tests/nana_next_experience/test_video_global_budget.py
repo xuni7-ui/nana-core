@@ -35,6 +35,12 @@ def test_global_budget_deduplicates_real_overlapping_windows_and_preserves_pts(t
     images=[image for i,(decoded,result) in enumerate(zip(windows,results))
             for image in selected_images(decoded,project_window(selected,result,i))]
     assert len(images)==len(selected['selected_frames'])<=3
+    # Pre-orientation projections omitted this field and remain valid for raw pixels.
+    legacy={k:v for k,v in selected.items() if k!='coordinate_space'}
+    legacy_projection=project_window(legacy,results[0],0)
+    legacy_projection.pop('coordinate_space')
+    assert list(selected_images(windows[0],legacy_projection))==[image for image in images
+        if image.requested_window==windows[0].requested_window]
     assert len({image.pts_tick for image in images})==len(images)
     assert all(MediaDecoder().decode(image.png,'IMAGE')['pixel_digest']==image.pixel_sha256 for image in images)
 

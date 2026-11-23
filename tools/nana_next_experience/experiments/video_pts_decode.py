@@ -37,18 +37,20 @@ class DecodedFrames:
 
 
 def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=120,
-           start_seconds=None, end_seconds=None):
+           start_seconds=None, end_seconds=None, orientation="raw"):
     """Decode explicit local video in display order, preserving output PTS.
 
     Input identity and authorization are a caller responsibility. This helper
     does not persist frames, perform inference, or read a platform account.
     Preserve original integer PTS and the declared container timeline origin;
     derived seconds are container-relative, not a platform timestamp claim.
+    Display mode delegates metadata interpretation to FFmpeg; it does not
+    establish true orientation or map output boxes to raw source pixels.
     """
     if (type(source_ref) is not str or not 1<=len(source_ref)<=128 or
             type(width) is not int or type(height) is not int or width<1 or height<1 or width*height>262144 or
             type(max_frames) is not int or not 1<=max_frames<=1200 or
-            (start_seconds is None)!=(end_seconds is None)):
+            (start_seconds is None)!=(end_seconds is None) or type(orientation) is not str or orientation not in ("raw","display")):
         raise ValueError('invalid decode bounds')
     path=Path(path).resolve(strict=True)
     if not path.is_file() or path.stat().st_size>256*1024*1024:raise ValueError('invalid local media')
@@ -101,7 +103,8 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
         absolute_end=Decimal(origin.numerator)/Decimal(origin.denominator)+Decimal(str(end_seconds))
         command+=['-ss',str(start_seconds),'-t',str(Decimal(str(end_seconds))-Decimal(str(start_seconds)))]
         filters=f'trim=start={absolute_start}:end={absolute_end},'+filters
-    command+=['-noautorotate','-i',str(path),'-map','0:v:0','-vf',filters,
+    if orientation=='raw':command+=['-noautorotate']
+    command+=['-i',str(path),'-map','0:v:0','-vf',filters,
         '-fps_mode','passthrough','-an','-frames:v',str(limit+1),'-f','rawvideo','-pix_fmt','rgb24','-']
     result=run(command)
     if len(result.stdout)%frame_size:raise ValueError('partial decoded frame')
@@ -131,6 +134,7 @@ def decode(source_ref, path, *, width=160, height=90, max_frames=1200, timeout=1
         output_size=(width,height),timestamps=times,rgb24=result.stdout,pts_ticks=ticks,
         time_base=(numerator,denominator),timeline_origin=origin_text if origin==Fraction(origin_text) else str(origin),
         container_origin_reported=origin_text,video_start=video_start_text,
+        coordinate_space='decoded_scaled_pixels_no_rotation' if orientation=='raw' else 'ffmpeg_autorotate_scaled_pixels',
         requested_window=(start_seconds,end_seconds) if window else None,
         window_state='FRAMES_DECODED_NOT_COVERAGE' if count else 'NO_NEW_FRAME_DECODED_NOT_OBSERVED',
         declared_frames=declared,count_consistent=not window and declared is not None and count==declared)

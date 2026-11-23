@@ -521,3 +521,9 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 B实验解码时间轴对齐
 
 B隔离video_pts_decode.py、test_video_pts_decode.py、test_video_window_fusion.py及B队列追加；无私有媒体、凭据、账号或生产变更。
+
+## 2026-11-23 B视觉自动旋转隔离候选
+
+video_pts_decode.py、video_window_fusion.py、video_global_budget.py、video_selected_images.py、video_nanalink_cache.py、video_guarded_batch.py及test_video_display_orientation.py、test_video_global_budget.py、11/B队列/本清单；本地合成素材不入库，不改变原Core或私有数据。
+
+B视觉旋转本地可复现对照另含tools/nana_next_experience/experiments/bench_video_orientation.py；仅生成临时合成素材，不写入样本或调用模型。

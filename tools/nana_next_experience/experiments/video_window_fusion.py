@@ -19,6 +19,7 @@ def fuse_window(decoded, dsh, pairs, *, budget, max_gap, onsets=None):
             any(type(v) is not int or v<1 for v in decoded.output_size) or
             decoded.output_size[0]*decoded.output_size[1]>262144 or
             decoded.timestamp_basis!='container_relative' or
+            decoded.coordinate_space not in ('decoded_scaled_pixels_no_rotation','ffmpeg_autorotate_scaled_pixels') or
             type(decoded.duration_seconds) not in (int,float) or not math.isfinite(decoded.duration_seconds) or
             decoded.duration_seconds<=0 or type(decoded.source_size) is not tuple or len(decoded.source_size)!=2 or
             any(type(v) is not int or v<1 for v in decoded.source_size) or type(budget) is not int or not 1<=budget<=256 or

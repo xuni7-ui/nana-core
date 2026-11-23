@@ -20,7 +20,7 @@ class CachedVideoWindow:
 
 
 def decode_cached_window(cache, handle, *, privacy, start_seconds, end_seconds,
-                         width=160, height=90, max_frames=1200, timeout=120):
+                         width=160, height=90, max_frames=1200, timeout=120, orientation="raw"):
     """Read and hash a current PUBLIC handle; decode a private temp snapshot.
 
     PUBLIC is a caller assertion, not a privacy classifier. This does not grant
@@ -47,6 +47,6 @@ def decode_cached_window(cache, handle, *, privacy, start_seconds, end_seconds,
             raise CoreError('MEDIA_CACHE_CONTENT_MISMATCH')
         cache.resolve(source_ref=handle.source_ref,sha256=handle.sha256)
         result=decode(handle.source_ref,path,width=width,height=height,max_frames=max_frames,
-                      timeout=timeout,start_seconds=start_seconds,end_seconds=end_seconds)
+                      timeout=timeout,start_seconds=start_seconds,end_seconds=end_seconds,orientation=orientation)
         cache.resolve(source_ref=handle.source_ref,sha256=handle.sha256)
     return CachedVideoWindow(handle.source_ref,handle.sha256,result)
