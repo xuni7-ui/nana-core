@@ -2207,3 +2207,20 @@ test('SYNTHETIC existing explicit avatar choice remains enabled', async ({page})
   await installMock(page);await open(page,'chat');
   await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
 });
+
+test('SYNTHETIC window name is local, persists, and leaves subject identity unchanged',async({page})=>{
+  const state=await installMock(page);await open(page,'settings');
+  const name=page.getByLabel('窗口名称');
+  await expect(name).toHaveValue('Nana Space');
+  const chosen='我的个人主体空间示例名称'.repeat(2);
+  await name.fill(chosen);await name.blur();
+  await expect(page).toHaveTitle(chosen);
+  await expect(page.locator('aside.live-nav')).toHaveAttribute('aria-label',`${chosen} 页面`);
+  await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
+  await noHorizontalOverflow(page);
+  await page.reload();await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
+  await expect(name).toHaveValue(chosen);await expect(page).toHaveTitle(chosen);
+  await name.fill('');await name.blur();await expect(name).toHaveValue('Nana Space');
+  await expect(page).toHaveTitle('Nana Space');
+  expect(state.requests.filter(r=>r.method!=='GET')).toEqual([]);
+});

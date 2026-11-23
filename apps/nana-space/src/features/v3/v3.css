@@ -319,6 +319,8 @@
   line-height: 1.1;
   letter-spacing: -0.3px;
 }
+.v3-brand > span:last-child { min-width: 0; }
+.v3-brand-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: inherit; }
 .v3-brand-mark {
   font-size: calc(33px * var(--v3-font-scale, 1));
   color: var(--v3-lilac);
@@ -443,6 +445,7 @@
   color: var(--v3-muted);
 }
 .v3-top-brand {
+  max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-family: Georgia, serif;
   letter-spacing: 0.03em;
   font-size: calc(14px * var(--v3-font-scale, 1));

@@ -303,6 +303,12 @@ export function LiveSpace() {
   }, []);
   const previousRun = useRef("");
   const [prefs, setPrefs] = usePreferences(false);
+  const productName = prefs.windowName.trim() || "Nana Space";
+  useEffect(() => {
+    const previous = document.title;
+    document.title = productName;
+    return () => { document.title = previous; };
+  }, [productName]);
   const fail = useCallback((e: unknown) => {
     setError(explain(e));
     setSnapshot(null);
@@ -1494,13 +1500,13 @@ export function LiveSpace() {
       )}
       <aside
         className={`live-nav v3-sidebar ${nav ? "open" : ""}`}
-        aria-label="Nana Space 页面"
+        aria-label={`${productName} 页面`}
         ref={navRef}
       >
         <button className="v3-brand" onClick={() => go("home")}>
           <span className="v3-brand-mark">✧</span>
           <span>
-            Nana Space<small>A LITTLE LIFE TOGETHER</small>
+            <strong className="v3-brand-name" title={productName}>{productName}</strong><small>A LITTLE LIFE TOGETHER</small>
           </span>
         </button>
         <button
@@ -1549,7 +1555,7 @@ export function LiveSpace() {
               <Menu size={22} />
             </button>
             <span className="v3-top-brand">
-              Nana Space <span>/</span>
+              {productName} <span>/</span>
             </span>
             <span>{destinations[page][0]}</span>
           </div>
@@ -1627,7 +1633,7 @@ export function LiveSpace() {
             <div className="v3-welcome-visual">
               <div className="v3-welcome-orbit" />
               <SubjectAvatar size={240} enabled={prefs.avatar} />
-              <span className="v3-eyebrow">NANA SPACE · V3</span>
+              <span className="v3-eyebrow">{productName} · V3</span>
               <h1>
                 生活有了一个
                 <br />
@@ -2192,8 +2198,14 @@ export function LiveSpace() {
                   />
                 </label>
                 {(!settingsSearch ||
-                  "外观晨雾月光主题字号动画角色".includes(settingsSearch)) && (
+                  "外观晨雾月光主题字号动画角色窗口名称".includes(settingsSearch)) && (
                   <V3Card title="空间外观" eyebrow="MAKE YOURSELF AT HOME">
+                    <label className="v3-setting-row">
+                      <span><strong>窗口名称</strong><small>只保存在这台设备，不改变主体身份。</small></span>
+                      <input aria-label="窗口名称" maxLength={32} value={prefs.windowName}
+                        onChange={(event) => setPrefs((p) => ({...p, windowName:event.target.value.replace(/[\u0000-\u001f\u007f]/g, "")}))}
+                        onBlur={() => setPrefs((p) => ({...p, windowName:p.windowName.trim() || "Nana Space"}))}/>
+                    </label>
                     <div className="v3-theme-grid">
                       {(
                         [

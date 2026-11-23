@@ -473,3 +473,7 @@ apps/nana-space/src/features/LiveSpace.tsx、v3/LifeViews.tsx、tests/v3.spec.ts
 ## 2026-11-23 B现役头像偏好一致性
 
 apps/nana-space/src/app/preferences.ts、src/avatar/SubjectAvatar.tsx、src/features/LiveSpace.tsx、src/features/v3/ChatPane.tsx、tests/v3.spec.ts及11/B队列/本清单追加；不改原主体或私有数据。
+
+## 2026-11-23 B窗口名称本地配置
+
+apps/nana-space/src/app/preferences.ts、src/features/LiveSpace.tsx、src/features/v3/v3.css、tests/v3.spec.ts及11/B队列/本清单追加；仅本地展示偏好，无主体数据/私有数据或生产修改。
