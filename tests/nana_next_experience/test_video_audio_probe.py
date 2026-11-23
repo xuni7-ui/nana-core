@@ -220,3 +220,18 @@ def test_bounded_runner_matches_original_runner_on_valid_audio(tmp_path,monkeypa
             patch.setattr(module,'_run_bounded',old_runner)
             baseline=measure(path,**kwargs)
         assert measure(path,**kwargs)==baseline
+
+
+@pytest.mark.parametrize('audio_order,first_is_silent',[(('1:a','2:a'),False),(('2:a','1:a'),True)])
+def test_audio_probe_measures_only_the_original_first_audio_stream(tmp_path,audio_order,first_is_silent):
+    path=tmp_path/'multitrack.mkv'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'color=black:s=32x32:r=2:d=2','-f','lavfi','-i','sine=frequency=440:sample_rate=8000:duration=2',
+        '-f','lavfi','-i','anullsrc=r=8000:cl=mono:d=2',
+        '-map','0:v','-map',audio_order[0],'-map',audio_order[1],
+        '-c:v','mpeg4','-c:a','pcm_s16le','-threads','1','-y',str(path)],check=True,timeout=20)
+    result=measure(path)
+    assert result['state']=='MEASURED' and result['coverage_state']=='FULL'
+    if first_is_silent:
+        assert result['silence_intervals'][0][0]==0 and result['silence_intervals'][0][1]==pytest.approx(2,abs=.02)
+    else:assert result['silence_intervals']==[]

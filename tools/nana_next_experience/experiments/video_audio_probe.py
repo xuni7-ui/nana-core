@@ -83,7 +83,8 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
         raise ValueError('invalid local file')
     def run(command):
         return _run_bounded(command,timeout=timeout,stdout_limit=100000,stderr_limit=4_000_000)
-    info=json.loads(run(['ffprobe','-v','error','-protocol_whitelist','file,pipe',
+    # FFmpeg measures only 0:a:0 below; do not enumerate unrelated tracks.
+    info=json.loads(run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','a:0',
         '-show_entries','format=duration:stream=codec_type','-of','json',str(path)]).stdout)
     duration=float(info['format']['duration'])
     window=(start_seconds is not None or end_seconds is not None)
