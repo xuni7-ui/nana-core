@@ -51,7 +51,7 @@ def test_local_catalog_is_explicit_bounded_and_does_not_infer(catalog_server,mon
 
 @pytest.mark.parametrize('body,code',[
     (b'{"data":[],"data":[]}','PROVIDER_CATALOG_UNAVAILABLE'),
-    (b'{"data":[{"id":"bad id"}]}','PROVIDER_CATALOG_MODEL_INVALID'),
+    (b'{"data":[{"id":42}]}','PROVIDER_CATALOG_MODEL_INVALID'),
     (b'x'*262145,'PROVIDER_CATALOG_BOUND'),
 ])
 def test_local_catalog_rejects_invalid_or_oversized_data(catalog_server,body,code):
@@ -156,3 +156,31 @@ def test_local_catalog_accepts_ollama_compatible_list_shape(catalog_server,rows,
     result=read(base)
     assert result['models']==expected and not result['truncated']
     assert result['qualification']=='NOT_ESTABLISHED' and state['visits']==[('/v1/models',False)]
+
+
+def test_catalog_preserves_compatible_models_but_marks_unsupported_ollama_ids(catalog_server):
+    from types import SimpleNamespace
+    from pydantic import ValidationError
+    from nana_core.continuity.provider_config import ModelProfile
+    from nana_core.life.live_api.provider_models import read_catalog
+    from tests.provider_routing.helpers import model
+    base,state=catalog_server
+    # Ollama's fixed name grammar accepts leading underscore and allows parts
+    # longer than Nana's current 96-character complete ID bound.
+    unsupported=['_private:latest','n'*50+'/'+'m'*50+':latest']
+    state['body']=json.dumps({'object':'list','data':[{'id':'example:latest'},
+        *({'id':value} for value in unsupported)]}).encode()
+    profile=SimpleNamespace(protocol='OPENAI_COMPATIBLE_CHAT',base_url=base)
+    with pytest.raises(ApiError,match='PROVIDER_CATALOG_MODEL_INVALID'):
+        read_catalog(profile,'SYNTHETIC_FIXTURE_CREDENTIAL')
+    for value in unsupported:
+        with pytest.raises(ValidationError):
+            ModelProfile.model_validate({**model('fixture.model','fixture.provider').model_dump(),
+                                         'remote_model_id':value})
+    candidate=read(base)
+    assert candidate['models']==['example:latest'] and candidate['truncated'] is True
+    assert candidate['unsupported_entries']==2 and candidate['qualification']=='NOT_ESTABLISHED'
+    assert candidate['inference_calls']==0
+    state['body']=json.dumps({'object':'list','data':[{'id':value} for value in unsupported]}).encode()
+    omitted=read(base)
+    assert omitted['models']==[] and omitted['truncated'] is True and omitted['unsupported_entries']==2

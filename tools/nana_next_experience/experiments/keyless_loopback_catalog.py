@@ -31,14 +31,18 @@ def read_keyless_loopback_catalog(base_url, *, explicit_authorized, allowed_base
         value=json.loads(raw,object_pairs_hook=_json_object)
         rows=value.get('data') if type(value) is dict else None
         if type(rows) is not list or len(rows)>2048:raise ApiError('PROVIDER_CATALOG_FORMAT',502)
-        ids=set()
+        ids=set();unsupported=0
         for row in rows:
             model_id=row.get('id') if type(row) is dict else None
-            if type(model_id) is not str or not MODEL_ID.fullmatch(model_id):
+            if type(model_id) is not str:
                 raise ApiError('PROVIDER_CATALOG_MODEL_INVALID',502)
+            if not MODEL_ID.fullmatch(model_id):
+                # Do not make incompatible IDs routable or leak them in results.
+                unsupported+=1;continue
             ids.add(model_id)
         return {'models':sorted(ids)[:256],
-                'truncated':len(ids)>256 or value.get('has_more',False) is not False,
+                'truncated':unsupported>0 or len(ids)>256 or value.get('has_more',False) is not False,
+                **({'unsupported_entries':unsupported} if unsupported else {}),
                 'qualification':'NOT_ESTABLISHED','inference_calls':0}
     except urllib.error.HTTPError as exc:
         status=exc.code;exc.close()
