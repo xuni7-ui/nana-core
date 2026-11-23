@@ -46,7 +46,7 @@ import {
   isNative,
   type LivePage,
 } from "../data/v2";
-import { Avatar } from "../avatar/Avatar";
+import { SubjectAvatar } from "../avatar/SubjectAvatar";
 
 import { usePreferences } from "../app/preferences";
 import "./v3/v3.css";
@@ -302,7 +302,7 @@ export function LiveSpace() {
     chatInputs.current = []; chatDrain.current = null; activeChat.current = null; sessionVersion.current++;
   }, []);
   const previousRun = useRef("");
-  const [prefs, setPrefs] = usePreferences();
+  const [prefs, setPrefs] = usePreferences(false);
   const fail = useCallback((e: unknown) => {
     setError(explain(e));
     setSnapshot(null);
@@ -1511,7 +1511,7 @@ export function LiveSpace() {
           <X size={20} />
         </button>
         <div className="v3-sidebar-companion">
-          <Avatar size={50} />
+          <SubjectAvatar size={50} enabled={prefs.avatar} />
           <span>
             <strong>生活的小宇宙</strong>
             <small>
@@ -1596,7 +1596,7 @@ export function LiveSpace() {
               aria-label="打开设置中心"
               onClick={() => go("settings")}
             >
-              <Avatar size={31} />
+              <SubjectAvatar size={31} enabled={prefs.avatar} />
             </button>
           </div>
         </header>
@@ -1626,7 +1626,7 @@ export function LiveSpace() {
           <section className="v3-welcome">
             <div className="v3-welcome-visual">
               <div className="v3-welcome-orbit" />
-              <Avatar size={240} />
+              <SubjectAvatar size={240} enabled={prefs.avatar} />
               <span className="v3-eyebrow">NANA SPACE · V3</span>
               <h1>
                 生活有了一个
@@ -1812,6 +1812,7 @@ export function LiveSpace() {
             )}
             {page === "chat" && (
               <ChatPane
+                avatar={prefs.avatar}
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}`}
                 turns={turns}
                 onFeedback={manager && healthy && bootstrap?.capabilities.conversation_feedback===true ? saveLanguageFeedback : undefined}

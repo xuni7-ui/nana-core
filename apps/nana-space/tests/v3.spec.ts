@@ -2182,3 +2182,26 @@ test('SYNTHETIC live product uses neutral language for an existing subject', asy
   await expect(page.locator('main')).not.toContainText('通往她的新窗口');
   await noHorizontalOverflow(page);
 });
+
+test('SYNTHETIC live avatar preference is consistent and preserves explicit choice', async ({page}) => {
+  await installMock(page);await open(page,'home');
+  await expect(page.getByRole('img',{name:'原创静态形象'})).toHaveCount(0);
+  await go(page,'chat');
+  await expect(page.getByRole('img',{name:'原创静态形象'})).toHaveCount(0);
+  await expect(page.getByRole('img',{name:'默认主体图标'}).first()).toBeVisible();
+  await go(page,'settings');
+  const toggle=page.getByRole('checkbox',{name:'显示角色'});
+  await expect(toggle).not.toBeChecked();await toggle.check();
+  await go(page,'chat');await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
+  await page.reload();await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
+  await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
+  await go(page,'settings');await expect(toggle).toBeChecked();await toggle.uncheck();
+  await go(page,'chat');await expect(page.getByRole('img',{name:'原创静态形象'})).toHaveCount(0);
+  await noHorizontalOverflow(page);
+});
+
+test('SYNTHETIC existing explicit avatar choice remains enabled', async ({page}) => {
+  await page.addInitScript(()=>localStorage.setItem('nana-space.preferences.v1',JSON.stringify({avatar:true})));
+  await installMock(page);await open(page,'chat');
+  await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
+});

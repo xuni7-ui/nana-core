@@ -12,7 +12,7 @@ import {
   X,
   Volume2,
 } from "lucide-react";
-import { Avatar } from "../../avatar/Avatar";
+import { SubjectAvatar } from "../../avatar/SubjectAvatar";
 import { Blank } from "./LifeViews";
 import { readinessLabel } from "../../data/readiness";
 import { transcribe, readAloud, stopSpeech } from "../../data/speech";
@@ -75,6 +75,7 @@ export interface Turn {
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
   turns,
+  avatar = true,
   draft,
   onDraft,
   send,
@@ -110,6 +111,7 @@ export function ChatPane({
   queuedCount?: number;
   cancelQueued?: (id: string) => void;
   turns: Turn[];
+  avatar?: boolean;
   draft: string;
   onDraft: (s: string) => void;
   send: (remember?: boolean, privacy?: "PROJECT" | "PERSONAL") => void;
@@ -226,7 +228,7 @@ export function ChatPane({
     <section className="v3-chat live-chat">
       <div className="v3-chat-toolbar">
         <div>
-          <Avatar size={36} />
+          <SubjectAvatar size={36} enabled={avatar} />
           <span>
             <h1>聊天</h1>
             <small>在这里，接着聊</small>
@@ -267,7 +269,7 @@ export function ChatPane({
       >
         {!turns.length && (
           <div className="v3-chat-empty">
-            <Avatar size={100} />
+            <SubjectAvatar size={100} enabled={avatar} />
             <span className="v3-eyebrow">JUST A LITTLE MOMENT TOGETHER</span>
             <h2>想说什么，都可以慢慢说。</h2>
             <p>未选择保留的文字只留在当前窗口。明确保留的共同经历归属于当前连接的主体；没有连接时不生成演示回复。</p>
@@ -292,7 +294,7 @@ export function ChatPane({
             )}
             {t.state==="GROUPED" || t.state==="GROUP_PENDING" || t.state==="DEFERRED_REPLY" ?
               (t.input && <p className="v3-muted">{t.state==="GROUPED"?"回应见下方":t.state==="DEFERRED_REPLY"?"已接续，未单独回复":"这几句话的结果待核验"}</p>) : <div className="v3-reply-row">
-              <Avatar size={34} />
+              <SubjectAvatar size={34} enabled={avatar} />
               <div className="live-reply">
                 {t.reply ? (
                   <Markdown
