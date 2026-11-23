@@ -133,3 +133,33 @@ def test_audio_probe_failure_keeps_valid_source_gated_image_candidates(tmp_path,
             assert combined.acoustic is None and combined.acoustic_status==expected
             assert combined.source_lifetime=='RECHECK_REQUIRED_AT_USE'
         finally:cache.close()
+
+
+def test_real_dense_audio_output_bound_keeps_source_gated_images(tmp_path):
+    # A real FFmpeg run emits many frame-stat lines for this tiny-packet track.
+    path=tmp_path/'dense.nut'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','testsrc2=s=32x32:r=2:d=5',
+                    '-f','lavfi','-i','anullsrc=r=8000:cl=mono:d=5',
+                    '-filter_complex','[1:a]asetnsamples=n=1:p=0[a]',
+                    '-map','0:v','-map','[a]','-c:v','mpeg4','-c:a','pcm_s16le',
+                    '-threads','1','-y',str(path)],check=True,timeout=60)
+    data=path.read_bytes()
+    with fresh(tmp_path/'subject.db',Clock()) as runtime:
+        app,mid=source(runtime,data);cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
+        try:
+            handle=cache.put([data],source_ref=mid,media_type='video/x-nut')
+            def detector(decoded):
+                return ({'source_ref':mid,'input_size':decoded.output_size,'input_frames':len(decoded.timestamps),
+                         'qualification':'LOCAL_PIPELINE_OUTPUT_ONLY','selected':[],'dropped_sheets':0},
+                        {'schema_version':1,'source_ref':mid,'input_size':decoded.output_size,
+                         'pairs_examined':len(decoded.timestamps)-1,'truncated':False,'proposals':[]})
+            kwargs=dict(scope='world',windows=((0,4),),detector=detector,budget=3,max_gap=2,
+                        width=32,height=32,shared_snapshot=True)
+            baseline=guarded_images(app,cache,mid,**kwargs)
+            result=guarded_images(app,cache,mid,audio_window=(0,4.9),**kwargs)
+            assert result.images==baseline.images and result.images
+            assert result.acoustic is None and result.acoustic_status=='OUTPUT_BOUND'
+            assert result.audio_requested_window==(0,4.9)
+            assert result.source_ref==mid and result.source_sha256==handle.sha256
+            assert result.source_lifetime=='RECHECK_REQUIRED_AT_USE' and not runtime.store.all('actions')
+        finally:cache.close()
