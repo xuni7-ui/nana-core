@@ -1,4 +1,7 @@
 """Real local FFmpeg rotation fixture; no model, platform, or semantic claim."""
+import json
+import os
+from pathlib import Path
 import shutil
 import subprocess
 
@@ -57,8 +60,14 @@ def test_explicit_display_orientation_preserves_pixels_pts_and_source_space(tmp_
         decode('synthetic.rotation',video,orientation='unknown')
 
 
-def test_rotated_video_flows_through_original_public_source_gate(tmp_path):
+@pytest.mark.parametrize('detector_kind',['bounded-substitute','original-dsh'])
+def test_rotated_video_flows_through_original_public_source_gate(tmp_path,detector_kind):
     if not shutil.which('bwrap'):pytest.skip('original Core sandbox unavailable')
+    upstream=os.environ.get('NANA_DSH_SOURCE')
+    if detector_kind=='original-dsh':
+        if not upstream or not shutil.which('node'):pytest.skip('trusted dsh checkout and Node required')
+        assert subprocess.check_output(['git','-C',upstream,'rev-parse','HEAD'],text=True).strip()==\
+            '0b4bd110074b3e2cd043da8b078f7272589d50b0'
     from types import SimpleNamespace
     from nana_core.clock import Clock
     from nana_core.continuity.world_loop.perception import PerceptionService,PublicMediaSource
@@ -75,7 +84,21 @@ def test_rotated_video_flows_through_original_public_source_gate(tmp_path):
         cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
         try:
             handle=cache.put([data],source_ref=mid,media_type='video/mp4')
+            calls=[]
             def detector(decoded):
+                calls.append(decoded.coordinate_space)
+                if detector_kind=='original-dsh':
+                    from tools.nana_next_experience.experiments.video_local_pairs import propose
+                    raw=tmp_path/'frames.rgb';raw.write_bytes(decoded.rgb24)
+                    request={'source_ref':decoded.source_ref,'rgb_path':str(raw),'width':32,'height':64,
+                             'fps':2,'timestamps':decoded.timestamps,'max_frames_per_sheet':2}
+                    script=Path(__file__).resolve().parents[2]/'tools/nana_next_experience/experiments/dsh_pipeline_adapter.mjs'
+                    result=subprocess.run(['node',str(script),upstream],input=json.dumps(request),
+                                          text=True,capture_output=True,check=True,timeout=40)
+                    size=32*64*3
+                    frames=[(t,Image.frombytes('RGB',(32,64),decoded.rgb24[i*size:(i+1)*size]))
+                            for i,t in enumerate(decoded.timestamps)]
+                    return json.loads(result.stdout),propose(decoded.source_ref,frames)
                 return ({'source_ref':decoded.source_ref,'input_size':decoded.output_size,
                     'input_frames':len(decoded.timestamps),'qualification':'LOCAL_PIPELINE_OUTPUT_ONLY',
                     'selected':[],'dropped_sheets':0},
@@ -87,6 +110,7 @@ def test_rotated_video_flows_through_original_public_source_gate(tmp_path):
             shared=guarded_images(app,cache,mid,shared_snapshot=True,**kwargs)
             assert regular.source_sha256==handle.sha256==shared.source_sha256
             assert regular.images==shared.images and regular.images
+            assert calls==['ffmpeg_autorotate_scaled_pixels']*2
             assert all(image.coordinate_space=='ffmpeg_autorotate_scaled_pixels' for image in regular.images)
             assert not runtime.store.all('actions') and not runtime.store.all('grants')
         finally:cache.close()
