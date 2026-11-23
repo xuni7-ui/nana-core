@@ -184,6 +184,13 @@ def test_audio_subprocess_bounds_output_before_child_can_finish(tmp_path):
     result=_run_bounded([sys.executable,'-c',"import sys;print('ok');print('warn',file=sys.stderr)"],
                         timeout=5,stdout_limit=1024,stderr_limit=1024)
     assert result.stdout==b'ok\n' and result.stderr==b'warn\n'
+    script=("import sys;"
+            "[(sys.stdout.buffer.write(b'o'*32768),sys.stdout.flush(),"
+            "sys.stderr.buffer.write(b'e'*32768),sys.stderr.flush()) for _ in range(4)]")
+    result=_run_bounded([sys.executable,'-c',script],timeout=5,stdout_limit=131072,stderr_limit=131072)
+    assert result.stdout==b'o'*131072 and result.stderr==b'e'*131072
+    with pytest.raises(AudioProbeUnavailable):
+        _run_bounded([sys.executable,'-c','raise SystemExit(3)'],timeout=5,stdout_limit=1024,stderr_limit=1024)
     with pytest.raises(AudioProbeUnavailable):
         _run_bounded([sys.executable,'-c','import time;time.sleep(2)'],timeout=.1,stdout_limit=1024,stderr_limit=1024)
 
