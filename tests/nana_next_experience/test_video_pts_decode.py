@@ -220,3 +220,6 @@ def test_fractional_container_origin_uses_exact_first_stream_tick(tmp_path):
     part=decode('source.synthetic',path,width=32,height=24,start_seconds=0,end_seconds=.25)
     assert part.pts_ticks==decoded.pts_ticks[:6]
     assert part.rgb24==decoded.rgb24[:6*32*24*3]
+    tail=decode('source.synthetic',path,width=32,height=24,start_seconds=.125,end_seconds=.25)
+    assert tail.pts_ticks==decoded.pts_ticks[3:6]
+    assert tail.rgb24==decoded.rgb24[3*32*24*3:6*32*24*3]
