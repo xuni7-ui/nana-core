@@ -123,6 +123,16 @@ def test_long_audio_window_keeps_global_time_and_unread_regions_unknown(tmp_path
     checked=review(cues,acoustic,acoustic_source_id='source.fixture',timeline_aligned=True)
     assert [row['status'] for row in checked]==['UNKNOWN','REVIEW_SILENCE_OVERLAP']
     assert all('not speech' in row['meaning'] for row in checked)
+    # Reuse the existing window planner; planning itself is not observation.
+    from tools.nana_next_experience.experiments.video_segment_windows import windows
+    plan=windows('source.fixture',620,window_seconds=600,overlap_seconds=1)
+    assert plan['status']=='REQUESTS_ONLY_NOT_OBSERVED' and len(plan['windows'])==2
+    samples=[measure(path,start_seconds=w['start_seconds'],end_seconds=w['end_seconds']) for w in plan['windows']]
+    assert samples[0]['measured_intervals'][0][0]==pytest.approx(0,abs=.02)
+    assert samples[0]['measured_intervals'][-1][1]==pytest.approx(600,abs=.02)
+    assert samples[1]['measured_intervals'][0][0]==pytest.approx(599,abs=.02)
+    assert samples[1]['measured_intervals'][-1][1]==pytest.approx(620,abs=.02)
+    assert all(s['state']=='MEASURED' and s['coverage_state']=='PARTIAL' for s in samples)
 
 
 def test_audio_window_preserves_delayed_stream_gap(tmp_path):
