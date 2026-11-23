@@ -465,3 +465,7 @@ C27 的原 OneBot、Web 状态和相关测试，NanaLink 指纹、事实账及 `
 ## 2026-11-23 A 固定集成候选
 
 固定制品验收、原回退、事实账及 `docs/nana_next_experience/evidence/integrated-0b03734-20261123` 受控证据。
+
+## 2026-11-23 B现役通用界面中性文案
+
+apps/nana-space/src/features/LiveSpace.tsx、v3/LifeViews.tsx、tests/v3.spec.ts及B队列、11和本清单追加；无凭据、私人数据、Core业务或生产修改。

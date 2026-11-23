@@ -1436,7 +1436,7 @@ export function LiveSpace() {
   );
   const navGroups: [string, Destination[]][] = [
     ["日常相伴", ["home", "chat", "memories", "room"]],
-    ["她的世界", ["journal", "world", "bilibili", "goals", "growth"]],
+    ["主体的世界", ["journal", "world", "bilibili", "goals", "growth"]],
     ["空间管理", ["models", "devices", "backup", "runtime", "settings"]],
   ];
   const navLinks = navGroups.map(([name, pages]) => (
@@ -1651,7 +1651,7 @@ export function LiveSpace() {
               eyebrow="A LITTLE CLOSER, EVERY DAY"
               className="v3-login-card"
             >
-              <p>连接已有的云端主体。你的手机，是通往她的新窗口。</p>
+              <p>连接已有的云端主体。你的手机，是继续交流的一扇窗口。</p>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -1948,7 +1948,7 @@ export function LiveSpace() {
                       : page === "growth"
                         ? "一步一步，真正学会"
                         : page === "world"
-                          ? "她正在留意的世界"
+                          ? "正在留意的世界"
                           : page === "goals"
                             ? "有自己的方向，也可以暂缓"
                             : "发生过，才写下来"
@@ -1980,7 +1980,7 @@ export function LiveSpace() {
                 {page !== "notifications" && (
                   <button className="v3-button soft" onClick={() => go("chat")}>
                     <MessageCircle size={17} />
-                    和她聊聊这个方向
+                    聊聊这个方向
                   </button>
                 )}
               </div>
@@ -2409,7 +2409,7 @@ export function LiveSpace() {
                             if (
                               op !== "REVOKE" ||
                               window.confirm(
-                                "确认撤销当前本地执行授权？不会抹去她的判断。",
+                                "确认撤销当前本地执行授权？不会抹去主体的判断。",
                               )
                             )
                               void command(op);

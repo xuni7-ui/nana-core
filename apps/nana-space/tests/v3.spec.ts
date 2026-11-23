@@ -807,7 +807,7 @@ test("SYNTHETIC shared presence: original candidates appear in room without bein
     items: [{candidate_record_id: "candidate-real-core", cycle_id: "cycle-original-c", topic: "experience.sourced", state: "DEFER_BUSY", delivery: "NONE",
       source_record_ids: ["record-source"], source_memory_ids: ["memory-source"], text: "UNSUPPORTED_NARRATIVE_MUST_NOT_RENDER"}]};
   await open(page, "room");
-  const card = page.locator(".v3-card").filter({has: page.getByRole("heading", {name: "她留待分享的片刻"})});
+  const card = page.locator(".v3-card").filter({has: page.getByRole("heading", {name: "留待分享的片刻"})});
   await expect(card).toContainText("尚未送达");
   await expect(card).toContainText("知道你正忙，先留在这里");
   await expect(card).not.toContainText("UNSUPPORTED_NARRATIVE_MUST_NOT_RENDER");
@@ -2166,5 +2166,19 @@ test('SYNTHETIC model catalog: compatible selection keeps explicit visual intent
   await expect(draft.getByRole('combobox',{name:'用途',exact:true})).toHaveValue('VISION');
   await expect(draft.getByLabel('远端 Model ID',{exact:true})).toHaveValue('catalog.new');
   expect(state.requests.filter(row=>row.method!=='GET')).toEqual([]);
+  await noHorizontalOverflow(page);
+});
+
+test('SYNTHETIC live product uses neutral language for an existing subject', async ({page}) => {
+  await installMock(page);
+  await open(page,'home');
+  await expect(page.locator('main')).toContainText('生活仍由主体自主决定');
+  await expect(page.locator('main')).toContainText('主体的世界');
+  await go(page,'world');
+  await expect(page.locator('main')).toContainText('正在留意的世界');
+  await expect(page.getByRole('button',{name:'聊聊这个方向'})).toBeVisible();
+  await page.getByRole('button',{name:'退出并清除本机视图'}).click();
+  await expect(page.locator('main')).toContainText('继续交流的一扇窗口');
+  await expect(page.locator('main')).not.toContainText('通往她的新窗口');
   await noHorizontalOverflow(page);
 });

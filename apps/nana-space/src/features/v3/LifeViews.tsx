@@ -242,7 +242,7 @@ export function HomeView({
             <span className={`v3-dot ${ready ? "online" : ""}`} />
             {connected
               ? ready
-                ? "入口在线 · 生活仍由她自己决定"
+                ? "入口在线 · 生活仍由主体自主决定"
                 : "已绑定 · 状态待确认"
               : "离线浏览 · 没有虚构的生活数据"}
           </span>
@@ -256,7 +256,7 @@ export function HomeView({
           <span className="v3-room-star one">✧</span>
           <span className="v3-room-star two">✦</span>
           <span className="v3-room-caption">
-            A ROOM FOR NANA <span>✧</span>
+            A ROOM OF YOUR OWN <span>✧</span>
           </span>
           {avatar ? <Avatar size={180} expression={tone?.expression || "neutral"} className="v4-room-avatar" /> : <Moon className="v3-room-moon" size={140} />}
           <span className="v3-room-plaque">
@@ -265,7 +265,7 @@ export function HomeView({
           </span>
         </div>
       </section>
-      {shares.length > 0 && <V3Card title="她留待分享的片刻" eyebrow="FROM HER OWN JUDGMENT">
+      {shares.length > 0 && <V3Card title="留待分享的片刻" eyebrow="FROM THE SUBJECT’S OWN JUDGMENT">
         <p className="v3-muted">这些候选来自当前主体已有的判断与来源。目前尚未送达，会等合适的时机与权限。</p>
         <div className="v3-records">{shares.map(item => <article className="v3-record" key={item.id}>
           <span className="v3-record-icon"><MessageCircle size={18}/></span>
@@ -283,9 +283,9 @@ export function HomeView({
       </V3Card>}
       <section className="v3-card v4-living-tone" aria-label="有来源的生活节奏">
         <div>
-          <span className="v3-eyebrow">HER OWN PACE</span>
-          <h2>{tone ? tone.text : "此刻，不替她定义心情。"}</h2>
-          <p>{tone ? "从她已有的经历与判断里，看看最近的交流节奏。" : "没有明确近况时，就留一点安静。"}</p>
+          <span className="v3-eyebrow">A PERSONAL PACE</span>
+          <h2>{tone ? tone.text : "此刻，不预设主体的心情。"}</h2>
+          <p>{tone ? "从已有的经历与判断里，看看最近的交流节奏。" : "没有明确近况时，就留一点安静。"}</p>
         </div>
         {appetite && <details><summary>看看这份近况的来源</summary>
           <small>{appetite.as_of_us ? new Date(Number(appetite.as_of_us) / 1000).toLocaleString() : "时间尚未提供"}</small>
@@ -296,7 +296,7 @@ export function HomeView({
         {(
           [
             [Heart, "共同记忆", "有来处的每一个片刻", "memories"],
-            [Sparkles, "她的世界", "兴趣、发现与自己的生活", "world"],
+            [Sparkles, "主体的世界", "兴趣、发现与自己的生活", "world"],
             [BookOpen, "成长足迹", "真正学会，才留下脚印", "growth"],
           ] as const
         ).map(([Icon, title, subtitle, p]) => (
