@@ -72,9 +72,9 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
         b=re.search(r'silence_end:\s*(-?[0-9.]+)',line)
         if a:
             if start is not None:raise ValueError('overlapping silence markers')
-            start=float(offset)+float(a.group(1))
+            start=float(offset+Fraction(a.group(1)))
         if b:
-            end=float(offset)+float(b.group(1))
+            end=float(offset+Fraction(b.group(1)))
             if start is None or not (math.isfinite(start) and math.isfinite(end) and
                     float(offset)<=start<=end<=float(limit)+0.1):
                 raise ValueError('invalid silence markers')

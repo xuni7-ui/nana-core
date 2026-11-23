@@ -155,3 +155,17 @@ def test_audio_window_preserves_delayed_stream_gap(tmp_path):
           {'cue_id':'after','source_id':'source.fixture','start':3.1,'end':3.4}]
     assert [x['status'] for x in review(cues,result,acoustic_source_id='source.fixture',timeline_aligned=True)]==\
         ['UNKNOWN','REVIEW_SILENCE_OVERLAP','UNKNOWN']
+
+
+def test_fractional_window_silence_boundaries_use_exact_decimal_offset(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from tools.nana_next_experience.experiments import video_audio_probe as module
+    path=tmp_path/'fixture.mkv';path.write_bytes(b'fixture')
+    meta=b'{"format":{"duration":"1"},"streams":[{"codec_type":"audio"}]}'
+    log=(b'[Parsed_ashowinfo_2 @ 0x1] n:0 pts:0 pts_time:0 fmt:s16 channels:1 rate:10 nb_samples:8\n'
+         b'[silencedetect] silence_start: 0.1\n[silencedetect] silence_end: 0.3\n')
+    responses=iter([SimpleNamespace(stdout=meta,stderr=b''),SimpleNamespace(stdout=b'',stderr=log)])
+    monkeypatch.setattr(module.subprocess,'run',lambda *args,**kwargs:next(responses))
+    result=measure(path,start_seconds=.2,end_seconds=1)
+    assert result['silence_intervals']==[(.3,.5)]
+    assert result['measured_intervals']==[(.2,1.0)] and result['coverage_state']=='PARTIAL'
