@@ -51,11 +51,13 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
             type(max_frames) is not int or not 1<=max_frames<=1200 or type(shared_snapshot) is not bool or
             type(orientation) is not str or orientation not in ("raw","display")):
         raise ValueError('invalid guarded batch bounds')
-    if audio_window is not None and (not shared_snapshot or type(audio_window) not in (tuple,list) or
-            len(audio_window)!=2 or any(type(x) not in (int,float) or not math.isfinite(x) for x in audio_window) or
-            not 0<=audio_window[0]<audio_window[1] or audio_window[1]-audio_window[0]>600):
-        raise ValueError('invalid shared audio window')
-    if audio_window is not None:audio_window=tuple(audio_window)
+    if audio_window is not None:
+        if not shared_snapshot or type(audio_window) not in (tuple,list):
+            raise ValueError('invalid shared audio window')
+        audio_window=tuple(audio_window)
+        if (len(audio_window)!=2 or any(type(x) not in (int,float) or not math.isfinite(x) for x in audio_window) or
+                not 0<=audio_window[0]<audio_window[1] or audio_window[1]-audio_window[0]>600):
+            raise ValueError('invalid shared audio window')
     requests=[]
     for item in windows:
         if (type(item) not in (tuple,list) or len(item)!=2 or
