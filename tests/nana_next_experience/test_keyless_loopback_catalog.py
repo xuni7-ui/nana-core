@@ -76,3 +76,47 @@ def test_keyless_catalog_matches_original_compatible_parser_for_same_response(ca
     assert {'models':candidate['models'],'truncated':candidate['truncated']}==original
     assert state['visits']==[('/v1/models',True),('/v1/models',False)]
     assert candidate['inference_calls']==0 and candidate['qualification']=='NOT_ESTABLISHED'
+
+
+def test_keyless_catalog_and_original_session_share_one_authorized_endpoint(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionBudget,CognitionSession
+    from nana_core.continuity.world_loop.harness import provider_harness
+    from tests.world_loop.helpers import capture,fresh,policy
+    from tools.nana_next_experience.experiments.keyless_loopback_prototype import KeylessLoopbackPrototype
+    import urllib.request
+
+    with provider_harness() as (upstream,upstream_metrics),fresh(tmp_path/'subject.db') as runtime:
+        seen=[]
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self,*args):pass
+            def reply(self,body):
+                self.send_response(200);self.send_header('Content-Type','application/json')
+                self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
+            def do_GET(self):
+                seen.append((self.path,'Authorization' in self.headers))
+                assert self.path=='/v1/models'
+                self.reply(b'{"data":[{"id":"harness-v1"}]}')
+            def do_POST(self):
+                seen.append((self.path,'Authorization' in self.headers))
+                assert self.path=='/v1/chat/completions'
+                length=int(self.headers['Content-Length'])
+                request=urllib.request.Request(upstream.endpoint,data=self.rfile.read(length),
+                    headers={'Content-Type':'application/json'},method='POST')
+                with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(request,timeout=5) as response:
+                    self.reply(response.read(131073))
+        server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
+        worker=threading.Thread(target=server.serve_forever,kwargs={'poll_interval':.02},daemon=True);worker.start()
+        try:
+            base=f'http://127.0.0.1:{server.server_port}/v1'
+            catalog=read(base);assert catalog['models']==['harness-v1'] and catalog['inference_calls']==0
+            port=KeylessLoopbackPrototype(base,catalog['models'][0],provider_id='local.fixture',
+                                         explicit_authorized=True,allowed_bases=(base,))
+            identity=runtime.identity_id;mid=capture(runtime,'source',{'data':'synthetic context'})
+            session=CognitionSession(runtime,port,policy())
+            request=session.prepare('local-catalog','INTERPRET',(mid,),budget=CognitionBudget(cost_ceiling_micro=1))
+            assert session.execute(request)['state']=='PROPOSED'
+            assert session.execute(request)['replayed'] and runtime.identity_id==identity
+            assert runtime.store.one('cognitive_requests',request)['actual_cost_micro'] is None
+            assert seen==[('/v1/models',False),('/v1/chat/completions',False)]
+            assert upstream_metrics['calls']==1 and not runtime.store.all('actions') and not runtime.store.all('grants')
+        finally:server.shutdown();server.server_close();worker.join(2)
