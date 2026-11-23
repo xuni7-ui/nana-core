@@ -1530,7 +1530,7 @@ export function LiveSpace() {
             <br />
             也拥有自己的光。
           </p>
-          <small>ONE NANA · MANY WINDOWS</small>
+          <small>ONE SUBJECT · MANY WINDOWS</small>
         </div>
       </aside>
       <main
