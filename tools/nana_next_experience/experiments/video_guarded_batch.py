@@ -29,6 +29,7 @@ class GuardedImageBatch:
     source_lifetime: str = 'RECHECK_REQUIRED_AT_USE'
     acoustic: dict | None = field(default=None,repr=False)
     acoustic_status: str = 'NOT_REQUESTED'
+    audio_requested_window: tuple[float, float] | None = None
 
 
 def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, budget, max_gap,
@@ -54,6 +55,7 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
             len(audio_window)!=2 or any(type(x) not in (int,float) or not math.isfinite(x) for x in audio_window) or
             not 0<=audio_window[0]<audio_window[1] or audio_window[1]-audio_window[0]>600):
         raise ValueError('invalid shared audio window')
+    if audio_window is not None:audio_window=tuple(audio_window)
     requests=[]
     for item in windows:
         if (type(item) not in (tuple,list) or len(item)!=2 or
@@ -124,6 +126,7 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
                 current=public_video_cache_handle(app,cache,source_memory_id,scope=scope)
                 if (current.source_ref,current.sha256,current.size)!=(handle.source_ref,handle.sha256,handle.size):
                     raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
-                batch=replace(batch,acoustic=acoustic,acoustic_status=acoustic_status)
+                batch=replace(batch,acoustic=acoustic,acoustic_status=acoustic_status,
+                              audio_requested_window=tuple(audio_window))
             return batch
     return with_current_public_video(app,cache,source_memory_id,scope=scope,operation=operation)

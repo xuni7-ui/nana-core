@@ -60,7 +60,8 @@ def test_same_snapshot_matches_separate_source_gated_image_and_audio(tmp_path):
             audio=guarded_audio_window(app,cache,mid,scope='world',start_seconds=1,end_seconds=3)
             combined=guarded_images(app,cache,mid,audio_window=(1,3),**kwargs)
             assert combined.images==images.images and combined.acoustic==audio.acoustic
-            assert combined.acoustic_status=='AVAILABLE_NOT_QUALIFIED'
+            assert combined.acoustic_status=='AVAILABLE_NOT_QUALIFIED' and combined.audio_requested_window==(1,3)
+            assert images.acoustic_status=='NOT_REQUESTED' and images.audio_requested_window is None
             assert combined.source_ref==mid and combined.source_sha256==audio.source_sha256==handle.sha256
             assert combined.cache_bytes_hashed==len(data) and images.cache_bytes_hashed+audio.cache_bytes_hashed==2*len(data)
             assert combined.acoustic['timeline_basis']=='FFMPEG_NORMALIZED_CALLER_MUST_VERIFY'
@@ -111,7 +112,9 @@ def test_audio_probe_failure_keeps_valid_source_gated_image_candidates(tmp_path,
         app,mid=source(runtime,data);cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
         try:
             cache.put([data],source_ref=mid,media_type='video/mp4')
+            requested=[1,3]
             def detector(decoded):
+                requested[0]=2  # Caller-owned list can change while the detector runs.
                 return ({'source_ref':mid,'input_size':decoded.output_size,'input_frames':len(decoded.timestamps),
                          'qualification':'LOCAL_PIPELINE_OUTPUT_ONLY','selected':[],'dropped_sheets':0},
                         {'schema_version':1,'source_ref':mid,'input_size':decoded.output_size,
@@ -122,7 +125,10 @@ def test_audio_probe_failure_keeps_valid_source_gated_image_candidates(tmp_path,
             exception=AudioProbeUnavailable if failure=='unavailable' else AudioProbeOutputBound
             def fail(*args,**kwargs):raise exception('fixture')
             monkeypatch.setattr(module,'measure',fail)
-            combined=guarded_images(app,cache,mid,audio_window=(1,3),**kwargs)
+            requested[0]=1
+            combined=guarded_images(app,cache,mid,audio_window=requested,**kwargs)
+            requested[0]=2
+            assert combined.audio_requested_window==(1,3)
             assert combined.images==baseline.images and combined.images
             assert combined.acoustic is None and combined.acoustic_status==expected
             assert combined.source_lifetime=='RECHECK_REQUIRED_AT_USE'
