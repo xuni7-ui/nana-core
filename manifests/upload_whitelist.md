@@ -535,3 +535,7 @@ video_audio_probe.py、bench_video_audio_window.py、test_video_audio_probe.py�
 ## 2026-11-23 B来源门控声学窗口
 
 video_guarded_audio.py、test_video_guarded_audio.py及11/B队列/本清单；仅原PUBLIC来源与临时合成视频，无私有数据、真实平台账号或Core写入。
+
+## 2026-11-23 B同源声画快照隔离候选
+
+video_guarded_batch.py、video_audio_probe.py、test_video_shared_audio_snapshot.py、bench_video_shared_av_snapshot.py及11/B队列/本清单；仅原PUBLIC来源、临时合成样本和固定原dsh源码，不含私有数据/账户/模型。

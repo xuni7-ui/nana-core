@@ -10,6 +10,14 @@ import subprocess
 MAX_DURATION = 600
 
 
+class AudioProbeUnavailable(ValueError):
+    """FFmpeg or ffprobe could not complete the local acoustic measurement."""
+
+
+class AudioProbeOutputBound(ValueError):
+    """The local acoustic metadata exceeded its explicit bound."""
+
+
 def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
     """Return measured silence intervals or NO_AUDIO for an explicit local file.
 
@@ -26,7 +34,7 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
             return subprocess.run(command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,timeout=timeout,check=True)
         except (OSError,subprocess.SubprocessError) as exc:
-            raise ValueError('local audio analysis unavailable') from exc
+            raise AudioProbeUnavailable('local audio analysis unavailable') from exc
     info=json.loads(run(['ffprobe','-v','error','-protocol_whitelist','file,pipe',
         '-show_entries','format=duration:stream=codec_type','-of','json',str(path)]).stdout)
     duration=float(info['format']['duration'])
@@ -52,7 +60,7 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
         'silencedetect=noise=-35dB:duration=1,asettb=expr=1/sr,ashowinfo',
         '-f','null','-'])
     if len(result.stderr)>4_000_000:
-        raise ValueError('audio analysis output exceeds bound')
+        raise AudioProbeOutputBound('audio analysis output exceeds bound')
     records=[];start=None;coverage=[];frames=0;bad_timing=False
     for line in result.stderr.decode('utf-8',errors='replace').splitlines():
         frame=re.search(r'\[Parsed_ashowinfo_\d+\s+@[^\]]+\]\s+n:(\d+)\s+pts:(-?\d+)\s+pts_time:[^ ]+.*?\brate:(\d+)\s+nb_samples:(\d+)',line)

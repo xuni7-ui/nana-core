@@ -1,5 +1,5 @@
 """Isolated source-gated PUBLIC video image candidates; no subject actions."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 import math
 
 from nana_core.contracts import CoreError
@@ -10,6 +10,7 @@ from tools.nana_next_experience.experiments.video_selected_images import selecte
 from tools.nana_next_experience.experiments.video_window_fusion import fuse_window
 from tools.nana_next_experience.experiments.video_cached_snapshot import public_snapshot
 from tools.nana_next_experience.experiments.video_pts_decode import decode
+from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeOutputBound,AudioProbeUnavailable,measure
 
 MAX_BATCH_RGB_BYTES=64*1024*1024
 
@@ -26,17 +27,21 @@ class GuardedImageBatch:
     sampling_gaps: tuple = ()
     state: str = 'CANDIDATES_NOT_INGESTED'
     source_lifetime: str = 'RECHECK_REQUIRED_AT_USE'
+    acoustic: dict | None = field(default=None,repr=False)
+    acoustic_status: str = 'NOT_REQUESTED'
 
 
 def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, budget, max_gap,
-                   width=160, height=90, max_frames=1200, shared_snapshot=False, orientation="raw"):
+                   width=160, height=90, max_frames=1200, shared_snapshot=False, orientation="raw", audio_window=None):
     """Run a trusted local detector within C's original public source gate.
 
     The detector returns materialized (dsh, local_pairs) or (dsh, local_pairs,
     onsets) for each decoded window. It is trusted host code, not sandboxed.
     The source gate cannot prevent arbitrary callback effects. No claim is made
     about Bilibili account/file attribution, video semantics, or permissions
-    after return; consumers must recheck source and authorization at use.
+    after return; consumers must recheck source and authorization at use. An
+    optional audio window reuses the same snapshot but does not establish speech,
+    subtitle alignment, source authority, or complete temporal coverage.
     """
     if (type(windows) not in (tuple,list) or not 1<=len(windows)<=8 or not callable(detector) or
             type(budget) is not int or not 1<=budget<=256 or
@@ -45,6 +50,10 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
             type(max_frames) is not int or not 1<=max_frames<=1200 or type(shared_snapshot) is not bool or
             type(orientation) is not str or orientation not in ("raw","display")):
         raise ValueError('invalid guarded batch bounds')
+    if audio_window is not None and (not shared_snapshot or type(audio_window) not in (tuple,list) or
+            len(audio_window)!=2 or any(type(x) not in (int,float) or not math.isfinite(x) for x in audio_window) or
+            not 0<=audio_window[0]<audio_window[1] or audio_window[1]-audio_window[0]>600):
+        raise ValueError('invalid shared audio window')
     requests=[]
     for item in windows:
         if (type(item) not in (tuple,list) or len(item)!=2 or
@@ -98,5 +107,23 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
                               start_seconds=start,end_seconds=end,orientation=orientation)
                 cache.resolve(source_ref=handle.source_ref,sha256=handle.sha256)
                 return result
-            return produce(handle,shared_window,handle.size)
+            batch=produce(handle,shared_window,handle.size)
+            if audio_window is not None:
+                # The same source/bytes are rechecked around the second consumer;
+                # an already withdrawn source must never yield its measurements.
+                current=public_video_cache_handle(app,cache,source_memory_id,scope=scope)
+                if (current.source_ref,current.sha256,current.size)!=(handle.source_ref,handle.sha256,handle.size):
+                    raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
+                try:
+                    acoustic=measure(path,start_seconds=audio_window[0],end_seconds=audio_window[1])
+                    acoustic_status='AVAILABLE_NOT_QUALIFIED'
+                except AudioProbeUnavailable:
+                    acoustic=None;acoustic_status='PROBE_UNAVAILABLE'
+                except AudioProbeOutputBound:
+                    acoustic=None;acoustic_status='OUTPUT_BOUND'
+                current=public_video_cache_handle(app,cache,source_memory_id,scope=scope)
+                if (current.source_ref,current.sha256,current.size)!=(handle.source_ref,handle.sha256,handle.size):
+                    raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
+                batch=replace(batch,acoustic=acoustic,acoustic_status=acoustic_status)
+            return batch
     return with_current_public_video(app,cache,source_memory_id,scope=scope,operation=operation)
