@@ -341,3 +341,7 @@ subject/growth.py、原CI精确路径/旧consumer组、09/11/ACTIVE/STATUS、evi
 ## 2026-11-17 B无密钥回环实验
 
 持续授权：keyless_loopback_prototype.py、keyless_tls_fixture.py、test_keyless_tls_fixture.py、keyless-loopback-prototype-20261117.json、09/11及B队列追加、本清单；测试自签密钥仅临时生成并清除，不入库。
+
+## 2026-11-23 B无密钥目录隔离实验
+
+tools/nana_next_experience/experiments/keyless_loopback_prototype.py、keyless_loopback_catalog.py、tests/nana_next_experience/test_keyless_loopback_catalog.py及B队列/本清单追加；仅本机合成测试，无真实密钥/用户数据/生产改动。
