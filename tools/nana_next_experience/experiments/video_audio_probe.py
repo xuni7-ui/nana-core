@@ -3,9 +3,12 @@ import json
 from fractions import Fraction
 from decimal import Decimal
 import math
+import os
+import selectors
 from pathlib import Path
 import re
 import subprocess
+import time
 
 MAX_DURATION = 600
 
@@ -16,6 +19,55 @@ class AudioProbeUnavailable(ValueError):
 
 class AudioProbeOutputBound(ValueError):
     """The local acoustic metadata exceeded its explicit bound."""
+
+
+def _run_bounded(command, *, timeout, stdout_limit, stderr_limit):
+    """Read both child pipes with hard in-memory bounds; terminate on excess.
+
+    This is a local experiment, not a media sandbox. Limits apply separately to
+    retained stdout/stderr; interpreter and decoded strings require extra memory.
+    """
+    if type(timeout) not in (int,float) or not math.isfinite(timeout) or timeout<=0:
+        raise ValueError('invalid audio analysis timeout')
+    try:
+        process=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    except (OSError,subprocess.SubprocessError) as exc:
+        raise AudioProbeUnavailable('local audio analysis unavailable') from exc
+    streams={'stdout':bytearray(),'stderr':bytearray()}
+    limits={'stdout':stdout_limit,'stderr':stderr_limit}
+    deadline=time.monotonic()+timeout
+    try:
+        with selectors.DefaultSelector() as selector:
+            selector.register(process.stdout,selectors.EVENT_READ,'stdout')
+            selector.register(process.stderr,selectors.EVENT_READ,'stderr')
+            while selector.get_map():
+                remaining=deadline-time.monotonic()
+                if remaining<=0:raise AudioProbeUnavailable('local audio analysis unavailable')
+                events=selector.select(remaining)
+                if not events:raise AudioProbeUnavailable('local audio analysis unavailable')
+                for key,_ in events:
+                    name=key.data;buffer=streams[name];limit=limits[name]
+                    chunk=os.read(key.fd,min(65536,limit-len(buffer)+1))
+                    if not chunk:
+                        selector.unregister(key.fileobj);continue
+                    buffer.extend(chunk)
+                    if len(buffer)>limit:raise AudioProbeOutputBound('audio analysis output exceeds bound')
+            remaining=deadline-time.monotonic()
+            if remaining<=0:raise AudioProbeUnavailable('local audio analysis unavailable')
+            try:status=process.wait(timeout=remaining)
+            except subprocess.TimeoutExpired as exc:raise AudioProbeUnavailable('local audio analysis unavailable') from exc
+            if status:raise AudioProbeUnavailable('local audio analysis unavailable')
+            return subprocess.CompletedProcess(command,status,bytes(streams['stdout']),bytes(streams['stderr']))
+    except (AudioProbeOutputBound,AudioProbeUnavailable):
+        raise
+    except (OSError,ValueError) as exc:
+        raise AudioProbeUnavailable('local audio analysis unavailable') from exc
+    finally:
+        if process.poll() is None:
+            try:process.kill()
+            except ProcessLookupError:pass
+            process.wait()
+        process.stdout.close();process.stderr.close()
 
 
 def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
@@ -30,11 +82,7 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
     if not path.is_file() or path.stat().st_size > 256*1024*1024:
         raise ValueError('invalid local file')
     def run(command):
-        try:
-            return subprocess.run(command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,timeout=timeout,check=True)
-        except (OSError,subprocess.SubprocessError) as exc:
-            raise AudioProbeUnavailable('local audio analysis unavailable') from exc
+        return _run_bounded(command,timeout=timeout,stdout_limit=100000,stderr_limit=4_000_000)
     info=json.loads(run(['ffprobe','-v','error','-protocol_whitelist','file,pipe',
         '-show_entries','format=duration:stream=codec_type','-of','json',str(path)]).stdout)
     duration=float(info['format']['duration'])
@@ -59,8 +107,6 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
     result=run(command+['-i',str(path),'-map','0:a:0','-vn','-af',
         'silencedetect=noise=-35dB:duration=1,asettb=expr=1/sr,ashowinfo',
         '-f','null','-'])
-    if len(result.stderr)>4_000_000:
-        raise AudioProbeOutputBound('audio analysis output exceeds bound')
     records=[];start=None;coverage=[];frames=0;bad_timing=False
     for line in result.stderr.decode('utf-8',errors='replace').splitlines():
         frame=re.search(r'\[Parsed_ashowinfo_\d+\s+@[^\]]+\]\s+n:(\d+)\s+pts:(-?\d+)\s+pts_time:[^ ]+.*?\brate:(\d+)\s+nb_samples:(\d+)',line)

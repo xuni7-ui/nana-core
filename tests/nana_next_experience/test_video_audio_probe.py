@@ -40,7 +40,7 @@ def test_unclosed_silence_is_unknown_instead_of_extending_to_end(tmp_path,monkey
     path=tmp_path/'input.mkv';path.write_bytes(b'fixture')
     responses=iter([SimpleNamespace(stdout=b'{"format":{"duration":"6"},"streams":[{"codec_type":"audio"}]}',stderr=b''),
                     SimpleNamespace(stdout=b'',stderr=b'[silencedetect] silence_start: 2.5\n')])
-    monkeypatch.setattr(module.subprocess,'run',lambda *args,**kwargs:next(responses))
+    monkeypatch.setattr(module,'_run_bounded',lambda *args,**kwargs:next(responses))
     result=measure(path)
     assert result['state']=='INCOMPLETE' and result['open_silence_start']==2.5
     assert result['silence_intervals']==[]
@@ -77,7 +77,7 @@ def test_audio_timestamp_gap_is_not_filled_in_as_observed(tmp_path,monkeypatch):
     log=(b'[Parsed_ashowinfo_2 @ 0x1] n:0 pts:0 pts_time:0 fmt:s16 channels:1 rate:10 nb_samples:10\n'
          b'[Parsed_ashowinfo_2 @ 0x1] n:1 pts:30 pts_time:3 fmt:s16 channels:1 rate:10 nb_samples:10\n')
     responses=iter([SimpleNamespace(stdout=meta,stderr=b''),SimpleNamespace(stdout=b'',stderr=log)])
-    monkeypatch.setattr(module.subprocess,'run',lambda *args,**kwargs:next(responses))
+    monkeypatch.setattr(module,'_run_bounded',lambda *args,**kwargs:next(responses))
     result=measure(path)
     assert result['state']=='MEASURED' and result['coverage_state']=='PARTIAL'
     assert result['measured_intervals']==[(0.0,1.0),(3.0,4.0)]
@@ -165,7 +165,51 @@ def test_fractional_window_silence_boundaries_use_exact_decimal_offset(tmp_path,
     log=(b'[Parsed_ashowinfo_2 @ 0x1] n:0 pts:0 pts_time:0 fmt:s16 channels:1 rate:10 nb_samples:8\n'
          b'[silencedetect] silence_start: 0.1\n[silencedetect] silence_end: 0.3\n')
     responses=iter([SimpleNamespace(stdout=meta,stderr=b''),SimpleNamespace(stdout=b'',stderr=log)])
-    monkeypatch.setattr(module.subprocess,'run',lambda *args,**kwargs:next(responses))
+    monkeypatch.setattr(module,'_run_bounded',lambda *args,**kwargs:next(responses))
     result=measure(path,start_seconds=.2,end_seconds=1)
     assert result['silence_intervals']==[(.3,.5)]
     assert result['measured_intervals']==[(.2,1.0)] and result['coverage_state']=='PARTIAL'
+
+
+def test_audio_subprocess_bounds_output_before_child_can_finish(tmp_path):
+    import sys
+    from tools.nana_next_experience.experiments.video_audio_probe import _run_bounded,AudioProbeOutputBound,AudioProbeUnavailable
+    marker=tmp_path/'finished'
+    for stream in ('stdout','stderr'):
+        script=("import sys,pathlib;out=getattr(sys,"+repr(stream)+").buffer;"
+                "out.write(b'x'*(1024*1024));out.flush();pathlib.Path(sys.argv[1]).write_text('done')")
+        with pytest.raises(AudioProbeOutputBound):
+            _run_bounded([sys.executable,'-c',script,str(marker)],timeout=5,stdout_limit=1024,stderr_limit=1024)
+        assert not marker.exists()
+    result=_run_bounded([sys.executable,'-c',"import sys;print('ok');print('warn',file=sys.stderr)"],
+                        timeout=5,stdout_limit=1024,stderr_limit=1024)
+    assert result.stdout==b'ok\n' and result.stderr==b'warn\n'
+    with pytest.raises(AudioProbeUnavailable):
+        _run_bounded([sys.executable,'-c','import time;time.sleep(2)'],timeout=.1,stdout_limit=1024,stderr_limit=1024)
+
+
+def test_audio_many_small_packets_stops_at_output_bound(tmp_path):
+    from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeOutputBound
+    path=tmp_path/'tiny-packets.nut'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'anullsrc=r=8000:cl=mono:d=5','-af','asetnsamples=n=1:p=0',
+        '-c:a','pcm_s16le','-y',str(path)],check=True,timeout=20)
+    assert path.stat().st_size < 200000
+    with pytest.raises(AudioProbeOutputBound):measure(path)
+
+
+def test_bounded_runner_matches_original_runner_on_valid_audio(tmp_path,monkeypatch):
+    from tools.nana_next_experience.experiments import video_audio_probe as module
+    path=tmp_path/'valid.mkv'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'anullsrc=r=8000:cl=mono:d=3','-f','lavfi','-i','sine=frequency=440:sample_rate=8000:duration=1',
+        '-filter_complex','[0:a][1:a]concat=n=2:v=0:a=1[a]','-map','[a]',
+        '-c:a','pcm_s16le','-y',str(path)],check=True,timeout=20)
+    def old_runner(command,*,timeout,stdout_limit,stderr_limit):
+        return subprocess.run(command,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,timeout=timeout,check=True)
+    for kwargs in ({},{'start_seconds':1,'end_seconds':4}):
+        with monkeypatch.context() as patch:
+            patch.setattr(module,'_run_bounded',old_runner)
+            baseline=measure(path,**kwargs)
+        assert measure(path,**kwargs)==baseline

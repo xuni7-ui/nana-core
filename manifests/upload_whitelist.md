@@ -539,3 +539,7 @@ video_guarded_audio.py、test_video_guarded_audio.py及11/B队列/本清单；�
 ## 2026-11-23 B同源声画快照隔离候选
 
 video_guarded_batch.py、video_audio_probe.py、test_video_shared_audio_snapshot.py、bench_video_shared_av_snapshot.py及11/B队列/本清单；仅原PUBLIC来源、临时合成样本和固定原dsh源码，不含私有数据/账户/模型。
+
+## 2026-11-23 B声学日志早期限额
+
+video_audio_probe.py、test_video_audio_probe.py、bench_audio_output_bound.py及11/B队列/本清单；只生成临时合成音频，不含私人数据、模型或生产修改。
