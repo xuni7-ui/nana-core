@@ -531,3 +531,7 @@ B视觉旋转本地可复现对照另含tools/nana_next_experience/experiments/b
 ## 2026-11-23 B长音频窗口隔离候选
 
 video_audio_probe.py、bench_video_audio_window.py、test_video_audio_probe.py及11/B队列/本清单；仅生成临时合成音频，不提交素材或私有数据，不修改Core。
+
+## 2026-11-23 B来源门控声学窗口
+
+video_guarded_audio.py、test_video_guarded_audio.py及11/B队列/本清单；仅原PUBLIC来源与临时合成视频，无私有数据、真实平台账号或Core写入。
