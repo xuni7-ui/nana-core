@@ -120,3 +120,26 @@ def test_keyless_catalog_and_original_session_share_one_authorized_endpoint(tmp_
             assert seen==[('/v1/models',False),('/v1/chat/completions',False)]
             assert upstream_metrics['calls']==1 and not runtime.store.all('actions') and not runtime.store.all('grants')
         finally:server.shutdown();server.server_close();worker.join(2)
+
+
+def test_port_allowlist_does_not_authenticate_replacement_service():
+    """An unchanged allowed URL can point at a replacement local service later."""
+    def make_server(port,model):
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self,*args):pass
+            def do_GET(self):
+                body=json.dumps({'data':[{'id':model}]}).encode()
+                self.send_response(200);self.send_header('Content-Type','application/json')
+                self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
+        server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
+        worker=threading.Thread(target=server.serve_forever,kwargs={'poll_interval':.02},daemon=True)
+        worker.start();return server,worker
+    first,worker=make_server(0,'original.fixture');port=first.server_port
+    base=f'http://127.0.0.1:{port}/v1'
+    try:assert read(base)['models']==['original.fixture']
+    finally:first.shutdown();first.server_close();worker.join(2)
+    replacement,worker=make_server(port,'replacement.fixture')
+    try:
+        assert read(base)['models']==['replacement.fixture']
+        assert read(base)['qualification']=='NOT_ESTABLISHED'
+    finally:replacement.shutdown();replacement.server_close();worker.join(2)
