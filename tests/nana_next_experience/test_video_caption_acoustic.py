@@ -126,3 +126,39 @@ def test_missing_or_discontinuous_audio_coverage_keeps_unobserved_cues_unknown()
     crossing=review([cue('crossing',.9,3.1)],{**base,'measured_intervals':[(0,1),(3,4)]},
                     acoustic_source_id='audio',timeline_aligned=True)
     assert crossing[0]['status']=='UNKNOWN'
+
+
+def test_real_audio_windows_and_storyboard_recheck_source_without_inventing_coverage(tmp_path):
+    """Synthetic video/audio pairing is caller-attested, not platform byte provenance."""
+    import shutil
+    import subprocess
+    from types import SimpleNamespace
+    from nana_core.clock import Clock
+    from nana_core.contracts import CoreError
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.life.bilibili import BilibiliSourceAdapter,BilibiliPublicTransport
+    from nana_core.life.bilibili_frames import BilibiliFrameService
+    from tests.living_release_v4.bilibili_loopback import counterpart
+    from tests.world_loop.helpers import fresh,policy
+    from tools.nana_next_experience.experiments.video_audio_probe import measure
+    from tools.nana_next_experience.experiments.video_caption_acoustic import review_storyboard
+    if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):pytest.skip('optional FFmpeg unavailable')
+    audio=tmp_path/'synthetic-audio.mkv'
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-f','lavfi','-i',
+        'anullsrc=r=8000:cl=mono:d=12','-c:a','pcm_s16le','-y',str(audio)],check=True,timeout=20)
+    measured=measure(audio,start_seconds=0,end_seconds=4)
+    outside=measure(audio,start_seconds=5,end_seconds=9)
+    with counterpart() as (opener,platform),fresh(tmp_path/'subject.db',Clock()) as runtime:
+        platform['video_duration']=12
+        transport=BilibiliPublicTransport(authorized=True,origin='SYNTHETIC_FIXTURE',request_limit=9,loopback_endpoint=opener.endpoint)
+        reading=transport.read_video('BV1t55v6DE2v',visual=True)
+        app=SimpleNamespace(runtime=runtime,policy=policy());source=BilibiliSourceAdapter(app).ingest(reading)
+        BilibiliFrameService(app).capture(source,reading.frames)
+        def check(acoustic,aligned=True):
+            return review_storyboard(app,source,scope='world',privacy_classes=('PROJECT',),
+                acoustic=acoustic,acoustic_source_id=source,timeline_aligned=aligned)
+        assert check(measured)['reviews'][0]['status']=='REVIEW_SILENCE_OVERLAP'
+        assert check(outside)['reviews'][0]['status']=='UNKNOWN'
+        assert check(measured,aligned=False)['reviews'][0]['status']=='UNKNOWN'
+        MemoryService(runtime.store,runtime.authority).forget(source,runtime.authority)
+        with pytest.raises(CoreError):check(measured)
