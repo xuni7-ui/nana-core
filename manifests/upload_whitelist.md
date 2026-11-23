@@ -527,3 +527,7 @@ B隔离video_pts_decode.py、test_video_pts_decode.py、test_video_window_fusion
 video_pts_decode.py、video_window_fusion.py、video_global_budget.py、video_selected_images.py、video_nanalink_cache.py、video_guarded_batch.py及test_video_display_orientation.py、test_video_global_budget.py、11/B队列/本清单；本地合成素材不入库，不改变原Core或私有数据。
 
 B视觉旋转本地可复现对照另含tools/nana_next_experience/experiments/bench_video_orientation.py；仅生成临时合成素材，不写入样本或调用模型。
+
+## 2026-11-23 B长音频窗口隔离候选
+
+video_audio_probe.py、bench_video_audio_window.py、test_video_audio_probe.py及11/B队列/本清单；仅生成临时合成音频，不提交素材或私有数据，不修改Core。
