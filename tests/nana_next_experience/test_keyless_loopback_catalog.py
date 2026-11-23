@@ -143,3 +143,16 @@ def test_port_allowlist_does_not_authenticate_replacement_service():
         assert read(base)['models']==['replacement.fixture']
         assert read(base)['qualification']=='NOT_ESTABLISHED'
     finally:replacement.shutdown();replacement.server_close();worker.join(2)
+
+
+@pytest.mark.parametrize('rows,expected',[
+    ([],[]),
+    ([{'id':'library/example-model:latest','object':'model','created':123,'owned_by':'library'}],
+     ['library/example-model:latest']),
+])
+def test_local_catalog_accepts_ollama_compatible_list_shape(catalog_server,rows,expected):
+    # Synthetic data shaped after Ollama's OpenAI list contract, not a real Ollama execution.
+    base,state=catalog_server;state['body']=json.dumps({'object':'list','data':rows}).encode()
+    result=read(base)
+    assert result['models']==expected and not result['truncated']
+    assert result['qualification']=='NOT_ESTABLISHED' and state['visits']==[('/v1/models',False)]

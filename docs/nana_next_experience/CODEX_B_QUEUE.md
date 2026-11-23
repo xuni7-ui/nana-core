@@ -32,3 +32,5 @@ PR26补充在途互斥：高级目录请求未返回时简易入口禁用，反�
 2026-11-23 CST A集成。原目录错误字段消费已接入两个现有界面及Android错误桥源码。原模型切换保留当前能力路由限制与备用。104单测、4个390合成浏览器项和构建通过，Java/APK/真机需后续匹配资格。见 docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123/README.md。
 
 2026-11-23 无密钥本机模型隔离候选：基线6a483b3；显式授权的回环HTTP模型目录不发送凭据，在同一个本地合成服务上选择模型并使用原CognitionSession完成受控请求。基线原目录解析同响应结果一致；边界、原账本、重放和同端点14项通过。无生产工厂/配置/UI调用链；端口拥有进程身份、显式宿主授权、原Reader兼容与回退尚未解决；占位初始化仅实验不得生产。60次本地小响应旧/新中位8.12/7.71ms、P95 16.66/26.14ms，样本不足以推断实际收益，无真实Token/账单。
+
+PR29协议形状核对：Ollama固定318ee284aa3b5558de57efefff730ea33c4a9bef（MIT），`server/routes.go`的`/v1/models`经`middleware/openai.go`的ListMiddleware调用`openai/openai.go`的ToListCompletion，输出`object/list`和非null的`data[].id`；独立合成空列表和带标签模型名通过。只研究协议形状，未复制上游源码、未运行真实Ollama或声明能力资格；PR29定向17项通过。
