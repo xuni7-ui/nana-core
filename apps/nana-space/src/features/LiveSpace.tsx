@@ -303,7 +303,22 @@ export function LiveSpace() {
   }, []);
   const previousRun = useRef("");
   const [prefs, setPrefs] = usePreferences(false);
-  const productName = prefs.windowName.trim() || "Nana Space";
+  // A separate display-only key survives older clients rewriting their preferences.
+  const [windowName, setWindowName] = useState(() => {
+    try {
+      const value = localStorage.getItem("nana-space.window-name.v1") || "Nana Space";
+      return {value: value.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, 32), available:true};
+    } catch { return {value:"Nana Space", available:false}; }
+  });
+  const updateWindowName = (input: string) => {
+    const value = input.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, 32);
+    try {
+      if (!value.trim() || value.trim() === "Nana Space") localStorage.removeItem("nana-space.window-name.v1");
+      else localStorage.setItem("nana-space.window-name.v1", value);
+      setWindowName({value, available:true});
+    } catch { setWindowName({value, available:false}); }
+  };
+  const productName = windowName.value.trim() || "Nana Space";
   useEffect(() => {
     const previous = document.title;
     document.title = productName;
@@ -2201,10 +2216,10 @@ export function LiveSpace() {
                   "外观晨雾月光主题字号动画角色窗口名称".includes(settingsSearch)) && (
                   <V3Card title="空间外观" eyebrow="MAKE YOURSELF AT HOME">
                     <label className="v3-setting-row">
-                      <span><strong>窗口名称</strong><small>只保存在这台设备，不改变主体身份。</small></span>
-                      <input aria-label="窗口名称" maxLength={32} value={prefs.windowName}
-                        onChange={(event) => setPrefs((p) => ({...p, windowName:event.target.value.replace(/[\u0000-\u001f\u007f]/g, "")}))}
-                        onBlur={() => setPrefs((p) => ({...p, windowName:p.windowName.trim() || "Nana Space"}))}/>
+                      <span><strong>窗口名称</strong><small>{windowName.available ? "只保存在这台设备，不改变主体身份。" : "本地保存不可用，名称只在当前页面有效。"}</small></span>
+                      <input aria-label="窗口名称" maxLength={32} value={windowName.value}
+                        onChange={(event) => updateWindowName(event.target.value)}
+                        onBlur={() => updateWindowName(windowName.value.trim() || "Nana Space")}/>
                     </label>
                     <div className="v3-theme-grid">
                       {(

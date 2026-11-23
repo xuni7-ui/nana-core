@@ -4,7 +4,6 @@ export interface Preferences {
   motion: boolean;
   streamReplies: boolean;
   avatar: boolean;
-  windowName: string;
   fontScale: number;
   quiet: boolean;
   language: "zh-CN";
@@ -14,7 +13,6 @@ const defaults: Preferences = {
   motion: true,
   streamReplies: true,
   avatar: true,
-  windowName: "Nana Space",
   fontScale: 1,
   quiet: true,
   language: "zh-CN",
@@ -33,7 +31,6 @@ export function usePreferences(defaultAvatar = true) {
         streamReplies: typeof x.streamReplies === "boolean" ? x.streamReplies : true,
         motion: typeof x.motion === "boolean" ? x.motion : defaults.motion,
         avatar: typeof x.avatar === "boolean" ? x.avatar : defaultAvatar,
-        windowName: typeof x.windowName === "string" ? x.windowName.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, 32) : defaults.windowName,
         fontScale: [0.9, 1, 1.1, 1.2].includes(x.fontScale) ? x.fontScale : 1,
         quiet: typeof x.quiet === "boolean" ? x.quiet : true,
       };

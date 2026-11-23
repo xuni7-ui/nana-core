@@ -2218,9 +2218,27 @@ test('SYNTHETIC window name is local, persists, and leaves subject identity unch
   await expect(page.locator('aside.live-nav')).toHaveAttribute('aria-label',`${chosen} 页面`);
   await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
   await noHorizontalOverflow(page);
+  // Simulate an older client rewriting the legacy preferences object.
+  await page.evaluate(()=>localStorage.setItem('nana-space.preferences.v1',JSON.stringify({avatar:true,theme:'system'})));
   await page.reload();await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
   await expect(name).toHaveValue(chosen);await expect(page).toHaveTitle(chosen);
   await name.fill('');await name.blur();await expect(name).toHaveValue('Nana Space');
   await expect(page).toHaveTitle('Nana Space');
   expect(state.requests.filter(r=>r.method!=='GET')).toEqual([]);
+});
+
+test('SYNTHETIC unavailable name storage is reported and does not block the page',async({page})=>{
+  await page.addInitScript(()=>{
+    const original=Storage.prototype.setItem;
+    Storage.prototype.setItem=function(key,value){
+      if(key==='nana-space.window-name.v1')throw new DOMException('unavailable','QuotaExceededError');
+      return original.call(this,key,value);
+    };
+  });
+  await installMock(page);await open(page,'settings');
+  const name=page.getByLabel('窗口名称');await name.fill('本次窗口');
+  await expect(page).toHaveTitle('本次窗口');
+  await expect(page.getByText('本地保存不可用，名称只在当前页面有效。')).toBeVisible();
+  await page.reload();await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
+  await expect(name).toHaveValue('Nana Space');
 });
