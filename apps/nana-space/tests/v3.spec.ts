@@ -2192,10 +2192,12 @@ test('SYNTHETIC live avatar preference is consistent and preserves explicit choi
   await go(page,'settings');
   const toggle=page.getByRole('checkbox',{name:'显示角色'});
   await expect(toggle).not.toBeChecked();await toggle.check();
+  await go(page,'room','home');await expect(page.locator('.v4-room-avatar')).toBeVisible();
   await go(page,'chat');await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
   await page.reload();await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
   await expect(page.getByRole('img',{name:'原创静态形象'}).first()).toBeVisible();
   await go(page,'settings');await expect(toggle).toBeChecked();await toggle.uncheck();
+  await go(page,'room','home');await expect(page.locator('.v4-room-avatar')).toHaveCount(0);
   await go(page,'chat');await expect(page.getByRole('img',{name:'原创静态形象'})).toHaveCount(0);
   await noHorizontalOverflow(page);
 });
