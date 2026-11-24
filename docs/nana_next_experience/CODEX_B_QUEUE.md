@@ -1,5 +1,7 @@
 # Codex B 工程队列
 
+> **2026-11-24 当前交接：CLOSED_HANDOFF。** 用户已结束 B 的开放式长期研发授权；下列“下一项/继续”等均为历史记录。视频结论和 S5 接线差额见 [VIDEO_B_CLOSED_HANDOFF](VIDEO_B_CLOSED_HANDOFF.md)；产品 #28/#30 和封存研究 #29 的固定提交、验证及回退写在各 PR。B 不再自主扩展任务，仅在 A 明确提出集成缺陷时有限修复。
+
 工作线 `NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY`，继承原 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER` 的工程成果，服务A唯一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`。事实入口仍为 `PROJECT_BRAIN/09_STATE.md`，不另建项目或主体权威。
 
 - **已完成并继承**：A的通用客户端文案与有界原生模型目录读取；PR11/12/13仓库焕新；原连续输入、凭据/Vault、预算、UNKNOWN与路由。不重复治理或另做同类实现。
