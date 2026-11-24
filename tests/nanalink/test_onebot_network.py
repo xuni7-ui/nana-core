@@ -393,6 +393,37 @@ def test_disabled_account_queued_event_is_cancelled_without_blocking_other_accou
     asyncio.run(run())
 
 
+def test_receive_failure_is_isolated_and_later_event_is_processed():
+    from nana_core.nanalink.sidecar import ForwardRoute
+    async def run():
+        route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
+        cfg=SessionConfig(alias='primary',account_id='42',mode='http',endpoint='http://127.0.0.1:1',port=18790,
+            upstream_secret_ref='upstream.test',core_api_secret_ref='core.test',forward_secret_ref='forward.test',
+            core_origin='http://127.0.0.1:2',routes=(route,))
+        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(cfg,)),resolver)
+        adapter=sidecar.adapters['primary'];original=adapter.receive;calls=[]
+        async def flaky():
+            calls.append(1)
+            if len(calls)==1:raise OSError('synthetic adapter receive failure')
+            return await original()
+        adapter.receive=flaky;sidecar.tasks.append(asyncio.create_task(sidecar._receive(cfg)))
+        try:
+            assert adapter.offer(message(1))=='QUEUED'
+            async def failed():
+                while sidecar.last.get('primary',{}).get('state')!='ADAPTER_RECEIVE_FAILED':await asyncio.sleep(.01)
+            await asyncio.wait_for(failed(),2)
+            assert adapter.health().error=='ADAPTER_RECEIVE_FAILED'
+            async def processed():
+                while not sidecar.transport.size and not sidecar.tasks[0].done():await asyncio.sleep(.01)
+            await asyncio.wait_for(processed(),2)
+            assert not sidecar.tasks[0].done() and sidecar.transport.size==1
+            assert len(calls)>=2 and sidecar.last['primary']['state']=='ADAPTER_RECEIVE_FAILED'
+            assert adapter.metrics['receive_failures']==1 and adapter.health().error is None
+        finally:
+            await sidecar.close();resolver.clear()
+    asyncio.run(run())
+
+
 def test_late_event_from_replaced_adapter_does_not_enter_core_queue():
     from nana_core.nanalink.sidecar import ForwardRoute
     async def run():
@@ -436,7 +467,8 @@ def test_late_event_from_replaced_adapter_does_not_enter_core_queue():
     asyncio.run(run())
 
 
-def test_wrong_account_event_cannot_enter_another_accounts_queue():
+@pytest.mark.parametrize('mutate_adapter',[False,True])
+def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter):
     from nana_core.nanalink.onebot import normalize
     from nana_core.nanalink.sidecar import ForwardRoute
     async def run():
@@ -452,6 +484,7 @@ def test_wrong_account_event_cannot_enter_another_accounts_queue():
         try:
             # Model an installed adapter returning an event belonging to another account.
             forged=normalize(other.account,{**message(1),'self_id':44})
+            if mutate_adapter:first.account=other.account
             first.events.put_nowait(None)
             first.events.put_nowait(forged)
             assert other.offer({**message(2),'self_id':44})=='QUEUED'
