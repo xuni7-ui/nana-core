@@ -11,7 +11,7 @@ import time
 from typing import Literal
 from pydantic import Field, model_validator
 from ..contracts import DTO, CoreError
-from .contracts import Outcome, OperationReceipt
+from .contracts import Event, Outcome, OperationReceipt
 from .onebot import OneBotAdapter, decode
 from .transport import EventTransport
 
@@ -321,8 +321,22 @@ class OneBotSidecar:
                 event = await asyncio.wait_for(adapter.receive(), 1)
             except TimeoutError:
                 continue
+            if self.adapters.get(config.alias) is not adapter:
+                # A faulty or slow old adapter may finish receive after an
+                # offline replacement. Its event has no current host binding.
+                self.last[config.alias] = {'state':'CANCELLED_STALE_ADAPTER','no_retry':True}
+                continue
             if not self.management.enabled(config.alias):
                 self.last[config.alias] = {'state':'CANCELLED_BEFORE_CORE_FORWARD','no_retry':True}
+                continue
+            if event is None:
+                # The SDK permits a quiet receive to return None.
+                await asyncio.sleep(.05)
+                continue
+            if not isinstance(event, Event) or event.account != adapter.account:
+                adapter.metrics['invalid_events'] += 1
+                adapter._health = adapter._health.model_copy(update={'error':'EVENT_ACCOUNT_MISMATCH'})
+                self.last[config.alias] = {'state':'REJECTED_ACCOUNT_BINDING','no_retry':True}
                 continue
             # Forward only exact host-bound source metadata. Unbound groups or
             # peers never spend a Core cognition call merely by arriving.

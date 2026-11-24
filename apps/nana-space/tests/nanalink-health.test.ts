@@ -40,6 +40,7 @@ describe('NanaLink phone health',()=>{
     expect(healthWords({...base,error:'SIDECAR_UNAVAILABLE'})).toContain('连接服务暂不可达');
     expect(healthWords({...base,error:'RECALL_NOT_WITHDRAWN'})).toContain('相关记忆如已保存不会自动撤销');
     expect(healthWords({...base,error:'EVENT_ID_COLLISION_DROPPED'})).toContain('消息编号冲突');
+    expect(healthWords({...base,error:'EVENT_ACCOUNT_MISMATCH'})).toContain('事件账号不符');
     expect(healthWords({...base,error:'UNEXPECTED_DETAIL'})).not.toContain('UNEXPECTED_DETAIL');
   });
 });

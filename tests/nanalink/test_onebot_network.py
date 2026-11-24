@@ -393,6 +393,81 @@ def test_disabled_account_queued_event_is_cancelled_without_blocking_other_accou
     asyncio.run(run())
 
 
+def test_late_event_from_replaced_adapter_does_not_enter_core_queue():
+    from nana_core.nanalink.sidecar import ForwardRoute
+    async def run():
+        route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
+        cfg=SessionConfig(alias='primary',account_id='42',mode='http',endpoint='http://127.0.0.1:1',port=18790,
+            upstream_secret_ref='upstream.test',core_api_secret_ref='core.test',forward_secret_ref='forward.test',
+            core_origin='http://127.0.0.1:2',routes=(route,))
+        def newer():
+            adapter=OneBotAdapter('42',mode='http',endpoint='http://127.0.0.1:1')
+            adapter.manifest=adapter.manifest.model_copy(update={'version':'1.0.1'})
+            async def connect():pass
+            adapter.connect=connect
+            return adapter
+        resolver=MemorySecretResolver()
+        sidecar=OneBotSidecar(SidecarConfig(sessions=(cfg,)),resolver,catalogs={'primary':{'1.0.0':lambda:None,'1.0.1':newer}})
+        old=sidecar.adapters['primary']
+        sidecar.tasks.append(asyncio.create_task(sidecar._receive(cfg)))
+        try:
+            # Let the receiver block on the old instance's queue.
+            await asyncio.sleep(.02)
+            async def command(operation, version=None):
+                result=await sidecar.management.command('primary',operation,version,sidecar.management.state['revision'])
+                sidecar.adapters['primary']=sidecar.management.adapter('primary')
+                return result
+            assert (await command('DISABLE'))['state']=='APPLIED'
+            assert (await command('UPGRADE','1.0.1'))['state']=='APPLIED'
+            assert (await command('ENABLE'))['state']=='APPLIED'
+            assert old.offer(message(1,'late from previous adapter'))=='QUEUED'
+            async def consumed():
+                while not old.events.empty():await asyncio.sleep(.01)
+            await asyncio.wait_for(consumed(),2)
+            await asyncio.sleep(.02)
+            assert sidecar.transport.size==0
+            assert sidecar.last['primary']['state']=='CANCELLED_STALE_ADAPTER'
+            assert sidecar.adapters['primary'].offer(message(2,'current adapter'))=='QUEUED'
+            async def delivered():
+                while sidecar.transport.size!=1:await asyncio.sleep(.01)
+            await asyncio.wait_for(delivered(),2)
+        finally:
+            await sidecar.close();resolver.clear()
+    asyncio.run(run())
+
+
+def test_wrong_account_event_cannot_enter_another_accounts_queue():
+    from nana_core.nanalink.onebot import normalize
+    from nana_core.nanalink.sidecar import ForwardRoute
+    async def run():
+        route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
+        def config(alias,account,port):
+            return SessionConfig(alias=alias,account_id=account,mode='http',endpoint='http://127.0.0.1:1',port=port,
+                upstream_secret_ref='upstream.'+alias,core_api_secret_ref='core.'+alias,forward_secret_ref='forward.'+alias,
+                core_origin='http://127.0.0.1:2',routes=(route,))
+        a,b=config('a','42',18790),config('b','44',18791)
+        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(a,b)),resolver)
+        first,other=sidecar.adapters['a'],sidecar.adapters['b']
+        sidecar.tasks.extend((asyncio.create_task(sidecar._receive(a)),asyncio.create_task(sidecar._receive(b))))
+        try:
+            # Model an installed adapter returning an event belonging to another account.
+            forged=normalize(other.account,{**message(1),'self_id':44})
+            first.events.put_nowait(None)
+            first.events.put_nowait(forged)
+            assert other.offer({**message(2),'self_id':44})=='QUEUED'
+            async def processed():
+                while not first.events.empty() or not other.events.empty():await asyncio.sleep(.01)
+            await asyncio.wait_for(processed(),2)
+            await asyncio.sleep(.02)
+            assert sidecar.transport.size==1 and sidecar.transport.counts[other.account.key]==1
+            assert sidecar.last['a']['state']=='REJECTED_ACCOUNT_BINDING'
+            assert first.health().error=='EVENT_ACCOUNT_MISMATCH'
+            assert not sidecar.tasks[0].done() and not sidecar.tasks[1].done()
+        finally:
+            await sidecar.close();resolver.clear()
+    asyncio.run(run())
+
+
 def test_transport_collision_does_not_stop_other_account_or_later_messages():
     from nana_core.nanalink.onebot import normalize
     from nana_core.nanalink.sidecar import ForwardRoute
