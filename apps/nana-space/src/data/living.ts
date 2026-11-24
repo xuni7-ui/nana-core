@@ -211,6 +211,15 @@ export function credentialProfiles(value: unknown) {
   });
 }
 
+/** A current host projection can confirm availability, not which key was bound. */
+export function hasCurrentProviderCredential(value: unknown, providerId: string, profileRevision: number, configurationRevision: number): boolean {
+  const data = record(value);
+  if (!data || data.configuration_revision !== configurationRevision || !Array.isArray(data.profiles) || data.profiles.length > 64) return false;
+  const matches = data.profiles.map(record).filter(row => row?.provider_profile_id === providerId);
+  return matches.length === 1 && matches[0]?.profile_revision === profileRevision &&
+    matches[0]?.enabled === true && matches[0]?.secret_state === "AVAILABLE";
+}
+
 export function vaultMetadata(value: unknown) {
   const data = record(value), vault = record(data?.vault);
   if (!vault || typeof vault.revision !== "number" || !Number.isSafeInteger(vault.revision) || vault.revision < 0) return null;

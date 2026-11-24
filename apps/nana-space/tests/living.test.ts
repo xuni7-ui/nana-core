@@ -1,6 +1,19 @@
 import { expect, test } from "vitest";
 import { platformChannels } from "../src/data/living";
-import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../src/data/living";
+import { bilibiliReadings, credentialProfiles, hasCurrentProviderCredential, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../src/data/living";
+
+test("credential recovery accepts only one enabled current profile at the matching revisions", () => {
+  const row={provider_profile_id:"provider.next-a", profile_revision:2, enabled:true, secret_state:"AVAILABLE"};
+  const projection={configuration_revision:8, profiles:[row]};
+  const check=(value:unknown)=>hasCurrentProviderCredential(value,"provider.next-a",2,8);
+  expect(check(projection)).toBe(true);
+  for(const value of [null,{...projection,configuration_revision:9},
+    {...projection,profiles:[row,row]}, {...projection,profiles:[{...row,profile_revision:3}]},
+    {...projection,profiles:[{...row,provider_profile_id:"provider.next-b"}]},
+    {...projection,profiles:[{...row,enabled:false}]},
+    {...projection,profiles:[{...row,secret_state:"MISSING"}]},
+    {...projection,profiles:[]}]) expect(check(value)).toBe(false);
+});
 
 const groupMembers=()=>['one','two','parent'].map(id=>({id,input:'SYNTHETIC '+id,state:'REQUESTED',receiptId:'parent'}));
 const groupReceipt=()=>({receipt_id:'parent',operation:'MESSAGE_SEQUENCE',state:'VERIFIED',result:{
