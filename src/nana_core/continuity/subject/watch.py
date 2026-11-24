@@ -29,9 +29,11 @@ class AttentionOpportunity(DTO):
 
 
 def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us):
+    from ..autonomy.private_intent import feedback_continuation
     store,records=loop.store,RecordService(loop.store)
     result=[];growth_results=[]
     privacy_slots=','.join('?' for _ in loop.privacy_classes) or 'NULL'
+    has_schedules='runtime_schedules' in getattr(store,'keys',{})
     for scope in loop.scopes:
         from .growth_life import opportunities,availability
         recipient,recipient_refs=availability(store,entity_id,scope=scope,privacy_classes=loop.privacy_classes)
@@ -105,17 +107,32 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
             result.append(AttentionOpportunity(key='project-'+digest([row['project_id'],row['revision']]),source_kind='PROJECT',source_id=row['project_id'],source_revision=row['revision'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['updated_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='PROJECT_EVENT',wake_trigger='GOAL_TRIGGER',priority=2))
-        for row in store.db.execute(
-            "SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id "
+        unreflected=("SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id "
             "WHERE r.scope=? AND r.lifecycle='ACTIVE' "
             f"AND r.privacy_class IN ({privacy_slots}) "
-            "AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) "
-            "ORDER BY e.created_at_us LIMIT 32",(scope,*loop.privacy_classes),
-        ):
+            "AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) ")
+        params=(scope,*loop.privacy_classes)
+        batch=[]
+        nominated_id=None
+        if store.schema_target>=13:
+            # Give a current attributed opinion one slot in the original batch.
+            # Leave the remaining slots chronological and the eventual choice to C.
+            recent=store.db.execute(unreflected+"AND e.task_class='interaction.expression' "
+                "ORDER BY e.created_at_us DESC,e.rowid DESC LIMIT 16",params)
+            for row in recent:
+                feedback=feedback_continuation(store,row['experience_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
+                if not feedback or len(feedback['memory_ids'])>32:continue
+                if has_schedules and store.db.execute('SELECT 1 FROM runtime_schedules WHERE dedupe_key=?',(feedback['key'],)).fetchone():continue
+                batch.append((row,feedback))
+                nominated_id=row['experience_id']
+                break
+        batch.extend((row,None) for row in store.db.execute(unreflected+
+            "AND e.experience_id IS NOT ? ORDER BY e.created_at_us LIMIT ?",(*params,nominated_id,32-len(batch))))
+        for row,feedback in batch:
             if not loop.visible(row['record_id'],scope):continue
             if store.db.execute('SELECT 1 FROM subject_reflections WHERE experience_id=?',(row['experience_id'],)).fetchone():continue
-            from ..autonomy.private_intent import feedback_continuation
-            feedback=feedback_continuation(store,row['experience_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
+            if feedback is None and row['task_class']=='interaction.expression':
+                feedback=feedback_continuation(store,row['experience_id'],scope=scope,entity_id=entity_id,privacy_classes=loop.privacy_classes)
             if feedback and len(feedback['memory_ids'])<=32:
                 ref=feedback['reference']
                 # Prefer the actual newer opinion to an initial consideration
@@ -127,13 +144,14 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 result.append(AttentionOpportunity(key=feedback['key'],source_kind='EXPERIENCE',source_id=row['experience_id'],
                     scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                     memory_ids=feedback['memory_ids'],event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
-                    task_class='private.feedback.review',reflection_experience_id=row['experience_id'],private_thought_ref=ref,priority=2))
+                    task_class='private.feedback.review',reflection_experience_id=row['experience_id'],private_thought_ref=ref,
+                    priority=3 if row['experience_id']==nominated_id else 2))
                 continue
             result.append(AttentionOpportunity(key='reflection-'+row['experience_id'],source_kind='EXPERIENCE',source_id=row['experience_id'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
                 task_class=row['task_class'],reflection_experience_id=row['experience_id'],priority=2))
     available=(*result,*growth_results)
-    if 'runtime_schedules' in getattr(store,'keys',{}):
+    if has_schedules:
         available=[item for item in available if not store.db.execute('SELECT 1 FROM runtime_schedules WHERE dedupe_key=?',(item.key,)).fetchone()]
     return tuple(available[:64])
