@@ -76,7 +76,7 @@ import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
 import { PlatformPanel } from "./v3/PlatformPanel";
-import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../data/living";
+import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, hasCurrentProviderCredential, sequenceTextWireBytes, sequenceReceiptTurns, messageReceiptTurns } from "../data/living";
 import { languageFeedbackSample, languageFeedbackResponseBinding, reviewableResponse, type FeedbackChoice } from "../data/feedback";
 const v3Icons = {
   home: Home,
@@ -188,7 +188,7 @@ function text(v: unknown) {
 }
 type ModelSetupProgress = {
   draft: ProviderDraft; suffix: string; pid: string; mid: string; step: number;
-  pendingId?: string; providerRevision?: number; credentialBound: boolean; bindingUncertain: boolean;
+  pendingId?: string; providerRevision?: number; credentialBound: boolean; bindingUncertain: boolean; credentialRecovered?: boolean;
 };
 export function LiveSpace() {
   const client = useRef(new V2Client());
@@ -1134,7 +1134,16 @@ export function LiveSpace() {
     };
     setModelSetupPhase(progress.pendingId?"VERIFY":"RESUME");
     try {
-      if(progress.bindingUncertain)throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+      if(progress.bindingUncertain){
+        setStatus("正在核验宿主当前凭据状态，不会再次提交密钥…");
+        const settings=readProviderSettings((await client.current.view("settings")).data.provider_settings);currentStep();
+        const credentials=await client.current.providerCredentials();currentStep();
+        if(settings.state!=="CURRENT" || settings.revision===undefined || progress.providerRevision===undefined ||
+           !hasCurrentProviderCredential(credentials.data,progress.pid,progress.providerRevision,settings.revision))
+          throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+        // This confirms only an existing credential, not the lost bind request or key validity.
+        progress.credentialBound=true;progress.bindingUncertain=false;progress.credentialRecovered=true;
+      }
       while(progress.step<3){
         currentStep();
         if(progress.pendingId){
@@ -1209,13 +1218,15 @@ export function LiveSpace() {
         progress.pendingId=undefined;progress.step++;
       }
       setModelSetupPhase("SAVED");
-      setStatus("凭据已绑定，模型和路由已保存。实际可用性以服务器状态为准；配置可能需要重启才能生效。");
+      setStatus(progress.credentialRecovered
+        ? "已使用宿主当前凭据保存模型和路由；原绑定回执及密钥正确性仍未确认。配置可能需要重启才能生效。"
+        : "凭据已绑定，模型和路由已保存。实际可用性以服务器状态为准；配置可能需要重启才能生效。");
       await refresh();
     }catch(e){
       if(version!==sessionVersion.current || modelSetupProgress.current!==progress)return;
       setModelSetupPhase(progress.bindingUncertain?"BINDING_UNKNOWN":progress.pendingId?"VERIFY":"RESUME");
       if(progress.pendingId)setReceipt({receipt_id:progress.pendingId,state:"UNKNOWN",dispatch_happened:"UNKNOWN"});
-      setStatus(progress.bindingUncertain?"凭据绑定结果尚待核验。请在下方凭据管理查看；不要重新提交密钥。"
+      setStatus(progress.bindingUncertain?"绑定回执未确认。可核验并使用宿主当前凭据继续；不会重发密钥，凭据正确性仍需实际验证。"
         :explain(e)+" 已核验步骤保留在当前连接；继续时使用原配置 ID，待确认步骤只核验原回执。");
       await refresh().catch(()=>{});
     }finally{

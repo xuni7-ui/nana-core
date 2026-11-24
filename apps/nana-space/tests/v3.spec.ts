@@ -1581,6 +1581,58 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC','QWEN'] as con
   await noHorizontalOverflow(page);
 });
 
+test('SYNTHETIC native setup recovers lost binding reply without resubmitting the secret',async({page})=>{
+  const state=await installMock(page);
+  state.capabilities={provider_configuration_write:true,native_secret_binding:true,durable_provider_binding:true};
+  const saved=structuredClone(providerSettings);let revision=saved.revision,available=false,binds=0;
+  const commands:Record<string,unknown>[]=[];
+  await page.addInitScript(({subject})=>{
+    const w=window as unknown as Record<string,any>;
+    w.androidBridge={};
+    w.Capacitor={PluginHeaders:[{name:'NanaHost',methods:['status','launchRoute','call','bindProviderCredential'].map(name=>({name,rtype:'promise'}))}],
+      nativePromise:async (_plugin:string,method:string,options:any)=>{
+        if(method==='status')return {paired:true,subject_id:subject};
+        if(method==='launchRoute')return {page:'models'};
+        if(method==='bindProviderCredential'){
+          await fetch('/synthetic-bind',{method:'POST'});
+          throw new Error('NETWORK_OR_EXECUTION_UNKNOWN');
+        }
+        const op=options.operation;
+        const path=op==='bootstrap'?'bootstrap':op==='view'?'views/'+options.data.page:
+          op==='providers.credentials'?'providers/credentials':op==='providers.command'?'providers/commands':'';
+        if(!path)throw new Error('CAPABILITY_UNAVAILABLE');
+        const response=await fetch('/api/nana-space/v2/'+path,op==='providers.command'
+          ? {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(options.data)} : {});
+        if(!response.ok)throw new Error('REQUEST_REJECTED');
+        return response.json();
+      }};
+  },{subject:SUBJECT});
+  await page.route('**/synthetic-bind',route=>{binds++;return route.fulfill({status:200,body:'ok'});});
+  await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
+    {...viewData(state,'settings'),provider_settings:{...saved,revision}})}));
+  await page.route(`**${API}providers/credentials`,route=>route.fulfill({status:200,json:envelope(state,{
+    configuration_revision:revision,vault:{configured:true,storage:'HOST_LOCAL_AES_256_GCM',revision:7},
+    profiles:saved.providers.filter(p=>p.provider_profile_id.startsWith('provider.next-')).map(p=>({
+      provider_profile_id:p.provider_profile_id,profile_revision:1,enabled:true,secret_state:available?'AVAILABLE':'MISSING'}))})}));
+  await page.route(`**${API}providers/commands`,route=>{
+    const body=route.request().postDataJSON();commands.push(body.command);
+    if(body.command.provider)saved.providers.push({...body.command.provider,revision:1,secret_state:'MISSING'});
+    if(body.command.model)saved.models.push(body.command.model);
+    revision++;state.revision++;
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',dispatch_happened:true})});
+  });
+  await open(page,'models');const setup=page.locator('.next-setup');
+  await setup.getByRole('button',{name:'保存并设为对话模型'}).click();
+  const recover=setup.getByRole('button',{name:'核验现有凭据并继续'});
+  await expect(recover).toBeVisible();expect(binds).toBe(1);expect(commands).toHaveLength(2);
+  await recover.click();await expect(setup).toContainText('绑定回执未确认');
+  expect(binds).toBe(1);expect(commands).toHaveLength(2);
+  available=true;await recover.click();
+  await expect(setup).toContainText('原绑定回执及密钥正确性仍未确认');
+  expect(binds).toBe(1);expect(commands.map(c=>c.operation)).toEqual(['UPSERT_PROVIDER','UPSERT_MODEL','SET_CAPABILITY_ROUTE']);
+  await noHorizontalOverflow(page);
+});
+
 test('SYNTHETIC simple model setup checks catalog only when requested and reports its limits',async({page})=>{
   const state=await installMock(page);
   state.capabilities={provider_configuration_write:true,provider_model_discovery:true};
