@@ -1,5 +1,7 @@
 # QQ official compatibility proposal
 
+> 历史提案，保留用于追溯；私人平台来源、QQ 媒体候选和官方后端已有后续实现，不能把下文早期缺口当作当前状态。现役能力与限制见 [NanaLink 入口](README.md#现役平台能力与限制2026-11-24)。QQ 可信撤回到原 owner 删除闭包仍是待 A 接线的独立缺口。
+
 [源码提案，2026-11-14] C先实现独立 `OfficialQQAdapter`、本地签名捕获侧车与 `OfficialQQHTTPTransport`，复用现有QQ工作流/Grant/Kernel。没有新的主体、记忆库、授权者或主观决策。供A/B合并审阅，不代表生产切换。
 
 最小增量：原ReplyWindowBinding平台枚举增加 `qq.official`；QQChannelBinding增加默认onebot且旧序列化省略的backend；官方分支允许原生opaque peer/message ID，OneBot仍严格数字；原配置/surface/权限/事件入口按可信host配置区分后端。原C、D、Store表、Memory、Grant及旧OneBot动作数据不改。官方事件ID和会话ID以摘要适配原长度边界，保留原生来源，昵称不参与合并。
