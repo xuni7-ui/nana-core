@@ -284,6 +284,8 @@ def test_bilibili_message_capabilities_respect_channel_and_dm_read_policy():
         return {c.name:c.available for c in adapter.capabilities()}
     assert not capabilities()['message.receive']
     assert not capabilities()['message.text.send'] and not capabilities()['message.readback']
+    assert all(c.reason=='PRIVATE_READ_OR_CHANNEL_DISABLED' for c in adapter.capabilities()
+               if c.name in {'message.receive','message.text.send','message.readback'})
     channel.private_read_authorized = True
     assert capabilities()['message.receive'] and capabilities()['message.text.send'] and capabilities()['message.readback']
     channel.enabled = False

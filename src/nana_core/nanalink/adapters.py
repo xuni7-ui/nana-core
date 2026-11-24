@@ -120,17 +120,20 @@ def _bilibili_capabilities(workflow):
                          and (getattr(workflow.channel, 'kind', 'comment') != 'dm'
                               or workflow.channel.private_read_authorized))
     send_ready = bool(receive_ready and workflow.channel.send_authorized)
+    receive_reason = ('PRIVATE_READ_OR_CHANNEL_DISABLED' if workflow.channel.enabled
+                      and workflow.channel.read_authorized and getattr(workflow.channel, 'kind', 'comment') == 'dm'
+                      and not workflow.channel.private_read_authorized else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED')
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
                      'ORIGINAL_VIDEO_FRAMES_NOT_CONFIGURED_OR_AUTHORIZED')
     return (
         Capability(name='message.receive', available=receive_ready,
-                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+                   reason='' if receive_ready else receive_reason),
         Capability(name='message.text.send', available=send_ready,
-                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+                   reason='' if send_ready else receive_reason if not receive_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='message.readback', available=receive_ready,
-                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+                   reason='' if receive_ready else receive_reason),
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),
         Capability(name='video.frames', available=frames_ready, reason=frames_reason),
