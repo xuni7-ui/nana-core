@@ -1,0 +1,31 @@
+.............F.........                                                  [100%]
+=================================== FAILURES ===================================
+________ test_changed_or_withdrawn_current_state_stales_before_dispatch ________
+tests/first_life/test_project_status_context.py:97: in test_changed_or_withdrawn_current_state_stales_before_dispatch
+    assert session.execute(cid)['state']=='STALE' and len(requests)==0
+E   AssertionError: assert ('FAILED' == 'STALE'
+E
+E     - STALE
+E     + FAILED)
+----------------------------- Captured stderr call -----------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 45118)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-next-refinement-work/tests/independent_life/test_dialogue.py", line 25, in do_POST
+    proposal={'interpretation':descriptor['text'],'source_refs':request['source_context_refs'],'uncertainty':'LOW','confidence':.9}
+                               ~~~~~~~~~~^^^^^^^^
+KeyError: 'text'
+----------------------------------------
+=========================== short test summary info ============================
+FAILED tests/first_life/test_project_status_context.py::test_changed_or_withdrawn_current_state_stales_before_dispatch
+1 failed, 22 passed in 5.88s

@@ -109,11 +109,18 @@ class SubjectLoop:
             relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
         records.extend(relation['source_record_ids'])
         for rid in relation['source_record_ids']:memories.extend(self.records.support(rid))
-        lesson_rows = [r for r in self.store.all('lessons') if r['task_class'] == event.task_class
-            and r['state'] == 'ACTIVE' and self.visible(r['record_id'], event.scope)]
-        records.extend(r['record_id'] for r in lesson_rows)
-        for r in lesson_rows:
-            memories.extend(self.records.support(r['record_id']))
+        lesson_ids, lesson_record_ids = [], []
+        if event.task_class is not None:
+            active_lessons = self.store.db.execute(
+                "SELECT lesson_id,record_id FROM lessons WHERE task_class=? AND state='ACTIVE' ORDER BY rowid",
+                (event.task_class,),
+            )
+            for lesson_id, record_id in active_lessons:
+                if self.visible(record_id, event.scope):
+                    lesson_ids.append(lesson_id)
+                    lesson_record_ids.append(record_id)
+                    records.append(record_id)
+                    memories.extend(self.records.support(record_id))
         privacy_marks=','.join('?' for _ in self.privacy_classes)
         norm_rows=self.store.db.execute(
             "SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) "
@@ -297,7 +304,7 @@ class SubjectLoop:
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
-            lesson_ids=tuple(r['lesson_id'] for r in lesson_rows), lesson_record_ids=tuple(r['record_id'] for r in lesson_rows),
+            lesson_ids=tuple(lesson_ids), lesson_record_ids=tuple(lesson_record_ids),
             support_record_ids=tuple(dict.fromkeys(records)), pending_count=len(pending),
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,

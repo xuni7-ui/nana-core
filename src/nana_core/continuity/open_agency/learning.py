@@ -434,7 +434,19 @@ class LearningService:
                 if stage == "PRACTICE"
                 else spec.transfer
             )
-            new["results"][stage] = self.evaluator.evaluate(method, cases)
+            try:
+                new["results"][stage] = self.evaluator.evaluate(method, cases)
+            except CoreError as exc:
+                # A sealed method can reject the input of a new case after
+                # succeeding in practice. Record that outcome without exposing
+                # held-out inputs or asking the proposer to try the same case.
+                if stage != "BASELINE" and exc.code in {
+                    "WORLD_NUMERIC_INPUT_REQUIRED",
+                    "WORLD_SORT_INPUT_REQUIRED",
+                    "WORLD_TEXT_INPUT_REQUIRED",
+                }:
+                    return self._terminal(job, "BLOCKED", "LEARNING_METHOD_INPUT_INAPPLICABLE")
+                raise
             result = new["results"][stage]
             if result["checked"] != len(cases) or len(result["cases"]) != len(cases):
                 raise CoreError("LEARNING_EVALUATION_INCOMPLETE")

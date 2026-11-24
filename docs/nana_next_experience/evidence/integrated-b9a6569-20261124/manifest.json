@@ -1,0 +1,49 @@
+{
+  "source_commit": "b9a6569daf57ed84a323b5dbe84235ff5697b2c2",
+  "status": "CONTROLLED_CANDIDATE",
+  "core_sha256": "40daf7374f70f725cbbfd510c5b6346b2a4c1058d0beeae78e3862204bb5fee4",
+  "core_bundle_files": 313,
+  "core_two_builds_identical": true,
+  "web_sha256": "73d5e97da60a9fb43d6c81e471f6c14f5fd62329ced196d132f1e920a3aede1b",
+  "web_source_input_files": 74,
+  "web_static_files": 42,
+  "web_archive_two_packs_identical": true,
+  "browser_passes": 24,
+  "web_unit_passes": 105,
+  "sidecar_wheel": "nanalink/nana_core_offline-0.1.0-py3-none-any.whl",
+  "sidecar_sha256": "956a6f38a1db150460f9194ff867862f644a0d44d5d4d4530b8a51becb8cf99b",
+  "sidecar_is_separate": true,
+  "sidecar_installed_tests": 18,
+  "installed_index_recovery_passes": 2,
+  "same_stopped_dev_rollback": {
+    "source": "b9a6569daf57ed84a323b5dbe84235ff5697b2c2",
+    "fallback": "0b03734567ccb7c9313dd1eaa9d94f7a06ecbfd5",
+    "same_stopped_dev": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 16,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    },
+    "real_provider_calls": 0
+  },
+  "android_debug": {
+    "source_commit": "b9a6569daf57ed84a323b5dbe84235ff5697b2c2",
+    "file": "android/nana-space-b9a6569-debug.apk",
+    "sha256": "fa417c452e20af0a90c52de0099ceecdbf4182b3e80924dea025460c7d6b52d6",
+    "build_type": "DEBUG_LOCAL_KEY",
+    "application_id": "life.nana.space.dev",
+    "version_code": 409,
+    "min_sdk": 23,
+    "target_sdk": 35,
+    "checked_compiled_web_assets": 42,
+    "certificate_sha256": "c6bcd38e3ac6d05749fbcac818eb0d37ecdbef770c6b090a1dec3c090a7b55ea",
+    "signature_v2_verified": true,
+    "in_place_upgrade_from_c79297c_debug": false,
+    "phone_run": false
+  },
+  "physical_phone": false,
+  "real_provider_calls": 0,
+  "production_deployed": false
+}

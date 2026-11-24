@@ -1,0 +1,2 @@
+E       NameError: name 'lesson_rows' is not defined
+32 failed, 3 passed, 2 errors in 10.87s
