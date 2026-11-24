@@ -109,3 +109,35 @@ def test_monitored_strategy_suspension_fences_already_compiled_plan_before_actio
         r.work.open_learning.monitor(lesson['lesson_id'],(LearningCase(case_id='changed-context',context='new-constraint',data=[1,2],expected=999),),authority=r.authority)
         advance(r,2)
         assert r.store.all('goals')[0]['state']=='BLOCKED' and not r.store.all('actions')
+
+
+def test_subject_reads_lessons_only_for_current_task(tmp_path):
+    with fresh(tmp_path / "self.db") as runtime:
+        spec = number_learning()
+        service = LearningService(
+            runtime.store, runtime.authority, (spec,), privacy_classes=("PERSONAL",), scopes=("lab",)
+        )
+        runtime.work.open_learning = service
+        start_learning(runtime, spec, "current-task-study")
+        lesson, _ = service.strategy("numbers", "lab")
+        everyday = SubjectInput(
+            source_key="synthetic.open.everyday",
+            kind="WAKE",
+            origin="SELF_WAKE",
+            entity_id="synthetic-person",
+            scope="lab",
+            observed_at_us=runtime.clock.utc_now_us(),
+        )
+        source = runtime.subject.ingress.ingest(everyday)
+        statements = []
+        runtime.store.db.set_trace_callback(statements.append)
+        try:
+            situation = runtime.subject.situation(everyday, source)
+        finally:
+            runtime.store.db.set_trace_callback(None)
+        assert lesson not in situation.support_record_ids
+        assert not any("FROM lessons" in sql for sql in statements)
+
+        task = everyday.model_copy(update={"source_key": "synthetic.open.numbers", "task_class": "numbers"})
+        task_source = runtime.subject.ingress.ingest(task)
+        assert lesson in runtime.subject.situation(task, task_source).support_record_ids

@@ -25,12 +25,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 317,
-  "as_of_us": 1795500406822529,
+  "revision": 318,
+  "as_of_us": 1795500653650916,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。",
     "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。",
     "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。",
     "S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。",
@@ -52,6 +53,7 @@
     "CURRENT266+409。b9a6569匹配候选独立离线安装通过；.dev新调试证书无法覆盖旧c792调试应用。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md",
     "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md",
     "docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md",
@@ -65,6 +67,8 @@
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision318 证据指纹锚：`0700c58600feaa76d1b6f41512f41f70f38cb31d76d2e6c5591d7f0fd34547ad`。
 
 A revision317 证据指纹锚：`01654b0aa5d266db3c8265ab2c992e8f4febcb4393f468a6c220d6bfe4622d89`。
 
