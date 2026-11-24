@@ -16,7 +16,9 @@ NanaLink是原Core周围的通信基础设施：QQ与B站复用同一`Event`/`Op
 
 连接保存不等于账号在线；真实账户登录、对外发送、Android 实机及生产运行均需另外授权和验收。有限的已实现代码及合成测试不得视为上述真实资格。后文保留历史交接，涉及能力状态时以本节和原代码为准。
 
-### 专项交接
+### 已交接基线与后续开发
+
+用户随后明确专项范围不限制自主研发：此前的交接保留为已完成部分，C 继续处理既定范围内可独立解决的问题；最新状态以 PROJECT_BRAIN 为准。
 
 - C 源码核查基线 A `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`；PR #25 已合入，PR #27 `636eb880d6fdbfa4fb074549df9493c822e3de28` 的 `media.py`、`onebot.py` 和 `sidecar.py` 已被 A 继承。A 随后加强了原视频观察绑定和原 B站回执；不能将旧 PR 整体覆盖现役文件。
 - 在上述 A 固定源码执行 `PYTHONPATH=src:. python -m pytest -q tests/nanalink tests/person_self/test_nanalink_media_choice.py tests/living_release_v4/test_platform_bridge.py tests/living_release_v4/test_bilibili_runtime.py`：169 项通过（46.77 秒），使用隔离环境和合成/本地平台。示例 `--check` 未访问账号或网络，C.4 快照检查通过。旧 #27 的匹配 CI 和历史构建仅证明各自 SHA，详见 [PR #27](https://github.com/xuni7-ui/nana-core/pull/27)。

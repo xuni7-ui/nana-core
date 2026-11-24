@@ -23,7 +23,7 @@ export function healthWords(health:LinkHealth|null):string {
   if(!health)return '连接状态尚未观测';
   const connection:Record<string,string>={DISABLED:'连接已暂停',DISCONNECTED:'连接已断开',CONNECTING:'正在恢复连接',CONNECTED:'会话已连接',DEGRADED:'连接需要检查'};
   const receive:Record<string,string>={NOT_OBSERVED:'还未收到事件',HEALTHY:'事件接收正常',STALE:'心跳过期，请检查客户端',BACKPRESSURE:'接收繁忙，部分事件未入队'};
-  const errors:Record<string,string>={ACCOUNT_MISMATCH:'账号不匹配，请检查连接账号',CREDENTIAL_UNAVAILABLE:'连接凭据不可用，请重新绑定',CREDENTIAL_REJECTED:'连接凭据未获接受或权限不足，请检查绑定',SIDECAR_UNAVAILABLE:'连接服务暂不可达，请检查服务状态',RECALL_NOT_WITHDRAWN:'检测到消息撤回，相关记忆如已保存不会自动撤销，请检查'};
+  const errors:Record<string,string>={ACCOUNT_MISMATCH:'账号不匹配，请检查连接账号',CREDENTIAL_UNAVAILABLE:'连接凭据不可用，请重新绑定',CREDENTIAL_REJECTED:'连接凭据未获接受或权限不足，请检查绑定',SIDECAR_UNAVAILABLE:'连接服务暂不可达，请检查服务状态',RECALL_NOT_WITHDRAWN:'检测到消息撤回，相关记忆如已保存不会自动撤销，请检查',EVENT_ID_COLLISION_DROPPED:'检测到消息编号冲突，已跳过异常消息，请检查连接器'};
   const hint=health.error && errors[health.error] ? ` · ${errors[health.error]}` : '';
   return `${connection[health.connection]}${health.login==='REQUIRED'?' · 需要重新登录或更新授权':''} · ${receive[health.receive]}${hint}`;
 }

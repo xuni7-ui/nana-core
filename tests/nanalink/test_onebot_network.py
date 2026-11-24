@@ -393,6 +393,44 @@ def test_disabled_account_queued_event_is_cancelled_without_blocking_other_accou
     asyncio.run(run())
 
 
+def test_transport_collision_does_not_stop_other_account_or_later_messages():
+    from nana_core.nanalink.onebot import normalize
+    from nana_core.nanalink.sidecar import ForwardRoute
+    async def run():
+        route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
+        def config(alias, account, port):
+            return SessionConfig(alias=alias,account_id=account,mode='http',endpoint='http://127.0.0.1:1',port=port,
+                upstream_secret_ref='upstream.'+alias,core_api_secret_ref='core.'+alias,forward_secret_ref='forward.'+alias,
+                core_origin='http://127.0.0.1:2',routes=(route,))
+        a,b=config('a','42',18790),config('b','44',18791)
+        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(a,b)),resolver)
+        first=sidecar.adapters['a'];other=sidecar.adapters['b']
+        sidecar.tasks.extend((asyncio.create_task(sidecar._receive(a)),asyncio.create_task(sidecar._receive(b))))
+        try:
+            assert first.offer(message(1,'first'))=='QUEUED'
+            async def queued():
+                while sidecar.transport.size != 1: await asyncio.sleep(.01)
+            await asyncio.wait_for(queued(),2)
+            # The adapter's finite dedupe window can expire before transport's.
+            first.recent.clear()
+            assert first.offer(message(1,'different'))=='QUEUED'
+            assert first.offer(message(2,'later'))=='QUEUED'
+            assert other.offer({**message(3),'self_id':44})=='QUEUED'
+            async def processed():
+                while sidecar.transport.size != 3 and not sidecar.tasks[0].done(): await asyncio.sleep(.01)
+            await asyncio.wait_for(processed(),2)
+            assert not sidecar.tasks[0].done()
+            assert sidecar.transport.size==3
+            assert sidecar.last['a']['state']=='EVENT_ID_COLLISION_DROPPED'
+            assert first.health().error=='EVENT_ID_COLLISION_DROPPED'
+            assert first.metrics['transport_collisions']==1
+            assert sidecar.transport.counts[first.account.key]==2
+            assert sidecar.transport.counts[other.account.key]==1
+        finally:
+            await sidecar.close();resolver.clear()
+    asyncio.run(run())
+
+
 def test_bound_recall_is_reported_as_not_withdrawn_without_blocking_messages():
     from nana_core.nanalink.sidecar import ForwardRoute
     async def run():

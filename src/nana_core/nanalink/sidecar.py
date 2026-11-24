@@ -336,7 +336,18 @@ class OneBotSidecar:
                 continue
             if event.kind != 'message.created' or len(matches) != 1:
                 continue
-            state = self.transport.offer(event)
+            try:
+                state = self.transport.offer(event)
+            except CoreError as exc:
+                if exc.code != 'NANALINK_EVENT_ID_COLLISION':
+                    raise
+                # The adapter's recent window and the shared transport's
+                # window can expire at different times. Drop the ambiguous
+                # event without killing this account's receiver or retrying.
+                adapter.metrics['transport_collisions'] = adapter.metrics.get('transport_collisions', 0) + 1
+                adapter._health = adapter._health.model_copy(update={'error':'EVENT_ID_COLLISION_DROPPED'})
+                self.last[config.alias] = {'state':'EVENT_ID_COLLISION_DROPPED', 'no_retry':True}
+                continue
             if state == 'BACKPRESSURE':
                 self.last[config.alias] = {'state': 'BACKPRESSURE', 'no_retry': True}
                 # Bounded backpressure is visible. Never hide loss as delivery.
