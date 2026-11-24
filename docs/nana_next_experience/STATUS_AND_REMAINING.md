@@ -1,3 +1,9 @@
+## 当前接续 已归因意见与反思积压 revision315
+
+S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。
+
+继续固定源码合成安装、S3/S8/S10及原A–H。证据 docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md。
+
 ## 当前接续 专项接收 revision314
 
 B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。

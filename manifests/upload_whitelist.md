@@ -481,3 +481,7 @@ apps/nana-space/src/app/preferences.ts、src/features/LiveSpace.tsx、src/featur
 ## 2026-11-24 A 已收口专项集成
 
 现有接续账本、专项交接与 `docs/nana_next_experience/evidence/scoped-handoff-integration-20261124` 合成验证结果。
+
+## 2026-11-24 A 已归因意见与反思积压
+
+原反思候选、定向回归、事实账及 `docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124` 合成对照。

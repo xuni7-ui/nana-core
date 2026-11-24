@@ -31,10 +31,10 @@ def wording(request):
     return 'SYNTHETIC listening method' if choice and choice['approach']=='LISTEN' else 'SYNTHETIC ordinary-chat method'
 
 
-@pytest.mark.parametrize('choice',['revise','revise-after-hidden-history','rest','source-race','revise-current','rest-current-revision','learn','rest-future'])
+@pytest.mark.parametrize('choice',['revise','revise-after-hidden-history','revise-with-ordinary-backlog','rest','source-race','revise-current','rest-current-revision','learn','rest-future'])
 def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_choice(tmp_path,choice):
     home=tmp_path/'home';initialize(home);clock=VirtualClock();feedback=[];self_requests=[]
-    revises=choice in {'revise','revise-after-hidden-history','revise-current'}
+    revises=choice in {'revise','revise-after-hidden-history','revise-with-ordinary-backlog','revise-current'}
     def inner(request):
         self_requests.append(request);context=json.loads(request['context_json']);manifest=context['manifest']
         frame=next(json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='SUBJECT_APPRAISAL')
@@ -58,20 +58,22 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
     with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,subject_builder=inner,context_limit=65536) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
             hidden=[]
-            if choice=='revise-after-hidden-history':
+            if choice in {'revise-after-hidden-history','revise-with-ordinary-backlog'}:
+                is_hidden=choice=='revise-after-hidden-history'
                 r=app.runtime;memory=MemoryService(r.store);experience=ExperienceService(r.store,r.authority)
                 for index in range(32):
                     data={'SYNTHETIC_SEPARATE_RESULT':index};raw=canonical({'data':data})
                     source=memory.capture(EvidenceInput(
-                        provenance=Provenance(domain='SYNTHETIC_ONLY',source_namespace='synthetic.hidden-reflection',
+                        provenance=Provenance(domain='SYNTHETIC_ONLY',source_namespace='synthetic.unrelated-reflection',
                             source_reference=str(index),source_kind='SYSTEM_VERIFICATION'),
-                        text=raw,privacy_class='SECRET',observed_time_us=clock.utc_now_us()))
+                        text=raw,privacy_class='SECRET' if is_hidden else 'PROJECT',observed_time_us=clock.utc_now_us()))
                     result=memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
                         epistemic_kind='OBSERVATION',source_evidence_id=source,text=raw))
                     verified=experience.verify_structured_result(result,digest(data),r.authority)
-                    hidden.append(experience.record(ExperienceInput(context_memory_ids=(result,),scope='project-work',
+                    other_id=experience.record(ExperienceInput(context_memory_ids=(result,),scope='project-work',
                         task_class='unrelated.local.reflection',decision='Check a separate synthetic result',
-                        result_memory_id=result,verification_memory_id=verified)))
+                        result_memory_id=result,verification_memory_id=verified))
+                    if is_hidden:hidden.append(other_id)
                 clock.advance(SECOND);r.lease.heartbeat()
             app.pause();form(app);identity=app.runtime.identity_id;first_id,first=current(app)[0]
             before=app.chat('SYNTHETIC initial related situation',topic='own-concern',privacy='PROJECT',retain_shared_life=True,message_id='before')
@@ -91,6 +93,13 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
         config=load_config(home);update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_background_cognition':True,'provider_context_tokens':32768}),expected_revision=config.revision)
         with LifeApplication(home,clock=clock,router=router) as app:
             assert app.runtime.identity_id==identity
+            if choice=='revise-with-ordinary-backlog':
+                opportunities=app.runtime.subject.background_opportunities(entity_id='project-user',
+                    now_us=clock.utc_now_us(),quiet_since_us=clock.utc_now_us()-2*SECOND,quiet_window_us=SECOND)
+                reflections=[item for item in opportunities if item.reflection_experience_id is not None]
+                assert len(reflections)==32
+                assert sum(item.task_class=='unrelated.local.reflection' for item in reflections)==31
+                assert any(item.reflection_experience_id==eid and item.task_class=='private.feedback.review' for item in reflections)
             app.pause(False);app.runtime.refresh_attention()
             if choice=='source-race':
                 factory=app.runtime.cognition.provider_factory
@@ -110,7 +119,7 @@ def test_attributed_review_reaches_original_d_and_changes_tendency_then_later_ch
             for _ in range(8):app.tick()
             assert len(self_requests)==1
             assert not {row['experience_id'] for row in app.runtime.store.all('subject_reflections')}.intersection(hidden)
-            assert all('SYNTHETIC_SEPARATE_RESULT' not in req['context_json'] for req in requests)
+            if hidden:assert all('SYNTHETIC_SEPARATE_RESULT' not in req['context_json'] for req in requests)
             new_id,tendency=current(app)[0]
             measure=app.runtime.store.one('cognitive_requests',self_requests[0]['request_id'])
             assert feedback[0] in next(json.loads(b['data_json']) for b in json.loads(self_requests[0]['context_json'])['blocks'] if b['kind']=='SUBJECT_APPRAISAL')['source_memory_ids']
