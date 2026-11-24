@@ -1,5 +1,7 @@
 # Codex B 工程队列
 
+> **2026-11-24 权限修正：视频接口候选继续执行。** 用户明确授权在专项真正完成前自主处理剩余差额；下方 CLOSED_HANDOFF 为先前交接快照，不表示 S5 原生派生来源契约已完成。A `02c01dc` 已合入产品 #28/#30，接收 #22 交接并由A负责原权威融合；B 的补充仅为隔离候选，不覆盖A。#29 仍按指令封存；不扩展专项范围。
+
 > **2026-11-24 当前交接：CLOSED_HANDOFF。** 用户已结束 B 的开放式长期研发授权；下列“下一项/继续”等均为历史记录。视频结论和 S5 接线差额见 [VIDEO_B_CLOSED_HANDOFF](VIDEO_B_CLOSED_HANDOFF.md)；产品 #28/#30 和封存研究 #29 的固定提交、验证及回退写在各 PR。B 不再自主扩展任务，仅在 A 明确提出集成缺陷时有限修复。
 
 工作线 `NANA_ENGINEERING_PLATFORM_AND_EFFICIENCY`，继承原 `UNIVERSAL_EXPERIENCE_AND_TECH_TRANSFER` 的工程成果，服务A唯一总任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT`。事实入口仍为 `PROJECT_BRAIN/09_STATE.md`，不另建项目或主体权威。

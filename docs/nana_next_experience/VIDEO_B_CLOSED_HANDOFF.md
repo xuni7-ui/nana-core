@@ -1,5 +1,7 @@
 # B 视频专项收口：CLOSED_HANDOFF
 
+> 2026-11-24 用户修正了专项自主执行权；本文件是当时的交接快照。A `02c01dc` 已接收该交接并负责原权威融合，新的 B 隔离技术解码候选见 `video_s5_handoff.py`，不代表原生持久化接线已完成。
+
 固定算法代码 `21de817f1537a85f59fb70510f7a102c98d1ba00`，A 基线 `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`。本文件所在后续提交只补交接；[PR #22](https://github.com/xuni7-ui/nana-core/pull/22) 是隔离候选，尚未进入现役 S5 调用链。CLOSED_HANDOFF 表示 B 停止本专项，不表示功能全部集成或生产资格。A 是原 S5/S2/C/S8 最终接线负责人，NanaLink 负责平台获取和来源绑定。
 
 ## 采用建议
