@@ -74,6 +74,7 @@ def test_rotated_video_flows_through_original_public_source_gate(tmp_path,detect
     from nana_core.nanalink.media import MediaCache
     from tests.world_loop.helpers import fresh,policy,providers
     from tools.nana_next_experience.experiments.video_guarded_batch import guarded_images
+    from tools.nana_next_experience.experiments.video_s5_handoff import s5_decode_handoff
 
     video=tmp_path/'rotated.mp4';make_rotated(video);data=video.read_bytes()
     with fresh(tmp_path/'subject.db',Clock()) as runtime:
@@ -112,5 +113,8 @@ def test_rotated_video_flows_through_original_public_source_gate(tmp_path,detect
             assert regular.images==shared.images and regular.images
             assert calls==['ffmpeg_autorotate_scaled_pixels']*2
             assert all(image.coordinate_space=='ffmpeg_autorotate_scaled_pixels' for image in regular.images)
+            verified=s5_decode_handoff(app,cache,shared,scope='world',verify_source_frames=True)
+            assert [f.decoded['pixel_digest'] for f in verified.frames]==[f.pixel_sha256 for f in shared.images]
+            assert all(f.coordinate_space=='ffmpeg_autorotate_scaled_pixels' for f in verified.frames)
             assert not runtime.store.all('actions') and not runtime.store.all('grants')
         finally:cache.close()

@@ -63,9 +63,10 @@ def test_original_store_guard_wraps_real_dsh_batch_and_blocks_midflight_withdraw
             assert len({frame.pts_tick for frame in batch.images})==len(batch.images)
             assert all(MediaDecoder().decode(frame.png,'IMAGE')['pixel_digest']==frame.pixel_sha256
                        for frame in batch.images)
-            s5=s5_decode_handoff(app,cache,batch,scope='world')
+            s5=s5_decode_handoff(app,cache,batch,scope='world',verify_source_frames=True)
             assert [f.decoded['pixel_digest'] for f in s5.frames]==[f.pixel_sha256 for f in batch.images]
             assert s5.state=='TECHNICAL_IMAGE_DECODE_ONLY_NOT_INGESTED'
+            assert s5.frame_attestation=='SOURCE_WINDOW_REDECODED_NO_PLATFORM_ATTESTATION'
             assert batch.state=='CANDIDATES_NOT_INGESTED' and batch.source_lifetime=='RECHECK_REQUIRED_AT_USE'
             shared=guarded_images(app,cache,mid,scope='world',windows=((0,1.5),(.5,2)),
                                   detector=detector,budget=3,max_gap=1,width=32,height=32,shared_snapshot=True)
