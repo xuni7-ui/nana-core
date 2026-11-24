@@ -477,3 +477,7 @@ apps/nana-space/src/app/preferences.ts、src/avatar/SubjectAvatar.tsx、src/feat
 ## 2026-11-23 B窗口名称本地配置
 
 apps/nana-space/src/app/preferences.ts、src/features/LiveSpace.tsx、src/features/v3/v3.css、tests/v3.spec.ts及11/B队列/本清单追加；仅本地展示偏好，无主体数据/私有数据或生产修改。
+
+## 2026-11-24 A 已收口专项集成
+
+现有接续账本、专项交接与 `docs/nana_next_experience/evidence/scoped-handoff-integration-20261124` 合成验证结果。

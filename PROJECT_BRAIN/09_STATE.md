@@ -25,20 +25,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 313,
-  "as_of_us": 1795388235820000,
+  "revision": 314,
+  "as_of_us": 1795499578098961,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。",
     "真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。",
     "原索引重建遇中断时保留此前完整投影，重试恢复全部。流式读与SQLite保存点已接入原Store，固定c298760受影响Core CI通过。",
     "固定0b03734集成候选fa7c929独立核36文件、33安装Core、18侧车回环；Web73/Android61输入同原，验签及同主体双槽停机回退恢复通过。",
     "原G先后独立获TEXT32/16；同主体20笔记时较新窄法不再阻断旧宽法，原RENDER查到后续来源，撤回后失效，旧1错→60相关。",
     "原隐私日志按来源走SQLite关联；同源/衍生/版本边与冷副本保持。51变更摘要一致，带索引286→8ms、冷293→15ms，76相关通过。",
     "原Store在同一读快照流式重放。相同合成库交替三组，峰RSS中位56.3→30.3MiB；事件、制品、原身份与隔离一致，42相关通过，包括真实本地SIGKILL。",
-    "同源c79297c Core/BFF/Web/独立侧车/Android .dev已归档并独立复取。原D经历先按隐私后截32；同主体重启后确切意见参与原C、后续表达改变，旧1错→56相关，真实0。",
-    "原G笔记规格重启前按当前范围和隐私过滤。16条不可见新记录不再挤掉已由C采纳的工作，同主体恢复一次且不重判，撤回/主动取消保留，旧1错→48相关通过。"
+    "同源c79297c Core/BFF/Web/独立侧车/Android .dev已归档并独立复取。原D经历先按隐私后截32；同主体重启后确切意见参与原C、后续表达改变，旧1错→56相关，真实0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -47,20 +47,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409；0b03734候选fa7c929独立复取、双槽与Android .dev验签，含307–310修复。真实平台、模型、真机、实际跨日和正式签发仍待。"
+    "CURRENT266+409；0b03734固定候选已独立复取安装。312–314的索引及客户端变更待下一匹配安装；真实模型、账号、真机、实际跨日及正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/scoped-handoff-integration-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-0b03734-20261123/README.md",
     "docs/nana_next_experience/evidence/qualified-recall-scope-20261123/README.md",
     "docs/nana_next_experience/evidence/source-linked-erasure-20261123/README.md",
     "docs/nana_next_experience/evidence/bounded-event-replay-20261123/README.md",
     "docs/nana_next_experience/evidence/integrated-c79297c-and-feedback-visibility-20261123/README.md",
     "docs/nana_next_experience/evidence/note-learning-restart-visibility-20261123/README.md",
-    "docs/nana_next_experience/evidence/strategy-visible-window-20261123/README.md",
-    "docs/nana_next_experience/evidence/model-route-policy-and-catalog-cooldown-20261123/README.md"
+    "docs/nana_next_experience/evidence/strategy-visible-window-20261123/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision314 证据指纹锚：`d0c63520ed2911b527096db71cfa659ceb674a876b36fb9daee1b4690b03ae24`。
 
 A revision311证据指纹锚：`c1fa0897c348b5de7839309d582bbffc7c73aa3887923ec0afbd8f7e305eb06f`（source.sha256不含自身/09）。
 

@@ -1,3 +1,9 @@
+## 当前接续 专项接收 revision314
+
+B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。
+
+原A–H继续，S3/S8/S10维持优先；专项成果按契约与实际收益吸收。见 docs/nana_next_experience/evidence/scoped-handoff-integration-20261124/README.md。
+
 ## 当前接续 索引进程中断 revision313
 
 真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。
