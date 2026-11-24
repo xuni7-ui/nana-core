@@ -4,6 +4,26 @@
 
 NanaLink是原Core周围的通信基础设施：QQ与B站复用同一`Event`/`OperationReceipt`契约，仍由原`LifeApplication → SubjectLoop → Manager/Grant → ActionKernel → Verify`决定、执行并保存。RSS/Atom证明新增源不改Core；网页出版物经原记忆来源成为WORLD_EVENT机会，不能作为用户指令。未定义另一个Subject/Store/Memory/认知调度器。
 
+## 现役平台能力与限制（2026-11-24）
+
+| 平台/接口 | 已实现的受控范围 | 尚未资格或不支持 |
+|---|---|---|
+| QQ OneBot | HTTP、正向及反向 WebSocket；原主体和权限链治理的文字，以及下文限定条件的 PUBLIC 图片；账号和会话独立绑定 | 图片默认未接平台采集；表情、真实平台媒体回读及真实账号未资格。断线不重发 UNKNOWN，断线事件缺口不自动补齐 |
+| QQ 官方 Bot | 独立原生身份适配及原主体文字路径；单次发送，缺独立确认时 UNKNOWN | 官方 C2C/群独立回读、真实账号与实际投递未资格；不自动重发 |
+| QQ 消息撤回 | 已绑定撤回会产生会话内告警，提醒相关记忆如已保存不会自动撤销 | **不是自动删除**，告警不跨重启持久；可信撤回元数据及原 owner 删除闭包需 A 接线 |
+| B站动态/通知/私信/评论 | 复用原事件 worker、授权、来源、记忆和行动；私人动态限明确读取与保留同意 | 实际平台删除、取消关注的完整变更信号未资格，不能以列表缺席推断撤回；动态发布无已治理端口 |
+| B站视频 | 原服务提供可用元数据、字幕与故事板帧；`nanalink.video_handoff` 提供来源和有界样本投影、原视频观察及缓存引用核验，已有受控调用证据 | 故事板不是全片视频；该接口不自行获取或证明完整视频字节，也未证明真实 B站视频自动进入原 S5。平台字节绑定、来源派生及完整视频覆盖待接线/资格 |
+
+连接保存不等于账号在线；真实账户登录、对外发送、Android 实机及生产运行均需另外授权和验收。有限的已实现代码及合成测试不得视为上述真实资格。后文保留历史交接，涉及能力状态时以本节和原代码为准。
+
+### 专项交接
+
+- C 源码核查基线 A `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`；PR #25 已合入，PR #27 `636eb880d6fdbfa4fb074549df9493c822e3de28` 的 `media.py`、`onebot.py` 和 `sidecar.py` 已被 A 继承。A 随后加强了原视频观察绑定和原 B站回执；不能将旧 PR 整体覆盖现役文件。
+- 在上述 A 固定源码执行 `PYTHONPATH=src:. python -m pytest -q tests/nanalink tests/person_self/test_nanalink_media_choice.py tests/living_release_v4/test_platform_bridge.py tests/living_release_v4/test_bilibili_runtime.py`：169 项通过（46.77 秒），使用隔离环境和合成/本地平台。示例 `--check` 未访问账号或网络，C.4 快照检查通过。旧 #27 的匹配 CI 和历史构建仅证明各自 SHA，详见 [PR #27](https://github.com/xuni7-ui/nana-core/pull/27)。
+- A 接手一次性最小契约：以独立可信能力接收绑定账号、路由、会话、发送者及消息 ID 的 QQ 撤回元数据，精确关联原来源并使用原 Store 删除闭包；应覆盖伪造、跨账号、重复和已删除消息不可回读的反例。现有转发凭据只授权元数据准入，不能隐式获得删除权。此前提案保留在 PR #27；无需等待该契约完成本专项交接。
+- B 视频候选仍需 A 确定原 S5 派生帧的可撤回来源依赖；平台侧尚需证明账号、bvid/cid、采集时间和字节摘要的真实绑定。不能以模拟或发布者故事板替代这些证据。
+- 配置入口与回退见下方；真实账号授权、实际外发、手机、生产和长期运行交 A 统一验收。回退前须按原来源撤销和旧 reader 兼容要求处理，不能仅替换二进制。无本交接引入的数据迁移。
+
 | 层 | 当前源码/可运行范围 |
 |---|---|
 | L0 | `nanalink.onebot`、`sidecar`：每账号独立凭据/监听/连接；正向WS、反向WS、HTTP；只恢复连接，不重放发送 |
@@ -70,7 +90,7 @@ docker build -f deployment/nanalink/Dockerfile -t nana-link:1.0.0-dev .
 
 停侧车可回到原OneBot HTTP服务并恢复原QQ endpoint/凭据引用；不删除Core原admissions/actions/UNKNOWN。Core旧schema/主体表没有变化。新配置中的`nanalink_observers`给旧BFF前应恢复旧host配置；新增platform/setup旧服务返回404，不由客户端反复提交。反向WS没有协议历史恢复保证，断线期间事件可能有缺口；从未把重连成功写成完整历史补齐。
 
-## 尚未完成的资格/能力
+## 历史资格记录（早期检查点）
 
 - 真实QQ/B站账号、对外发送、Android实机、生产、长期驻留：NOT_RUN。真实模型费用/每次有效认知成本：未资格；本地基础设施测量不是Token效率收益证明。
 - QQ官方后端继承AstrBot适配/原补丁，尚无新的原Core官方Bot闭环；手机有明确说明，不能用OneBot测试代替。Native仅研究边界，当前受限源码/许可原文404，不分发组件。
@@ -78,7 +98,7 @@ docker build -f deployment/nanalink/Dockerfile -t nana-link:1.0.0-dev .
 - B站评论/私信包装原工作流；字幕/采帧/自主视频阅读保留原`BilibiliLife`。C.4通知复用旧纯normalize的可核对分发快照（`tools/nanalink_sync_c4.py --check`），不启动旧Agent/pump/LLM。可选BFF `nanalink_bilibili_sources:["channel-id"]` 复用原事件worker请求原owner的`bilibili-notifications`；每300秒最多3次来源读取、12轮/小时，必须原channel enabled/read/private-read/activation均许可。消息再经原工作流独立回读及原C决定，历史UNKNOWN不重放。动态发布/事件源尚无受控端口，不宣称可用。
 - 原Core收发/权限/媒体机制按历史受控范围继承；本C开发验收见evidence，不升级整个工程First-Life/Beta。
 
-## 后继开发候选（2026-11-15）
+## 历史后继开发候选（2026-11-15；状态以现役能力表为准）
 
 QQ 官方 Bot 增加独立的 `qq.official` 适配器、原生 opaque 身份与单次 REST 请求路径，AstrBot 宿主插件默认停用。宿主须明确配置账号、独占路由、专用 HMAC、适配器 vault，并在真实授权后运行；botpy 登录会话由宿主维护，插件只转发有限字段与短期令牌。官方 C2C/群没有已资格独立回读，ACK 后 Core 保持 UNKNOWN，不自动重发；不要使用 AstrBot 的自动重试发送接口。旧版配置不含 backend 时仍是 OneBot；旧版 reader 使用前须移除 official 配置。
 
