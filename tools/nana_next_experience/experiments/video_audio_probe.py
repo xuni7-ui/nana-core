@@ -21,6 +21,10 @@ class AudioProbeOutputBound(ValueError):
     """The local acoustic metadata exceeded its explicit bound."""
 
 
+class AudioProbeInvalidWindow(ValueError):
+    """The requested acoustic window is outside the measured container bounds."""
+
+
 def _run_bounded(command, *, timeout, stdout_limit, stderr_limit):
     """Read both child pipes with hard in-memory bounds; terminate on excess.
 
@@ -93,7 +97,7 @@ def measure(path, *, timeout=120, start_seconds=None, end_seconds=None):
     if window and (type(start_seconds) not in (int,float) or type(end_seconds) not in (int,float) or
                    not math.isfinite(start_seconds) or not math.isfinite(end_seconds) or
                    not 0<=start_seconds<end_seconds<=duration or end_seconds-start_seconds>MAX_DURATION):
-        raise ValueError('invalid audio window')
+        raise AudioProbeInvalidWindow('invalid audio window')
     offset=Fraction(str(start_seconds)) if window else Fraction(0)
     limit=Fraction(str(end_seconds)) if window else Fraction(str(duration))
     def qualified(result):

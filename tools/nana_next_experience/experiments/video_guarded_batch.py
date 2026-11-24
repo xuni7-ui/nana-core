@@ -10,7 +10,7 @@ from tools.nana_next_experience.experiments.video_selected_images import selecte
 from tools.nana_next_experience.experiments.video_window_fusion import fuse_window
 from tools.nana_next_experience.experiments.video_cached_snapshot import public_snapshot
 from tools.nana_next_experience.experiments.video_pts_decode import decode
-from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeOutputBound,AudioProbeUnavailable,measure
+from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeInvalidWindow,AudioProbeOutputBound,AudioProbeUnavailable,measure
 
 MAX_BATCH_RGB_BYTES=64*1024*1024
 
@@ -125,6 +125,8 @@ def guarded_images(app, cache, source_memory_id, *, scope, windows, detector, bu
                     acoustic=None;acoustic_status='PROBE_UNAVAILABLE'
                 except AudioProbeOutputBound:
                     acoustic=None;acoustic_status='OUTPUT_BOUND'
+                except AudioProbeInvalidWindow:
+                    acoustic=None;acoustic_status='WINDOW_OUT_OF_RANGE'
                 current=public_video_cache_handle(app,cache,source_memory_id,scope=scope)
                 if (current.source_ref,current.sha256,current.size)!=(handle.source_ref,handle.sha256,handle.size):
                     raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')

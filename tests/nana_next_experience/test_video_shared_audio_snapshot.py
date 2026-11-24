@@ -72,7 +72,7 @@ def test_same_snapshot_matches_separate_source_gated_image_and_audio(tmp_path):
 
 
 @pytest.mark.parametrize('withdrawal',['store','cache'])
-@pytest.mark.parametrize('probe_fails',[False,True])
+@pytest.mark.parametrize('probe_fails',['none','unavailable','invalid_window'])
 def test_shared_audio_never_returns_if_source_withdrawn_during_probe(tmp_path,monkeypatch,withdrawal,probe_fails):
     from tools.nana_next_experience.experiments import video_guarded_batch as module
     data=video_bytes(tmp_path)
@@ -90,9 +90,9 @@ def test_shared_audio_never_returns_if_source_withdrawn_during_probe(tmp_path,mo
                 result=original(path,**kwargs)
                 if withdrawal=='store':MemoryService(runtime.store,runtime.authority).forget(mid,runtime.authority)
                 else:monkeypatch.setattr(cache,'current',lambda _:False)
-                if probe_fails:
-                    from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeUnavailable
-                    raise AudioProbeUnavailable('fixture')
+                if probe_fails!='none':
+                    from tools.nana_next_experience.experiments.video_audio_probe import AudioProbeInvalidWindow,AudioProbeUnavailable
+                    raise (AudioProbeInvalidWindow if probe_fails=='invalid_window' else AudioProbeUnavailable)('fixture')
                 return result
             monkeypatch.setattr(module,'measure',revoke)
             with pytest.raises(CoreError):
@@ -160,6 +160,29 @@ def test_real_dense_audio_output_bound_keeps_source_gated_images(tmp_path):
             assert result.images==baseline.images and result.images
             assert result.acoustic is None and result.acoustic_status=='OUTPUT_BOUND'
             assert result.audio_requested_window==(0,4.9)
+            assert result.source_ref==mid and result.source_sha256==handle.sha256
+            assert result.source_lifetime=='RECHECK_REQUIRED_AT_USE' and not runtime.store.all('actions')
+        finally:cache.close()
+
+
+def test_real_audio_window_outside_video_keeps_source_gated_images(tmp_path):
+    data=video_bytes(tmp_path)
+    with fresh(tmp_path/'subject.db',Clock()) as runtime:
+        app,mid=source(runtime,data);cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
+        try:
+            handle=cache.put([data],source_ref=mid,media_type='video/mp4')
+            def detector(decoded):
+                return ({'source_ref':mid,'input_size':decoded.output_size,'input_frames':len(decoded.timestamps),
+                         'qualification':'LOCAL_PIPELINE_OUTPUT_ONLY','selected':[],'dropped_sheets':0},
+                        {'schema_version':1,'source_ref':mid,'input_size':decoded.output_size,
+                         'pairs_examined':len(decoded.timestamps)-1,'truncated':False,'proposals':[]})
+            kwargs=dict(scope='world',windows=((0,4),),detector=detector,budget=3,max_gap=2,
+                        width=32,height=32,shared_snapshot=True)
+            baseline=guarded_images(app,cache,mid,**kwargs)
+            result=guarded_images(app,cache,mid,audio_window=(0,599),**kwargs)
+            assert result.images==baseline.images and result.images
+            assert result.acoustic is None and result.acoustic_status=='WINDOW_OUT_OF_RANGE'
+            assert result.audio_requested_window==(0,599)
             assert result.source_ref==mid and result.source_sha256==handle.sha256
             assert result.source_lifetime=='RECHECK_REQUIRED_AT_USE' and not runtime.store.all('actions')
         finally:cache.close()
