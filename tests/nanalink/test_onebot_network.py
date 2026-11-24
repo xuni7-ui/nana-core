@@ -403,7 +403,8 @@ def test_transport_collision_does_not_stop_other_account_or_later_messages():
                 upstream_secret_ref='upstream.'+alias,core_api_secret_ref='core.'+alias,forward_secret_ref='forward.'+alias,
                 core_origin='http://127.0.0.1:2',routes=(route,))
         a,b=config('a','42',18790),config('b','44',18791)
-        resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(a,b)),resolver)
+        resolver=MemorySecretResolver();token='SYNTHETIC_ONLY_COLLISION_STATUS_TOKEN_1234';resolver.bind('core.a',token)
+        sidecar=OneBotSidecar(SidecarConfig(sessions=(a,b)),resolver)
         first=sidecar.adapters['a'];other=sidecar.adapters['b']
         sidecar.tasks.extend((asyncio.create_task(sidecar._receive(a)),asyncio.create_task(sidecar._receive(b))))
         try:
@@ -426,6 +427,24 @@ def test_transport_collision_does_not_stop_other_account_or_later_messages():
             assert first.metrics['transport_collisions']==1
             assert sidecar.transport.counts[first.account.key]==2
             assert sidecar.transport.counts[other.account.key]==1
+            runner=web.AppRunner(sidecar.app(a),access_log=None);await runner.setup()
+            site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
+            try:
+                port=site._server.sockets[0].getsockname()[1]
+                async with ClientSession() as client:
+                    async with client.get(f'http://127.0.0.1:{port}/nanalink/status',headers={'Authorization':'Bearer '+token}) as response:
+                        status=await response.json()
+                        assert status['metrics']['transport_collisions']==1
+                        assert status['health']['error']=='EVENT_ID_COLLISION_DROPPED'
+                        assert token not in json.dumps(status)
+                from nana_core.nanalink.console import NanaLinkObserver,ObservationBinding
+                binding=ObservationBinding(platform='qq',account_id='42',channel_id='primary',
+                    endpoint=f'http://127.0.0.1:{port}',credential_ref='core.a')
+                observed=await asyncio.to_thread(NanaLinkObserver((binding,),resolver).view)
+                assert observed['sessions'][0]['health']['error']=='EVENT_ID_COLLISION_DROPPED'
+                assert token not in json.dumps(observed)
+            finally:
+                await runner.cleanup()
         finally:
             await sidecar.close();resolver.clear()
     asyncio.run(run())
