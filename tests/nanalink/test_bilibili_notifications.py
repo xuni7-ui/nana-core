@@ -145,6 +145,36 @@ def test_pending_notification_does_not_survive_private_access_revocation(tmp_pat
         assert not adapter.pending
 
 
+def test_notification_revoked_during_poll_is_not_returned(tmp_path):
+    home=tmp_path/'home';initialize(home);cfg=load_config(home)
+    binding=SurfaceBinding(binding_id='bili.notifications',platform='bilibili.account',surface='chat.comment',adapter='bilibili.account',
+        mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PUBLIC','PERSONAL'))
+    channel=BilibiliChannelBinding(channel_id='notifications',binding_id=binding.binding_id,kind='comment',account_id=42,target_id=7,
+        sender_id=43,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    cfg=cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,),'bilibili_channels':(channel,)})
+    update_config(home,cfg,expected_revision=cfg.revision-1)
+    item={'id':1,'reply_time':1,'user':{'mid':43},'item':{'business_id':1,'source_id':9,
+        'subject_id':7,'root_id':0,'uri':'https://www.bilibili.com/video/BV1t55v6DE2v','source_content':'synthetic'}}
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause();flow=equipped(app,channel,'http://127.0.0.1:1',grant=False)
+        flow.transport.realm='AUTHENTICATED_PLATFORM';flow._authority=lambda:None
+        calls=[]
+        flow.transport.account=lambda:calls.append('account')
+        def rows(kind):
+            calls.append(kind)
+            if kind=='reply':
+                revoked=channel.model_copy(update={'private_read_authorized':False})
+                update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'bilibili_channels':(revoked,)}),expected_revision=cfg.revision)
+                return [item]
+            return []
+        flow.transport.notification_rows=rows
+        adapter=BilibiliEventsAdapter(flow);asyncio.run(adapter.connect())
+        with pytest.raises(CoreError,match='BILIBILI_NOTIFICATION_PRIVATE_READ_NOT_AUTHORIZED'):
+            asyncio.run(adapter.receive())
+        assert calls==['account','reply']
+        assert not adapter.pending and not app.runtime.store.all('cognitive_requests')
+
+
 def test_owner_source_guard_clears_retired_notification_queue(tmp_path):
     from nana_core.nanalink.adapters import BilibiliEventsAdapter
     home=tmp_path/'home';initialize(home);cfg=load_config(home)

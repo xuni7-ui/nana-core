@@ -235,7 +235,13 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
         w.transport.calls = 0
         try:
             w.transport.account()
-            pages = {channel: w.transport.notification_rows(channel) for channel in ('reply', 'at')}
+            self._require_current_private_access()
+            pages = {}
+            for channel in ('reply', 'at'):
+                pages[channel] = w.transport.notification_rows(channel)
+                # Config or owner authorization can change during network I/O.
+                # Do not perform the next read or release returned metadata.
+                self._require_current_private_access()
         except Exception:
             self._health = self._health.model_copy(update={'connection': 'DEGRADED',
                        'receive': 'STALE', 'error': 'NOTIFICATION_READ_FAILED'})
@@ -265,6 +271,7 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
         self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'login': 'AUTHENTICATED',
                    'receive': 'BACKPRESSURE' if self.metrics['backpressure'] > pressure_before else 'HEALTHY', 'error': None,
                    'last_event_us': now if self.pending else self._health.last_event_us})
+        self._require_current_private_access()
         return self.pending.popleft() if self.pending else None
 
     async def disconnect(self):
