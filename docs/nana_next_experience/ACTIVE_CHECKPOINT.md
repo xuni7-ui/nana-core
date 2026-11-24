@@ -1,3 +1,15 @@
+## 当前接续 工程状态实际读取 revision319
+
+现役状态恢复原有界读取。历史交接移到当前块之后，最新投影遵守8条上限，原时效与隐私保留。23项相关通过，独立安装的b9a6569读取器验证通过。
+
+原 A–H 及真实验收继续。证据 docs/nana_next_experience/evidence/repository-current-state-20261124/README.md。
+
+## 当前接续 原 C 学习方法读取 revision318
+
+原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。
+
+本改动晚于固定 b9a6569 制品。原 A–H 继续，S3/S8/S10 优先。证据 docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md。
+
 ## 当前接续 原学习迁移结果 revision317
 
 S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。

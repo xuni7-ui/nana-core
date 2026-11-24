@@ -1,25 +1,5 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
-## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
-
-[C 在执行 2026-11-24] 按用户修正继续既定平台工作。B站私信缺私人读取时原工作流拒绝处理，但旧能力投影错误显示发送与回读可用；现与原读取条件一致并说明私人读取缺失，普通评论不额外要求私人读取。私人通知与动态读取期间撤权的旧反例仍读取或返回数据；现各网络读取后重核原授权，通知清空待交付并不再读取下一批，动态停止后续读取/保存及同轮重试，均非原子锁。原 B站私人来源/通知/工作流等 31 项 13.45 秒及后续撤权定向 3 项通过；真实账号未验，不增加发送行为。A `ba762916`；清单锚 `2668485cfae46077c7e731e75c39db6cfe06ea5556dc7c8c50dae3e5d1978281`。
-
-[C CLOSED_HANDOFF 2026-11-24] 固定范围收口；A 基线 `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`，PR25 已合，PR27 `636eb880` 的 media/onebot/sidecar 已由 A 吸收，A 保留其后续视频绑定及原回执改进。当前源码原平台/原媒体选择/QQ桥/B站运行时 169 项 46.77 秒通过，示例配置和 C.4 快照检查通过；均为受控本地资格。现役平台能力、配置与回退见 `docs/nanalink/README.md`；不新增平台。QQ 可信撤回原 owner 契约及视频派生来源由 A 接手，真实平台、Android、外发和生产由 A 统一验收。专项关闭不表示真实上线或全部 A 主任务完成。
-
-[当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
-
-
-
-[历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
-
-- 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
-- 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；BFF 只读投影在配置变化时先通过原 IPC 同步 owner 隐私安全点，owner 不可用则安全失败；事务安全点和实际HTTP反例通过。无第二记忆库。
-- QQ 媒体：原行动目标新增可选 v1 媒体选择，旧无媒体 wire 不变；原 C 可从按实体过滤的有界原记忆检索中选择既有 PUBLIC 图片观察；复用已读取的普通检索行，只对候选图片再做隐私安全点复核；私人图片不进入当前明文临时缓存，并绑定目标与原周期来源依赖；宿主预设附件被拒绝。显式注入有界缓存后，原 Manager/Grant/Kernel 经 OneBot 侧车最多一次发送不超过8192字节图片，ACK 后仅当独立回读能证明账户、会话、文字和图片字节全一致才成功；无法证明或丢失 ACK 保持 UNKNOWN，重放不重发。原来源撤回、账号检查时撤回、缺 Grant 与缓存篡改反例不发送。此为 owned 假平台资格；原平台owner提供显式账号绑定和自建临时缓存接口，正常关闭/解绑清理，账号/端点变化解除且不同账号不得共用，异常崩溃残留未资格；可显式填入原感知已确认的PUBLIC图片并校验字节、来源与关系实体；平台媒体采集尚未接入，默认不绑定，界面仍为 UNSUPPORTED；普通QQ事件可能由原D选轻量认知而不选择图片，受控实际入口验证仍走原文字路径，不强迫额外模型调用；真实 OneBot 图片独立回读兼容性、官方 Bot 与表情未资格。B站→QQ→实际 owned 手机 HTTP/IPC 已做合成同主体来源/隐私/撤回场景；Android 路由、长期/自然度/真实账号尚未资格。
-- 验证：A f696 合并与来源/BFF相关108项通过，BFF owner不可用503反例单项通过；A fee8f42 后继主体/来源/笔记24项通过；原C媒体选择、原提供者、QQ原桥及私人来源39项通过；图片原主体/原授权链/侧车、QQ原桥及运行时定向47项通过，覆盖账号检查期间撤回；既有图片原主体选择、不选择及检索/显式来源不同实体隔离12项通过；原平台owner缓存绑定、换号隔离及相关运行时26项通过；来源字节填入、实体/撤回及真实入口轻量认知受控测试通过，独立精确图片回读和URL、字节或会话不符的不可证明反例、原主体/QQ桥/侧车/运行时共55项通过，检索复用和回读反例定向29项通过；新端口实例恢复丢ACK的UNKNOWN且零重发；缓存来源/篡改及宿主强制附件反例与QQ原桥合计27项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。b29ecd0 固定epoch wheel双构建SHA `d7a40f89c204d78e33c344e1dea3fbe7ac088f0ba58c0ca097b26f7c75f89b32`，隔离离线安装309个Python文件一致且配置检查通过；隔离 Android SDK/JDK/Gradle 下 `80e1145` 输入 debug APK 构建成功并验证签名，SHA256 `062b4c8f2a3c27fd123555e97fa95d325cdcb212810a4c2f5897530f1a4fa15c`；第二次源码归档构建 ZIP 条目内容相同但 APK 最终字节不同，原因有打包顺序差异；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
-- 后续：完成 QQ 原 C 媒体的平台授权字节采集及真实平台独立回读资格，接入可信平台来源变化撤回，扩大跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据；合成撤回后使用 da752a7 旧源码打开同一 Store、核对身份与 DELETED 墓碑通过，不代表真实数据或完整历史资格。
-
-证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `712fcbaa5a716ad442687a9507db7930f367bd1dcaf7b87720d2c5590de98763`，不含自身/账本。31fcbc3 合成基础设施 2000 入队及2000重复用时0.185s、CPU0.183s、峰值RSS 26560KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
-
 ## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
 <!-- CORE_PROJECT_CURRENT_STATE_V1 -->
 {
@@ -27,22 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 317,
-  "as_of_us": 1795500406822529,
+  "revision": 319,
+  "as_of_us": 1795500732723644,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "实际PROJECT_BRAIN现役快照恢复原有界读取，原来源、时效和隐私限制继续生效，历史交接保留在现役快照之后。",
+    "原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。",
     "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。",
     "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。",
     "S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。",
     "B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。",
     "真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。",
-    "原索引重建遇中断时保留此前完整投影，重试恢复全部。流式读与SQLite保存点已接入原Store，固定c298760受影响Core CI通过。",
-    "固定0b03734集成候选fa7c929独立核36文件、33安装Core、18侧车回环；Web73/Android61输入同原，验签及同主体双槽停机回退恢复通过。",
-    "原G先后独立获TEXT32/16；同主体20笔记时较新窄法不再阻断旧宽法，原RENDER查到后续来源，撤回后失效，旧1错→60相关。",
-    "原隐私日志按来源走SQLite关联；同源/衍生/版本边与冷副本保持。51变更摘要一致，带索引286→8ms、冷293→15ms，76相关通过。",
-    "原Store在同一读快照流式重放。相同合成库交替三组，峰RSS中位56.3→30.3MiB；事件、制品、原身份与隔离一致，42相关通过，包括真实本地SIGKILL。"
+    "原索引重建遇中断时保留此前完整投影，重试恢复全部。流式读与SQLite保存点已接入原Store，固定c298760受影响Core CI通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -54,19 +32,21 @@
     "CURRENT266+409。b9a6569匹配候选独立离线安装通过；.dev新调试证书无法覆盖旧c792调试应用。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/repository-current-state-20261124/README.md",
+    "docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md",
     "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md",
     "docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md",
     "docs/nana_next_experience/evidence/scoped-handoff-integration-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-0b03734-20261123/README.md",
-    "docs/nana_next_experience/evidence/qualified-recall-scope-20261123/README.md",
-    "docs/nana_next_experience/evidence/source-linked-erasure-20261123/README.md",
-    "docs/nana_next_experience/evidence/bounded-event-replay-20261123/README.md",
-    "docs/nana_next_experience/evidence/integrated-c79297c-and-feedback-visibility-20261123/README.md",
-    "docs/nana_next_experience/evidence/note-learning-restart-visibility-20261123/README.md"
+    "docs/nana_next_experience/evidence/qualified-recall-scope-20261123/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision319 证据指纹锚：`8dc62523b2dd4dacf7e97a72227b9009d6e956ef316aca5a3b4fb8cba07a5f77`。
+
+A revision318 证据指纹锚：`0700c58600feaa76d1b6f41512f41f70f38cb31d76d2e6c5591d7f0fd34547ad`。
 
 A revision317 证据指纹锚：`01654b0aa5d266db3c8265ab2c992e8f4febcb4393f468a6c220d6bfe4622d89`。
 
@@ -182,6 +162,26 @@ A revision264证据指纹锚：`9c407f14c0daeedf5b80f5ae3eab53548f76249faac38eb9
 [C增量实测2026-11-16] A基线90a31b6；旧cfd reader在隔离合成Store确认原视频及帧父来源依赖、同身份重开与撤回后不可读，user_version前后13；23项相关通过。不是完整行动重放或生产回退，私人新来源仍须先由新版撤回；证据 docs/nanalink/evidence/video-reader-rollback-20261116/README.md。 清单锚点 SHA256 `8581d23691de716f876b838cbef17d490193526362a8cd34d2a03957c1f7f7dc`。 RSS分块读全、解析成功后提交HTTP条件标记，断线同实例保留待交付项；UTF-16 DTD绕过修复并保留正常输入；本地HTTP及相关28项通过，进程丢失与真实平台未资格。见 docs/nanalink/evidence/feed-recovery-20261116/README.md。 媒体读期间来源撤回反例修复，原QQ选择/权限链及缓存59项通过；原真实Store验证器与生产成本未测，见 docs/nanalink/evidence/media-revocation-read-20261116/README.md。 OneBot HTTP分块响应完整有界读取，本地单次发送及超大回执不重发与原桥32项通过；真实QQ未资格，见 docs/nanalink/evidence/onebot-http-stream-20261116/README.md。 已按文件合入A `35740e7f`（revision260），原成长/学习、QQ选择、B站来源及OneBot跨模块53项通过；A原始失败证据文本保持原样。 官方Bot同样修复分块读取，本地官方ACK仍非独立回读、单次POST；官方/OneBot/原桥41项通过。 B站动态和私人通知每次读取校验原账号凭据，轮换后拒绝错归因；原事件泵及相关47项通过，真实账号未测，见 docs/nanalink/evidence/bilibili-read-account-binding-20261116/README.md。 私信消息读取也校验同一预检账号，原私信发送/独立验证及通知42项通过；独立会话列表端点尚未资格。 B站通知待发队列在取出前复核原授权与非合成当前配置，撤权安全清空；相关22项及有效后撤权反例通过，见 docs/nanalink/evidence/bilibili-pending-authorization-20261116/README.md。 QQ连接器停用后统一队列中尚未转发事件返回CANCELLED，不影响另一账号；相关39项通过，见 docs/nanalink/evidence/qq-disabled-queued-events-20261116/README.md。 QQ管理停用时取消该账号两级队列旧输入并保留去重，避免重启用后复发；本地HTTP及相关40项与跨账号队列反例通过。 官方QQ显式停用额外清除该账号RAM捕获和回复锚点；官方/管理/网络42项通过，其他外部适配器版本的额外状态尚未资格。 B站通知交给原Core前再次检查同一授权，取出与交接之间撤权反例阻止；原通知/私人源/原桥22项通过。 B站通知能力投影依据频道启用与私读授权，避免误报可用；原桥/通知/私人源19项通过；手机中文能力文案交B，见 docs/nanalink/evidence/bilibili-capability-consent-20261116/README.md。 QQ及B站私信能力投影随原频道启用和读取授权变化，避免静态误报；QQ/B站原桥及权限45项通过。 QQ断线丢ACK/不可用回执的传输UNKNOWN指标补记，仍单次发送；原桥/管理43项及3个ACK反例通过，指标非持久行动回执。见 docs/nanalink/evidence/qq-unknown-metrics-20261116/README.md。 原平台隐私安全点在配置变更时仅清理失效账号的通知内存队列，正常关闭也清理；原运行时39项及双账号隔离2项通过。 B站账号合成realm必须绑定并复核本地对端，QQ官方合成realm每次请求限制本地；相关57项通过，A原公共视频reader构造一致性待核对。见 docs/nanalink/evidence/synthetic-platform-isolation-20261116/README.md。 固定da5源码匹配CI通过、wheel双构建同SHA、隔离安装310源码一致及合成旧reader撤回通过，非全依赖离线/生产回退；见 docs/nanalink/evidence/wheel-da5cff5f-20261116/README.md。 da5隔离安装包双账号合成2000事件队列峰值16、中位1.1618ms/P95 2.0439ms、CPU0.2571s、RSS26572KiB；非真实平台/Token。 QQ两个HTTP后端按账号限制16项并发、完成/取消释放；本地慢对端与原桥61项及取消恢复2项通过，见 docs/nanalink/evidence/qq-http-inflight-20261116/README.md。 QQ状态额外暴露每账号HTTP当前/峰值并发及背压次数；本地状态不含凭据，相关46项及3个针对用例通过，计数非持久回执。 固定29b含QQ并发与指标的wheel双构建同SHA，离线隔离安装310源码一致且从安装包跑3项本地HTTP资格；完整依赖/生产未资格，见 docs/nanalink/evidence/wheel-29b3bbf4-20261116/README.md。
 
 A revision263证据指纹锚：`2e843212e5f8db54e3e8081aa040b4a830a066a6b991725b82e00eb692fc2205`（source.sha256不含自身/09）。
+
+## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
+
+[C 在执行 2026-11-24] 按用户修正继续既定平台工作。B站私信缺私人读取时原工作流拒绝处理，但旧能力投影错误显示发送与回读可用；现与原读取条件一致并说明私人读取缺失，普通评论不额外要求私人读取。私人通知与动态读取期间撤权的旧反例仍读取或返回数据；现各网络读取后重核原授权，通知清空待交付并不再读取下一批，动态停止后续读取/保存及同轮重试，均非原子锁。原 B站私人来源/通知/工作流等 31 项 13.45 秒及后续撤权定向 3 项通过；真实账号未验，不增加发送行为。A `ba762916`；清单锚 `a0bbe27f8296766953bf46183aa044f2e8a17f0b2ea9ad86ebc08e2d21a164e9`。
+
+[C 历史交接 2026-11-24] 固定范围收口；A 基线 `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`，PR25 已合，PR27 `636eb880` 的 media/onebot/sidecar 已由 A 吸收，A 保留其后续视频绑定及原回执改进。当前源码原平台/原媒体选择/QQ桥/B站运行时 169 项 46.77 秒通过，示例配置和 C.4 快照检查通过；均为受控本地资格。现役平台能力、配置与回退见 `docs/nanalink/README.md`；不新增平台。QQ 可信撤回原 owner 契约及视频派生来源由 A 接手，真实平台、Android、外发和生产由 A 统一验收。专项关闭不表示真实上线或全部 A 主任务完成。
+
+[当前A集成实测2026-11-16] PR18/20已合；PR21固定0f766c1由本批正常集成，旧4fail→4过/192相关通过；PR22仍draft隔离候选。以下C原交接按各固定源码保留，现役状态以CURRENT为准。
+
+
+
+[历史实测 2026-11-15] C 独立分支继承 `da752a7` 及 A `45b3e5718fae5f937b14623edc48c08966d37805`，不覆盖 A 工作树。Draft PR #18 仍为开发候选；b29ecd0 的匹配 GitHub CI 43732210128 通过，不代替后继源码的匹配 CI；A 增量已按文件合入并保留记忆检索改进。
+
+- 运行能力：SDK、有界事件与五态回执，OneBot HTTP/WS/reverse-WS、QQ 官方单次发送/UNKNOWN、原 B站 Agent/视频和 RSS，原 Nana Space/安全凭据/扫码与宿主管理；原主体、Store、Manager/Grant/Kernel 权威不变。
+- 私人 B站动态：受原账号/渠道、私人读取、保留同意和 canonical activation 约束，原预算预留后读取首20条；由原 PERSONAL 证据/MemoryService 进入来源支持的 WORLD_EVENT，未强制认知。重复、重启及权限取消后原删除闭包经 owned HTTP/合成测试。同事件内容变动时撤回旧来源且不自动重收；平台删除/取消关注尚缺可靠变化信号，列表缺席不推断撤回；原 owner 下次隐私读取前检查配置并撤回，事务中变更安全失败后等安全点；BFF 只读投影在配置变化时先通过原 IPC 同步 owner 隐私安全点，owner 不可用则安全失败；事务安全点和实际HTTP反例通过。无第二记忆库。
+- QQ 媒体：原行动目标新增可选 v1 媒体选择，旧无媒体 wire 不变；原 C 可从按实体过滤的有界原记忆检索中选择既有 PUBLIC 图片观察；复用已读取的普通检索行，只对候选图片再做隐私安全点复核；私人图片不进入当前明文临时缓存，并绑定目标与原周期来源依赖；宿主预设附件被拒绝。显式注入有界缓存后，原 Manager/Grant/Kernel 经 OneBot 侧车最多一次发送不超过8192字节图片，ACK 后仅当独立回读能证明账户、会话、文字和图片字节全一致才成功；无法证明或丢失 ACK 保持 UNKNOWN，重放不重发。原来源撤回、账号检查时撤回、缺 Grant 与缓存篡改反例不发送。此为 owned 假平台资格；原平台owner提供显式账号绑定和自建临时缓存接口，正常关闭/解绑清理，账号/端点变化解除且不同账号不得共用，异常崩溃残留未资格；可显式填入原感知已确认的PUBLIC图片并校验字节、来源与关系实体；平台媒体采集尚未接入，默认不绑定，界面仍为 UNSUPPORTED；普通QQ事件可能由原D选轻量认知而不选择图片，受控实际入口验证仍走原文字路径，不强迫额外模型调用；真实 OneBot 图片独立回读兼容性、官方 Bot 与表情未资格。B站→QQ→实际 owned 手机 HTTP/IPC 已做合成同主体来源/隐私/撤回场景；Android 路由、长期/自然度/真实账号尚未资格。
+- 验证：A f696 合并与来源/BFF相关108项通过，BFF owner不可用503反例单项通过；A fee8f42 后继主体/来源/笔记24项通过；原C媒体选择、原提供者、QQ原桥及私人来源39项通过；图片原主体/原授权链/侧车、QQ原桥及运行时定向47项通过，覆盖账号检查期间撤回；既有图片原主体选择、不选择及检索/显式来源不同实体隔离12项通过；原平台owner缓存绑定、换号隔离及相关运行时26项通过；来源字节填入、实体/撤回及真实入口轻量认知受控测试通过，独立精确图片回读和URL、字节或会话不符的不可证明反例、原主体/QQ桥/侧车/运行时共55项通过，检索复用和回读反例定向29项通过；新端口实例恢复丢ACK的UNKNOWN且零重发；缓存来源/篡改及宿主强制附件反例与QQ原桥合计27项通过；私人来源、原笔记检索及 QQ 相关28项通过，B站→QQ 和模拟手机直连 Core 的来源/隐私/撤回独立1项通过，私人来源撤销分页4项及 owned HTTP 独立测试通过；前继 da752a7 99 Python、93 前端、16 浏览器及匹配 CI 成功按原源码继承。b29ecd0 固定epoch wheel双构建SHA `d7a40f89c204d78e33c344e1dea3fbe7ac088f0ba58c0ca097b26f7c75f89b32`，隔离离线安装309个Python文件一致且配置检查通过；隔离 Android SDK/JDK/Gradle 下 `80e1145` 输入 debug APK 构建成功并验证签名，SHA256 `062b4c8f2a3c27fd123555e97fa95d325cdcb212810a4c2f5897530f1a4fa15c`；第二次源码归档构建 ZIP 条目内容相同但 APK 最终字节不同，原因有打包顺序差异；无 KVM，Android 实机未运行。真实账号、对外发送、付费模型与生产需单独授权，均未运行。
+- 后续：完成 QQ 原 C 媒体的平台授权字节采集及真实平台独立回读资格，接入可信平台来源变化撤回，扩大跨平台同主体连续性及匹配构建/安装/回退、真实基础设施成本；真实平台/API 能力和长期运行仍需外部验收。旧 reader 不识别新私人来源，回退前须在新版撤回并验证，不能直接覆盖新数据；合成撤回后使用 da752a7 旧源码打开同一 Store、核对身份与 DELETED 墓碑通过，不代表真实数据或完整历史资格。
+
+证据 `docs/nanalink/evidence/private-platform-source-20261115/README.md`；输入指纹 `manifests/nanalink-01.sha256` 锚点 SHA256 `712fcbaa5a716ad442687a9507db7930f367bd1dcaf7b87720d2c5590de98763`，不含自身/账本。31fcbc3 合成基础设施 2000 入队及2000重复用时0.185s、CPU0.183s、峰值RSS 26560KiB，无真实网络/模型；历史构建与成本按对应源码继承，不宣称当前匹配包或有效认知成本收益。
 
 ## CURRENT — FOUNDATION CLOSURE V1 / S3 AND S6 QUALIFIED / TWO GATES OPEN
 
