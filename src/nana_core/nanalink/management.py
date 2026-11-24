@@ -78,11 +78,14 @@ class AdapterManagement:
             if operation not in {'INSTALL','UNINSTALL','ENABLE','DISABLE','UPGRADE','ROLLBACK'}:
                 raise CoreError('NANALINK_MANAGEMENT_OPERATION_UNSUPPORTED')
             row = copy.deepcopy(self.state['adapters'][alias]);key=self.keys[alias]
+            if row['uncertain'] and operation != 'DISABLE':
+                raise CoreError('NANALINK_UNCERTAIN_RECONCILIATION_REQUIRED')
             if operation in {'INSTALL','UPGRADE'} and version not in self.catalogs[alias]:
                 raise CoreError('NANALINK_APPROVED_VERSION_UNAVAILABLE')
             if operation in {'INSTALL','UNINSTALL','UPGRADE','ROLLBACK'} and self.enabled(alias):
                 raise CoreError('NANALINK_PAUSE_BEFORE_PACKAGE_CHANGE')
-            if operation == 'INSTALL' and row['installed'] or operation != 'INSTALL' and not row['installed']:
+            if (operation == 'INSTALL' and row['installed'] or operation != 'INSTALL' and not row['installed']
+                    and not (operation == 'DISABLE' and row['uncertain'])):
                 raise CoreError('NANALINK_PACKAGE_STATE_CONFLICT')
             if operation == 'ROLLBACK' and not row['previous']:
                 raise CoreError('NANALINK_OFFLINE_ROLLBACK_REQUIRED')
@@ -92,13 +95,17 @@ class AdapterManagement:
             self._save(rows)
             try:
                 if operation == 'DISABLE':
-                    await self.registry.disable(key);row['enabled']=False
+                    if not await self.registry.disable(key):
+                        return {'state':'UNKNOWN_NO_AUTORETRY','external_delivery':False,**self.view(alias)}
+                    row['enabled']=False
                 elif operation == 'ENABLE':
                     if not await self.registry.enable(key):
                         raise CoreError('NANALINK_CONNECT_FAILED')
                     row['enabled']=True
                 elif operation == 'UNINSTALL':
-                    await self.registry.disable(key);row.update(installed=False,enabled=False)
+                    if not await self.registry.disable(key):
+                        return {'state':'UNKNOWN_NO_AUTORETRY','external_delivery':False,**self.view(alias)}
+                    row.update(installed=False,enabled=False)
                 elif operation in {'INSTALL','UPGRADE'}:
                     await self.registry.replace(key,self._candidate(alias,version))
                     row.update(previous=row['current'],current=version,installed=True,enabled=False)
