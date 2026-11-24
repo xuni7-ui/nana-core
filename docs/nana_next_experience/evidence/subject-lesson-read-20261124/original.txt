@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_subject_reads_lessons_only_for_current_task _______________
+
+tmp_path = PosixPath('/dev/shm/pytest-of-agent/pytest-2/test_subject_reads_lessons_onl0')
+
+    def test_subject_reads_lessons_only_for_current_task(tmp_path):
+        with fresh(tmp_path / "self.db") as runtime:
+            spec = number_learning()
+            service = LearningService(
+                runtime.store, runtime.authority, (spec,), privacy_classes=("PERSONAL",), scopes=("lab",)
+            )
+            runtime.work.open_learning = service
+            start_learning(runtime, spec, "current-task-study")
+            lesson, _ = service.strategy("numbers", "lab")
+            everyday = SubjectInput(
+                source_key="synthetic.open.everyday",
+                kind="WAKE",
+                origin="SELF_WAKE",
+                entity_id="synthetic-person",
+                scope="lab",
+                observed_at_us=runtime.clock.utc_now_us(),
+            )
+            source = runtime.subject.ingress.ingest(everyday)
+            statements = []
+            runtime.store.db.set_trace_callback(statements.append)
+            try:
+                situation = runtime.subject.situation(everyday, source)
+            finally:
+                runtime.store.db.set_trace_callback(None)
+            assert lesson not in situation.support_record_ids
+>           assert not any("FROM lessons" in sql for sql in statements)
+E           assert not True
+E            +  where True = any(<generator object test_subject_reads_lessons_only_for_current_task.<locals>.<genexpr> at 0x7f0d7ad96c20>)
+
+tests/open_autonomy/test_learning.py:139: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_autonomy/test_learning.py::test_subject_reads_lessons_only_for_current_task
+1 failed in 0.43s

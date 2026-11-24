@@ -1,3 +1,27 @@
+## 当前接续 工程状态实际读取 revision319
+
+现役状态恢复原有界读取。历史交接移到当前块之后，最新投影遵守8条上限，原时效与隐私保留。23项相关通过，独立安装的b9a6569读取器验证通过。
+
+原 A–H 及真实验收继续。证据 docs/nana_next_experience/evidence/repository-current-state-20261124/README.md。
+
+## 当前接续 原 C 学习方法读取 revision318
+
+原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。
+
+本改动晚于固定 b9a6569 制品。原 A–H 继续，S3/S8/S10 优先。证据 docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md。
+
+## 当前接续 原学习迁移结果 revision317
+
+S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。
+
+本修复晚于固定 b9a6569 制品。按原 S3/S8/S10 继续验证新情境、行为及实际使用。证据 docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md。
+
+## 当前接续 同源集成候选 revision316
+
+固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。
+
+真实模型、账号、真机、自然度、实际跨日与生产按原资格继续。正式选择 266272a/409。证据 docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md。
+
 ## 当前接续 已归因意见与反思积压 revision315
 
 S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。

@@ -5,7 +5,7 @@ import pytest
 from nana_core.contracts import CoreError
 from nana_core.life.config import write_config
 from nana_core.life.application import LifeApplication
-from nana_core.continuity.current_state import START,END,ProjectStateBinding,ProjectStateSource
+from nana_core.continuity.current_state import START,END,PREFIX_LIMIT,ProjectStateBinding,ProjectStateSource
 from nana_core.continuity.context import ContextRequest,ContextPolicy,ContextAssembler
 from nana_core.continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
 from nana_core.continuity.project_work.service import capture
@@ -32,6 +32,16 @@ def initialize(tmp_path,clock):
  state=root/binding.relative_path;source(state,clock)
  home=tmp_path/'life';write_config(home,base.model_copy(update={'project_root':str(root),'current_project_state':binding}))
  return home,state
+
+
+def test_repository_current_state_is_consumable_by_the_runtime():
+ binding=ProjectStateBinding(relative_path='PROJECT_BRAIN/09_STATE.md',source_id='repository.current',scope='project-work')
+ with (REPO/binding.relative_path).open('rb') as stream:
+  prefix=stream.read(PREFIX_LIMIT)
+ current=json.loads(prefix.split(START,1)[1].split(END,1)[0])
+ projected=ProjectStateSource(REPO,binding).projection(scopes=('project-work',),privacy_classes=('PROJECT',),now_us=current['as_of_us'])
+ assert projected['state']['revision']==current['revision']
+ assert projected['state']['project_id']=='nana-core'
 
 
 @pytest.mark.parametrize('question',[
@@ -79,13 +89,19 @@ def test_original_loop_and_assembler_get_current_bounded_state_not_episodes(tmp_
 
 
 def test_changed_or_withdrawn_current_state_stales_before_dispatch(tmp_path):
+ from nana_core.life.dialogue_contracts import DialogueContext
  clock=VirtualClock();home,path=initialize(tmp_path,clock)
  with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
   app.pause();mid=capture(app.runtime,'fixture-source','SYNTHETIC PROJECT input')
-  session=app._session('PROJECT');cid=session.prepare('state-version','INTERPRET',(mid,))
+  descriptor=DialogueContext(message_memory_id=mid,topic='first-life',privacy_class='PROJECT',phase='INTERPRET',project_status_query=True)
+  role_input={'dialogue':descriptor.model_dump(mode='json')}
+  volatile_input={'dialogue':descriptor.model_copy(update={'text':'当前阶段是什么？'}).model_dump(mode='json')}
+  session=app._session('PROJECT')
+  cid=session.prepare('state-version','INTERPRET',(mid,),role_input=role_input,volatile_input=volatile_input)
   source(path,clock,revision=2)
   assert session.execute(cid)['state']=='STALE' and len(requests)==0
-  cid=session.prepare('state-withdraw','INTERPRET',(mid,));path.unlink()
+  cid=session.prepare('state-withdraw','INTERPRET',(mid,),role_input=role_input,volatile_input=volatile_input)
+  path.unlink()
   assert session.execute(cid)['state']=='STALE' and len(requests)==0
 
 

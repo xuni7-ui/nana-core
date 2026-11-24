@@ -1,0 +1,13 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_repository_current_state_is_consumable_by_the_runtime __________
+tests/first_life/test_project_status_context.py:42: in test_repository_current_state_is_consumable_by_the_runtime
+    projected=ProjectStateSource(REPO,binding).projection(scopes=('project-work',),privacy_classes=('PROJECT',),now_us=current['as_of_us'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/current_state.py:77: in projection
+    except (OSError,ValueError,TypeError):raise CoreError('PROJECT_CURRENT_STATE_UNAVAILABLE') from None
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   nana_core.contracts.CoreError: PROJECT_CURRENT_STATE_UNAVAILABLE
+=========================== short test summary info ============================
+FAILED tests/first_life/test_project_status_context.py::test_repository_current_state_is_consumable_by_the_runtime
+1 failed in 0.60s
