@@ -1,0 +1,8 @@
+{
+  "delivery_commit": "4eda4492aea5e6f9c13299f7bdf92d70370bbd31",
+  "checksum_file_sha256": "56702a488a19bdb79c8c9aa65432446a778275483fd5563224562e2b7df786ca",
+  "entries_verified_from_github": 35,
+  "independent_core_offline_install_and_rollback": true,
+  "independent_sidecar_offline_install_and_check": true,
+  "independent_android_v2_signature": true
+}

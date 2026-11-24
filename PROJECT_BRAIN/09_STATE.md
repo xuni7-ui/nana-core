@@ -25,12 +25,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 315,
-  "as_of_us": 1795499925581369,
+  "revision": 316,
+  "as_of_us": 1795500301837562,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。",
     "S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。",
     "B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。",
     "真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。",
@@ -47,9 +48,10 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409；0b03734此前固定证据复用。312–315的索引、客户端、意见竞争待本轮匹配安装，真实模型、账号、真机、实际跨日和正式签发待。"
+    "CURRENT266+409。b9a6569匹配候选独立离线安装通过；.dev新调试证书无法覆盖旧c792调试应用。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md",
     "docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md",
     "docs/nana_next_experience/evidence/scoped-handoff-integration-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-0b03734-20261123/README.md",
@@ -61,6 +63,8 @@
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision316 证据指纹锚：`7602b36f35b426cb30d206fef5e7b41b3b962f8186eb8306bc659bb5b439e150`。
 
 A revision315 证据指纹锚：`6efa0d4592bb744349f5d77513e8669292179726d02af001405c80ae21f43023`。
 

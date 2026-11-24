@@ -1,3 +1,9 @@
+## 当前接续 同源集成候选 revision316
+
+固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。
+
+真实模型、账号、真机、自然度、实际跨日与生产按原资格继续。正式选择 266272a/409。证据 docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md。
+
 ## 当前接续 已归因意见与反思积压 revision315
 
 S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。
