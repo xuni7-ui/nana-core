@@ -119,8 +119,7 @@ def _bilibili_capabilities(workflow):
     receive_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
                          and (getattr(workflow.channel, 'kind', 'comment') != 'dm'
                               or workflow.channel.private_read_authorized))
-    send_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
-                      and workflow.channel.send_authorized)
+    send_ready = bool(receive_ready and workflow.channel.send_authorized)
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
@@ -130,7 +129,8 @@ def _bilibili_capabilities(workflow):
                    reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='message.text.send', available=send_ready,
                    reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
-        Capability(name='message.readback', available=True),
+        Capability(name='message.readback', available=receive_ready,
+                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),
         Capability(name='video.frames', available=frames_ready, reason=frames_reason),
