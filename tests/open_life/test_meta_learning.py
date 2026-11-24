@@ -229,3 +229,54 @@ def test_verified_meta_strategy_can_handle_a_changed_candidate_population(tmp_pa
             assert 'learning_strategy_record_id' not in body and seen==[future.learning_key]
             assert not body['results']['EVALUATE']['all_passed'] and not body['results']['TRANSFER']['all_passed']
         assert runtime.store.one('lessons',strategy)['state']=='ACTIVE' and not runtime.store.all('actions')
+
+
+def test_meta_strategy_inapplicable_on_new_transfer_is_a_known_learning_failure(tmp_path):
+    import json
+
+    from nana_core.continuity.open_agency.learning import LearningCase
+    from nana_core.presence.runtime import NanaRuntime
+
+    path = tmp_path / "self.db"
+    with fresh(path) as runtime:
+        original = number_learning()
+        service = LearningService(
+            runtime.store, runtime.authority, (original,), privacy_classes=("PERSONAL",), scopes=("lab",)
+        )
+        runtime.work.open_learning = service
+        start_learning(runtime, original, "known-transfer-training")
+        lesson = runtime.store.all("lessons")[0]
+        strategy = propose(runtime.store, lesson["lesson_id"], authority=runtime.authority)
+        experience = ExperienceService(runtime.store, runtime.authority)
+        assert all(experience.test_lesson(strategy).values())
+        experience.activate(strategy, runtime.authority)
+        strategy_record = runtime.store.one("lessons", strategy)["record_id"]
+
+        future = original.model_copy(update={
+            "learning_key": "learn.mixed-source-totals",
+            "baseline_method": "IDENTITY",
+            "practice": (LearningCase(case_id="totals-practice", context="recipe", data=[2.5, .75], expected=3.25),),
+            "evaluation": (LearningCase(case_id="totals-heldout", context="recipe", data=[3.25, 1.25], expected=4.5),),
+            "transfer": (LearningCase(case_id="totals-transfer", context="receipts", data="3.25 + 2.5", expected=5.75),),
+        })
+        service.specs[future.learning_key] = future
+        start_learning(runtime, future, "later-source-format")
+        job = runtime.store.db.execute(
+            "SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1"
+        ).fetchone()
+        body = RecordService(runtime.store).read(job["record_id"])["payload"]
+        assert body["learning_strategy_record_id"] == strategy_record
+        assert body["results"]["EVALUATE"]["all_passed"]
+        assert body["stage"] == "TRANSFER" and job["state"] == "BLOCKED"
+        event = runtime.store.db.execute(
+            "SELECT data_json FROM events WHERE kind='open.learning_parked' AND json_extract(data_json,'$.data.work_id')=?",
+            (job["job_id"],),
+        ).fetchone()
+        assert json.loads(event[0])["data"]["reason"] == "LEARNING_METHOD_INPUT_INAPPLICABLE"
+        assert len(runtime.store.all("lessons")) == 2
+        config, clock, identity = runtime.config, runtime.clock, runtime.identity_id
+
+    with NanaRuntime(path, config, clock=clock) as runtime:
+        assert runtime.identity_id == identity
+        assert runtime.store.one("jobs", job["job_id"])["state"] == "BLOCKED"
+        assert runtime.store.one("lessons", strategy)["state"] == "ACTIVE"

@@ -1,3 +1,9 @@
+## 当前接续 原学习迁移结果 revision317
+
+S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。
+
+本修复晚于固定 b9a6569 制品。按原 S3/S8/S10 继续验证新情境、行为及实际使用。证据 docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md。
+
 ## 当前接续 同源集成候选 revision316
 
 固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。
