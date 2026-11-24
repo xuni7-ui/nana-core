@@ -486,6 +486,7 @@ def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter)
             forged=normalize(other.account,{**message(1),'self_id':44})
             if mutate_adapter:first.account=other.account
             first.events.put_nowait(None)
+            first.events.put_nowait({'kind':'untrusted malformed event'})
             first.events.put_nowait(forged)
             assert other.offer({**message(2),'self_id':44})=='QUEUED'
             async def processed():
@@ -495,6 +496,7 @@ def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter)
             assert sidecar.transport.size==1 and sidecar.transport.counts[other.account.key]==1
             assert sidecar.last['a']['state']=='REJECTED_ACCOUNT_BINDING'
             assert first.health().error=='EVENT_ACCOUNT_MISMATCH'
+            assert first.metrics['invalid_events']==2
             assert not sidecar.tasks[0].done() and not sidecar.tasks[1].done()
         finally:
             await sidecar.close();resolver.clear()
