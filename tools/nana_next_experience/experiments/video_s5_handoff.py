@@ -36,6 +36,16 @@ class S5DecodeBatch:
     frame_attestation: str = 'TRUSTED_PIPELINE_NOT_INDEPENDENTLY_REDECODED'
 
 
+def _unambiguous_observation(app, source_ref, scope):
+    """Current batch only names a memory, not the observation C selected."""
+    rows=app.runtime.store.db.execute(
+        "SELECT record_id,lifecycle FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' "
+        "AND target_id=? AND scope=? AND privacy_class='PUBLIC' LIMIT 2",(source_ref,scope)).fetchall()
+    if len(rows)!=1 or rows[0]['lifecycle']!='ACTIVE':
+        raise CoreError('NANALINK_VIDEO_OBSERVATION_AMBIGUOUS')
+    return rows[0]['record_id']
+
+
 def s5_decode_handoff(app, cache, batch, *, scope, verify_source_frames=False):
     """Decode trusted candidates through original S5 with current source checks.
 
@@ -43,7 +53,9 @@ def s5_decode_handoff(app, cache, batch, *, scope, verify_source_frames=False):
     not independently prove it came from those bytes or from a platform. A
     caller must trust the producing pipeline unless verify_source_frames=True,
     which redecodes each candidate window at the same resolution/orientation.
-    The caller must still recheck source at actual use.
+    Ambiguous observation history fails closed, including a genuine later
+    selection, until the original owner supplies a versioned choice contract.
+    The caller must still recheck source at actual use; checks are not a lock.
     This creates no evidence, memory, observation, permission or model call.
     """
     if (type(batch) is not GuardedImageBatch or batch.state != 'CANDIDATES_NOT_INGESTED' or
@@ -53,6 +65,7 @@ def s5_decode_handoff(app, cache, batch, *, scope, verify_source_frames=False):
     def operation(handle):
         if (handle.source_ref,handle.sha256)!=(batch.source_ref,batch.source_sha256):
             raise CoreError('NANALINK_VIDEO_SOURCE_CHANGED')
+        observation_id=_unambiguous_observation(app,handle.source_ref,scope)
         frames=[];total=0;decoder=MediaDecoder();groups={}
         with public_snapshot(cache,handle,privacy='PUBLIC') as path:
             for image in batch.images:
@@ -100,6 +113,8 @@ def s5_decode_handoff(app, cache, batch, *, scope, verify_source_frames=False):
                     pixels=original.rgb24[index*frame_size:(index+1)*frame_size]
                     if original.timestamps[index]!=image.source_seconds or hashlib.sha256(pixels).hexdigest()!=image.pixel_sha256:
                         raise ValueError('video image does not match source frame')
+        if _unambiguous_observation(app,handle.source_ref,scope)!=observation_id:
+            raise CoreError('NANALINK_VIDEO_OBSERVATION_AMBIGUOUS')
         return S5DecodeBatch(handle.source_ref,handle.sha256,tuple(frames),
                              batch.unrequested_intervals,batch.sampling_gaps,handle.size,
                              frame_attestation=('NO_FRAMES_TO_VERIFY' if verify_source_frames and not batch.images else

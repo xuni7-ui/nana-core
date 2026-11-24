@@ -10,8 +10,10 @@ from PIL import Image
 from nana_core.clock import Clock
 from nana_core.contracts import CoreError
 from nana_core.continuity.memory import MemoryService
+from nana_core.continuity.records import RecordService
+from nana_core.continuity.world_loop.perception import PerceptionService,PublicMediaSource
 from nana_core.nanalink.media import MediaCache
-from tests.world_loop.helpers import fresh
+from tests.world_loop.helpers import fresh,providers
 from tests.nana_next_experience.test_video_guarded_audio import video_bytes
 from tests.nana_next_experience.test_video_shared_audio_snapshot import source
 from tools.nana_next_experience.experiments.video_guarded_batch import guarded_images
@@ -29,6 +31,15 @@ def make_batch(app,cache,mid):
                  'pairs_examined':len(decoded.timestamps)-1,'truncated':False,'proposals':[]})
     return guarded_images(app,cache,mid,scope='world',windows=((0,4),),detector=detector,
                           budget=3,max_gap=2,width=32,height=32,shared_snapshot=True)
+
+
+def supersede(runtime,mid):
+    records=RecordService(runtime.store)
+    old=runtime.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=? AND lifecycle='ACTIVE'",(mid,)).fetchone()[0]
+    payload=records.read(old)['payload']
+    with runtime.store.transaction('SYNTHETIC_MEDIA_SUPERSESSION') as tx:
+        records.create(tx,kind='MEDIA_OBSERVATION',scope='world',payload=payload,
+                       memories=(mid,),supersedes=old,target_id=mid)
 
 
 def test_original_s5_receives_images_and_rejects_tampering(tmp_path):
@@ -106,5 +117,39 @@ def test_s5_handoff_rechecks_withdrawal_during_source_frame_verification(tmp_pat
                 return result
             monkeypatch.setattr(module,'decode_source_window',revoke)
             with pytest.raises(CoreError):
+                s5_decode_handoff(app,cache,batch,scope='world',verify_source_frames=True)
+        finally:cache.close()
+
+
+def test_s5_handoff_refuses_superseded_original_observation_between_batches(tmp_path):
+    data=video_bytes(tmp_path)
+    with fresh(tmp_path/'subject.db',Clock()) as runtime:
+        app,mid=source(runtime,data);cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
+        try:
+            cache.put([data],source_ref=mid,media_type='video/mp4');batch=make_batch(app,cache,mid)
+            supersede(runtime,mid)
+            with pytest.raises(CoreError,match='NANALINK_VIDEO_OBSERVATION_AMBIGUOUS'):
+                s5_decode_handoff(app,cache,batch,scope='world',verify_source_frames=True)
+            now=runtime.clock.utc_now_us()
+            descriptor=PublicMediaSource(source_id='synthetic-independent-video',modality='VIDEO',origin='SYNTHETIC',event_time_us=now,observed_time_us=now)
+            other,_=PerceptionService(runtime.store,providers(),app.policy).ingest(data,descriptor,entity_id='observer',scope='world')
+            cache.put([data],source_ref=other,media_type='video/mp4')
+            current=make_batch(app,cache,other)
+            assert s5_decode_handoff(app,cache,current,scope='world',verify_source_frames=True).frames
+        finally:cache.close()
+
+
+def test_s5_handoff_refuses_original_observation_superseded_during_decode(tmp_path,monkeypatch):
+    from tools.nana_next_experience.experiments import video_s5_handoff as module
+    original=module.decode_source_window
+    data=video_bytes(tmp_path)
+    with fresh(tmp_path/'subject.db',Clock()) as runtime:
+        app,mid=source(runtime,data);cache=MediaCache(tmp_path/'cache',source_current=lambda _:True)
+        try:
+            cache.put([data],source_ref=mid,media_type='video/mp4');batch=make_batch(app,cache,mid)
+            def replace_observation(*args,**kwargs):
+                result=original(*args,**kwargs);supersede(runtime,mid);return result
+            monkeypatch.setattr(module,'decode_source_window',replace_observation)
+            with pytest.raises(CoreError,match='NANALINK_VIDEO_OBSERVATION_AMBIGUOUS'):
                 s5_decode_handoff(app,cache,batch,scope='world',verify_source_frames=True)
         finally:cache.close()
