@@ -392,6 +392,12 @@ class OneBotSidecar:
                 self._receive_fault(config, adapter, state='EVENT_ID_COLLISION_DROPPED',
                                     error='EVENT_ID_COLLISION_DROPPED', metric='transport_collisions')
                 continue
+            except (TypeError, ValueError):
+                # SDK instances can contain invalid values (e.g. model_copy
+                # without validation). Reject the envelope, not the receiver.
+                self._receive_fault(config, adapter, state='INVALID_EVENT_DROPPED',
+                                    error='INVALID_EVENT_DROPPED', metric='invalid_events')
+                continue
             if state == 'BACKPRESSURE':
                 self.last[config.alias] = {'state': 'BACKPRESSURE', 'no_retry': True}
                 # Bounded backpressure is visible. Never hide loss as delivery.

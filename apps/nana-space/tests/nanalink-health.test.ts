@@ -42,6 +42,7 @@ describe('NanaLink phone health',()=>{
     expect(healthWords({...base,error:'EVENT_ID_COLLISION_DROPPED'})).toContain('消息编号冲突');
     expect(healthWords({...base,error:'EVENT_ACCOUNT_MISMATCH'})).toContain('事件账号不符');
     expect(healthWords({...base,error:'ADAPTER_RECEIVE_FAILED'})).toContain('连接器接收出错');
+    expect(healthWords({...base,error:'INVALID_EVENT_DROPPED'})).toContain('收到无效事件');
     expect(healthWords({...base,error:'UNEXPECTED_DETAIL'})).not.toContain('UNEXPECTED_DETAIL');
   });
 });
