@@ -130,6 +130,51 @@ def test_storyboard_capture_rejects_swapped_bytes_before_retaining_any_frame(tmp
         assert transport.calls == 7
 
 
+def test_storyboard_frame_write_failure_does_not_leave_detached_evidence(tmp_path, monkeypatch):
+    with counterpart() as (opener, _), fresh(tmp_path / "self.db", Clock()) as r:
+        transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+        transport.opener = BilibiliLoopbackOpener(opener.endpoint)
+        reading = transport.read_video("BV1t55v6DE2v", visual=True)
+        app = SimpleNamespace(runtime=r)
+        source = BilibiliSourceAdapter(app).ingest(reading)
+        frames = BilibiliFrameService(app)
+        artifacts_before = r.store.db.execute("SELECT count(*) FROM artifacts").fetchone()[0]
+
+        def interrupt(*_args):
+            raise CoreError("SYNTHETIC_FRAME_INDEX_INTERRUPTED")
+
+        with monkeypatch.context() as patch:
+            patch.setattr(frames.memory, "_index", interrupt)
+            with pytest.raises(CoreError, match="SYNTHETIC_FRAME_INDEX_INTERRUPTED"):
+                frames.capture(source, reading.frames[:1])
+
+        evidence_count = "SELECT count(*) FROM continuity_evidence WHERE source_namespace='recorded.project.bilibili.frames'"
+        assert r.store.db.execute(evidence_count).fetchone()[0] == 0
+        assert r.store.db.execute("SELECT count(*) FROM artifacts").fetchone()[0] == artifacts_before
+        assert frames.coverage(source)["visual_frames"] == 0
+        ids = frames.capture(source, reading.frames[:1])
+        count = r.store.db.total_changes
+        assert frames.capture(source, reading.frames[:1]) == ids
+        assert r.store.db.total_changes == count
+
+        from nana_core.continuity import ContinuityStore
+
+        replica = tmp_path / "replica" / "self.db"
+        r.store.replay(replica)
+        with ContinuityStore(replica, Clock(), schema_target=13) as reopened:
+            assert reopened.identity["identity_id"] == r.identity_id
+            assert MemoryService(reopened).read(ids[0])["text"] == frames.memory.read(ids[0])["text"]
+
+        MemoryService(r.store, r.authority).forget(source, r.authority)
+        assert frames.coverage(source)["visual_frames"] == 0
+        assert r.store.db.execute(
+            evidence_count + " AND state='AVAILABLE'"
+        ).fetchone()[0] == 0
+        with ContinuityStore(replica, Clock(), schema_target=13) as reopened:
+            with pytest.raises(CoreError, match="MEMORY_UNAVAILABLE"):
+                MemoryService(reopened).read(ids[0])
+
+
 def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
     from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
     from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy

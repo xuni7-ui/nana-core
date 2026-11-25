@@ -3,6 +3,7 @@
 Raw observation, claim and derived summary have independent identities. Only
 trusted application controllers call these commit methods; LLMs propose DTOs.
 """
+from contextlib import nullcontext
 import json
 import re
 import sqlite3
@@ -82,7 +83,17 @@ class MemoryService:
         return entity_id
 
     def capture(self, candidate: EvidenceInput):
-        self._fresh()
+        return self._capture(candidate)
+
+    def _matching_evidence(self, provenance):
+        return self.store.db.execute(
+            "SELECT * FROM continuity_evidence WHERE source_namespace=? AND source_reference=? AND source_revision=?",
+            (provenance.source_namespace, provenance.source_reference, provenance.source_revision),
+        ).fetchone()
+
+    def _capture(self, candidate: EvidenceInput, *, tx=None):
+        if tx is None:
+            self._fresh()
         if not isinstance(candidate, EvidenceInput):
             raise CoreError("INVALID_EVIDENCE_CONTRACT")
         p = candidate.provenance
@@ -129,9 +140,7 @@ class MemoryService:
         if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
         if p.domain!="SYNTHETIC_ONLY" and not project and not local and not consented and not legacy and not own and not platform and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
             raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
-        previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
-            "source_namespace=? AND source_reference=? AND source_revision=?",
-            (p.source_namespace, p.source_reference, p.source_revision)).fetchone()
+        previous = self._matching_evidence(p)
         # Stable keys stay tombstoned; never create a new payload for deleted input.
         if previous:
             if previous["state"] == "DELETED":
@@ -149,7 +158,9 @@ class MemoryService:
         if candidate.observed_time_us > now:
             raise CoreError("OBSERVATION_FROM_FUTURE")
         evidence_id = uid()
-        with self.store.transaction("memory.evidence_captured", occurred_at_us=candidate.event_time_us) as tx:
+        transaction = nullcontext(tx) if tx is not None else self.store.transaction(
+            "memory.evidence_captured", occurred_at_us=candidate.event_time_us)
+        with transaction as tx:
             artifact_id = tx.artifact(candidate.model_dump_json().encode())
             tx.put("continuity_evidence", {"evidence_id": evidence_id,
                 "source_namespace": p.source_namespace, "source_reference": p.source_reference,
@@ -162,6 +173,9 @@ class MemoryService:
 
     def evidence(self, evidence_id):
         self._fresh()
+        return self._available_evidence(evidence_id)
+
+    def _available_evidence(self, evidence_id):
         row = self.store.one("continuity_evidence", evidence_id)
         if not row or row["state"] != "AVAILABLE":
             raise CoreError("EVIDENCE_UNAVAILABLE")
@@ -179,13 +193,37 @@ class MemoryService:
                 "source_provenance": json.loads(self.evidence(row["source_evidence_id"])["provenance_json"])}
 
     def add(self, candidate: MemoryCandidate):
+        return self._add(candidate)
+
+    def capture_derived_observation(self, evidence: EvidenceInput, *, parent_memory_id):
+        """Commit excerpt evidence with its backlink in one owner transaction."""
+        if not isinstance(evidence, EvidenceInput) or evidence.provenance.source_kind != "DIRECT_OBSERVATION":
+            raise CoreError("DERIVED_OBSERVATION_EVIDENCE_REQUIRED")
+        parent = self.read(parent_memory_id)
+        if evidence.privacy_class != parent["privacy_class"]:
+            raise CoreError("DERIVED_OBSERVATION_PRIVACY_MISMATCH")
+
+        def observation(evidence_id):
+            return MemoryCandidate(
+                entity_id=parent["entity_id"], scope=parent["scope"], memory_type=MemoryType.EPISODIC,
+                epistemic_kind="OBSERVATION", text=evidence.text, source_evidence_id=evidence_id,
+                derived_from=(parent_memory_id,),
+            )
+
+        if self._matching_evidence(evidence.provenance) is not None:
+            return self.add(observation(self.capture(evidence)))
+        with self.store.transaction("memory.derived_observation_committed", occurred_at_us=evidence.event_time_us) as tx:
+            evidence_id = self._capture(evidence, tx=tx)
+            return self._add(observation(evidence_id), tx=tx, parent=parent)
+
+    def _add(self, candidate: MemoryCandidate, *, tx=None, parent=None):
         if not isinstance(candidate, MemoryCandidate):
             raise CoreError("INVALID_MEMORY_CONTRACT")
         if not self.store.one("entities", candidate.entity_id):
             raise CoreError("ENTITY_BINDING_REQUIRED")
         if candidate.memory_type.value == "SELF" and candidate.entity_id != self.store.identity["identity_id"]:
             raise CoreError("SELF_MEMORY_REQUIRES_CANONICAL_SUBJECT")
-        source = self.evidence(candidate.source_evidence_id)
+        source = (self.evidence if tx is None else self._available_evidence)(candidate.source_evidence_id)
         provenance=json.loads(source['provenance_json'])
         if provenance['domain']=='SELF_COGNITION':
             if provenance['source_namespace'] in {'recorded.subject.cognition-occurrence','recorded.subject.provider-consideration'}:
@@ -204,7 +242,7 @@ class MemoryService:
             authority = 'INFERRED'
         if candidate.epistemic_kind in {"SUMMARY", "INFERENCE", "LESSON"}:
             authority = "INFERRED"
-        parents = [self.read(x) for x in candidate.derived_from]
+        parents = [parent] if parent is not None else [self.read(x) for x in candidate.derived_from]
         if any(p["scope"] != candidate.scope for p in parents):
             raise CoreError("CROSS_SCOPE_DERIVATION")
         privacy = max([source["privacy_class"], *(p["privacy_class"] for p in parents)], key=PRIVACY_RANK.get)
@@ -243,7 +281,8 @@ class MemoryService:
             assessment = "UNASSESSED"
         if old:
             assessment = "CURRENT"
-        with self.store.transaction("memory.committed") as tx:
+        transaction = nullcontext(tx) if tx is not None else self.store.transaction("memory.committed")
+        with transaction as tx:
             tx.put("memories", {"memory_id": memory_id, "entity_id": candidate.entity_id,
                 "scope": candidate.scope, "memory_type": candidate.memory_type.value,
                 "epistemic_kind": candidate.epistemic_kind, "source_evidence_id": candidate.source_evidence_id,

@@ -1,0 +1,9 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_storyboard_frame_write_failure_does_not_leave_detached_evidence _____
+tests/living_release_v4/test_bilibili_frames.py:151: in test_storyboard_frame_write_failure_does_not_leave_detached_evidence
+    assert r.store.db.execute(evidence_count).fetchone()[0] == 0
+E   assert 1 == 0
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_storyboard_frame_write_failure_does_not_leave_detached_evidence
+1 failed, 7 deselected in 1.00s

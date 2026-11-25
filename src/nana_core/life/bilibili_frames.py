@@ -15,7 +15,7 @@ import math
 import warnings
 
 from ..contracts import CoreError
-from ..continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
+from ..continuity.contracts import EvidenceInput, Provenance
 from ..continuity.memory import MemoryService
 from ..storage import canonical, digest
 
@@ -185,14 +185,8 @@ class BilibiliFrameService:
             )
             reference = digest([source_memory_id, binding["at_seconds"], binding["sha256"]])
             p = source["source_provenance"]
-            prior = self.runtime.store.db.execute(
-                "SELECT evidence_id FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",
-                (namespace, reference),
-            ).fetchone()
-            eid = (
-                prior[0]
-                if prior
-                else self.memory.capture(
+            result.append(
+                self.memory.capture_derived_observation(
                     EvidenceInput(
                         provenance=Provenance(
                             domain=p["domain"],
@@ -204,20 +198,8 @@ class BilibiliFrameService:
                         text=text,
                         privacy_class=source["privacy_class"],
                         observed_time_us=source["observed_time_us"],
-                    )
-                )
-            )
-            result.append(
-                self.memory.add(
-                    MemoryCandidate(
-                        entity_id=source["entity_id"],
-                        scope=source["scope"],
-                        memory_type=MemoryType.EPISODIC,
-                        epistemic_kind="OBSERVATION",
-                        text=text,
-                        source_evidence_id=eid,
-                        derived_from=(source_memory_id,),
-                    )
+                    ),
+                    parent_memory_id=source_memory_id,
                 )
             )
         return tuple(result)
