@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 319,
-  "as_of_us": 1795500732723644,
+  "revision": 320,
+  "as_of_us": 1795586258730685,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原G后续独立复核遇已验证的明确输入拒绝，原Store同事务保留反例并暂停方法。重复复核、撤回与独立复验通过，35项相关回归。",
     "实际PROJECT_BRAIN现役快照恢复原有界读取，原来源、时效和隐私限制继续生效，历史交接保留在现役快照之后。",
     "原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。",
     "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。",
     "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。",
     "S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。",
     "B #28/#30与NanaLink #31已合，保留原主体及授权；TS/Vite、105单测/24两视口通过。#22/#29收口归档，接口差额由A原权威接线。",
-    "真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。",
-    "原索引重建遇中断时保留此前完整投影，重试恢复全部。流式读与SQLite保存点已接入原Store，固定c298760受影响Core CI通过。"
+    "真实进程在写入首条索引后、提交前被 SIGKILL；原库重开保留完整索引与原始状态，重试成功。固定2a8359e受影响Core CI通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -32,17 +32,19 @@
     "CURRENT266+409。b9a6569匹配候选独立离线安装通过；.dev新调试证书无法覆盖旧c792调试应用。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/episode-input-counterexample-20261125/README.md",
     "docs/nana_next_experience/evidence/repository-current-state-20261124/README.md",
     "docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md",
     "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md",
     "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md",
     "docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md",
     "docs/nana_next_experience/evidence/scoped-handoff-integration-20261124/README.md",
-    "docs/nana_next_experience/evidence/integrated-0b03734-20261123/README.md",
-    "docs/nana_next_experience/evidence/qualified-recall-scope-20261123/README.md"
+    "docs/nana_next_experience/evidence/integrated-0b03734-20261123/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision320 证据指纹锚：`93105768cf4481ad48f762a86dc6a00dd5d1500515ffba827616a4e5f884e377`。
 
 A revision319 证据指纹锚：`8dc62523b2dd4dacf7e97a72227b9009d6e956ef316aca5a3b4fb8cba07a5f77`。
 

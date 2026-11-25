@@ -10,7 +10,11 @@ from nana_core.presence.contracts import RuntimeEvent,Cause
 from nana_core.continuity.memory import MemoryService
 from .helpers import *
 
-def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monkeypatch):
+@pytest.mark.parametrize('counter_data,expected,inapplicable', [
+    ([.1, .2], .3, False),
+    ('3.25 + 2.5', 5.75, True),
+])
+def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monkeypatch,counter_data,expected,inapplicable):
     with fresh(tmp_path/'s'/'self.db') as r:
         r.work.configure_open_learning((numeric_learning(),))
         cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',program_id='learn.numbers',possible_behaviors=('LEARN',))
@@ -20,10 +24,15 @@ def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monk
         r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=c),),due_at_us=r.clock.utc_now_us()));r.drain(32)
         lesson=r.store.all('lessons')[0];assert lesson['state']=='ACTIVE'
         review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
-        def assess(key,data,expected):
+        def assess(key,data,expected,*,kind='DIRECT_OBSERVATION'):
             body={'strategy_episode':{'episode_key':key,'lesson_id':lesson['lesson_id'],'case':LearningCase(case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
-            mid=capture(r,key,body);aid=review.assess(lesson['lesson_id'],mid,authority=r.authority);return mid,aid
+            mid=capture(r,key,body,kind=kind);aid=review.assess(lesson['lesson_id'],mid,authority=r.authority);return mid,aid
         assess('reuse',[3.5,2],5.5);view=review.view(lesson['lesson_id']);assert view['supports']==1 and view['state']=='ACTIVE'
+        if inapplicable:
+            with pytest.raises(CoreError,match='WORLD_NUMERIC_INPUT_REQUIRED'):
+                assess('unverified-format',counter_data,expected,kind='USER_STATEMENT')
+            assert review.view(lesson['lesson_id'])['state']=='ACTIVE'
+            assert review.view(lesson['lesson_id'])['counterexamples']==0
         # A process can die after the independent verdict is durable but before
         # the caller resumes. Suspension must share that very same transaction.
         from contextlib import contextmanager
@@ -35,7 +44,13 @@ def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monk
                 assert r.store.one('lessons',lesson['lesson_id'])['state']=='SUSPENDED'
         with monkeypatch.context() as patch:
             patch.setattr(r.store,'transaction',after_commit)
-            counter,aid=assess('precision-counter',[.1,.2],.3)
+            counter,aid=assess('independent-counter',counter_data,expected,kind='SYSTEM_VERIFICATION')
+        if inapplicable:
+            rid=r.store.one('strategy_assessments',aid)['record_id']
+            result=review.records.read(rid)['payload']['result']
+            assert result['checked']==1 and result['passed']==0
+            assert result['cases'][0]['reason']=='WORLD_NUMERIC_INPUT_REQUIRED'
+            assert 'actual' not in result['cases'][0]
         assert review.view(lesson['lesson_id'])['counterexamples']==1 and not r.work.open_learning.strategy('numbers','world')
         assert review.assess(lesson['lesson_id'],counter,authority=r.authority)==aid
         assess('recheck-a',[2,3],5);assess('recheck-b',[1.25,2.5],3.75)
@@ -43,6 +58,7 @@ def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monk
         MemoryService(r.store,r.authority).set_lifecycle(counter,'SUPPRESSED',r.authority)
         assert review.revalidate(lesson['lesson_id'],authority=r.authority)['state']=='ACTIVE'
         assert review.competition('numbers')[0]['state']=='ACTIVE'
+        assert not r.store.all('cognitive_requests')
 
 
 def test_transport_hypothesis_reuses_original_nine_stages_and_reflection_stays_proposal(tmp_path):

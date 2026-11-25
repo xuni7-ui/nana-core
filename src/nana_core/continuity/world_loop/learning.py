@@ -5,6 +5,7 @@ from ...storage import canonical,digest,uid
 from ..records import RecordService
 from ..learning import ExperienceService
 from ..open_agency.learning import LearningCase,IndependentEvaluator
+from ..open_agency.world import METHOD_INPUT_REJECTION_CODES
 
 class EpisodeLearning:
     def __init__(self,store,authority,*,scopes,privacy_classes,evaluator=None):
@@ -37,7 +38,9 @@ class EpisodeLearning:
         if head['scope']!=memory['scope'] or head['privacy_class'] not in self.privacy or not self.records.current_support(lesson['record_id']):raise CoreError('STRATEGY_SOURCE_RETIRED')
         rule=self.experiences._rule(lesson)
         if getattr(rule,'kind',None)!='METHOD_SELECTION':raise CoreError('METHOD_STRATEGY_REQUIRED')
-        result=self.evaluator.evaluate(rule.method,(case,));verdict='SUCCESS' if result['all_passed'] else 'COUNTEREXAMPLE'
+        verified_source = memory['source_provenance']['source_kind'] == 'SYSTEM_VERIFICATION'
+        result = self._evaluate_case(rule.method, case, verified_source=verified_source)
+        verdict = 'SUCCESS' if result['all_passed'] else 'COUNTEREXAMPLE'
         aid=uid()
         with self.store.transaction('world.strategy_episode_checked',{'assessment_id':aid,'verdict':verdict}) as tx:
             rid=self.records.create(tx,kind='STRATEGY_REVIEW',scope=memory['scope'],payload={'episode':body,'result':result,'method':rule.method,'attribution':'STRATEGY_OUTPUT_VS_INDEPENDENT_EXPECTATION','not_a_personality_change':True},memories=(source_memory_id,),records=(lesson['record_id'],),target_id=lesson_id)
@@ -48,6 +51,28 @@ class EpisodeLearning:
             if verdict=='COUNTEREXAMPLE' and lesson['state']=='ACTIVE':
                 tx.update('lessons',lesson_id,state='SUSPENDED',revision=lesson['revision']+1)
         return aid
+
+    def _evaluate_case(self, method, case, *, verified_source):
+        try:
+            return self.evaluator.evaluate(method, (case,))
+        except CoreError as exc:
+            if not verified_source or exc.code not in METHOD_INPUT_REJECTION_CODES:
+                raise
+            # A verifier observed a rejected input. There is no output to record.
+            return {
+                'checked': 1,
+                'passed': 0,
+                'all_passed': False,
+                'cases': [{
+                    'case_id': case.case_id,
+                    'context': case.context,
+                    'input_digest': digest(case.data),
+                    'expected_digest': digest(case.expected),
+                    'passed': False,
+                    'reason': exc.code,
+                }],
+            }
+
     def view(self,lesson_id):
         rows=self.store.db.execute('SELECT * FROM strategy_assessments WHERE lesson_id=? ORDER BY created_at_us DESC,rowid DESC LIMIT 64',(lesson_id,)).fetchall();seen=set();valid=[]
         for row in rows:
@@ -82,7 +107,8 @@ class EpisodeLearning:
                 raise CoreError('INDEPENDENT_REVALIDATION_REQUIRED')
             payload=self.records.read(row['record_id'])['payload']
             case=LearningCase.model_validate_json(canonical(payload['episode']['case']))
-            if not self.evaluator.evaluate(rule.method,(case,))['all_passed']:raise CoreError('UNRESOLVED_COUNTEREXAMPLE')
+            if not self._evaluate_case(rule.method, case, verified_source=True)['all_passed']:
+                raise CoreError('UNRESOLVED_COUNTEREXAMPLE')
         self.experiences.test_lesson(lesson_id);self.experiences.activate(lesson_id,self.authority)
         with self.store.transaction('world.strategy_revalidated',{'lesson_id':lesson_id,'support_records':support}):pass
         return self.view(lesson_id)

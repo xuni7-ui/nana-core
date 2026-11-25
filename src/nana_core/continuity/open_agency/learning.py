@@ -11,7 +11,7 @@ from ...contracts import DTO, CoreError
 from ...storage import canonical, digest, uid
 from ..records import RecordService
 from ..learning import ExperienceService
-from .world import ComputeArgs, transform, bounded_data
+from .world import ComputeArgs, METHOD_INPUT_REJECTION_CODES, transform, bounded_data
 
 STAGES = ("OBSERVE", "VALUE", "HYPOTHESIZE", "BASELINE", "PRACTICE", "EVALUATE", "TRANSFER", "CONSOLIDATE", "MONITOR")
 
@@ -440,11 +440,7 @@ class LearningService:
                 # A sealed method can reject the input of a new case after
                 # succeeding in practice. Record that outcome without exposing
                 # held-out inputs or asking the proposer to try the same case.
-                if stage != "BASELINE" and exc.code in {
-                    "WORLD_NUMERIC_INPUT_REQUIRED",
-                    "WORLD_SORT_INPUT_REQUIRED",
-                    "WORLD_TEXT_INPUT_REQUIRED",
-                }:
+                if stage != "BASELINE" and exc.code in METHOD_INPUT_REJECTION_CODES:
                     return self._terminal(job, "BLOCKED", "LEARNING_METHOD_INPUT_INAPPLICABLE")
                 raise
             result = new["results"][stage]
