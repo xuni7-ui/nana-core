@@ -1,3 +1,9 @@
+## 当前接续 原 C 图片来源资格 revision323
+
+原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。
+
+S5/S7 进阶。图片精确观察版本载荷、可信 QQ 撤回、B站视频派生来源及真实验收继续。固定制品 5ed149d 早于本修复。证据 docs/nana_next_experience/evidence/current-image-offering-20261125/README.md。
+
 ## 当前接续 NanaLink 原入口防护 revision322
 
 原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。

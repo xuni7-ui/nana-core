@@ -1,0 +1,1 @@
+Combined NanaLink input manifest verified: 107 entries against the staging index

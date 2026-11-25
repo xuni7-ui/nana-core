@@ -21,13 +21,25 @@ def picture():
     return output.getvalue()
 
 
-def test_original_c_can_leave_retrieved_image_unselected(app):
+@pytest.mark.parametrize('superseded', [False, True])
+def test_original_c_can_leave_retrieved_image_unselected(app, superseded):
     r = app.runtime
     now = r.clock.utc_now_us()
     source = PublicMediaSource(source_id='synthetic-picture', modality='IMAGE', origin='SYNTHETIC',
                                event_time_us=now, observed_time_us=now)
-    mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
-        picture(), source, entity_id='project-user', scope='project-work')
+    perception = PerceptionService(r.store, providers(), app.policy)
+    mid, first = perception.ingest(picture(), source, entity_id='project-user', scope='project-work')
+    expected = mid
+    if superseded:
+        from nana_core.continuity.records import RecordService
+        records = RecordService(r.store)
+        previous = records.read(first)
+        with r.store.transaction('synthetic.revised_image_before_choice') as tx:
+            records.create(tx, kind='MEDIA_OBSERVATION', scope='project-work', payload=previous['payload'],
+                           memories=records.support(first), supersedes=first, target_id=mid)
+        assert records.current_support(first)
+        fresh = source.model_copy(update={'source_id': 'independent-picture'})
+        expected, _ = perception.ingest(picture(), fresh, entity_id='project-user', scope='project-work')
     seen = []
     def propose(request):
         context = json.loads(request.context_json)
@@ -45,7 +57,7 @@ def test_original_c_can_leave_retrieved_image_unselected(app):
         session = CognitionSession(r, transport, app.policy)
         result = r.subject.cognize(event, model=session.subject_port(privacy_class='PUBLIC',
             budget=CognitionBudget(input_tokens=32768)), authority=r.authority, policy=app.policy)
-    assert len(seen) == 1 and seen[0]['source_memory_id'] == mid
+    assert [item['source_memory_id'] for item in seen] == [expected]
     assert result.realization_target is None
     assert state['calls'] == 1 and not r.store.all('actions') and not r.store.all('grants')
     MemoryService(r.store, r.authority).forget(mid, r.authority)
