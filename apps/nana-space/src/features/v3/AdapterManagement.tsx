@@ -2,15 +2,23 @@ import {useState} from 'react';
 import {V2Client,object,writeBase} from '../../data/v2';
 import type {Envelope} from '../../data/v2.generated';
 
-export function AdapterManagement({client,status,channel,readAuthorized,view,onSaved}:{client:V2Client;status:Envelope;channel:string;readAuthorized:boolean;view:Record<string,unknown>;onSaved:()=>Promise<void>}) {
+export function AdapterManagement({client,status,statusReadId,channel,readAuthorized,view,startStatusRead}:{
+  client: V2Client;
+  status: Envelope;
+  statusReadId: number;
+  channel: string;
+  readAuthorized: boolean;
+  view: Record<string,unknown>;
+  startStatusRead: () => {readId: number; complete: Promise<void>};
+}) {
   const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[version,setVersion]=useState('');
-  const [submittedStatus,setSubmittedStatus]=useState<Envelope|null>(null);
-  const statusNeedsRefresh=submittedStatus===status;
+  const [minimumReadId,setMinimumReadId]=useState(0);
+  const statusNeedsRefresh=statusReadId<minimumReadId;
   const choices=Array.isArray(view.approved_versions)?view.approved_versions.filter((v):v is string=>typeof v==='string'):[];
   const installed=view.installed===true,enabled=view.enabled===true,uncertain=view.uncertain===true;
   const command=async(operation:string)=>{
     if(busy||statusNeedsRefresh)return;
-    setBusy(true);setMessage('');setSubmittedStatus(status);
+    setBusy(true);setMessage('');
     try {
       const data=object(status.data);
       const result=object((await client.manageAdapter({...writeBase(status,crypto.randomUUID()),operation,
@@ -19,12 +27,14 @@ export function AdapterManagement({client,status,channel,readAuthorized,view,onS
       setMessage(result.state==='VERIFIED'?'连接器设置已应用。':result.state==='UNKNOWN'?'上次操作回执待核对，以最新连接器状态为准。':'设置未应用，请检查版本或权限。');
     } catch {setMessage('未收到上次操作回执，以最新连接器状态为准。');}
     finally {
-      try {await onSaved();}
+      const {readId, complete} = startStatusRead();
+      setMinimumReadId(readId);
+      try {await complete;}
       finally {setBusy(false);}
     }
   };
   return <details><summary>管理此连接器 · {String(view.current)}</summary>
-    {statusNeedsRefresh?<p role="status">{busy?'正在核对连接器状态。':'连接器状态尚未读取，请刷新连接状态。'}</p>:<>
+    {busy||statusNeedsRefresh?<p role="status">{busy?'正在核对连接器状态。':'连接器状态尚未读取，请刷新连接状态。'}</p>:<>
     <p>{installed?'已安装':'已移除'} · {enabled?'运行中':'已暂停'}{uncertain?' · 上次操作待核对':''}</p>
     {view.persistent!==true&&<p className="v3-muted">设置只在本次运行生效；重启后遵循宿主配置。</p>}
     {!uncertain&&choices.length>1&&<label>宿主批准的版本 <select aria-label="连接器版本" value={version||String(view.current)} onChange={e=>setVersion(e.target.value)}>

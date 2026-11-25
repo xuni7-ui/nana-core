@@ -2,7 +2,7 @@ import { AdapterManagement } from "./AdapterManagement";
 import { PlatformLogin } from "./PlatformLogin";
 import { NanaLinkSetup } from "./NanaLinkSetup";
 import { linkHealth, healthWords, capabilityWords, capabilityStatusWords } from "../../data/nanalink";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { V2Client, object, writeBase, isNative } from "../../data/v2";
 import type { Envelope } from "../../data/v2.generated";
 import { V3Card } from "./LifeViews";
@@ -11,22 +11,36 @@ import { platformChannels, type PlatformChannel } from "../../data/living";
 /** Original owner status + finite host configuration. No credentials or claims
  * of successful delivery from a toggle; uncertain commands are not resent. */
 export function PlatformPanel({client, canManage}: {client: V2Client; canManage: boolean}) {
-  const [status, setStatus] = useState<Envelope | null>(null);
+  const [snapshot, setSnapshot] = useState<{status: Envelope; readId: number} | null>(null);
+  const newestRead = useRef(0);
   const [message, setMessage] = useState("");
   const [statusReadFailed, setStatusReadFailed] = useState(false);
   const [busy, setBusy] = useState(false);
-  const refresh = async () => {
+  const startStatusRead = useCallback(() => {
+    const readId = ++newestRead.current;
     setBusy(true);
-    try { setStatus(await client.platformStatus()); setStatusReadFailed(false); }
-    catch { setStatusReadFailed(true); }
-    finally { setBusy(false); }
-  };
-  useEffect(() => {
-    let live = true;
-    client.platformStatus().then(value => { if (live) setStatus(value); })
-      .catch(() => { if (live) setMessage("当前版本尚未提供平台连接状态，或主体暂未就绪。"); });
-    return () => { live = false; };
+    const complete = (async () => {
+      try {
+        const status = await client.platformStatus();
+        if (readId === newestRead.current) {
+          setSnapshot({status, readId});
+          setStatusReadFailed(false);
+        }
+      } catch {
+        if (readId === newestRead.current) setStatusReadFailed(true);
+      } finally {
+        if (readId === newestRead.current) setBusy(false);
+      }
+    })();
+    return {readId, complete};
   }, [client]);
+  const refresh = () => startStatusRead().complete;
+  useEffect(() => {
+    setSnapshot(null);
+    void startStatusRead().complete;
+    return () => { newestRead.current++; };
+  }, [startStatusRead]);
+  const status = snapshot?.status ?? null;
   const data = status ? object(status.data) : {};
   const rows = platformChannels(data);
   const optionalObject=(value:unknown):Record<string,unknown> => value && typeof value==='object' && !Array.isArray(value) ? value as Record<string,unknown> : {};
@@ -43,7 +57,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       setMessage(result.state === "VERIFIED" ? "设置已保存。启用通道仍需原有授权和安全凭据；不会重发旧消息。"
         : result.state === "UNKNOWN" ? "设置回执尚不确定，请刷新核对；不要重复提交。"
         : "设置未生效，请检查管理权限或刷新版本后再操作。");
-      setStatus(await client.platformStatus());
+      await refresh();
     } catch { setMessage("未确认设置结果，请先刷新核对；不会自动重试。"); }
     finally { setBusy(false); }
   };
@@ -56,7 +70,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       if (revoke) await client.revokePlatformCredential(body);
       else await client.bindPlatformCredential(body, data.vault_persistent === true);
       setMessage(revoke ? "凭据已撤销，相关通道已停用。" : "凭据已安全绑定；重新启动已授权的服务后生效，不会自动发送消息。");
-      setStatus(await client.platformStatus());
+      await refresh();
     } catch { setMessage("未确认凭据变更。请刷新核对；需要支持此功能的 Android 版本及管理权限。"); }
     finally { setBusy(false); }
   };
@@ -83,8 +97,10 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
         : row.state === "NOT_OBSERVED" ? "尚无本次运行的投递记录" : "最近状态待核对"}</p>
       <button className="v3-button soft" disabled={busy || !canManage || row.read_authorized !== true}
         onClick={() => void toggle(row)}>{row.enabled ? "暂停入口" : "启用已授权入口"}</button>
-      {canManage && row.platform==='qq' && status && typeof managed(row.channel_id).revision==='number' &&
-        <AdapterManagement client={client} status={status} channel={row.channel_id} readAuthorized={row.read_authorized} view={managed(row.channel_id)} onSaved={refresh}/>}
+      {canManage && row.platform==='qq' && snapshot && typeof managed(row.channel_id).revision==='number' &&
+        <AdapterManagement client={client} status={snapshot.status} statusReadId={snapshot.readId}
+          channel={row.channel_id} readAuthorized={row.read_authorized} view={managed(row.channel_id)}
+          startStatusRead={startStatusRead}/>}
       {canManage && row.platform==='bilibili' && !row.enabled && optionalObject(data.login).bilibili_qr===true && status &&
         <PlatformLogin client={client} status={status} channel={row.channel_id} onSaved={refresh}/>}
       {canManage && isNative() && <div className="v3-inline">
@@ -96,7 +112,9 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       </div>}
     </article>)}
     <button className="v3-button soft" disabled={busy} onClick={() => void refresh()}>刷新连接状态</button>
-    {statusReadFailed && <p role="status" className="v3-muted">暂时读不到平台状态，请检查运行进程是否已启动。不会自动发送或重试消息。</p>}
+    {statusReadFailed && <p role="status" className="v3-muted">{status
+      ? "暂时读不到平台状态，请检查运行进程是否已启动。不会自动发送或重试消息。"
+      : "当前版本尚未提供平台连接状态，或主体暂未就绪。"}</p>}
     {message && <p role="status" className="v3-muted">{message}</p>}
     {!canManage && <p className="v3-muted">当前设备可查看状态；更改通道需要已授权的管理设备。</p>}
   </V3Card>;

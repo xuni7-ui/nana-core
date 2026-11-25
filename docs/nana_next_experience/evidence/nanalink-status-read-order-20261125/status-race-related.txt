@@ -1,0 +1,27 @@
+[WebServer] (node:7732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:7750) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:2047:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (2.1s)
+  ✓   2 [desktop] › tests/v3.spec.ts:2047:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.2s)
+  ✓   3 [desktop] › tests/v3.spec.ts:2077:1 › NanaLink health: connected session does not invent received events or delivery (1.2s)
+  ✓   4 [desktop] › tests/v3.spec.ts:2104:1 › NanaLink phone health explains a mismatched account (1.2s)
+  ✓   5 [desktop] › tests/v3.spec.ts:2119:1 › NanaLink phone warns when recall did not withdraw memory (1.5s)
+  ✓   6 [desktop] › tests/v3.spec.ts:2131:1 › NanaLink phone can confirm a pause after an uncertain connector operation (1.0s)
+  ✓   7 [desktop] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: false) (1.7s)
+  ✓   8 [desktop] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: true) (1.3s)
+(node:8121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone-390] › tests/v3.spec.ts:2047:56 › NanaLink phone setup: VERIFIED keeps account authorization separate (1.5s)
+  ✓  10 [phone-390] › tests/v3.spec.ts:2047:56 › NanaLink phone setup: UNKNOWN keeps account authorization separate (1.2s)
+  ✓  11 [phone-390] › tests/v3.spec.ts:2077:1 › NanaLink health: connected session does not invent received events or delivery (878ms)
+  ✓  12 [phone-390] › tests/v3.spec.ts:2104:1 › NanaLink phone health explains a mismatched account (776ms)
+  ✓  13 [phone-390] › tests/v3.spec.ts:2119:1 › NanaLink phone warns when recall did not withdraw memory (829ms)
+  ✓  14 [phone-390] › tests/v3.spec.ts:2131:1 › NanaLink phone can confirm a pause after an uncertain connector operation (915ms)
+  ✓  15 [phone-390] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: false) (1.0s)
+  ✓  16 [phone-390] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: true) (1.2s)
+
+  16 passed (23.3s)

@@ -1,0 +1,39 @@
+[WebServer] (node:7165) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:7182) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [phone-390] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: true) (6.4s)
+
+
+  1) [phone-390] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: true)
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('button', { name: '核对并保持暂停' })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('button', { name: '核对并保持暂停' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '核对并保持暂停' })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      2216 |     await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      2217 |   }
+    > 2218 |   await expect(confirm).toHaveCount(0);
+           |                         ^
+      2219 |   await expect(page.getByRole('button', {name: '恢复已授权连接器'})).toHaveCount(0);
+      2220 |   await page.getByRole('button', {name: '刷新连接状态'}).click();
+      2221 |   await expect(page.getByRole('button', {name: '刷新连接状态'})).toBeEnabled();
+        at /tmp/nana-324-web/apps/nana-space/tests/v3.spec.ts:2218:25
+
+    Error Context: test-results/v3-NanaLink-phone-requires-fc5cf-elayed-pre-write-read-true--phone-390/error-context.md
+
+  1 failed
+    [phone-390] › tests/v3.spec.ts:2168:46 › NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: true)

@@ -2165,22 +2165,32 @@ test('NanaLink phone can confirm a pause after an uncertain connector operation'
   await noHorizontalOverflow(page);
 });
 
-test('NanaLink phone requires a fresh connector status before further changes', async ({page}) => {
+for (const delayedPreWrite of [false, true]) test(`NanaLink phone requires a fresh connector status before further changes (delayed pre-write read: ${delayedPreWrite})`, async ({page}) => {
   const state = await installMock(page);
   state.capabilities = {platform_configuration_write: true};
   state.roles = ['READER', 'HOST_ADMIN'];
   const writes: Array<Record<string, unknown>> = [];
   let statusAvailable = true;
   let paused = false;
-  await page.route(`**${API}platform/status`, route => statusAvailable ? route.fulfill({status: 200, json: envelope(state, {
-    configuration_revision: 4,
-    channels: [{platform: 'qq', channel_id: 'primary', account_label: '账号尾号 0042', conversation_kind: 'private',
-      enabled: true, read_authorized: true, send_configured: false, secret_state: 'AVAILABLE', state: 'NOT_OBSERVED'}],
-    nanalink: {schema_version: 1, sessions: [{platform: 'qq', channel_id: 'primary',
-      health: {connection: 'DISCONNECTED', login: 'UNKNOWN', receive: 'NOT_OBSERVED'}, capabilities: [],
-      management: {revision: paused ? 9 : 8, current: '1.0.0', previous: null, installed: true,
-        enabled: false, uncertain: !paused, persistent: true, approved_versions: ['1.0.0']}}]},
-  })}) : route.fulfill({status: 503}));
+  let holdNextRead = false;
+  let releaseRead: (() => void) | undefined;
+  await page.route(`**${API}platform/status`, async route => {
+    if (!statusAvailable) return route.fulfill({status: 503});
+    const snapshot = envelope(state, {
+      configuration_revision: 4,
+      channels: [{platform: 'qq', channel_id: 'primary', account_label: '账号尾号 0042', conversation_kind: 'private',
+        enabled: true, read_authorized: true, send_configured: false, secret_state: 'AVAILABLE', state: 'NOT_OBSERVED'}],
+      nanalink: {schema_version: 1, sessions: [{platform: 'qq', channel_id: 'primary',
+        health: {connection: 'DISCONNECTED', login: 'UNKNOWN', receive: 'NOT_OBSERVED'}, capabilities: [],
+        management: {revision: paused ? 9 : 8, current: '1.0.0', previous: null, installed: true,
+          enabled: false, uncertain: !paused, persistent: true, approved_versions: ['1.0.0']}}]},
+    });
+    if (holdNextRead) {
+      holdNextRead = false;
+      await new Promise<void>(resolve => { releaseRead = resolve; });
+    }
+    await route.fulfill({status: 200, json: snapshot});
+  });
   await page.route(`**${API}platform/adapters`, async route => {
     const body = route.request().postDataJSON() as Record<string, unknown>;
     writes.push(body);
@@ -2192,8 +2202,19 @@ test('NanaLink phone requires a fresh connector status before further changes', 
   await open(page, 'devices');
   await page.getByText('管理此连接器 · 1.0.0', {exact: true}).click();
   const confirm = page.getByRole('button', {name: '核对并保持暂停'});
+  if (delayedPreWrite) {
+    holdNextRead = true;
+    await page.getByRole('button', {name: '刷新连接状态'}).click();
+    await expect.poll(() => Boolean(releaseRead)).toBe(true);
+  }
   await confirm.click();
   await expect(page.getByText('连接器状态尚未读取，请刷新连接状态。', {exact: true})).toBeVisible();
+  if (delayedPreWrite) {
+    const delivered = page.waitForResponse(response => response.url().endsWith('/platform/status') && response.ok());
+    releaseRead!();
+    await (await delivered).finished();
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  }
   await expect(confirm).toHaveCount(0);
   await expect(page.getByRole('button', {name: '恢复已授权连接器'})).toHaveCount(0);
   await page.getByRole('button', {name: '刷新连接状态'}).click();
