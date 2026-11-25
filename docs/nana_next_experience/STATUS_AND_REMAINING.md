@@ -1,3 +1,9 @@
+## 当前接续 NanaLink 手机连接器恢复 revision324
+
+合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。
+
+受控浏览器与源码资格。真机、真实平台和匹配交付继续，证据 docs/nana_next_experience/evidence/nanalink-phone-recovery-20261125/README.md。
+
 ## 当前接续 原 C 图片来源资格 revision323
 
 原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。

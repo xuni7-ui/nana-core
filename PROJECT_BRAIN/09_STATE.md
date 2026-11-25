@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 323,
-  "as_of_us": 1795587114008936,
+  "revision": 324,
+  "as_of_us": 1795604414320311,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。",
     "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。",
     "原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。",
     "固定5ed149d集成候选d09afd2，独立核验29项、停机回退保留原身份及已持久化反例、侧车30回环；按74项Web与原生输入核对复用上批客户端。",
     "原G后续独立复核遇已验证的明确输入拒绝，原Store同事务保留反例并暂停方法。重复复核、撤回与独立复验通过，35项相关回归。",
     "实际PROJECT_BRAIN现役快照恢复原有界读取，原来源、时效和隐私限制继续生效，历史交接保留在现役快照之后。",
     "原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。",
-    "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。",
-    "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。"
+    "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -32,17 +32,19 @@
     "CURRENT266+409。固定5ed149d候选已独立安装和回退，早于PR36；新连接提示待匹配发行。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/nanalink-phone-recovery-20261125/README.md",
     "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md",
     "docs/nana_next_experience/evidence/integrated-5ed149d-20261125/README.md",
     "docs/nana_next_experience/evidence/episode-input-counterexample-20261125/README.md",
     "docs/nana_next_experience/evidence/repository-current-state-20261124/README.md",
     "docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md",
-    "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md",
-    "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md"
+    "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision324 证据指纹锚：`9a8f59da353b788437d3b5877f65652fe97891a341bda74800653364b805f283`。
 
 A revision323 证据指纹锚：`0a8bdd2414f6fd31f8a28f575456d7bf6ca4a4f8fdfada0ebe9ab7be1d015b86`。
 
