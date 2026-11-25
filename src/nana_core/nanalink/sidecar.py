@@ -41,6 +41,10 @@ class SessionConfig(DTO):
     allow_send: bool = False
     routes: tuple[ForwardRoute, ...] = Field(default=(), max_length=16)
 
+    @property
+    def bound_account(self) -> Account:
+        return Account(platform='qq', adapter_id='qq.' + self.backend, account_id=self.account_id)
+
     @model_validator(mode='after')
     def endpoints(self):
         from .onebot import safe_endpoint
@@ -84,6 +88,7 @@ class SidecarConfig(DTO):
 class OneBotSidecar:
     def __init__(self, config, resolver, *, management_state=None, catalogs=None):
         self.config, self.resolver = config, resolver
+        self._sessions_by_account = {session.bound_account: session for session in config.sessions}
         self.adapters = {}
         self.official_sessions = {}
         def build(c):
@@ -191,6 +196,8 @@ class OneBotSidecar:
                         raise web.HTTPBadRequest() from None
                     if not 1 <= len(content) <= 8192:
                         raise web.HTTPBadRequest()
+            if adapter.account != config.bound_account:
+                raise CoreError('NANALINK_ADAPTER_ACCOUNT_MISMATCH')
             result = await adapter.rpc(action, params)
             return web.json_response({'status': 'ok', 'retcode': 0, 'data': result})
 
@@ -269,12 +276,12 @@ class OneBotSidecar:
                 raise web.HTTPBadRequest()
             # Do not silently discard accepted input at an offline version switch.
             if body['operation'] in {'INSTALL','UPGRADE','ROLLBACK','UNINSTALL'} and (
-                    not adapter.events.empty() or self.transport.counts.get(adapter.account.key,0)):
+                    not adapter.events.empty() or self.transport.counts.get(config.bound_account.key, 0)):
                 raise CoreError('NANALINK_DRAIN_INPUT_BEFORE_PACKAGE_CHANGE')
             result = await self.management.command(config.alias,body['operation'],body['version'],body['revision'])
             self.adapters[config.alias] = self.management.adapter(config.alias)
             if body['operation'] == 'DISABLE' and not self.management.enabled(config.alias):
-                cancelled = len(self.transport.cancel_account(adapter.account.key))
+                cancelled = len(self.transport.cancel_account(config.bound_account.key))
                 while not adapter.events.empty():
                     adapter.events.get_nowait()
                     cancelled += 1
@@ -325,7 +332,7 @@ class OneBotSidecar:
             pass
 
     async def _receive(self, config):
-        expected_account = Account(platform='qq', adapter_id='qq.' + config.backend, account_id=config.account_id)
+        expected_account = config.bound_account
         while not self.stopped.is_set():
             if not self.management.enabled(config.alias):
                 await asyncio.sleep(0.1)
@@ -404,11 +411,20 @@ class OneBotSidecar:
 
     async def _forward(self, event):
         from ..life.platform_forward import forward
-        config = next(c for c in self.config.sessions if self.adapters[c.alias].account == event.account)
+        config = self._sessions_by_account.get(event.account)
+        if config is None:
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='HOST_ACCOUNT_UNBOUND_BEFORE_CORE_FORWARD')
         if not self.management.enabled(config.alias):
             self.last[config.alias] = {'state': 'CANCELLED_BEFORE_CORE_FORWARD', 'no_retry': True}
             return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
                                     reason='ADAPTER_DISABLED_BEFORE_CORE_FORWARD')
+        adapter = self.adapters[config.alias]
+        if adapter.account != event.account:
+            self._receive_fault(config, adapter, state='REJECTED_ACCOUNT_BINDING',
+                                error='EVENT_ACCOUNT_MISMATCH', metric='invalid_events')
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='ADAPTER_ACCOUNT_CHANGED_BEFORE_CORE_FORWARD')
         route = next(r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
                      == (event.sender_id, event.conversation_kind, event.conversation_id))
         result = await asyncio.to_thread(forward, config.core_origin, 'qq', route.channel_id,

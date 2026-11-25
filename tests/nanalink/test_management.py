@@ -168,7 +168,8 @@ def test_http_disable_failure_reports_unknown_and_cancels_pending_input():
         asyncio.run_coroutine_threadsafe(run(),loop).result(5)
 
 
-def test_http_disable_cancels_queued_input_before_reenable():
+@pytest.mark.parametrize('identity_changed', [False, True])
+def test_http_disable_cancels_queued_input_before_reenable(identity_changed):
     from nana_core.nanalink.onebot import normalize
     from tests.nanalink.test_onebot_network import message
     with network(mode='http') as (net,state,resolver,loop):
@@ -176,15 +177,31 @@ def test_http_disable_cancels_queued_input_before_reenable():
             sidecar=net['sidecar']; adapter=net['adapter']
             assert adapter.offer(message(11)) == 'QUEUED'
             assert sidecar.transport.offer(normalize(adapter.account,message(12))) == 'QUEUED'
+            original_account = adapter.account
+            other_account = original_account.model_copy(update={'account_id': '44'})
+            if identity_changed:
+                assert sidecar.transport.offer(normalize(other_account, {**message(13), 'self_id': 44})) == 'QUEUED'
+                adapter.account = other_account
             url=net['endpoint']+'/nanalink/manage'
             headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
             async with ClientSession() as client:
+                if identity_changed:
+                    login_url = net['endpoint'] + '/get_login_info'
+                    login_calls = state['logins']
+                    async with client.post(login_url, headers=headers, json={}) as response:
+                        assert response.status == 502
+                        assert (await response.json())['error'] == 'NANALINK_ADAPTER_ACCOUNT_MISMATCH'
+                    assert state['logins'] == login_calls
                 view=await (await client.get(url,headers=headers)).json()
                 body={'operation':'DISABLE','version':None,'revision':view['revision']}
                 result=await (await client.post(url,headers=headers,json=body)).json()
                 assert result['state']=='APPLIED' and not result['enabled']
                 assert result['cancelled_queued_events']==2
-                assert adapter.events.empty() and sidecar.transport.size==0
+                assert adapter.events.empty() and original_account.key not in sidecar.transport.counts
+                if identity_changed:
+                    assert sidecar.transport.counts == {other_account.key: 1}
+                    sidecar.transport.cancel_account(other_account.key)
+                    adapter.account = original_account
                 body.update(operation='ENABLE',revision=result['revision'])
                 result=await (await client.post(url,headers=headers,json=body)).json()
                 assert result['state']=='APPLIED' and adapter.events.empty() and sidecar.transport.size==0

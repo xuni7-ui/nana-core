@@ -492,9 +492,17 @@ def test_late_event_from_replaced_adapter_does_not_enter_core_queue():
 
 
 @pytest.mark.parametrize('mutate_adapter',[False,True])
-def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter):
+def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter, monkeypatch):
+    from nana_core.nanalink.contracts import Outcome
     from nana_core.nanalink.onebot import normalize
     from nana_core.nanalink.sidecar import ForwardRoute
+    forwarded = []
+
+    def forward(origin, platform, channel_id, message_id, resolver, credential_ref, *, backend):
+        forwarded.append((channel_id, message_id, credential_ref))
+        return {'state': 'QUEUED_NOT_JUDGED'}
+
+    monkeypatch.setattr('nana_core.life.platform_forward.forward', forward)
     async def run():
         route=ForwardRoute(channel_id='primary',sender_id='43',conversation_kind='private',conversation_id='43')
         def config(alias,account,port):
@@ -504,6 +512,7 @@ def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter)
         a,b=config('a','42',18790),config('b','44',18791)
         resolver=MemorySecretResolver();sidecar=OneBotSidecar(SidecarConfig(sessions=(a,b)),resolver)
         first,other=sidecar.adapters['a'],sidecar.adapters['b']
+        original_event = normalize(first.account, message(3))
         sidecar.tasks.extend((asyncio.create_task(sidecar._receive(a)),asyncio.create_task(sidecar._receive(b))))
         try:
             # Model an installed adapter returning an event belonging to another account.
@@ -522,6 +531,15 @@ def test_wrong_account_event_cannot_enter_another_accounts_queue(mutate_adapter)
             assert first.health().error=='EVENT_ACCOUNT_MISMATCH'
             assert first.metrics['invalid_events']==2
             assert not sidecar.tasks[0].done() and not sidecar.tasks[1].done()
+            receipt = await sidecar.transport.drain_once(sidecar._forward)
+            assert receipt.reason == 'CORE_METADATA_QUEUED_NOT_DELIVERY'
+            assert forwarded == [('primary', '2', 'forward.b')]
+            if mutate_adapter:
+                assert sidecar.transport.offer(original_event) == 'QUEUED'
+                receipt = await sidecar.transport.drain_once(sidecar._forward)
+                assert receipt.outcome == Outcome.CANCELLED
+                assert receipt.reason == 'ADAPTER_ACCOUNT_CHANGED_BEFORE_CORE_FORWARD'
+                assert forwarded == [('primary', '2', 'forward.b')]
         finally:
             await sidecar.close();resolver.clear()
     asyncio.run(run())
