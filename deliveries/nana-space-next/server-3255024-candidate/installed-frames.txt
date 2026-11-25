@@ -1,0 +1,3 @@
+Uses installed /tmp/n328slot/src/nana_core/life/bilibili_frames.py
+..                                                                       [100%]
+2 passed, 6 deselected in 2.05s
