@@ -387,7 +387,7 @@ class ContextAssembler:
             # An optional, source-backed menu for original C; this is neither
             # automatic selection nor a Grant. Only actual included blocks may
             # later be cited by the existing cognition validation.
-            from ..nanalink.media_candidates import candidate as media_candidate
+            from ..nanalink.media_candidates import candidate as media_candidate, current_image_observation
             choices=[]
             # Include bounded original retrieval, not just the current input;
             # C may choose a previously observed image, or choose none.
@@ -401,8 +401,7 @@ class ContextAssembler:
                 # Recheck only eligible candidates at the owner privacy safe
                 # point; ordinary retrieved memories need no second read.
                 item=media_candidate(memory_service.read(mid))
-                observation=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone() if item is not None else None
-                if observation and RecordService(self.store).current_support(observation[0]):
+                if item is not None and current_image_observation(self.store, mid, scope=row['scope']) is not None:
                     choices.append(item)
                 if len(choices)>=4:
                     break

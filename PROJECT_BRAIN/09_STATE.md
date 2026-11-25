@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 322,
-  "as_of_us": 1795586926459679,
+  "revision": 323,
+  "as_of_us": 1795587114008936,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。",
     "原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。",
     "固定5ed149d集成候选d09afd2，独立核验29项、停机回退保留原身份及已持久化反例、侧车30回环；按74项Web与原生输入核对复用上批客户端。",
     "原G后续独立复核遇已验证的明确输入拒绝，原Store同事务保留反例并暂停方法。重复复核、撤回与独立复验通过，35项相关回归。",
     "实际PROJECT_BRAIN现役快照恢复原有界读取，原来源、时效和隐私限制继续生效，历史交接保留在现役快照之后。",
     "原C无任务分类的活动不再读学习表。明确任务仍沿现有权限、撤回和来源选择合格方法，37项相关通过。",
     "S8/S10 原G经已学策略通过独立评价后，新情境的明确方法输入拒绝从UNKNOWN改记BLOCKED。重启仍保留结果，不升级方法，超时保持UNKNOWN，20相关通过。",
-    "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。",
-    "S3/S8 原32条反思内，1条当前可归因意见优先于积压例行回看；同主体重启后意见影响后来交流。保留原用户优先、撤回与C自主选择，65相关通过。"
+    "固定b9a6569 Core/BFF/Web/Android .dev/NanaLink候选4eda449，独立重取35项、两槽停机回退恢复和安装索引SIGKILL通过。APK42项Web资源相同，重新隔离签名。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -32,17 +32,19 @@
     "CURRENT266+409。固定5ed149d候选已独立安装和回退，早于PR36；新连接提示待匹配发行。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md",
     "docs/nana_next_experience/evidence/integrated-5ed149d-20261125/README.md",
     "docs/nana_next_experience/evidence/episode-input-counterexample-20261125/README.md",
     "docs/nana_next_experience/evidence/repository-current-state-20261124/README.md",
     "docs/nana_next_experience/evidence/subject-lesson-read-20261124/README.md",
     "docs/nana_next_experience/evidence/meta-learning-transfer-input-20261124/README.md",
-    "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md",
-    "docs/nana_next_experience/evidence/attributed-feedback-under-load-20261124/README.md"
+    "docs/nana_next_experience/evidence/integrated-b9a6569-20261124/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision323 证据指纹锚：`0a8bdd2414f6fd31f8a28f575456d7bf6ca4a4f8fdfada0ebe9ab7be1d015b86`。
 
 A revision322 证据指纹锚：`50485b3a49ba1309e18b56a71d1ecb556c5e7b3e28ac69969867a9a112b2e073`。
 
@@ -171,7 +173,7 @@ A revision263证据指纹锚：`2e843212e5f8db54e3e8081aa040b4a830a066a6b991725b
 
 ## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
 
-[C 组合候选 2026-11-25] 按用户自主研发修正继续既定平台工作。A `45095c55` 上组合 PR32 `33a4d06f`、PR33 `b421e4d6`、PR34 `86c33ae9`、PR35 `e5588095` 的运行及测试差额；原主体、QQ、B站、来源及项目状态 211 项 56.65 秒，本地 Web 3 项及构建通过；清单锚 `db56264cc4e8120d4b86bc63a5d6f0ce60b1f96407f10f7bf9b741c7871115b0`。四项各自固定 SHA 的 CI 已通过。组合 PR36 继承 A revision320 `5ed149d1`，前继 `cd0f95a4` 匹配 CI 45557384663 通过。后继用宿主配置账号绑定转发、停用清队列与 RPC，拒绝账号变更后的待转发事件；定向 64 项 4.72 秒通过，`6fa6391b` 匹配 CI 45557741156 通过，双离线 wheel 一致且隔离安装后 5 项通过。A revision322 `b05d37a5` 已集成上述平台修复并登记 192 项整链及 27 项原 owner 闭包。PR36 后继差额在 Nana Space 连接器操作结果待核对时提供手动确认暂停，390 像素浏览器 6 项及 Web 构建通过。清单锚 `c24fc6cb0be72b061734fc1244f3e59a9d518c29a6f3307153bd3a881552d2ad`。QQ 可信撤回、精确媒体观察选择及视频派生来源仍需原 owner 契约，真实账号/外发/手机/生产由 A 统一验收。
+[C 组合候选 2026-11-25] 按用户自主研发修正继续既定平台工作。A `45095c55` 上组合 PR32 `33a4d06f`、PR33 `b421e4d6`、PR34 `86c33ae9`、PR35 `e5588095` 的运行及测试差额；原主体、QQ、B站、来源及项目状态 211 项 56.65 秒，本地 Web 3 项及构建通过；清单锚 `db56264cc4e8120d4b86bc63a5d6f0ce60b1f96407f10f7bf9b741c7871115b0`。四项各自固定 SHA 的 CI 已通过。组合 PR36 继承 A revision320 `5ed149d1`，前继 `cd0f95a4` 匹配 CI 45557384663 通过。后继用宿主配置账号绑定转发、停用清队列与 RPC，拒绝账号变更后的待转发事件；定向 64 项 4.72 秒通过，`6fa6391b` 匹配 CI 45557741156 通过，双离线 wheel 一致且隔离安装后 5 项通过。A revision322 `b05d37a5` 已集成上述平台修复并登记 192 项整链及 27 项原 owner 闭包。PR36 后继差额在 Nana Space 连接器操作结果待核对时提供手动确认暂停，390 像素浏览器 6 项及 Web 构建通过。A revision323 `81680f3c` 已在原 C 选项中过滤被取代的观察。清单锚 `41ab0589360b1cb2ed727d3e3b406437b2ef5b9c9b5d6386c388db78c098ab05`。QQ 可信撤回及视频派生来源仍需原 owner 契约，真实账号/外发/手机/生产由 A 统一验收。
 
 [C 历史交接 2026-11-24] 固定范围收口；A 基线 `6a483b3c48648ae9d093b0aed0d1a4242fbd2171`，PR25 已合，PR27 `636eb880` 的 media/onebot/sidecar 已由 A 吸收，A 保留其后续视频绑定及原回执改进。当前源码原平台/原媒体选择/QQ桥/B站运行时 169 项 46.77 秒通过，示例配置和 C.4 快照检查通过；均为受控本地资格。现役平台能力、配置与回退见 `docs/nanalink/README.md`；不新增平台。QQ 可信撤回原 owner 契约及视频派生来源由 A 接手，真实平台、Android、外发和生产由 A 统一验收。专项关闭不表示真实上线或全部 A 主任务完成。
 

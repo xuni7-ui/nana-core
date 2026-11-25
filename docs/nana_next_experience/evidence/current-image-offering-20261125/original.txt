@@ -1,0 +1,13 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+__________ test_original_c_can_leave_retrieved_image_unselected[True] __________
+tests/person_self/test_nanalink_media_choice.py:60: in test_original_c_can_leave_retrieved_image_unselected
+    assert [item['source_memory_id'] for item in seen] == [expected]
+E   AssertionError: assert ['4ff05ed3-e2...627e2b47fa47'] == ['bc600116-b5...627e2b47fa47']
+E
+E     At index 0 diff: '4ff05ed3-e22b-444f-af46-1632b784c1de' != 'bc600116-b54a-4866-aa09-627e2b47fa47'
+E     Left contains one more item: 'bc600116-b54a-4866-aa09-627e2b47fa47'
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/person_self/test_nanalink_media_choice.py::test_original_c_can_leave_retrieved_image_unselected[True]
+1 failed, 1 passed, 14 deselected in 0.39s
