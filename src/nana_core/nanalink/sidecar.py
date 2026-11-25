@@ -11,7 +11,7 @@ import time
 from typing import Literal
 from pydantic import Field, model_validator
 from ..contracts import DTO, CoreError
-from .contracts import Outcome, OperationReceipt
+from .contracts import Account, Event, Outcome, OperationReceipt, SessionHealth
 from .onebot import OneBotAdapter, decode
 from .transport import EventTransport
 
@@ -40,6 +40,10 @@ class SessionConfig(DTO):
     core_origin: str | None = Field(default=None, max_length=256, repr=False)
     allow_send: bool = False
     routes: tuple[ForwardRoute, ...] = Field(default=(), max_length=16)
+
+    @property
+    def bound_account(self) -> Account:
+        return Account(platform='qq', adapter_id='qq.' + self.backend, account_id=self.account_id)
 
     @model_validator(mode='after')
     def endpoints(self):
@@ -84,6 +88,7 @@ class SidecarConfig(DTO):
 class OneBotSidecar:
     def __init__(self, config, resolver, *, management_state=None, catalogs=None):
         self.config, self.resolver = config, resolver
+        self._sessions_by_account = {session.bound_account: session for session in config.sessions}
         self.adapters = {}
         self.official_sessions = {}
         def build(c):
@@ -191,6 +196,8 @@ class OneBotSidecar:
                         raise web.HTTPBadRequest() from None
                     if not 1 <= len(content) <= 8192:
                         raise web.HTTPBadRequest()
+            if adapter.account != config.bound_account:
+                raise CoreError('NANALINK_ADAPTER_ACCOUNT_MISMATCH')
             result = await adapter.rpc(action, params)
             return web.json_response({'status': 'ok', 'retcode': 0, 'data': result})
 
@@ -269,12 +276,12 @@ class OneBotSidecar:
                 raise web.HTTPBadRequest()
             # Do not silently discard accepted input at an offline version switch.
             if body['operation'] in {'INSTALL','UPGRADE','ROLLBACK','UNINSTALL'} and (
-                    not adapter.events.empty() or self.transport.counts.get(adapter.account.key,0)):
+                    not adapter.events.empty() or self.transport.counts.get(config.bound_account.key, 0)):
                 raise CoreError('NANALINK_DRAIN_INPUT_BEFORE_PACKAGE_CHANGE')
             result = await self.management.command(config.alias,body['operation'],body['version'],body['revision'])
             self.adapters[config.alias] = self.management.adapter(config.alias)
             if body['operation'] == 'DISABLE' and not self.management.enabled(config.alias):
-                cancelled = len(self.transport.cancel_account(adapter.account.key))
+                cancelled = len(self.transport.cancel_account(config.bound_account.key))
                 while not adapter.events.empty():
                     adapter.events.get_nowait()
                     cancelled += 1
@@ -311,7 +318,21 @@ class OneBotSidecar:
                     self.last[config.alias] = {"state": "CONNECT_FAILED", "no_retry": True}
             await asyncio.sleep(2)
 
+    def _receive_fault(self, config, adapter, *, state, error, metric):
+        self.last[config.alias] = {'state':state, 'no_retry':True}
+        # SDK implementations need not expose these optional diagnostics.
+        try:
+            metrics = getattr(adapter, 'metrics', None)
+            if type(metrics) is dict and type(metrics.get(metric, 0)) is int:
+                metrics[metric] = metrics.get(metric, 0) + 1
+            health = getattr(adapter, '_health', None)
+            if isinstance(health, SessionHealth):
+                adapter._health = health.model_copy(update={'error':error})
+        except Exception:
+            pass
+
     async def _receive(self, config):
+        expected_account = config.bound_account
         while not self.stopped.is_set():
             if not self.management.enabled(config.alias):
                 await asyncio.sleep(0.1)
@@ -321,9 +342,40 @@ class OneBotSidecar:
                 event = await asyncio.wait_for(adapter.receive(), 1)
             except TimeoutError:
                 continue
+            except Exception:
+                # Do not log plugin exception text, which may contain secrets.
+                # Keep infrastructure retry bounded; never replay a send.
+                self._receive_fault(config, adapter, state='ADAPTER_RECEIVE_FAILED',
+                                    error='ADAPTER_RECEIVE_FAILED', metric='receive_failures')
+                await asyncio.sleep(.5)
+                continue
+            if self.adapters.get(config.alias) is not adapter:
+                # A faulty or slow old adapter may finish receive after an
+                # offline replacement. Its event has no current host binding.
+                self.last[config.alias] = {'state':'CANCELLED_STALE_ADAPTER','no_retry':True}
+                continue
             if not self.management.enabled(config.alias):
                 self.last[config.alias] = {'state':'CANCELLED_BEFORE_CORE_FORWARD','no_retry':True}
                 continue
+            if event is None:
+                # The SDK permits a quiet receive to return None.
+                await asyncio.sleep(.05)
+                continue
+            try:
+                valid_account = (isinstance(event, Event) and adapter.account == expected_account
+                                 and event.account == expected_account)
+            except Exception:
+                valid_account = False
+            if not valid_account:
+                self._receive_fault(config, adapter, state='REJECTED_ACCOUNT_BINDING',
+                                    error='EVENT_ACCOUNT_MISMATCH', metric='invalid_events')
+                continue
+            try:
+                health = getattr(adapter, '_health', None)
+                if isinstance(health, SessionHealth) and health.error == 'ADAPTER_RECEIVE_FAILED':
+                    adapter._health = health.model_copy(update={'error':None})
+            except Exception:
+                pass
             # Forward only exact host-bound source metadata. Unbound groups or
             # peers never spend a Core cognition call merely by arriving.
             matches = [r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
@@ -336,18 +388,43 @@ class OneBotSidecar:
                 continue
             if event.kind != 'message.created' or len(matches) != 1:
                 continue
-            state = self.transport.offer(event)
+            try:
+                state = self.transport.offer(event)
+            except CoreError as exc:
+                if exc.code != 'NANALINK_EVENT_ID_COLLISION':
+                    raise
+                # The adapter's recent window and the shared transport's
+                # window can expire at different times. Drop the ambiguous
+                # event without killing this account's receiver or retrying.
+                self._receive_fault(config, adapter, state='EVENT_ID_COLLISION_DROPPED',
+                                    error='EVENT_ID_COLLISION_DROPPED', metric='transport_collisions')
+                continue
+            except (TypeError, ValueError):
+                # SDK instances can contain invalid values (e.g. model_copy
+                # without validation). Reject the envelope, not the receiver.
+                self._receive_fault(config, adapter, state='INVALID_EVENT_DROPPED',
+                                    error='INVALID_EVENT_DROPPED', metric='invalid_events')
+                continue
             if state == 'BACKPRESSURE':
                 self.last[config.alias] = {'state': 'BACKPRESSURE', 'no_retry': True}
                 # Bounded backpressure is visible. Never hide loss as delivery.
 
     async def _forward(self, event):
         from ..life.platform_forward import forward
-        config = next(c for c in self.config.sessions if self.adapters[c.alias].account == event.account)
+        config = self._sessions_by_account.get(event.account)
+        if config is None:
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='HOST_ACCOUNT_UNBOUND_BEFORE_CORE_FORWARD')
         if not self.management.enabled(config.alias):
             self.last[config.alias] = {'state': 'CANCELLED_BEFORE_CORE_FORWARD', 'no_retry': True}
             return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
                                     reason='ADAPTER_DISABLED_BEFORE_CORE_FORWARD')
+        adapter = self.adapters[config.alias]
+        if adapter.account != event.account:
+            self._receive_fault(config, adapter, state='REJECTED_ACCOUNT_BINDING',
+                                error='EVENT_ACCOUNT_MISMATCH', metric='invalid_events')
+            return OperationReceipt(operation_id=event.key, outcome=Outcome.CANCELLED,
+                                    reason='ADAPTER_ACCOUNT_CHANGED_BEFORE_CORE_FORWARD')
         route = next(r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
                      == (event.sender_id, event.conversation_kind, event.conversation_id))
         result = await asyncio.to_thread(forward, config.core_origin, 'qq', route.channel_id,

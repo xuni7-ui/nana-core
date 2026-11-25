@@ -71,7 +71,7 @@ def test_proposal_rejects_unadvertised_or_uncited_media():
         validate_cognitive_proposal(CognitiveProposal(**base, memory_refs=('m1',), selected_media=forged), context)
 
 
-@pytest.mark.parametrize('scenario', ['ack', 'verified', 'lost-ack', 'revoked', 'no-grant', 'during-login'])
+@pytest.mark.parametrize('scenario', ['ack', 'verified', 'lost-ack', 'revoked', 'no-grant', 'during-login', 'superseded', 'superseded-during-login'])
 def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scenario):
     from nana_core.continuity.autonomy.contracts import RealizationTarget
     from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
@@ -82,7 +82,7 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scena
     now = r.clock.utc_now_us()
     source = PublicMediaSource(source_id='choice-picture', modality='IMAGE', origin='SYNTHETIC',
                                event_time_us=now, observed_time_us=now)
-    mid, _ = PerceptionService(r.store, providers(), app.policy).ingest(
+    mid, observation_id = PerceptionService(r.store, providers(), app.policy).ingest(
         picture(), source, entity_id='project-user', scope='project-work')
     memory = MemoryService(r.store)
     cue = ConcernCue(cue_kind='OPPORTUNITY', motivation_source='RELATIONSHIP', topic_key='qq-image-choice',
@@ -140,6 +140,24 @@ def test_selected_image_binds_original_endorsed_contact_and_withdraws(app, scena
                 service.dispatch(cycle.intention_id, action, expected_revision=1)
             except CoreError:
                 pass
+            assert not platform['sent']
+        elif scenario in {'superseded', 'superseded-during-login'}:
+            records=RecordService(r.store);original=records.read(observation_id);support=records.support(observation_id)
+            def supersede():
+                with r.store.transaction('synthetic.image_observation_revised') as tx:
+                    records.create(tx,kind='MEDIA_OBSERVATION',scope='project-work',payload=original['payload'],
+                                   memories=support,supersedes=observation_id,target_id=mid)
+                assert records.current_support(observation_id)
+            if scenario=='superseded':
+                supersede()
+            else:
+                login=connection.account
+                def supersede_during_login():
+                    value=login();supersede();return value
+                connection.account=supersede_during_login
+            result=service.dispatch(cycle.intention_id, action, expected_revision=1)
+            assert result=='UNKNOWN'
+            assert service.dispatch(cycle.intention_id, action, expected_revision=1)=='UNKNOWN'
             assert not platform['sent']
         elif scenario == 'revoked':
             MemoryService(r.store, r.authority).forget(mid, r.authority)

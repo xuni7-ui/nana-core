@@ -119,18 +119,21 @@ def _bilibili_capabilities(workflow):
     receive_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
                          and (getattr(workflow.channel, 'kind', 'comment') != 'dm'
                               or workflow.channel.private_read_authorized))
-    send_ready = bool(workflow.channel.enabled and workflow.channel.read_authorized
-                      and workflow.channel.send_authorized)
+    send_ready = bool(receive_ready and workflow.channel.send_authorized)
+    receive_reason = ('PRIVATE_READ_OR_CHANNEL_DISABLED' if workflow.channel.enabled
+                      and workflow.channel.read_authorized and getattr(workflow.channel, 'kind', 'comment') == 'dm'
+                      and not workflow.channel.private_read_authorized else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED')
     frames_ready = bool(video_ready and config.visual_samples and decoder_available)
     frames_reason = ('ORIGINAL_C_GRANT_AND_SOURCE_REQUIRED' if frames_ready else
                      'FRAME_DECODER_UNAVAILABLE' if video_ready and config.visual_samples and not decoder_available else
                      'ORIGINAL_VIDEO_FRAMES_NOT_CONFIGURED_OR_AUTHORIZED')
     return (
         Capability(name='message.receive', available=receive_ready,
-                   reason='' if receive_ready else 'READ_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+                   reason='' if receive_ready else receive_reason),
         Capability(name='message.text.send', available=send_ready,
-                   reason='' if send_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
-        Capability(name='message.readback', available=True),
+                   reason='' if send_ready else receive_reason if not receive_ready else 'SEND_AUTHORIZATION_OR_CHANNEL_DISABLED'),
+        Capability(name='message.readback', available=receive_ready,
+                   reason='' if receive_ready else receive_reason),
         Capability(name='video.metadata', available=video_ready, reason=video_reason),
         Capability(name='video.subtitles', available=video_ready, reason=video_reason),
         Capability(name='video.frames', available=frames_ready, reason=frames_reason),
@@ -232,7 +235,13 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
         w.transport.calls = 0
         try:
             w.transport.account()
-            pages = {channel: w.transport.notification_rows(channel) for channel in ('reply', 'at')}
+            self._require_current_private_access()
+            pages = {}
+            for channel in ('reply', 'at'):
+                pages[channel] = w.transport.notification_rows(channel)
+                # Config or owner authorization can change during network I/O.
+                # Do not perform the next read or release returned metadata.
+                self._require_current_private_access()
         except Exception:
             self._health = self._health.model_copy(update={'connection': 'DEGRADED',
                        'receive': 'STALE', 'error': 'NOTIFICATION_READ_FAILED'})
@@ -262,6 +271,7 @@ class BilibiliEventsAdapter(CoreWorkflowAdapter):
         self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'login': 'AUTHENTICATED',
                    'receive': 'BACKPRESSURE' if self.metrics['backpressure'] > pressure_before else 'HEALTHY', 'error': None,
                    'last_event_us': now if self.pending else self._health.last_event_us})
+        self._require_current_private_access()
         return self.pending.popleft() if self.pending else None
 
     async def disconnect(self):

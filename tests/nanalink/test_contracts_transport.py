@@ -74,6 +74,27 @@ def test_order_priority_failure_isolation_and_unknown_no_requeue():
     asyncio.run(run())
 
 
+def test_foreign_receipt_cannot_claim_delivery_for_another_account():
+    async def run():
+        queue=EventTransport(capacity=4,per_account=2,dedupe=4)
+        first,other=event('first'),event('other',account='44')
+        assert queue.offer(first)=='QUEUED' and queue.offer(other)=='QUEUED'
+        async def wrong_receipt(_):
+            return OperationReceipt(operation_id=other.key,outcome=Outcome.CONFIRMED_SUCCESS,
+                                    reason='SYNTHETIC_CONFIRMED',external_delivery=True)
+        result=await queue.drain_once(wrong_receipt)
+        assert result.operation_id==first.key and result.outcome==Outcome.UNKNOWN
+        assert result.reason=='RECEIPT_BINDING_MISMATCH_NO_RETRY'
+        assert not result.external_delivery and not result.retry_allowed
+        assert queue.offer(first)=='DUPLICATE'
+        async def own_receipt(item):
+            return OperationReceipt(operation_id=item.key,outcome=Outcome.CANCELLED,reason='SYNTHETIC_CANCELLED')
+        result=await queue.drain_once(own_receipt)
+        assert result.operation_id==other.key and result.outcome==Outcome.CANCELLED
+        assert queue.size==0 and queue.metrics['unknown']==1
+    asyncio.run(run())
+
+
 def test_original_core_route_cannot_be_selected_by_text():
     class Runtime:
         def qq(self, channel, mid):

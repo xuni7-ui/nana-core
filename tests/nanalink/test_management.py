@@ -50,6 +50,79 @@ def test_offline_installed_versions_persist_rollback_and_isolate_failure(tmp_pat
     asyncio.run(run())
 
 
+def test_failed_disconnect_is_uncertain_and_stays_paused_across_restart(tmp_path):
+    class FailingDisconnect(Fake):
+        fail = True
+        calls = 0
+        async def disconnect(self):
+            self.calls += 1
+            if self.fail:
+                raise OSError('synthetic disconnect failure')
+            self.connected = False
+
+    async def run():
+        first=FailingDisconnect();first.connected=True
+        other=Fake();other.account=other.account.model_copy(update={'account_id':'43'})
+        catalogs={'primary':{'1.0.0':FailingDisconnect}, 'other':{'1.0.0':lambda:other}}
+        state=tmp_path/'private'/'adapters.json'
+        manager=AdapterManagement({'primary':first,'other':other},catalogs,state_path=state)
+        result=await manager.command('primary','DISABLE',None,manager.view('primary')['revision'])
+        assert result['state']=='UNKNOWN_NO_AUTORETRY'
+        assert result['uncertain'] and not result['enabled'] and first.connected
+        assert first.calls==1 and manager.enabled('other')
+        restored=AdapterManagement({'primary':FailingDisconnect(),'other':other},catalogs,state_path=state)
+        assert restored.view('primary')['uncertain'] and not restored.enabled('primary')
+        with pytest.raises(CoreError,match='NANALINK_UNCERTAIN_RECONCILIATION_REQUIRED'):
+            await manager.command('primary','ENABLE',None,manager.view('primary')['revision'])
+        first.fail=False
+        result=await manager.command('primary','DISABLE',None,manager.view('primary')['revision'])
+        assert result['state']=='APPLIED' and not result['uncertain'] and not first.connected
+        assert first.calls==2 and manager.enabled('other')
+    asyncio.run(run())
+
+
+def test_failed_uninstall_disconnect_preserves_installed_version():
+    class FailingDisconnect(Fake):
+        async def disconnect(self):raise OSError('synthetic disconnect failure')
+    async def run():
+        first=FailingDisconnect()
+        manager=AdapterManagement({'primary':first},{'primary':{'1.0.0':FailingDisconnect}})
+        manager.registry.slots[manager.keys['primary']].enabled=False
+        result=await manager.command('primary','UNINSTALL',None,manager.view('primary')['revision'])
+        assert result['state']=='UNKNOWN_NO_AUTORETRY' and result['uncertain']
+        assert result['installed'] and not result['enabled'] and result['current']=='1.0.0'
+    asyncio.run(run())
+
+
+def test_sdk_uninstall_keeps_slot_if_disconnect_fails():
+    from nana_core.nanalink.sdk import AdapterRegistry
+    class FailingDisconnect(Fake):
+        async def disconnect(self):raise OSError('synthetic disconnect failure')
+    async def run():
+        registry=AdapterRegistry();adapter=FailingDisconnect();key=registry.install(adapter)
+        assert await registry.enable(key)
+        with pytest.raises(CoreError,match='NANALINK_SHUTDOWN_INCOMPLETE'):
+            await registry.uninstall(key)
+        assert key in registry.slots and not registry.slots[key].enabled
+        assert registry.slots[key].fault=='SHUTDOWN_INCOMPLETE'
+    asyncio.run(run())
+
+
+def test_uncertain_install_can_be_explicitly_reconciled_while_uninstalled():
+    async def run():
+        def bad_factory():raise OSError('synthetic factory failure')
+        manager=AdapterManagement({'primary':Fake()},{'primary':{'1.0.0':Fake,'1.1.0':bad_factory}})
+        async def op(name,version=None):
+            return await manager.command('primary',name,version,manager.view('primary')['revision'])
+        await op('DISABLE');await op('UNINSTALL')
+        result=await op('INSTALL','1.1.0')
+        assert result['state']=='UNKNOWN_NO_AUTORETRY' and result['uncertain'] and not result['installed']
+        result=await op('DISABLE')
+        assert result['state']=='APPLIED' and not result['uncertain'] and not result['installed']
+        assert (await op('INSTALL','1.0.0'))['state']=='APPLIED'
+    asyncio.run(run())
+
+
 def test_actual_management_http_auth_revision_no_platform_send():
     with network(mode='http') as (net,state,resolver,loop):
         async def run():
@@ -69,7 +142,34 @@ def test_actual_management_http_auth_revision_no_platform_send():
         asyncio.run_coroutine_threadsafe(run(),loop).result(5)
 
 
-def test_http_disable_cancels_queued_input_before_reenable():
+def test_http_disable_failure_reports_unknown_and_cancels_pending_input():
+    from tests.nanalink.test_onebot_network import message
+    with network(mode='http') as (net,state,resolver,loop):
+        async def run():
+            sidecar=net['sidecar'];adapter=net['adapter']
+            original=adapter.disconnect
+            async def fail():raise OSError('synthetic disconnect failure')
+            adapter.disconnect=fail
+            try:
+                assert adapter.offer(message(11))=='QUEUED'
+                headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
+                async with ClientSession() as client:
+                    url=net['endpoint']+'/nanalink/manage'
+                    view=await (await client.get(url,headers=headers)).json()
+                    response=await client.post(url,headers=headers,json={
+                        'operation':'DISABLE','version':None,'revision':view['revision']})
+                    result=await response.json()
+                    assert response.status==200 and result['state']=='UNKNOWN_NO_AUTORETRY'
+                    assert result['uncertain'] and not result['enabled']
+                    assert result['cancelled_queued_events']==1 and adapter.events.empty()
+                    assert not state['sent']
+            finally:
+                adapter.disconnect=original
+        asyncio.run_coroutine_threadsafe(run(),loop).result(5)
+
+
+@pytest.mark.parametrize('identity_changed', [False, True])
+def test_http_disable_cancels_queued_input_before_reenable(identity_changed):
     from nana_core.nanalink.onebot import normalize
     from tests.nanalink.test_onebot_network import message
     with network(mode='http') as (net,state,resolver,loop):
@@ -77,15 +177,31 @@ def test_http_disable_cancels_queued_input_before_reenable():
             sidecar=net['sidecar']; adapter=net['adapter']
             assert adapter.offer(message(11)) == 'QUEUED'
             assert sidecar.transport.offer(normalize(adapter.account,message(12))) == 'QUEUED'
+            original_account = adapter.account
+            other_account = original_account.model_copy(update={'account_id': '44'})
+            if identity_changed:
+                assert sidecar.transport.offer(normalize(other_account, {**message(13), 'self_id': 44})) == 'QUEUED'
+                adapter.account = other_account
             url=net['endpoint']+'/nanalink/manage'
             headers={'Authorization':'Bearer FIXTURE_ONLY_CORE_NOT_A_REAL_SECRET'}
             async with ClientSession() as client:
+                if identity_changed:
+                    login_url = net['endpoint'] + '/get_login_info'
+                    login_calls = state['logins']
+                    async with client.post(login_url, headers=headers, json={}) as response:
+                        assert response.status == 502
+                        assert (await response.json())['error'] == 'NANALINK_ADAPTER_ACCOUNT_MISMATCH'
+                    assert state['logins'] == login_calls
                 view=await (await client.get(url,headers=headers)).json()
                 body={'operation':'DISABLE','version':None,'revision':view['revision']}
                 result=await (await client.post(url,headers=headers,json=body)).json()
                 assert result['state']=='APPLIED' and not result['enabled']
                 assert result['cancelled_queued_events']==2
-                assert adapter.events.empty() and sidecar.transport.size==0
+                assert adapter.events.empty() and original_account.key not in sidecar.transport.counts
+                if identity_changed:
+                    assert sidecar.transport.counts == {other_account.key: 1}
+                    sidecar.transport.cancel_account(other_account.key)
+                    adapter.account = original_account
                 body.update(operation='ENABLE',revision=result['revision'])
                 result=await (await client.post(url,headers=headers,json=body)).json()
                 assert result['state']=='APPLIED' and adapter.events.empty() and sidecar.transport.size==0

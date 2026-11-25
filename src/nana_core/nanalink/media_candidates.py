@@ -48,9 +48,24 @@ def resolve_image(store, cache, selection, *, max_bytes=8192):
     row = MemoryService(store).read(selection.source_memory_id)
     if candidate(row) != selection:
         raise CoreError('MEDIA_SELECTION_SOURCE_MISMATCH')
-    observation = store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?", (selection.source_memory_id,)).fetchone()
-    if not observation or not RecordService(store).current_support(observation[0]):
-        raise CoreError('MEDIA_OBSERVATION_NOT_CURRENT')
+    records = RecordService(store)
+    def current_observation():
+        observations = store.db.execute(
+            "SELECT record_id, lifecycle FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=? "
+            "AND scope=? AND privacy_class='PUBLIC' LIMIT 2",
+            (selection.source_memory_id, row['scope'])).fetchall()
+        # The current media choice binds a memory ID, not an observation ID.
+        # If that memory has a superseded observation, a newer active record
+        # cannot prove that C selected it. Require a fresh source reference.
+        if len(observations) != 1 or observations[0]['lifecycle'] != 'ACTIVE':
+            raise CoreError('MEDIA_OBSERVATION_NOT_CURRENT')
+        observation_id = observations[0]['record_id']
+        observation = records.read(observation_id)
+        if (observation['payload'].get('source_memory_id') != selection.source_memory_id
+                or not records.current_support(observation_id)):
+            raise CoreError('MEDIA_OBSERVATION_NOT_CURRENT')
+        return observation_id
+    observation_id = current_observation()
     handle = cache.resolve(source_ref=selection.source_memory_id, sha256=selection.content_sha256)
     if not 1 <= handle.size <= max_bytes:
         raise CoreError('MEDIA_SEND_BYTE_BOUND')
@@ -58,6 +73,7 @@ def resolve_image(store, cache, selection, *, max_bytes=8192):
     if len(data) != handle.size or hashlib.sha256(data).hexdigest() != selection.content_sha256:
         raise CoreError('MEDIA_CACHE_CONTENT_MISMATCH')
     # Recheck source at the end of the read, including owner consent safe point.
-    if candidate(MemoryService(store).read(selection.source_memory_id)) != selection or not RecordService(store).current_support(observation[0]):
+    if (candidate(MemoryService(store).read(selection.source_memory_id)) != selection
+            or current_observation() != observation_id):
         raise CoreError('MEDIA_SELECTION_SOURCE_MISMATCH')
     return data

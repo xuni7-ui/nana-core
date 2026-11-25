@@ -124,10 +124,18 @@ def poll_dynamics(workflow):
     from .bilibili_dynamic import normalize_dynamic
     c=workflow.channel;app=workflow.app;store=workflow.store
     binding=app.surfaces._binding(c.binding_id)
-    if (not c.enabled or not c.read_authorized or not c.private_read_authorized
-            or not binding.allow_personal_retention or not binding.personal_retention_consent_ref):
-        raise CoreError('PLATFORM_OBSERVATION_NOT_AUTHORIZED')
-    workflow._authority()
+    def require_current_access():
+        from ..life.config import load_config
+        current=load_config(app.home)
+        live_channel=next((x for x in current.bilibili_channels if x.channel_id==c.channel_id),None)
+        live_binding=next((x for x in current.surface_bindings if x.binding_id==binding.binding_id),None)
+        if (live_channel != c or live_binding != binding or not c.enabled or not c.read_authorized
+                or not c.private_read_authorized or not binding.enabled or not binding.allow_personal_retention
+                or not binding.personal_retention_consent_ref or 'PERSONAL' not in binding.permitted_privacy
+                or binding.platform != 'bilibili.account' or binding.mode != 'PLATFORM_ADAPTER_NO_SEND'):
+            raise CoreError('PLATFORM_OBSERVATION_NOT_AUTHORIZED')
+        workflow._authority()
+    require_current_access()
     now=store.clock.utc_now_us();account=Account(platform='bilibili',adapter_id='bilibili.account',account_id=str(c.account_id))
     reservation=digest(['nanalink.dynamic',account.key,now//300000000])
     if store.db.execute("SELECT 1 FROM events WHERE source_namespace='platform.bilibili.ingress' AND source_key=?",(reservation,)).fetchone():
@@ -137,7 +145,11 @@ def poll_dynamics(workflow):
     if count>=12:
         raise CoreError('BILIBILI_DYNAMIC_HOURLY_CEILING')
     reserve_inbound_read(workflow.realization.kernel,2,'bilibili',source,reservation)
-    workflow.transport.calls=0;workflow.transport.account();rows=workflow.transport.dynamic_rows()
+    workflow.transport.calls=0
+    workflow.transport.account()
+    require_current_access()
+    rows=workflow.transport.dynamic_rows()
+    require_current_access()
     bridge=PrivateDynamicBridge(app,c.channel_id);admitted=0;retired=0;changed=0
     for row in rows:
         event=normalize_dynamic(account,row,now_us=now,origin=workflow.transport.realm)

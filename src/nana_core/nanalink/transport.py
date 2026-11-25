@@ -69,6 +69,11 @@ class EventTransport:
         try:
             result = await handler(event)
             receipt = OperationReceipt.model_validate(result.model_dump())
+            if receipt.operation_id != event.key:
+                # A different operation's receipt cannot attest this event.
+                # It may already have had an effect, so never dispatch again.
+                receipt = OperationReceipt(operation_id=event.key, outcome=Outcome.UNKNOWN,
+                                           reason='RECEIPT_BINDING_MISMATCH_NO_RETRY')
         except asyncio.CancelledError:
             self.metrics['unknown'] += 1
             raise
