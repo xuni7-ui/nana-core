@@ -1,3 +1,9 @@
+## 当前接续 NanaLink 原入口防护 revision322
+
+原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。
+
+固定 5ed149d 候选早于 PR36。原 owner 可信撤回与视频派生来源继续，真实验收仍依原合同。证据 docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md。
+
 ## 当前接续 固定集成候选 revision321
 
 固定5ed149d集成候选d09afd2，独立核验29项、停机回退保留原身份及已持久化反例、侧车30回环；按74项Web与原生输入核对复用上批客户端。
