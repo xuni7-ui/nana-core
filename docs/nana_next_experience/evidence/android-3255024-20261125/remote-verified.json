@@ -1,0 +1,9 @@
+{
+  "delivery_commit": "dc3806ecfe581695f3d855ecc33f8364bce08448",
+  "checksum_file_sha256": "aa7a9ad25e0ae2789c1b9895c109d7a41497b567b557a11e59ab0ef08a9f21ac",
+  "candidate_paths_verified": 34,
+  "new_or_changed_paths_independently_downloaded": 6,
+  "android_v2_verified_on_independent_download": true,
+  "assets_byte_equal": 42,
+  "android_installed_on_real_device": false
+}

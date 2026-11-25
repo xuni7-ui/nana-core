@@ -1,0 +1,49 @@
+{
+  "source_commit": "325502482afd18f1e3137ea183d3927c2c02bce4",
+  "status": "CONTROLLED_CORE_WEB_ANDROID_SIDECAR_CANDIDATE",
+  "core_archive": "nana-core-3255024-portable.tar.gz",
+  "core_sha256": "bc6e56147df8557097ff9eb5573a15f3d019295f9c1aef42eb54d475562b20ea",
+  "core_bundle_files": 313,
+  "core_two_builds_identical": true,
+  "core_installed_frame_tests": 2,
+  "same_stopped_dev_rollback": {
+    "source": "325502482afd18f1e3137ea183d3927c2c02bce4",
+    "fallback": "5ed149d167a12cae9de37dbf63ba80cb798658b6",
+    "same_stopped_dev": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 16,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    },
+    "real_provider_calls": 0
+  },
+  "web_archive": "nana-web-3255024.tar.gz",
+  "web_sha256": "791bd1a818e39bc113590aab10b80b70622dcd774224c162e078b966d5f3f79b",
+  "web_build_input_files": 74,
+  "web_dist_files": 42,
+  "web_two_dist_trees_identical": true,
+  "web_unit_passes": 105,
+  "browser_nanalink_passes": 16,
+  "sidecar_wheel": "nanalink/nana_core_offline-0.1.0-py3-none-any.whl",
+  "sidecar_sha256": "6edbe529e0a7fde7bed0688522f4502b136d4cbd11c8706d631f8a0afb207358",
+  "sidecar_loopback_passes": 36,
+  "android_status": "SOURCE_MATCHED_DEBUG_BUILT_VERIFIED",
+  "physical_phone": false,
+  "production_deployed": false,
+  "real_provider_calls": 0,
+  "android_debug": {
+    "file": "android/nana-space-3255024-debug.apk",
+    "sha256": "19f1a3cb383ec65351509bdc3bafa58df85cccf9761ce4061e4c8cc9412f5482",
+    "application_id": "life.nana.space.dev",
+    "version_code": 409,
+    "min_sdk": 23,
+    "target_sdk": 35,
+    "apk_signature_v2_verified": true,
+    "certificate_sha256": "25d65f494a6392c302fc9f902b1794f50f574407146cd76ed38c949efd81ccab",
+    "web_assets_byte_equal": 42,
+    "phone_run": false,
+    "in_place_upgrade_from_previous_b9a6569_debug": false
+  }
+}

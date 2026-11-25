@@ -1,3 +1,9 @@
+## 当前接续 固定同源 Android 候选 revision329
+
+固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。
+
+下一继续可信 QQ 撤回、B站完整视频来源资格，以及原 S3/S8/S10 长期迁移和正式真体验收。证据 docs/nana_next_experience/evidence/android-3255024-20261125/README.md。
+
 ## 当前接续 固定 Core、Web 与侧车候选 revision328
 
 固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。
