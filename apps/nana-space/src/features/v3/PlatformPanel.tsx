@@ -13,11 +13,12 @@ import { platformChannels, type PlatformChannel } from "../../data/living";
 export function PlatformPanel({client, canManage}: {client: V2Client; canManage: boolean}) {
   const [status, setStatus] = useState<Envelope | null>(null);
   const [message, setMessage] = useState("");
+  const [statusReadFailed, setStatusReadFailed] = useState(false);
   const [busy, setBusy] = useState(false);
   const refresh = async () => {
     setBusy(true);
-    try { setStatus(await client.platformStatus()); }
-    catch { setMessage("暂时读不到平台状态，请检查运行进程是否已启动。不会自动发送或重试消息。"); }
+    try { setStatus(await client.platformStatus()); setStatusReadFailed(false); }
+    catch { setStatusReadFailed(true); }
     finally { setBusy(false); }
   };
   useEffect(() => {
@@ -95,6 +96,7 @@ export function PlatformPanel({client, canManage}: {client: V2Client; canManage:
       </div>}
     </article>)}
     <button className="v3-button soft" disabled={busy} onClick={() => void refresh()}>刷新连接状态</button>
+    {statusReadFailed && <p role="status" className="v3-muted">暂时读不到平台状态，请检查运行进程是否已启动。不会自动发送或重试消息。</p>}
     {message && <p role="status" className="v3-muted">{message}</p>}
     {!canManage && <p className="v3-muted">当前设备可查看状态；更改通道需要已授权的管理设备。</p>}
   </V3Card>;

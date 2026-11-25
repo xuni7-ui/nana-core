@@ -2165,6 +2165,50 @@ test('NanaLink phone can confirm a pause after an uncertain connector operation'
   await noHorizontalOverflow(page);
 });
 
+test('NanaLink phone requires a fresh connector status before further changes', async ({page}) => {
+  const state = await installMock(page);
+  state.capabilities = {platform_configuration_write: true};
+  state.roles = ['READER', 'HOST_ADMIN'];
+  const writes: Array<Record<string, unknown>> = [];
+  let statusAvailable = true;
+  let paused = false;
+  await page.route(`**${API}platform/status`, route => statusAvailable ? route.fulfill({status: 200, json: envelope(state, {
+    configuration_revision: 4,
+    channels: [{platform: 'qq', channel_id: 'primary', account_label: '账号尾号 0042', conversation_kind: 'private',
+      enabled: true, read_authorized: true, send_configured: false, secret_state: 'AVAILABLE', state: 'NOT_OBSERVED'}],
+    nanalink: {schema_version: 1, sessions: [{platform: 'qq', channel_id: 'primary',
+      health: {connection: 'DISCONNECTED', login: 'UNKNOWN', receive: 'NOT_OBSERVED'}, capabilities: [],
+      management: {revision: paused ? 9 : 8, current: '1.0.0', previous: null, installed: true,
+        enabled: false, uncertain: !paused, persistent: true, approved_versions: ['1.0.0']}}]},
+  })}) : route.fulfill({status: 503}));
+  await page.route(`**${API}platform/adapters`, async route => {
+    const body = route.request().postDataJSON() as Record<string, unknown>;
+    writes.push(body);
+    paused = true;
+    statusAvailable = false;
+    await route.abort();
+  });
+
+  await open(page, 'devices');
+  await page.getByText('管理此连接器 · 1.0.0', {exact: true}).click();
+  const confirm = page.getByRole('button', {name: '核对并保持暂停'});
+  await confirm.click();
+  await expect(page.getByText('连接器状态尚未读取，请刷新连接状态。', {exact: true})).toBeVisible();
+  await expect(confirm).toHaveCount(0);
+  await expect(page.getByRole('button', {name: '恢复已授权连接器'})).toHaveCount(0);
+  await page.getByRole('button', {name: '刷新连接状态'}).click();
+  await expect(page.getByRole('button', {name: '刷新连接状态'})).toBeEnabled();
+  await expect(confirm).toHaveCount(0);
+  expect(writes).toHaveLength(1);
+
+  statusAvailable = true;
+  await page.getByRole('button', {name: '刷新连接状态'}).click();
+  await expect(page.getByRole('button', {name: '恢复已授权连接器'})).toBeEnabled();
+  await expect(page.getByText('连接器状态尚未读取，请刷新连接状态。', {exact: true})).toHaveCount(0);
+  expect(writes).toHaveLength(1);
+  await noHorizontalOverflow(page);
+});
+
 test("SYNTHETIC changing the primary model keeps route limits and ordered fallbacks", async ({page}) => {
   const state=await installMock(page);state.capabilities={provider_configuration_write:true};
   const provider={...providerSettings.providers[0],provider_profile_id:"provider.local"};
