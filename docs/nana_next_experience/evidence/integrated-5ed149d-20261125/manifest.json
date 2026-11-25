@@ -1,0 +1,45 @@
+{
+  "status": "CONTROLLED_CANDIDATE",
+  "source_commit": "5ed149d167a12cae9de37dbf63ba80cb798658b6",
+  "core_sha256": "d56021102865407d7ee560e6cead6776f506d8dc0c1df2ce53e240a95665f75d",
+  "core_bundle_files": 313,
+  "core_two_builds_identical": true,
+  "core_installed_episode_tests": 2,
+  "same_stopped_dev_rollback": {
+    "source": "5ed149d167a12cae9de37dbf63ba80cb798658b6",
+    "fallback": "b9a6569daf57ed84a323b5dbe84235ff5697b2c2",
+    "same_stopped_dev": true,
+    "counts": {
+      "identities": 1,
+      "subject_cycles": 16,
+      "cognitive_requests": 7,
+      "actions": 0,
+      "goals": 0
+    },
+    "real_provider_calls": 0
+  },
+  "sidecar_wheel": "nanalink/nana_core_offline-0.1.0-py3-none-any.whl",
+  "sidecar_sha256": "b1fd50d566003ebdd85f0151a90eb413466afd7d77d0992a7f3e8fed2bc0b516",
+  "sidecar_installed_loopback_tests": 30,
+  "client_reuse": {
+    "artifact_source_commit": "b9a6569daf57ed84a323b5dbe84235ff5697b2c2",
+    "delivery_commit": "4eda4492aea5e6f9c13299f7bdf92d70370bbd31",
+    "delivery_directory": "deliveries/nana-space-next/server-b9a6569-candidate",
+    "web_input_files_equal": 74,
+    "android_source_trees_equal": true,
+    "web_filename": "nana-web-b9a6569.tar.gz",
+    "web_sha256": "73d5e97da60a9fb43d6c81e471f6c14f5fd62329ced196d132f1e920a3aede1b",
+    "android_debug": {
+      "application_id": "life.nana.space.dev",
+      "version_code": 409,
+      "filename": "android/nana-space-b9a6569-debug.apk",
+      "sha256": "fa417c452e20af0a90c52de0099ceecdbf4182b3e80924dea025460c7d6b52d6",
+      "certificate_sha256": "c6bcd38e3ac6d05749fbcac818eb0d37ecdbef770c6b090a1dec3c090a7b55ea",
+      "phone_run": false,
+      "in_place_upgrade_from_c79297c_debug": false
+    }
+  },
+  "production_deployed": false,
+  "real_provider_calls": 0,
+  "physical_phone": false
+}
