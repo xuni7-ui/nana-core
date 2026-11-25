@@ -28,6 +28,12 @@ class SkillArgs(PublishArgs):
 
 MODELS={'world.observe':ObserveArgs,'world.compute':ComputeArgs,'world.publish':PublishArgs,'world.contact':ContactArgs,'world.skill':SkillArgs}
 
+METHOD_INPUT_REJECTION_CODES = frozenset({
+    "WORLD_NUMERIC_INPUT_REQUIRED",
+    "WORLD_SORT_INPUT_REQUIRED",
+    "WORLD_TEXT_INPUT_REQUIRED",
+})
+
 def bounded_data(data):
     raw=canonical(data)
     if len(raw.encode())>8192:raise CoreError('WORLD_DATA_BOUND')

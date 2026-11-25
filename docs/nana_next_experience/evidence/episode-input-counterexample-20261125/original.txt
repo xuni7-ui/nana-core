@@ -1,0 +1,22 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_episode_reuse_counterexample_and_independent_revalidation[3.25 + 2.5-5.75-True] _
+tests/world_loop/test_learning.py:42: in test_episode_reuse_counterexample_and_independent_revalidation
+    counter,aid=assess('independent-counter',counter_data,expected,kind='SYSTEM_VERIFICATION')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/world_loop/test_learning.py:29: in assess
+    mid=capture(r,key,body,kind=kind);aid=review.assess(lesson['lesson_id'],mid,authority=r.authority);return mid,aid
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/world_loop/learning.py:40: in assess
+    result=self.evaluator.evaluate(rule.method,(case,));verdict='SUCCESS' if result['all_passed'] else 'COUNTEREXAMPLE'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/open_agency/learning.py:99: in evaluate
+    actual = transform(method, c.data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/open_agency/world.py:83: in transform
+    if not isinstance(data,list):raise CoreError('WORLD_NUMERIC_INPUT_REQUIRED')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   nana_core.contracts.CoreError: WORLD_NUMERIC_INPUT_REQUIRED
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_learning.py::test_episode_reuse_counterexample_and_independent_revalidation[3.25 + 2.5-5.75-True]
+1 failed, 1 passed, 3 deselected in 0.49s
