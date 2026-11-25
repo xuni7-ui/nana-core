@@ -29,6 +29,10 @@ class VideoFrame:
     origin: str
 
 
+def frame_byte_binding(frame):
+    return {"at_seconds": frame.at_seconds, "sha256": hashlib.sha256(frame.png).hexdigest()}
+
+
 def acquire_frames(transport, bvid, cid, *, limit=3):
     from PIL import Image
 
@@ -120,23 +124,54 @@ class BilibiliFrameService:
             or not 1 <= len(frames) <= 3
         ):
             raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
-        result = []
         for frame in frames:
             if (
                 type(frame) is not VideoFrame
                 or frame.bvid != body["data"]["bvid"]
                 or frame.cid != body["data"]["cid"]
                 or frame.origin != body["origin"]
+                or type(frame.at_seconds) not in (int, float)
                 or not math.isfinite(frame.at_seconds)
                 or not 0 <= frame.at_seconds <= 86400
                 or type(frame.png) is not bytes
                 or not 1 <= len(frame.png) <= 49152
             ):
                 raise CoreError("BILIBILI_FRAME_CORRELATION_MISMATCH")
+        requested = [frame_byte_binding(frame) for frame in frames]
+        bindings = body["data"].get("frame_byte_bindings")
+        namespace = source["source_provenance"]["source_namespace"] + ".frames"
+        if bindings is None:
+            # Old receipts did not attest frame bytes. An intact frame already
+            # linked to one of those receipts remains readable and replayable.
+            existing = []
+            for binding in requested:
+                reference = digest([source_memory_id, binding["at_seconds"], binding["sha256"]])
+                row = self.runtime.store.db.execute(
+                    "SELECT m.memory_id FROM memory_dependencies d JOIN memories m ON m.memory_id=d.memory_id "
+                    "JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id "
+                    "WHERE d.parent_kind='MEMORY' AND d.parent_id=? AND e.source_namespace=? "
+                    "AND e.source_reference=? AND m.scope=? AND m.entity_id=? LIMIT 1",
+                    (source_memory_id, namespace, reference, source["scope"], source["entity_id"]),
+                ).fetchone()
+                if not row:
+                    raise CoreError("BILIBILI_FRAME_BYTE_BINDING_UNAVAILABLE")
+                self.memory.read(row[0])
+                existing.append(row[0])
+            return tuple(existing)
+        if (
+            type(bindings) is not list
+            or not 1 <= len(bindings) <= 3
+            or len({binding["at_seconds"] for binding in requested}) != len(requested)
+            or any(binding not in bindings for binding in requested)
+        ):
+            raise CoreError("BILIBILI_FRAME_BYTE_BINDING_MISMATCH")
+
+        result = []
+        for frame, binding in zip(frames, requested):
             decoded = MediaDecoder().decode(frame.png, "IMAGE")
             text = canonical(
                 {
-                    "source_byte_digest": hashlib.sha256(frame.png).hexdigest(),
+                    "source_byte_digest": binding["sha256"],
                     "decoded": decoded,
                     "source": {
                         "bvid": frame.bvid,
@@ -148,11 +183,11 @@ class BilibiliFrameService:
                     "png_b64": base64.b64encode(frame.png).decode(),
                 }
             )
-            reference = digest([source_memory_id, frame.at_seconds, hashlib.sha256(frame.png).hexdigest()])
+            reference = digest([source_memory_id, binding["at_seconds"], binding["sha256"]])
             p = source["source_provenance"]
             prior = self.runtime.store.db.execute(
                 "SELECT evidence_id FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",
-                (p["source_namespace"] + ".frames", reference),
+                (namespace, reference),
             ).fetchone()
             eid = (
                 prior[0]
@@ -161,7 +196,7 @@ class BilibiliFrameService:
                     EvidenceInput(
                         provenance=Provenance(
                             domain=p["domain"],
-                            source_namespace=p["source_namespace"] + ".frames",
+                            source_namespace=namespace,
                             source_reference=reference,
                             source_kind="DIRECT_OBSERVATION",
                             coverage="EXCERPT",

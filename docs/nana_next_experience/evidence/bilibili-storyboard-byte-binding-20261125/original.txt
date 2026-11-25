@@ -1,0 +1,10 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_storyboard_capture_rejects_swapped_bytes_before_retaining_any_frame ___
+tests/living_release_v4/test_bilibili_frames.py:116: in test_storyboard_capture_rejects_swapped_bytes_before_retaining_any_frame
+    with pytest.raises(CoreError, match="BILIBILI_FRAME_BYTE_BINDING_MISMATCH"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_storyboard_capture_rejects_swapped_bytes_before_retaining_any_frame
+1 failed, 6 deselected in 1.02s

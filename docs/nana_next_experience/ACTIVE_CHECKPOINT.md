@@ -1,3 +1,9 @@
+## 当前接续 原 B 站分镜字节绑定 revision325
+
+B站故事板新增原回执时间与PNG字节绑定。帧掉包在任何写入前拒绝，旧帧只读回用；39定向和旧主体重开通过。
+
+真实账号与平台、整段视频派生授权、可信 QQ 撤回及匹配发行继续。证据 docs/nana_next_experience/evidence/bilibili-storyboard-byte-binding-20261125/README.md。
+
 ## 当前接续 NanaLink 手机连接器恢复 revision324
 
 合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。

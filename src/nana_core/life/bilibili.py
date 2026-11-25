@@ -205,10 +205,11 @@ class BilibiliPublicTransport:
         frames = ()
         if visual:
             try:
-                from .bilibili_frames import acquire_frames
+                from .bilibili_frames import acquire_frames, frame_byte_binding
                 frames = acquire_frames(self, bvid, cid)
                 body['visual_frames'] = len(frames)
                 body['frame_timestamps_seconds'] = [f.at_seconds for f in frames]
+                body['frame_byte_bindings'] = [frame_byte_binding(f) for f in frames]
                 body['coverage'] = 'SAMPLED_VIDEO_FRAMES_NOT_FULL_WATCH'
             except (CoreError, ImportError) as exc:
                 body['notes'].append('VISUAL_FRAMES:' + (exc.code if isinstance(exc, CoreError) else 'FRAME_DECODER_UNAVAILABLE'))

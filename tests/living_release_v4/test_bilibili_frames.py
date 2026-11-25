@@ -100,6 +100,36 @@ def test_frame_correlation_and_cdn_boundary(tmp_path):
         assert transport.calls == calls
 
 
+def test_storyboard_capture_rejects_swapped_bytes_before_retaining_any_frame(tmp_path):
+    from dataclasses import replace
+
+    with counterpart() as (opener, _), fresh(tmp_path / "self.db", Clock()) as r:
+        transport = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+        transport.opener = BilibiliLoopbackOpener(opener.endpoint)
+        reading = transport.read_video("BV1t55v6DE2v", visual=True)
+        app = SimpleNamespace(runtime=r)
+        source = BilibiliSourceAdapter(app).ingest(reading)
+        frames = BilibiliFrameService(app)
+        first, second, _ = reading.frames
+        assert first.png != second.png
+
+        with pytest.raises(CoreError, match="BILIBILI_FRAME_BYTE_BINDING_MISMATCH"):
+            frames.capture(source, (first, replace(second, png=first.png)))
+        assert frames.coverage(source)["visual_frames"] == 0
+        assert r.store.db.execute(
+            "SELECT count(*) FROM continuity_evidence WHERE source_namespace='recorded.project.bilibili.frames'"
+        ).fetchone()[0] == 0
+
+        ids = frames.capture(source, reading.frames)
+        parent = json.loads(MemoryService(r.store).read(source)["text"])["data"]
+        assert parent["frame_byte_bindings"][1] == {
+            "at_seconds": second.at_seconds,
+            "sha256": hashlib.sha256(second.png).hexdigest(),
+        }
+        assert frames.capture(source, reading.frames) == ids
+        assert transport.calls == 7
+
+
 def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
     from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
     from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy
