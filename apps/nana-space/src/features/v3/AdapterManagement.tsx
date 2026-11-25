@@ -5,7 +5,7 @@ import type {Envelope} from '../../data/v2.generated';
 export function AdapterManagement({client,status,channel,readAuthorized,view,onSaved}:{client:V2Client;status:Envelope;channel:string;readAuthorized:boolean;view:Record<string,unknown>;onSaved:()=>Promise<void>}) {
   const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[version,setVersion]=useState('');
   const choices=Array.isArray(view.approved_versions)?view.approved_versions.filter((v):v is string=>typeof v==='string'):[];
-  const installed=view.installed===true,enabled=view.enabled===true;
+  const installed=view.installed===true,enabled=view.enabled===true,uncertain=view.uncertain===true;
   const command=async(operation:string)=>{
     if(busy)return;setBusy(true);setMessage('');
     try {
@@ -19,12 +19,15 @@ export function AdapterManagement({client,status,channel,readAuthorized,view,onS
     finally {setBusy(false);}
   };
   return <details><summary>管理此连接器 · {String(view.current)}</summary>
-    <p>{installed?'已安装':'已移除'} · {enabled?'运行中':'已暂停'}{view.uncertain===true?' · 上次操作待核对':''}</p>
+    <p>{installed?'已安装':'已移除'} · {enabled?'运行中':'已暂停'}{uncertain?' · 上次操作待核对':''}</p>
     {view.persistent!==true&&<p className="v3-muted">设置只在本次运行生效；重启后遵循宿主配置。</p>}
-    {choices.length>1&&<label>宿主批准的版本 <select aria-label="连接器版本" value={version||String(view.current)} onChange={e=>setVersion(e.target.value)}>
+    {!uncertain&&choices.length>1&&<label>宿主批准的版本 <select aria-label="连接器版本" value={version||String(view.current)} onChange={e=>setVersion(e.target.value)}>
       {choices.map(v=><option key={v}>{v}</option>)}
     </select></label>}
-    {installed?<>
+    {uncertain?<>
+      <button className="v3-button soft" disabled={busy} onClick={()=>void command('DISABLE')}>核对并保持暂停</button>
+      <p className="v3-muted">确认暂停后，可按授权恢复连接或管理版本。</p>
+    </>:installed?<>
       <button className="v3-button soft" disabled={busy||(!enabled&&!readAuthorized)} onClick={()=>void command(enabled?'DISABLE':'ENABLE')}>{enabled?'暂停连接器':'恢复已授权连接器'}</button>
       {!enabled&&choices.length>1&&<button className="v3-button soft" disabled={busy||!version||version===view.current} onClick={()=>void command('UPGRADE')}>使用所选版本</button>}
       {!enabled&&view.previous&&<button className="v3-button soft" disabled={busy} onClick={()=>void command('ROLLBACK')}>回退上一版本</button>}
