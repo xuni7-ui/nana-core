@@ -1,0 +1,8 @@
+{
+  "delivery_commit": "d09afd2298412d97989c1679f5b4d2925f41a4e3",
+  "checksum_file_sha256": "6f5a1f19b125c250731e926c121a9e9d3151e9c0ae66058ef2e9bec168db3a4f",
+  "entries_verified_from_github": 29,
+  "earlier_candidate_verified_files": 35,
+  "independent_core_offline_install_and_rollback": true,
+  "independent_sidecar_offline_install_and_check": true
+}
