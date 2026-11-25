@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 327,
-  "as_of_us": 1795604892197931,
+  "revision": 328,
+  "as_of_us": 1795605353318000,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。",
     "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。",
     "连接器管理在写入后只接受该次之后的成功状态读取；迟到的旧读取不能解锁控件。105单测与16浏览器用例通过，实测一次写入。",
     "B站故事板新增原回执时间与PNG字节绑定。帧掉包在任何写入前拒绝，旧帧只读回用；39定向和旧主体重开通过。",
     "合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。",
     "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。",
     "原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。",
-    "固定5ed149d集成候选d09afd2，独立核验29项、停机回退保留原身份及已持久化反例、侧车30回环；按74项Web与原生输入核对复用上批客户端。",
-    "原G后续独立复核遇已验证的明确输入拒绝，原Store同事务保留反例并暂停方法。重复复核、撤回与独立复验通过，35项相关回归。"
+    "固定5ed149d集成候选d09afd2，独立核验29项、停机回退保留原身份及已持久化反例、侧车30回环；按74项Web与原生输入核对复用上批客户端。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -29,20 +29,22 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409。固定5ed149d候选已独立安装和回退，早于PR36；新连接提示待匹配发行。真实模型、账号、真机、自然度、实际跨日、灾备与正式签发待。"
+    "CURRENT266+409。3255024 Core/Web/NanaLink独立安装及回退通过；该候选的匹配Android仍待。真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md",
     "docs/nana_next_experience/evidence/bilibili-frame-atomic-source-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-status-read-order-20261125/README.md",
     "docs/nana_next_experience/evidence/bilibili-storyboard-byte-binding-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-phone-recovery-20261125/README.md",
     "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md",
-    "docs/nana_next_experience/evidence/integrated-5ed149d-20261125/README.md",
-    "docs/nana_next_experience/evidence/episode-input-counterexample-20261125/README.md"
+    "docs/nana_next_experience/evidence/integrated-5ed149d-20261125/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision328 证据指纹锚：`eea5aea0bf5a7c0b59bdcadf7e1619601f44ba3060ed786704659112be036a11`。
 
 A revision327 证据指纹锚：`0356610b1432beae5734220a0137d816fe32a9b15f25880d374ca21491b2a5e0`。
 

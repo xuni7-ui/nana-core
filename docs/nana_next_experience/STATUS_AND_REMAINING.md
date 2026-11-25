@@ -1,3 +1,9 @@
+## 当前接续 固定 Core、Web 与侧车候选 revision328
+
+固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。
+
+此固定交付点无匹配 Android 包。原 A–H 与真实验收继续。证据 docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md。
+
 ## 当前接续 分镜证据原事务与撤回 revision327
 
 B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。
