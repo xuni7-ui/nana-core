@@ -1,0 +1,19 @@
+Verifies
+Verified using v1 scheme (JAR signing): true
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: C=US, O=Android, CN=Android Debug
+Signer #1 certificate SHA-256 digest: 25d65f494a6392c302fc9f902b1794f50f574407146cd76ed38c949efd81ccab
+Signer #1 certificate SHA-1 digest: 460ba419e5e6a37b75c65ee5ee95643c02445c3e
+Signer #1 certificate MD5 digest: ace9a8ec4b49e68b098ab41b624fa9b5
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 4e9459859f06cc48a545a5cea146e796e98412c682a5dfc6c56495f6bc54baa6
+Signer #1 public key SHA-1 digest: 1afc4ee42b77988c1815e48d68eea250ff1c4567
+Signer #1 public key MD5 digest: d45affdb8e7cd7c739010cf9414d918d
+
+apksigner also emitted AndroidX/Kotlin META-INF v1-only coverage warnings. APK v2 verification succeeded.

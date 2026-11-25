@@ -17,4 +17,4 @@ bash rehearse.sh "$PWD" /tmp/n328slot /tmp/n328dev /tmp/n328report /tmp/n321slot
 /tmp/n328side/bin/python -m nana_core.nanalink --config nanalink/config.example.json --adapter-vault /tmp/n328side/unused-vault --check
 ```
 
-本次 Web 行为已经变化，匹配 Android 包待构建。本候选不携带旧 APK 作为匹配包。正式选择 266272a/409。真实平台账号、受授权发送、真机、真实模型、实际跨日和生产仍待验收。
+Android 同源调试包位于 `android/nana-space-3255024-debug.apk`。应用 ID 为 `life.nana.space.dev`，版本码 409。v2 验签通过，42 项 Web 文件与同源压缩包逐字节相同。签名来自隔离构建，与历史调试包证书不同，无法原地覆盖旧调试包。正式选择 266272a/409。真实平台账号、受授权发送、真机、真实模型、实际跨日和生产仍待验收。
