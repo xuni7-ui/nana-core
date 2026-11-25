@@ -272,6 +272,43 @@ def test_dynamic_pump_does_not_attribute_rotated_account_or_retry(tmp_path):
         assert len(front['requests']) == 1
 
 
+@pytest.mark.parametrize('phase',['account','dynamic'])
+def test_dynamic_poll_stops_if_private_access_is_revoked_during_read(tmp_path,phase):
+    from tests.living_release_v4.test_bilibili_runtime import equipped
+    from nana_core.nanalink.private_source import poll_dynamics
+    home=tmp_path/'home';initialize(home);cfg=load_config(home);clock=VirtualClock()
+    binding=SurfaceBinding(binding_id='bili.private',platform='bilibili.account',adapter='bilibili.account',
+        surface='chat.direct',mode='PLATFORM_ADAPTER_NO_SEND',permitted_privacy=('PERSONAL',),
+        allow_personal_retention=True,personal_retention_consent_ref='consent.fixture')
+    channel=BilibiliChannelBinding(channel_id='bili',binding_id=binding.binding_id,account_id=42,target_id=43,
+        sender_id=43,cookie_ref='test.cookie',csrf_ref='test.csrf',enabled=True,read_authorized=True,private_read_authorized=True)
+    cfg=cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,),'bilibili_channels':(channel,)})
+    update_config(home,cfg,expected_revision=cfg.revision-1)
+    with LifeApplication(home,clock=clock) as app:
+        app.pause();workflow=equipped(app,channel,'http://127.0.0.1:1',grant=False)
+        calls=[]
+        def revoke():
+            revoked=channel.model_copy(update={'private_read_authorized':False})
+            update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'bilibili_channels':(revoked,)}),expected_revision=cfg.revision)
+        def account():
+            calls.append('account')
+            if phase=='account':revoke()
+        def dynamic():
+            calls.append('dynamic')
+            if phase=='dynamic':revoke()
+            return []
+        workflow.transport.account=account
+        workflow.transport.dynamic_rows=dynamic
+        with pytest.raises(CoreError,match='PLATFORM_OBSERVATION_NOT_AUTHORIZED'):
+            poll_dynamics(workflow)
+        assert calls==(['account'] if phase=='account' else ['account','dynamic'])
+        assert not app.runtime.store.all('cognitive_requests')
+        assert not app.runtime.store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.platform.bilibili.dynamic'").fetchone()
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+2}),expected_revision=cfg.revision+1)
+        assert poll_dynamics(workflow)['state']=='ALREADY_POLLED_NO_RETRY'
+        assert calls==(['account'] if phase=='account' else ['account','dynamic'])
+
+
 def test_private_notification_pages_reject_changed_account_between_pages():
     from nana_core.life.bilibili_account import BilibiliAccountPolicy, BilibiliAccountTransport
     from nana_core.life.secret_binding import MemorySecretResolver

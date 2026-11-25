@@ -11,7 +11,7 @@ import time
 from typing import Literal
 from pydantic import Field, model_validator
 from ..contracts import DTO, CoreError
-from .contracts import Outcome, OperationReceipt
+from .contracts import Account, Event, Outcome, OperationReceipt, SessionHealth
 from .onebot import OneBotAdapter, decode
 from .transport import EventTransport
 
@@ -311,7 +311,21 @@ class OneBotSidecar:
                     self.last[config.alias] = {"state": "CONNECT_FAILED", "no_retry": True}
             await asyncio.sleep(2)
 
+    def _receive_fault(self, config, adapter, *, state, error, metric):
+        self.last[config.alias] = {'state':state, 'no_retry':True}
+        # SDK implementations need not expose these optional diagnostics.
+        try:
+            metrics = getattr(adapter, 'metrics', None)
+            if type(metrics) is dict and type(metrics.get(metric, 0)) is int:
+                metrics[metric] = metrics.get(metric, 0) + 1
+            health = getattr(adapter, '_health', None)
+            if isinstance(health, SessionHealth):
+                adapter._health = health.model_copy(update={'error':error})
+        except Exception:
+            pass
+
     async def _receive(self, config):
+        expected_account = Account(platform='qq', adapter_id='qq.' + config.backend, account_id=config.account_id)
         while not self.stopped.is_set():
             if not self.management.enabled(config.alias):
                 await asyncio.sleep(0.1)
@@ -321,9 +335,40 @@ class OneBotSidecar:
                 event = await asyncio.wait_for(adapter.receive(), 1)
             except TimeoutError:
                 continue
+            except Exception:
+                # Do not log plugin exception text, which may contain secrets.
+                # Keep infrastructure retry bounded; never replay a send.
+                self._receive_fault(config, adapter, state='ADAPTER_RECEIVE_FAILED',
+                                    error='ADAPTER_RECEIVE_FAILED', metric='receive_failures')
+                await asyncio.sleep(.5)
+                continue
+            if self.adapters.get(config.alias) is not adapter:
+                # A faulty or slow old adapter may finish receive after an
+                # offline replacement. Its event has no current host binding.
+                self.last[config.alias] = {'state':'CANCELLED_STALE_ADAPTER','no_retry':True}
+                continue
             if not self.management.enabled(config.alias):
                 self.last[config.alias] = {'state':'CANCELLED_BEFORE_CORE_FORWARD','no_retry':True}
                 continue
+            if event is None:
+                # The SDK permits a quiet receive to return None.
+                await asyncio.sleep(.05)
+                continue
+            try:
+                valid_account = (isinstance(event, Event) and adapter.account == expected_account
+                                 and event.account == expected_account)
+            except Exception:
+                valid_account = False
+            if not valid_account:
+                self._receive_fault(config, adapter, state='REJECTED_ACCOUNT_BINDING',
+                                    error='EVENT_ACCOUNT_MISMATCH', metric='invalid_events')
+                continue
+            try:
+                health = getattr(adapter, '_health', None)
+                if isinstance(health, SessionHealth) and health.error == 'ADAPTER_RECEIVE_FAILED':
+                    adapter._health = health.model_copy(update={'error':None})
+            except Exception:
+                pass
             # Forward only exact host-bound source metadata. Unbound groups or
             # peers never spend a Core cognition call merely by arriving.
             matches = [r for r in config.routes if (r.sender_id, r.conversation_kind, r.conversation_id)
@@ -336,7 +381,23 @@ class OneBotSidecar:
                 continue
             if event.kind != 'message.created' or len(matches) != 1:
                 continue
-            state = self.transport.offer(event)
+            try:
+                state = self.transport.offer(event)
+            except CoreError as exc:
+                if exc.code != 'NANALINK_EVENT_ID_COLLISION':
+                    raise
+                # The adapter's recent window and the shared transport's
+                # window can expire at different times. Drop the ambiguous
+                # event without killing this account's receiver or retrying.
+                self._receive_fault(config, adapter, state='EVENT_ID_COLLISION_DROPPED',
+                                    error='EVENT_ID_COLLISION_DROPPED', metric='transport_collisions')
+                continue
+            except (TypeError, ValueError):
+                # SDK instances can contain invalid values (e.g. model_copy
+                # without validation). Reject the envelope, not the receiver.
+                self._receive_fault(config, adapter, state='INVALID_EVENT_DROPPED',
+                                    error='INVALID_EVENT_DROPPED', metric='invalid_events')
+                continue
             if state == 'BACKPRESSURE':
                 self.last[config.alias] = {'state': 'BACKPRESSURE', 'no_retry': True}
                 # Bounded backpressure is visible. Never hide loss as delivery.

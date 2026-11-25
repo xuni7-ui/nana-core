@@ -79,6 +79,10 @@ class AdapterRegistry:
             await asyncio.wait_for(slot.adapter.disconnect(), 3)
         except Exception:
             slot.fault = 'SHUTDOWN_INCOMPLETE'
+            return False
+        if slot.fault == 'SHUTDOWN_INCOMPLETE':
+            slot.fault = None
+        return True
 
     async def replace(self, key, candidate):
         """Only offline replacement; preserve the last implementation for rollback."""
@@ -99,7 +103,8 @@ class AdapterRegistry:
         self.slots[key].fault = None
 
     async def uninstall(self, key):
-        await self.disable(key)
+        if not await self.disable(key):
+            raise CoreError('NANALINK_SHUTDOWN_INCOMPLETE')
         self.slots.pop(key)
         self.previous.pop(key, None)
 

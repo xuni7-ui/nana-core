@@ -283,12 +283,17 @@ def test_bilibili_message_capabilities_respect_channel_and_dm_read_policy():
     def capabilities():
         return {c.name:c.available for c in adapter.capabilities()}
     assert not capabilities()['message.receive']
+    assert not capabilities()['message.text.send'] and not capabilities()['message.readback']
+    assert all(c.reason=='PRIVATE_READ_OR_CHANNEL_DISABLED' for c in adapter.capabilities()
+               if c.name in {'message.receive','message.text.send','message.readback'})
     channel.private_read_authorized = True
-    assert capabilities()['message.receive'] and capabilities()['message.text.send']
+    assert capabilities()['message.receive'] and capabilities()['message.text.send'] and capabilities()['message.readback']
     channel.enabled = False
-    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send'] and not capabilities()['message.readback']
     channel.enabled = True; channel.read_authorized = False
-    assert not capabilities()['message.receive'] and not capabilities()['message.text.send']
+    assert not capabilities()['message.receive'] and not capabilities()['message.text.send'] and not capabilities()['message.readback']
+    channel.kind='comment'; channel.read_authorized=True; channel.private_read_authorized=False
+    assert capabilities()['message.receive'] and capabilities()['message.text.send'] and capabilities()['message.readback']
 
 
 def test_qq_capabilities_follow_current_channel_authorizations():

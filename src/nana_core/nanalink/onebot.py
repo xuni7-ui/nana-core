@@ -150,7 +150,8 @@ class OneBotAdapter:
         # can remain recorded indefinitely, so it must not mask the recall gap.
         # The counter retains the gap until the more urgent error clears.
         if self.metrics['unhandled_recalls'] and value.error not in {
-                'ACCOUNT_MISMATCH', 'CREDENTIAL_UNAVAILABLE', 'CREDENTIAL_REJECTED', 'SIDECAR_UNAVAILABLE'}:
+                'ACCOUNT_MISMATCH', 'CREDENTIAL_UNAVAILABLE', 'CREDENTIAL_REJECTED', 'SIDECAR_UNAVAILABLE',
+                'EVENT_ID_COLLISION_DROPPED', 'EVENT_ACCOUNT_MISMATCH', 'ADAPTER_RECEIVE_FAILED'}:
             value = value.model_copy(update={'error':'RECALL_NOT_WITHDRAWN'})
         # A quiet conversation is not proof of a failed receive path. Heartbeat
         # staleness is reported only after a heartbeat was actually observed.
