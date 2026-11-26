@@ -4467,3 +4467,7 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-25 CST｜revision328。[实测] 固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。 Web与原候选输入严格核对；固定制品暂不含Android。证据锚 `eea5aea0bf5a7c0b59bdcadf7e1619601f44ba3060ed786704659112be036a11`。
 
 - 2026-11-25 CST｜revision329。[实测] 固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。 正式签名与真机待验。证据锚 `2f882909a51c8f76d205addef45f03258ca821b2969d7a5324e13eadd637a74b`。
+
+### 2026-11-27 · B本地 Ollama 官方SDK最小适配候选
+
+[源码/受控测试] 复用官方Python SDK，不依赖nana_core；显式本机回环服务提供发现、指定模型聊天和原生流迭代，不自动拉取、重试或发送环境中的无关密钥。本机协议替身与拒绝错误地址共8项通过，非真实推理；本机无Ollama服务，Ollama注册表/Hugging Face访问403，真实模型资格未完成。端口复用无法证明服务身份，生产宿主授权仍须原Provider负责。配置与最小复验见 `docs/nana_next_experience/LOCAL_OLLAMA_MINIMAL.md`。
