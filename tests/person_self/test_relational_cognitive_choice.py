@@ -263,3 +263,61 @@ def test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered(t
             assert cycle.relational_decision.review_choice=='END'
             assert VoluntaryAccommodationService(r.store,r.authority).materialize(cycle.cycle_id,r.authority)==cid
             assert r.store.one('commitments',cid)['state']=='CANCELLED' and not r.store.all('actions')
+
+
+def test_temporary_load_defers_an_implicit_review_until_capacity_returns(tmp_path):
+    from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    from nana_core.presence.contracts import HOUR
+
+    path = tmp_path/'subject/self.db'
+    with fresh(path) as r:
+        prepare(r)
+        initial = request(r, 'temporary-load-review')
+        initial = initial.model_copy(update={'relational_request':initial.relational_request.model_copy(
+            update={'review_at_us':r.clock.utc_now_us()+HOUR})})
+        accepted = r.subject.cognize(initial,model=Specify('ACCEPT_REQUEST'),authority=r.authority,policy=policy())
+        cid = VoluntaryAccommodationService(r.store,r.authority).materialize(accepted.cycle_id,r.authority)
+        original = dict(r.store.one('commitments',cid))
+        memory = MemoryService(r.store)
+        pending = []
+        # The accepted request already has a pending original intention.
+        for i in range(5):
+            cue = ConcernCue(cue_kind='DISCOVERY', motivation_source='CURIOSITY', topic_key=f'exploration-{i}',
+                possible_behaviors=('EXPLORE',))
+            evidence = memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.review-load',
+                source_reference=str(i),source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),
+                privacy_class='PERSONAL',observed_time_us=r.clock.utc_now_us()))
+            mid = memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,
+                epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=cue.model_dump_json(),
+                predicate_key=f'concern.exploration-{i}'))
+            cycle = r.subject.run(SubjectInput(source_key=f'synthetic.current-load.{i}',kind='WAKE',origin='SELF_WAKE',
+                entity_id='observer',scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                source_memory_ids=(mid,)))
+            assert cycle.intention.kind=='EXPLORE' and cycle.intention_id, (i, cycle.judgment, cycle.intention)
+            pending.append(cycle.intention_id)
+        assert not social_appetite(r.store,scope='world',privacy_classes=('PERSONAL',)).available
+        clock, config, identity = r.clock.source, r.config, r.identity_id
+
+    clock.advance(HOUR)
+    with NanaRuntime(path,config,clock=clock) as r:
+        assert r.identity_id==identity
+        wake = SubjectInput(source_key='synthetic.ordinary-wake-at-high-load',kind='WAKE',origin='SELF_WAKE',
+            entity_id='observer',scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
+        review = r.subject.run(wake)
+        assert review.relational_decision.review_choice is None and review.judgment.stance=='DEFER'
+        service = VoluntaryAccommodationService(r.store,r.authority)
+        assert service.materialize(review.cycle_id,r.authority) is None
+        assert dict(r.store.one('commitments',cid))==original
+        still_busy = r.subject.run(wake.model_copy(update={'source_key':'synthetic.another-wake-at-high-load'}))
+        assert still_busy.relational_decision is None
+        for intention_id in pending:
+            r.subject.transition_intention(intention_id,expected_revision=1,state='DROPPED')
+        assert social_appetite(r.store,scope='world',privacy_classes=('PERSONAL',)).available
+        later = r.subject.run(wake.model_copy(update={'source_key':'synthetic.ordinary-wake-after-load'}))
+        assert later.relational_decision.review_choice=='CONTINUE'
+        assert service.materialize(later.cycle_id,r.authority)==cid
+        assert r.store.one('commitments',cid)['state']=='ACTIVE'
+        assert not r.store.all('actions') and not r.store.all('cognitive_requests')

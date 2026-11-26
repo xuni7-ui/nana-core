@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 336,
-  "as_of_us": 1795713218805658,
+  "revision": 337,
+  "as_of_us": 1795713465415878,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "暂时负载只延后有效自愿约定的隐式复查。原C保留原期限，同条件少复查，容量恢复后普通WAKE再判断，64相关通过。",
     "原G负迁移可阻止后续同练习材料的自动提名。同主体重启后另选NFKC_CASEFOLD完成未见任务，其他情境及撤回路径有对照，48相关通过。",
     "417c8690源码匹配的Core包313文件，隔离离线安装通过，实际安装的原C反思与S10三项受控对照通过，真实模型0。",
     "原C反思接入既有S10学习策略候选与独立评审。同主体重启后同一未见问题由NAIVE_SUM阻断变为NUMERIC_SUM完成，53相关通过。",
     "8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。",
     "32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。",
     "原C失败反思重学按实际练习数据、预期与方法组合比较。改名复制不再开新任务，实质新材料仍改变同主体重启后的未见任务选择，44相关通过。",
-    "原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。",
-    "固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。"
+    "原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -33,17 +33,19 @@
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/voluntary-review-capacity-20261126/README.md",
     "docs/nana_next_experience/evidence/meta-transfer-counterexample-20261126/README.md",
     "docs/nana_next_experience/evidence/meta-strategy-reflection-20261126/README.md",
     "docs/nana_next_experience/evidence/growth-relabeled-practice-20261126/README.md",
     "docs/nana_next_experience/evidence/learning-renewal-material-20261126/README.md",
     "docs/nana_next_experience/evidence/strategy-independent-revalidation-20261126/README.md",
     "docs/nana_next_experience/evidence/android-3255024-20261125/README.md",
-    "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md",
-    "docs/nana_next_experience/evidence/bilibili-frame-atomic-source-20261125/README.md"
+    "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision337 证据指纹锚：`1df38551b5522964a2302e403f76da0fa10472f04b48ce464cc5aab376dd4769`。
 
 A revision336 证据指纹锚：`0be5d9eb78985b5d529bfee12249d36f7f3ae8e310e6dcb1cddfb6b9211d7478`。
 
@@ -200,7 +202,7 @@ A revision263证据指纹锚：`2e843212e5f8db54e3e8081aa040b4a830a066a6b991725b
 
 ## C WORKSTREAM — NANA-LINK-01（历史交接；当前以以下CURRENT为准）
 
-[C 2026-11-27 · 有限效果收口候选] 继承已合并 PR36，基线 `9dd3558905ded54ee8e0a8ffe8a444193116da8b`。原 OneBot 绑定账号使用其显式心跳区分连接存活与 QQ 离线。离线阻断新消息和操作，账号状态恢复后沿原鉴权通信，无自动重发。原 B站公开读取按当前 `cid` 采用分 P 时长；分 P 关联冲突跳过字幕、弹幕、故事板读取。两项均有旧行为反例。QQ/管理/手机 HTTP 定向 35 项、B站相关 27 项、前端状态 3 项、Web 构建与示例配置通过。来源指纹锚 `e0ab40537f34a1c83bad85172919fef30991c1b480b655dbc908243999ab50ac`。真实账号、外发、完整视频字节及原 owner 撤回资格仍待。独立 QQ 协议端按用户指令结束新增，已交付 qbob 状态补丁保留。
+[C 2026-11-27 · 有限效果收口候选] 继承已合并 PR36，基线 `9dd3558905ded54ee8e0a8ffe8a444193116da8b`。原 OneBot 绑定账号使用其显式心跳区分连接存活与 QQ 离线。离线阻断新消息和操作，账号状态恢复后沿原鉴权通信，无自动重发。原 B站公开读取按当前 `cid` 采用分 P 时长；分 P 关联冲突跳过字幕、弹幕、故事板读取。两项均有旧行为反例。QQ/管理/手机 HTTP 定向 35 项、B站相关 27 项、前端状态 3 项、Web 构建与示例配置通过。合并 A revision337 `702cc073`，只解决 11_CHANGELOG 追加冲突，平台、Web 及定向测试输入一致。来源指纹锚 `1fb23cd89e39929571bf5022ceb5a942d0ba2274b7c8ce036788bf7c88468d31`。真实账号、外发、完整视频字节及原 owner 撤回资格仍待。独立 QQ 协议端按用户指令结束新增，已交付 qbob 状态补丁保留。
 
 [C 2026-11-25 · CLOSED_HANDOFF] 固定范围内的独立开发和受控验收已交给 A。A `81680f3c` 已继承 PR36 的运行防护并补齐原 C 图片候选过滤。剩余手机增量固定源码 `83b58c255398e1ee6b994c3c25d9131c296e486c` 提供确认暂停；回执丢失且状态不可达时只允许刷新，直到重新读到状态。390 像素合成浏览器验证只提交一次写操作，读恢复后可继续，NanaLink 7 项、匹配 Web 构建、示例配置、C.4 快照及匹配 CI 45575702239 通过。源码清单锚 `aa4a9fdf29fa3173a93df8c75ae80cf2567d36020357d6e84fffe1f35ee128b1`。手机差额可独立回退，原后端与 Store 由 A 保留。A 接手审阅、原 owner QQ 可信撤回、B站真实视频字节与 S5 派生来源绑定，以及真实账号、外发、Android 实机和生产验收。正式合入与最新 PR 资格见 [PR #36](https://github.com/xuni7-ui/nana-core/pull/36)。
 

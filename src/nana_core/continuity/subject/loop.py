@@ -522,7 +522,7 @@ class SubjectLoop:
                     judgment=judgment.model_copy(update={'stance':'DEFER','reason':'Current C has not adopted new review terms'})
                     intention=Intention(kind='NO_ACTION',purpose='Keep the bounded agreement pending a later considered review',
                         slot_key='quiet',source_ids=situation.memory_ids,self_generated=True,
-                        behavior=_deliberation.proposal.preferred_behavior or 'DEFER')
+                        behavior=(_deliberation.proposal.preferred_behavior if _deliberation else None) or 'DEFER')
             private_question=None;private_plan=None;private_tendency=None;formation=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
