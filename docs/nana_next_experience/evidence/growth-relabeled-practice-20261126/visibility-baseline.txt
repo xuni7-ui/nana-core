@@ -1,0 +1,36 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_strategy_revalidation_requires_unseen_distinct_inputs[qualification_corpus] _
+tests/open_autonomy/test_learning.py:73: in test_strategy_revalidation_requires_unseen_distinct_inputs
+    restricted.revalidate(lesson_id, authority=r.authority)
+/dev/shm/nana-v331/installed/src/nana_core/continuity/world_loop/learning.py:88: in revalidate
+    rule=self.experiences._rule(lesson)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-v331/installed/src/nana_core/continuity/learning.py:353: in _rule
+    payload=self.records.read(row['record_id'])['payload']['rule']
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-v331/installed/src/nana_core/continuity/records.py:51: in read
+    return {**row, "payload": json.loads(self.store.artifact(row["payload_artifact_id"]))}
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/open_autonomy/test_learning.py:69: in reject_artifact_read
+    pytest.fail(f'Opened an inaccessible artifact during revalidation: {artifact_id}')
+E   Failed: Opened an inaccessible artifact during revalidation: cea081e2-8b2d-47c9-853e-6ed00862cb4e
+_ test_strategy_revalidation_requires_unseen_distinct_inputs[relabeled_input] __
+tests/open_autonomy/test_learning.py:73: in test_strategy_revalidation_requires_unseen_distinct_inputs
+    restricted.revalidate(lesson_id, authority=r.authority)
+/dev/shm/nana-v331/installed/src/nana_core/continuity/world_loop/learning.py:88: in revalidate
+    rule=self.experiences._rule(lesson)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-v331/installed/src/nana_core/continuity/learning.py:353: in _rule
+    payload=self.records.read(row['record_id'])['payload']['rule']
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-v331/installed/src/nana_core/continuity/records.py:51: in read
+    return {**row, "payload": json.loads(self.store.artifact(row["payload_artifact_id"]))}
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/open_autonomy/test_learning.py:69: in reject_artifact_read
+    pytest.fail(f'Opened an inaccessible artifact during revalidation: {artifact_id}')
+E   Failed: Opened an inaccessible artifact during revalidation: 1244b50e-93ea-440b-b5b1-fbed74d9f860
+=========================== short test summary info ============================
+FAILED tests/open_autonomy/test_learning.py::test_strategy_revalidation_requires_unseen_distinct_inputs[qualification_corpus]
+FAILED tests/open_autonomy/test_learning.py::test_strategy_revalidation_requires_unseen_distinct_inputs[relabeled_input]
+2 failed, 6 deselected in 0.40s

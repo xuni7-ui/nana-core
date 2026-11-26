@@ -1,0 +1,4 @@
+Loaded from installed archive: /dev/shm/nana-v331/installed/src/nana_core/continuity/world_loop/learning.py
+Loaded from installed archive: /dev/shm/nana-v331/installed/src/nana_core/continuity/open_agency/learning.py
+...                                                                      [100%]
+3 passed, 12 deselected in 1.05s

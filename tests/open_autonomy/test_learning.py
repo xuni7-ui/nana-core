@@ -43,7 +43,7 @@ def test_learning_heldout_transfer_changes_actual_later_plan_and_judgment(tmp_pa
 
 
 @pytest.mark.parametrize('evidence', ['qualification_corpus', 'relabeled_input'])
-def test_strategy_revalidation_requires_unseen_distinct_inputs(tmp_path, evidence):
+def test_strategy_revalidation_requires_unseen_distinct_inputs(tmp_path, evidence, monkeypatch):
     spec = number_learning()
     with fresh(tmp_path/'s'/'self.db', schema_target=13) as r:
         r.work.configure_open_learning((spec,))
@@ -62,6 +62,15 @@ def test_strategy_revalidation_requires_unseen_distinct_inputs(tmp_path, evidenc
 
         counter, _ = assess('counterexample', [0.1, 0.2], 0.3)
         MemoryService(r.store, r.authority).set_lifecycle(counter, 'SUPPRESSED', r.authority)
+        # Resolving a supplied lesson ID must not open its inaccessible trial.
+        restricted = EpisodeLearning(r.store, r.authority, scopes=('lab',), privacy_classes=('PUBLIC',))
+        with monkeypatch.context() as patch:
+            def reject_artifact_read(artifact_id):
+                pytest.fail(f'Opened an inaccessible artifact during revalidation: {artifact_id}')
+
+            patch.setattr(r.store, 'artifact', reject_artifact_read)
+            with pytest.raises(CoreError, match='STRATEGY_SOURCE_RETIRED'):
+                restricted.revalidate(lesson_id, authority=r.authority)
         if evidence == 'qualification_corpus':
             for case in (*spec.practice, *spec.evaluation, *spec.transfer):
                 assess(f'replay-{case.case_id}', case.data, case.expected)
