@@ -1,8 +1,10 @@
 import pytest,json
+from nana_core.contracts import CoreError
 from nana_core.continuity.open_agency.learning import LearningService,LearningSpec,LearningCase
 from nana_core.continuity.subject.opportunities import ConcernCue
 from nana_core.continuity.records import RecordService
 from nana_core.continuity.learning import ExperienceService
+from nana_core.continuity.world_loop.learning import EpisodeLearning
 from .helpers import *
 
 def number_learning():
@@ -38,6 +40,52 @@ def test_learning_heldout_transfer_changes_actual_later_plan_and_judgment(tmp_pa
         assert data['results']['BASELINE']['passed']==0 and data['results']['TRANSFER']['all_passed']
         assert ls.monitor(data['lesson_id'],(LearningCase(case_id='regression',context='negative',data=[1,2],expected=99),),authority=r.authority)['all_passed'] is False
         assert ls.strategy('numbers','lab') is None
+
+
+@pytest.mark.parametrize('evidence', ['qualification_corpus', 'relabeled_input'])
+def test_strategy_revalidation_requires_unseen_distinct_inputs(tmp_path, evidence):
+    spec = number_learning()
+    with fresh(tmp_path/'s'/'self.db', schema_target=13) as r:
+        r.work.configure_open_learning((spec,))
+        start_learning(r, spec)
+        lesson_id = r.store.all('lessons')[0]['lesson_id']
+        assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+        review = EpisodeLearning(r.store, r.authority, scopes=('lab',), privacy_classes=('PERSONAL',))
+
+        def assess(key, data, expected):
+            case = LearningCase(case_id=key, context=key, data=data, expected=expected)
+            body = {'strategy_episode': {
+                'episode_key': key, 'lesson_id': lesson_id, 'case': case.model_dump(mode='json'),
+            }}
+            source = capture(r, key, json.dumps(body))
+            return source, review.assess(lesson_id, source, authority=r.authority)
+
+        counter, _ = assess('counterexample', [0.1, 0.2], 0.3)
+        MemoryService(r.store, r.authority).set_lifecycle(counter, 'SUPPRESSED', r.authority)
+        if evidence == 'qualification_corpus':
+            for case in (*spec.practice, *spec.evaluation, *spec.transfer):
+                assess(f'replay-{case.case_id}', case.data, case.expected)
+        else:
+            assess('novel-a', [12.5, 13], 25.5)
+            _, first = assess('renamed-novel-a', [12.5, 13], 25.5)
+        writes = r.store.db.total_changes
+        with pytest.raises(CoreError, match='INDEPENDENT_REVALIDATION_REQUIRED'):
+            review.revalidate(lesson_id, authority=r.authority)
+        assert r.store.db.total_changes == writes
+        assert r.work.open_learning.strategy('numbers', 'lab') is None
+
+        if evidence == 'qualification_corpus':
+            _, first = assess('novel-a', [12.5, 13], 25.5)
+        _, second = assess('novel-b', [18, 23.5], 41.5)
+        assert review.revalidate(lesson_id, authority=r.authority)['state'] == 'ACTIVE'
+        event = r.store.db.execute(
+            "SELECT data_json FROM events WHERE kind='world.strategy_revalidated' ORDER BY seq DESC LIMIT 1"
+        ).fetchone()
+        assert set(json.loads(event[0])['data']['support_records']) == {
+            r.store.one('strategy_assessments', assessment)['record_id'] for assessment in (first, second)
+        }
+        assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+        assert not r.store.all('cognitive_requests')
 
 def test_private_lessons_do_not_hide_an_earlier_project_strategy(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:

@@ -85,15 +85,23 @@ class EpisodeLearning:
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         lesson=self.store.one('lessons',lesson_id)
         if not lesson or lesson['state']!='SUSPENDED':raise CoreError('SUSPENDED_STRATEGY_REQUIRED')
-        rows=self.store.db.execute('SELECT * FROM strategy_assessments WHERE lesson_id=? ORDER BY rowid DESC LIMIT 64',(lesson_id,)).fetchall();contexts=set();support=[]
+        rule=self.experiences._rule(lesson)
+        if getattr(rule,'kind',None)!='METHOD_SELECTION':raise CoreError('METHOD_STRATEGY_REQUIRED')
+        trial=self.records.read(rule.trial_record_id)['payload']
+        seen_inputs = {case['input_digest'] for stage in trial['results'].values() for case in stage['cases']}
+        rows=self.store.db.execute('SELECT * FROM strategy_assessments WHERE lesson_id=? ORDER BY rowid DESC LIMIT 64',(lesson_id,)).fetchall()
+        support=[]
         for row in rows:
             if not self.records.current_support(row['record_id']):continue
             head=self.records.read(row['record_id'])
             if head['scope'] not in self.scopes or head['privacy_class'] not in self.privacy:continue
             if row['verdict']=='COUNTEREXAMPLE':break
-            if row['verdict']=='SUCCESS':contexts.add(row['context_digest']);support.append(row['record_id'])
-        if len(contexts)<2:raise CoreError('INDEPENDENT_REVALIDATION_REQUIRED')
-        rule=self.experiences._rule(lesson)
+            if row['verdict']=='SUCCESS':
+                input_digest = digest(head['payload']['episode']['case']['data'])
+                if input_digest in seen_inputs:continue
+                seen_inputs.add(input_digest)
+                support.append(row['record_id'])
+        if len(support)<2:raise CoreError('INDEPENDENT_REVALIDATION_REQUIRED')
         # Recent support is a bounded sample, never proof that older disproof
         # vanished. Stream this lesson's counterexamples through the existing
         # history index; do not load or replay all successful episodes.

@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 329,
-  "as_of_us": 1795605531307714,
+  "revision": 330,
+  "as_of_us": 1795670003324145,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。",
     "固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。",
     "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。",
     "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。",
     "连接器管理在写入后只接受该次之后的成功状态读取；迟到的旧读取不能解锁控件。105单测与16浏览器用例通过，实测一次写入。",
     "B站故事板新增原回执时间与PNG字节绑定。帧掉包在任何写入前拒绝，旧帧只读回用；39定向和旧主体重开通过。",
     "合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。",
-    "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。",
-    "原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。"
+    "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -32,17 +32,19 @@
     "CURRENT266+409。3255024同源候选软件编译、离线安装回退及APK验签通过。新调试签名无法覆盖历史调试包；真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/strategy-independent-revalidation-20261126/README.md",
     "docs/nana_next_experience/evidence/android-3255024-20261125/README.md",
     "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md",
     "docs/nana_next_experience/evidence/bilibili-frame-atomic-source-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-status-read-order-20261125/README.md",
     "docs/nana_next_experience/evidence/bilibili-storyboard-byte-binding-20261125/README.md",
     "docs/nana_next_experience/evidence/nanalink-phone-recovery-20261125/README.md",
-    "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md",
-    "docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md"
+    "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision330 证据指纹锚：`784df7292630bda5d41d974d7e92dc2827380f53e8c36f15d761f87fcf266a2e`。
 
 A revision329 证据指纹锚：`2f882909a51c8f76d205addef45f03258ca821b2969d7a5324e13eadd637a74b`。
 

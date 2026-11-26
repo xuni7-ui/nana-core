@@ -1,0 +1,16 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_strategy_revalidation_requires_unseen_distinct_inputs[qualification_corpus] _
+tests/open_autonomy/test_learning.py:72: in test_strategy_revalidation_requires_unseen_distinct_inputs
+    with pytest.raises(CoreError, match='INDEPENDENT_REVALIDATION_REQUIRED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CoreError
+_ test_strategy_revalidation_requires_unseen_distinct_inputs[relabeled_input] __
+tests/open_autonomy/test_learning.py:72: in test_strategy_revalidation_requires_unseen_distinct_inputs
+    with pytest.raises(CoreError, match='INDEPENDENT_REVALIDATION_REQUIRED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CoreError
+=========================== short test summary info ============================
+FAILED tests/open_autonomy/test_learning.py::test_strategy_revalidation_requires_unseen_distinct_inputs[qualification_corpus]
+FAILED tests/open_autonomy/test_learning.py::test_strategy_revalidation_requires_unseen_distinct_inputs[relabeled_input]
+2 failed, 6 deselected in 0.52s
