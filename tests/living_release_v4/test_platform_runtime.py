@@ -298,6 +298,104 @@ def test_method_opinion_keeps_exact_recipient_and_delivery_evidence_separate(tmp
             assert len(platform['calls'])==io and len(requests)==2  # No verification retry or new cognition for an opinion.
 
 
+@pytest.mark.parametrize('confirmed', [True, False], ids=['readback', 'unknown'])
+def test_delivered_method_opinion_changes_later_c_choice_after_restart(tmp_path, confirmed):
+    import json
+    from nana_core.continuity.lived_language import LanguageSample, LanguageService
+    from nana_core.presence.contracts import SECOND
+
+    later_opinions = []
+
+    def meaning(request):
+        context = json.loads(request['context_json'])
+        opinions = [json.loads(block['data_json']) for block in context['blocks']
+                    if block['kind'] == 'COMMUNICATION_FEEDBACK']
+        later_opinions.append(opinions)
+        use = any(opinion['delivery_state'] == 'INDEPENDENT_PLATFORM_READBACK'
+                  and opinion['human_judgment'] == 'REJECTED' for opinion in opinions)
+        proposal = {'approach':'CHAT' if use else 'LISTEN', 'detail':'BRIEF', 'follow_up':'NONE'}
+        if len(later_opinions) == 1:
+            proposal['strategy_duration_seconds'] = 600
+        return {'communication_proposal': proposal}
+
+    def wording(request):
+        choice = request['role_input']['dialogue']['communication_purpose'].get('choice')
+        if choice is None:
+            return 'SYNTHETIC no current C method'
+        return 'SYNTHETIC short chat' if choice['approach'] == 'CHAT' else 'SYNTHETIC listening'
+
+    with counterpart() as (url, platform):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        clock = VirtualClock()
+        with relay(home,'CHAT',meaning_builder=meaning,renderer=wording,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause()
+                flow = equip(app,channel,url)
+                turn = app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                    thread_id='qq.private.43',text='SYNTHETIC first message',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                platform['lose_ack'] = not confirmed
+                assert turn['text'] == 'SYNTHETIC listening'
+                first_action = flow._reply(turn,'1')
+                assert first_action['delivery'] == ('SUCCEEDED' if confirmed else 'UNKNOWN')
+                service = LanguageService(app.runtime.store,app.runtime.authority)
+                sample = LanguageSample(sample_id='explicit-delivered-method-review',review_target=turn['exchange_record_id'],
+                    mode='CASUAL',context='SYNTHETIC review of the actual method',candidate_response=turn['text'],
+                    human_judgment='REJECTED',reason_tags=('TOO_FORMAL',),provenance='USER_PROVIDED_REVIEW',
+                    observed_at_us=clock.utc_now_us())
+                review_id = service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                    authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                assert bool(service.records.read(review_id)['payload'].get('delivery_attribution')) is confirmed
+                identity = app.runtime.identity_id
+                platform_calls = len(platform['calls'])
+            clock.advance(10*SECOND)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause()
+                assert app.runtime.identity_id == identity
+                flow = QQReplyWorkflow(app,channel,transport(url))
+                next_turn = app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:2',
+                    thread_id='qq.private.43',text='SYNTHETIC later message',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                assert next_turn['text'] == ('SYNTHETIC short chat' if confirmed else 'SYNTHETIC listening')
+                assert len(later_opinions) == 2 and not later_opinions[0]
+                assert len(later_opinions[1]) == 1
+                opinion = later_opinions[1][0]
+                assert opinion['delivery_state'] == ('INDEPENDENT_PLATFORM_READBACK' if confirmed else 'NOT_PROVEN')
+                assert opinion['effect_status'] == 'NOT_EVALUATED_NO_EFFECT_INFERRED'
+                assert opinion['human_read_proven'] is False
+                store = app.runtime.store
+                first = store.one('actions', first_action['action_id'])
+                assert first['state'] == first_action['delivery']
+                cycle = store.db.execute('SELECT * FROM subject_cycles WHERE record_id=?',
+                    (next_turn['cycle_record_id'],)).fetchone()
+                current = app.runtime.subject.result(dict(cycle))
+                assert current.evaluation.normative == 'ENDORSED'
+                assert current.communication_choice.approach == ('CHAT' if confirmed else 'LISTEN')
+                assert first['effect_slot'] != 'subject:' + current.intention_id
+                assert len(platform['calls']) == platform_calls and len(platform['sent']) == 1 and len(requests) == 4
+                if confirmed:
+                    service = LanguageService(store, app.runtime.authority)
+                    feedback = next(mid for mid in service.records.support(review_id)
+                        if service.records.memory.read(mid)['source_provenance']['source_namespace'] == 'recorded.conversation.feedback')
+                    app.forget(feedback)
+                    assert not service.records.current_support(next_turn['cycle_record_id'])
+                    fresh = app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:3',
+                        thread_id='qq.private.43',text='SYNTHETIC after feedback withdrawal',privacy_class='PROJECT',
+                        origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                    assert fresh['text'] == 'SYNTHETIC listening' and not later_opinions[-1]
+                    assert len(platform['calls']) == platform_calls and len(platform['sent']) == 1
+                else:
+                    platform['lose_ack'] = False
+                    second = flow._reply(next_turn, '2')
+                    assert second['delivery'] == 'SUCCEEDED' and len(platform['sent']) == 2
+                    assert second['action_id'] != first_action['action_id']
+                    assert store.one('actions', first_action['action_id'])['state'] == 'UNKNOWN'
+                    calls = len(platform['calls'])
+                    assert flow._reply(next_turn, '2')['delivery'] == 'SUCCEEDED'
+                    assert len(platform['calls']) == calls and len(platform['sent']) == 2 and len(requests) == 4
+
+
 @pytest.mark.parametrize('failure', ['lost_ack', 'wrong_peer'])
 def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path, failure):
     from nana_core.life.conversation import history

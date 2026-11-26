@@ -558,6 +558,13 @@ class SubjectLoop:
                     else:
                         intention = Intention(kind='WAIT', purpose='Hold the concern pending clarification',
                             slot_key='clarify', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
+            # A platform reply is scoped to the admitted input. An unresolved
+            # earlier reply keeps its own intention and delivery state.
+            if (event.kind == 'INTERACTION' and event.origin == 'USER' and event.surface is not None
+                    and event.realization_target is not None and event.realization_target.capability == 'world.contact'
+                    and event.realization_target.operation == 'CONTACT'
+                    and intention.kind in {'SOCIAL_INTERACTION', 'DISAGREE'}):
+                intention = intention.model_copy(update={'slot_key': 'reply-' + source['subject_event_id']})
             pending = self.pending(event.scope)
             duplicate_slot = any(r['slot_key'] == intention.slot_key for r in pending)
             global_pending = self.store.db.execute(
