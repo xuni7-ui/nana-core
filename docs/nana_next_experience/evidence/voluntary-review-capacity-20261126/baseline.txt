@@ -1,0 +1,11 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_temporary_load_defers_an_implicit_review_until_capacity_returns _____
+tests/person_self/test_relational_cognitive_choice.py:310: in test_temporary_load_defers_an_implicit_review_until_capacity_returns
+    assert review.relational_decision.review_choice is None and review.judgment.stance=='DEFER'
+E   AssertionError: assert ('END' is None)
+E    +  where 'END' = RelationalDecision(request=RelationalRequest(request_id='temporary-load-review', requesting_entity='observer', operati...e, phase='REVIEW', review_commitment_id='0f3a529a-feb8-4205-9c71-717a75b8d59c', review_revision=3, review_choice='END').review_choice
+E    +    where RelationalDecision(request=RelationalRequest(request_id='temporary-load-review', requesting_entity='observer', operati...e, phase='REVIEW', review_commitment_id='0f3a529a-feb8-4205-9c71-717a75b8d59c', review_revision=3, review_choice='END') = CycleResult(communication_choice=None, conversation_decision=None, experience_need=None, problem_frame=None, context_f..., phase='REVIEW', review_commitment_id='0f3a529a-feb8-4205-9c71-717a75b8d59c', review_revision=3, review_choice='END')).relational_decision
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_temporary_load_defers_an_implicit_review_until_capacity_returns
+1 failed, 18 deselected in 0.30s
