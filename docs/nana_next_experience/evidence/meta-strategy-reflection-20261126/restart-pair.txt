@@ -1,0 +1,4 @@
+Original G after restart: reviewed=False, method=NAIVE_SUM, state=BLOCKED, real_model_calls=0
+.Original G after restart: reviewed=True, method=NUMERIC_SUM, state=DONE, real_model_calls=0
+..
+3 passed, 7 deselected in 0.75s

@@ -68,7 +68,7 @@ def _selection_transferred(records,trial,data):
     except (CoreError,KeyError,TypeError,ValueError):return False
 
 
-def propose(store,method_lesson_id,*,authority):
+def propose(store,method_lesson_id,*,authority,consideration_records=()):
     records=RecordService(store);lesson=store.one('lessons',method_lesson_id)
     if not lesson or lesson['state']!='ACTIVE':raise CoreError('META_VERIFIED_METHOD_LESSON_REQUIRED')
     head=records.read(lesson['record_id']);rule=head['payload']['rule']
@@ -109,7 +109,8 @@ def propose(store,method_lesson_id,*,authority):
         experience_id=service.record(ExperienceInput(context_memory_ids=records.support(head['record_id'])[:32],scope=head['scope'],task_class='learning.strategy',decision='Evaluate practice-filter selection with the unchanged independent heldout checker',result_memory_id=mid,verification_memory_id=verification))
     candidate=candidate.model_copy(update={'experiment_memory_id':mid});lid=uid()
     with store.transaction('learning.strategy_candidate',{'lesson_id':lid}) as tx:
-        rid=records.create(tx,kind='LESSON',scope=head['scope'],payload={'rule':candidate.model_dump(mode='json')},records=(head['record_id'],candidate.trial_record_id,store.one('experiences',experience_id)['record_id']),target_id=key)
+        rid=records.create(tx,kind='LESSON',scope=head['scope'],payload={'rule':candidate.model_dump(mode='json')},
+            records=(head['record_id'],candidate.trial_record_id,store.one('experiences',experience_id)['record_id'],*consideration_records),target_id=key)
         tx.put('lessons',{'lesson_id':lid,'experience_id':experience_id,'record_id':rid,'task_class':'learning.strategy','revision':1,'state':'CANDIDATE','tested_rule_hash':None,'test_event_id':None})
     return lid
 

@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 333,
-  "as_of_us": 1795670625049818,
+  "revision": 334,
+  "as_of_us": 1795670939629025,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原C反思接入既有S10学习策略候选与独立评审。同主体重启后同一未见问题由NAIVE_SUM阻断变为NUMERIC_SUM完成，53相关通过。",
     "8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。",
     "32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。",
     "原C失败反思重学按实际练习数据、预期与方法组合比较。改名复制不再开新任务，实质新材料仍改变同主体重启后的未见任务选择，44相关通过。",
     "原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。",
     "固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。",
     "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。",
-    "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。",
-    "连接器管理在写入后只接受该次之后的成功状态读取；迟到的旧读取不能解锁控件。105单测与16浏览器用例通过，实测一次写入。"
+    "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -30,20 +30,22 @@
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
     "CURRENT266+409。3255024同源候选软件编译、离线安装回退及APK验签通过。新调试签名无法覆盖历史调试包；真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。",
-    "原G已消费固定S10练习选择策略。常规D触发原C反思后，目前只形成原Reflection，待把可资格的反思接入既有S10候选及独立评价。"
+    "原C反思已形成可独立评审的S10候选；后续不适用的迁移能阻断当期学习，尚缺对下一次适用范围的反馈。继续原独立评估，深层改进及长期资格待。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/meta-strategy-reflection-20261126/README.md",
     "docs/nana_next_experience/evidence/growth-relabeled-practice-20261126/README.md",
     "docs/nana_next_experience/evidence/learning-renewal-material-20261126/README.md",
     "docs/nana_next_experience/evidence/strategy-independent-revalidation-20261126/README.md",
     "docs/nana_next_experience/evidence/android-3255024-20261125/README.md",
     "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md",
     "docs/nana_next_experience/evidence/bilibili-frame-atomic-source-20261125/README.md",
-    "docs/nana_next_experience/evidence/nanalink-status-read-order-20261125/README.md",
-    "docs/nana_next_experience/evidence/bilibili-storyboard-byte-binding-20261125/README.md"
+    "docs/nana_next_experience/evidence/nanalink-status-read-order-20261125/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision334 证据指纹锚：`184ac13ca505aee28df62bf71139058857197036843e3d069e81220f06595deb`。
 
 A revision333 安装构建回执指纹锚：`1f4fb603decc6f24ad7a2e3ce2033783ec570415e874a1db551cd7ba98eb6d5b`。
 

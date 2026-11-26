@@ -732,9 +732,16 @@ class SubjectLoop:
             recorded=self.records.read(source['record_id'])['payload']['input']
             if recorded.get('reflection_experience_id')!=experience_id or not self.records.current_support(row['record_id']):raise CoreError('REFLECTION_INTENTION_MISMATCH')
             if intention['state']=='PENDING':
-                # Proposing the traceable reflection fulfilled thinking; it did
-                # not adopt the proposed lesson, change identity or learn a rule.
+                strategy = None
+                if (self.store.schema_target>=13 and row['state']=='CANDIDATE' and not row['lesson_id']
+                        and source['origin']=='SELF_WAKE' and self.visible(intention['record_id'], source['scope'])):
+                    strategy = service.consider_learning_strategy(row, scope=source['scope'],
+                        privacy_classes=self.privacy_classes, intention_record_id=intention['record_id'])
+                # A traceable proposal fulfills reflection. Independent review
+                # still controls whether a proposed strategy can be used.
                 with self.store.transaction('subject.reflection_intention_completed',{'intention_id':intention_id,'reflection_id':reflection_id,'experience_id':experience_id}) as tx:
+                    if strategy is not None:
+                        tx.update('subject_reflections', reflection_id, lesson_id=strategy, revision=row['revision']+1)
                     tx.update('subject_intentions',intention_id,state='COMPLETED',revision=intention['revision']+1)
         return reflection_id
 
