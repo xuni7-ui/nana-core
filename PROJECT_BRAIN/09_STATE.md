@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 334,
-  "as_of_us": 1795670939629025,
+  "revision": 335,
+  "as_of_us": 1795671026358919,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "417c8690源码匹配的Core包313文件，隔离离线安装通过，实际安装的原C反思与S10三项受控对照通过，真实模型0。",
     "原C反思接入既有S10学习策略候选与独立评审。同主体重启后同一未见问题由NAIVE_SUM阻断变为NUMERIC_SUM完成，53相关通过。",
     "8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。",
     "32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。",
     "原C失败反思重学按实际练习数据、预期与方法组合比较。改名复制不再开新任务，实质新材料仍改变同主体重启后的未见任务选择，44相关通过。",
     "原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。",
     "固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。",
-    "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。",
-    "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。"
+    "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -44,6 +44,8 @@
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision335 安装构建回执指纹锚：`a1e712ed6818df1687fcec2fef612ec51aa45a1d12e98722a901f86c85baf300`。
 
 A revision334 证据指纹锚：`184ac13ca505aee28df62bf71139058857197036843e3d069e81220f06595deb`。
 
