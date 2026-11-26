@@ -1,0 +1,3 @@
+9c437222771706cdf29acebaa0274a90ba65350242042b7b210a8439218f0f23  src/nana_core/continuity/open_life/meta_learning.py
+4a3e48a7a8b6b50d746860df76de575f23fb7d86e0f6e978be297f99507022f3  src/nana_core/continuity/open_agency/learning.py
+8f55a827893cc45a3eeaafc537f987e7688a05997fc41eb2dea55f4076418123  tests/open_life/test_meta_learning.py

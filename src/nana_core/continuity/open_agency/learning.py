@@ -392,10 +392,17 @@ class LearningService:
         if stage == "VALUE" and spec.estimated_cost_micro > self.ceiling:
             return self._terminal(job, "BLOCKED", "LEARNING_COST_CEILING")
         if stage == "HYPOTHESIZE":
-            from ..open_life.meta_learning import select
+            from ..memory import PRIVACY_RANK
+            from ..open_life.meta_learning import recent_transfer_counterexample, select
 
             problem = LearningProblem.from_spec(spec)
             method, strategy_record = select(self.store, problem, scope=head["scope"], privacy=self.privacy)
+            if strategy_record:
+                readable = tuple(p for p in self.privacy if PRIVACY_RANK[p] <= PRIVACY_RANK[head['privacy_class']])
+                counterexample = recent_transfer_counterexample(self.store, problem, method, scope=head['scope'], privacy=readable)
+                if counterexample:
+                    new['learning_strategy_counterexample_id'] = counterexample
+                    method, strategy_record = None, None
             parent = None
             if method is None:
                 method = self.proposer.propose_method(problem)
@@ -447,7 +454,8 @@ class LearningService:
                 # succeeding in practice. Record that outcome without exposing
                 # held-out inputs or asking the proposer to try the same case.
                 if stage != "BASELINE" and exc.code in METHOD_INPUT_REJECTION_CODES:
-                    return self._terminal(job, "BLOCKED", "LEARNING_METHOD_INPUT_INAPPLICABLE")
+                    return self._terminal(job, "BLOCKED", "LEARNING_METHOD_INPUT_INAPPLICABLE",
+                        counterexample_key=self._transfer_counterexample_key(body, spec, head['scope']) if stage == 'TRANSFER' else None)
                 raise
             result = new["results"][stage]
             if result["checked"] != len(cases) or len(result["cases"]) != len(cases):
@@ -471,7 +479,9 @@ class LearningService:
                 or not results["TRANSFER"]["all_passed"]
                 or results["EVALUATE"]["passed"] <= results["BASELINE"]["passed"]
             ):
-                return self._terminal(job, "BLOCKED", "LEARNING_NOT_TRANSFERRED_OR_NO_IMPROVEMENT")
+                return self._terminal(job, "BLOCKED", "LEARNING_NOT_TRANSFERRED_OR_NO_IMPROVEMENT",
+                    counterexample_key=self._transfer_counterexample_key(body, spec, head['scope'])
+                    if not results['TRANSFER']['all_passed'] else None)
             exp = None
             for parent in self.store.db.execute(
                 "SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD'", (rid,)
@@ -616,6 +626,7 @@ class LearningService:
                     rid,
                     *((new["hypothesis_source"],) if new.get("hypothesis_source") else ()),
                     *((new["learning_strategy_record_id"],) if new.get("learning_strategy_record_id") else ()),
+                    *((new['learning_strategy_counterexample_id'],) if new.get('learning_strategy_counterexample_id') else ()),
                 ),
                 supersedes=rid,
                 target_id=spec.learning_key,
@@ -631,8 +642,21 @@ class LearningService:
             )
         return {"work_id": job["job_id"], "stage": stage, "next_stage": new["stage"], "lesson_id": new.get("lesson_id")}
 
-    def _terminal(self, job, state, reason):
-        with self.store.transaction("open.learning_parked", {"work_id": job["job_id"], "reason": reason}) as tx:
+    def _transfer_counterexample_key(self, body, spec, scope):
+        if not body.get('learning_strategy_record_id') or not body['results']['EVALUATE']['all_passed']:
+            return None
+        method = body['selected_method']
+        if body.get('practice_competition', {}).get('nominee', method) != method:
+            return None
+        from ..open_life.meta_learning import transfer_counterexample_key
+        return transfer_counterexample_key(LearningProblem.from_spec(spec), method, scope)
+
+    def _terminal(self, job, state, reason, *, counterexample_key=None):
+        from ..open_life.meta_learning import TRANSFER_COUNTEREXAMPLE_NAMESPACE
+        namespace = TRANSFER_COUNTEREXAMPLE_NAMESPACE if counterexample_key else None
+        source_key = counterexample_key + ':' + job['job_id'] if counterexample_key else None
+        with self.store.transaction("open.learning_parked", {"work_id": job["job_id"], "reason": reason},
+                source_namespace=namespace, source_key=source_key) as tx:
             tx.update("jobs", job["job_id"], state=state, revision=job["revision"] + 1)
         return {"work_id": job["job_id"], "reason": reason}
 

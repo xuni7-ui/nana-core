@@ -1,12 +1,12 @@
 import pytest
 from nana_core.contracts import CoreError
-from nana_core.continuity.open_life.meta_learning import propose,select
+from nana_core.continuity.open_life.meta_learning import propose,recent_transfer_counterexample,select
 from nana_core.continuity.open_agency.learning import LearningService,LearningProblem,LearningCase
 from nana_core.continuity.learning import ExperienceService
 from nana_core.continuity.records import RecordService
 from nana_core.continuity.memory import MemoryService
 from tests.open_autonomy.test_learning import number_learning,start_learning
-from tests.open_autonomy.helpers import fresh,send
+from tests.open_autonomy.helpers import capture,fresh,send
 
 def test_actual_trial_meta_lesson_changes_later_hypothesis_not_grader(tmp_path):
     with fresh(tmp_path/'s.db') as r:
@@ -351,3 +351,85 @@ def test_meta_strategy_inapplicable_on_new_transfer_is_a_known_learning_failure(
         assert runtime.identity_id == identity
         assert runtime.store.one("jobs", job["job_id"])["state"] == "BLOCKED"
         assert runtime.store.one("lessons", strategy)["state"] == "ACTIVE"
+        problem = LearningProblem.from_spec(future)
+        assert recent_transfer_counterexample(runtime.store, problem, 'NUMERIC_SUM', scope='lab',
+            privacy=('PERSONAL',)) == job['record_id']
+        assert recent_transfer_counterexample(runtime.store, problem, 'NUMERIC_SUM', scope='lab',
+            privacy=('PUBLIC',)) is None
+
+
+def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart(tmp_path):
+    from nana_core.continuity.open_agency.learning import LearningSpec
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    from nana_core.presence.runtime import NanaRuntime
+
+    path = tmp_path / 'self.db'
+    training = LearningSpec(learning_key='learn.normalize', domain='labels', baseline_method='IDENTITY',
+        hypotheses=('CASEFOLD', 'NFKC_CASEFOLD'),
+        practice=(LearningCase(case_id='practice', context='labels', data='ALPHA', expected='alpha'),),
+        evaluation=(LearningCase(case_id='heldout', context='labels', data='BETA', expected='beta'),),
+        transfer=(LearningCase(case_id='transfer', context='catalog', data='GAMMA', expected='gamma'),))
+    failing = training.model_copy(update={
+        'learning_key':'learn.first-new-labels',
+        'practice':(LearningCase(case_id='new-practice', context='gardening', data='DELTA', expected='delta'),),
+        'evaluation':(LearningCase(case_id='new-heldout', context='gardening', data='EPSILON', expected='epsilon'),),
+        'transfer':(LearningCase(case_id='new-transfer', context='suppliers', data='ＺＥＴＡ', expected='zeta'),),
+    })
+    later = failing.model_copy(update={
+        'learning_key':'learn.later-new-labels',
+        'practice':(failing.practice[0].model_copy(update={'case_id':'later-practice','context':'relabeled'}),),
+        'evaluation':(LearningCase(case_id='later-heldout', context='gardening', data='ETA', expected='eta'),),
+        'transfer':(LearningCase(case_id='later-transfer', context='labels', data='ＴＨＥＴＡ', expected='theta'),),
+    })
+    dissimilar = later.model_copy(update={'learning_key':'learn.different-labels',
+        'practice':(LearningCase(case_id='other-practice', context='studying', data='IOTA', expected='iota'),),
+        'transfer':(LearningCase(case_id='other-transfer', context='labels', data='KAPPA', expected='kappa'),)})
+
+    def latest(runtime):
+        job = runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+        return job, RecordService(runtime.store).read(job['record_id'])['payload']
+
+    with fresh(path, schema_target=13) as runtime:
+        runtime.work.configure_open_learning((training,failing))
+        start_learning(runtime,training)
+        method = runtime.store.all('lessons')[0]
+        strategy = propose(runtime.store,method['lesson_id'],authority=runtime.authority)
+        experience = ExperienceService(runtime.store,runtime.authority)
+        assert all(experience.test_lesson(strategy).values())
+        experience.activate(strategy,runtime.authority)
+        failure_source = start_learning(runtime,failing,'new-case-absence')
+        blocked, body = latest(runtime)
+        assert blocked['state']=='BLOCKED' and body['selected_method']=='CASEFOLD'
+        assert body['results']['EVALUATE']['all_passed'] and not body['results']['TRANSFER']['all_passed']
+        config, clock, identity = runtime.config, runtime.clock, runtime.identity_id
+
+    class CurrentProposer:
+        def propose_method(self, problem):
+            assert isinstance(problem, LearningProblem)
+            assert not hasattr(problem,'evaluation') and not hasattr(problem,'transfer')
+            return 'NFKC_CASEFOLD'
+
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        runtime.work.configure_open_learning((later,dissimilar),proposer=CurrentProposer())
+        start_learning(runtime,dissimilar,'different-context')
+        unrelated, body = latest(runtime)
+        assert unrelated['state']=='DONE' and body['selected_method']=='CASEFOLD'
+        start_learning(runtime,later,'matching-context')
+        redirected, body = latest(runtime)
+        assert redirected['state']=='DONE' and body['selected_method']=='NFKC_CASEFOLD'
+        assert body['results']['EVALUATE']['all_passed'] and body['results']['TRANSFER']['all_passed']
+        assert blocked['record_id'] in {edge[0] for edge in runtime.store.db.execute(
+            "SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD'",
+            (redirected['record_id'],))}
+        assert not runtime.store.all('cognitive_requests')
+        assert runtime.store.one('lessons',strategy)['state']=='ACTIVE'
+        MemoryService(runtime.store,runtime.authority).forget(failure_source,runtime.authority)
+        assert not RecordService(runtime.store).current_support(redirected['record_id'])
+        next_spec = later.model_copy(update={'learning_key':'learn.withdrawn-example'})
+        runtime.work.configure_open_learning((next_spec,),proposer=CurrentProposer())
+        start_learning(runtime,next_spec,'after-withdrawal')
+        after, body = latest(runtime)
+        assert after['state']=='BLOCKED' and body['selected_method']=='CASEFOLD'
+        print('S10 transfer comparison: first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, '
+              'redirected=DONE, withdrawn=BLOCKED, real_model_calls=0')

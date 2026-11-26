@@ -6,6 +6,31 @@ from ...contracts import DTO,CoreError
 from ...storage import canonical,digest,uid
 from ..records import RecordService
 
+TRANSFER_COUNTEREXAMPLE_NAMESPACE = 'learning.strategy.transfer-counterexample'
+
+
+def transfer_counterexample_key(problem, method, scope):
+    baseline, hypotheses, examples = problem.experiment_material()
+    return digest([scope, problem.domain, baseline, sorted(hypotheses), sorted(examples), method])
+
+
+def recent_transfer_counterexample(store, problem, method, *, scope, privacy):
+    if not privacy:
+        return None
+    key = transfer_counterexample_key(problem, method, scope)
+    marks = ','.join('?' for _ in privacy)
+    rows = store.db.execute(
+        "SELECT r.record_id FROM events e JOIN jobs j ON j.job_id=json_extract(e.data_json,'$.data.work_id') "
+        "JOIN continuity_records r ON r.record_id=j.record_id "
+        "WHERE e.source_namespace=? AND e.source_key>=? AND e.source_key<? "
+        "AND j.work_kind='LEARNING' AND j.state='BLOCKED' AND r.lifecycle='ACTIVE' AND r.scope=? "
+        f"AND r.privacy_class IN ({marks}) ORDER BY e.seq DESC LIMIT 8",
+        (TRANSFER_COUNTEREXAMPLE_NAMESPACE, key + ':', key + ';', scope, *privacy),
+    )
+    records = RecordService(store)
+    return next((row['record_id'] for row in rows if records.current_support(row['record_id'])), None)
+
+
 class LearningStrategyLesson(DTO):
     kind:Literal['LEARNING_STRATEGY']='LEARNING_STRATEGY'
     scope:Literal['learning.hypothesis-selection']='learning.hypothesis-selection'
