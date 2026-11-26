@@ -36,6 +36,12 @@ class LearningProblem(DTO):
     def from_spec(cls, spec):
         return cls.model_validate(spec.model_dump(include=set(cls.model_fields)))
 
+    def experiment_material(self):
+        # Evaluation runs methods on data and checks expected results. Case
+        # labels, order and duplicates do not provide another comparison.
+        examples = frozenset(digest([case.data, case.expected]) for case in self.practice)
+        return self.baseline_method, frozenset(self.hypotheses), examples
+
 
 class LearningSpec(DTO):
     learning_key: str = Field(pattern=r"^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$")
@@ -316,7 +322,7 @@ class LearningService:
         # same holdouts and loop forever. Compare candidate-visible material
         # only: changing heldout answers must never enable another experiment.
         old_problem = LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(body["spec"])))
-        if old_problem == LearningProblem.from_spec(spec):
+        if old_problem.experiment_material() == LearningProblem.from_spec(spec).experiment_material():
             return False
         if body.get("lesson_id"):
             lesson = self.store.one("lessons", body["lesson_id"])
