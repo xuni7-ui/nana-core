@@ -1,0 +1,9 @@
+Loaded from installed archive: /dev/shm/nana-v332/installed/src/nana_core/continuity/world_loop/learning.py
+Loaded from installed archive: /dev/shm/nana-v332/installed/src/nana_core/continuity/open_agency/learning.py
+Loaded from installed archive: /dev/shm/nana-v332/installed/src/nana_core/continuity/subject/growth_life.py
+Installed preflight passed 3.12.14 3.53.1
+...{"repeated_practice_checks": 0, "original_self_calls": 1, "relabeled_practice": false, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "relabeled_practice": false, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "relabeled_practice": true, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.
+6 passed, 17 deselected in 3.30s

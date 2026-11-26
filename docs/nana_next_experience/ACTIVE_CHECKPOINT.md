@@ -1,3 +1,9 @@
+## 当前接续 匹配 Core 安装与 S10 反思生产入口 revision333
+
+8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。
+
+原 Runtime._followup 由 C 的 REFLECTION 进入 SubjectLoop.reflect。原G已经消费 meta_learning.select，生产链尚无 meta_learning.propose 入口。继续核对可验证反思如何形成原S10候选，继承原独立裁判与复用证据。 [匹配安装回执](evidence/growth-relabeled-practice-20261126/README.md)
+
 ## 当前接续 成长机会避开改名练习 revision332
 
 32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。
