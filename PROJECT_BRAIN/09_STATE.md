@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 338,
-  "as_of_us": 1795713762987264,
+  "revision": 339,
+  "as_of_us": 1795713924784951,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "c5c32879同源Core离线安装、9项实际安装回归、Gateway/BFF、笔记撤回与虚拟72小时通过。双槽停机回退原身份及7夹具请求保留，真实模型0。",
     "原D按已延期的约定提供一次恢复或到期复查，跨重启无需新用户消息，79相关通过。前一源码702cc073离线安装并通过7项S3/S10验证。",
     "暂时负载只延后有效自愿约定的隐式复查。原C保留原期限，同条件少复查，容量恢复后普通WAKE再判断，64相关通过。",
     "原G负迁移可阻止后续同练习材料的自动提名。同主体重启后另选NFKC_CASEFOLD完成未见任务，其他情境及撤回路径有对照，48相关通过。",
     "417c8690源码匹配的Core包313文件，隔离离线安装通过，实际安装的原C反思与S10三项受控对照通过，真实模型0。",
     "原C反思接入既有S10学习策略候选与独立评审。同主体重启后同一未见问题由NAIVE_SUM阻断变为NUMERIC_SUM完成，53相关通过。",
     "8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。",
-    "32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。",
-    "原C失败反思重学按实际练习数据、预期与方法组合比较。改名复制不再开新任务，实质新材料仍改变同主体重启后的未见任务选择，44相关通过。"
+    "32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -33,17 +33,19 @@
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/core-continuity-review-install-20261126/README.md",
     "docs/nana_next_experience/evidence/voluntary-review-resume-20261126/README.md",
     "docs/nana_next_experience/evidence/voluntary-review-capacity-20261126/README.md",
     "docs/nana_next_experience/evidence/meta-transfer-counterexample-20261126/README.md",
     "docs/nana_next_experience/evidence/meta-strategy-reflection-20261126/README.md",
     "docs/nana_next_experience/evidence/growth-relabeled-practice-20261126/README.md",
     "docs/nana_next_experience/evidence/learning-renewal-material-20261126/README.md",
-    "docs/nana_next_experience/evidence/strategy-independent-revalidation-20261126/README.md",
-    "docs/nana_next_experience/evidence/android-3255024-20261125/README.md"
+    "docs/nana_next_experience/evidence/strategy-independent-revalidation-20261126/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision339 安装构建回执指纹锚：`d772ac0c16dc9366b2e2e8859f221760ca117cfde8d119450177084e2ba48526`。
 
 A revision338 证据指纹锚：`1a6d6c7cdd25f9662a28d2feb5ba417178a8c2a2486b9b7e46b355f1427b07de`。
 
