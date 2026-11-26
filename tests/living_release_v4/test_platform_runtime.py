@@ -396,6 +396,77 @@ def test_delivered_method_opinion_changes_later_c_choice_after_restart(tmp_path,
                     assert len(platform['calls']) == calls and len(platform['sent']) == 2 and len(requests) == 4
 
 
+@pytest.mark.parametrize('first_offer', ['local-opinion', 'confirmed-opinion'])
+def test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases(tmp_path, first_offer):
+    from nana_core.continuity.autonomy.private_intent import feedback_continuation
+    from nana_core.continuity.lived_language import LanguageSample, LanguageService
+    from nana_core.continuity.subject import SubjectInput
+    from nana_core.presence.contracts import Cause, RuntimeEvent, ScheduleSpec, SECOND
+
+    def meaning(_):
+        return {'communication_proposal': {'approach':'LISTEN','detail':'BRIEF','follow_up':'NONE',
+                                           'strategy_duration_seconds':600}}
+
+    with counterpart() as (url, platform):
+        home = tmp_path/'home'
+        channel = initialize_channel(home, url)
+        clock = VirtualClock()
+        with relay(home,'CHAT',meaning_builder=meaning,context_limit=32768) as (router,requests), \
+                LifeApplication(home,clock=clock,router=router) as app:
+            app.pause()
+            flow = equip(app,channel,url)
+            turn = app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                thread_id='qq.private.43',text='SYNTHETIC contact before method review',privacy_class='PROJECT',
+                origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+            runtime = app.runtime
+            service = LanguageService(runtime.store,runtime.authority)
+            scope = {'scope':'project-work','entity_id':'project-user'}
+
+            def opinion(label):
+                sample = LanguageSample(sample_id=label,review_target=turn['exchange_record_id'],mode='CASUAL',
+                    context='SYNTHETIC same opinion as the earlier report',candidate_response=turn['text'],
+                    human_judgment='REJECTED',reason_tags=('TOO_FORMAL',),exact_feedback='SYNTHETIC use ordinary chat',
+                    provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+                rid = service.record(sample,**scope,privacy='PROJECT',authority=runtime.authority,
+                    exchange_record_id=turn['exchange_record_id'])
+                return rid, service.experience(rid,runtime.authority)
+
+            project = {'privacy_classes':('PROJECT',), **scope}
+
+            def schedule(view, experience):
+                now = clock.utc_now_us()
+                inp = SubjectInput(source_key='synthetic.feedback-schedule',kind='WAKE',origin='SELF_WAKE',
+                    **scope,observed_at_us=now,task_class='private.feedback.review',reflection_experience_id=experience,
+                    source_memory_ids=view['memory_ids'])
+                runtime.scheduler.add(ScheduleSpec(dedupe_key=view['key'],kind='CONDITION',due_at_us=now,
+                    event=RuntimeEvent(event_type='REFLECTION_EVENT',trigger='REFLECTION_TRIGGER',input=inp,
+                        causes=(Cause(kind='EXPERIENCE',reference_id=experience),),due_at_us=now)))
+
+            before, original_experience = opinion('before-delivery')
+            original = feedback_continuation(runtime.store,original_experience,**project)
+            assert original and 'delivery_attribution' not in service.records.read(before)['payload']
+            if first_offer == 'local-opinion':
+                schedule(original, original_experience)
+            clock.advance(SECOND)
+            assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+            verified, subsequent = opinion('after-delivery')
+            actual = feedback_continuation(runtime.store,subsequent,**project)
+            assert actual and service.records.read(verified)['payload']['delivery_attribution']['human_read_proven'] is False
+            assert (actual['key'] != original['key']) is (first_offer == 'local-opinion')
+            assert feedback_continuation(runtime.store,original_experience,**project) is None
+            if first_offer == 'confirmed-opinion':
+                schedule(actual, subsequent)
+            clock.advance(SECOND)
+            _, same_experience = opinion('alias-after-delivery')
+            duplicate = feedback_continuation(runtime.store,same_experience,**project)
+            assert duplicate and duplicate['key']==actual['key']
+            opportunities = runtime.subject.background_opportunities(entity_id=scope['entity_id'],
+                now_us=clock.utc_now_us(),quiet_since_us=clock.utc_now_us()-2*SECOND,quiet_window_us=SECOND)
+            expected_keys = {actual['key']} if first_offer == 'local-opinion' else set()
+            assert {item.key for item in opportunities if item.task_class == 'private.feedback.review'} == expected_keys
+            assert len(platform['sent'])==1 and len(requests)==2
+
+
 @pytest.mark.parametrize('failure', ['lost_ack', 'wrong_peer'])
 def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path, failure):
     from nana_core.life.conversation import history
