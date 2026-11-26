@@ -95,11 +95,27 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                         scope=scope,entity_id=entity_id,due_at_us=calendar.next_after(row['updated_at_us']),memory_ids=records.support(row['record_id']),event_type='GOAL_EVENT',wake_trigger='GOAL_TRIGGER',priority=2,
                         task_class='commitment.calendar_check',calendar=calendar,commitment_check_id=row['commitment_id']))
             if row['state'] in {'ADOPTED','ACTIVE'} and row['due_at_us'] is not None and loop.visible(row['record_id'],scope):
-                voluntary=store.schema_target>=10 and bool(records.read(row['record_id'])['payload'].get('voluntary'))
-                result.append(AttentionOpportunity(key='commitment-'+digest([row['commitment_id'],row['revision']]),
-                    source_kind='COMMITMENT',source_id=row['commitment_id'],source_revision=row['revision'],scope=scope,entity_id=row['entity_id'] if voluntary else entity_id,
-                    task_class='relational.accommodation.review' if voluntary else None,commitment_check_id=row['commitment_id'] if voluntary else None,
-                    due_at_us=row['due_at_us'],memory_ids=records.support(row['record_id']),event_type='GOAL_EVENT',wake_trigger='GOAL_TRIGGER',priority=3))
+                terms=records.read(row['record_id'])['payload'].get('voluntary') if store.schema_target>=10 else None
+                revision_key=digest([row['commitment_id'],row['revision']])
+                key='commitment-'+revision_key
+                due_at=row['due_at_us']
+                if terms and now_us>=due_at:
+                    from ..relational.accommodation import deferred_review
+                    from ..relational.projections import social_capacity_available
+                    postponed=deferred_review(store,row,privacy_classes=loop.privacy_classes)
+                    if postponed:
+                        # A settled first schedule is never replayed. Reoffer
+                        # once for this deferral when capacity returns, or at expiry.
+                        if postponed[1] and now_us<terms['end_us'] and social_capacity_available(store,scope=scope,now_us=now_us):
+                            key='commitment-capacity-'+digest([revision_key,postponed[0]])
+                            due_at=now_us
+                        else:
+                            key='commitment-expiry-'+revision_key
+                            due_at=terms['end_us']
+                result.append(AttentionOpportunity(key=key,
+                    source_kind='COMMITMENT',source_id=row['commitment_id'],source_revision=row['revision'],scope=scope,entity_id=row['entity_id'] if terms else entity_id,
+                    task_class='relational.accommodation.review' if terms else None,commitment_check_id=row['commitment_id'] if terms else None,
+                    due_at_us=due_at,memory_ids=records.support(row['record_id']),event_type='GOAL_EVENT',wake_trigger='GOAL_TRIGGER',priority=3))
         for row in store.db.execute("SELECT * FROM projects WHERE scope=? AND state='ACTIVE' ORDER BY updated_at_us DESC LIMIT 64",(scope,)):
             if row['state']!='ACTIVE' or not loop.visible(row['record_id'],scope):continue
             payload=records.read(row['record_id'])['payload']

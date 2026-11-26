@@ -15,28 +15,36 @@ def review_target_key(commitment_id, revision):
     return 'relational-review.' + digest([commitment_id, revision])
 
 
-def implicit_review_available(store, commitment, *, privacy_classes):
+def deferred_review(store, commitment, *, privacy_classes):
+    """Return the current postponement record and its capacity condition."""
     head = store.db.execute(
         "SELECT * FROM continuity_records WHERE record_kind='SUBJECT_CYCLE' AND target_id=? AND scope=? "
         "ORDER BY created_at_us DESC,rowid DESC LIMIT 1",
         (review_target_key(commitment['commitment_id'], commitment['revision']), commitment['scope']),
     ).fetchone()
     if not head or head['lifecycle'] != 'ACTIVE' or head['privacy_class'] not in privacy_classes:
-        return True
+        return None
     records = RecordService(store)
     if not records.current_support(head['record_id']):
-        return True
+        return None
     cycle = records.read(head['record_id'])['payload']
     decision = cycle['relational_decision']
     if cycle['judgment']['stance'] != 'DEFER' or decision['review_choice'] is not None:
+        return None
+    return head['record_id'], decision['review_at_us'] is None
+
+
+def implicit_review_available(store, commitment, *, privacy_classes):
+    postponement = deferred_review(store, commitment, privacy_classes=privacy_classes)
+    if postponement is None:
         return True
-    raw_terms = records.read(commitment['record_id'])['payload']['voluntary']
+    raw_terms = RecordService(store).read(commitment['record_id'])['payload']['voluntary']
     terms = VoluntaryTerms.model_validate_json(canonical(raw_terms))
     # An expired restraint still needs the existing END decision.
     now = store.clock.utc_now_us()
     if now >= terms.end_us:
         return True
-    if decision['review_at_us'] is None:
+    if postponement[1]:
         # A capacity deferral leaves the next review conditional on capacity.
         return social_capacity_available(store, scope=commitment['scope'], now_us=now)
     return False

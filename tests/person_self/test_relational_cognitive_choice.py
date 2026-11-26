@@ -265,7 +265,8 @@ def test_deferred_review_survives_restart_and_ordinary_wake_until_reconsidered(t
             assert r.store.one('commitments',cid)['state']=='CANCELLED' and not r.store.all('actions')
 
 
-def test_temporary_load_defers_an_implicit_review_until_capacity_returns(tmp_path):
+@pytest.mark.parametrize('next_review', ['ordinary', 'capacity', 'expiry'])
+def test_load_deferral_reoffers_a_review_at_capacity_or_expiry(tmp_path,next_review):
     from nana_core.continuity.contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
     from nana_core.continuity.memory import MemoryService
     from nana_core.continuity.relational.accommodation import VoluntaryAccommodationService
@@ -273,6 +274,7 @@ def test_temporary_load_defers_an_implicit_review_until_capacity_returns(tmp_pat
     from nana_core.presence.contracts import HOUR
 
     path = tmp_path/'subject/self.db'
+    automatic = next_review != 'ordinary'
     with fresh(path) as r:
         prepare(r)
         initial = request(r, 'temporary-load-review')
@@ -306,18 +308,35 @@ def test_temporary_load_defers_an_implicit_review_until_capacity_returns(tmp_pat
         assert r.identity_id==identity
         wake = SubjectInput(source_key='synthetic.ordinary-wake-at-high-load',kind='WAKE',origin='SELF_WAKE',
             entity_id='observer',scope='world',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us())
-        review = r.subject.run(wake)
+        review = r.step()['cycle'] if automatic else r.subject.run(wake)
         assert review.relational_decision.review_choice is None and review.judgment.stance=='DEFER'
         service = VoluntaryAccommodationService(r.store,r.authority)
         assert service.materialize(review.cycle_id,r.authority) is None
         assert dict(r.store.one('commitments',cid))==original
-        still_busy = r.subject.run(wake.model_copy(update={'source_key':'synthetic.another-wake-at-high-load'}))
-        assert still_busy.relational_decision is None
-        for intention_id in pending:
-            r.subject.transition_intention(intention_id,expected_revision=1,state='DROPPED')
-        assert social_appetite(r.store,scope='world',privacy_classes=('PERSONAL',)).available
-        later = r.subject.run(wake.model_copy(update={'source_key':'synthetic.ordinary-wake-after-load'}))
-        assert later.relational_decision.review_choice=='CONTINUE'
+        if automatic:
+            r.refresh_attention()
+            still_busy = [step['cycle'] for step in r.drain(16) if step and step['cycle']]
+            assert not any(cycle.relational_decision for cycle in still_busy)
+        else:
+            still_busy = r.subject.run(wake.model_copy(update={'source_key':'synthetic.another-wake-at-high-load'}))
+            assert still_busy.relational_decision is None
+        if next_review!='expiry':
+            for intention_id in pending:
+                r.subject.transition_intention(intention_id,expected_revision=1,state='DROPPED')
+            assert social_appetite(r.store,scope='world',privacy_classes=('PERSONAL',)).available
+
+    if next_review=='expiry':
+        clock.advance(DAY-HOUR)
+    with NanaRuntime(path,config,clock=clock) as r:
+        assert r.identity_id==identity
+        service = VoluntaryAccommodationService(r.store,r.authority)
+        if automatic:
+            r.refresh_attention()
+            later = next((step['cycle'] for step in r.drain(16) if step and step['cycle'] and step['cycle'].relational_decision), None)
+            assert later, 'D did not offer the deferred review at its next condition'
+        else:
+            later = r.subject.run(wake.model_copy(update={'source_key':'synthetic.ordinary-wake-after-load'}))
+        assert later.relational_decision.review_choice==('END' if next_review=='expiry' else 'CONTINUE')
         assert service.materialize(later.cycle_id,r.authority)==cid
-        assert r.store.one('commitments',cid)['state']=='ACTIVE'
+        assert r.store.one('commitments',cid)['state']==('CANCELLED' if next_review=='expiry' else 'ACTIVE')
         assert not r.store.all('actions') and not r.store.all('cognitive_requests')
