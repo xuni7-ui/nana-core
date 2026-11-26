@@ -16,7 +16,7 @@ def _run(command, deadline, *, limit=1_000_000):
     return _run_bounded(command,timeout=remaining,stdout_limit=limit,stderr_limit=100_000)
 
 
-def tesseract_ocr(png, *, language='eng', timeout=15):
+def tesseract_ocr(png, *, language='eng', timeout=15, tessdata_dir=None):
     """Return unverified text; uses caller-installed Tesseract and language data."""
     if (type(png) is not bytes or not 1<=len(png)<=16*1024*1024 or type(language) is not str or
             type(timeout) not in (int,float) or not math.isfinite(timeout) or timeout<=0 or
@@ -25,12 +25,16 @@ def tesseract_ocr(png, *, language='eng', timeout=15):
     from PIL import Image
     import io
     deadline=time.monotonic()+timeout
+    data_dir=None if tessdata_dir is None else Path(tessdata_dir).resolve(strict=True)
+    if data_dir is not None and not data_dir.is_dir():raise ValueError('invalid Tesseract data directory')
     with tempfile.TemporaryDirectory(prefix='video-ocr-') as directory:
         path=Path(directory)/'frame.png'
         with Image.open(io.BytesIO(png)) as image:
             if image.width*image.height>262144:raise ValueError('OCR image exceeds pixel bound')
             image.convert('RGB').resize((image.width*3,image.height*3)).save(path,format='PNG')
-        output=_run(['tesseract',str(path),'stdout','-l',language,'--psm','11'],deadline,limit=100_000)
+        command=['tesseract',str(path),'stdout','-l',language,'--psm','11']
+        if data_dir is not None:command+=['--tessdata-dir',str(data_dir)]
+        output=_run(command,deadline,limit=100_000)
         return output.stdout.decode('utf-8',errors='replace').strip()
 
 

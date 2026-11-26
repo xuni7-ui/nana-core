@@ -38,7 +38,7 @@ def _focus_candidates(question, subtitles, start, end):
 
 
 def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
-                   max_runtime_seconds=90, transcriber=None, ocr=False, ocr_language='eng',
+                   max_runtime_seconds=90, transcriber=None, ocr=False, ocr_language='eng', ocr_data_dir=None,
                    asr=None, focus_times=(), sampling='adaptive', model_content=False):
     """Return in-memory PNGs, source-relative timestamps and qualified signals.
 
@@ -174,7 +174,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             if time.monotonic()>=deadline:
                 frame['ocr']={'state':'NOT_RUN_BUDGET','text':None};continue
             try:
-                text=tesseract_ocr(frame['png'],language=ocr_language,timeout=min(15,remaining()))
+                text=tesseract_ocr(frame['png'],language=ocr_language,timeout=min(15,remaining()),tessdata_dir=ocr_data_dir)
                 frame['ocr']={'state':'TESSERACT_UNVERIFIED','text':text,'language':ocr_language}
             except (ValueError,TimeoutError,OSError):
                 frame['ocr']={'state':'OCR_UNAVAILABLE','text':None};errors.append('OCR_UNAVAILABLE')

@@ -5,6 +5,7 @@ import subprocess
 import pytest
 from PIL import Image
 import io
+import os
 
 from tools.nana_next_experience.experiments.video_perception import perceive_video
 
@@ -101,3 +102,18 @@ def test_real_local_ocr_and_offline_asr(tmp_path):
     assert content['format']=='OPENAI_COMPATIBLE_CHAT_CONTENT' and content['token_cost']=='UNKNOWN_NOT_MEASURED'
     assert len([x for x in content['items'] if x['type']=='image_url'])==len(result['frames'])
     assert any('ALARM' in x.get('text','') for x in content['items'] if x['type']=='text')
+
+
+def test_optional_chinese_tesseract_data_on_real_ffmpeg_video(tmp_path):
+    from pathlib import Path
+    data=os.environ.get('NANA_TEST_TESSDATA');font=Path('/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc')
+    if not data or not (Path(data)/'chi_sim.traineddata').is_file() or not font.is_file() or not shutil.which('tesseract'):
+        pytest.skip('optional Chinese Tesseract data and CJK font unavailable')
+    video=tmp_path/'chinese.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=640x360:r=2:d=3',
+        '-vf',f'drawtext=fontfile={font}:text=中文测试:fontcolor=white:fontsize=90:x=100:y=100',
+        '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=30)
+    result=perceive_video(video,frame_budget=1,max_runtime_seconds=30,ocr=True,
+                          ocr_language='chi_sim',ocr_data_dir=data)
+    assert result['frames'][0]['ocr']['state']=='TESSERACT_UNVERIFIED'
+    assert '中文测试' in result['frames'][0]['ocr']['text'].replace(' ','')
