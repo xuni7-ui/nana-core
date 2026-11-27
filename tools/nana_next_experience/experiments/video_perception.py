@@ -137,7 +137,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
     # literal subtitle matches. This is not a semantic answer to the question.
     hints=[(t,'CALLER_FOCUS_TIME') for t in focus_times if start<=t<end]
     hints+=_focus_candidates(question,subtitles.get('text') if abs(origin)<=0.001 else None,start,end)
-    # Optional bounded, low-resolution OCR exploration. It consumes a separate
+    # Optional bounded OCR exploration. It consumes a separate
     # processing budget; only the matched point competes for an output frame.
     ocr_probes=[];terms=[t.casefold() for t in focus_terms] or _question_terms(question)
     if ocr_probe_budget and terms and not hints:
@@ -150,12 +150,12 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             retry=None
             try:
                 try:
-                    decoded=decode('local.video',path,width=160,height=90,start_seconds=target,end_seconds=stop,
+                    decoded=decode('local.video',path,width=output_width,height=output_height,start_seconds=target,end_seconds=stop,
                                    max_frames=1200,timeout=remaining())
                 except ValueError as exc:
                     retry=math.ceil((target+1e-9)*10)/10
                     if str(exc)!='decoded frame outside requested window' or retry>=stop:raise
-                    decoded=decode('local.video',path,width=160,height=90,start_seconds=retry,end_seconds=stop,
+                    decoded=decode('local.video',path,width=output_width,height=output_height,start_seconds=retry,end_seconds=stop,
                                    max_frames=1200,timeout=remaining())
             except (ValueError,TimeoutError,OSError):
                 ocr_probes.append({'requested_seconds':target,'state':'FRAME_UNAVAILABLE',
@@ -167,7 +167,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             try:
                 from PIL import Image
                 import io
-                stream=io.BytesIO();Image.frombytes('RGB',decoded.output_size,decoded.rgb24[:160*90*3]).save(stream,format='PNG')
+                stream=io.BytesIO();Image.frombytes('RGB',decoded.output_size,decoded.rgb24[:output_width*output_height*3]).save(stream,format='PNG')
                 text=tesseract_ocr(stream.getvalue(),language=ocr_language,timeout=min(15,remaining()),tessdata_dir=ocr_data_dir)
                 matched=any(term in text.casefold() for term in terms)
                 ocr_probes.append({'requested_seconds':target,'time_seconds':decoded.timestamps[0],

@@ -180,3 +180,22 @@ def test_larger_output_retains_small_text_without_changing_timestamp(tmp_path):
     assert len(detail['frames'][0]['png'])>len(small['frames'][0]['png'])
     with pytest.raises(ValueError,match='invalid perception request'):
         perceive_video(video,output_size=(1024,1024))
+
+
+def test_high_resolution_ocr_probe_finds_brief_small_text(tmp_path):
+    from pathlib import Path
+    font=Path('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf')
+    if not font.is_file() or not shutil.which('tesseract'):pytest.skip('optional OCR and font unavailable')
+    video=tmp_path/'brief-small-text.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=640x360:r=2:d=8',
+        '-vf',f"drawtext=fontfile={font}:text=WARNING 4392:fontcolor=white:fontsize=14:x=25:y=30:enable='between(t,3.5,4)'",
+        '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=30)
+    common=dict(question='find WARNING',frame_budget=2,sampling='uniform',ocr=True,
+                ocr_probe_budget=3,max_runtime_seconds=60)
+    small=perceive_video(video,**common)
+    detail=perceive_video(video,output_size=(640,360),**common)
+    assert not any(p.get('matched') for p in small['ocr_probes'])
+    assert any(p.get('matched') and 3.5<=p['time_seconds']<4.5 for p in detail['ocr_probes'])
+    assert any(f['selection_reason']=='QUESTION_OCR_MATCH' and 3.5<=f['time_seconds']<4.5
+               for f in detail['frames'])
+    assert len(detail['frames'])<=2 and len(detail['ocr_probes'])<=3
