@@ -42,6 +42,37 @@ def _question_terms(question):
             if term.casefold() not in ignored]
 
 
+def _bounded_model_context(context, limit=16000):
+    """Preserve coverage and status when long text exceeds the model context budget."""
+    text=json.dumps(context,ensure_ascii=False,separators=(',',':'))
+    if len(text)<=limit:return text,False
+    kept=('video_duration_seconds','target_range_seconds','coverage','unobserved_intervals',
+          'outside_requested_intervals','subtitle_state','transcript_state','transcript_timeline_basis',
+          'transcript_processed_window','transcript_truncated','errors','warnings')
+    compact={key:context[key] for key in kept}
+    compact['model_context_omitted_fields']=['transcript_words','ocr_probes_not_delivered_as_images',
+                                               'sparse_visual_changes']
+    values={'question':context['question'],'subtitles_excerpt':context['subtitles_full_track'],
+            'transcript_excerpt':context['transcript']}
+    caps={'question':2000,'subtitles_excerpt':12000,'transcript_excerpt':12000}
+    while True:
+        omitted={}
+        for key,value in values.items():
+            if value is None:
+                compact[key]=None
+                continue
+            cap=caps[key]
+            compact[key]=value if len(value)<=cap else (value[:(cap+1)//2]+'\n[... omitted ...]\n'+
+                                                        (value[-(cap//2):] if cap//2 else '') if cap else '')
+            omitted[key]=max(0,len(value)-cap)
+        compact['excerpt_omitted_characters']=omitted
+        text=json.dumps(compact,ensure_ascii=False,separators=(',',':'))
+        if len(text)<=limit:return text,True
+        key=max(caps,key=lambda k:min(caps[k],len(values[k] or '')))
+        if not values[key] or caps[key]==0:raise ValueError('model context metadata exceeds bound')
+        caps[key]//=2
+
+
 def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                    max_runtime_seconds=90, transcriber=None, ocr=False, ocr_language='eng', ocr_data_dir=None,
                    asr=None, focus_times=(), sampling='adaptive', model_content=False,
@@ -311,10 +342,10 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                  'transcript_truncated':transcript.get('truncated'),
                  'ocr_probes_not_delivered_as_images':ocr_probes,
                  'sparse_visual_changes':changes,'errors':errors,'warnings':warnings}
-        text=json.dumps(context,ensure_ascii=False,separators=(',',':'))
-        truncated=len(text)>16000
-        if truncated:text=text[:16000]+'\n[context truncated]'
-        content=[{'type':'text','text':'Technical video materials; unsampled intervals remain unknown. OCR and transcription are unverified and may be wrong.\n'+text}]
+        text,truncated=_bounded_model_context(context)
+        preamble='Technical video materials; unsampled intervals remain unknown. OCR and transcription are unverified and may be wrong.'
+        if truncated:preamble+=' Context is truncated; excerpts contain only their beginning and end.'
+        content=[{'type':'text','text':preamble+'\n'+text}]
         for frame in frames:
             ocr_value=frame.get('ocr')
             if ocr_value and type(ocr_value.get('text')) is str and len(ocr_value['text'])>2000:

@@ -64,6 +64,29 @@ def test_external_transcription_is_explicit_and_failure_is_visible(tmp_path):
     assert result['transcript']['state']=='TRANSCRIBER_FAILED' and 'TRANSCRIBER_FAILED' in result['errors']
 
 
+def test_long_transcript_keeps_model_context_valid_and_status_visible(tmp_path):
+    import json
+    video=tmp_path/'long-text.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=2:d=2',
+                    '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=20)
+    transcript='START '+('quoted " text\n'*2000)+' END'
+    result=perceive_video(video,frame_budget=1,max_runtime_seconds=30,
+                          transcriber=lambda *_:transcript,model_content=True)
+    content=result['model_content']
+    payload=content['items'][0]['text'].split('\n',1)[1]
+    context=json.loads(payload)
+    assert content['context_truncated'] and len(payload)<=16000
+    assert context['coverage']==result['coverage']
+    assert context['unobserved_intervals']==[list(gap) for gap in result['unobserved_intervals']]
+    assert context['transcript_state']=='CALLER_TRANSCRIBER_UNVERIFIED'
+    assert context['errors']==result['errors'] and context['warnings']==result['warnings']
+    assert context['transcript_excerpt'].startswith('START ')
+    assert context['transcript_excerpt'].endswith(' END')
+    assert '[... omitted ...]' in context['transcript_excerpt']
+    assert context['excerpt_omitted_characters']['transcript_excerpt']>0
+    assert result['transcript']['text']==transcript
+
+
 def test_question_subtitle_guides_same_budget_to_relevant_window(tmp_path):
     subtitle=tmp_path/'captions.srt';subtitle.write_text('1\n00:00:05,000 --> 00:00:06,000\nFALCON arrives\n',encoding='utf-8')
     video=tmp_path/'subtitles.mp4'
