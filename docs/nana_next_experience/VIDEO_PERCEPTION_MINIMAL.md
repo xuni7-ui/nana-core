@@ -16,9 +16,9 @@ print(result['unobserved_intervals'], result['elapsed_seconds'], result['output_
 content = result['model_content']['items']  # 调用方可传给兼容的视觉模型；本模块不发送
 ```
 
-`time_range=(start, end)` 可限定容器相对秒区间；帧为内存 PNG 字节，不是已投递消息。时间保留真实解码 PTS、time_base 和容器起点；调用方要自行确定与外部平台时间轴的对应。`question` 中明确的秒数/分秒或与现有字幕的字面词匹配，可在同一个帧预算内替换少量取帧点；`focus_times` 允许调用方提供回看时间。简单词匹配不是自然语言/视觉理解，没有时间或字幕命中时不会凭空判断画面。
+`time_range=(start, end)` 可限定容器相对秒区间；帧为内存 PNG 字节，不是已投递消息。时间保留真实解码 PTS、time_base 和容器起点；调用方要自行确定与外部平台时间轴的对应。`question` 中明确的秒数/分秒或与现有字幕的字面词匹配，可在同一个输出帧预算内替换少量取帧点；`focus_times` 允许调用方提供回看时间。设置 `ocr=True, ocr_probe_budget=12` 可在没有既有时间/字幕命中时额外扫描最多12个时间点，按问题中的字面词或显式 `focus_terms` 匹配文字并补采样。`ocr_probes` 和 `ocr_probe_status` 单独记录额外检查，不应把只比较输出帧数误当成总处理预算相同。简单词匹配不是自然语言/视觉理解，未命中时不会凭空判断画面。
 
-`ocr=True` 调用本机 Tesseract（默认 `eng`，可通过 `ocr_language` 指定已安装语言，或 `ocr_data_dir` 指定数据目录）；使用缩小画面再放大，细字可能漏读。可选中文数据为官方 [tessdata_fast 固定 8741641](https://github.com/tesseract-ocr/tessdata_fast/tree/87416418657359cb625c412a48b6e1d6d41c29bd)，本地 `chi_sim.traineddata` SHA-256 `a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730`，不随仓库分发。`asr='pocketsphinx'` 调用已安装 PocketSphinx 的默认英文模型，最多处理目标区间起始30秒并返回词级时间，余段显式标记截断；FFmpeg 归一时间与源轨道对齐须由调用方核验。二者为未核实线索，非语义真相。可选 `transcriber(path, start_seconds, end_seconds)` 可替代内置 ASR，调用方须负责线程/超时、隐私和费用；二者不得同时指定。默认不运行转录。第一个内嵌文本字幕轨可转换为 WebVTT，返回完整轨且明确未按目标区间过滤；位图字幕或不支持的编码返回不可用。
+`ocr=True` 调用本机 Tesseract（默认 `eng`，可通过 `ocr_language` 指定已安装语言，或 `ocr_data_dir` 指定数据目录）；使用缩小画面再放大，细字可能漏读。可选中文数据为官方 [tessdata_fast 固定 8741641](https://github.com/tesseract-ocr/tessdata_fast/tree/87416418657359cb625c412a48b6e1d6d41c29bd)，本地 `chi_sim.traineddata` SHA-256 `a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730`，不随仓库分发。`asr='pocketsphinx'` 调用已安装 PocketSphinx 的默认英文模型，默认处理目标区间起始30秒，`asr_max_seconds` 可设为1–120秒，返回词级时间并显式标记截断；FFmpeg 归一时间与源轨道对齐须由调用方核验。二者为未核实线索，非语义真相。可选 `transcriber(path, start_seconds, end_seconds)` 可替代内置 ASR，调用方须负责线程/超时、隐私和费用；二者不得同时指定。默认不运行转录。第一个内嵌文本字幕轨可转换为 WebVTT，返回完整轨且明确未按目标区间过滤；位图字幕或不支持的编码返回不可用。
 
 `model_content=True` 额外生成 OpenAI-compatible 多模态 content 数组，包含带来源时间的图像、OCR、字幕/转录、问题及未观察范围；长文本会标记截断，字节数与真实 Token/账单分开。此字段仅组装材料，不调用模型，格式是否被具体视觉 Provider 支持需调用方确认；本地未进行真实视觉模型理解对照。
 
@@ -30,7 +30,9 @@ content = result['model_content']['items']  # 调用方可传给兼容的视觉�
 
 复用 PR #22 固定 `8a1fd6c` 的有界 FFmpeg 源帧解码、声学测量、scdet、局部变化；复用主线已有 `video_coverage.plan`，不替换 A 已吸收的 PTS/VFR、缓存或核心实现。不引入 dsh 的 Node 宿主与实验性运动评分，也不把 video-watch-plus 声音类型阈值当作转录或语义事实；上游许可及完整对照见原 PR #22。
 
-`NANA_TEST_TESSDATA=/path/to/tessdata PYTHONPATH=. python -m pytest -q tests/nana_next_experience/test_video_perception_standalone.py`：该环境6项本地合成测试通过，覆盖白块变化、字幕导向的同4帧补采样、620秒长片、回调、实际 Tesseract 和 PocketSphinx；缺少可选工具/数据时相应测试会跳过。flite 合成语音 `hello world this is a test` 被识别为 `hello well this is a test`，保留此反例；OCR 在单一合成片识别出 `ALARM`，中文大字合成片识别出 `中文测试`。普通 Python 导入未加载 `nana_core`。
+`NANA_TEST_TESSDATA=/path/to/tessdata PYTHONPATH=. python -m pytest -q tests/nana_next_experience/test_video_perception_standalone.py`：该环境7项本地合成测试通过，覆盖白块变化、字幕和画面文字导向的同输出帧预算补采样、620秒长片、回调、实际 Tesseract 和 PocketSphinx；缺少可选工具/数据时相应测试会跳过。flite 合成语音 `hello world this is a test` 被识别为 `hello well this is a test`，保留此反例；OCR 在单一合成片识别出 `ALARM`，中文大字合成片识别出 `中文测试`。普通 Python 导入未加载 `nana_core`。
+
+无字幕12秒合成片中，均匀4帧取0/4/7.5/11秒，漏掉5秒短暂的 `ALARM`；文字导向仍输出4帧，取0/5/7.5/11秒，命中短字。但它额外执行了6次OCR探测，单次墙钟0.874→3.510秒、输出PNG 484→2195字节；这是相同输出帧数、不同处理预算，不能声称免费或相同计算成本，模型Token亦未测。
 
 同4帧真实本地样本：OpenCV `tree.avi` SHA-256 `4666099d0f704e310047b2f0a5ec9f936cb76a7271de9a2e70a0c57f82ac82dc`，均匀取 `0/9.800/19.467/28.667` 秒，指定23秒取 `7.400/23.133/25.933/28.667` 秒；前者未落入此前目视标记的23–24.5秒手进入时段，后者落入。目标时间已事先知道，此例不证明系统自主发现事件。另一 OpenCV `vtest.avi` SHA-256 `45cddc9490be69345cbdab64ca583be65987e864ca408038e648db99e10516cf`，均匀取 `0/26.2/52.4/78.5` 秒，指定23秒取 `0/23/52.4/78.5` 秒；无独立事件真值，不计算召回。两段的单独作者/许可尚未核实，不随仓库分发。第二段曾因FFmpeg边界舍入少取一帧，保守向后重试后4帧并返回告警。结果仅为各一轮本地材料对照，无真实 Provider/视觉模型、实际 Token/账单、用户媒体或生产资格。
 
