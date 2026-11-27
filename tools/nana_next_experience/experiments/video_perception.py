@@ -45,7 +45,7 @@ def _question_terms(question):
 def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                    max_runtime_seconds=90, transcriber=None, ocr=False, ocr_language='eng', ocr_data_dir=None,
                    asr=None, focus_times=(), sampling='adaptive', model_content=False,
-                   ocr_probe_budget=0, focus_terms=(), asr_max_seconds=30):
+                   ocr_probe_budget=0, focus_terms=(), asr_max_seconds=30, output_size=(160,90)):
     """Return in-memory PNGs, source-relative timestamps and qualified signals.
 
     `transcriber`, if supplied, is a caller-controlled function receiving
@@ -64,6 +64,8 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             (transcriber is not None and not callable(transcriber)) or type(ocr) is not bool or type(model_content) is not bool or
             asr not in (None,'pocketsphinx') or sampling not in ('adaptive','uniform') or (asr is not None and transcriber is not None) or
             type(ocr_probe_budget) is not int or not 0<=ocr_probe_budget<=32 or (ocr_probe_budget and not ocr) or
+            type(output_size) not in (tuple,list) or len(output_size)!=2 or
+            any(type(v) is not int or not 1<=v<=1024 for v in output_size) or output_size[0]*output_size[1]>262144 or
             type(asr_max_seconds) not in (int,float) or not math.isfinite(asr_max_seconds) or not 1<=asr_max_seconds<=120 or
             type(focus_terms) not in (tuple,list) or len(focus_terms)>16 or
             any(type(t) is not str or not 1<=len(t)<=64 for t in focus_terms) or
@@ -71,6 +73,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             any(type(t) not in (int,float) or not math.isfinite(t) for t in focus_times)):
         raise ValueError('invalid perception request')
     path=Path(path).resolve(strict=True)
+    output_width,output_height=output_size
     if not path.is_file() or not 1<=path.stat().st_size<=256*1024*1024:
         raise ValueError('invalid local media file')
     deadline=started+max_runtime_seconds
@@ -193,7 +196,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
         attempted.append((target,stop))
         try:
             try:
-                result=decode('local.video',path,width=160,height=90,start_seconds=target,end_seconds=stop,
+                result=decode('local.video',path,width=output_width,height=output_height,start_seconds=target,end_seconds=stop,
                               max_frames=1200,timeout=remaining())
             except ValueError as exc:
                 # Some seek/trim timebases round a frame just outside a decimal
@@ -201,7 +204,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                 retry=math.ceil((target+1e-9)*10)/10
                 if str(exc)!='decoded frame outside requested window' or retry>=stop:raise
                 attempted.append((retry,stop))
-                result=decode('local.video',path,width=160,height=90,start_seconds=retry,end_seconds=stop,
+                result=decode('local.video',path,width=output_width,height=output_height,start_seconds=retry,end_seconds=stop,
                               max_frames=1200,timeout=remaining())
                 warnings.append('FRAME_WINDOW_RETRIED_WITH_LATER_START')
             if not result.timestamps:
@@ -211,7 +214,7 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             seen_frames.add(identity)
             from PIL import Image
             import io
-            stream=io.BytesIO();Image.frombytes('RGB',result.output_size,result.rgb24[:160*90*3]).save(stream,format='PNG')
+            stream=io.BytesIO();Image.frombytes('RGB',result.output_size,result.rgb24[:output_width*output_height*3]).save(stream,format='PNG')
             frames.append({'time_seconds':result.timestamps[0],'pts_tick':result.pts_ticks[0],
                            'time_base':result.time_base,'timeline_origin':result.timeline_origin,
                            'selection_reason':reason,
@@ -294,7 +297,8 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
             'elapsed_seconds':elapsed,'output_png_bytes':png_bytes,
             'output_sizes':{'png_bytes':png_bytes,'subtitle_utf8_bytes':subtitle_bytes,'transcript_utf8_bytes':transcript_bytes,
                             'ocr_utf8_bytes':ocr_bytes,'media_and_text_bytes':png_bytes+subtitle_bytes+transcript_bytes+ocr_bytes},
-            'budget':{'frame_limit':frame_budget,'ocr_probe_limit':ocr_probe_budget,'wall_seconds_best_effort':max_runtime_seconds,
+            'budget':{'frame_limit':frame_budget,'output_size':(output_width,output_height),
+                      'ocr_probe_limit':ocr_probe_budget,'wall_seconds_best_effort':max_runtime_seconds,
                       'deadline_exceeded':elapsed>max_runtime_seconds},
             'meaning':'local technical cues only; not semantic understanding or source authorization'}
     if model_content:

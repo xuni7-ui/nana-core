@@ -160,3 +160,23 @@ def test_ocr_probe_retries_decimal_boundary_and_continues(tmp_path, monkeypatch)
     assert retried['state']=='TESSERACT_UNVERIFIED'
     assert retried['retry_start_seconds']>retried['requested_seconds']
     assert retried['time_seconds']>=retried['retry_start_seconds']
+
+
+def test_larger_output_retains_small_text_without_changing_timestamp(tmp_path):
+    from pathlib import Path
+    font=Path('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf')
+    if not font.is_file() or not shutil.which('tesseract'):pytest.skip('optional OCR and font unavailable')
+    video=tmp_path/'small-text.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=640x360:r=2:d=2',
+        '-vf',f'drawtext=fontfile={font}:text=WARNING 4392:fontcolor=white:fontsize=14:x=25:y=30',
+        '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=30)
+    small=perceive_video(video,frame_budget=1,sampling='uniform',ocr=True,max_runtime_seconds=60)
+    detail=perceive_video(video,frame_budget=1,sampling='uniform',ocr=True,max_runtime_seconds=60,
+                          output_size=(640,360),model_content=True)
+    assert small['frames'][0]['time_seconds']==detail['frames'][0]['time_seconds']
+    assert Image.open(io.BytesIO(detail['frames'][0]['png'])).size==(640,360)
+    assert detail['budget']['output_size']==(640,360)
+    assert 'WARNING 4392' in detail['frames'][0]['ocr']['text']
+    assert len(detail['frames'][0]['png'])>len(small['frames'][0]['png'])
+    with pytest.raises(ValueError,match='invalid perception request'):
+        perceive_video(video,output_size=(1024,1024))
