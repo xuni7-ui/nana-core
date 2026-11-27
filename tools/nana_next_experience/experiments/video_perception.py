@@ -144,22 +144,37 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
         for target in targets:
             if time.monotonic()>=deadline:break
             stop=min(end,target+1.0)
+            retry=None
             try:
-                decoded=decode('local.video',path,width=160,height=90,start_seconds=target,end_seconds=stop,
-                               max_frames=1200,timeout=remaining())
-                if not decoded.timestamps:
-                    ocr_probes.append({'requested_seconds':target,'state':'NO_FRAME'});continue
+                try:
+                    decoded=decode('local.video',path,width=160,height=90,start_seconds=target,end_seconds=stop,
+                                   max_frames=1200,timeout=remaining())
+                except ValueError as exc:
+                    retry=math.ceil((target+1e-9)*10)/10
+                    if str(exc)!='decoded frame outside requested window' or retry>=stop:raise
+                    decoded=decode('local.video',path,width=160,height=90,start_seconds=retry,end_seconds=stop,
+                                   max_frames=1200,timeout=remaining())
+            except (ValueError,TimeoutError,OSError):
+                ocr_probes.append({'requested_seconds':target,'state':'FRAME_UNAVAILABLE',
+                                   'retry_start_seconds':retry})
+                continue
+            if not decoded.timestamps:
+                ocr_probes.append({'requested_seconds':target,'state':'NO_FRAME',
+                                   'retry_start_seconds':retry});continue
+            try:
                 from PIL import Image
                 import io
                 stream=io.BytesIO();Image.frombytes('RGB',decoded.output_size,decoded.rgb24[:160*90*3]).save(stream,format='PNG')
                 text=tesseract_ocr(stream.getvalue(),language=ocr_language,timeout=min(15,remaining()),tessdata_dir=ocr_data_dir)
                 matched=any(term in text.casefold() for term in terms)
                 ocr_probes.append({'requested_seconds':target,'time_seconds':decoded.timestamps[0],
-                                   'state':'TESSERACT_UNVERIFIED','matched':matched})
+                                   'state':'TESSERACT_UNVERIFIED','matched':matched,
+                                   'retry_start_seconds':retry})
                 if matched:
                     hints.append((decoded.timestamps[0],'QUESTION_OCR_MATCH'));break
             except (ValueError,TimeoutError,OSError):
-                ocr_probes.append({'requested_seconds':target,'state':'UNAVAILABLE'})
+                ocr_probes.append({'requested_seconds':target,'state':'OCR_UNAVAILABLE',
+                                   'retry_start_seconds':retry})
                 break
     used=set();applied=0;applied_times=[]
     for target,reason in hints:

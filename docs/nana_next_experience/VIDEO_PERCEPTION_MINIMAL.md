@@ -18,6 +18,8 @@ content = result['model_content']['items']  # 调用方可传给兼容的视觉�
 
 `time_range=(start, end)` 可限定容器相对秒区间；帧为内存 PNG 字节，不是已投递消息。时间保留真实解码 PTS、time_base 和容器起点；调用方要自行确定与外部平台时间轴的对应。`question` 中明确的秒数/分秒或与现有字幕的字面词匹配，可在同一个输出帧预算内替换少量取帧点；`focus_times` 允许调用方提供回看时间。设置 `ocr=True, ocr_probe_budget=12` 可在没有既有时间/字幕命中时额外扫描最多12个时间点，按问题中的字面词或显式 `focus_terms` 匹配文字并补采样。`ocr_probes` 和 `ocr_probe_status` 单独记录额外检查，不应把只比较输出帧数误当成总处理预算相同。简单词匹配不是自然语言/视觉理解，未命中时不会凭空判断画面。
 
+OCR 探测的十进制时间边界若因解码时间基舍入落在窗口外，会向后重试至下一个 0.1 秒边界，实际重试起点由 `retry_start_seconds` 给出。单个取帧失败记录为 `FRAME_UNAVAILABLE` 并继续其他探测点；OCR 不可用记录为 `OCR_UNAVAILABLE` 并停止探测。真实 OpenCV vtest 视频前 30 秒的 8 点探测中，3 点发生上述重试，8 点均获得 OCR 结果但没有命中查询词，约 9.35 秒；没有标注真值，因此这不是文字召回率或理解效果证据。
+
 `ocr=True` 调用本机 Tesseract（默认 `eng`，可通过 `ocr_language` 指定已安装语言，或 `ocr_data_dir` 指定数据目录）；使用缩小画面再放大，细字可能漏读。可选中文数据为官方 [tessdata_fast 固定 8741641](https://github.com/tesseract-ocr/tessdata_fast/tree/87416418657359cb625c412a48b6e1d6d41c29bd)，本地 `chi_sim.traineddata` SHA-256 `a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730`，不随仓库分发。`asr='pocketsphinx'` 调用已安装 PocketSphinx 的默认英文模型，默认处理目标区间起始30秒，`asr_max_seconds` 可设为1–120秒，返回词级时间并显式标记截断；FFmpeg 归一时间与源轨道对齐须由调用方核验。二者为未核实线索，非语义真相。可选 `transcriber(path, start_seconds, end_seconds)` 可替代内置 ASR，调用方须负责线程/超时、隐私和费用；二者不得同时指定。默认不运行转录。第一个内嵌文本字幕轨可转换为 WebVTT，返回完整轨且明确未按目标区间过滤；位图字幕或不支持的编码返回不可用。
 
 `model_content=True` 额外生成 OpenAI-compatible 多模态 content 数组，包含带来源时间的图像、OCR、字幕/转录、问题及未观察范围；长文本会标记截断，字节数与真实 Token/账单分开。此字段仅组装材料，不调用模型，格式是否被具体视觉 Provider 支持需调用方确认；本地未进行真实视觉模型理解对照。

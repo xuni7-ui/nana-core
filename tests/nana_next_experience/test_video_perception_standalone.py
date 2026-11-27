@@ -137,3 +137,26 @@ def test_ocr_probes_find_question_word_at_same_output_frame_budget(tmp_path):
     assert any(5<=f['time_seconds']<6 and f['selection_reason']=='QUESTION_OCR_MATCH' for f in result['frames'])
     assert 1<=len(result['ocr_probes'])<=12 and any(p.get('matched') for p in result['ocr_probes'])
     assert result['budget']['ocr_probe_limit']==12
+
+
+def test_ocr_probe_retries_decimal_boundary_and_continues(tmp_path, monkeypatch):
+    from tools.nana_next_experience.experiments import video_perception as module
+    video=tmp_path/'boundary.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=10:d=8',
+                    '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=30)
+    original=module.decode
+    failed=[]
+    def decoder(*args, **kwargs):
+        if kwargs['start_seconds']>0 and not failed:
+            failed.append(kwargs['start_seconds'])
+            raise ValueError('decoded frame outside requested window')
+        return original(*args, **kwargs)
+    monkeypatch.setattr(module,'decode',decoder)
+    monkeypatch.setattr(module,'tesseract_ocr',lambda *args, **kwargs: '')
+    result=module.perceive_video(video,question='find missing word',frame_budget=2,
+                                max_runtime_seconds=60,sampling='uniform',ocr=True,ocr_probe_budget=3)
+    assert len(result['ocr_probes'])==3
+    retried=result['ocr_probes'][1]
+    assert retried['state']=='TESSERACT_UNVERIFIED'
+    assert retried['retry_start_seconds']>retried['requested_seconds']
+    assert retried['time_seconds']>=retried['retry_start_seconds']
