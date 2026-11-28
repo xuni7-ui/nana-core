@@ -7,3 +7,9 @@ S2-C03 / S2-C04 / S2-C05 Advanced，受控真实 Store 与生效上下文。原�
 定向 43 项通过。旧本地入站锚在精准单独补验通过。同一 QQ 收件范围新话题得到原偏好，另一入口仍使用基线，原 UNKNOWN 不被重派。实际 Provider 与真实账号的调用为 0。 [定向回归](current.txt) · [旧记录补验](legacy.txt)
 
 合成库单一目标的固定对照中，SQLite 返回候选 256→1，查询部分中位数 0.281→0.976 ms。含原来源审查的完整建议函数中位数 170.367→1.644 ms，预热后各 12 次。结果只对应这份有挤占的合成库。选择 SQL 的计划仍由目标索引进入，无表迁移、新事实或影子 Store。 [SQL 计划](query-plan.txt) · [完整读取对照](guidance-cost.txt)
+
+## 同源 Core 独立安装与双槽迁移
+
+固定源码 `27ce43f4e61c3097244aee2a11da37e9e1db86fc`，便携包 313 文件，SHA256 `dcd7926bbe9abfcae22343e7e6e2eb82ea00ed0fd77a98f1b32acd20f8b91bde`。两个独立离线环境验证停机迁移、相同身份、私念保留、旧授权回收、独占恢复、来源撤回及备份闭包。实际安装的 Gateway/BFF 十视图、笔记纠错、重启及撤回通过。收件范围安装定向 5 项通过，UNKNOWN 源码契约 4 项通过。实际模型、账号和生产调用为 0。固定 Web 74 输入逐项匹配 `3255024`，没有重新构建客户端。 [构建](build.json) · [双槽](independent.json) · [Gateway](gateway.json) · [安装测试](installed.txt) · [UNKNOWN 契约](unknown-contract.txt) · [Web 输入](client-inputs.json)
+
+迁移探针首次仍要求任何 UNKNOWN 在启动时给出旧错误。实际首先拒绝无凭据绑定。修订现有工具分别检查精确的凭据错误及原 UNKNOWN 数量保持，并保留迁移、离线运行、原请求不重派和隐私闭包断言。最终两槽原请求 ID、状态和预留字段相同。本例为 0 微费用的合成请求。 [首错](rehearse-first.txt) · [拒绝回执](rehearse-start.txt) · [预留对照](reservation.json)

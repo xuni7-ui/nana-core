@@ -100,8 +100,13 @@ def run(archive, sha256, root):
     view = value(b, "inspect")
     if not (view["private_activity"] == "PRESENT_CONTENT_WITHHELD"):
         raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
-    blocked = cmd(b, "start", "--live", "--secret-ref", "never-read.fixture", ok=False)
-    if not (blocked.returncode == 2 and "UNRESOLVED_PROVIDER_CALL_NO_RETRY" in blocked.stdout):
+    # A terminal UNKNOWN stays recorded after transfer. An unbound live start
+    # must fail at the credential boundary and leave the request count intact.
+    before_live = value(b, "preflight")
+    blocked = cmd(b, "start", "--live", "--secret-ref", "never-read.fixture", ok=False, input="")
+    after_live = value(b, "preflight")
+    if not (blocked.returncode == 2 and json.loads(blocked.stdout).get("code") == "EXPLICIT_PRIVATE_TTY_OR_FD_REQUIRED"
+            and before_live["unknown_provider_requests"] == after_live["unknown_provider_requests"] == 1):
         raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
     results["transfer"] = {
         "same_identity": True,
@@ -111,6 +116,8 @@ def run(archive, sha256, root):
         "old_start_rejected": True,
         "old_grants_revoked": True,
         "provider_config_transferred": False,
+        "unbound_live_start_rejected": True,
+        "terminal_unknown_reservation_preserved": True,
         "private_intent_continuity": True,
         "private_content_displayed": False,
     }
