@@ -1,0 +1,8 @@
+nana_core.continuity.lived_language: installed src
+nana_core.continuity.person_self: installed src
+nana_core.continuity.learning: installed src
+nana_core.continuity.context: installed src
+nana_core.life.application: installed src
+CPython 3.12.14 / SQLite 3.53.1
+......                                                                   [100%]
+6 passed, 42 deselected in 5.26s

@@ -1,0 +1,2 @@
+{"state": "START_BLOCKED", "code": "EXPLICIT_PRIVATE_TTY_OR_FD_REQUIRED"}
+exit_code=2

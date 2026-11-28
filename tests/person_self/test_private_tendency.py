@@ -121,6 +121,8 @@ def test_question_plan_and_tendency_coexist_and_links_are_tentative_not_fact_cau
 
 @pytest.mark.parametrize('state',['ACTIVE','PAUSED','ABANDONED'])
 def test_tendency_uses_normal_background_provider_to_form_a_new_question_once_without_new_user_input(tmp_path,state):
+    from nana_core.continuity.provider_config import ProviderCommand, ProviderConfigurationAuthority
+    from nana_core.continuity.world_loop.cognition import INDEPENDENT_JUDGMENT_PROMPT, INDEPENDENT_JUDGMENT_TAG
     from nana_core.life.config import load_config,update_config
     from nana_core.presence.contracts import SECOND
     home=tmp_path/'home';initialize(home);clock=VirtualClock()
@@ -133,14 +135,20 @@ def test_tendency_uses_normal_background_provider_to_form_a_new_question_once_wi
         context=json.loads(request['context_json']);manifest=context['manifest']
         own=[json.loads(b['data_json']) for b in context['blocks'] if b['kind']=='PRIVATE_INTERNAL_STATE' and json.loads(b['data_json'])['category']=='PRIVATE_TENDENCY']
         return {'interpretation':'SYNTHETIC current tendency reconsideration','subject_cognition':{'identity_id':manifest['identity_id'],'identity_revision':manifest['identity_revision'],'interpretation':'SYNTHETIC an own question, not a claim of the other person\'s mood','proposed_operations':['DRAFT'] if own else ['WAIT'],**({'private_question':{'topic':'own-concern','question':'SYNTHETIC Could giving space be more suitable than asking another question?'}} if own else {})}}
-    with relay(home,subject_builder=inner,context_limit=65536) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+    authority=ProviderConfigurationAuthority()
+    wires=[]
+    with relay(home,subject_builder=inner,context_limit=65536,wire_bodies=wires,config_authority=authority) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
         assert app.runtime.identity_id==identity and not requests
+        config=router.config.load()
+        model=config.models[0].model_copy(update={'tags':(INDEPENDENT_JUDGMENT_TAG,)})
+        router.config.update(ProviderCommand(operation='UPSERT_MODEL',expected_revision=config.revision,model=model),authority)
         app.pause(False);clock.advance(2*SECOND);app.runtime.refresh_attention()
         for _ in range(5):app.tick()
         if state!='ACTIVE':
             assert not requests and not app.runtime.store.all('cognitive_requests')
             return
         assert len(requests)==1 and requests[0]['cognitive_role']=='SELF'
+        assert INDEPENDENT_JUDGMENT_PROMPT in wires[0]['messages'][0]['content']
         assert current(app) and any(v.category=='PRIVATE_QUESTION' and 'giving space' in v.content_summary for _,v in candidates(app.runtime.store,'project-work',('PROJECT','PERSONAL')))
         assert len(app.runtime.store.all('cognitive_requests'))==1 and not app.runtime.store.all('runtime_cognition_calls')
         for _ in range(8):app.tick()

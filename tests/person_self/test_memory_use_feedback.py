@@ -160,8 +160,19 @@ def test_many_reviews_for_one_memory_do_not_hide_another(monkeypatch):
     import nana_core.continuity.lived_language as language
 
     db=sqlite3.connect(':memory:');db.row_factory=sqlite3.Row
-    db.execute('CREATE TABLE continuity_records (record_id TEXT, record_kind TEXT, scope TEXT, lifecycle TEXT, target_id TEXT, privacy_class TEXT)')
+    db.executescript('''
+        CREATE TABLE continuity_records (record_id TEXT, record_kind TEXT, scope TEXT, lifecycle TEXT,
+            target_id TEXT, privacy_class TEXT, payload_artifact_id TEXT);
+        CREATE TABLE record_dependencies (record_id TEXT, parent_id TEXT, parent_kind TEXT, relation_kind TEXT);
+        CREATE TABLE artifacts (artifact_id TEXT, payload BLOB);
+        CREATE TABLE memories (memory_id TEXT, source_evidence_id TEXT, lifecycle TEXT);
+        CREATE TABLE continuity_evidence (evidence_id TEXT, source_namespace TEXT, source_reference TEXT);
+    ''')
     bodies={}
+    def stored(record_id, kind, target=None):
+        db.execute('INSERT INTO continuity_records VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (record_id,kind,'scope','ACTIVE',target,'PROJECT',record_id))
+        db.execute('INSERT INTO artifacts VALUES (?, ?)',(record_id,json.dumps(bodies[record_id]['payload']).encode()))
     for index in range(34):
         mid='memory-b' if index==0 else 'memory-a'
         rid=f'review-{index}';ref=f'ref-{index}';exchange=f'exchange-{mid}'
@@ -171,12 +182,23 @@ def test_many_reviews_for_one_memory_do_not_hide_another(monkeypatch):
         bodies[ref]={'payload':{'person_kind':'MEMORY_USE_FEEDBACK_REFERENCE','review_record_id':rid}}
         bodies[rid]={'record_id':rid,'payload':{'sample':sample.model_dump(mode='json'),
             'memory_use_feedback':{'memory_id':mid,'mode':'DO_NOT_MENTION'}}}
-        bodies[exchange]={'record_id':exchange,'scope':'scope','payload':{'entity_id':'person'}}
-        db.execute('INSERT INTO continuity_records VALUES (?, ?, ?, ?, ?, ?)',(ref,'ASSERTION','scope','ACTIVE','memory-use.'+mid,'PROJECT'))
+        if exchange not in bodies:
+            address={'recipient_context':None}
+            if mid=='memory-b':
+                # A retained exchange predating the explicit recipient field.
+                address={'user_memory_id':'legacy-local-input'}
+                db.execute("INSERT INTO memories VALUES ('legacy-local-input', 'legacy-evidence', 'ACTIVE')")
+                db.execute("INSERT INTO continuity_evidence VALUES ('legacy-evidence', 'recorded.conversation.input', 'local.chat.old')")
+            bodies[exchange]={'record_id':exchange,'scope':'scope','payload':{'entity_id':'person',**address}}
+            stored(exchange,'RELATIONSHIP_EVENT')
+        stored(rid,'EXPERIENCE_CANDIDATE')
+        stored(ref,'ASSERTION','memory-use.'+mid)
+        db.execute("INSERT INTO record_dependencies VALUES (?, ?, 'RECORD', 'SUPPORT')",(ref,rid))
     withdrawn=set()
     class Records:
         def __init__(self,store):
-            self.memory=SimpleNamespace(read=lambda mid:{'entity_id':'person','scope':'scope','privacy_class':'PROJECT'})
+            self.memory=SimpleNamespace(read=lambda mid:{'entity_id':'person','scope':'scope','privacy_class':'PROJECT',
+                'source_provenance':{'source_namespace':'recorded.conversation.input','source_reference':'local.chat.old'}})
         def current_support(self,rid):return rid not in withdrawn
         def read(self,rid):return bodies[rid]
         def support(self,rid):return (rid.removeprefix('exchange-'),)

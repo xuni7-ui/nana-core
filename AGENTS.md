@@ -2,6 +2,8 @@
 
 ## CURRENT ENTRY CONTRACT — Master Framework Freeze V1（2026-10-20）
 
+**2026-11-26 专项固定终点与主线分工。** 已交接或 `CLOSED_HANDOFF` 的专项保持结项。新的专项按明确输入输出独立安装、运行和验收，通过稳定 CLI、HTTP API、SDK 或现有插件协议一次性交付。A 按实际收益复用成熟工具，保留已融合成果，核心研发照常推进。B 视频成果只作为轻量感知输入，原 S5/S2/S3/S8 统一负责理解、经历、情感与学习。QQ 协议端、平台通信和通用媒体可独立运行。A 负责原主体、认知、成长、行为决策与最终产品融合，专项无需跟踪 A 的每次提交或等待内部契约。
+
 **2026-11-13机制级深化：** [十域因果协同增补](docs/nana_next_experience/task_inputs/TEN_DOMAIN_MECHANISM_AND_CAUSAL_SYNERGY_2026_11_13.md)归入同一主任务与原A–H。内心/情感、C多动机、S8迁移及自然生活优先；短念不强制成任务/入库，不设情绪总分或第二权威。原Foundation保留，高级因果靠后续行为/同预算消融证明；A做Core，B做多端/模型/源码研究/独立原型，按影响分级验证。
 
 **用户当前实施原则（2026-11-11）：** [创新优先与工程负担精简](docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)适用于同一A/B任务。能力、自主性、体验、可验证成长优先；探索定向对照，集成相关回归，发行/迁移才完整验证。复用已验证成果，已定位外部403单列；必要身份/数据/授权/真实投递保证及冻结框架继续保留。

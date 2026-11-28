@@ -1,0 +1,19 @@
+Pinned pre-change feedback code matches e2a14eab
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[local-opinion] _
+tests/living_release_v4/test_platform_runtime.py:455: in test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases
+    assert (actual['key'] != original['key']) is (first_offer == 'local-opinion')
+E   AssertionError: assert ('private-feedback.88544092908bc6abe7651e92684af2958fb8e0f6fcb1f0804f8deee4bf6538a1' != 'private-feedback.88544092908bc6abe7651e92684af2958fb8e0f6fcb1f0804f8deee4bf6538a1') is ('local-opinion' == 'local-opinion'
+E
+E       local-opinion)
+_ test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[confirmed-opinion] _
+tests/living_release_v4/test_platform_runtime.py:456: in test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases
+    assert feedback_continuation(runtime.store,original_experience,**project) is None
+E   AssertionError: assert {'reference': None, 'key': 'private-feedback.088592cc01484c0ee013689f60aebfd22844a988e7b6d1872ea4d5b6af3cb868', 'recor...912ac415-9c92-425f-9aac-e4a006a4c44a', '4c2a4ee3-8118-41d3-b664-8a343acfeb4b', 'd882caa3-9f84-454d-bd6c-c4165b67f60e')} is None
+E    +  where {'reference': None, 'key': 'private-feedback.088592cc01484c0ee013689f60aebfd22844a988e7b6d1872ea4d5b6af3cb868', 'recor...912ac415-9c92-425f-9aac-e4a006a4c44a', '4c2a4ee3-8118-41d3-b664-8a343acfeb4b', 'd882caa3-9f84-454d-bd6c-c4165b67f60e')} = <function feedback_continuation at 0x7f2e3227e980>(<nana_core.continuity.store.ContinuityStore object at 0x7f2e30200b60>, 'b9513f3a-c4f8-4755-9730-2685e7a7b122', **{'privacy_classes': ('PROJECT',), 'scope': 'project-work', 'entity_id': 'project-user'})
+E    +    where <nana_core.continuity.store.ContinuityStore object at 0x7f2e30200b60> = <nana_core.presence.runtime.NanaRuntime object at 0x7f2e302037a0>.store
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[local-opinion]
+FAILED tests/living_release_v4/test_platform_runtime.py::test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[confirmed-opinion]
+2 failed, 22 deselected in 2.43s

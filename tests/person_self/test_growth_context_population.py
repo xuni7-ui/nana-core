@@ -16,8 +16,8 @@ from .test_growth_inner_choice import grown
 from .test_private_method_continuation import bind
 
 
-@pytest.mark.parametrize('repeated',[0,32])
-def test_repeated_training_context_does_not_erase_an_independently_verified_later_use(tmp_path,repeated):
+@pytest.mark.parametrize('repeated,relabel',[(0,False),(32,False),(32,True)])
+def test_repeated_training_context_does_not_erase_an_independently_verified_later_use(tmp_path,repeated,relabel):
     clock=VirtualClock();seen=[]
     def propose(request):
         package=json.loads(request.context_json)
@@ -31,10 +31,11 @@ def test_repeated_training_context_does_not_erase_an_independently_verified_late
     with grown(tmp_path/'life',clock) as (r,view,origin,reuse,lesson),provider_harness(proposer=propose) as (transport,state):
         review=EpisodeLearning(r.store,r.authority,scopes=('world',),privacy_classes=('PUBLIC',))
         for i in range(repeated):
-            # Same original practice data/context; verified arithmetic, never
-            # claimed to be a new real action or an out-of-sample transfer.
+            # Exact practice input, even when someone changes its case labels.
+            case=numeric_learning().practice[0]
+            if relabel:case=case.model_copy(update={'case_id':f'practice-{i}','context':f'other-label-{i}'})
             episode={'episode_key':'practice-check-'+str(i),'lesson_id':lesson,
-                     'case':numeric_learning().practice[0].model_dump(mode='json')}
+                     'case':case.model_dump(mode='json')}
             mid=source(r,'practice-check-'+str(i),{'strategy_episode':episode},kind='SYSTEM_VERIFICATION')
             aid=review.assess(lesson,mid,authority=r.authority)
             assert r.store.one('strategy_assessments',aid)['verdict']=='SUCCESS'
@@ -50,7 +51,11 @@ def test_repeated_training_context_does_not_erase_an_independently_verified_late
         assert len(own)==1 and state['calls']==1 and seen[0][0]['assessment_id']==view.assessment_id
         assert before=={t:len(r.store.all(t)) for t in before}
         print(json.dumps({'repeated_practice_checks':repeated,'original_self_calls':state['calls'],
-            'independent_transfer_selected':True,'own_questions':len(own),'real_provider_calls':0}))
+            'relabeled_practice':relabel,'independent_transfer_selected':True,'own_questions':len(own),'real_provider_calls':0}))
+        if relabel:
+            from nana_core.continuity.memory import MemoryService
+            MemoryService(r.store,r.authority).forget(reuse,r.authority)
+            assert not growth_life.opportunities(r.store,scope='world',privacy_classes=('PUBLIC',))
 
 
 @pytest.mark.parametrize('schema_target',[7,12,13])

@@ -1,0 +1,10 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_temporary_load_defers_an_implicit_review_until_capacity_returns[True] __
+tests/person_self/test_relational_cognitive_choice.py:328: in test_temporary_load_defers_an_implicit_review_until_capacity_returns
+    assert later, 'D did not offer the deferred review after capacity returned'
+E   AssertionError: D did not offer the deferred review after capacity returned
+E   assert None
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_temporary_load_defers_an_implicit_review_until_capacity_returns[True]
+1 failed, 1 passed, 18 deselected in 0.70s

@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient _
+tests/living_release_v4/test_platform_runtime.py:534: in test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient
+    assert foreign['text']=='SYNTHETIC baseline'
+E   AssertionError: assert 'SYNTHETIC silent reference' == 'SYNTHETIC baseline'
+E
+E     - SYNTHETIC baseline
+E     + SYNTHETIC silent reference
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient
+1 failed, 24 deselected in 1.81s

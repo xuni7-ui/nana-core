@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart _
+tests/open_life/test_meta_learning.py:415: in test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart
+    assert redirected['state']=='DONE' and body['selected_method']=='NFKC_CASEFOLD'
+E   AssertionError: assert ('BLOCKED' == 'DONE'
+E
+E     - DONE
+E     + BLOCKED)
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart
+1 failed, 10 deselected in 0.54s
