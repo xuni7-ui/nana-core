@@ -21,4 +21,6 @@ with LocalOllama('http://127.0.0.1:11434', timeout=120) as client:
 
 验证：安装官方 SDK 0.6.3，以本地 HTTP 测试替身验证目录、指定名称请求、非流式/流式响应和不发送环境密钥。另从 [Ollama 官方发行页](https://github.com/ollama/ollama/releases/tag/v0.1.32) 取得历史独立 Linux 二进制，在隔离目录和 `127.0.0.1:19134` 启动一次性服务。实测 `/api/version` 返回 `0.1.32`，`LocalOllama.models()` 返回空目录，随后关闭服务。下载二进制实测 SHA-256 为 `539e8e1df2f74263fc56e0939cfc3f014a1addf02b07a06cae5cb42d810eb746`，用于复现该次测试。
 
-模型注册表与 Hugging Face 的出站访问返回 403，未下载权重。真实服务已验证目录读取，非流式和流式仍需已有权重后各实际执行一次并核对 `done`。预计运行验证约 0.5–1 小时，不包括模型下载及授权时间。
+2026-11-28 云端放行后，下载 [固定版本 TinyStories 260K GGUF](https://huggingface.co/ggml-org/tiny-llamas/blob/def3e2dd70df35ecbf6403ea347de4c5977220c1/stories260K.gguf)，实测 SHA-256 `047bf46455a544931cff6fef14d7910154c56afbc23ab1c5e56a72e69912c04b`。继续使用同一官方 Ollama 0.1.32 实例，将 GGUF 导入为 `nana-stories260k-smoke:latest`，模板 `{{ .Prompt }}`，`num_predict=16`，`temperature=0`。官方 SDK 0.6.3 经原适配器查到该名称并完成两次实际调用。
+
+普通请求 `Once upon a time` 生成 16 token、55 字符，`done=true`，单次耗时 0.211 秒。流式请求 `There was a little girl` 返回 17 个消息，生成 16 token、53 字符，最后消息 `done=true`，单次耗时 0.146 秒。该样本验证目录、普通与流式真实推理。TinyStories 用于小型英文续写，未评价聊天质量或生产网络，测完关闭实例。
