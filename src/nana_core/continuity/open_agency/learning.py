@@ -396,13 +396,19 @@ class LearningService:
             from ..open_life.meta_learning import recent_transfer_counterexample, select
 
             problem = LearningProblem.from_spec(spec)
-            method, strategy_record = select(self.store, problem, scope=head["scope"], privacy=self.privacy)
-            if strategy_record:
-                readable = tuple(p for p in self.privacy if PRIVACY_RANK[p] <= PRIVACY_RANK[head['privacy_class']])
-                counterexample = recent_transfer_counterexample(self.store, problem, method, scope=head['scope'], privacy=readable)
-                if counterexample:
-                    new['learning_strategy_counterexample_id'] = counterexample
-                    method, strategy_record = None, None
+            readable = tuple(p for p in self.privacy if PRIVACY_RANK[p] <= PRIVACY_RANK[head["privacy_class"]])
+            checked_candidates = {}
+
+            def candidate_allowed(method):
+                if method not in checked_candidates:
+                    checked_candidates[method] = recent_transfer_counterexample(
+                        self.store, problem, method, scope=head["scope"], privacy=readable
+                    )
+                return checked_candidates[method] is None
+
+            method, strategy_record = select(
+                self.store, problem, scope=head["scope"], privacy=self.privacy, candidate_allowed=candidate_allowed
+            )
             parent = None
             if method is None:
                 method = self.proposer.propose_method(problem)
@@ -419,13 +425,24 @@ class LearningService:
                 # and transfer remain untouched application-owned holdouts.
                 from .practice import compare_practice
 
-                method, trials = compare_practice(problem, preferred=method, evaluator=getattr(self.evaluator, "practice_evaluate", None))
+                competition = problem
+                if strategy_record:
+                    # Practice competition cannot reunominate a method that the
+                    # same automatic strategy needs to exclude on this evidence.
+                    competition = problem.model_copy(update={
+                        "hypotheses": tuple(candidate for candidate in problem.hypotheses if candidate_allowed(candidate))
+                    })
+                method, trials = compare_practice(competition, preferred=method, evaluator=getattr(self.evaluator, "practice_evaluate", None))
                 new["practice_competition"] = {
                     "nominee": nominated_method,
                     "selected": method,
                     "trials": trials,
                     "selection_scope": "PRACTICE_ONLY_NOT_QUALIFICATION",
                 }
+            evidence = tuple(dict.fromkeys(record for record in checked_candidates.values() if record))
+            if evidence:
+                new["learning_strategy_counterexample_id"] = evidence[0]
+                new["learning_strategy_counterexample_ids"] = evidence
             new["selected_method"] = method
             if parent:
                 record = self.records.read(parent)
@@ -626,7 +643,9 @@ class LearningService:
                     rid,
                     *((new["hypothesis_source"],) if new.get("hypothesis_source") else ()),
                     *((new["learning_strategy_record_id"],) if new.get("learning_strategy_record_id") else ()),
-                    *((new['learning_strategy_counterexample_id'],) if new.get('learning_strategy_counterexample_id') else ()),
+                    *(new.get("learning_strategy_counterexample_ids") or (
+                        (new["learning_strategy_counterexample_id"],) if new.get("learning_strategy_counterexample_id") else ()
+                    )),
                 ),
                 supersedes=rid,
                 target_id=spec.learning_key,

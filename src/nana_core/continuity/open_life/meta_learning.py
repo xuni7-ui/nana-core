@@ -55,15 +55,16 @@ def checks(records,rule):
             and _selection_transferred(records,b,data)),
         'not_verifier_replacement':not rule.changes_evaluator,'no_authority':not rule.grants_authority}
 
-def _first_passing_hypothesis(problem, evaluator):
+def _first_passing_hypothesis(problem, evaluator, *, candidate_allowed=None):
     for method in problem.hypotheses:
         try:
-            if evaluator.evaluate(method, problem.practice)['all_passed']:
-                return method
+            passed = evaluator.evaluate(method, problem.practice)['all_passed']
         except (CoreError, ValueError, TypeError):
             # These are sealed local methods. An inapplicable method may reject
             # practice inputs, while another current candidate can still fit.
             continue
+        if passed and (candidate_allowed is None or candidate_allowed(method)):
+            return method
     return None
 
 
@@ -139,7 +140,7 @@ def propose(store,method_lesson_id,*,authority,consideration_records=()):
         tx.put('lessons',{'lesson_id':lid,'experience_id':experience_id,'record_id':rid,'task_class':'learning.strategy','revision':1,'state':'CANDIDATE','tested_rule_hash':None,'test_event_id':None})
     return lid
 
-def select(store,problem,*,scope,privacy):
+def select(store,problem,*,scope,privacy,candidate_allowed=None):
     records=RecordService(store)
     if not privacy:return None,None
     allowed=tuple(dict.fromkeys(privacy));marks=','.join('?' for _ in allowed)
@@ -159,7 +160,7 @@ def select(store,problem,*,scope,privacy):
         rule=LearningStrategyLesson.model_validate_json(canonical(records.read(head['record_id'])['payload']['rule']))
         if rule.domain!=problem.domain or not all(checks(records,rule).values()):continue
         from ..open_agency.learning import IndependentEvaluator
-        method=_first_passing_hypothesis(problem,IndependentEvaluator())
+        method=_first_passing_hypothesis(problem,IndependentEvaluator(),candidate_allowed=candidate_allowed)
         # The baseline is a comparison, and may not be a valid nomination.
         # Leave the current proposer in charge when this strategy finds no fit.
         return (method,head['record_id']) if method is not None else (None,None)

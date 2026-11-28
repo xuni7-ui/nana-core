@@ -358,7 +358,8 @@ def test_meta_strategy_inapplicable_on_new_transfer_is_a_known_learning_failure(
             privacy=('PUBLIC',)) is None
 
 
-def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart(tmp_path):
+@pytest.mark.parametrize('hypothesis_policy', ['PROPOSER_ONLY', 'PRACTICE_COMPARE'])
+def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_restart(tmp_path, hypothesis_policy):
     from nana_core.continuity.open_agency.learning import LearningSpec
     from nana_core.continuity.subject.opportunities import ConcernCue
     from nana_core.presence.runtime import NanaRuntime
@@ -371,6 +372,7 @@ def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_re
         transfer=(LearningCase(case_id='transfer', context='catalog', data='GAMMA', expected='gamma'),))
     failing = training.model_copy(update={
         'learning_key':'learn.first-new-labels',
+        'hypothesis_policy':hypothesis_policy,
         'practice':(LearningCase(case_id='new-practice', context='gardening', data='DELTA', expected='delta'),),
         'evaluation':(LearningCase(case_id='new-heldout', context='gardening', data='EPSILON', expected='epsilon'),),
         'transfer':(LearningCase(case_id='new-transfer', context='suppliers', data='ＺＥＴＡ', expected='zeta'),),
@@ -403,10 +405,12 @@ def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_re
         assert body['results']['EVALUATE']['all_passed'] and not body['results']['TRANSFER']['all_passed']
         config, clock, identity = runtime.config, runtime.clock, runtime.identity_id
 
+    proposer_calls=[]
     class CurrentProposer:
         def propose_method(self, problem):
             assert isinstance(problem, LearningProblem)
             assert not hasattr(problem,'evaluation') and not hasattr(problem,'transfer')
+            proposer_calls.append(problem.learning_key)
             return 'NFKC_CASEFOLD'
 
     with NanaRuntime(path,config,clock=clock) as runtime:
@@ -418,6 +422,10 @@ def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_re
         start_learning(runtime,later,'matching-context')
         redirected, body = latest(runtime)
         assert redirected['state']=='DONE' and body['selected_method']=='NFKC_CASEFOLD'
+        assert proposer_calls==[], f'The verified strategy returned to the proposer: {proposer_calls}'
+        assert body['learning_strategy_record_id']==runtime.store.one('lessons',strategy)['record_id']
+        if hypothesis_policy=='PRACTICE_COMPARE':
+            assert [trial['method'] for trial in body['practice_competition']['trials']]==['NFKC_CASEFOLD']
         assert body['results']['EVALUATE']['all_passed'] and body['results']['TRANSFER']['all_passed']
         assert blocked['record_id'] in {edge[0] for edge in runtime.store.db.execute(
             "SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD'",
@@ -431,5 +439,5 @@ def test_reviewed_transfer_counterexample_redirects_matching_future_job_after_re
         start_learning(runtime,next_spec,'after-withdrawal')
         after, body = latest(runtime)
         assert after['state']=='BLOCKED' and body['selected_method']=='CASEFOLD'
-        print('S10 transfer comparison: first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, '
-              'redirected=DONE, withdrawn=BLOCKED, real_model_calls=0')
+        print(f'S10 transfer comparison: policy={hypothesis_policy}, first=BLOCKED, other_practice=CASEFOLD, '
+              'matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, proposer_calls=0, real_model_calls=0')

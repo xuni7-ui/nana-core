@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 351,
-  "as_of_us": 1795845175581016,
+  "revision": 352,
+  "as_of_us": 1795845342524597,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "S10原G遇匹配迁移反例后继续挑选练习候选。同主体重启后两种策略分别从1次普通提名降到0，仍独立通过留出及迁移，撤回有效，77相关通过。",
     "核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。",
     "原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。",
     "27ce43f4同源Core双槽离线安装、身份迁移及来源撤回通过，BFF十视图和笔记纠错重启撤回通过，范围补验5及UNKNOWN契约4通过，模型0。",
     "记忆用法先按原收件范围筛选再取限额。256条异范围意见不再遮住同一主体重启后的旧偏好，43相关通过，旧本地入站锚另补验。",
     "表达学习同范围反例撤回后恢复原合资格方式，撤回一项支持后同主体重启回到基线，16定向及同源安装2项通过。",
     "4e678abb同源Core含平台能力313文件，独立槽离线安装和预检后，反馈范围关键6项从安装模块通过，实际模型0。",
-    "表达评审及原G资格按原反馈收件范围独立取样。同主体重启后同一QQ范围新话题复用，不同范围不能合算，后续同范围反证可暂停，102相关通过。",
-    "记忆用法意见按留存原话轮收件范围使用。同主体重启后同一QQ会话换话题继续采用，本地对照未受原UNKNOWN意见影响，56相关通过。"
+    "表达评审及原G资格按原反馈收件范围独立取样。同主体重启后同一QQ范围新话题复用，不同范围不能合算，后续同范围反证可暂停，102相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -33,17 +33,19 @@
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/meta-strategy-next-practice-20261128/README.md",
     "docs/nana_next_experience/evidence/independent-judgment-prompt-20261128/README.md",
     "docs/nana_next_experience/evidence/memory-feedback-window-20261128/README.md",
     "docs/nana_next_experience/evidence/expression-review-recipient-20261128/README.md",
     "docs/nana_next_experience/evidence/memory-feedback-recipient-20261128/README.md",
     "docs/nana_next_experience/evidence/feedback-readback-renewal-20261126/README.md",
     "docs/nana_next_experience/evidence/qq-feedback-independent-reply-20261126/README.md",
-    "docs/nana_next_experience/evidence/core-continuity-review-install-20261126/README.md",
-    "docs/nana_next_experience/evidence/voluntary-review-resume-20261126/README.md"
+    "docs/nana_next_experience/evidence/core-continuity-review-install-20261126/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision352 证据指纹锚：`edbcb503449aa3877cd71a21f6624171095c057447b611b78253c211228ea8ef`。
 
 A revision351 证据指纹锚：`df0c2a47b93ad430e9f64f707364675ce454db0108ea13229a51515e1700987a`。
 
