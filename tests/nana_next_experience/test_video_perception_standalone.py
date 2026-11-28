@@ -16,7 +16,8 @@ pytestmark=pytest.mark.skipif(not all(shutil.which(x) for x in ('ffmpeg','ffprob
 
 def test_short_video_scene_subtitle_audio_and_target_range(tmp_path):
     subtitle=tmp_path/'captions.srt'
-    subtitle.write_text('1\n00:00:01,000 --> 00:00:02,500\nsynthetic caption\n',encoding='utf-8')
+    subtitle.write_text('1\n00:00:01,000 --> 00:00:02,500\nsynthetic caption\n\n'
+                        '2\n00:00:04,000 --> 00:00:05,000\nselected caption\n',encoding='utf-8')
     video=tmp_path/'clip.mp4'
     subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=160x90:r=2:d=8',
         '-f','lavfi','-i','sine=frequency=440:sample_rate=16000:duration=8','-i',str(subtitle),
@@ -32,6 +33,10 @@ def test_short_video_scene_subtitle_audio_and_target_range(tmp_path):
     assert 'synthetic caption' in result['subtitles']['text']
     assert result['audio']['state']=='MEASURED' and result['transcript']['state']=='NOT_RUN_NO_TRANSCRIBER'
     context=json.loads(result['model_content']['items'][0]['text'].split('\n',1)[1])
+    assert context['subtitle_model_scope']=='TARGET_WINDOW_UNVERIFIED'
+    assert context['subtitles_full_track'] is None
+    assert 'selected caption' in context['subtitles_target_window']
+    assert 'synthetic caption' not in context['subtitles_target_window']
     assert context['audio_timeline']['requested_window']==[3.5,5]
     assert context['audio_timeline']['measured_intervals']
     assert context['audio_timeline']['timeline_basis']=='FFMPEG_NORMALIZED_CALLER_MUST_VERIFY'

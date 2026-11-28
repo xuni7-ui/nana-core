@@ -32,13 +32,10 @@ def _focus_candidates(question, subtitles, start, end):
         if start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
     terms=_question_terms(question)
     if subtitles and terms:
-        def seconds(value):
-            parts=value.split(':');return sum(float(part)*60**i for i,part in enumerate(reversed(parts)))
-        for block in re.split(r'\n\s*\n',subtitles):
-            match=re.search(r'((?:\d{2}:)?\d{2}:\d{2}\.\d{3})\s*-->\s*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})',block)
-            if match and any(term in block.casefold() for term in terms):
-                a,b=seconds(match.group(1)),seconds(match.group(2));point=max(start,a)+(min(end,b)-max(start,a))/2
-                if max(start,a)<min(end,b):points.append((point,'QUESTION_SUBTITLE_MATCH'))
+        for a,b,block,_ in _subtitle_blocks(subtitles):
+            if any(term in block.casefold() for term in terms):
+                left,right=max(start,a),min(end,b)
+                if left<right:points.append(((left+right)/2,'QUESTION_SUBTITLE_MATCH'))
     return points
 
 
@@ -48,20 +45,24 @@ def _question_terms(question):
             if term.casefold() not in ignored]
 
 
-def _selected_subtitle_cues(text, frame_times):
-    """Return bounded text cues overlapping selected frames, without claiming alignment."""
-    if not text or not frame_times:return [],0
+def _subtitle_blocks(text):
     def seconds(value):
         return sum(float(part)*60**i for i,part in enumerate(reversed(value.split(':'))))
-    cues=[];matched=0
-    for block in re.split(r'\n\s*\n',text):
+    for block in re.split(r'\n\s*\n',text or ''):
         match=re.search(r'((?:\d{2}:)?\d{2}:\d{2}\.\d{3})\s*-->\s*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})',block)
         if not match:continue
         start,end=map(seconds,match.groups())
-        if start>=end or not any(start<=t<end for t in frame_times):continue
+        if start<end:yield start,end,block,block[match.end():].strip()
+
+
+def _selected_subtitle_cues(text, frame_times):
+    """Return bounded text cues overlapping selected frames, without claiming alignment."""
+    if not text or not frame_times:return [],0
+    cues=[];matched=0
+    for start,end,_,cue_text in _subtitle_blocks(text):
+        if not any(start<=t<end for t in frame_times):continue
         matched+=1
         if len(cues)<16:
-            cue_text=block[match.end():].strip()
             cues.append({'start_seconds':start,'end_seconds':end,'text':cue_text[:100],
                          'text_truncated':len(cue_text)>100})
     return cues,matched
@@ -72,7 +73,7 @@ def _bounded_model_context(context, subtitle_cues=(), matching_cues=0, limit=160
     text=json.dumps(context,ensure_ascii=False,separators=(',',':'))
     if len(text)<=limit:return text,False
     kept=('video_duration_seconds','target_range_seconds','coverage','unobserved_intervals',
-          'outside_requested_intervals','subtitle_state','transcript_state','transcript_timeline_basis',
+          'outside_requested_intervals','subtitle_state','subtitle_model_scope','transcript_state','transcript_timeline_basis',
           'transcript_processed_window','transcript_truncated','audio_timeline','errors','warnings')
     compact={key:context[key] for key in kept}
     if subtitle_cues:
@@ -81,7 +82,8 @@ def _bounded_model_context(context, subtitle_cues=(), matching_cues=0, limit=160
         compact['subtitle_cue_alignment']='TRACK_TIME_UNVERIFIED_NOT_CONTINUOUS_OBSERVATION'
     compact['model_context_omitted_fields']=['transcript_words','ocr_probes_not_delivered_as_images',
                                                'sparse_visual_changes']
-    values={'question':context['question'],'subtitles_excerpt':context['subtitles_full_track'],
+    subtitle_key='subtitles_target_window' if context['subtitle_model_scope']=='TARGET_WINDOW_UNVERIFIED' else 'subtitles_full_track'
+    values={'question':context['question'],'subtitles_excerpt':context[subtitle_key],
             'transcript_excerpt':context['transcript']}
     caps={'question':2000,'subtitles_excerpt':12000,'transcript_excerpt':12000}
     while True:
@@ -362,6 +364,17 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                       'deadline_exceeded':elapsed>max_runtime_seconds},
             'meaning':'local technical cues only; not semantic understanding or source authorization'}
     if model_content:
+        subtitle_text=subtitles.get('text')
+        subtitle_scope='FULL_TRACK' if subtitle_text is not None else 'NO_TRACK_AVAILABLE'
+        subtitle_window=None
+        if outside and subtitle_text is not None:
+            if abs(origin)<=0.001:
+                subtitle_window='\n\n'.join(block for a,b,block,_ in _subtitle_blocks(subtitle_text)
+                                           if a<end and start<b)
+                subtitle_scope='TARGET_WINDOW_UNVERIFIED'
+            else:
+                subtitle_scope='OMITTED_UNVERIFIED_OFFSET'
+            subtitle_text=None
         audio_timeline={key:audio[key] for key in (
             'state','coverage_state','requested_window','timeline_basis','open_silence_start','meaning'
         ) if key in audio}
@@ -372,14 +385,15 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
         context={'question':question,'video_duration_seconds':duration,'target_range_seconds':(start,end),
                  'coverage':result['coverage'],'unobserved_intervals':gaps,'outside_requested_intervals':outside,
                  'audio_timeline':audio_timeline,
-                 'subtitle_state':subtitles['state'],'subtitles_full_track':subtitles.get('text'),
+                 'subtitle_state':subtitles['state'],'subtitle_model_scope':subtitle_scope,
+                 'subtitles_full_track':subtitle_text,'subtitles_target_window':subtitle_window,
                  'transcript_state':transcript['state'],'transcript':transcript.get('text'),
                  'transcript_words':transcript.get('words'),'transcript_timeline_basis':transcript.get('timeline_basis'),
                  'transcript_processed_window':transcript.get('processed_window'),
                  'transcript_truncated':transcript.get('truncated'),
                  'ocr_probes_not_delivered_as_images':ocr_probes,
                  'sparse_visual_changes':changes,'errors':errors,'warnings':warnings}
-        cues,matching_cues=_selected_subtitle_cues(subtitles.get('text'),points) if abs(origin)<=0.001 else ([],0)
+        cues,matching_cues=_selected_subtitle_cues(subtitle_window if outside else subtitle_text,points) if abs(origin)<=0.001 else ([],0)
         text,truncated=_bounded_model_context(context,cues,matching_cues)
         preamble='Technical video materials; unsampled intervals remain unknown. OCR and transcription are unverified and may be wrong.'
         if truncated:preamble+=' Context is truncated; excerpts contain only their beginning and end.'
