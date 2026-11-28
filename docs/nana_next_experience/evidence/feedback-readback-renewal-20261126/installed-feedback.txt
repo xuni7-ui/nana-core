@@ -1,0 +1,6 @@
+Loaded from installed archive: /dev/shm/nana-v341/installed/src/nana_core/continuity/autonomy/private_intent.py
+Loaded from installed archive: /dev/shm/nana-v341/installed/src/nana_core/continuity/subject/loop.py
+Loaded from installed archive: /dev/shm/nana-v341/installed/src/nana_core/life/platform_runtime.py
+Installed preflight passed 3.12.14 3.53.1
+........                                                                 [100%]
+8 passed, 16 deselected in 6.64s

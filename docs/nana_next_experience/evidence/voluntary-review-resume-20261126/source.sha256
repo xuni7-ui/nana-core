@@ -1,0 +1,3 @@
+984fce58e76271aa4ec443c4ac00a2384c4cfe02c5526cd57be7efc940cd6282  src/nana_core/continuity/relational/accommodation.py
+927599616eb521992bc4983eff62e05939778e3008fa9f00937ffb6ce7cb120b  src/nana_core/continuity/subject/watch.py
+51b9779ed13ddcd0b13978012f65617a4dc00eda7fa65ad18fdbe6a15ec1c687  tests/person_self/test_relational_cognitive_choice.py

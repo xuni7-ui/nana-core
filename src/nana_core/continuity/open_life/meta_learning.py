@@ -6,6 +6,31 @@ from ...contracts import DTO,CoreError
 from ...storage import canonical,digest,uid
 from ..records import RecordService
 
+TRANSFER_COUNTEREXAMPLE_NAMESPACE = 'learning.strategy.transfer-counterexample'
+
+
+def transfer_counterexample_key(problem, method, scope):
+    baseline, hypotheses, examples = problem.experiment_material()
+    return digest([scope, problem.domain, baseline, sorted(hypotheses), sorted(examples), method])
+
+
+def recent_transfer_counterexample(store, problem, method, *, scope, privacy):
+    if not privacy:
+        return None
+    key = transfer_counterexample_key(problem, method, scope)
+    marks = ','.join('?' for _ in privacy)
+    rows = store.db.execute(
+        "SELECT r.record_id FROM events e JOIN jobs j ON j.job_id=json_extract(e.data_json,'$.data.work_id') "
+        "JOIN continuity_records r ON r.record_id=j.record_id "
+        "WHERE e.source_namespace=? AND e.source_key>=? AND e.source_key<? "
+        "AND j.work_kind='LEARNING' AND j.state='BLOCKED' AND r.lifecycle='ACTIVE' AND r.scope=? "
+        f"AND r.privacy_class IN ({marks}) ORDER BY e.seq DESC LIMIT 8",
+        (TRANSFER_COUNTEREXAMPLE_NAMESPACE, key + ':', key + ';', scope, *privacy),
+    )
+    records = RecordService(store)
+    return next((row['record_id'] for row in rows if records.current_support(row['record_id'])), None)
+
+
 class LearningStrategyLesson(DTO):
     kind:Literal['LEARNING_STRATEGY']='LEARNING_STRATEGY'
     scope:Literal['learning.hypothesis-selection']='learning.hypothesis-selection'
@@ -30,15 +55,16 @@ def checks(records,rule):
             and _selection_transferred(records,b,data)),
         'not_verifier_replacement':not rule.changes_evaluator,'no_authority':not rule.grants_authority}
 
-def _first_passing_hypothesis(problem, evaluator):
+def _first_passing_hypothesis(problem, evaluator, *, candidate_allowed=None):
     for method in problem.hypotheses:
         try:
-            if evaluator.evaluate(method, problem.practice)['all_passed']:
-                return method
+            passed = evaluator.evaluate(method, problem.practice)['all_passed']
         except (CoreError, ValueError, TypeError):
             # These are sealed local methods. An inapplicable method may reject
             # practice inputs, while another current candidate can still fit.
             continue
+        if passed and (candidate_allowed is None or candidate_allowed(method)):
+            return method
     return None
 
 
@@ -68,7 +94,7 @@ def _selection_transferred(records,trial,data):
     except (CoreError,KeyError,TypeError,ValueError):return False
 
 
-def propose(store,method_lesson_id,*,authority):
+def propose(store,method_lesson_id,*,authority,consideration_records=()):
     records=RecordService(store);lesson=store.one('lessons',method_lesson_id)
     if not lesson or lesson['state']!='ACTIVE':raise CoreError('META_VERIFIED_METHOD_LESSON_REQUIRED')
     head=records.read(lesson['record_id']);rule=head['payload']['rule']
@@ -109,11 +135,12 @@ def propose(store,method_lesson_id,*,authority):
         experience_id=service.record(ExperienceInput(context_memory_ids=records.support(head['record_id'])[:32],scope=head['scope'],task_class='learning.strategy',decision='Evaluate practice-filter selection with the unchanged independent heldout checker',result_memory_id=mid,verification_memory_id=verification))
     candidate=candidate.model_copy(update={'experiment_memory_id':mid});lid=uid()
     with store.transaction('learning.strategy_candidate',{'lesson_id':lid}) as tx:
-        rid=records.create(tx,kind='LESSON',scope=head['scope'],payload={'rule':candidate.model_dump(mode='json')},records=(head['record_id'],candidate.trial_record_id,store.one('experiences',experience_id)['record_id']),target_id=key)
+        rid=records.create(tx,kind='LESSON',scope=head['scope'],payload={'rule':candidate.model_dump(mode='json')},
+            records=(head['record_id'],candidate.trial_record_id,store.one('experiences',experience_id)['record_id'],*consideration_records),target_id=key)
         tx.put('lessons',{'lesson_id':lid,'experience_id':experience_id,'record_id':rid,'task_class':'learning.strategy','revision':1,'state':'CANDIDATE','tested_rule_hash':None,'test_event_id':None})
     return lid
 
-def select(store,problem,*,scope,privacy):
+def select(store,problem,*,scope,privacy,candidate_allowed=None):
     records=RecordService(store)
     if not privacy:return None,None
     allowed=tuple(dict.fromkeys(privacy));marks=','.join('?' for _ in allowed)
@@ -133,7 +160,7 @@ def select(store,problem,*,scope,privacy):
         rule=LearningStrategyLesson.model_validate_json(canonical(records.read(head['record_id'])['payload']['rule']))
         if rule.domain!=problem.domain or not all(checks(records,rule).values()):continue
         from ..open_agency.learning import IndependentEvaluator
-        method=_first_passing_hypothesis(problem,IndependentEvaluator())
+        method=_first_passing_hypothesis(problem,IndependentEvaluator(),candidate_allowed=candidate_allowed)
         # The baseline is a comparison, and may not be a valid nomination.
         # Leave the current proposer in charge when this strategy finds no fit.
         return (method,head['record_id']) if method is not None else (None,None)

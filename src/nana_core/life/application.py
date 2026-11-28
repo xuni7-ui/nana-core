@@ -398,7 +398,7 @@ class LifeApplication:
         # or of the truth of its contents; default dialogue remains transient.
         if retain_shared_life and len(supports)<=64:
             from ..continuity.person_self import retain_exchange
-            exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
+            exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports,recipient_context=recipient_context)
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
             # Keep full unanswered details through this render, then restore the
             # existing bounded history excerpts after committing its candidate.

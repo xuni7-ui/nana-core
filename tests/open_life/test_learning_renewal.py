@@ -213,6 +213,16 @@ def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, re
         for parked in ('WAITING', 'RUNNING', 'UNKNOWN', 'CANCELLED'):
             assert not r.work.open_learning._new_verified_gap(
                 {**original, 'state':parked}, failure, spec, 'lab')
+        # The actual recovery entry should not reinstate a suspended method on
+        # the old evidence just because practice labels or duplicate rows change.
+        initial = number_learning()
+        renamed = initial.practice[0].model_copy(update={'case_id':'renamed-practice', 'context':'relabeled'})
+        duplicate = renamed.model_copy(update={'case_id':'duplicate-practice'})
+        r.work.configure_open_learning((initial.model_copy(update={'practice':(renamed, duplicate)}),))
+        send(r, 'check-relabeled-practice', (source,), reflection_experience_id=failure['experience_id'], task_class='numbers')
+        r.drain(32)
+        assert len(jobs(r)) == 1 and r.work.open_learning.strategy('numbers', 'lab') is None
+        r.work.configure_open_learning((spec,))
         # Self-originated reflection: no user command or provider call.
         send(r, 'checked-new-failure', (source,), reflection_experience_id=failure['experience_id'], task_class='numbers')
         r.drain(32)

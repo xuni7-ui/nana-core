@@ -37,9 +37,11 @@ def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample
         (tmp_path/'legacy-sample.json').write_text(json.dumps(stored['sample']))
         assert LanguageSample.model_validate_json(json.dumps(stored['sample'])).candidate_response=='DEPENDENT_RECORD_BODY'
         from nana_core.continuity.lived_language import context
-        projected=context(app.runtime.store,scope=args['scope'],privacy=('PROJECT',),mode='CASUAL')
+        projected=context(app.runtime.store,scope=args['scope'],privacy=('PROJECT',),mode='CASUAL',
+            audience=(args['entity_id'],None))
         assert projected['examples'][0]['candidate_response']==reply[:384]
         assert projected['examples'][0]['candidate_response_truncated'] is True
+        assert not context(app.runtime.store,scope=args['scope'],privacy=('PROJECT',),mode='CASUAL')['examples']
         with pytest.raises(CoreError,match='TURN_MISMATCH'):
             service.record(sample.model_copy(update={'sample_id':'synthetic.wrong-long-review'}),
                 **{**args,'response_sha256':'0'*64})

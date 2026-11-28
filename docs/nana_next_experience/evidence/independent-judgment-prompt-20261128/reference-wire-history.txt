@@ -1,0 +1,3 @@
+OpenAIJSONTransport: 6/6 byte-identical with 8ee2190e when disabled
+AnthropicJSONTransport: 6/6 byte-identical with 8ee2190e when disabled
+synthetic loopback only; real provider calls 0

@@ -113,7 +113,7 @@ class RuntimeProviderFactory:
             except Exception:
                 raise CoreError("SECRET_UNAVAILABLE") from None
         try:
-            from .world_loop.cognition import OpenAIJSONTransport
+            from .world_loop.cognition import INDEPENDENT_JUDGMENT_TAG, OpenAIJSONTransport
             from .world_loop.anthropic import AnthropicJSONTransport
             from .world_loop.semantics import OpenAIMediaTransport
             from .world_loop.semantic_contracts import SemanticDescriptor
@@ -124,7 +124,9 @@ class RuntimeProviderFactory:
                 transport=AnthropicJSONTransport if provider.protocol=='ANTHROPIC' else OpenAIJSONTransport
                 if provider.protocol=='ANTHROPIC':endpoint=provider.base_url+'/messages'
                 return transport(
-                    endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode, token_counter=self.token_counters.get(model.model_profile_id), **kw
+                    endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode,
+                    token_counter=self.token_counters.get(model.model_profile_id),
+                    independent_judgment=INDEPENDENT_JUDGMENT_TAG in model.tags, **kw
                 )
             modality = {"VISION": "IMAGE", "AUDIO_UNDERSTAND": "AUDIO", "VIDEO_UNDERSTAND": "VIDEO"}[operation]
             descriptor = SemanticDescriptor(

@@ -8,31 +8,46 @@ from ...storage import canonical,digest
 from ..records import RecordService
 from .contracts import VoluntaryTerms,RelationalDecision,RelationalRequest,DAY
 from .deliberation import deliberate
-from .projections import personality_tendencies
+from .projections import personality_tendencies, social_capacity_available
 
 
 def review_target_key(commitment_id, revision):
     return 'relational-review.' + digest([commitment_id, revision])
 
 
-def implicit_review_available(store, commitment, *, privacy_classes):
+def deferred_review(store, commitment, *, privacy_classes):
+    """Return the current postponement record and its capacity condition."""
     head = store.db.execute(
         "SELECT * FROM continuity_records WHERE record_kind='SUBJECT_CYCLE' AND target_id=? AND scope=? "
         "ORDER BY created_at_us DESC,rowid DESC LIMIT 1",
         (review_target_key(commitment['commitment_id'], commitment['revision']), commitment['scope']),
     ).fetchone()
     if not head or head['lifecycle'] != 'ACTIVE' or head['privacy_class'] not in privacy_classes:
-        return True
+        return None
     records = RecordService(store)
     if not records.current_support(head['record_id']):
-        return True
+        return None
     cycle = records.read(head['record_id'])['payload']
-    if cycle['judgment']['stance'] != 'DEFER' or cycle['relational_decision']['review_choice'] is not None:
+    decision = cycle['relational_decision']
+    if cycle['judgment']['stance'] != 'DEFER' or decision['review_choice'] is not None:
+        return None
+    return head['record_id'], decision['review_at_us'] is None
+
+
+def implicit_review_available(store, commitment, *, privacy_classes):
+    postponement = deferred_review(store, commitment, privacy_classes=privacy_classes)
+    if postponement is None:
         return True
-    raw_terms = records.read(commitment['record_id'])['payload']['voluntary']
+    raw_terms = RecordService(store).read(commitment['record_id'])['payload']['voluntary']
     terms = VoluntaryTerms.model_validate_json(canonical(raw_terms))
     # An expired restraint still needs the existing END decision.
-    return store.clock.utc_now_us() >= terms.end_us
+    now = store.clock.utc_now_us()
+    if now >= terms.end_us:
+        return True
+    if postponement[1]:
+        # A capacity deferral leaves the next review conditional on capacity.
+        return social_capacity_available(store, scope=commitment['scope'], now_us=now)
+    return False
 
 
 def review_context(store,event,*,privacy_classes):
@@ -60,14 +75,16 @@ def review(store,event,situation,*,privacy_classes,preferred_choice=None,deferre
     context=situation.model_copy(update={'commitment_ids':tuple(c for c in situation.commitment_ids if c!=row['commitment_id'])})
     current=deliberate(store,event.model_copy(update={'relational_request':req}),context,source_record_id=row['record_id'],privacy_classes=privacy_classes,preferred_choice=preferred_choice,deferred=deferred)
     now=store.clock.utc_now_us();traits={f.name:f.assessment for f in personality_tendencies(store,scope=event.scope,privacy_classes=privacy_classes).facets}
-    if deferred and now<terms.end_us and current.response.decision!='DECLINE':
+    capacity_deferred = preferred_choice is None and not situation.social_appetite.available
+    if (deferred or capacity_deferred) and now<terms.end_us and current.response.decision!='DECLINE':
         # Asking/waiting is not a newly adopted change of terms. The original
         # commitment remains bounded/current until an actual later decision.
         return current.model_copy(update={'phase':'REVIEW','review_commitment_id':row['commitment_id'],
-            'review_revision':row['revision'],'review_choice':None,'accepted_duration_us':None,'review_at_us':terms.review_at_us})
+            'review_revision':row['revision'],'review_choice':None,'accepted_duration_us':None,
+            'review_at_us':terms.review_at_us if deferred else None})
     if preferred_choice is not None:
         choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' else 'MODIFY' if current.response.decision=='NEGOTIATE' else 'CONTINUE'
-    else:choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' or not situation.social_appetite.available else 'MODIFY' if current.response.decision=='NEGOTIATE' or (traits['self_direction_sensitivity']=='HIGH' and (situation.social_appetite.state=='SEEKING' or bool(situation.social_appetite.sources_for('SEEKING')))) else 'CONTINUE'
+    else:choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' else 'MODIFY' if current.response.decision=='NEGOTIATE' or (traits['self_direction_sensitivity']=='HIGH' and (situation.social_appetite.state=='SEEKING' or bool(situation.social_appetite.sources_for('SEEKING')))) else 'CONTINUE'
     duration=None if choice=='END' else min(terms.end_us-now,DAY) if choice=='MODIFY' else terms.end_us-now
     response=current.response.model_copy(update={'decision':'DECLINE' if choice=='END' else 'NEGOTIATE' if choice=='MODIFY' else 'ACCEPT',
         'temporal_boundary_us':now+duration if duration else None,'proposed_scope':'TARGETED' if choice=='MODIFY' else terms.accepted_scope})

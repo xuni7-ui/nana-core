@@ -1,0 +1,8 @@
+CPython 3.12.14 / SQLite 3.53.1
+S10, original G, cognition and Runtime from installed source
+Original G after restart: reviewed=False, method=NAIVE_SUM, state=BLOCKED, real_model_calls=0
+.Original G after restart: reviewed=True, method=NUMERIC_SUM, state=DONE, real_model_calls=0
+.S10 transfer comparison: policy=PROPOSER_ONLY, first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, proposer_calls=0, real_model_calls=0
+.S10 transfer comparison: policy=PRACTICE_COMPARE, first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, proposer_calls=0, real_model_calls=0
+..
+5 passed, 31 deselected in 2.16s

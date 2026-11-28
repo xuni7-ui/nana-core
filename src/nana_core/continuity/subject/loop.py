@@ -522,7 +522,7 @@ class SubjectLoop:
                     judgment=judgment.model_copy(update={'stance':'DEFER','reason':'Current C has not adopted new review terms'})
                     intention=Intention(kind='NO_ACTION',purpose='Keep the bounded agreement pending a later considered review',
                         slot_key='quiet',source_ids=situation.memory_ids,self_generated=True,
-                        behavior=_deliberation.proposal.preferred_behavior or 'DEFER')
+                        behavior=(_deliberation.proposal.preferred_behavior if _deliberation else None) or 'DEFER')
             private_question=None;private_plan=None;private_tendency=None;formation=None
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
@@ -558,6 +558,13 @@ class SubjectLoop:
                     else:
                         intention = Intention(kind='WAIT', purpose='Hold the concern pending clarification',
                             slot_key='clarify', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
+            # A platform reply is scoped to the admitted input. An unresolved
+            # earlier reply keeps its own intention and delivery state.
+            if (event.kind == 'INTERACTION' and event.origin == 'USER' and event.surface is not None
+                    and event.realization_target is not None and event.realization_target.capability == 'world.contact'
+                    and event.realization_target.operation == 'CONTACT'
+                    and intention.kind in {'SOCIAL_INTERACTION', 'DISAGREE'}):
+                intention = intention.model_copy(update={'slot_key': 'reply-' + source['subject_event_id']})
             pending = self.pending(event.scope)
             duplicate_slot = any(r['slot_key'] == intention.slot_key for r in pending)
             global_pending = self.store.db.execute(
@@ -732,9 +739,16 @@ class SubjectLoop:
             recorded=self.records.read(source['record_id'])['payload']['input']
             if recorded.get('reflection_experience_id')!=experience_id or not self.records.current_support(row['record_id']):raise CoreError('REFLECTION_INTENTION_MISMATCH')
             if intention['state']=='PENDING':
-                # Proposing the traceable reflection fulfilled thinking; it did
-                # not adopt the proposed lesson, change identity or learn a rule.
+                strategy = None
+                if (self.store.schema_target>=13 and row['state']=='CANDIDATE' and not row['lesson_id']
+                        and source['origin']=='SELF_WAKE' and self.visible(intention['record_id'], source['scope'])):
+                    strategy = service.consider_learning_strategy(row, scope=source['scope'],
+                        privacy_classes=self.privacy_classes, intention_record_id=intention['record_id'])
+                # A traceable proposal fulfills reflection. Independent review
+                # still controls whether a proposed strategy can be used.
                 with self.store.transaction('subject.reflection_intention_completed',{'intention_id':intention_id,'reflection_id':reflection_id,'experience_id':experience_id}) as tx:
+                    if strategy is not None:
+                        tx.update('subject_reflections', reflection_id, lesson_id=strategy, revision=row['revision']+1)
                     tx.update('subject_intentions',intention_id,state='COMPLETED',revision=intention['revision']+1)
         return reflection_id
 

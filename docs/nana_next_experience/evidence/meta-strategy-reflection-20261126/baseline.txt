@@ -1,0 +1,9 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_runtime_owned_reflection_can_propose_a_strategy_for_independent_review __
+tests/open_life/test_meta_learning.py:62: in test_runtime_owned_reflection_can_propose_a_strategy_for_independent_review
+    assert strategy and strategy != method['lesson_id']
+E   assert (None)
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_runtime_owned_reflection_can_propose_a_strategy_for_independent_review
+1 failed, 1 passed, 7 deselected in 0.60s

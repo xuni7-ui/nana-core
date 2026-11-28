@@ -662,7 +662,8 @@ class ContextAssembler:
         if conversation_topic is not None and self.store.schema_target>=13:
             from .lived_language import context as language_context
             for scope in request.scopes:
-                language=language_context(self.store,scope=scope,privacy=privacy,mode='PROJECT' if require_current_state or conversation_topic in {'project','technical'} else 'CASUAL')
+                language=language_context(self.store,scope=scope,privacy=privacy,mode='PROJECT' if require_current_state or conversation_topic in {'project','technical'} else 'CASUAL',
+                    audience=(request.entity_id,recipient_context))
                 refs=language['policy']['source_record_ids']
                 if refs:
                     candidates.append((979.0,ContextBlock(block_id='lived-language:'+scope,kind='LIVED_LANGUAGE',data_json=canonical({'policy':language['policy'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))

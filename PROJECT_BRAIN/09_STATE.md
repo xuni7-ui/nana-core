@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 329,
-  "as_of_us": 1795605531307714,
+  "revision": 353,
+  "as_of_us": 1795845413515030,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
-    "固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。",
-    "固定3255024 Core/BFF/Web/NanaLink候选cda5008。独立下载30项、两槽同主体停机回退、安装帧专项2项及侧车36回环通过。",
-    "B站帧的证据、原Memory及来源关联同事务写入，中断无游离证据，重放可读并有同源撤回；72相关与1专项通过。",
-    "连接器管理在写入后只接受该次之后的成功状态读取；迟到的旧读取不能解锁控件。105单测与16浏览器用例通过，实测一次写入。",
-    "B站故事板新增原回执时间与PNG字节绑定。帧掉包在任何写入前拒绝，旧帧只读回用；39定向和旧主体重开通过。",
-    "合入NanaLink手机视口恢复：回执不明可显式核对暂停，查询未成功时隐藏后续管理操作。105单测、7浏览器场景、TS/Vite及同源CI通过。",
-    "原C图片菜单复用发送前的观察资格：被取代的图不再显示为可选，新独立来源仍可选。37项相关通过。",
-    "原NanaLink合入PR36：QQ宿主账号/回执绑定、断开UNKNOWN、B站私读复核及旧图片观察拒绝，关联原主体。192整链、27闭包和同源CI通过。"
+    "984d3cdc同源Core 313文件，独立槽离线安装和预检通过，实际安装S10反思、反例回避重启撤回及提示启停5项通过，实际模型0。",
+    "S10原G遇匹配迁移反例后继续挑选练习候选。同主体重启后两种策略分别从1次普通提名降到0，仍独立通过留出及迁移，撤回有效，77相关通过。",
+    "核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。",
+    "原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。",
+    "27ce43f4同源Core双槽离线安装、身份迁移及来源撤回通过，BFF十视图和笔记纠错重启撤回通过，范围补验5及UNKNOWN契约4通过，模型0。",
+    "记忆用法先按原收件范围筛选再取限额。256条异范围意见不再遮住同一主体重启后的旧偏好，43相关通过，旧本地入站锚另补验。",
+    "表达学习同范围反例撤回后恢复原合资格方式，撤回一项支持后同主体重启回到基线，16定向及同源安装2项通过。",
+    "4e678abb同源Core含平台能力313文件，独立槽离线安装和预检后，反馈范围关键6项从安装模块通过，实际模型0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -29,20 +29,69 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409。3255024同源候选软件编译、离线安装回退及APK验签通过。新调试签名无法覆盖历史调试包；真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。"
+    "CURRENT266+409。3255024同源候选软件编译、离线安装回退及APK验签通过。新调试签名无法覆盖历史调试包；真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。",
+    "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
-    "docs/nana_next_experience/evidence/android-3255024-20261125/README.md",
-    "docs/nana_next_experience/evidence/integrated-3255024-20261125/README.md",
-    "docs/nana_next_experience/evidence/bilibili-frame-atomic-source-20261125/README.md",
-    "docs/nana_next_experience/evidence/nanalink-status-read-order-20261125/README.md",
-    "docs/nana_next_experience/evidence/bilibili-storyboard-byte-binding-20261125/README.md",
-    "docs/nana_next_experience/evidence/nanalink-phone-recovery-20261125/README.md",
-    "docs/nana_next_experience/evidence/current-image-offering-20261125/README.md",
-    "docs/nana_next_experience/evidence/nanalink-safeguards-integration-20261125/README.md"
+    "docs/nana_next_experience/evidence/meta-strategy-next-practice-20261128/README.md",
+    "docs/nana_next_experience/evidence/independent-judgment-prompt-20261128/README.md",
+    "docs/nana_next_experience/evidence/memory-feedback-window-20261128/README.md",
+    "docs/nana_next_experience/evidence/expression-review-recipient-20261128/README.md",
+    "docs/nana_next_experience/evidence/memory-feedback-recipient-20261128/README.md",
+    "docs/nana_next_experience/evidence/feedback-readback-renewal-20261126/README.md",
+    "docs/nana_next_experience/evidence/qq-feedback-independent-reply-20261126/README.md",
+    "docs/nana_next_experience/evidence/core-continuity-review-install-20261126/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision353 安装构建回执指纹锚：`9e8f0ceb77b509b50d3d4b3851a5836430234ef110b630056466fa76a19e9575`。 附安装回执后的源码与证据清单指纹锚 `7e6162a37a073786443df0da085fb1000dc71d864c276c73c4d5fc6147c04bb3`。
+
+A revision352 证据指纹锚：`edbcb503449aa3877cd71a21f6624171095c057447b611b78253c211228ea8ef`。
+
+A revision351 证据指纹锚：`df0c2a47b93ad430e9f64f707364675ce454db0108ea13229a51515e1700987a`。
+
+A revision350 证据指纹锚：`4a1c78cee59f1f67dd44d012bf635b992b72bdcb9b218594c4ea2ced24c6deec`。分词回执以可入库名称补齐。
+
+A revision349 证据指纹锚：`52466493a359c4ecf7275ce3d2b44e16fe953322355759ffd2d5a6da2823fa1a`。
+
+A revision348 安装构建回执指纹锚：`05e2e9ef9e451d5cad208812705183a65c1a5454191d69360d7b9f5dd6660dea`。
+
+A revision347 证据指纹锚：`41c39ae3a8063f18ead8a9e532a92a20b884937e71bda63c602f5b18ffaae47c`。
+
+A revision346 证据指纹锚：`e4e4ba096c5bc7e6b46592a12e898f6e81d99db63b28c20081a3fecdd6985daa`。
+
+A revision345 安装构建回执指纹锚：`7887d83071bd70a39e6bfe38f6a845232433dbe527725f02b6c3b8e87964608b`。
+
+A revision344 证据指纹锚：`6b76e08d0bc92c673a556ab3a02455687283bde6e4655c4954eb39b0c7efc75f`。
+
+A revision343 证据指纹锚：`0c94e6a0775d69add0b3727ea176fbf1f641764f9ec8a12fd8599fd01aa36704`。
+
+A revision342 安装构建回执指纹锚：`ba7eba5a6ca95b68a17c5706bef1c52d3b7abb2ae9394e50dfb8386760f161d9`。
+
+A revision341 证据指纹锚：`e74224518c957ca3db32bfcf4d5fc925caf698dff60d3ead69f3d7615bef42a6`。
+
+A revision340 证据指纹锚：`4638a623c28be5c4ce296854ab2aa933701822985cdacd84e5b5a816ef4d164a`。
+
+A revision339 安装构建回执指纹锚：`d772ac0c16dc9366b2e2e8859f221760ca117cfde8d119450177084e2ba48526`。
+
+A revision338 证据指纹锚：`1a6d6c7cdd25f9662a28d2feb5ba417178a8c2a2486b9b7e46b355f1427b07de`。
+
+A revision337 证据指纹锚：`1df38551b5522964a2302e403f76da0fa10472f04b48ce464cc5aab376dd4769`。
+
+A revision336 证据指纹锚：`0be5d9eb78985b5d529bfee12249d36f7f3ae8e310e6dcb1cddfb6b9211d7478`。
+
+A revision335 安装构建回执指纹锚：`a1e712ed6818df1687fcec2fef612ec51aa45a1d12e98722a901f86c85baf300`。
+
+A revision334 证据指纹锚：`184ac13ca505aee28df62bf71139058857197036843e3d069e81220f06595deb`。
+
+A revision333 安装构建回执指纹锚：`1f4fb603decc6f24ad7a2e3ce2033783ec570415e874a1db551cd7ba98eb6d5b`。
+
+A revision332 证据指纹锚：`06c037f7aef1bbb6bd751dbea4d9025a64c6375368979c16bbb4c4d3a1046c1c`。
+
+A revision331 证据指纹锚：`1e31b2ed9ebb09b32c7df6c3cb73b9e6463ac534473a8a35246624b07e9f0d38`。
+
+A revision330 证据指纹锚：`784df7292630bda5d41d974d7e92dc2827380f53e8c36f15d761f87fcf266a2e`。
 
 A revision329 证据指纹锚：`2f882909a51c8f76d205addef45f03258ca821b2969d7a5324e13eadd637a74b`。
 

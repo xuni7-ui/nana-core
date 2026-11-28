@@ -1,0 +1,17 @@
+.....................................FF................................. [ 75%]
+........................                                                 [100%]
+=================================== FAILURES ===================================
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii] _
+tests/person_self/test_long_feedback_binding.py:41: in test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample
+    assert projected['examples'][0]['candidate_response']==reply[:384]
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode] _
+tests/person_self/test_long_feedback_binding.py:41: in test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample
+    assert projected['examples'][0]['candidate_response']==reply[:384]
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+=========================== short test summary info ============================
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii]
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode]
+2 failed, 94 passed in 63.05s (0:01:03)

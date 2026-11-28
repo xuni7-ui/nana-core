@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_temporary_load_defers_an_implicit_review_until_capacity_returns _____
+tests/person_self/test_relational_cognitive_choice.py:291: in test_temporary_load_defers_an_implicit_review_until_capacity_returns
+    assert cycle.intention.kind=='EXPLORE' and cycle.intention_id
+E   AssertionError: assert ('NO_ACTION' == 'EXPLORE'
+E
+E     - EXPLORE
+E     + NO_ACTION)
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_temporary_load_defers_an_implicit_review_until_capacity_returns
+1 failed, 18 deselected in 0.19s

@@ -1,0 +1,11 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_renewed_failure_relearns_once_then_transfers_after_restart ________
+tests/open_life/test_learning_renewal.py:224: in test_renewed_failure_relearns_once_then_transfers_after_restart
+    assert len(jobs(r)) == 1 and r.work.open_learning.strategy('numbers', 'lab') is None
+E   assert (2 == 1)
+E    +  where 2 = len([<sqlite3.Row object at 0x7f9a02c715a0>, <sqlite3.Row object at 0x7f9a02c70ca0>])
+E    +    where [<sqlite3.Row object at 0x7f9a02c715a0>, <sqlite3.Row object at 0x7f9a02c70ca0>] = jobs(<nana_core.presence.runtime.NanaRuntime object at 0x7f9a02ef2d20>)
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_renewed_failure_relearns_once_then_transfers_after_restart
+1 failed, 6 deselected in 0.68s

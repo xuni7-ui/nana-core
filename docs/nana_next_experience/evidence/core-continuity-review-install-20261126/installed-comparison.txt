@@ -1,0 +1,9 @@
+Loaded from installed archive: /dev/shm/nana-v338/installed/src/nana_core/continuity/open_life/meta_learning.py
+Loaded from installed archive: /dev/shm/nana-v338/installed/src/nana_core/continuity/relational/accommodation.py
+Loaded from installed archive: /dev/shm/nana-v338/installed/src/nana_core/continuity/subject/watch.py
+Installed preflight passed 3.12.14 3.53.1
+Original G after restart: reviewed=False, method=NAIVE_SUM, state=BLOCKED, real_model_calls=0
+.Original G after restart: reviewed=True, method=NUMERIC_SUM, state=DONE, real_model_calls=0
+..S10 transfer comparison: first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, real_model_calls=0
+......
+9 passed, 23 deselected in 1.98s

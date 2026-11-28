@@ -1,0 +1,3 @@
+ce7d89f1b50046030948b94ea9d1fb1642b2919934a622a1a7a9afedbd34458d  src/nana_core/continuity/autonomy/private_intent.py
+ef6859a626c2e1e5d1d46eaa7cf0bb9a2342ed4814ec2a7d30e6ba3303551358  tests/living_release_v4/test_platform_runtime.py
+2795f40ed441954ad5ff9461e80fb9843f94e59a3da2b7ca1aefe227ba6ef8f7  manifests/nanalink-01.sha256

@@ -1,0 +1,5 @@
+{"repeated_practice_checks": 0, "original_self_calls": 1, "relabeled_practice": false, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "relabeled_practice": false, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.{"repeated_practice_checks": 32, "original_self_calls": 1, "relabeled_practice": true, "independent_transfer_selected": true, "own_questions": 1, "real_provider_calls": 0}
+.
+3 passed, 5 deselected in 2.41s

@@ -216,7 +216,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         personal=project(view,entity_id=entity_id,scope=scope,privacy=privacy)
         summary=compact(personal)
         summary['recent_exchanges']=[]  # Inspector never becomes a transcript reader.
-        summary['learned_expression']=expression_policy(view,scope=scope,privacy=privacy,mode='CASUAL')
+        summary['learned_expression']=expression_policy(view,scope=scope,privacy=privacy,mode='CASUAL',audience=(entity_id,None))
         summary['source_record_ids']=personal['source_record_ids']
         from ..continuity.open_life.projections import advanced_view
         from ..continuity.open_life.opportunities import projection

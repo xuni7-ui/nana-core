@@ -1,0 +1,34 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_delivered_method_opinion_changes_later_c_choice_after_restart[unknown] __
+tests/living_release_v4/test_platform_runtime.py:357: in test_delivered_method_opinion_changes_later_c_choice_after_restart
+    assert next_turn['text'] == ('SYNTHETIC short chat' if confirmed else 'SYNTHETIC listening')
+E   AssertionError: assert '这次暂时无法生成回复，请查看模型状态。' == 'SYNTHETIC listening'
+E
+E     - SYNTHETIC listening
+E     + 这次暂时无法生成回复，请查看模型状态。
+----------------------------- Captured stderr call -----------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 54154)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-next-refinement-work/tests/independent_life/test_dialogue.py", line 31, in do_POST
+    elif role=='SOCIAL':proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+                                                  ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tests/living_release_v4/test_platform_runtime.py", line 322, in wording
+    choice = request['role_input']['dialogue']['communication_purpose']['choice']
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'choice'
+----------------------------------------
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_delivered_method_opinion_changes_later_c_choice_after_restart[unknown]
+1 failed, 1 passed, 20 deselected in 3.30s

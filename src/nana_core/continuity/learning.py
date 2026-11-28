@@ -17,7 +17,7 @@ from ..storage import canonical, digest, uid
 from .contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
 from .records import RecordService
 from .subject.social import InteractionRule,propose_social
-from .lived_language import ExpressionFeedbackCheck, ExpressionRule, sample_from_memory, learnable, report_matches
+from .lived_language import ExpressionFeedbackCheck, ExpressionRule, expression_qualification, sample_from_memory, report_matches
 from .autonomy.experience import DispositionQualityCheck,DispositionRule,disposition_fact,lesson_method,ConsequenceObservation
 
 
@@ -291,9 +291,10 @@ class ExperienceService:
             compiler_version='C_DISPOSITION_REVIEW_v1'
         elif isinstance(rule,ExpressionRule):
             head=self.records.read(row['record_id'])
-            q=learnable(self.store,head['scope'],('PUBLIC','PROJECT','PERSONAL','SECRET'))
+            verification=self.get(row['experience_id']).verification
+            q=expression_qualification(self.records,verification,scope=head['scope'],privacy=('PUBLIC','PROJECT','PERSONAL','SECRET'))
             origin=sample_from_memory(self.store,self.records.memory.read(self.store.one('experiences',row['experience_id'])['result_memory_id'])).provenance
-            checks={'two_distinct_review_occurrences':q['eligible'],'evidence_origin_matches':origin==q['evidence_level'],'no_counterexample':not q['counter_records'],'context_limited':rule.mode=='CASUAL','no_fixed_utterance':rule.fixed_utterance is None,'judgment_unchanged':not rule.changes_judgment,'no_authority':not rule.grants_authority}
+            checks={'two_distinct_review_occurrences':bool(q and q['eligible']),'evidence_origin_matches':bool(q and origin==q['evidence_level']),'no_counterexample':bool(q and not q['counter_records']),'context_limited':rule.mode=='CASUAL','no_fixed_utterance':rule.fixed_utterance is None,'judgment_unchanged':not rule.changes_judgment,'no_authority':not rule.grants_authority}
             compiler_version='CONTEXTUAL_EXPRESSION_HYPOTHESIS_V1'
         elif isinstance(rule,InteractionRule):
             baseline=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),last_act='TEASE')
@@ -335,7 +336,11 @@ class ExperienceService:
             raise CoreError("LESSON_SUPPORT_REQUIRES_REVIEW")
         rule = self._rule(row)
         test = json.loads(self.store.event(row["test_event_id"])["data_json"])["data"]
-        if isinstance(rule,ExpressionRule) and not learnable(self.store,self.records.read(row['record_id'])['scope'],('PUBLIC','PROJECT','PERSONAL','SECRET'))['eligible']:raise CoreError('EXPRESSION_LESSON_REQUIRES_REVIEW')
+        if isinstance(rule,ExpressionRule):
+            verification=self.get(row['experience_id']).verification
+            q=expression_qualification(self.records,verification,scope=self.records.read(row['record_id'])['scope'],
+                privacy=('PUBLIC','PROJECT','PERSONAL','SECRET'))
+            if not q or not q['eligible']:raise CoreError('EXPRESSION_LESSON_REQUIRES_REVIEW')
         if row["tested_rule_hash"] != digest(rule.model_dump()) or not all(test["checks"].values()):
             raise CoreError("STALE_LESSON_EVALUATION")
         with self.store.transaction("self.lesson_activated") as tx:

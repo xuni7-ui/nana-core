@@ -44,7 +44,7 @@ def project(store,assessment_id,*,scope,privacy_classes,_training_contexts=None)
     trial=records.read(rule['trial_record_id'])['payload'];case=review['episode']['case']
     training={x['input_digest'] for stage in trial['results'].values() for x in stage['cases']}
     if digest(case['data']) in training:
-        if _training_contexts is not None:_training_contexts.add((row['lesson_id'],row['context_digest']))
+        if _training_contexts is not None:_training_contexts[row['lesson_id'],row['context_digest']]=training
         return None
     if not review['result']['all_passed']:return None
     # The published reuse observation must be independently verified, not a user
@@ -127,7 +127,7 @@ def opportunities(store,*,scope,privacy_classes):
                 (*args,lesson_head['lesson_id'])).fetchone()
             if extra:heads.append(extra)
     qualified=[];best_keys={}
-    training_contexts=set()  # Per-read only; context_digest already binds case context/data.
+    training_contexts={}  # Per-read only; context_digest already binds case context/data.
     for head in heads:
         best=best_keys.get(head['lesson_id'])
         # The head bounds every occurrence in its context. Once it cannot beat
@@ -144,6 +144,23 @@ def opportunities(store,*,scope,privacy_classes):
                 best_keys[head['lesson_id']]=max(best_keys.get(head['lesson_id'],key),key)
                 qualified.append((*key,view));break
             if (head['lesson_id'],head['context_digest']) in training_contexts:break
+    if len(heads)>=32:
+        # Only revisit lessons whose candidates included the original trial
+        # inputs but yielded no current growth. Apply the existing bound to
+        # potentially novel inputs despite arbitrary labels on known practice.
+        missed={lesson_id:inputs for (lesson_id,_),inputs in training_contexts.items() if lesson_id not in best_keys}
+        for lesson_id,inputs in missed.items():
+            slots=','.join('?' for _ in inputs)
+            rows=store.db.execute(base+"AND a.lesson_id=? AND EXISTS ("
+                "SELECT 1 FROM artifacts ep WHERE ep.artifact_id=ar.payload_artifact_id "
+                "AND CASE WHEN json_valid(CAST(ep.payload AS TEXT)) "
+                "THEN json_extract(CAST(ep.payload AS TEXT),'$.result.cases[0].input_digest') END "
+                f"NOT IN ({slots})) ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32",
+                (*args,lesson_id,*sorted(inputs)))
+            for row in rows:
+                view=project(store,row['assessment_id'],scope=scope,privacy_classes=privacy_classes)
+                if view:
+                    qualified.append((row['created_at_us'],row['ordering_row'],view));break
     # Preserve the newest qualified occurrence per lesson, not the order of an
     # unqualified group head. No record, evaluation or source is merged/deleted.
     result=[];lessons=set()

@@ -343,20 +343,15 @@ def continuation_target(store,reference,*,scope,privacy_classes):
     return rid,item
 
 
-def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,reference=None):
-    """One exact method opinion may inform an own tendency, including its birth.
-
-    Read only: the existing Experience remains the queue cause. This is an
-    opportunity to reconsider, never a verdict about emotion or a learned trait.
-    """
-    if store.schema_target<13:return None
-    row=store.one('experiences',experience_id);records=RecordService(store)
+def _feedback_review(records,experience_id,*,scope,entity_id,privacy_classes):
+    store=records.store
+    row=store.one('experiences',experience_id)
     if not row or row['task_class']!='interaction.expression':return None
     head=store.one('continuity_records',row['record_id'])
     if not head or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE' or not records.current_support(head['record_id']):return None
     verification=store.one('memories',row['verification_memory_id'])
     if not verification or verification['scope']!=scope or verification['privacy_class'] not in privacy_classes:return None
-    from ..lived_language import ExpressionFeedbackCheck,communication_feedback
+    from ..lived_language import ExpressionFeedbackCheck
     try:check=ExpressionFeedbackCheck.model_validate_json(records.memory.read(row['verification_memory_id'])['text'])
     except ValueError:return None
     if check.result_memory_id!=row['result_memory_id']:return None
@@ -364,6 +359,23 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     if not review or review['scope']!=scope or review['privacy_class'] not in privacy_classes or review['lifecycle']!='ACTIVE' or not records.current_support(review['record_id']):return None
     data=records.read(review['record_id'])['payload'];binding=data.get('communication_attribution')
     if data.get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or not binding or binding['entity_id']!=entity_id:return None
+    return head,review,data
+
+
+def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,reference=None):
+    """One exact method opinion may inform an own tendency, including its birth.
+
+    Read only: the existing Experience remains the queue cause. This is an
+    opportunity to reconsider, never a verdict about emotion or a learned trait.
+    """
+    if store.schema_target<13:return None
+    records=RecordService(store)
+    scope_args=dict(scope=scope,entity_id=entity_id,privacy_classes=privacy_classes)
+    current=_feedback_review(records,experience_id,**scope_args)
+    if current is None:return None
+    head,review,data=current
+    binding=data['communication_attribution']
+    from ..lived_language import communication_feedback
     arguments=dict(scope=scope,entity_id=entity_id,topic=binding['topic'],recipient_context=binding['recipient_context'])
     opinion=communication_feedback(store,**arguments,privacy=privacy_classes)
     if not opinion:return None
@@ -371,8 +383,13 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
         sample=payload['sample'];attribution=payload.get('communication_attribution')
         return [sample['review_target'],attribution['reviewed_choice'] if attribution else None,
             sample['human_judgment'],sample['reason_tags'],sample['exact_feedback'],sample['provenance']]
+    def readback(payload):
+        proof=payload.get('delivery_attribution')
+        if proof and proof['state']=='INDEPENDENT_PLATFORM_READBACK':return proof['origin'],proof['action_id']
+        return None
     latest=records.read(opinion['review_record_id'])['payload']
-    if opinion_meaning(latest)!=opinion_meaning(data):return None
+    delivery=readback(data)
+    if opinion_meaning(latest)!=opinion_meaning(data) or readback(latest)!=delivery:return None
     from ..subject.context_fit import communication_strategy_projection
     from ...life.dialogue_contracts import CommunicationStrategy
     strategy=communication_strategy_projection(store,**arguments,privacy_classes=privacy_classes)
@@ -398,6 +415,16 @@ def feedback_continuation(store,experience_id,*,scope,entity_id,privacy_classes,
     # Aliases of the same exact opinion on the same turn are not new
     # conditions. The record remains a dependency, not an identity key.
     key='private-feedback.'+digest([store.identity['identity_id'],dedupe_support_id,*opinion_meaning(data)])
+    if delivery:
+        previous=store.db.execute('SELECT template_json FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()
+        if previous:
+            previous_id=json.loads(previous[0]).get('input',{}).get('reflection_experience_id')
+            scheduled=_feedback_review(records,previous_id,**scope_args) if previous_id else None
+            # Preserve existing keys for the first offer and for earlier
+            # verified offers. A scheduled local-only opinion can gain a new
+            # opportunity when the same turn gains independent evidence.
+            if scheduled and readback(scheduled[2]) is None:
+                key='private-feedback.'+digest([key,delivery])
     return {'reference':target,'key':key,'record_ids':tuple(dict.fromkeys((head['record_id'],review['record_id'],opinion['review_record_id'],opinion['record_id'],strategy['record_id']))),
         'memory_ids':tuple(dict.fromkeys((*records.support(head['record_id']),*records.support(support_id),*records.support(opinion['review_record_id']))))}
 

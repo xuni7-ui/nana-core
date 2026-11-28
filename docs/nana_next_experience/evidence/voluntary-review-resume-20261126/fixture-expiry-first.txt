@@ -1,0 +1,14 @@
+....................F................................................... [ 91%]
+.......                                                                  [100%]
+=================================== FAILURES ===================================
+______ test_load_deferral_reoffers_a_review_at_capacity_or_expiry[expiry] ______
+tests/person_self/test_relational_cognitive_choice.py:330: in test_load_deferral_reoffers_a_review_at_capacity_or_expiry
+    r.refresh_attention()
+src/nana_core/presence/runtime.py:199: in refresh_attention
+    self.lease.assert_current()
+src/nana_core/presence/authority.py:110: in assert_current
+    raise CoreError("RUNTIME_LEASE_LOST")
+E   nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+=========================== short test summary info ============================
+FAILED tests/person_self/test_relational_cognitive_choice.py::test_load_deferral_reoffers_a_review_at_capacity_or_expiry[expiry]
+1 failed, 78 passed in 11.37s
