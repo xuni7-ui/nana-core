@@ -73,7 +73,7 @@ def _bounded_model_context(context, subtitle_cues=(), matching_cues=0, limit=160
     if len(text)<=limit:return text,False
     kept=('video_duration_seconds','target_range_seconds','coverage','unobserved_intervals',
           'outside_requested_intervals','subtitle_state','transcript_state','transcript_timeline_basis',
-          'transcript_processed_window','transcript_truncated','errors','warnings')
+          'transcript_processed_window','transcript_truncated','audio_timeline','errors','warnings')
     compact={key:context[key] for key in kept}
     if subtitle_cues:
         compact['subtitle_cues_overlapping_sampled_frames']=subtitle_cues
@@ -362,8 +362,16 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                       'deadline_exceeded':elapsed>max_runtime_seconds},
             'meaning':'local technical cues only; not semantic understanding or source authorization'}
     if model_content:
+        audio_timeline={key:audio[key] for key in (
+            'state','coverage_state','requested_window','timeline_basis','open_silence_start','meaning'
+        ) if key in audio}
+        for key in ('measured_intervals','silence_intervals'):
+            if key in audio:
+                audio_timeline[key]=audio[key][:12]
+                audio_timeline[f'{key}_omitted']=max(0,len(audio[key])-12)
         context={'question':question,'video_duration_seconds':duration,'target_range_seconds':(start,end),
                  'coverage':result['coverage'],'unobserved_intervals':gaps,'outside_requested_intervals':outside,
+                 'audio_timeline':audio_timeline,
                  'subtitle_state':subtitles['state'],'subtitles_full_track':subtitles.get('text'),
                  'transcript_state':transcript['state'],'transcript':transcript.get('text'),
                  'transcript_words':transcript.get('words'),'transcript_timeline_basis':transcript.get('timeline_basis'),

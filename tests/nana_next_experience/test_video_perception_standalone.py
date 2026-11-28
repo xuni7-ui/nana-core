@@ -1,4 +1,5 @@
 """Real local FFmpeg fixtures; no Nana Core, accounts or model calls."""
+import json
 import shutil
 import subprocess
 
@@ -22,13 +23,18 @@ def test_short_video_scene_subtitle_audio_and_target_range(tmp_path):
         '-filter_complex',"[0:v]drawbox=x=0:y=0:w=80:h=45:color=white:t=fill:enable='between(t,4,4.5)'[v]",
         '-map','[v]','-map','1:a','-map','2:s','-c:v','mpeg4','-c:a','aac','-c:s','mov_text',
         '-threads','1','-y',str(video)],check=True,timeout=30)
-    result=perceive_video(video,time_range=(3.5,5),frame_budget=3,question='what changed?',max_runtime_seconds=60)
+    result=perceive_video(video,time_range=(3.5,5),frame_budget=3,question='what changed?',
+                          max_runtime_seconds=60,model_content=True)
     assert 1<=len(result['frames'])<=3
     assert any(4<=frame['time_seconds']<4.5 for frame in result['frames'])
     assert all(3.5<=f['time_seconds']<5 and Image.open(io.BytesIO(f['png'])).size==(160,90) for f in result['frames'])
     assert result['subtitles']['state']=='AVAILABLE_FULL_TRACK_NOT_RANGE_FILTERED'
     assert 'synthetic caption' in result['subtitles']['text']
     assert result['audio']['state']=='MEASURED' and result['transcript']['state']=='NOT_RUN_NO_TRANSCRIBER'
+    context=json.loads(result['model_content']['items'][0]['text'].split('\n',1)[1])
+    assert context['audio_timeline']['requested_window']==[3.5,5]
+    assert context['audio_timeline']['measured_intervals']
+    assert context['audio_timeline']['timeline_basis']=='FFMPEG_NORMALIZED_CALLER_MUST_VERIFY'
     assert result['question']=='what changed?' and result['unobserved_intervals']
     assert result['outside_requested_intervals']==[(0.0,3.5),(5.0,8.0)]
     assert result['question_use']=='LITERAL_TEXT_OR_EXPLICIT_TIMESTAMP_ONLY'
@@ -65,7 +71,6 @@ def test_external_transcription_is_explicit_and_failure_is_visible(tmp_path):
 
 
 def test_long_transcript_keeps_model_context_valid_and_status_visible(tmp_path):
-    import json
     video=tmp_path/'long-text.mp4'
     subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=2:d=2',
                     '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=20)
@@ -79,6 +84,7 @@ def test_long_transcript_keeps_model_context_valid_and_status_visible(tmp_path):
     assert context['coverage']==result['coverage']
     assert context['unobserved_intervals']==[list(gap) for gap in result['unobserved_intervals']]
     assert context['transcript_state']=='CALLER_TRANSCRIBER_UNVERIFIED'
+    assert context['audio_timeline']['state']=='NO_AUDIO'
     assert context['errors']==result['errors'] and context['warnings']==result['warnings']
     assert context['transcript_excerpt'].startswith('START ')
     assert context['transcript_excerpt'].endswith(' END')
@@ -88,7 +94,6 @@ def test_long_transcript_keeps_model_context_valid_and_status_visible(tmp_path):
 
 
 def test_long_subtitles_include_cue_for_selected_middle_frame(tmp_path):
-    import json
     subtitle=tmp_path/'long.srt';video=tmp_path/'long-subtitle.mp4'
     def stamp(i):return f'00:{i//60:02}:{i%60:02},000'
     subtitle.write_text(''.join(f'{i+1}\n{stamp(i)} --> {stamp(i+1)}\n'+
