@@ -1,0 +1,7 @@
+CPython 3.12.14 / SQLite 3.53.1
+Core S10 reflection and Runtime loaded from installed source
+prior=CANDIDATE, interrupted=False, renewed after restart and independently reviewed, real_model_calls=0
+.prior=ACTIVE, interrupted=False, renewed after restart and independently reviewed, real_model_calls=0
+.prior=ACTIVE, interrupted=True, renewed after restart and independently reviewed, real_model_calls=0
+....
+6 passed, 12 deselected in 0.95s
