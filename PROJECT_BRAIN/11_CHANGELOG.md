@@ -4509,3 +4509,5 @@ A cfd11be 已继承PR18；B站视频历史在原隐私/作用域筛选后再限�
 - 2026-11-28 CST｜revision349。[实测] 原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。 证据锚 `52466493a359c4ecf7275ce3d2b44e16fe953322355759ffd2d5a6da2823fa1a`。
 
 - 2026-11-28 CST｜revision350。[实测] 同一提示的本地分词数值回执及可复核路径补齐。证据锚 `4a1c78cee59f1f67dd44d012bf635b992b72bdcb9b218594c4ea2ced24c6deec`。
+
+- 2026-11-28 CST｜revision351。[实测] 核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。 证据锚 `df0c2a47b93ad430e9f64f707364675ce454db0108ea13229a51515e1700987a`。

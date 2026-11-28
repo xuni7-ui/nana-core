@@ -1,3 +1,9 @@
+## 当前接续 外部提示插件源码与透传验证 revision351
+
+核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。
+
+原S1–S10继续。S10已定位反例当前会让原G直接回退普通提名，下一用真实受控反例验证是否可由原策略试下一个练习候选。 [本批证据](evidence/independent-judgment-prompt-20261128/README.md)
+
 ## 当前接续 模型档案的独立判断提示 revision350
 
 原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。

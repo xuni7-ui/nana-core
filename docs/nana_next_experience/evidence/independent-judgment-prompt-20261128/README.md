@@ -15,3 +15,9 @@ S3/S6/S7 Advanced，继承原主任务。复用现有 Provider 模型档案、�
 三组等内容请求用公开 `o200k_base` 在本地分词。INTERPRET 增量 0，SOCIAL 每次增加 85 个消息内容 Token 及 506 个请求字节，两种口径分别记录。真实模型调用为 0。受控回复由确定性夹具返回，真实表达独立性、自然度、推理质量、误拒答率和供应商计费仍待。环境对所尝试的开源模型权重来源返回 403，未引入运行依赖。 [计量](request-accounting.json) · [分词器](https://github.com/niieani/gpt-tokenizer)
 
 最终 65 项定向回归通过，覆盖原会话、私人倾向、模型路由、原生协议和预算边界。 [结果](current.txt)
+
+## 外部破甲插件源码对照
+
+AstrBot 破甲装甲直接使用模型请求钩子，按会话配置启停，同一请求以标记防止重复注入。TRPG 插件则按活动角色卡读取设置。保留 Nana 已有的分模型开关、一次请求序列化和原 C 的身份来源。 [AstrBot 破甲装甲](https://github.com/kianakaslana20/astrbot_plugin_pojia/blob/main/main.py#L164-L188) · [请求钩子](https://github.com/kianakaslana20/astrbot_plugin_pojia/blob/main/main.py#L424-L446) · [TRPG 角色卡钩子](https://github.com/Ortfine/astrbot_plugin_trpg/blob/main/main.py#L1226-L1250)
+
+DSH 内核将关闭和不支持协议设为透传。SillyTavern 在提示管理器检查会话角色范围，然后由原请求预算计量。沿用这些工程做法补齐原始请求字节对照。固定同一真实组装出的合成请求，关闭后 OpenAI-compatible 和 Anthropic Messages 分别 6/6 与插件加入前的 `8ee2190e` 完整请求体逐字节相同。启用时 INTERPRET 逐字节相同，SOCIAL 完整请求仅多一段既有提示，重复序列化仍只附加一次。供应商拒绝沿原协议，组件默认关闭。 [DSH 内核](https://github.com/xqpsec/dsh-jailbreak/blob/main/lib/kernel.js#L175-L193) · [SillyTavern 提示选择](https://github.com/SillyTavern/SillyTavern/blob/release/public/scripts/openai.js#L1505-L1512) · [历史序列化对照](reference-wire-history.txt) · [本次定向](reference-wire-regression.txt)

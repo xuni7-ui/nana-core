@@ -110,7 +110,28 @@ def test_independent_judgment_is_opt_in_per_model_and_preserves_original_dialogu
         assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions')
 
         from nana_core.continuity.world_loop.anthropic import AnthropicJSONTransport
-        from nana_core.continuity.world_loop.cognition import CognitionRequest
+        from nana_core.continuity.world_loop.cognition import CognitionRequest, OpenAIJSONTransport
+        from nana_core.storage import canonical
+
+        endpoint='http://127.0.0.1:1/v1/chat/completions'
+        baseline=OpenAIJSONTransport(endpoint,model.remote_model_id,harness=True)
+        enabled=OpenAIJSONTransport(endpoint,model.remote_model_id,harness=True,independent_judgment=True)
+        disabled=OpenAIJSONTransport(endpoint,model.remote_model_id,harness=True,independent_judgment=False)
+        for data in requests[:6]:
+            request=CognitionRequest.model_validate_json(json.dumps(data))
+            baseline_bytes=baseline.request_body(request)
+            assert disabled.request_body(request)==baseline_bytes
+            enabled_bytes=enabled.request_body(request)
+            if request.cognitive_role=='INTERPRET':
+                assert enabled_bytes==baseline_bytes
+                continue
+            assert enabled.request_body(request)==enabled_bytes
+            body=json.loads(enabled_bytes)
+            added='\n'+INDEPENDENT_JUDGMENT_PROMPT
+            assert body['messages'][0]['content'].endswith(added)
+            body['messages'][0]['content']=body['messages'][0]['content'].removesuffix(added)
+            assert canonical(body).encode()==baseline_bytes
+
         native=AnthropicJSONTransport('https://native.example/v1/messages',model.remote_model_id,independent_judgment=True)
         request=CognitionRequest.model_validate_json(json.dumps(requests[7])).model_copy(update={'response_mode':'JSON'})
         native_body=json.loads(native.request_body(request))
