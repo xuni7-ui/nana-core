@@ -46,7 +46,8 @@ def open_step_view(store,reference,*,scope,privacy_classes):
     if not goal or goal['state'] not in {'ACTIVE','BLOCKED'} or reference.cursor>=len(plan['steps']):raise CoreError('GOAL_NOT_ACTIVE')
     from .contracts import Operator
     op=Operator.model_validate_json(canonical(plan['steps'][reference.cursor]))
-    return PlanStepView(reference=reference,goal_id=goal['goal_id'],plan_id=plan['plan_id'],target=op.target(),record_id=head['record_id'],source_memory_ids=records.support(head['record_id']),task_class=plan['task_class'])
+    compute_method=op.args.get('method') if op.capability=='world.compute' else None
+    return PlanStepView(reference=reference,goal_id=goal['goal_id'],plan_id=plan['plan_id'],target=op.target(),record_id=head['record_id'],source_memory_ids=records.support(head['record_id']),task_class=plan['task_class'],compute_method=compute_method)
 
 class OpenAgencyService(AgencyService):
     def __init__(self,store,subject,authority,policy,port,*,step_interval_us=1000000):

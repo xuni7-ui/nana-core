@@ -19,7 +19,7 @@ from nana_core.continuity.world_loop.learning import EpisodeLearning
 from nana_core.continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
 from nana_core.presence import NanaRuntime, RuntimeConfig
 from nana_core.presence.authority import VirtualClock
-from nana_core.presence.contracts import HOUR, LivingRuntimeConfig
+from nana_core.presence.contracts import HOUR, SECOND, LivingRuntimeConfig
 from tests.open_autonomy.helpers import configure, objective, cue, send, advance, capture
 from tests.open_autonomy.test_learning import number_learning, start_learning
 
@@ -182,6 +182,35 @@ def test_c_and_planner_use_the_same_supported_method_after_restart(tmp_path):
         assert fallback.judgment.lesson_ids == (first['lesson_id'],)
         advance(r, 8)
         assert [goal['state'] for goal in r.store.all('goals')] == ['COMPLETED', 'COMPLETED']
+
+
+def test_new_learning_does_not_change_the_method_of_an_adopted_plan_step(tmp_path):
+    with runtime(tmp_path/'subject.db', VirtualClock()) as r:
+        numeric = number_learning()
+        ordering = ordering_spec().model_copy(update={'learning_key':'learn.ordering'})
+        r.work.configure_open_learning((numeric, ordering))
+        start_learning(r, numeric, 'adopted-method')
+        total = objective(method='NAIVE_SUM', expected=3.75)
+        port = configure(r, tmp_path/'world.fixture.json', (total,))
+        port.seed_observation(total.operators[0].resource, [2.5, 1.25])
+        send(r, 'adopt-total-plan', (cue(r, total),), task_class='numbers')
+        assert r.step()['cycle'].judgment.selected_method == 'NUMERIC_SUM'
+        r.drain(8)
+        plan_job = next(job for job in r.store.all('jobs') if job['work_kind'] == 'GOAL')
+        assert plan_job['cursor'] == 1
+
+        new_source = start_learning(r, ordering, 'unrelated-new-method')
+        assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'SORT'
+        results = []
+        for _ in range(4):
+            r.clock.source.advance(SECOND)
+            results.extend(r.drain(8))
+        compute = next(item['cycle'] for item in results if item.get('cycle') and
+                       item['cycle'].realization_target and
+                       item['cycle'].realization_target.resource == total.operators[1].resource)
+        assert compute.judgment.selected_method == 'NUMERIC_SUM'
+        assert new_source not in compute.judgment.source_ids
+        assert r.store.all('goals')[0]['state'] == 'COMPLETED'
 
 
 def reconsider(r, key, gap, *, load='LOW'):

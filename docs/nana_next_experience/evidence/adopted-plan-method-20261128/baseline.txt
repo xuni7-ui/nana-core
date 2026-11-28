@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_new_learning_does_not_change_the_method_of_an_adopted_plan_step _____
+tests/open_life/test_learning_renewal.py:211: in test_new_learning_does_not_change_the_method_of_an_adopted_plan_step
+    assert compute.judgment.selected_method == 'NUMERIC_SUM'
+E   AssertionError: assert 'SORT' == 'NUMERIC_SUM'
+E     
+E     - NUMERIC_SUM
+E     + SORT
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_new_learning_does_not_change_the_method_of_an_adopted_plan_step
+1 failed, 8 deselected in 0.80s

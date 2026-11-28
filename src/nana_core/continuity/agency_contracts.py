@@ -17,6 +17,7 @@ class PlanStepView(DTO):
     record_id: str
     source_memory_ids: tuple[str,...]
     task_class: str
+    compute_method: str | None = None
 
 class OfflineProgram(DTO):
     program_id: str = Field(pattern=r'^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$')

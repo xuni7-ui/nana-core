@@ -126,7 +126,7 @@ class SubjectLoop:
                 if self.records.current_support(record_id):
                     lesson_ids.append(lesson_id)
                     lesson_record_ids.append(record_id)
-            if self.store.schema_target>=12:
+            if self.store.schema_target>=12 and event.goal_step is None:
                 from ..open_agency.learning import method_strategies
                 selected = next(method_strategies(self.records,event.task_class,event.scope,self.privacy_classes),None)
                 if selected is not None:
@@ -259,6 +259,9 @@ class SubjectLoop:
             from ..agency import step_view
             plan_step=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
             if event.realization_target!=plan_step.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
+            # A later lesson can inform a review or a new goal. An existing
+            # step is judged against the method already supported by its plan.
+            selected_method=plan_step.compute_method
             records.append(plan_step.record_id);memories.extend(plan_step.source_memory_ids)
         if event.memory_review_id:
             # The same original bounded candidate must be known before C's
