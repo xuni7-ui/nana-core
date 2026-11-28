@@ -1,0 +1,47 @@
+{
+  "execution": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_REAL_CLOUD",
+  "source_archive_sha256": "dcd7926bbe9abfcae22343e7e6e2eb82ea00ed0fd77a98f1b32acd20f8b91bde",
+  "new_provider_calls": 0,
+  "fresh_subject_mode": "PASS_EXPLICIT_DISTINCT_NO_OVERWRITE",
+  "transfer": {
+    "same_identity": true,
+    "identity_id": "e27bb18a-0ca5-4937-bd5b-54680eda1618",
+    "transfer_id": "90fd46d6-9570-438a-9483-95d98366a84c",
+    "source_retired": true,
+    "old_start_rejected": true,
+    "old_grants_revoked": true,
+    "provider_config_transferred": false,
+    "unbound_live_start_rejected": true,
+    "terminal_unknown_reservation_preserved": true,
+    "private_intent_continuity": true,
+    "private_content_displayed": false
+  },
+  "missing_dependency_fail_closed": true,
+  "process": {
+    "duplicate_start_blocked": true,
+    "restart_same_identity": true,
+    "epochs": [
+      4,
+      5,
+      6
+    ],
+    "real_sigkill": true,
+    "dead_owner_fenced": true,
+    "stale_socket_recovered": true,
+    "same_event_no_replay": true,
+    "emergency_stop_confirmed": true,
+    "offline_chat": true
+  },
+  "closure": {
+    "no_real_calls": true,
+    "synthetic_unknown_preserved_no_retry": true,
+    "no_effects": true,
+    "inspector_read_only": true,
+    "source_withdrawal": true,
+    "backup_deletion_propagation": true,
+    "backup_quarantined": true
+  },
+  "offline_install": "PASS_TWO_INDEPENDENT_VENVS",
+  "supported_platform": "Linux x86_64 / Python3.12",
+  "rehearsal_root": "/dev/shm/n347.RIHTUL/re"
+}

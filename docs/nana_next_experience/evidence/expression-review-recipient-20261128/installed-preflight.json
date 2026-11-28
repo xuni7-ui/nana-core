@@ -1,0 +1,63 @@
+{
+  "state": "PREFLIGHT_PASS",
+  "checks": {
+    "platform": true,
+    "python": true,
+    "venv": true,
+    "python_native": true,
+    "sqlite": true,
+    "socket_path_length": true,
+    "dependencies": true,
+    "sqlite_json": true,
+    "sqlite_fts5": true,
+    "writable_path": true,
+    "disk": true,
+    "fd_limit": true,
+    "memory": true,
+    "secret_binding": true
+  },
+  "sqlite_runtime": {
+    "supported": true,
+    "version": "3.53.1",
+    "minimum": "3.51.3",
+    "checks": {
+      "version": true,
+      "json": true,
+      "fts5": true
+    },
+    "code": "SUPPORTED",
+    "reason": null
+  },
+  "python_native": {
+    "supported": true,
+    "missing": [],
+    "code": "SUPPORTED"
+  },
+  "optional_capabilities": {
+    "generated_python_skill": {
+      "state": "AVAILABLE",
+      "code": "BWRAP_ISOLATION_VERIFIED",
+      "checks": {
+        "ipc_namespace": true,
+        "mnt_namespace": true,
+        "net_namespace": true,
+        "pid_namespace": true,
+        "user_namespace": true,
+        "uts_namespace": true,
+        "host_paths_absent": true,
+        "host_env_absent": true,
+        "no_new_privs": true,
+        "no_capabilities": true,
+        "readonly_work": true
+      },
+      "execution_authority": false
+    }
+  },
+  "identity_id": null,
+  "subject_present": false,
+  "unknown_provider_requests": 0,
+  "failed_checks": [],
+  "live_provider": "EXPLICIT_BINDING_REQUIRED",
+  "real_social_send": false,
+  "private_history_connector": false
+}

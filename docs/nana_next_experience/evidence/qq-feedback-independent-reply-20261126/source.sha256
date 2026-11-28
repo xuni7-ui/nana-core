@@ -1,0 +1,3 @@
+f2986be14f9712539624f03a761c6a951d107f4713ca23da71b78603c735c076  src/nana_core/continuity/subject/loop.py
+45dbcfa2711a94f5edf7d2732f64e1ab085022afb49705d7622f47d0c12f9f14  tests/living_release_v4/test_platform_runtime.py
+65230ab6383395be2ab0f8eb9bd2cdeccd7b3044ed9c9ce49e49e2ec6489c60c  manifests/nanalink-01.sha256

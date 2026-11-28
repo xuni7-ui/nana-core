@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_expression_reviews_qualify_and_transfer_only_for_their_recipient[transfer] _
+tests/living_release_v4/test_platform_runtime.py:586: in test_expression_reviews_qualify_and_transfer_only_for_their_recipient
+    assert local['text']=='SYNTHETIC baseline'
+E   AssertionError: assert 'SYNTHETIC concise' == 'SYNTHETIC baseline'
+E
+E     - SYNTHETIC baseline
+E     + SYNTHETIC concise
+_ test_expression_reviews_qualify_and_transfer_only_for_their_recipient[split-evidence] _
+tests/living_release_v4/test_platform_runtime.py:577: in test_expression_reviews_qualify_and_transfer_only_for_their_recipient
+    assert all(checks.values()) is same_recipient
+E   AssertionError: assert True is False
+E    +  where True = all(dict_values([True, True, True, True, True, True, True]))
+E    +    where dict_values([True, True, True, True, True, True, True]) = <built-in method values of dict object at 0x7f1186002a80>()
+E    +      where <built-in method values of dict object at 0x7f1186002a80> = {'two_distinct_review_occurrences': True, 'evidence_origin_matches': True, 'no_counterexample': True, 'context_limited': True, ...}.values
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_expression_reviews_qualify_and_transfer_only_for_their_recipient[transfer]
+FAILED tests/living_release_v4/test_platform_runtime.py::test_expression_reviews_qualify_and_transfer_only_for_their_recipient[split-evidence]
+2 failed, 25 deselected in 2.51s

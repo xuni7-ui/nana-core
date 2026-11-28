@@ -42,6 +42,15 @@ def personality_tendencies(store,*,scope,privacy_classes,entity_id=None):
     return PersonalityTendencyView(facets=tuple(facets),context_modifiers=tuple(dict.fromkeys(modifiers)),source_record_ids=tuple(dict.fromkeys(refs)),as_of_us=now,state_token=token)
 
 
+def social_capacity_available(store, *, scope, now_us):
+    sixth_pending = store.db.execute(
+        "SELECT 1 FROM subject_intentions i JOIN continuity_records r ON r.record_id=i.record_id "
+        "WHERE i.scope=? AND i.state='PENDING' AND i.expires_at_us>? AND r.lifecycle='ACTIVE' LIMIT 1 OFFSET 5",
+        (scope, now_us),
+    ).fetchone()
+    return sixth_pending is None
+
+
 def social_appetite(store,*,scope,privacy_classes):
     """No entity/anchor input: familiar company does not satisfy a desire by fiat."""
     privacy_classes=tuple(dict.fromkeys(privacy_classes))
@@ -65,8 +74,7 @@ def social_appetite(store,*,scope,privacy_classes):
     seed=read_current(store,scope,'seed',privacy_classes)
     if seed and seed[1]['social_exploration_tendency']=='HIGH':
         refs.append(seed[0]);state='OPEN' if state=='UNKNOWN' else state
-    pending=store.db.execute("SELECT count(*) FROM subject_intentions i JOIN continuity_records r ON r.record_id=i.record_id WHERE i.scope=? AND i.state='PENDING' AND i.expires_at_us>? AND r.lifecycle='ACTIVE'",(scope,now)).fetchone()[0]
-    available=pending<6
+    available=social_capacity_available(store,scope=scope,now_us=now)
     # Specific observed social saturation/recovery is evidence, never elapsed
     # silence or the mere existence/online status of a particular relationship.
     for a in assertions:

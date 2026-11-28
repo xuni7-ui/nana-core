@@ -30,6 +30,25 @@ class ReflectionService:
                 'created_at_us': self.store.clock.utc_now_us()})
         return reflection_id
 
+    def consider_learning_strategy(self, row, *, scope, privacy_classes, intention_record_id):
+        from .state import visible
+        from ..open_life.meta_learning import propose
+
+        method = self.store.db.execute(
+            "SELECT * FROM lessons WHERE experience_id=? AND state='ACTIVE'", (row['experience_id'],)
+        ).fetchone()
+        if not method or not visible(self.store, method['record_id'], scope, privacy_classes):
+            return None
+        if getattr(self.learning._rule(method), 'kind', None) != 'METHOD_SELECTION':
+            return None
+        try:
+            return propose(self.store, method['lesson_id'], authority=self.authority,
+                consideration_records=(row['record_id'], intention_record_id))
+        except CoreError as exc:
+            if exc.code not in {'META_TRIAL_NOT_QUALIFIED', 'META_NO_PRACTICE_CANDIDATE', 'META_SELECTION_NOT_TRANSFERRED'}:
+                raise
+            return None
+
     def apply(self, reflection_id, *, expected_revision, authority):
         if authority is not self.authority:
             raise CoreError('UNAUTHENTICATED_OPERATOR')
@@ -41,7 +60,7 @@ class ReflectionService:
             raise CoreError('REFLECTION_SOURCE_REQUIRES_REVIEW')
         # Reuse the checked narrow rule lifecycle, including idempotent recovery
         # after a crash between proposal/test/activation and reflection commit.
-        lesson = self.learning.derive_lesson(row['experience_id'])
+        lesson = row['lesson_id'] or self.learning.derive_lesson(row['experience_id'])
         state = self.store.one('lessons', lesson)['state']
         if state == 'CANDIDATE':
             self.learning.test_lesson(lesson)

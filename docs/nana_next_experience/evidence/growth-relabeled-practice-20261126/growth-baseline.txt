@@ -1,0 +1,12 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_repeated_training_context_does_not_erase_an_independently_verified_later_use[32-True] _
+tests/person_self/test_growth_context_population.py:44: in test_repeated_training_context_does_not_erase_an_independently_verified_later_use
+    assert [v.assessment_id for v in choices]==[view.assessment_id]
+E   AssertionError: assert [] == ['ad28c623-cb...1fadef435969']
+E
+E     Right contains one more item: 'ad28c623-cb08-4e9f-86fb-1fadef435969'
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/person_self/test_growth_context_population.py::test_repeated_training_context_does_not_erase_an_independently_verified_later_use[32-True]
+1 failed, 2 passed, 5 deselected in 2.11s

@@ -1,0 +1,8 @@
+Loaded from installed archive: /dev/shm/nana-v334/installed/src/nana_core/continuity/open_life/meta_learning.py
+Loaded from installed archive: /dev/shm/nana-v334/installed/src/nana_core/continuity/subject/loop.py
+Loaded from installed archive: /dev/shm/nana-v334/installed/src/nana_core/continuity/subject/reflection.py
+Installed preflight passed 3.12.14 3.53.1
+Original G after restart: reviewed=False, method=NAIVE_SUM, state=BLOCKED, real_model_calls=0
+.Original G after restart: reviewed=True, method=NUMERIC_SUM, state=DONE, real_model_calls=0
+..
+3 passed, 7 deselected in 0.57s

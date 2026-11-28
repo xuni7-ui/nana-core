@@ -34,6 +34,21 @@ def test_one_feedback_is_candidate_not_personality_overwrite(app):
     assert not app.runtime.store.all('self_assertions')
 
 
+def test_recipient_bound_fixture_counter_does_not_override_independent_human_corpus(app):
+    record(app,1,provenance='USER_PROVIDED_REVIEW')
+    _,eid=record(app,2,provenance='USER_PROVIDED_REVIEW')
+    learned=activate(app,eid)
+    turn=app.chat('SYNTHETIC earlier local conversation',privacy='PROJECT',retain_shared_life=True,message_id='fixture-local-counter')
+    r=app.runtime;service=LanguageService(r.store,r.authority)
+    counter=sample(app,3,tags=('TOO_TERSE',),target=turn['exchange_record_id']).model_copy(
+        update={'candidate_response':turn['text']})
+    service.record(counter,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=r.authority,
+        exchange_record_id=turn['exchange_record_id'])
+    view=expression_policy(r.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL',
+        audience=('project-user',None))
+    assert view['lesson_id']==learned and view['evidence_level']=='USER_PROVIDED_REVIEW'
+
+
 def test_feedback_experience_learning_restart_context_and_counterexample(app):
     record(app,1);rid,eid=record(app,2);lid=activate(app,eid)
     home=app.home;clock=app.clock;identity=app.runtime.identity_id

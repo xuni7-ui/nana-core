@@ -1,0 +1,13 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[confirmed-opinion] _
+tests/living_release_v4/test_platform_runtime.py:465: in test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases
+    assert {item.key for item in opportunities if item.task_class == 'private.feedback.review'} == {actual['key']}
+E   AssertionError: assert set() == {'private-fee...3142cb82648a'}
+E
+E     Extra items in the right set:
+E     'private-feedback.044003c3731a4fa0e810603fec493d8e46339f7dac4bb654c4e73142cb82648a'
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_new_delivery_evidence_reopens_feedback_once_without_rescheduling_aliases[confirmed-opinion]
+1 failed, 3 passed, 20 deselected in 4.37s

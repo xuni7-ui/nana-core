@@ -11,7 +11,7 @@ from ..contracts import DTO, CoreError
 from ..storage import canonical, digest
 from .contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
 from .records import RecordService
-from .person_self import rows
+from .person_self import language_audience_predicate, rows
 
 Tag = Literal['TOO_FORMAL','TOO_VERBOSE','META_SUMMARIZING','ASSISTANT_VOICE',
               'OVER_DISCLAIMER','FAKE_MEMORY','FAKE_EMOTION','NATURAL','PLAYFUL',
@@ -101,12 +101,13 @@ def report_matches(sample, report):
     return source_report(LanguageSample.model_validate_json(canonical(sample)))==report
 
 
-def learnable(store, scope, privacy):
+def learnable(store, scope, privacy, *, audience=None):
     records = RecordService(store)
     # Each evidence family retains the original 32-row window. Synthetic
     # examples cannot evict the human family and then qualify themselves.
     samples = tuple(row for population in ('USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC')
-        for row in rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target='CASUAL',sample_provenance=population))
+        for row in rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target='CASUAL',sample_provenance=population,
+                        sample_audience=audience))
     # Human reviews and project fixtures are distinct evidence populations in
     # both directions: synthetic counterexamples cannot veto human feedback,
     # and a human report cannot silently validate/suspend a fixture lesson.
@@ -365,7 +366,7 @@ class LanguageService:
             if not self.records.current_support(rid):
                 raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
             return rid
-        parents = ();delivery=None;communication=None
+        parents = ();delivery=None;communication=None;audience=None
         if exchange_record_id:
             exchange = self.records.read(exchange_record_id)
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or not response_matches(sample, exchange['payload']['assistant_utterance'], response_sha256):
@@ -375,6 +376,9 @@ class LanguageService:
             parents = (exchange_record_id,)
             delivery=delivery_for_exchange(self.records,exchange,observed_at_us=sample.observed_at_us)
             if sample.human_judgment!='UNREVIEWED':communication=communication_for_exchange(self.records,exchange)
+            known, recipient = feedback_recipient(self.records, exchange['payload'],
+                {'communication_attribution':communication,'delivery_attribution':delivery})
+            if known:audience={'entity_id':entity_id,'recipient_context':recipient}
             if delivery:
                 parents=(*parents,delivery['receipt_record_id'],delivery['verification_record_id'])
             if sample.memory_use is not None:
@@ -397,6 +401,7 @@ class LanguageService:
             payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
             if delivery:payload['delivery_attribution']=delivery
             if communication:payload['communication_attribution']=communication
+            if audience is not None:payload['review_audience']=audience
             if request_digest is not None:payload['request_digest']=request_digest
             if response_sha256 is not None:payload['response_sha256']=response_sha256
             if use:payload['memory_use_feedback']=use.model_dump(mode='json')
@@ -433,28 +438,42 @@ class LanguageService:
             verification_memory_id=verification, proposed_update='Consider a contextual expression hypothesis; a single review cannot overwrite personality'))
 
 
-def expression_policy(store, *, scope, privacy, mode):
-    qualification = learnable(store, scope, privacy)
-    if mode != 'CASUAL' or not qualification['eligible']:
-        return {'state': 'BASELINE_OR_REVIEW_REQUIRED', 'rule': None, 'source_record_ids': ()}
+def expression_qualification(records, verification, *, scope, privacy):
+    if not isinstance(verification, ExpressionFeedbackCheck):
+        return None
+    payload = records.read(verification.sample_record_id)['payload']
+    audience = None
+    if payload['sample'].get('body_storage') == 'DEPENDENT_RECORD':
+        binding = (payload.get('review_audience') or payload.get('communication_attribution')
+                   or payload.get('delivery_attribution'))
+        if not binding or 'entity_id' not in binding or 'recipient_context' not in binding:
+            return None
+        audience = (binding['entity_id'], binding['recipient_context'])
+    return learnable(records.store, scope, privacy, audience=audience)
+
+
+def _active_expression_policy(store, scope, privacy, audience, qualification):
     records = RecordService(store)
     # A candidate may be proposed early and qualify later. Its lesson rowid
     # does not change at activation, so another evidence family must not fill
     # the bounded window before we select the currently qualified population.
     # CROSS JOIN keeps scope/privacy/current headers ahead of payload parsing.
     marks=','.join('?' for _ in privacy)
+    predicate, audience_args = language_audience_predicate('a.payload', audience)
     query=("SELECT l.* FROM lessons l CROSS JOIN continuity_records r ON r.record_id=l.record_id "
         "CROSS JOIN experiences x ON x.experience_id=l.experience_id "
-        "CROSS JOIN memories m ON m.memory_id=x.result_memory_id "
-        "CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id "
-        "CROSS JOIN artifacts a ON a.artifact_id=m.payload_artifact_id "
+        "CROSS JOIN memories v ON v.memory_id=x.verification_memory_id "
+        "CROSS JOIN artifacts va ON va.artifact_id=v.payload_artifact_id "
+        "CROSS JOIN continuity_records f ON f.record_id=CASE WHEN json_valid(CAST(va.payload AS TEXT)) "
+        "THEN json_extract(CAST(va.payload AS TEXT),'$.sample_record_id') END "
+        "CROSS JOIN artifacts a ON a.artifact_id=f.payload_artifact_id "
         "WHERE l.task_class='interaction.expression' AND l.state='ACTIVE' AND r.scope=? "
-        "AND r.lifecycle='ACTIVE' AND r.privacy_class IN ("+marks+") AND m.scope=? "
-        "AND m.lifecycle='ACTIVE' AND m.assessment IN ('CURRENT','UNASSESSED') AND m.privacy_class IN ("+marks+") "
-        "AND e.state='AVAILABLE' AND e.source_namespace='recorded.conversation.feedback' "
-        "AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) THEN json_extract(CAST(a.payload AS TEXT),'$.provenance') END=? "
+        "AND r.lifecycle='ACTIVE' AND r.privacy_class IN ("+marks+") AND v.scope=r.scope "
+        "AND v.lifecycle='ACTIVE' AND v.privacy_class IN ("+marks+") AND f.scope=r.scope "
+        "AND f.lifecycle='ACTIVE' AND f.privacy_class IN ("+marks+") AND "+predicate+" "
+        "AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) THEN json_extract(CAST(a.payload AS TEXT),'$.sample.provenance') END=? "
         "ORDER BY l.rowid DESC LIMIT 16")
-    for raw in store.db.execute(query,(scope,*privacy,scope,*privacy,qualification['evidence_level'])):
+    for raw in store.db.execute(query,(scope,*privacy,*privacy,*privacy,*audience_args,qualification['evidence_level'])):
         h = store.one('continuity_records', raw['record_id'])
         if h['scope'] != scope or h['privacy_class'] not in privacy or h['lifecycle'] != 'ACTIVE' or not records.current_support(h['record_id']):
             continue
@@ -470,14 +489,42 @@ def expression_policy(store, *, scope, privacy, mode):
         return {'state': 'ACTIVE_BOUNDED_HYPOTHESIS', 'rule': ExpressionRule().model_dump(mode='json'),
                 'source_record_ids': (h['record_id'], *qualification['support_records']),
                 'evidence_level': qualification['evidence_level'], 'lesson_id': raw['lesson_id']}
-    return {'state': 'CANDIDATE_NOT_ADOPTED', 'rule': None, 'source_record_ids': ()}
+    return None
 
 
-def context(store, *, scope, privacy, mode):
-    policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode)
+def expression_policy(store, *, scope, privacy, mode, audience=None):
+    pending = False
+    if mode == 'CASUAL' and privacy:
+        populations = (audience, None) if audience is not None else (None,)
+        examined = [(population, learnable(store, scope, privacy, audience=population)) for population in populations]
+        human = any(q['evidence_level'] == 'USER_PROVIDED_REVIEW' for _, q in examined)
+        evidence = 'USER_PROVIDED_REVIEW' if human else 'PROJECT_SYNTHETIC'
+        for population, qualification in examined:
+            if qualification['evidence_level'] != evidence:
+                continue
+            if qualification['counter_records']:
+                break
+            if not qualification['eligible']:
+                continue
+            active = _active_expression_policy(store, scope, privacy, population, qualification)
+            if active:
+                return active
+            pending = True
+    return {'state': 'CANDIDATE_NOT_ADOPTED' if pending else 'BASELINE_OR_REVIEW_REQUIRED',
+            'rule': None, 'source_record_ids': ()}
+
+
+def context(store, *, scope, privacy, mode, audience=None):
+    policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode, audience=audience)
     records = RecordService(store)
     population=policy.get('evidence_level') if policy.get('rule') else None
-    samples = rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target=mode,limit=16,sample_provenance=population)[:2]
+    samples = ()
+    if audience is not None:
+        samples = rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target=mode,limit=16,
+                       sample_provenance=population,sample_audience=audience)[:2]
+    if len(samples)<2:
+        samples += rows(store,'LIVED_LANGUAGE_SAMPLE',scope,privacy,target=mode,limit=16,
+                        sample_provenance=population)[:2-len(samples)]
     examples=[]
     for row in samples:
         item=row['payload']['sample']
@@ -496,6 +543,23 @@ def context(store, *, scope, privacy, mode):
             'source_record_ids': tuple(dict.fromkeys((*policy['source_record_ids'], *(r['record_id'] for r in samples))))}
 
 
+def feedback_recipient(records, exchange, review):
+    """Resolve the retained turn's audience independently of send outcome."""
+    if 'recipient_context' in exchange:
+        return True, exchange['recipient_context']
+    for field in ('communication_attribution', 'delivery_attribution'):
+        binding = review.get(field)
+        if binding and binding.get('entity_id') == exchange['entity_id'] and 'recipient_context' in binding:
+            return True, binding['recipient_context']
+    mid = exchange.get('user_memory_id')
+    if mid:
+        provenance = records.memory.read(mid)['source_provenance']
+        if (provenance['source_namespace'] == 'recorded.conversation.input'
+                and provenance['source_reference'].startswith('local.chat.')):
+            return True, None
+    return False, None
+
+
 def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipient_context=None):
     """Bounded explicit user reports, advisory to C; never fact assessment.
 
@@ -509,13 +573,49 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipie
     # reviews grow; never rely on the last32 dialogue reviews to find it.
     if not privacy:return {'items':(), 'source_record_ids':()}
     targets=tuple('memory-use.'+mid for mid in sorted(wanted)[:128])
-    # Interleave each selected memory's newest reviews. A frequently reviewed
-    # memory must not evict every other selected memory from the bounded scan.
-    heads=store.db.execute("SELECT record_id FROM (SELECT record_id, rowid AS sequence, "
-        "row_number() OVER (PARTITION BY target_id ORDER BY rowid DESC) AS review_rank "
-        "FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND lifecycle='ACTIVE' AND target_id IN ("+
-        ','.join('?' for _ in targets)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+")) "
-        "ORDER BY review_rank, sequence DESC LIMIT 256",(scope,*targets,*privacy)).fetchall()
+    # Match the retained turn's recipient before ranking. This is the same
+    # precedence as feedback_recipient, including the original local input anchor.
+    privacy_marks=','.join('?' for _ in privacy)
+    target_marks=','.join('?' for _ in targets)
+    heads=store.db.execute(f"""
+        WITH candidates AS (
+            SELECT ref.record_id, ref.rowid AS sequence, ref.target_id,
+                   CASE WHEN json_valid(CAST(ra.payload AS TEXT)) THEN CAST(ra.payload AS TEXT) END AS review,
+                   CASE WHEN json_valid(CAST(ea.payload AS TEXT)) THEN CAST(ea.payload AS TEXT) END AS turn
+            FROM continuity_records ref
+            CROSS JOIN record_dependencies link ON link.record_id=ref.record_id
+                AND link.parent_kind='RECORD' AND link.relation_kind='SUPPORT'
+            CROSS JOIN continuity_records r ON r.record_id=link.parent_id
+                AND r.record_kind='EXPERIENCE_CANDIDATE' AND r.scope=ref.scope AND r.lifecycle='ACTIVE'
+            CROSS JOIN artifacts ra ON ra.artifact_id=r.payload_artifact_id
+            CROSS JOIN continuity_records x ON x.record_id=CASE WHEN json_valid(CAST(ra.payload AS TEXT))
+                THEN json_extract(CAST(ra.payload AS TEXT),'$.sample.review_target') END
+                AND x.record_kind='RELATIONSHIP_EVENT' AND x.scope=ref.scope AND x.lifecycle='ACTIVE'
+            CROSS JOIN artifacts ea ON ea.artifact_id=x.payload_artifact_id
+            WHERE ref.record_kind='ASSERTION' AND ref.scope=? AND ref.lifecycle='ACTIVE'
+                AND ref.target_id IN ({target_marks}) AND ref.privacy_class IN ({privacy_marks})
+                AND r.privacy_class IN ({privacy_marks}) AND x.privacy_class IN ({privacy_marks})
+        ), ranked AS (
+            SELECT record_id, sequence,
+                   row_number() OVER (PARTITION BY target_id ORDER BY sequence DESC) AS review_rank
+            FROM candidates
+            WHERE json_extract(turn,'$.entity_id')=? AND CASE
+                WHEN json_type(turn,'$.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(turn,'$.recipient_context'),'null')
+                WHEN json_extract(review,'$.communication_attribution.entity_id')=json_extract(turn,'$.entity_id')
+                    AND json_type(review,'$.communication_attribution.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(review,'$.communication_attribution.recipient_context'),'null')
+                WHEN json_extract(review,'$.delivery_attribution.entity_id')=json_extract(turn,'$.entity_id')
+                    AND json_type(review,'$.delivery_attribution.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(review,'$.delivery_attribution.recipient_context'),'null')
+                WHEN EXISTS (SELECT 1 FROM memories m JOIN continuity_evidence e
+                    ON e.evidence_id=m.source_evidence_id
+                    WHERE m.memory_id=json_extract(turn,'$.user_memory_id') AND m.lifecycle='ACTIVE'
+                        AND e.source_namespace='recorded.conversation.input' AND e.source_reference GLOB 'local.chat.*')
+                    THEN 'null'
+            END=?
+        ) SELECT record_id FROM ranked ORDER BY review_rank, sequence DESC LIMIT 256
+        """,(scope,*targets,*privacy,*privacy,*privacy,entity_id,canonical(recipient_context))).fetchall()
     for head in heads:
         try:
             if not records.current_support(head['record_id']):continue
@@ -535,10 +635,8 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipie
         if (exchange['payload'].get('entity_id')!=entity_id or exchange['scope']!=scope
                 or not records.current_support(exchange['record_id'])
                 or use.memory_id not in records.support(exchange['record_id'])):continue
-        delivery=row['payload'].get('delivery_attribution')
-        # Delivery-qualified feedback belongs to its exact recipient context;
-        # it is not a global preference for every other surface/contact.
-        if delivery is not None and delivery.get('recipient_context')!=recipient_context:continue
+        known, recipient = feedback_recipient(records, exchange['payload'], row['payload'])
+        if not known or recipient != recipient_context:continue
         target=records.memory.read(use.memory_id)
         if target['entity_id']!=entity_id or target['scope']!=scope or target['privacy_class'] not in privacy:continue
         seen.add(use.memory_id);refs.append(row['record_id'])

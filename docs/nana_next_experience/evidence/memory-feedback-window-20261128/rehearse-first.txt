@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-next-refinement-work/tools/nana_portable_cloud/rehearse.py", line 236, in <module>
+    main()
+  File "/workspace/nana-next-refinement-work/tools/nana_portable_cloud/rehearse.py", line 230, in main
+    data = run(a.archive, a.sha256, a.root)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-next-refinement-work/tools/nana_portable_cloud/rehearse.py", line 105, in run
+    raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+AssertionError: QUALIFICATION_INVARIANT_FAILED

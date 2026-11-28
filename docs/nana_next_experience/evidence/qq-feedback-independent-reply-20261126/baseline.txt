@@ -1,0 +1,12 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_delivered_method_opinion_changes_later_c_choice_after_restart[unknown] __
+tests/living_release_v4/test_platform_runtime.py:360: in test_delivered_method_opinion_changes_later_c_choice_after_restart
+    assert next_turn['text'] == ('SYNTHETIC short chat' if confirmed else 'SYNTHETIC listening')
+E   AssertionError: assert 'SYNTHETIC no...rent C method' == 'SYNTHETIC listening'
+E
+E     - SYNTHETIC listening
+E     + SYNTHETIC no current C method
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_delivered_method_opinion_changes_later_c_choice_after_restart[unknown]
+1 failed, 1 passed, 20 deselected in 3.04s

@@ -1,0 +1,3 @@
+installed runtime only / SQLite 3.53.1
+.....                                                                    [100%]
+5 passed, 34 deselected in 7.57s

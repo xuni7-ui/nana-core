@@ -1,3 +1,141 @@
+## 当前接续 S10反例转向同源安装 revision353
+
+984d3cdc同源Core 313文件，独立槽离线安装和预检通过，实际安装S10反思、反例回避重启撤回及提示启停5项通过，实际模型0。
+
+延续原S1–S10。下一检验反思决策的来源撤回与新有效机会是否能在原G独立评审中正确衔接。真实模型、自然度、手机及长期使用仍未资格。 [本批证据](evidence/meta-strategy-next-practice-20261128/README.md)
+
+## 当前接续 S10 将迁移反例用于下一个练习候选 revision352
+
+S10原G遇匹配迁移反例后继续挑选练习候选。同主体重启后两种策略分别从1次普通提名降到0，仍独立通过留出及迁移，撤回有效，77相关通过。
+
+持续推进原S1–S10融合、S3后续自主选择与S8/S10多分布迁移。当前证据为受控源码回归，实际模型、长期生活与匹配集成仍待。 [本批证据](evidence/meta-strategy-next-practice-20261128/README.md)
+
+## 当前接续 外部提示插件源码与透传验证 revision351
+
+核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。
+
+原S1–S10继续。S10已定位反例当前会让原G直接回退普通提名，下一用真实受控反例验证是否可由原策略试下一个练习候选。 [本批证据](evidence/independent-judgment-prompt-20261128/README.md)
+
+## 当前接续 模型档案的独立判断提示 revision350
+
+原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。
+
+提示原文和启停方式已固定。真实模型的成对独立判断、自然度、推理及供应商计费待验。上一27ce43f4双槽安装保持其原范围，不含新提示。继续原S3/S8/S10及统一发行。 [本批证据](evidence/independent-judgment-prompt-20261128/README.md)
+
+## 当前接续 反馈窗口同源安装与身份迁移 revision348
+
+27ce43f4同源Core双槽离线安装、身份迁移及来源撤回通过，BFF十视图和笔记纠错重启撤回通过，范围补验5及UNKNOWN契约4通过，模型0。
+
+Web 74输入逐项沿用固定候选，正式交付指针仍为266272a/409。继续同一主线的轻量模型提示扩展，以及原S3/S8/S10和真实验收。 [本批证据](evidence/memory-feedback-window-20261128/README.md)
+
+## 当前接续 记忆用法按收件范围取窗口 revision347
+
+记忆用法先按原收件范围筛选再取限额。256条异范围意见不再遮住同一主体重启后的旧偏好，43相关通过，旧本地入站锚另补验。
+
+有挤占的合成库全建议函数中位数170.367→1.644 ms。上一4e678abb Core独立安装保持其确切范围。本批仍待下一次同源发行验证。接续原S3经历影响后续自主行为及S8/S10未见迁移、A–H和实际验收。 [本批证据](evidence/memory-feedback-window-20261128/README.md)
+
+## 当前接续 表达学习随证据撤回 revision346
+
+表达学习同范围反例撤回后恢复原合资格方式，撤回一项支持后同主体重启回到基线，16定向及同源安装2项通过。
+
+Core 仍为已安装的 4e678abb 内容，补验覆盖意见撤回和跨重启。继续原 S3 经历影响后续自主行为及 S8/S10 未见迁移，保留原 A–H 同源发行与实际验收差额。 [本批证据](evidence/expression-review-recipient-20261128/README.md)
+
+## 当前接续 表达与记忆意见同源独立安装 revision345
+
+4e678abb同源Core含平台能力313文件，独立槽离线安装和预检后，反馈范围关键6项从安装模块通过，实际模型0。
+
+Web/App 和 NanaLink 既有候选源码对应性可继承。当前仅 Core 安装。本轮接续验证已采用表达方法的来源撤回及重启修订，沿用原A–H。 [本批安装证据](evidence/expression-review-recipient-20261128/README.md)
+
+## 当前接续 表达学习按反馈收件范围评审 revision344
+
+表达评审及原G资格按原反馈收件范围独立取样。同主体重启后同一QQ范围新话题复用，不同范围不能合算，后续同范围反证可暂停，102相关通过。
+
+继续同源 Core 独立安装，核对这批表达用法事实和原回执到未来选择的完整闭包。 [本批证据](evidence/expression-review-recipient-20261128/README.md)
+
+## 当前接续 记忆用法意见收件范围 revision343
+
+记忆用法意见按留存原话轮收件范围使用。同主体重启后同一QQ会话换话题继续采用，本地对照未受原UNKNOWN意见影响，56相关通过。
+
+继续原G表达评审的跨情境接线，沿用原A–H。 [本批证据](evidence/memory-feedback-recipient-20261128/README.md)
+
+## 当前接续 QQ独立回复与反馈同源安装 revision342
+
+b3b55f2d 同源Core新槽离线安装，原QQ回复/回执/UNKNOWN/反馈去重8项从安装模块通过，实际模型0。
+
+继续验证有当前来源的明确意见如何在原C持续关切中跨情境迁移，并在联合节点按原A–H验证。 [本批安装证据](evidence/feedback-readback-renewal-20261126/README.md)
+
+## 当前接续 确认回读更新反馈机会 revision341
+
+原D可在已安排的本地意见新增独立回读时提供一次新考虑。先前已确认的安排保持去重，早期意见不获追溯送达，69相关通过。
+
+本轮QQ独立回复与反馈机会进入同源Core安装。持续原S3长期体验、S8/S10独立迁移和联合交付。 [本批证据](evidence/feedback-readback-renewal-20261126/README.md)
+
+## 当前接续 QQ 感受反馈与独立回复 revision340
+
+原QQ独立回读的明确意见经重启改变原C选择，撤回后失效。旧UNKNOWN不占用新定向回复，后续分发与原幂等分开验证，75相关通过。
+
+此批为受控平台与源码验证。c5c32879 保留前次离线安装和回退证据。继续核对同主体原C持久关切的反馈边界与匹配交付。 [本批证据](evidence/qq-feedback-independent-reply-20261126/README.md)
+
+## 当前接续 S3/S10 兼容 Core 安装与停机回退 revision339
+
+c5c32879同源Core离线安装、9项实际安装回归、Gateway/BFF、笔记撤回与虚拟72小时通过。双槽停机回退原身份及7夹具请求保留，真实模型0。
+
+Web 74 输入已对齐既有3255024制品，最终联合发行按原路径收口。下一验证已送达的明确社交反馈如何改变同一原C后续选择，保留S8/S10、记忆存储、真实手机及长期资格。 [本批证据](evidence/core-continuity-review-install-20261126/README.md)
+
+## 当前接续 原D按条件恢复约定复查 revision338
+
+原D按已延期的约定提供一次恢复或到期复查，跨重启无需新用户消息，79相关通过。前一源码702cc073离线安装并通过7项S3/S10验证。
+
+本批接续同源Core安装及顺序验证，继承A–H和长期体验。 [本批证据](evidence/voluntary-review-resume-20261126/README.md)
+
+## 当前接续 原C自愿约定按容量延后复查 revision337
+
+暂时负载只延后有效自愿约定的隐式复查。原C保留原期限，同条件少复查，容量恢复后普通WAKE再判断，64相关通过。
+
+本轮S10反例与S3复查代码一并固定进行Core受控安装。原最终联合版本、S3长期体验和S8/S10更多实际迁移继续。 [本批证据](evidence/voluntary-review-capacity-20261126/README.md)
+
+## 当前接续 S10 迁移反例作用于后续提名 revision336
+
+原G负迁移可阻止后续同练习材料的自动提名。同主体重启后另选NFKC_CASEFOLD完成未见任务，其他情境及撤回路径有对照，48相关通过。
+
+417c8690保留前次Core离线安装证据。本批接续原S3情感/资源与自主关系选择，保护独立评判和原A–H联合体验。 [本批证据](evidence/meta-transfer-counterexample-20261126/README.md)
+
+## 当前接续 S10 原反思匹配安装 revision335
+
+417c8690源码匹配的Core包313文件，隔离离线安装通过，实际安装的原C反思与S10三项受控对照通过，真实模型0。
+
+当前继续验证原S10负迁移反例对后续适用方向的影响，并推进其余S3、S8与联合体验。交付分支上的固定3255024为前次联合候选。 [匹配安装回执](evidence/meta-strategy-reflection-20261126/README.md)
+
+## 当前接续 原 C 反思形成 S10 学习策略候选 revision334
+
+原C反思接入既有S10学习策略候选与独立评审。同主体重启后同一未见问题由NAIVE_SUM阻断变为NUMERIC_SUM完成，53相关通过。
+
+已验证提案阶段不启用策略，负迁移未通过的提案保留原反思。下一从 test_meta_strategy_inapplicable_on_new_transfer_is_a_known_learning_failure 核对格式反例如何限制未来适用范围，保留其他合格情境。8756ac1e包已有独立Core安装证据，原A–H及最终匹配发行继续。 [该批证据](evidence/meta-strategy-reflection-20261126/README.md)
+
+## 当前接续 匹配 Core 安装与 S10 反思生产入口 revision333
+
+8756ac1e源码匹配的Core便携包313文件，隔离离线安装后6项受影响路径通过。真实模型0。统一候选、手机、生产与长期生活待验。
+
+原 Runtime._followup 由 C 的 REFLECTION 进入 SubjectLoop.reflect。原G已经消费 meta_learning.select，生产链尚无 meta_learning.propose 入口。继续核对可验证反思如何形成原S10候选，继承原独立裁判与复用证据。 [匹配安装回执](evidence/growth-relabeled-practice-20261126/README.md)
+
+## 当前接续 成长机会避开改名练习 revision332
+
+32种练习标签不再挤掉较早的独立经历。原C仍一次SELF形成私人疑问，撤回后失效。复验先按作用域和隐私检查再读载荷。50相关通过。
+
+前一源码 e2edac80 已离线安装并运行三项核心回归。继续原S3实际经历改变长期倾向与S8向S10的独立候选收益。统一发行、真实平台与长期生活继续按原A–H资格。 [受控与安装证据](evidence/growth-relabeled-practice-20261126/README.md)
+
+## 当前接续 原 G 重学有效材料 revision331
+
+原C失败反思重学按实际练习数据、预期与方法组合比较。改名复制不再开新任务，实质新材料仍改变同主体重启后的未见任务选择，44相关通过。
+
+保留前批独立复验和固定3255024集成证据。下一核对长期反思和注意窗口下独立经历在原 C 的召回资格。 [本批证据](evidence/learning-renewal-material-20261126/README.md)
+
+## 当前接续 已暂停策略独立复验 revision330
+
+原G暂停方法仅凭两份未见的不同输入恢复。旧版重放资格样本或改标签重放同一输入均误恢复，修订后继续暂停，44相关通过。
+
+专项按一次性交付的稳定接口接入，已交接结项保持有效，详见 AGENTS。继续原S3经历与S8迁移在原C中改变选择，保留固定3255024候选证据。 [本批证据](evidence/strategy-independent-revalidation-20261126/README.md)
+
 ## 当前接续 固定同源 Android 候选 revision329
 
 固定3255024同源候选dc3806e补齐Android .dev包，34项摘要及独立APK v2通过；与Web的42项资源逐字节一致，正式选择未切换。
