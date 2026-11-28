@@ -1,0 +1,24 @@
+old returned heads 256 query-only median ms 0.281
+CO-ROUTINE (subquery-1)
+CO-ROUTINE (subquery-3)
+SEARCH continuity_records USING INDEX autonomy_record_target (record_kind=? AND target_id=?)
+USE TEMP B-TREE FOR LAST TERM OF ORDER BY
+SCAN (subquery-3)
+SCAN (subquery-1)
+USE TEMP B-TREE FOR ORDER BY
+new returned heads 1 query-only median ms 0.976
+CO-ROUTINE ranked
+CO-ROUTINE (subquery-5)
+SEARCH ref USING INDEX autonomy_record_target (record_kind=? AND target_id=?)
+SEARCH link USING INDEX sqlite_autoindex_record_dependencies_2 (record_id=? AND parent_kind=?)
+SEARCH r USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)
+SEARCH ra USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)
+SEARCH x USING INDEX sqlite_autoindex_continuity_records_1 (record_id=?)
+SEARCH ea USING INDEX sqlite_autoindex_artifacts_1 (artifact_id=?)
+CORRELATED SCALAR SUBQUERY 2
+SEARCH m USING INDEX sqlite_autoindex_memories_1 (memory_id=?)
+SEARCH e USING INDEX sqlite_autoindex_continuity_evidence_1 (evidence_id=?)
+USE TEMP B-TREE FOR LAST TERM OF ORDER BY
+SCAN (subquery-5)
+SCAN ranked
+USE TEMP B-TREE FOR ORDER BY

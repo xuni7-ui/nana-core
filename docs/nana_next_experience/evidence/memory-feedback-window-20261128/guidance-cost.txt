@@ -1,0 +1,3 @@
+old: 0 applicable preference, end-to-end guidance median 170.367 ms
+new: 1 applicable preference, end-to-end guidance median 1.644 ms
+fixture only; 12 measured calls per version; actual Provider calls 0

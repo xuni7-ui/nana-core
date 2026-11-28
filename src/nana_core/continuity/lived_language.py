@@ -573,13 +573,49 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipie
     # reviews grow; never rely on the last32 dialogue reviews to find it.
     if not privacy:return {'items':(), 'source_record_ids':()}
     targets=tuple('memory-use.'+mid for mid in sorted(wanted)[:128])
-    # Interleave each selected memory's newest reviews. A frequently reviewed
-    # memory must not evict every other selected memory from the bounded scan.
-    heads=store.db.execute("SELECT record_id FROM (SELECT record_id, rowid AS sequence, "
-        "row_number() OVER (PARTITION BY target_id ORDER BY rowid DESC) AS review_rank "
-        "FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND lifecycle='ACTIVE' AND target_id IN ("+
-        ','.join('?' for _ in targets)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+")) "
-        "ORDER BY review_rank, sequence DESC LIMIT 256",(scope,*targets,*privacy)).fetchall()
+    # Match the retained turn's recipient before ranking. This is the same
+    # precedence as feedback_recipient, including the original local input anchor.
+    privacy_marks=','.join('?' for _ in privacy)
+    target_marks=','.join('?' for _ in targets)
+    heads=store.db.execute(f"""
+        WITH candidates AS (
+            SELECT ref.record_id, ref.rowid AS sequence, ref.target_id,
+                   CASE WHEN json_valid(CAST(ra.payload AS TEXT)) THEN CAST(ra.payload AS TEXT) END AS review,
+                   CASE WHEN json_valid(CAST(ea.payload AS TEXT)) THEN CAST(ea.payload AS TEXT) END AS turn
+            FROM continuity_records ref
+            CROSS JOIN record_dependencies link ON link.record_id=ref.record_id
+                AND link.parent_kind='RECORD' AND link.relation_kind='SUPPORT'
+            CROSS JOIN continuity_records r ON r.record_id=link.parent_id
+                AND r.record_kind='EXPERIENCE_CANDIDATE' AND r.scope=ref.scope AND r.lifecycle='ACTIVE'
+            CROSS JOIN artifacts ra ON ra.artifact_id=r.payload_artifact_id
+            CROSS JOIN continuity_records x ON x.record_id=CASE WHEN json_valid(CAST(ra.payload AS TEXT))
+                THEN json_extract(CAST(ra.payload AS TEXT),'$.sample.review_target') END
+                AND x.record_kind='RELATIONSHIP_EVENT' AND x.scope=ref.scope AND x.lifecycle='ACTIVE'
+            CROSS JOIN artifacts ea ON ea.artifact_id=x.payload_artifact_id
+            WHERE ref.record_kind='ASSERTION' AND ref.scope=? AND ref.lifecycle='ACTIVE'
+                AND ref.target_id IN ({target_marks}) AND ref.privacy_class IN ({privacy_marks})
+                AND r.privacy_class IN ({privacy_marks}) AND x.privacy_class IN ({privacy_marks})
+        ), ranked AS (
+            SELECT record_id, sequence,
+                   row_number() OVER (PARTITION BY target_id ORDER BY sequence DESC) AS review_rank
+            FROM candidates
+            WHERE json_extract(turn,'$.entity_id')=? AND CASE
+                WHEN json_type(turn,'$.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(turn,'$.recipient_context'),'null')
+                WHEN json_extract(review,'$.communication_attribution.entity_id')=json_extract(turn,'$.entity_id')
+                    AND json_type(review,'$.communication_attribution.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(review,'$.communication_attribution.recipient_context'),'null')
+                WHEN json_extract(review,'$.delivery_attribution.entity_id')=json_extract(turn,'$.entity_id')
+                    AND json_type(review,'$.delivery_attribution.recipient_context') IS NOT NULL
+                    THEN coalesce(json_extract(review,'$.delivery_attribution.recipient_context'),'null')
+                WHEN EXISTS (SELECT 1 FROM memories m JOIN continuity_evidence e
+                    ON e.evidence_id=m.source_evidence_id
+                    WHERE m.memory_id=json_extract(turn,'$.user_memory_id') AND m.lifecycle='ACTIVE'
+                        AND e.source_namespace='recorded.conversation.input' AND e.source_reference GLOB 'local.chat.*')
+                    THEN 'null'
+            END=?
+        ) SELECT record_id FROM ranked ORDER BY review_rank, sequence DESC LIMIT 256
+        """,(scope,*targets,*privacy,*privacy,*privacy,entity_id,canonical(recipient_context))).fetchall()
     for head in heads:
         try:
             if not records.current_support(head['record_id']):continue

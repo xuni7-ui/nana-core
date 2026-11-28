@@ -494,7 +494,8 @@ def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path,
             assert len(platform['calls'])==io and len(platform['sent'])==1 and len(requests)==2
 
 
-def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient(tmp_path):
+@pytest.mark.parametrize('foreign_review_count', [0, 256], ids=['recipient', 'crowded-recipient'])
+def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient(tmp_path, foreign_review_count):
     import json
     from nana_core.continuity.lived_language import LanguageSample, LanguageService, MemoryUseFeedback
     from nana_core.life.memory_notes import save
@@ -525,6 +526,16 @@ def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipie
                 review=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
                     authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
                 assert 'delivery_attribution' not in language.records.read(review)['payload']
+                if foreign_review_count:
+                    other=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:99',
+                        thread_id='qq.private.44',text='SYNTHETIC ORCHID question for another recipient',privacy_class='PROJECT',
+                        origin='SYNTHETIC_LOOPBACK',retain_shared_life=True))
+                    for index in range(foreign_review_count):
+                        wrong_receiver=sample.model_copy(update={'sample_id':f'foreign-use-{index}',
+                            'review_target':other['exchange_record_id'],'candidate_response':other['text'],
+                            'memory_use':MemoryUseFeedback(memory_id=mid,mode='EXPLICIT_RECALL')})
+                        language.record(wrong_receiver,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                            authority=app.runtime.authority,exchange_record_id=other['exchange_record_id'])
                 identity=app.runtime.identity_id
             clock.advance(2*SECOND)
             with LifeApplication(home,clock=clock,router=router) as app:
@@ -536,7 +547,7 @@ def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipie
                     thread_id='qq.private.43',topic='later',text='SYNTHETIC ORCHID later question',
                     privacy_class='PROJECT',origin='SYNTHETIC_LOOPBACK',retain_shared_life=True))
                 assert matching['text']=='SYNTHETIC silent reference'
-                assert len(platform['sent'])==1 and len(requests)==6
+                assert len(platform['sent'])==1 and len(requests)==(8 if foreign_review_count else 6)
 
 
 @pytest.mark.parametrize('same_recipient', [True, False], ids=['transfer','split-evidence'])

@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 346,
-  "as_of_us": 1795842810589434,
+  "revision": 347,
+  "as_of_us": 1795843028116158,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "记忆用法先按原收件范围筛选再取限额。256条异范围意见不再遮住同一主体重启后的旧偏好，43相关通过，旧本地入站锚另补验。",
     "表达学习同范围反例撤回后恢复原合资格方式，撤回一项支持后同主体重启回到基线，16定向及同源安装2项通过。",
     "4e678abb同源Core含平台能力313文件，独立槽离线安装和预检后，反馈范围关键6项从安装模块通过，实际模型0。",
     "表达评审及原G资格按原反馈收件范围独立取样。同主体重启后同一QQ范围新话题复用，不同范围不能合算，后续同范围反证可暂停，102相关通过。",
     "记忆用法意见按留存原话轮收件范围使用。同主体重启后同一QQ会话换话题继续采用，本地对照未受原UNKNOWN意见影响，56相关通过。",
     "b3b55f2d 同源Core新槽离线安装，原QQ回复/回执/UNKNOWN/反馈去重8项从安装模块通过，实际模型0。",
     "原D可在已安排的本地意见新增独立回读时提供一次新考虑。先前已确认的安排保持去重，早期意见不获追溯送达，69相关通过。",
-    "原QQ独立回读的明确意见经重启改变原C选择，撤回后失效。旧UNKNOWN不占用新定向回复，后续分发与原幂等分开验证，75相关通过。",
-    "c5c32879同源Core离线安装、9项实际安装回归、Gateway/BFF、笔记撤回与虚拟72小时通过。双槽停机回退原身份及7夹具请求保留，真实模型0。"
+    "原QQ独立回读的明确意见经重启改变原C选择，撤回后失效。旧UNKNOWN不占用新定向回复，后续分发与原幂等分开验证，75相关通过。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -33,17 +33,19 @@
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/memory-feedback-window-20261128/README.md",
     "docs/nana_next_experience/evidence/expression-review-recipient-20261128/README.md",
     "docs/nana_next_experience/evidence/memory-feedback-recipient-20261128/README.md",
     "docs/nana_next_experience/evidence/feedback-readback-renewal-20261126/README.md",
     "docs/nana_next_experience/evidence/qq-feedback-independent-reply-20261126/README.md",
     "docs/nana_next_experience/evidence/core-continuity-review-install-20261126/README.md",
     "docs/nana_next_experience/evidence/voluntary-review-resume-20261126/README.md",
-    "docs/nana_next_experience/evidence/voluntary-review-capacity-20261126/README.md",
-    "docs/nana_next_experience/evidence/meta-transfer-counterexample-20261126/README.md"
+    "docs/nana_next_experience/evidence/voluntary-review-capacity-20261126/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision347 证据指纹锚：`41c39ae3a8063f18ead8a9e532a92a20b884937e71bda63c602f5b18ffaae47c`。
 
 A revision346 证据指纹锚：`e4e4ba096c5bc7e6b46592a12e898f6e81d99db63b28c20081a3fecdd6985daa`。
 
