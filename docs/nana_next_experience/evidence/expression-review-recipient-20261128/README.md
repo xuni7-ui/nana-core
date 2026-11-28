@@ -11,3 +11,7 @@
 固定源码 `4e678abb6a14f33040563397381091f4803505a2`，便携包 313 文件，包含 HOST_VAULT、PUBLIC_VIDEO_FRAMES 和 NANALINK。用已校验的历史离线候选 wheelhouse 构建。包 SHA256 为 `a2508b83eba1372a2f120eeb45cc073a61965c8394d412da9f0b95cbf0bea1c6`。
 
 短路径独立安装槽完成 SHA 校验、离线依赖安装与预检。CPython 3.12.14、SQLite 3.53.1。原平台运行、长回复和语言学习测试用例加载安装内 Core 模块，6 项通过。覆盖 QQ UNKNOWN 的记忆用法范围、两个表达资格场景、长回复绑定及跨证据强度反例。真实模型与账号调用均为 0。App 和 NanaLink 侧车源码与既有 `3255024` 候选无差异。本批只构建 Core。当前交付指针仍为 Core 266272a 与 Android 409。 [构建](installed-build.json) · [离线安装](installed-offline.json) · [预检](installed-preflight.json) · [安装测试](installed-audience.txt)
+
+## 来源撤回
+
+先撤回同范围反例，下一未见话题恢复此前合资格的表达方式。再撤回两项支持中的一项，同主体停机重启后下一话题回到原方式。这两次撤回通过原 PrivacyJournal，未发出 QQ 消息。首轮探针误选了反例依赖中的较早意见，修正为按样本 ID 找精确来源，保留原断言。定向 16 项通过，同一安装包补验 2 项。 [探针首错](withdrawal-first.txt) · [定向回归](withdrawal-current.txt) · [安装补验](installed-withdrawal.txt)

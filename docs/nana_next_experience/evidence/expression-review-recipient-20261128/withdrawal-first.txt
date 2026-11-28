@@ -1,0 +1,12 @@
+.F..............                                                         [100%]
+=================================== FAILURES ===================================
+_ test_expression_reviews_qualify_and_transfer_only_for_their_recipient[transfer] _
+tests/living_release_v4/test_platform_runtime.py:611: in test_expression_reviews_qualify_and_transfer_only_for_their_recipient
+    assert receive(app,6,'43','after-counter-withdrawal')['text']=='SYNTHETIC concise'
+E   AssertionError: assert 'SYNTHETIC baseline' == 'SYNTHETIC concise'
+E
+E     - SYNTHETIC concise
+E     + SYNTHETIC baseline
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_expression_reviews_qualify_and_transfer_only_for_their_recipient[transfer]
+1 failed, 15 passed, 24 deselected in 10.08s

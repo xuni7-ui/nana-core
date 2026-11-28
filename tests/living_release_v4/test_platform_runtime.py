@@ -562,6 +562,7 @@ def test_expression_reviews_qualify_and_transfer_only_for_their_recipient(tmp_pa
             with LifeApplication(home,clock=clock,router=router) as app:
                 app.pause();r=app.runtime;identity=r.identity_id
                 service=LanguageService(r.store,r.authority)
+                supporting_reviews=[]
                 for i,peer in enumerate(('43','43' if same_recipient else '44'),1):
                     turn=receive(app,i,peer,f'independent-{i}',retain=True)
                     sample=LanguageSample(sample_id=f'expression-bound-{i}',review_target=turn['exchange_record_id'],
@@ -571,6 +572,7 @@ def test_expression_reviews_qualify_and_transfer_only_for_their_recipient(tmp_pa
                     rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
                         authority=r.authority,exchange_record_id=turn['exchange_record_id'])
                     eid=service.experience(rid,r.authority)
+                    supporting_reviews.append(rid)
                 experience=ExperienceService(r.store,r.authority)
                 lesson=experience.derive_lesson(eid)
                 checks=experience.test_lesson(lesson)
@@ -595,10 +597,24 @@ def test_expression_reviews_qualify_and_transfer_only_for_their_recipient(tmp_pa
                     mode='CASUAL',context='SYNTHETIC an independent counterexample',candidate_response=matched['text'],
                     human_judgment='REJECTED',reason_tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW',
                     observed_at_us=clock.utc_now_us())
-                service.record(counter,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                counter_id=service.record(counter,scope='project-work',entity_id='project-user',privacy='PROJECT',
                     authority=r.authority,exchange_record_id=matched['exchange_record_id'])
                 assert receive(app,5,'43','unseen-counter')['text']=='SYNTHETIC baseline'
-                assert len(requests)==12 and not platform['sent']
+
+                def withdraw_review(record_id):
+                    sample_id=service.records.read(record_id)['payload']['sample']['sample_id']
+                    opinion = next(mid for mid in service.records.support(record_id)
+                        if service.records.memory.read(mid)['source_provenance']['source_reference'] == sample_id)
+                    app.forget(opinion)
+                    assert not service.records.current_support(record_id)
+
+                withdraw_review(counter_id)
+                assert receive(app,6,'43','after-counter-withdrawal')['text']=='SYNTHETIC concise'
+                withdraw_review(supporting_reviews[0])
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity
+                assert receive(app,7,'43','after-support-withdrawal')['text']=='SYNTHETIC baseline'
+                assert len(requests)==16 and not platform['sent']
 
 
 def test_reply_readback_is_not_retroactively_attributed_to_an_earlier_review(tmp_path):
