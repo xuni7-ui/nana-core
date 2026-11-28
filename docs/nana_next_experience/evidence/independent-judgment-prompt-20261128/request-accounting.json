@@ -1,0 +1,80 @@
+{
+  "scope": "LOCAL_MESSAGE_CONTENT_ENCODING_ONLY",
+  "tokenizer": "gpt-tokenizer 4.1.2 / o200k_base",
+  "columns": [
+    "disabled",
+    "enabled"
+  ],
+  "prompt_tokens": 85,
+  "synthetic_loopback_calls_per_turn": 2,
+  "additional_runtime_model_calls": 0,
+  "real_provider_calls": 0,
+  "samples": {
+    "independent_fact": {
+      "INTERPRET": {
+        "message_content_tokens": [
+          4857,
+          4857
+        ],
+        "wire_bytes": [
+          20879,
+          20879
+        ]
+      },
+      "SOCIAL": {
+        "message_content_tokens": [
+          4191,
+          4276
+        ],
+        "wire_bytes": [
+          17398,
+          17904
+        ]
+      }
+    },
+    "normal_controversy": {
+      "INTERPRET": {
+        "message_content_tokens": [
+          5091,
+          5091
+        ],
+        "wire_bytes": [
+          21390,
+          21390
+        ]
+      },
+      "SOCIAL": {
+        "message_content_tokens": [
+          4040,
+          4125
+        ],
+        "wire_bytes": [
+          16096,
+          16602
+        ]
+      }
+    },
+    "natural_creativity": {
+      "INTERPRET": {
+        "message_content_tokens": [
+          5137,
+          5137
+        ],
+        "wire_bytes": [
+          20821,
+          20821
+        ]
+      },
+      "SOCIAL": {
+        "message_content_tokens": [
+          4647,
+          4732
+        ],
+        "wire_bytes": [
+          17882,
+          18388
+        ]
+      }
+    }
+  }
+}
