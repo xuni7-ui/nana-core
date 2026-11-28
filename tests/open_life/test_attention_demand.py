@@ -54,3 +54,59 @@ def test_old_cue_wire_has_no_default_demand_field():
     old={'schema_version':1,'cue_kind':'OPPORTUNITY','motivation_source':'CURIOSITY','topic_key':'world.question'}
     cue=ConcernCue.model_validate_json(json.dumps(old))
     assert cue.attention_demand=='LIGHT' and 'attention_demand' not in json.loads(cue.model_dump_json())
+
+
+def test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome(tmp_path):
+    from nana_core.continuity.learning import ExperienceInput, ExperienceService
+    from nana_core.presence.runtime import NanaRuntime
+    from nana_core.storage import canonical, digest
+    from tests.open_autonomy.helpers import capture, fresh
+
+    def observe(runtime, index):
+        service=ExperienceService(runtime.store,runtime.authority)
+        observed=capture(runtime,f'readback-{index}',canonical({'data':index}))
+        check=service.verify_structured_result(observed,digest(index),runtime.authority)
+        return service.record(ExperienceInput(context_memory_ids=(observed,),scope='lab',task_class='numbers',
+            decision='Consider an independently checked result',result_memory_id=observed,verification_memory_id=check))
+
+    path=tmp_path/'self.db'
+    with fresh(path,schema_target=13) as runtime:
+        older=[observe(runtime,i) for i in range(32)]
+        runtime.refresh_attention()
+        runtime.step()
+        schedules=runtime.store.all('runtime_schedules')
+        assert {row['dedupe_key'] for row in schedules if row['dedupe_key'].startswith('reflection-')} == {
+            f'reflection-{identifier}' for identifier in older}
+        assert not runtime.store.all('subject_reflections')
+        newest=observe(runtime,32)
+        config,clock,identity=runtime.config,runtime.clock.source,runtime.identity_id
+
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        runtime.refresh_attention()
+        runtime.step()
+        key=f'reflection-{newest}'
+        schedule=runtime.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()
+        assert schedule and schedule['state']=='ACTIVE'
+
+    clock.advance(config.idle_recall_us)
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        for _ in range(48):
+            runtime.step()
+            if runtime.store.db.execute('SELECT 1 FROM subject_reflections WHERE experience_id=?',(newest,)).fetchone():
+                break
+        else:
+            raise AssertionError('Newly verified outcome never reached original C')
+        reflected=runtime.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()
+        assert reflected['schedule_id']==schedule['schedule_id'] and reflected['occurrence']==1
+        later=runtime.store.one('runtime_queue',reflected['last_queue_id'])
+        assert later['state']=='DONE'
+        result=runtime.subject.result(runtime.store.one('subject_cycles',later['cycle_id']))
+        assert result.intention.kind=='REFLECTION' and not runtime.store.all('actions')
+
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        runtime.refresh_attention()
+        runtime.step()
+        assert runtime.store.db.execute('SELECT occurrence FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()[0]==1
+        assert not runtime.store.all('cognitive_requests')

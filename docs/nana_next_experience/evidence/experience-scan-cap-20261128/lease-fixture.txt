@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome ___
+tests/open_life/test_attention_demand.py:93: in test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome
+    runtime.step()
+src/nana_core/presence/runtime.py:301: in step
+    self.lease.heartbeat()
+src/nana_core/presence/authority.py:114: in heartbeat
+    row = self.assert_current()
+          ^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/authority.py:110: in assert_current
+    raise CoreError("RUNTIME_LEASE_LOST")
+E   nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+=========================== short test summary info ============================
+FAILED tests/open_life/test_attention_demand.py::test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome
+1 failed, 7 deselected in 0.54s

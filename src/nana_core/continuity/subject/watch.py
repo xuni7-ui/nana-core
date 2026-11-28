@@ -142,7 +142,13 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 batch.append((row,feedback))
                 nominated_id=row['experience_id']
                 break
-        batch.extend((row,None) for row in store.db.execute(unreflected+
+        ordinary=unreflected
+        if has_schedules:
+            # Existing one-shot reflection schedules already hold their slot.
+            # Expression feedback can receive a different key after a readback.
+            ordinary+=("AND (e.task_class='interaction.expression' OR NOT EXISTS ("
+                "SELECT 1 FROM runtime_schedules s WHERE s.dedupe_key='reflection-' || e.experience_id)) ")
+        batch.extend((row,None) for row in store.db.execute(ordinary+
             "AND e.experience_id IS NOT ? ORDER BY e.created_at_us LIMIT ?",(*params,nominated_id,32-len(batch))))
         for row,feedback in batch:
             if not loop.visible(row['record_id'],scope):continue

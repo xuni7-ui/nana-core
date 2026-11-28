@@ -1,0 +1,9 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome ___
+tests/open_life/test_attention_demand.py:90: in test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome
+    assert schedule and schedule['state']=='ACTIVE'
+E   assert (None)
+=========================== short test summary info ============================
+FAILED tests/open_life/test_attention_demand.py::test_already_scheduled_experiences_leave_room_for_a_new_verified_outcome
+1 failed, 7 deselected in 0.54s
