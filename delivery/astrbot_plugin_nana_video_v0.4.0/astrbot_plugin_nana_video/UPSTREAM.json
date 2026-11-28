@@ -1,0 +1,57 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "commit": "66eb93b594b2a4c520040e4b08d3efe98ff10e34",
+  "source_modules": [
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_perception.py",
+      "source_git_blob": "514599875d2f42b1cb01e63b9d65d4cab96539c2",
+      "package_path": "engine/video_perception.py",
+      "package_git_blob": "514599875d2f42b1cb01e63b9d65d4cab96539c2",
+      "change": "byte-for-byte identical"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_audio_probe.py",
+      "source_git_blob": "1db2627a5e7b0835675fdfce7f47095acf4cacb9",
+      "package_path": "engine/video_audio_probe.py",
+      "package_git_blob": "1db2627a5e7b0835675fdfce7f47095acf4cacb9",
+      "change": "byte-for-byte identical"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_coverage.py",
+      "source_git_blob": "76d7e163d840f73e298e3e283685a3d7690538cf",
+      "package_path": "engine/video_coverage.py",
+      "package_git_blob": "76d7e163d840f73e298e3e283685a3d7690538cf",
+      "change": "byte-for-byte identical"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_ffmpeg_probe.py",
+      "source_git_blob": "5489e4ab08d52853851c8b3930f16f543a85ccc2",
+      "package_path": "engine/video_ffmpeg_probe.py",
+      "package_git_blob": "f4f39819b5c7b53ce3aa8fbcdc219c649426f169",
+      "change": "one import path only"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_local_change.py",
+      "source_git_blob": "b88976cbc08ac153817fa9a98fc7c17b7e3f3af7",
+      "package_path": "engine/video_local_change.py",
+      "package_git_blob": "b88976cbc08ac153817fa9a98fc7c17b7e3f3af7",
+      "change": "byte-for-byte identical"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_pts_decode.py",
+      "source_git_blob": "a9449d835aa39b53f3a360dd02120e47ec6aa0f7",
+      "package_path": "engine/video_pts_decode.py",
+      "package_git_blob": "a9449d835aa39b53f3a360dd02120e47ec6aa0f7",
+      "change": "byte-for-byte identical"
+    },
+    {
+      "source_path": "tools/nana_next_experience/experiments/video_text_tools.py",
+      "source_git_blob": "46bf1b3ef92f0aa982190267fa8db207e5be270b",
+      "package_path": "engine/video_text_tools.py",
+      "package_git_blob": "46bf1b3ef92f0aa982190267fa8db207e5be270b",
+      "change": "byte-for-byte identical"
+    }
+  ],
+  "evidence_git_blob": "4337e804e61771dd721c7171cbe2bf80b8941ef7",
+  "validation": "0.4.0 modifies host policy only; original B tests rebased import paths. CI status is separate."
+}

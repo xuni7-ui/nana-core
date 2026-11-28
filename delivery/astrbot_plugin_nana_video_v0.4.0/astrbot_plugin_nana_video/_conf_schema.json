@@ -1,0 +1,140 @@
+{
+  "enabled": {
+    "description": "启用视频理解",
+    "type": "bool",
+    "default": true,
+    "hint": "只在宿主本来要生成回复时处理，不主动唤醒。"
+  },
+  "vision_provider_id": {
+    "description": "视觉模型提供商 ID",
+    "type": "string",
+    "default": "",
+    "hint": "填写 AstrBot 中支持图片的 provider ID；不填仅在当前模型声明支持 image 时使用。"
+  },
+  "enable_bilibili": {
+    "description": "B站公开BV视频",
+    "type": "bool",
+    "default": true,
+    "hint": "使用yt-dlp，无账号登录，不支持短链或分P。"
+  },
+  "max_video_mb": {
+    "description": "视频大小上限 MiB",
+    "type": "int",
+    "default": 80,
+    "hint": "1–200。QQ宿主转换下载后执行检查。"
+  },
+  "max_video_seconds": {
+    "description": "时长上限秒",
+    "type": "int",
+    "default": 600,
+    "hint": "5–3600；长片使用B原有分布式窗口采样。"
+  },
+  "max_frames": {
+    "description": "输出帧预算",
+    "type": "int",
+    "default": 8,
+    "hint": "1–16，上限；短片默认4帧，中片6帧，长片8帧，明确细节在上限内调整。"
+  },
+  "frame_width": {
+    "description": "图像长边上限",
+    "type": "int",
+    "default": 640,
+    "hint": "160–1024，保持比例且总像素不超过262144。"
+  },
+  "local_timeout": {
+    "description": "本地处理时间预算秒",
+    "type": "int",
+    "default": 60,
+    "hint": "10–180，B引擎尽力预算，不含下载和模型。"
+  },
+  "ocr": {
+    "description": "启用本地OCR",
+    "type": "bool",
+    "default": false,
+    "hint": "可选，需要 Tesseract 和对应语言包；可能增加本地CPU耗时。"
+  },
+  "ocr_language": {
+    "description": "OCR语言",
+    "type": "string",
+    "default": "chi_sim+eng",
+    "hint": "以已安装语言包为准。"
+  },
+  "ocr_probe_budget": {
+    "description": "额外OCR探测预算",
+    "type": "int",
+    "default": 4,
+    "hint": "0–12；不是发送给视觉模型的图片数。"
+  },
+  "transcribe_audio": {
+    "description": "启用AstrBot语音转写",
+    "type": "bool",
+    "default": false,
+    "hint": "可产生额外STT费用。未开启时仍可利用B原有声学测量。"
+  },
+  "audio_seconds": {
+    "description": "STT音频秒数上限",
+    "type": "int",
+    "default": 90,
+    "hint": "5–180；仅起始音轨。"
+  },
+  "cache_seconds": {
+    "description": "来源缓存秒数",
+    "type": "int",
+    "default": 600,
+    "hint": "0–1800；0不保留源视频，非0允许回看；每30秒清理。"
+  },
+  "cache_items": {
+    "description": "最多保留视频",
+    "type": "int",
+    "default": 4,
+    "hint": "1–8；按会话与发送者隔离。默认最多约320MiB源文件，不含处理中临时文件。"
+  },
+  "route_mode": {
+    "description": "视频入口归属",
+    "type": "string",
+    "default": "coexist_bv",
+    "hint": "coexist_bv：旧插件接管QQ及引用；standalone：先停用旧插件后才启用本插件直发视频。"
+  },
+  "allowed_senders": {
+    "description": "允许发送者ID（可选）",
+    "type": "string",
+    "default": "",
+    "hint": "逗号分隔，空表示不限制私聊发送者；群聊仍要求允许群。"
+  },
+  "allowed_groups": {
+    "description": "允许群号",
+    "type": "string",
+    "default": "",
+    "hint": "默认空，禁止本插件群聊付费观察；逗号分隔群号。"
+  },
+  "group_explicit_only": {
+    "description": "群聊仅明确请求触发",
+    "type": "bool",
+    "default": true,
+    "hint": "已允许的群仍需明确观看或回看措辞。"
+  },
+  "daily_calls": {
+    "description": "每日全部模型尝试上限",
+    "type": "int",
+    "default": 20,
+    "hint": "北京时间，视觉和STT各计一次；失败不退额度，0停用新模型调用。不是人民币上限。"
+  },
+  "daily_sender_calls": {
+    "description": "每日每发送者上限",
+    "type": "int",
+    "default": 6,
+    "hint": "跨该发送者会话累计，0禁止新模型调用。"
+  },
+  "min_call_interval": {
+    "description": "每发送者冷却秒数",
+    "type": "int",
+    "default": 30,
+    "hint": "新观察的模型调用间隔；同次STT独立计额度，不另加冷却。"
+  },
+  "max_concurrent": {
+    "description": "同时处理视频数",
+    "type": "int",
+    "default": 2,
+    "hint": "不同会话可并行，同一会话不排队，超限立即返回忙。"
+  }
+}
