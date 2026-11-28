@@ -858,6 +858,27 @@ test("Next Experience: authorized console reads and filters original projections
   expect(state.requests.filter(r => r.method === "POST")).toHaveLength(0);
 });
 
+test("SYNTHETIC web login connects without persisting the password", async ({page}) => {
+  const state=await installMock(page);state.loggedIn=false;
+  let logins=0;
+  await page.route(`**${API}session`,async route=>{
+    if(route.request().method()!=='POST')return route.fallback();
+    const request=route.request().postDataJSON();
+    expect(request.subject_id).toBe(SUBJECT);
+    expect(request.password).toBe('synthetic-login-password');
+    logins++;state.loggedIn=true;
+    return route.fulfill({status:200,json:envelope(state,{csrf:'TEST_ONLY_NOT_SECRET_CSRF_BOUNDARY_00000000'})});
+  });
+  await page.goto('/index.html?source=live#home');
+  await page.getByLabel('Subject ID',{exact:true}).fill(SUBJECT);
+  await page.getByLabel('会话口令',{exact:true}).fill('synthetic-login-password');
+  await page.getByRole('button',{name:'安全连接',exact:true}).click();
+  await expect(page.locator('main')).toHaveAttribute('data-subject-id',SUBJECT);
+  expect(logins).toBe(1);
+  expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain('synthetic-login-password');
+  await noHorizontalOverflow(page);
+});
+
 test("Daily chat: message area owns the screen and options remain reachable", async ({page}) => {
   await installMock(page); await open(page); await go(page, "chat", "chat");
   const log = page.getByRole("log", {name:"当前会话"});
@@ -1167,7 +1188,8 @@ test("SYNTHETIC stream: final receipt replaces provisional text, interruption ne
   state.streamInterrupted=false;
   await page.getByLabel("输入消息").fill("SYNTHETIC independent message after UNKNOWN");
   await page.getByRole("button",{name:"发送",exact:true}).click();
-  await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toBeVisible();
+  // The first turn already has identical text; wait for the new turn.
+  await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toHaveCount(2);
   expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(3);
   expect(new Set(state.messageBodies?.map(body=>body.client_request_id)).size).toBe(3);
   await noHorizontalOverflow(page);
