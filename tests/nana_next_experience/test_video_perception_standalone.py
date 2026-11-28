@@ -122,6 +122,21 @@ def test_question_subtitle_guides_same_budget_to_relevant_window(tmp_path):
     assert focused['focus_hints_applied']==1
 
 
+def test_chinese_seconds_question_guides_sampling(tmp_path):
+    from tools.nana_next_experience.experiments.video_perception import _focus_candidates
+    video=tmp_path/'chinese-timestamp.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=2:d=12',
+                    '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=20)
+    baseline=perceive_video(video,frame_budget=2,sampling='uniform',max_runtime_seconds=30)
+    focused=perceive_video(video,question='在5秒时出现了什么？',frame_budget=2,
+                           sampling='uniform',max_runtime_seconds=30)
+    assert not any(5<=f['time_seconds']<6 for f in baseline['frames'])
+    assert any(5<=f['time_seconds']<6 and f['selection_reason']=='QUESTION_TIMESTAMP'
+               for f in focused['frames'])
+    assert _focus_candidates('第5秒的画面',None,0,12)==[(5.0,'QUESTION_TIMESTAMP')]
+    assert _focus_candidates('5secondsuffix',None,0,12)==[]
+
+
 def test_real_local_ocr_and_offline_asr(tmp_path):
     pytest.importorskip('pocketsphinx')
     if not shutil.which('tesseract'):pytest.skip('optional Tesseract unavailable')

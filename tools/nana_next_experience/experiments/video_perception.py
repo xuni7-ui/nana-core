@@ -21,7 +21,7 @@ def _focus_candidates(question, subtitles, start, end):
     for minutes,seconds in re.findall(r'(?<!\d)(\d{1,3}):(\d{2}(?:\.\d+)?)(?!\d)',question):
         value=int(minutes)*60+float(seconds)
         if start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
-    for value in re.findall(r'(?<![\d.])(\d+(?:\.\d+)?)\s*(?:seconds?|secs?|秒)\b',question,re.I):
+    for value in re.findall(r'(?<![\d.])(\d+(?:\.\d+)?)\s*(?:seconds?\b|secs?\b|秒)',question,re.I):
         value=float(value)
         if start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
     terms=_question_terms(question)
