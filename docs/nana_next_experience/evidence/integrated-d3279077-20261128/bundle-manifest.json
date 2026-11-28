@@ -1,0 +1,42 @@
+{
+  "core_source": "d3279077dfe90bbed926c310d5f04db3bf788868",
+  "sidecar_source": "d3279077dfe90bbed926c310d5f04db3bf788868",
+  "client_build_source": "325502482afd18f1e3137ea183d3927c2c02bce4",
+  "status": "CONTROLLED_COMBINED_DEVELOPMENT_CANDIDATE",
+  "production_activation": false,
+  "real_provider_calls": 0,
+  "physical_phone": false,
+  "actual_cross_day": false,
+  "same_subject_rollback": true,
+  "real_account_send": false,
+  "checks": {
+    "web_inputs_matched": 74,
+    "apk_web_assets_matched": 42,
+    "source_regression": 119,
+    "installed_core_method_tests": 3,
+    "installed_platform_tests": 154
+  },
+  "files": {
+    "HANDOFF.md": "dc87715cbfbc0bb107380ae409c31c813b8035a5e5a071f252e3f271b3d4764a",
+    "android/nana-space-3255024-debug.apk": "19f1a3cb383ec65351509bdc3bafa58df85cccf9761ce4061e4c8cc9412f5482",
+    "evidence/build.json": "04825259a0d0e993611c40850d6ab9c8386837abbe8d44412dc36a20f96f059f",
+    "evidence/clients.json": "d442305bd7763caf9600341c898051a32a0b26e89fdd5bb44c00f55ee6f8bf80",
+    "evidence/gateway.json": "a2d0c96e81a0404b98802cf0b26dfed8452978201d212edf01de229030bee5f4",
+    "evidence/growth.json": "12fec02e1c389684dc3dd5956389a5765a4aadfe3cc2e4966575e601115638a1",
+    "evidence/installed-cg.txt": "d1260af3e0f8e90e42efc4a44370e8ec072dc0609a827a8612eb37ed38f079f0",
+    "evidence/installed-platform.txt": "f82580234235e192d7021502aa770d6a536c31650a7ca5e4e9a564308be69d5f",
+    "evidence/integrated.json": "2f406aaffb993ae544fb7dccc3f0a1dadc6c96505f0b2921cdbbc8c8e0bb414f",
+    "evidence/living.json": "4ec9e8eca0fe4f1c3e6971273bd65a17ede3c8850e9c29dbe78b47838ce1cf67",
+    "evidence/preflight.json": "668bbad0ddbded9143ab9895f52aee86ffaa19af89230b86c4efc6f6e9d49f85",
+    "evidence/sidecar-check.txt": "539f975746e496b281eca26bec183a364a7db389d326d7d63ac5c93d5900f8de",
+    "evidence/sidecar-source.json": "26b5ddfe7cc9317c69795adfbabac612b206d23f53f95656ff4fb4ec91f2cd93",
+    "evidence/source-regression.txt": "efe492b47d622111a1ccf3d046cdab72fa7844e7bd185b4049b458911cd08dbe",
+    "nana-core-3255024-fallback.tar.gz": "bc6e56147df8557097ff9eb5573a15f3d019295f9c1aef42eb54d475562b20ea",
+    "nana-core-d3279077-portable.tar.gz": "99a0b0b642548248043c0b6993dbe97da3e5dc423b1d46b793904257c8b65c0d",
+    "nana-unpack.py": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7",
+    "nana-web-3255024.tar.gz": "791bd1a818e39bc113590aab10b80b70622dcd774224c162e078b966d5f3f79b",
+    "nanalink/config.example.json": "9990dbbf10ed7dfe60192f6723431993b9a1e9d59da42e96207427e756ed96e0",
+    "nanalink/nana_core_offline-0.1.0-py3-none-any.whl": "feaabc92fd93fcf55a715ba8171c29c1fd0afac347ee8e6c27ac7e489448b2ce",
+    "nanalink/requirements-nanalink.lock": "f65720613486b26c71071139eb9bc2a9f81a939f65618bb9e2d21229fb8986b4"
+  }
+}

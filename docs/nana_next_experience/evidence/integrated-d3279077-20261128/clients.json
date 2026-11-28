@@ -1,0 +1,14 @@
+{
+  "core_commit": "d3279077dfe90bbed926c310d5f04db3bf788868",
+  "independent_GitHub_delivery_clone": "dc3806ecfe581695f3d855ecc33f8364bce08448",
+  "historical_client_commit": "325502482afd18f1e3137ea183d3927c2c02bce4",
+  "web_inputs_matched": 74,
+  "web_vs_apk_matched": 42,
+  "apk_sha256": "19f1a3cb383ec65351509bdc3bafa58df85cccf9761ce4061e4c8cc9412f5482",
+  "apk_signature_evidence_inherited_from_identical_bytes": true,
+  "phone_run": false,
+  "web_sha256": "791bd1a818e39bc113590aab10b80b70622dcd774224c162e078b966d5f3f79b",
+  "historical_sidecar_sha256": "6edbe529e0a7fde7bed0688522f4502b136d4cbd11c8706d631f8a0afb207358",
+  "prior_core_commit": "12e3aeb138a4d5e3e21a2590e52820795d2dc3f9",
+  "changed_web_inputs_after_prior_verification": 0
+}
