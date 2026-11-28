@@ -35,6 +35,7 @@ class Situation(DTO):
     support_record_ids: tuple[str, ...]
     pending_count: int
     idle: bool
+    selected_method: str | None = None
     cue: ConcernCue | None = None
     prohibited_behaviors: tuple[str,...] = ()
     interaction_style: str = 'RESPECTFUL_EXPLICIT'

@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_c_and_planner_use_the_same_supported_method_after_restart ________
+tests/open_life/test_learning_renewal.py:163: in test_c_and_planner_use_the_same_supported_method_after_restart
+    port = configure(r, tmp_path/'world.fixture', (ordering_goal, total_goal))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/open_autonomy/helpers.py:42: in configure
+    p=OfflineEffectPort(r.identity_id,world);GovernanceController(r.store,r.authority).initialize(r.authority)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/autonomy/fixture_effects.py:39: in __init__
+    if not self.path.name.endswith('.fixture.json'):raise CoreError('OFFLINE_FIXTURE_PATH_REQUIRED')
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   nana_core.contracts.CoreError: OFFLINE_FIXTURE_PATH_REQUIRED
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_c_and_planner_use_the_same_supported_method_after_restart
+1 failed, 7 deselected in 0.54s

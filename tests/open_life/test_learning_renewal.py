@@ -140,6 +140,50 @@ def ordering_spec():
         transfer=(LearningCase(case_id='order-transfer', context='inventory', data=[7, 0, 5], expected=[0, 5, 7]),))
 
 
+def test_c_and_planner_use_the_same_supported_method_after_restart(tmp_path):
+    path = tmp_path/'subject.db'
+    clock = VirtualClock()
+    numeric = number_learning()
+    ordering = ordering_spec().model_copy(update={'learning_key':'learn.ordering'})
+    with runtime(path, clock) as r:
+        r.work.configure_open_learning((numeric, ordering))
+        numeric_source = start_learning(r, numeric, 'first-method')
+        ordering_source = start_learning(r, ordering, 'second-method')
+        first, second = r.store.all('lessons')
+        assert first['state'] == second['state'] == 'ACTIVE'
+        assert list(r.work.open_learning.strategies('numbers', 'lab')) == [
+            (second['record_id'], 'SORT'), (first['record_id'], 'NUMERIC_SUM'),
+        ]
+        identity = r.identity_id
+
+    with runtime(path, clock) as r:
+        assert r.identity_id == identity
+        ordering_goal = objective(key='fixture.ordering', method='NUMERIC_SUM', expected=[1, 3])
+        total_goal = objective(key='fixture.total', method='NAIVE_SUM', expected=3.75)
+        port = configure(r, tmp_path/'world.fixture.json', (ordering_goal, total_goal))
+        r.work.configure_open_learning((numeric, ordering))
+        port.seed_observation(ordering_goal.operators[0].resource, [3, 1])
+        port.seed_observation(total_goal.operators[0].resource, [2.5, 1.25])
+
+        send(r, 'after-restart', (cue(r, ordering_goal),), task_class='numbers')
+        chosen = r.step()['cycle']
+        assert r.work.open_learning.strategy('numbers', 'lab') == (second['record_id'], 'SORT')
+        assert chosen.judgment.selected_method == 'SORT'
+        assert chosen.judgment.lesson_ids == (second['lesson_id'],)
+        assert numeric_source not in chosen.judgment.source_ids
+        advance(r, 8)
+        assert r.store.all('goals')[0]['state'] == 'COMPLETED'
+
+        MemoryService(r.store, r.authority).forget(ordering_source, r.authority)
+        send(r, 'after-new-method-withdrawn', (cue(r, total_goal),), task_class='numbers')
+        fallback = r.step()['cycle']
+        assert r.work.open_learning.strategy('numbers', 'lab') == (first['record_id'], 'NUMERIC_SUM')
+        assert fallback.judgment.selected_method == 'NUMERIC_SUM'
+        assert fallback.judgment.lesson_ids == (first['lesson_id'],)
+        advance(r, 8)
+        assert [goal['state'] for goal in r.store.all('goals')] == ['COMPLETED', 'COMPLETED']
+
+
 def reconsider(r, key, gap, *, load='LOW'):
     cue_value = ConcernCue(cue_kind='OPEN_LOOP', motivation_source='CAPABILITY_GAP',
         topic_key=key, program_id='learn.numbers', possible_behaviors=('LEARN', 'WATCH'), cognitive_load=load)

@@ -121,6 +121,27 @@ class IndependentEvaluator:
         }
 
 
+def method_strategies(records, domain, scope, privacy):
+    """Yield currently supported method lessons in the order C and Planner use."""
+    if not privacy:
+        return
+    privacy_slots = ",".join("?" for _ in privacy)
+    for lesson_id, record_id in records.store.db.execute(
+        "SELECT l.lesson_id,l.record_id FROM lessons l JOIN continuity_records h ON h.record_id=l.record_id "
+        "JOIN artifacts a ON a.artifact_id=h.payload_artifact_id "
+        "WHERE l.task_class=? AND l.state='ACTIVE' AND h.scope=? AND h.lifecycle='ACTIVE' "
+        f"AND h.privacy_class IN ({privacy_slots}) "
+        "AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) "
+        "THEN json_extract(CAST(a.payload AS TEXT),'$.rule.kind') END='METHOD_SELECTION' "
+        "ORDER BY l.rowid DESC LIMIT 16",
+        (domain, scope, *privacy),
+    ):
+        if records.current_support(record_id):
+            payload = records.read(record_id)["payload"]["rule"]
+            rule = MethodStrategyRule.model_validate_json(canonical(payload))
+            yield lesson_id, record_id, rule.method
+
+
 class LearningService:
     def __init__(
         self,
@@ -710,21 +731,8 @@ class LearningService:
     def strategies(self, domain, scope):
         if scope not in self.scopes:
             raise CoreError("LEARNING_SCOPE_DENIED")
-        if not self.privacy:
-            return
-        experience = ExperienceService(self.store, self.authority)
-        privacy_slots = ",".join("?" for _ in self.privacy)
-        for row in self.store.db.execute(
-            "SELECT l.* FROM lessons l JOIN continuity_records h ON h.record_id=l.record_id "
-            "WHERE l.task_class=? AND l.state='ACTIVE' AND h.scope=? AND h.lifecycle='ACTIVE' "
-            f"AND h.privacy_class IN ({privacy_slots}) ORDER BY l.rowid DESC LIMIT 16",
-            (domain, scope, *self.privacy),
-        ):
-            if not self.records.current_support(row["record_id"]):
-                continue
-            rule = experience._rule(row)
-            if isinstance(rule, MethodStrategyRule):
-                yield row["record_id"], rule.method
+        for _, record_id, method in method_strategies(self.records, domain, scope, self.privacy):
+            yield record_id, method
 
     def monitor(self, lesson_id, cases, *, authority):
         if authority is not self.authority:

@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_c_and_planner_use_the_same_supported_method_after_restart ________
+tests/open_life/test_learning_renewal.py:171: in test_c_and_planner_use_the_same_supported_method_after_restart
+    assert chosen.judgment.selected_method == 'SORT'
+E   AssertionError: assert 'NUMERIC_SUM' == 'SORT'
+E     
+E     - SORT
+E     + NUMERIC_SUM
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_c_and_planner_use_the_same_supported_method_after_restart
+1 failed, 7 deselected in 0.52s

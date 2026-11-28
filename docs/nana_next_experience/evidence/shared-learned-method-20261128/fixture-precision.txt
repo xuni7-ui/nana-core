@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_c_and_planner_use_the_same_supported_method_after_restart ________
+tests/open_life/test_learning_renewal.py:184: in test_c_and_planner_use_the_same_supported_method_after_restart
+    assert [goal['state'] for goal in r.store.all('goals')] == ['COMPLETED', 'COMPLETED']
+E   AssertionError: assert ['COMPLETED', 'FAILED'] == ['COMPLETED', 'COMPLETED']
+E     
+E     At index 1 diff: 'FAILED' != 'COMPLETED'
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_c_and_planner_use_the_same_supported_method_after_restart
+1 failed, 7 deselected in 0.76s

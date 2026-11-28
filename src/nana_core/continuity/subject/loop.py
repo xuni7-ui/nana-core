@@ -110,18 +110,32 @@ class SubjectLoop:
         records.extend(relation['source_record_ids'])
         for rid in relation['source_record_ids']:memories.extend(self.records.support(rid))
         lesson_ids, lesson_record_ids = [], []
-        if event.task_class is not None:
+        selected_method = None
+        privacy_marks=','.join('?' for _ in self.privacy_classes)
+        if event.task_class is not None and self.privacy_classes:
             active_lessons = self.store.db.execute(
-                "SELECT lesson_id,record_id FROM lessons WHERE task_class=? AND state='ACTIVE' ORDER BY rowid",
-                (event.task_class,),
+                "SELECT l.lesson_id,l.record_id FROM lessons l JOIN continuity_records r ON l.record_id=r.record_id "
+                "JOIN artifacts a ON r.payload_artifact_id=a.artifact_id "
+                "WHERE l.task_class=? AND l.state='ACTIVE' AND r.scope=? AND r.lifecycle='ACTIVE' "
+                f"AND r.privacy_class IN ({privacy_marks}) AND CASE WHEN json_valid(CAST(a.payload AS TEXT)) "
+                "THEN coalesce(json_extract(CAST(a.payload AS TEXT),'$.rule.kind'),'')!='METHOD_SELECTION' "
+                "ELSE 1 END ORDER BY l.rowid",
+                (event.task_class,event.scope,*self.privacy_classes),
             )
             for lesson_id, record_id in active_lessons:
-                if self.visible(record_id, event.scope):
+                if self.records.current_support(record_id):
                     lesson_ids.append(lesson_id)
                     lesson_record_ids.append(record_id)
-                    records.append(record_id)
-                    memories.extend(self.records.support(record_id))
-        privacy_marks=','.join('?' for _ in self.privacy_classes)
+            if self.store.schema_target>=12:
+                from ..open_agency.learning import method_strategies
+                selected = next(method_strategies(self.records,event.task_class,event.scope,self.privacy_classes),None)
+                if selected is not None:
+                    lesson_id, record_id, selected_method = selected
+                    lesson_ids.append(lesson_id)
+                    lesson_record_ids.append(record_id)
+            records.extend(lesson_record_ids)
+            for record_id in lesson_record_ids:
+                memories.extend(self.records.support(record_id))
         norm_rows=self.store.db.execute(
             "SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) "
             f"AND privacy_class IN ({privacy_marks}) AND predicate_key LIKE 'concern.constraint%' "
@@ -304,7 +318,7 @@ class SubjectLoop:
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
-            lesson_ids=tuple(lesson_ids), lesson_record_ids=tuple(lesson_record_ids),
+            lesson_ids=tuple(lesson_ids), lesson_record_ids=tuple(lesson_record_ids), selected_method=selected_method,
             support_record_ids=tuple(dict.fromkeys(records)), pending_count=len(pending),
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
@@ -427,14 +441,8 @@ class SubjectLoop:
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
-            if self.store.schema_target>=12 and situation.lesson_ids and event.task_class:
-                from ..open_agency.learning import MethodStrategyRule
-                for lid in situation.lesson_ids:
-                    payload=self.records.read(self.store.one('lessons',lid)['record_id'])['payload']['rule']
-                    rule=MethodStrategyRule.model_validate_json(canonical(payload)) if payload.get('kind')=='METHOD_SELECTION' else None
-                    if isinstance(rule,MethodStrategyRule):
-                        judgment=judgment.model_copy(update={'selected_method':rule.method,'lesson_ids':situation.lesson_ids})
-                        break
+            if situation.selected_method is not None:
+                judgment=judgment.model_copy(update={'selected_method':situation.selected_method,'lesson_ids':situation.lesson_ids})
             request_decision=None
             if self.store.schema_target>=9 and event.positive_request and event.retention!='DO_NOT_REMEMBER':
                 from ..autonomy.requests import evaluate_request
