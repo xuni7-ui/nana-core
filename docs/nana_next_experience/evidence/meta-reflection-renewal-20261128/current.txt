@@ -1,0 +1,14 @@
+.Original G after restart: reviewed=False, method=NAIVE_SUM, state=BLOCKED, real_model_calls=0
+.Original G after restart: reviewed=True, method=NUMERIC_SUM, state=DONE, real_model_calls=0
+.prior=CANDIDATE, interrupted=False, renewed after restart and independently reviewed, real_model_calls=0
+.prior=ACTIVE, interrupted=False, renewed after restart and independently reviewed, real_model_calls=0
+.prior=ACTIVE, interrupted=True, renewed after restart and independently reviewed, real_model_calls=0
+.....{"measurement": "original_meta_policy_after8_other_domains", "selected_by_policy": "NUMERIC_SUM", "later_job_state": "DONE", "later_g_hypothesis": "NUMERIC_SUM", "original_policy_record_consumed": true, "independent_evaluation": true, "independent_transfer": true, "model_calls": 0, "selector_seconds": 0.0005895729991607368, "selector_cpu_seconds": 0.0005886290000001182, "selector_write_rows": 0}
+.{"same_method": false, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"same_method": true, "future_state": "DONE", "future_stage": "MONITOR", "attached_previous_proposal": false, "loopback_calls_total": 1}
+.{"compatible_available": true, "state": "DONE", "stage": "MONITOR", "used_original_strategy": true, "proposer_calls": 0}
+.{"compatible_available": false, "state": "BLOCKED", "stage": "CONSOLIDATE", "used_original_strategy": false, "proposer_calls": 1}
+..S10 transfer comparison: policy=PROPOSER_ONLY, first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, proposer_calls=0, real_model_calls=0
+.S10 transfer comparison: policy=PRACTICE_COMPARE, first=BLOCKED, other_practice=CASEFOLD, matching_practice=NFKC_CASEFOLD, redirected=DONE, withdrawn=BLOCKED, proposer_calls=0, real_model_calls=0
+.
+18 passed in 3.10s

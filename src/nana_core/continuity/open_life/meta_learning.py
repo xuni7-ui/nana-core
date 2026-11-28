@@ -94,6 +94,13 @@ def _selection_transferred(records,trial,data):
     except (CoreError,KeyError,TypeError,ValueError):return False
 
 
+def strategy_source_withdrawn(store, lesson):
+    if not lesson or lesson['task_class'] != 'learning.strategy' or lesson['state'] not in {'CANDIDATE','TESTED','ACTIVE'}:
+        return False
+    record = store.one('continuity_records', lesson['record_id'])
+    return bool(record and record['lifecycle'] == 'DELETED')
+
+
 def propose(store,method_lesson_id,*,authority,consideration_records=()):
     records=RecordService(store);lesson=store.one('lessons',method_lesson_id)
     if not lesson or lesson['state']!='ACTIVE':raise CoreError('META_VERIFIED_METHOD_LESSON_REQUIRED')
@@ -102,8 +109,11 @@ def propose(store,method_lesson_id,*,authority,consideration_records=()):
     candidate=LearningStrategyLesson(domain=lesson['task_class'],trial_record_id=rule['trial_record_id'])
     if not all(v for k,v in checks(records,candidate).items() if k!='independent_selection_experiment'):raise CoreError('META_TRIAL_NOT_QUALIFIED')
     key='meta-learning:'+digest([method_lesson_id,candidate.model_dump(mode='json')])
-    old=store.db.execute("SELECT lesson_id FROM lessons l JOIN continuity_records r ON l.record_id=r.record_id WHERE r.target_id=?",(key,)).fetchone()
-    if old:return old[0]
+    old=store.db.execute("SELECT l.* FROM lessons l JOIN continuity_records r ON l.record_id=r.record_id WHERE r.target_id=?",(key,)).fetchone()
+    if old:
+        if consideration_records and strategy_source_withdrawn(store, old):
+            _renew_candidate(records, head, candidate, old, key, authority, consideration_records)
+        return old['lesson_id']
     # One Experience has one Lesson. Run a separate, explicitly attributed
     # selection experiment through the original Experience gate; never duplicate
     # or rewrite the method-learning Experience just to attach another rule.
@@ -139,6 +149,32 @@ def propose(store,method_lesson_id,*,authority,consideration_records=()):
             records=(head['record_id'],candidate.trial_record_id,store.one('experiences',experience_id)['record_id'],*consideration_records),target_id=key)
         tx.put('lessons',{'lesson_id':lid,'experience_id':experience_id,'record_id':rid,'task_class':'learning.strategy','revision':1,'state':'CANDIDATE','tested_rule_hash':None,'test_event_id':None})
     return lid
+
+
+def _renew_candidate(records, head, candidate, old, key, authority, consideration_records):
+    from ..learning import ExperienceService
+
+    store = records.store
+    experience = store.one('experiences', old['experience_id'])
+    if (not experience or not records.current_support(experience['record_id'])
+            or not all(records.current_support(rid) for rid in consideration_records)):
+        raise CoreError('META_TRIAL_NOT_QUALIFIED')
+    ExperienceService(store, authority).get(old['experience_id'])
+    candidate = candidate.model_copy(update={'experiment_memory_id':experience['result_memory_id']})
+    if not all(checks(records, candidate).values()):
+        raise CoreError('META_TRIAL_NOT_QUALIFIED')
+    # Keep the experiment and lesson identity. A new reflection provides a
+    # fresh candidate record and must receive its own independent review.
+    with store.transaction('learning.strategy_candidate_renewed', {'lesson_id':old['lesson_id']}) as tx:
+        fresh = store.one('lessons', old['lesson_id'])
+        if fresh['revision'] != old['revision'] or not strategy_source_withdrawn(store, fresh):
+            raise CoreError('META_TRIAL_NOT_QUALIFIED')
+        rid = records.create(tx, kind='LESSON', scope=head['scope'], target_id=key,
+            payload={'rule':candidate.model_dump(mode='json')},
+            records=(head['record_id'], candidate.trial_record_id, experience['record_id'], *consideration_records))
+        tx.update('lessons', old['lesson_id'], record_id=rid, revision=old['revision']+1,
+            state='CANDIDATE', tested_rule_hash=None, test_event_id=None)
+
 
 def select(store,problem,*,scope,privacy,candidate_allowed=None):
     records=RecordService(store)

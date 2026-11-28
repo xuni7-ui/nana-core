@@ -1,0 +1,14 @@
+FF.
+=================================== FAILURES ===================================
+_ test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn[CANDIDATE] _
+tests/open_life/test_meta_learning.py:149: in test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn
+    assert current['record_id']!=prior['record_id'] and current['state']=='CANDIDATE'
+E   AssertionError: assert ('531fffdc-fb26-4cd9-9075-1869f0d708c8' != '531fffdc-fb26-4cd9-9075-1869f0d708c8')
+_ test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn[ACTIVE] _
+tests/open_life/test_meta_learning.py:149: in test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn
+    assert current['record_id']!=prior['record_id'] and current['state']=='CANDIDATE'
+E   AssertionError: assert ('517945a0-479b-40fa-9cd3-9ee127e14275' != '517945a0-479b-40fa-9cd3-9ee127e14275')
+=========================== short test summary info ============================
+FAILED tests/open_life/test_meta_learning.py::test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn[CANDIDATE]
+FAILED tests/open_life/test_meta_learning.py::test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn[ACTIVE]
+2 failed, 1 passed, 12 deselected in 0.86s

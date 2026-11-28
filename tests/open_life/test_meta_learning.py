@@ -99,6 +99,102 @@ def test_runtime_owned_reflection_can_propose_a_strategy_for_independent_review(
         assert select(r.store, problem, scope='lab', privacy=('PERSONAL',)) == (None, None)
 
 
+@pytest.mark.parametrize('state, change', [
+    ('CANDIDATE', 'reason'), ('ACTIVE', 'reason'), ('ACTIVE', 'interrupted'),
+    ('ACTIVE', 'experiment'), ('SUSPENDED', 'reason'), ('RETIRED', 'reason'),
+])
+def test_new_reflection_can_renew_a_strategy_after_only_its_reason_is_withdrawn(tmp_path, monkeypatch, state, change):
+    from nana_core.presence.runtime import NanaRuntime
+
+    path=tmp_path/'self.db'
+    initial=number_learning()
+    later=initial.model_copy(update={
+        'learning_key':'learn.after-renewal',
+        'hypotheses':('NAIVE_SUM','NUMERIC_SUM'),
+        'practice':(LearningCase(case_id='new-practice', context='recipe', data=[1.75,.625], expected=2.375),),
+        'evaluation':(LearningCase(case_id='new-heldout', context='recipe', data=[3.125,1.5], expected=4.625),),
+        'transfer':(LearningCase(case_id='new-transfer', context='trail', data=[.375,1.125], expected=1.5),),
+    })
+    problem=LearningProblem.from_spec(later)
+    interrupted=change=='interrupted'
+    with fresh(path, schema_target=13) as runtime:
+        runtime.work.configure_open_learning((initial,))
+        start_learning(runtime,initial)
+        method=runtime.store.all('lessons')[0]
+        old_reason=capture(runtime,'old-reflection-reason','SYNTHETIC first experience prompting reflection')
+        send(runtime,'first-reflection-only-source',(old_reason,),reflection_experience_id=method['experience_id'])
+        assert runtime.step()['cycle'].intention.kind=='REFLECTION'
+        reflection=runtime.store.all('subject_reflections')[0]
+        strategy_id=reflection['lesson_id']
+        if state!='CANDIDATE':
+            runtime.subject.reflect(method['experience_id'], authority=runtime.authority,apply=True)
+        if state in {'SUSPENDED','RETIRED'}:
+            ExperienceService(runtime.store,runtime.authority).suspend(strategy_id,runtime.authority,retire=state=='RETIRED')
+        prior=runtime.store.one('lessons',strategy_id)
+        assert prior['state']==state
+        assert old_reason in RecordService(runtime.store).support(prior['record_id'])
+        removed=old_reason
+        if change=='experiment':
+            removed=runtime.store.one('experiences',prior['experience_id'])['result_memory_id']
+        MemoryService(runtime.store,runtime.authority).forget(removed,runtime.authority)
+        assert runtime.store.one('continuity_records',prior['record_id'])['lifecycle']=='DELETED'
+        assert RecordService(runtime.store).current_support(method['record_id'])
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+        config,clock,identity=runtime.config,runtime.clock,runtime.identity_id
+
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        new_reason=capture(runtime,'new-reflection-reason','SYNTHETIC later observation prompting reflection')
+        queue_id=send(runtime,'new-reflection-only-source',(new_reason,),reflection_experience_id=method['experience_id'])
+        if interrupted:
+            transaction=runtime.store.transaction
+            def stop_after_candidate(kind, *args, **kwargs):
+                if kind=='subject.reflection_intention_completed':
+                    raise RuntimeError('synthetic stop before reflection follow-up')
+                return transaction(kind,*args,**kwargs)
+            with monkeypatch.context() as patch:
+                patch.setattr(runtime.store,'transaction',stop_after_candidate)
+                with pytest.raises(RuntimeError,match='synthetic stop before reflection follow-up'):
+                    runtime.step()
+            assert runtime.store.one('lessons',strategy_id)['state']=='CANDIDATE'
+            assert runtime.store.one('subject_reflections',reflection['reflection_id'])['state']=='APPLIED'
+        else:
+            cycle=runtime.step()['cycle']
+            assert cycle.intention.kind=='REFLECTION'
+            assert runtime.store.one('subject_intentions',cycle.intention_id)['state']=='COMPLETED'
+
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        if interrupted:
+            recovery=runtime.step()
+            assert recovery['queue_id']==queue_id and recovery['reason']=='RECOVERED_SUBJECT_FOLLOWUP'
+        current=runtime.store.one('lessons',strategy_id)
+        if state in {'SUSPENDED','RETIRED'} or change=='experiment':
+            assert current==prior and select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+            return
+        assert runtime.store.one('subject_reflections',reflection['reflection_id'])['state']=='CANDIDATE'
+        assert current['record_id']!=prior['record_id'] and current['state']=='CANDIDATE'
+        assert current['experience_id']==prior['experience_id']
+        assert current['tested_rule_hash'] is None and current['test_event_id'] is None
+        records=RecordService(runtime.store)
+        assert new_reason in records.support(current['record_id']) and old_reason not in records.support(current['record_id'])
+        assert runtime.store.one('continuity_records',prior['record_id'])['lifecycle']=='DELETED'
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+        runtime.subject.reflect(method['experience_id'],authority=runtime.authority,apply=True)
+        runtime.work.configure_open_learning((later,))
+        start_learning(runtime,later,'new-task-after-reviewed-renewal')
+        job=runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+        result=records.read(job['record_id'])['payload']
+        assert job['state']=='DONE' and result['selected_method']=='NUMERIC_SUM'
+        assert result['learning_strategy_record_id']==current['record_id']
+        assert result['results']['EVALUATE']['all_passed'] and result['results']['TRANSFER']['all_passed']
+        assert not runtime.store.all('cognitive_requests') and not runtime.store.all('actions')
+        MemoryService(runtime.store,runtime.authority).forget(new_reason,runtime.authority)
+        assert not records.current_support(job['record_id'])
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+        print(f'prior={state}, interrupted={interrupted}, renewed after restart and independently reviewed, real_model_calls=0')
+
+
 def test_meta_lesson_requires_transfer_of_its_own_practice_selection(tmp_path):
     from nana_core.continuity.open_agency.learning import LearningSpec
 

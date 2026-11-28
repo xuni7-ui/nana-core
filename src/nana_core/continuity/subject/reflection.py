@@ -32,8 +32,23 @@ class ReflectionService:
 
     def consider_learning_strategy(self, row, *, scope, privacy_classes, intention_record_id):
         from .state import visible
-        from ..open_life.meta_learning import propose
+        from ..open_life.meta_learning import propose, strategy_source_withdrawn
 
+        if row['lesson_id']:
+            strategy = self.store.one('lessons', row['lesson_id'])
+            if not strategy_source_withdrawn(self.store, strategy):
+                # Recovery can reach an already committed renewal before the
+                # original reflection follow-up reopened independent review.
+                if (row['state'] == 'APPLIED' and strategy['task_class'] == 'learning.strategy'
+                        and strategy['state'] == 'CANDIDATE'
+                        and visible(self.store, strategy['record_id'], scope, privacy_classes)
+                        and self.store.db.execute(
+                            "SELECT 1 FROM record_dependencies WHERE record_id=? AND parent_id=? "
+                            "AND parent_kind='RECORD' AND relation_kind='SUPPORT'",
+                            (strategy['record_id'], intention_record_id),
+                        ).fetchone()):
+                    return strategy['lesson_id']
+                return None
         method = self.store.db.execute(
             "SELECT * FROM lessons WHERE experience_id=? AND state='ACTIVE'", (row['experience_id'],)
         ).fetchone()
@@ -61,7 +76,10 @@ class ReflectionService:
         # Reuse the checked narrow rule lifecycle, including idempotent recovery
         # after a crash between proposal/test/activation and reflection commit.
         lesson = row['lesson_id'] or self.learning.derive_lesson(row['experience_id'])
-        state = self.store.one('lessons', lesson)['state']
+        lesson_row = self.store.one('lessons', lesson)
+        if not self.records.current_support(lesson_row['record_id']):
+            raise CoreError('REFLECTION_LESSON_NOT_APPLICABLE')
+        state = lesson_row['state']
         if state == 'CANDIDATE':
             self.learning.test_lesson(lesson)
             state = self.store.one('lessons', lesson)['state']
