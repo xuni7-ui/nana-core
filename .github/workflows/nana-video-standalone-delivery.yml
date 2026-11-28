@@ -1,0 +1,77 @@
+name: AstrBot Nana Video standalone package check
+on:
+  push:
+    branches: [delivery/astrbot-nana-video-v0.3.0]
+    paths: [.github/workflows/nana-video-standalone-delivery.yml, delivery/astrbot_plugin_nana_video_v0.3.0.zip]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            delivery/astrbot_plugin_nana_video_v0.3.0.zip
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+          python -m pip install 'Pillow>=10,<13' pytest
+          unzip -t delivery/astrbot_plugin_nana_video_v0.3.0.zip
+          mkdir -p /tmp/nana-video-test
+          unzip -q delivery/astrbot_plugin_nana_video_v0.3.0.zip -d /tmp/nana-video-test
+          cd /tmp/nana-video-test
+          python -m unittest discover -s astrbot_plugin_nana_video/tests -p test_adapter.py -v
+          python -m pytest -q astrbot_plugin_nana_video/tests/test_upstream_original.py
+      - name: Real engine with mocked AstrBot provider
+        run: |
+          cd /tmp/nana-video-test
+          python - <<'PY'
+          import asyncio
+          import subprocess
+          from pathlib import Path
+          from types import SimpleNamespace
+          from PIL import Image
+          from astrbot_plugin_nana_video.engine.video_perception import perceive_video
+          from astrbot_plugin_nana_video.engine.video_audio_probe import _run_bounded
+          from astrbot_plugin_nana_video.tests.test_adapter import AdapterTests, Video
+
+          async def main():
+              case=AdapterTests('test_material_and_container')
+              await case.asyncSetUp()
+              try:
+                  case.main.perceive_video=perceive_video
+                  case.main._run_bounded=_run_bounded
+                  case.plugin.cfg={'max_frames':4}
+                  clip=Path(case.tmp.name)/'blue.mp4'
+                  subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=320x180:r=2:d=12','-vf',"drawbox=x=10:y=10:w=100:h=80:color=blue:t=fill:enable='between(t,5,5.49)'",'-c:v','mpeg4','-threads','1','-y',str(clip)],check=True,timeout=30)
+                  calls=[]
+                  async def vision(**kwargs):
+                      images=kwargs['image_urls']
+                      assert 1<=len(images)<=4
+                      found=False
+                      for path in images:
+                          with Image.open(path) as im:
+                              r,g,b=im.convert('RGB').getpixel((40,40))
+                              found |= b>100 and b>r+50 and b>g+50
+                      calls.append((kwargs['prompt'],found))
+                      return SimpleNamespace(completion_text='blue' if found else 'not visible')
+                  case.ctx.provider.text_chat=vision
+                  result=await case.ask('第5秒发生了什么',Video(clip))
+                  assert '视觉观察：blue' in result, result
+                  assert len(calls)==1 and calls[0][1]
+                  assert '旧观察' in await case.ask('那个视频怎么样')
+                  assert len(calls)==1
+                  result=await case.ask('第6秒发生了什么')
+                  assert '重新采样' in result and len(calls)==2, result
+                  print('real engine + mocked AstrBot/provider focus and reuse: PASS')
+              finally:
+                  await case.asyncTearDown()
+
+          asyncio.run(main())
+          PY
