@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 356,
-  "as_of_us": 1795861972060122,
+  "revision": 357,
+  "as_of_us": 1795862618575370,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "12e3aeb1联合候选完成独立下载客户端、成包摘要、Core/BFF/原G-D-C、虚拟72小时、停机双槽；侧车94、带锁媒体154、安装行为13及S10范围19通过。",
     "原D反思限额前排除已有普通日程。32条已安排时第33条独立核验结果仍进入静默窗口，停机虚拟推进及重启后原C只处理一次，70相关通过。",
     "ccfb6d18同源Core独立离线安装，S10新经历重新评审、重启、模拟中断、旧实验撤回及暂停退役6个场景从安装模块通过，实际模型0。",
     "S10旧反思理由撤回后，同主体以新经历续提原策略，原独立实验与Lesson复用，新候选重新评审。模拟中断可恢复，暂停退役和实验撤回保持，86相关通过。",
     "984d3cdc同源Core 313文件，独立槽离线安装和预检通过，实际安装S10反思、反例回避重启撤回及提示启停5项通过，实际模型0。",
     "S10原G遇匹配迁移反例后继续挑选练习候选。同主体重启后两种策略分别从1次普通提名降到0，仍独立通过留出及迁移，撤回有效，77相关通过。",
     "核读AstrBot破甲、DSH及SillyTavern源码。沿用既有分模型提示，默认关闭；两协议关闭后与提示加入前各6/6请求体逐字节相同，7项定向通过。",
-    "原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。",
-    "27ce43f4同源Core双槽离线安装、身份迁移及来源撤回通过，BFF十视图和笔记纠错重启撤回通过，范围补验5及UNKNOWN契约4通过，模型0。"
+    "原Provider按模型档案启停独立判断短提示，默认关闭，接原SELF和SOCIAL。65定向通过，三组等内容本地分词每次SOCIAL加85 Token，实际模型0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -29,21 +29,23 @@
     "完整模型特定请求Token/费用/超时及更多协议/产品待；失败响应数字计量已有，真实Provider用量/费用仍待。原生目录受控、c79297c编译验签，真实手机及最终签发待。",
     "初始有界方法可给C一次自愿私念机会，原反馈修订/后续交流保留；多倾向/情感意义、G独立未见迁移仍待。新method_ref pending旧reader/匹配安装未资格；7ec旧包不能冒充新源码，原A–H/最终产品/模型/自然度/长期继承。",
     "2026-11-22续办实核当前源码、/tmp联合候选和近期日志仍在。2026-11-17曾重建并失去旧安装，本批不沿用旧20万统计作为新性能或生产验收。",
-    "CURRENT266+409。3255024同源候选软件编译、离线安装回退及APK验签通过。新调试签名无法覆盖历史调试包；真实模型、账号、真机、自然度、实际跨日、灾备及正式签发待。",
+    "CURRENT仍266272a/409。12e3aeb1受控联合候选已本地成包、校验与停机回退，Web/调试APK复用固定匹配输入。真机、真实平台、模型及实际跨日、灾备与正式签发待。",
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/integrated-12e3aeb1-20261128/README.md",
     "docs/nana_next_experience/evidence/experience-scan-cap-20261128/README.md",
     "docs/nana_next_experience/evidence/meta-reflection-renewal-20261128/INSTALL.md",
     "docs/nana_next_experience/evidence/meta-reflection-renewal-20261128/README.md",
     "docs/nana_next_experience/evidence/meta-strategy-next-practice-20261128/README.md",
     "docs/nana_next_experience/evidence/independent-judgment-prompt-20261128/README.md",
     "docs/nana_next_experience/evidence/memory-feedback-window-20261128/README.md",
-    "docs/nana_next_experience/evidence/expression-review-recipient-20261128/README.md",
-    "docs/nana_next_experience/evidence/memory-feedback-recipient-20261128/README.md"
+    "docs/nana_next_experience/evidence/expression-review-recipient-20261128/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision357 联合候选证据指纹锚：`4764b66a954091e7303dd11ab472a99e3d5e3664cc593a409314920e49c89d72`。
 
 A revision356 证据指纹锚：`c63a36805e4e466353d31f43aa00fefc31dc8e327a05bf1e49ba79c4337f65fa`。
 

@@ -1,0 +1,92 @@
+Installed independent NanaLink wheel; 323 files match verified source
+..........F..F.FFFFFFF......................................FF.......... [ 46%]
+...............................F........................................ [ 93%]
+..........                                                               [100%]
+=================================== FAILURES ===================================
+_____ test_original_source_withdrawal_removes_watch_and_frame_experiences ______
+tests/nanalink/test_bilibili_source_lineage.py:34: in test_original_source_withdrawal_removes_watch_and_frame_experiences
+    assert len(frames) == 3 and not platform['posts']
+E   assert (0 == 3)
+E    +  where 0 = len([])
+______ test_governed_watch_semantic_belief_withdraws_with_original_source ______
+tests/nanalink/test_bilibili_source_lineage.py:152: in test_governed_watch_semantic_belief_withdraws_with_original_source
+    frame = max(receipt['frame_memory_ids'], key=lambda mid:
+E   ValueError: max() iterable argument is empty
+____ test_existing_storyboard_handoff_preserves_time_privacy_and_withdrawal ____
+tests/nanalink/test_bilibili_video_history.py:47: in test_existing_storyboard_handoff_preserves_time_privacy_and_withdrawal
+    frame_ids = BilibiliFrameService(app).capture(source, reading.frames)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+_ test_invalid_or_inconsistent_duration_never_claims_planning_readiness[None] __
+tests/nanalink/test_bilibili_video_history.py:84: in test_invalid_or_inconsistent_duration_never_claims_planning_readiness
+    BilibiliFrameService(app).capture(source, reading.frames)
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+___ test_invalid_or_inconsistent_duration_never_claims_planning_readiness[1] ___
+tests/nanalink/test_bilibili_video_history.py:84: in test_invalid_or_inconsistent_duration_never_claims_planning_readiness
+    BilibiliFrameService(app).capture(source, reading.frames)
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+___ test_invalid_or_inconsistent_duration_never_claims_planning_readiness[5] ___
+tests/nanalink/test_bilibili_video_history.py:84: in test_invalid_or_inconsistent_duration_never_claims_planning_readiness
+    BilibiliFrameService(app).capture(source, reading.frames)
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+__ test_invalid_or_inconsistent_duration_never_claims_planning_readiness[12] ___
+tests/nanalink/test_bilibili_video_history.py:84: in test_invalid_or_inconsistent_duration_never_claims_planning_readiness
+    BilibiliFrameService(app).capture(source, reading.frames)
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+___ test_storyboard_projection_rechecks_source_after_last_frame_read[source] ___
+tests/nanalink/test_bilibili_video_history.py:109: in test_storyboard_projection_rechecks_source_after_last_frame_read
+    frames = BilibiliFrameService(app).capture(source, reading.frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+___ test_storyboard_projection_rechecks_source_after_last_frame_read[frame] ____
+tests/nanalink/test_bilibili_video_history.py:109: in test_storyboard_projection_rechecks_source_after_last_frame_read
+    frames = BilibiliFrameService(app).capture(source, reading.frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/dev/shm/nana-combined.UX2en6/sidecar-env/lib/python3.12/site-packages/nana_core/life/bilibili_frames.py:126: in capture
+    raise CoreError("BILIBILI_FRAME_SOURCE_REQUIRED")
+E   nana_core.contracts.CoreError: BILIBILI_FRAME_SOURCE_REQUIRED
+____ test_image_action_rejects_superseded_original_observation[before-read] ____
+tests/nanalink/test_media_contract.py:25: in test_image_action_rejects_superseded_original_observation
+    now=runtime.clock.utc_now_us();data=picture()
+                                        ^^^^^^^^^
+tests/person_self/test_nanalink_media_choice.py:18: in picture
+    from PIL import Image
+E   ModuleNotFoundError: No module named 'PIL'
+____ test_image_action_rejects_superseded_original_observation[during-read] ____
+tests/nanalink/test_media_contract.py:25: in test_image_action_rejects_superseded_original_observation
+    now=runtime.clock.utc_now_us();data=picture()
+                                        ^^^^^^^^^
+tests/person_self/test_nanalink_media_choice.py:18: in picture
+    from PIL import Image
+E   ModuleNotFoundError: No module named 'PIL'
+_____ test_bilibili_video_capabilities_follow_original_installed_consumer ______
+tests/nanalink/test_original_core.py:243: in test_bilibili_video_capabilities_follow_original_installed_consumer
+    assert all(availability(adapter)[key] for key in ('video.metadata', 'video.subtitles', 'video.frames'))
+E   assert False
+E    +  where False = all(<generator object test_bilibili_video_capabilities_follow_original_installed_consumer.<locals>.<genexpr> at 0x7f6ddbe27840>)
+=========================== short test summary info ============================
+FAILED tests/nanalink/test_bilibili_source_lineage.py::test_original_source_withdrawal_removes_watch_and_frame_experiences
+FAILED tests/nanalink/test_bilibili_source_lineage.py::test_governed_watch_semantic_belief_withdraws_with_original_source
+FAILED tests/nanalink/test_bilibili_video_history.py::test_existing_storyboard_handoff_preserves_time_privacy_and_withdrawal
+FAILED tests/nanalink/test_bilibili_video_history.py::test_invalid_or_inconsistent_duration_never_claims_planning_readiness[None]
+FAILED tests/nanalink/test_bilibili_video_history.py::test_invalid_or_inconsistent_duration_never_claims_planning_readiness[1]
+FAILED tests/nanalink/test_bilibili_video_history.py::test_invalid_or_inconsistent_duration_never_claims_planning_readiness[5]
+FAILED tests/nanalink/test_bilibili_video_history.py::test_invalid_or_inconsistent_duration_never_claims_planning_readiness[12]
+FAILED tests/nanalink/test_bilibili_video_history.py::test_storyboard_projection_rechecks_source_after_last_frame_read[source]
+FAILED tests/nanalink/test_bilibili_video_history.py::test_storyboard_projection_rechecks_source_after_last_frame_read[frame]
+FAILED tests/nanalink/test_media_contract.py::test_image_action_rejects_superseded_original_observation[before-read]
+FAILED tests/nanalink/test_media_contract.py::test_image_action_rejects_superseded_original_observation[during-read]
+FAILED tests/nanalink/test_original_core.py::test_bilibili_video_capabilities_follow_original_installed_consumer
+12 failed, 142 passed in 32.80s

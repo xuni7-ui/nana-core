@@ -232,6 +232,72 @@ def test_meta_lesson_requires_transfer_of_its_own_practice_selection(tmp_path):
         assert not runtime.store.all('actions')
 
 
+def test_new_independent_trial_reaches_background_reflection_after_prior_reason_is_withdrawn(tmp_path):
+    from nana_core.presence.runtime import NanaRuntime
+
+    path=tmp_path/'self.db'
+    training=number_learning()
+    replacement=training.model_copy(update={
+        'learning_key':'learn.fresh-trial',
+        'practice':(LearningCase(case_id='scene-practice',context='studio',data=[1.75,.625],expected=2.375),),
+        'evaluation':(LearningCase(case_id='scene-evaluation',context='studio',data=[3.125,1.5],expected=4.625),),
+        'transfer':(LearningCase(case_id='scene-transfer',context='inventory',data=[.375,1.125],expected=1.5),),
+    })
+    later=training.model_copy(update={
+        'learning_key':'learn.future-context',
+        'hypotheses':('NAIVE_SUM','NUMERIC_SUM'),
+        'practice':(LearningCase(case_id='later-practice',context='recipe',data=[4.75,.625],expected=5.375),),
+        'evaluation':(LearningCase(case_id='later-heldout',context='recipe',data=[2.125,1.5],expected=3.625),),
+        'transfer':(LearningCase(case_id='later-transfer',context='trail',data=[.475,1.125],expected=1.6),),
+    })
+    problem=LearningProblem.from_spec(later)
+    with fresh(path,schema_target=13) as runtime:
+        runtime.work.configure_open_learning((training,replacement))
+        start_learning(runtime,training)
+        original=runtime.store.all('lessons')[0]
+        reason=capture(runtime,'first-consideration','SYNTHETIC a distinct reason to consider the first result')
+        send(runtime,'first-consideration',(reason,),reflection_experience_id=original['experience_id'])
+        assert runtime.step()['cycle'].intention.kind=='REFLECTION'
+        reflection=runtime.store.all('subject_reflections')[0]
+        runtime.subject.reflect(original['experience_id'],authority=runtime.authority,apply=True)
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))[0]=='NUMERIC_SUM'
+        MemoryService(runtime.store,runtime.authority).forget(reason,runtime.authority)
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+        start_learning(runtime,replacement,'another-independent-trial')
+        row=runtime.store.db.execute("SELECT * FROM lessons WHERE task_class='numbers' ORDER BY rowid DESC LIMIT 1").fetchone()
+        newest=row['experience_id']
+        assert row['state']=='ACTIVE' and newest!=original['experience_id']
+        runtime.refresh_attention()
+        runtime.step()
+        key=f'reflection-{newest}'
+        assert runtime.store.db.execute('SELECT state FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()[0]=='ACTIVE'
+        config,clock,identity=runtime.config,runtime.clock.source,runtime.identity_id
+
+    clock.advance(config.idle_recall_us)
+    with NanaRuntime(path,config,clock=clock) as runtime:
+        assert runtime.identity_id==identity
+        for _ in range(24):
+            runtime.step()
+            picked=runtime.store.db.execute('SELECT * FROM subject_reflections WHERE experience_id=?',(newest,)).fetchone()
+            if picked and picked['lesson_id']:
+                break
+        else:
+            raise AssertionError('Original D did not deliver the new independent trial to C')
+        assert picked['lesson_id']!=reflection['lesson_id']
+        strategy=runtime.store.one('lessons',picked['lesson_id'])
+        assert strategy['state']=='CANDIDATE'
+        assert select(runtime.store,problem,scope='lab',privacy=('PERSONAL',))==(None,None)
+        runtime.subject.reflect(newest,authority=runtime.authority,apply=True)
+        runtime.work.configure_open_learning((later,))
+        start_learning(runtime,later,'future-after-own-reflection')
+        job=runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1").fetchone()
+        decision=RecordService(runtime.store).read(job['record_id'])['payload']
+        assert job['state']=='DONE' and decision['learning_strategy_record_id']==strategy['record_id']
+        assert decision['results']['EVALUATE']['all_passed'] and decision['results']['TRANSFER']['all_passed']
+        assert runtime.store.db.execute('SELECT occurrence FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()[0]==1
+        assert not runtime.store.all('cognitive_requests') and not runtime.store.all('actions')
+
+
 def test_other_domains_do_not_displace_a_verified_learning_strategy_before_later_g(tmp_path):
     """The original learning-policy lesson must reach its existing G consumer."""
     from nana_core.presence.runtime import NanaRuntime

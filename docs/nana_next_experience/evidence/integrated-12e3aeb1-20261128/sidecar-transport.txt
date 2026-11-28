@@ -1,0 +1,4 @@
+Installed standalone NanaLink configuration, login, management and transport
+........................................................................ [ 76%]
+......................                                                   [100%]
+94 passed in 6.33s
