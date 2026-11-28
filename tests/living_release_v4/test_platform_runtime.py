@@ -539,6 +539,68 @@ def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipie
                 assert len(platform['sent'])==1 and len(requests)==6
 
 
+@pytest.mark.parametrize('same_recipient', [True, False], ids=['transfer','split-evidence'])
+def test_expression_reviews_qualify_and_transfer_only_for_their_recipient(tmp_path, same_recipient):
+    import json
+    from nana_core.continuity.learning import ExperienceService
+    from nana_core.continuity.lived_language import LanguageSample, LanguageService
+    from nana_core.presence.contracts import SECOND
+
+    def wording(request):
+        blocks=json.loads(request['context_json'])['blocks']
+        if any(block['kind']=='LIVED_LANGUAGE' for block in blocks):return 'SYNTHETIC concise'
+        return 'SYNTHETIC baseline'
+
+    def receive(app, identifier, peer, topic, *, retain=False):
+        return app.surfaces.receive(SurfaceObservation(binding_id='qq.primary',event_id=f'qq:{identifier}',
+            thread_id=f'qq.private.{peer}',topic=topic,text=f'SYNTHETIC topic {topic}',privacy_class='PROJECT',
+            origin='SYNTHETIC_LOOPBACK',retain_shared_life=retain))
+
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';initialize_channel(home,url);clock=VirtualClock()
+        with relay(home,'CHAT',renderer=wording,context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();r=app.runtime;identity=r.identity_id
+                service=LanguageService(r.store,r.authority)
+                for i,peer in enumerate(('43','43' if same_recipient else '44'),1):
+                    turn=receive(app,i,peer,f'independent-{i}',retain=True)
+                    sample=LanguageSample(sample_id=f'expression-bound-{i}',review_target=turn['exchange_record_id'],
+                        mode='CASUAL',context='SYNTHETIC a recipient-specific preference',candidate_response=turn['text'],
+                        human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),exact_feedback='SYNTHETIC_AUDIENCE_CANARY',
+                        provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+                    rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                        authority=r.authority,exchange_record_id=turn['exchange_record_id'])
+                    eid=service.experience(rid,r.authority)
+                experience=ExperienceService(r.store,r.authority)
+                lesson=experience.derive_lesson(eid)
+                checks=experience.test_lesson(lesson)
+                assert all(checks.values()) is same_recipient
+                if not same_recipient:
+                    assert r.store.one('lessons',lesson)['state']=='REJECTED'
+                    return
+                experience.activate(lesson,r.authority)
+            clock.advance(2*SECOND)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity
+                local=app.chat('SYNTHETIC local independent topic',topic='unseen-local',privacy='PROJECT',message_id='unseen-local')
+                assert local['text']=='SYNTHETIC baseline'
+                assert all('SYNTHETIC_AUDIENCE_CANARY' not in req['context_json'] for req in requests[-2:])
+                foreign=receive(app,3,'44','unseen-other')
+                assert foreign['text']=='SYNTHETIC baseline'
+                assert all('SYNTHETIC_AUDIENCE_CANARY' not in req['context_json'] for req in requests[-2:])
+                matched=receive(app,4,'43','unseen-match',retain=True)
+                assert matched['text']=='SYNTHETIC concise'
+                r=app.runtime;service=LanguageService(r.store,r.authority)
+                counter=LanguageSample(sample_id='expression-bound-counter',review_target=matched['exchange_record_id'],
+                    mode='CASUAL',context='SYNTHETIC an independent counterexample',candidate_response=matched['text'],
+                    human_judgment='REJECTED',reason_tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW',
+                    observed_at_us=clock.utc_now_us())
+                service.record(counter,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                    authority=r.authority,exchange_record_id=matched['exchange_record_id'])
+                assert receive(app,5,'43','unseen-counter')['text']=='SYNTHETIC baseline'
+                assert len(requests)==12 and not platform['sent']
+
+
 def test_reply_readback_is_not_retroactively_attributed_to_an_earlier_review(tmp_path):
     from nana_core.continuity.lived_language import LanguageService, LanguageSample
     with counterpart() as (url,platform):

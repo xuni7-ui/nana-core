@@ -30,7 +30,23 @@ class ConversationDecision(DTO):
     execution_authority: Literal[False] = False
 
 
-def rows(store, kind, scope, privacy, *, limit=32, target=None, sample_provenance=None):
+def language_audience_predicate(column, audience):
+    payload = f"CASE WHEN json_valid(CAST({column} AS TEXT)) THEN CAST({column} AS TEXT) END"
+    storage = f"coalesce(json_extract({payload},'$.sample.body_storage'),'SOURCE_REPORT')"
+    if audience is None:
+        return f"{storage}='SOURCE_REPORT'", ()
+    entity_id, recipient = audience
+    bindings = ('review_audience', 'communication_attribution', 'delivery_attribution')
+    # Each binding has an entity and an explicit recipient, including null for
+    # local dialogue. Resolve one complete binding before comparing it.
+    known = 'coalesce(' + ','.join(f"json_extract({payload},'$.{field}')" for field in bindings) + ')'
+    return (f"{storage}='DEPENDENT_RECORD' AND json_extract({known},'$.entity_id')=? "
+            f"AND json_type({known},'$.recipient_context') IS NOT NULL "
+            f"AND coalesce(json_extract({known},'$.recipient_context'),'null')=?",
+            (entity_id, canonical(recipient)))
+
+
+def rows(store, kind, scope, privacy, *, limit=32, target=None, sample_provenance=None, sample_audience=None):
     """Indexed bounded headers first; never open a denied payload."""
     if not privacy:
         return ()
@@ -38,13 +54,17 @@ def rows(store, kind, scope, privacy, *, limit=32, target=None, sample_provenanc
     if sample_provenance is not None and (kind!='LIVED_LANGUAGE_SAMPLE' or sample_provenance not in {'USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC'}):
         raise CoreError('LANGUAGE_SAMPLE_POPULATION_REQUIRED')
     table='continuity_records'
-    if sample_provenance is not None:table+=' JOIN artifacts a ON a.artifact_id=continuity_records.payload_artifact_id'
+    if kind=='LIVED_LANGUAGE_SAMPLE':table+=' JOIN artifacts a ON a.artifact_id=continuity_records.payload_artifact_id'
     sql = 'SELECT continuity_records.* FROM '+table+' WHERE continuity_records.record_kind=? AND scope=?'
     sql += ' AND lifecycle=? AND privacy_class IN ('+','.join('?' for _ in privacy)+')'
     args = [storage, scope, 'ACTIVE', *privacy]
     if target is not None:
         sql += ' AND target_id=?'
         args.append(target)
+    if kind=='LIVED_LANGUAGE_SAMPLE':
+        predicate, audience_args = language_audience_predicate('a.payload', sample_audience)
+        sql += ' AND '+predicate
+        args.extend(audience_args)
     if sample_provenance is not None:
         # Qualification populations are selected before their existing bounded
         # window. Fixture volume must not hide a real opinion by truncation.
