@@ -171,7 +171,7 @@ def test_many_reviews_for_one_memory_do_not_hide_another(monkeypatch):
         bodies[ref]={'payload':{'person_kind':'MEMORY_USE_FEEDBACK_REFERENCE','review_record_id':rid}}
         bodies[rid]={'record_id':rid,'payload':{'sample':sample.model_dump(mode='json'),
             'memory_use_feedback':{'memory_id':mid,'mode':'DO_NOT_MENTION'}}}
-        bodies[exchange]={'record_id':exchange,'scope':'scope','payload':{'entity_id':'person'}}
+        bodies[exchange]={'record_id':exchange,'scope':'scope','payload':{'entity_id':'person','recipient_context':None}}
         db.execute('INSERT INTO continuity_records VALUES (?, ?, ?, ?, ?, ?)',(ref,'ASSERTION','scope','ACTIVE','memory-use.'+mid,'PROJECT'))
     withdrawn=set()
     class Records:

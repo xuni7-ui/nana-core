@@ -147,12 +147,13 @@ def retain_input(store, *, entity_id, scope, text, privacy, message_id, observed
         epistemic_kind='STATEMENT', source_evidence_id=eid, text=text))
 
 
-def retain_exchange(store, *, entity_id, scope, topic, user_memory_id, text, cycle, source_memory_ids=()):
+def retain_exchange(store, *, entity_id, scope, topic, user_memory_id, text, cycle, source_memory_ids=(), recipient_context=None):
     """Speech occurrence, never proof of the contents of the utterance."""
     records = RecordService(store)
     with store.transaction('subject.conversation_retained') as tx:
         return records.create(tx, kind='RELATIONSHIP_EVENT', scope=scope, target_id=topic,
             payload={'person_kind':'CONVERSATION_EXCHANGE','entity_id': entity_id, 'topic': topic, 'user_memory_id': user_memory_id,
+                     'recipient_context': recipient_context.model_dump(mode='json') if recipient_context is not None else None,
                      'user_statement': records.memory.read(user_memory_id)['text'],
                      'assistant_utterance': text, 'epistemic_status': 'REPORTED_SPEECH_NOT_WORLD_TRUTH',
                      'judgment': cycle.judgment.stance, 'as_of_us': store.clock.utc_now_us()},

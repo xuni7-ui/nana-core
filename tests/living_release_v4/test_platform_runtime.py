@@ -494,6 +494,51 @@ def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path,
             assert len(platform['calls'])==io and len(platform['sent'])==1 and len(requests)==2
 
 
+def test_memory_use_opinion_on_unconfirmed_platform_reply_stays_with_its_recipient(tmp_path):
+    import json
+    from nana_core.continuity.lived_language import LanguageSample, LanguageService, MemoryUseFeedback
+    from nana_core.life.memory_notes import save
+    from nana_core.presence.contracts import SECOND
+
+    def wording(request):
+        blocks = json.loads(request['context_json'])['blocks']
+        items = [item for block in blocks if block['kind']=='MEMORY_USE_GUIDANCE'
+                 for item in json.loads(block['data_json'])['memory_use_guidance']]
+        return 'SYNTHETIC silent reference' if any(item['requested_mode']=='IMPLICIT_REFERENCE' for item in items) else 'SYNTHETIC baseline'
+
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+        with relay(home,'CHAT',renderer=wording,recall_query_terms=('ORCHID',),context_limit=32768) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();flow=equip(app,channel,url)
+                mid=save(app,text='SYNTHETIC ORCHID meeting Friday',privacy='PROJECT',request_id='recipient-note')['memory_id']
+                turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                    thread_id='qq.private.43',text='SYNTHETIC ORCHID question',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                platform['lose_ack']=True
+                assert flow._reply(turn,'1')['delivery']=='UNKNOWN'
+                language=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='unconfirmed-recipient-opinion',review_target=turn['exchange_record_id'],
+                    mode='CASUAL',context='SYNTHETIC own platform context',candidate_response=turn['text'],
+                    human_judgment='PARTIAL',provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us(),
+                    memory_use=MemoryUseFeedback(memory_id=mid,mode='IMPLICIT_REFERENCE'))
+                review=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                    authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                assert 'delivery_attribution' not in language.records.read(review)['payload']
+                identity=app.runtime.identity_id
+            clock.advance(2*SECOND)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity
+                foreign=app.chat('SYNTHETIC ORCHID question on a different surface',topic='later',
+                    privacy='PROJECT',message_id='local-other-audience')
+                assert foreign['text']=='SYNTHETIC baseline'
+                matching=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:2',
+                    thread_id='qq.private.43',topic='later',text='SYNTHETIC ORCHID later question',
+                    privacy_class='PROJECT',origin='SYNTHETIC_LOOPBACK',retain_shared_life=True))
+                assert matching['text']=='SYNTHETIC silent reference'
+                assert len(platform['sent'])==1 and len(requests)==6
+
+
 def test_reply_readback_is_not_retroactively_attributed_to_an_earlier_review(tmp_path):
     from nana_core.continuity.lived_language import LanguageService, LanguageSample
     with counterpart() as (url,platform):

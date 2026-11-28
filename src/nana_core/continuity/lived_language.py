@@ -496,6 +496,23 @@ def context(store, *, scope, privacy, mode):
             'source_record_ids': tuple(dict.fromkeys((*policy['source_record_ids'], *(r['record_id'] for r in samples))))}
 
 
+def feedback_recipient(records, exchange, review):
+    """Resolve the retained turn's audience independently of send outcome."""
+    if 'recipient_context' in exchange:
+        return True, exchange['recipient_context']
+    for field in ('communication_attribution', 'delivery_attribution'):
+        binding = review.get(field)
+        if binding and binding.get('entity_id') == exchange['entity_id'] and 'recipient_context' in binding:
+            return True, binding['recipient_context']
+    mid = exchange.get('user_memory_id')
+    if mid:
+        provenance = records.memory.read(mid)['source_provenance']
+        if (provenance['source_namespace'] == 'recorded.conversation.input'
+                and provenance['source_reference'].startswith('local.chat.')):
+            return True, None
+    return False, None
+
+
 def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipient_context=None):
     """Bounded explicit user reports, advisory to C; never fact assessment.
 
@@ -535,10 +552,8 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipie
         if (exchange['payload'].get('entity_id')!=entity_id or exchange['scope']!=scope
                 or not records.current_support(exchange['record_id'])
                 or use.memory_id not in records.support(exchange['record_id'])):continue
-        delivery=row['payload'].get('delivery_attribution')
-        # Delivery-qualified feedback belongs to its exact recipient context;
-        # it is not a global preference for every other surface/contact.
-        if delivery is not None and delivery.get('recipient_context')!=recipient_context:continue
+        known, recipient = feedback_recipient(records, exchange['payload'], row['payload'])
+        if not known or recipient != recipient_context:continue
         target=records.memory.read(use.memory_id)
         if target['entity_id']!=entity_id or target['scope']!=scope or target['privacy_class'] not in privacy:continue
         seen.add(use.memory_id);refs.append(row['record_id'])

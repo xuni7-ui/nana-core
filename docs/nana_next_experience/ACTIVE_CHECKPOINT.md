@@ -1,3 +1,9 @@
+## 当前接续 记忆用法意见收件范围 revision343
+
+记忆用法意见按留存原话轮收件范围使用。同主体重启后同一QQ会话换话题继续采用，本地对照未受原UNKNOWN意见影响，56相关通过。
+
+继续原G表达评审的跨情境接线，沿用原A–H。 [本批证据](evidence/memory-feedback-recipient-20261128/README.md)
+
 ## 当前接续 QQ独立回复与反馈同源安装 revision342
 
 b3b55f2d 同源Core新槽离线安装，原QQ回复/回执/UNKNOWN/反馈去重8项从安装模块通过，实际模型0。
