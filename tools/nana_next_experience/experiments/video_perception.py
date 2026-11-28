@@ -42,7 +42,26 @@ def _question_terms(question):
             if term.casefold() not in ignored]
 
 
-def _bounded_model_context(context, limit=16000):
+def _selected_subtitle_cues(text, frame_times):
+    """Return bounded text cues overlapping selected frames, without claiming alignment."""
+    if not text or not frame_times:return [],0
+    def seconds(value):
+        return sum(float(part)*60**i for i,part in enumerate(reversed(value.split(':'))))
+    cues=[];matched=0
+    for block in re.split(r'\n\s*\n',text):
+        match=re.search(r'((?:\d{2}:)?\d{2}:\d{2}\.\d{3})\s*-->\s*((?:\d{2}:)?\d{2}:\d{2}\.\d{3})',block)
+        if not match:continue
+        start,end=map(seconds,match.groups())
+        if start>=end or not any(start<=t<end for t in frame_times):continue
+        matched+=1
+        if len(cues)<16:
+            cue_text=block[match.end():].strip()
+            cues.append({'start_seconds':start,'end_seconds':end,'text':cue_text[:100],
+                         'text_truncated':len(cue_text)>100})
+    return cues,matched
+
+
+def _bounded_model_context(context, subtitle_cues=(), matching_cues=0, limit=16000):
     """Preserve coverage and status when long text exceeds the model context budget."""
     text=json.dumps(context,ensure_ascii=False,separators=(',',':'))
     if len(text)<=limit:return text,False
@@ -50,6 +69,10 @@ def _bounded_model_context(context, limit=16000):
           'outside_requested_intervals','subtitle_state','transcript_state','transcript_timeline_basis',
           'transcript_processed_window','transcript_truncated','errors','warnings')
     compact={key:context[key] for key in kept}
+    if subtitle_cues:
+        compact['subtitle_cues_overlapping_sampled_frames']=subtitle_cues
+        compact['subtitle_cue_count_matching_frames']=matching_cues
+        compact['subtitle_cue_alignment']='TRACK_TIME_UNVERIFIED_NOT_CONTINUOUS_OBSERVATION'
     compact['model_context_omitted_fields']=['transcript_words','ocr_probes_not_delivered_as_images',
                                                'sparse_visual_changes']
     values={'question':context['question'],'subtitles_excerpt':context['subtitles_full_track'],
@@ -342,7 +365,8 @@ def perceive_video(path, *, question=None, time_range=None, frame_budget=8,
                  'transcript_truncated':transcript.get('truncated'),
                  'ocr_probes_not_delivered_as_images':ocr_probes,
                  'sparse_visual_changes':changes,'errors':errors,'warnings':warnings}
-        text,truncated=_bounded_model_context(context)
+        cues,matching_cues=_selected_subtitle_cues(subtitles.get('text'),points) if abs(origin)<=0.001 else ([],0)
+        text,truncated=_bounded_model_context(context,cues,matching_cues)
         preamble='Technical video materials; unsampled intervals remain unknown. OCR and transcription are unverified and may be wrong.'
         if truncated:preamble+=' Context is truncated; excerpts contain only their beginning and end.'
         content=[{'type':'text','text':preamble+'\n'+text}]

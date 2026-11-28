@@ -87,6 +87,27 @@ def test_long_transcript_keeps_model_context_valid_and_status_visible(tmp_path):
     assert result['transcript']['text']==transcript
 
 
+def test_long_subtitles_include_cue_for_selected_middle_frame(tmp_path):
+    import json
+    subtitle=tmp_path/'long.srt';video=tmp_path/'long-subtitle.mp4'
+    def stamp(i):return f'00:{i//60:02}:{i%60:02},000'
+    subtitle.write_text(''.join(f'{i+1}\n{stamp(i)} --> {stamp(i+1)}\n'+
+        ('MIDDLE_CRITICAL ' if i==60 else '')+('filler '*30)+f'{i}\n\n' for i in range(120)),encoding='utf-8')
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=1:d=120',
+        '-i',str(subtitle),'-map','0:v','-map','1:s','-c:v','mpeg4','-c:s','mov_text',
+        '-threads','1','-y',str(video)],check=True,timeout=30)
+    result=perceive_video(video,question='what occurs at 60 seconds?',frame_budget=1,
+                          max_runtime_seconds=60,sampling='uniform',model_content=True)
+    payload=result['model_content']['items'][0]['text'].split('\n',1)[1]
+    context=json.loads(payload)
+    assert result['model_content']['context_truncated'] and len(payload)<=16000
+    assert result['frames'][0]['time_seconds']==60
+    cues=context['subtitle_cues_overlapping_sampled_frames']
+    assert any(c['start_seconds']==60 and 'MIDDLE_CRITICAL' in c['text'] for c in cues)
+    assert context['subtitle_cue_alignment']=='TRACK_TIME_UNVERIFIED_NOT_CONTINUOUS_OBSERVATION'
+    assert 'MIDDLE_CRITICAL' in result['subtitles']['text']
+
+
 def test_question_subtitle_guides_same_budget_to_relevant_window(tmp_path):
     subtitle=tmp_path/'captions.srt';subtitle.write_text('1\n00:00:05,000 --> 00:00:06,000\nFALCON arrives\n',encoding='utf-8')
     video=tmp_path/'subtitles.mp4'
