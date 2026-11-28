@@ -181,6 +181,16 @@ def strict_json(raw):
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):raise TransportFailure('PROVIDER_REDIRECT_DENIED')
 
+INDEPENDENT_JUDGMENT_TAG = 'nana.independent-judgment.v1'
+INDEPENDENT_JUDGMENT_PROMPT = (
+    'Address the actual question directly. Ground your judgment in evidence and relevant, permitted '
+    'experiences, feelings, interests and learned methods. Disagree plainly when warranted. Skip flattery, '
+    'forced neutrality and canned reassurance. Use humor or imagination when it fits, keeping invention '
+    'distinct from fact. Consider the person’s situation and consequences. Name a known capability or '
+    'provider limit briefly and help where possible. Respect private sources and the Subject’s committed choice.'
+)
+
+
 class OpenAIJSONTransport:
     """Bounded JSON/SSE chat completions over HTTPS. No automatic retries.
 
@@ -188,7 +198,7 @@ class OpenAIJSONTransport:
     available as explicitly SYNTHETIC harness; external HTTP is always denied.
     """
     supports_json_stream = True
-    def __init__(self,endpoint,model_id,*,provider_id='development-http',credential=None,harness=False,thinking_mode='PROVIDER_DEFAULT',token_counter=None):
+    def __init__(self,endpoint,model_id,*,provider_id='development-http',credential=None,harness=False,thinking_mode='PROVIDER_DEFAULT',token_counter=None,independent_judgment=False):
         if thinking_mode not in {'PROVIDER_DEFAULT','DISABLED'}:raise CoreError('PROVIDER_OPTIONS_INVALID')
         from ..context import ModelTokenCounter
         if token_counter is not None:
@@ -196,6 +206,7 @@ class OpenAIJSONTransport:
             if (token_counter.provider_id,token_counter.model_id)!=(provider_id,model_id):raise CoreError('MODEL_TOKEN_COUNTER_TARGET_MISMATCH')
         self.token_counter=token_counter
         self.thinking_mode=thinking_mode
+        self.independent_judgment=independent_judgment
         u=urlsplit(endpoint)
         if u.username or u.password or u.fragment or u.query:raise CoreError('PROVIDER_ENDPOINT_INVALID')
         local=u.scheme=='http' and u.hostname=='127.0.0.1'
@@ -212,6 +223,15 @@ class OpenAIJSONTransport:
         if self._credential and self._credential in value:return None
         return value
     def messages(self,request):
+        messages = self._role_messages(request)
+        if self.independent_judgment and (
+            (request.cognitive_role=='SELF' and request.role_input.get('subject_cognition')) or
+            (request.cognitive_role=='SOCIAL' and request.role_input.get('dialogue'))
+        ):
+            messages[0]['content'] += '\n' + INDEPENDENT_JUDGMENT_PROMPT
+        return messages
+
+    def _role_messages(self,request):
         if request.cognitive_role=='SELF' and request.role_input.get('subject_cognition'):
             descriptor=request.role_input['subject_cognition']
             if descriptor.get('focus')=='VOLATILE' and not _subject_focus_valid(descriptor,request.media_input()):

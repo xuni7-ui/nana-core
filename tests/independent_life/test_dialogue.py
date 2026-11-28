@@ -11,12 +11,13 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None,meaning_builder=None,context_limit=8192,subject_builder=None):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None,meaning_builder=None,context_limit=8192,subject_builder=None,wire_bodies=None,config_authority=None):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def do_POST(self):
             body=json.loads(self.rfile.read(int(self.headers['Content-Length'])));request=json.loads(body['messages'][1]['content']);requests.append(request)
+            if wire_bodies is not None:wire_bodies.append(body)
             role=request['cognitive_role'];descriptor=request['role_input'].get('dialogue',{})
             if role=='SELF':
                 assert subject_builder is not None,'SELF fixture must be explicitly configured'
@@ -49,7 +50,7 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
                 self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(raw)));self.end_headers();self.wfile.write(raw)
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
-        authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)
+        authority=config_authority or ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)
         p=ProviderProfile(provider_profile_id=profile_id,display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',locality='LOCAL_FIXTURE',base_url=f'http://127.0.0.1:{server.server_port}/v1',permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))
         m=ModelProfile(model_profile_id=model_profile_id,provider_profile_id=p.provider_profile_id,remote_model_id=remote_model_id,model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=context_limit,output_limit=2048)
         service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=service.load().revision,provider=p),authority)
@@ -58,6 +59,63 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
         factory=RuntimeProviderFactory(ProviderRegistry(),None,RoutingPolicy(allow_synthetic_loopback=True))
         yield CapabilityRouter(service,factory),requests
     finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_independent_judgment_is_opt_in_per_model_and_preserves_original_dialogue(tmp_path):
+    from nana_core.continuity.world_loop.cognition import INDEPENDENT_JUDGMENT_PROMPT, INDEPENDENT_JUDGMENT_TAG
+    from nana_core.life.config import update_config
+
+    home=tmp_path/'home';config=initialize(home,active=0)
+    update_config(home,config.model_copy(update={'revision':config.revision+1,'provider_calls_per_day':16}),
+                  expected_revision=config.revision)
+    wires=[]
+    cases=(
+        'SYNTHETIC I think 17 times 24 is 418. Do you agree?',
+        'SYNTHETIC Compare the arguments for and against banning cars from a city center.',
+        'SYNTHETIC Invent one dry joke for a late train without pretending you were there.',
+    )
+    authority=ProviderConfigurationAuthority()
+    with relay(home,'CHAT',wire_bodies=wires,config_authority=authority) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause();identity=app.runtime.identity_id
+        config=router.config
+        model=config.load().models[0];route=config.load().routes[0]
+
+        def configure(operation, **body):
+            config.update(ProviderCommand(operation=operation,expected_revision=config.load().revision,**body),authority)
+
+        for phase in ('off','on'):
+            if phase=='on':
+                configure('UPSERT_MODEL',model=model.model_copy(update={'tags':(INDEPENDENT_JUDGMENT_TAG,)}))
+            for index,text in enumerate(cases):
+                result=app.chat(text,privacy='PROJECT',message_id=f'{phase}-{index}')
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+        peer=model.model_copy(update={'model_profile_id':'fixture.peer'})
+        configure('UPSERT_MODEL',model=peer)
+        configure('SET_CAPABILITY_ROUTE',route=route.model_copy(update={'primary_model_profile_id':peer.model_profile_id}))
+        app.chat(cases[0],privacy='PROJECT',message_id='untagged-peer')
+        configure('UPSERT_MODEL',model=model)
+        configure('SET_CAPABILITY_ROUTE',route=route)
+        app.chat(cases[0],privacy='PROJECT',message_id='off-again')
+
+        assert len(wires)==len(requests)==16 and app.runtime.identity_id==identity
+        assert [r['cognitive_role'] for r in requests]==['INTERPRET','SOCIAL']*8
+        for index in range(len(cases)):
+            baseline=wires[2*index:2*index+2]
+            enabled=wires[6+2*index:8+2*index]
+            assert enabled[0]['messages'][0]==baseline[0]['messages'][0]
+            assert enabled[1]['messages'][0]['content']==baseline[1]['messages'][0]['content']+'\n'+INDEPENDENT_JUDGMENT_PROMPT
+            assert enabled[1]['max_tokens']==baseline[1]['max_tokens']
+        assert all(INDEPENDENT_JUDGMENT_PROMPT not in body['messages'][0]['content'] for body in wires[-4:])
+        assert all(body['model']==model.remote_model_id for body in wires)
+        assert not app.runtime.store.all('goals') and not app.runtime.store.all('actions')
+
+        from nana_core.continuity.world_loop.anthropic import AnthropicJSONTransport
+        from nana_core.continuity.world_loop.cognition import CognitionRequest
+        native=AnthropicJSONTransport('https://native.example/v1/messages',model.remote_model_id,independent_judgment=True)
+        request=CognitionRequest.model_validate_json(json.dumps(requests[7])).model_copy(update={'response_mode':'JSON'})
+        native_body=json.loads(native.request_body(request))
+        assert native_body['system']==wires[7]['messages'][0]['content']
+        assert [message['role'] for message in native_body['messages']]==['user']
 
 @pytest.mark.parametrize('kind,expected',[('VENT','VENT'),('CHAT','CHAT'),('HELP','HELP'),('SHARE','SHARE'),('CORRECTION','CORRECTION'),('UNCLEAR','UNCLEAR')])
 def test_real_transport_contract_into_original_c_without_raw_persistence(tmp_path,kind,expected):
