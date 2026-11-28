@@ -49,6 +49,8 @@ def counterpart():
                 value = {"bvid": target, "aid": 7, "cid": 8, "title": "Loopback source"}
                 if 'video_duration' in state:
                     value['duration'] = state['video_duration']
+                if 'video_pages' in state:
+                    value['pages'] = state['video_pages']
             elif "/player/v2" in self.path:
                 value = {"subtitle": {"subtitles": [{"subtitle_url": "https://aisubtitle.hdslb.com/fixture.json"}]}}
             elif '/player/videoshot' in self.path:

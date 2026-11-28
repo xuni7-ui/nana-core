@@ -172,6 +172,43 @@ def test_reverse_ws_auth_account_binding_and_http_signature():
     asyncio.run(run())
 
 
+def test_owned_onebot_heartbeat_distinguishes_account_and_link_recovery():
+    with network() as (net, state, _, loop):
+        async def exercise():
+            adapter = net['adapter']
+            ws = state['ws']
+
+            async def report_health(online):
+                previous = adapter.health().last_heartbeat_us
+                await ws.send_json({'self_id': 42, 'post_type': 'meta_event',
+                                    'meta_event_type': 'heartbeat', 'status': {'online': online}})
+                async with asyncio.timeout(1):
+                    while adapter.health().last_heartbeat_us == previous:
+                        await asyncio.sleep(0.005)
+
+            await report_health(False)
+            assert adapter.health().connection == 'CONNECTED'
+            assert adapter.health().login == 'REQUIRED'
+            assert adapter.health().error == 'PLATFORM_SESSION_OFFLINE'
+            assert not next(c.available for c in adapter.capabilities() if c.name == 'message.text.send.via_core')
+            with pytest.raises(CoreError, match='ONEBOT_ACCOUNT_NOT_VERIFIED'):
+                await adapter.rpc('send_private_msg', {'user_id': 43, 'message': []})
+            assert adapter.offer(message(mid=56)) == 'SESSION_OFFLINE'
+            assert state['sent'] == []
+
+            await report_health('true')
+            assert adapter.health().login == 'REQUIRED'
+            await report_health(True)
+            assert adapter.health().login == 'AUTHENTICATED'
+            assert adapter.health().error is None
+            assert next(c.available for c in adapter.capabilities() if c.name == 'message.text.send.via_core')
+            await ws.send_json(message(mid=57))
+            assert (await asyncio.wait_for(adapter.receive(), 1)).message_id == '57'
+            assert state['sent'] == [] and state['connections'] == 1
+
+        asyncio.run_coroutine_threadsafe(exercise(), loop).result(5)
+
+
 def test_observer_binds_exact_account_and_redacts_configuration():
     from nana_core.nanalink.console import ObservationBinding, NanaLinkObserver
     with network() as (net,_,resolver,loop):

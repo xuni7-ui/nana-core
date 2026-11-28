@@ -121,3 +121,30 @@ def test_storyboard_projection_rechecks_source_after_last_frame_read(tmp_path, m
         with pytest.raises(CoreError):
             storyboard_samples(app, source, scope='world', privacy_classes=('PROJECT',))
         assert calls['last_frame'] == 2
+
+
+def test_multipart_video_uses_duration_for_the_cid_requested_by_media(tmp_path):
+    from nana_core.life.bilibili import BilibiliPublicTransport
+    from nana_core.life.bilibili_frames import BilibiliFrameService
+    from nana_core.nanalink.video_handoff import storyboard_samples
+    from tests.living_release_v4.bilibili_loopback import counterpart
+
+    with counterpart() as (opener, platform), fresh(tmp_path/'subject.db', Clock()) as runtime:
+        platform['video_duration'] = 600
+        platform['video_pages'] = [{'cid': 9, 'duration': 595}, {'cid': 8, 'duration': 5}]
+        transport = BilibiliPublicTransport(authorized=True, origin='SYNTHETIC_FIXTURE', request_limit=9,
+                                            loopback_endpoint=opener.endpoint)
+        reading = transport.read_video('BV1t55v6DE2v', visual=True)
+        assert reading.payload['cid'] == 8 and reading.payload['duration_seconds'] == 5
+        assert {frame.cid for frame in reading.frames} == {8}
+        app = SimpleNamespace(runtime=runtime, policy=policy())
+        source = BilibiliSourceAdapter(app).ingest(reading)
+        BilibiliFrameService(app).capture(source, reading.frames)
+        projection = storyboard_samples(app, source, scope='world', privacy_classes=('PROJECT',))
+        assert projection['planning_blockers'] == ['SAMPLE_OUTSIDE_DURATION']
+
+        platform['video_pages'] = [{'cid': 9, 'duration': 595}, {'cid': 10, 'duration': 5}]
+        before = transport.calls
+        missing = transport.read_video('BV1t55v6DE2v', visual=True)
+        assert missing.payload['notes'] == ['MATERIAL_IDENTITY_UNAVAILABLE']
+        assert not missing.frames and transport.calls == before + 1

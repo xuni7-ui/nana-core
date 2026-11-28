@@ -136,11 +136,27 @@ class BilibiliPublicTransport:
         bvid = item.get("bvid")
         if type(bvid) is not str or not re.fullmatch(r"BV[A-Za-z0-9]{10}", bvid):
             raise CoreError("BILIBILI_VIDEO_ID_INVALID")
+        cid, duration = item.get("cid"), item.get("duration")
+        pages = item.get("pages")
+        if type(pages) is list and pages:
+            valid_pages = [page for page in pages if type(page) is dict
+                           and type(page.get("cid")) is int and page["cid"] > 0]
+            if not cid and valid_pages:
+                cid = valid_pages[0]["cid"]
+            matching = [page for page in valid_pages if type(cid) is int and page["cid"] == cid]
+            if len(matching) != 1:
+                cid, duration = None, None
+            else:
+                part_duration = matching[0].get("duration")
+                if type(part_duration) in (int, float) and 0 < part_duration <= 86400:
+                    duration = part_duration
+                elif len(pages) > 1:
+                    # The video-level duration covers all parts, not this media timeline.
+                    duration = None
         return {"bvid": bvid, "title": plain(item.get("title"), 192),
                 "description": plain(item.get("desc", item.get("description")), 1024),
                 "publisher": plain((item.get("owner") or {}).get("name", item.get("author")), 96),
-                "aid": item.get("aid"), "cid": item.get("cid") or ((item.get("pages") or [{}])[0].get("cid")),
-                "duration_seconds": item.get("duration"),
+                "aid": item.get("aid"), "cid": cid, "duration_seconds": duration,
                 "coverage": "METADATA_ONLY_NOT_WATCHED", "transcript": None, "visual_frames": 0}
 
     def search(self, query):

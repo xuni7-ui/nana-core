@@ -62,6 +62,10 @@ PYTHONPATH=src work/venv/bin/python -m nana_core.nanalink \
 
 OneBot最小网络API保持`get_login_info/get_msg/send_private_msg/send_group_msg`。每账号独立loopback端口是给宿主部署者的内部参数，普通手机流程默认不用编辑它。正向WS连`ws/wss`服务；反向WS让外部服务连接`/reversews`，带Bearer及匹配`X-Self-ID`；HTTP事件`/events`遵循OneBot SHA1签名。侧车到Core继续走已有SHA256签名metadata接口，仅交message ID，原Core独立取回内容/账号/会话。
 
+连接器明确上报 OneBot 心跳 `status.online=false` 时，Nana Space 显示 QQ 账号离线，已建立的数据连接可继续接收心跳。此时暂停新消息和发送，直到相同绑定账号报告 `online=true`。缺少该字段的现有协议端继续使用原身份核验。离线期间没有补投保证。
+
+B站分 P 的字幕、弹幕和故事板按当前 `cid` 获取。布局和覆盖判断采用该分 P 的时长。分 P 身份冲突时保留稿件元数据并跳过素材读取。故事板仅代表已采样画面。
+
 Core的QQ endpoint指向侧车loopback origin，凭据只引用该账号的`core_api_secret_ref`。不要把upstream token和Core API token复用。每个route精确绑定sender/conversation/channel；未绑定的来源不进入模型。`allow_send=false`默认不发；改为true仍不替代原C、Grant、canonical activation和独立Verify。
 
 ## 受控图片发送资格

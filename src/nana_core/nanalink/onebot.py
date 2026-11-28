@@ -127,6 +127,7 @@ class OneBotAdapter:
         self.pending, self.recent = {}, OrderedDict()
         self._http_inflight = 0
         self._health = SessionHealth()
+        self._reported_online = None
         self.session = self.ws = self.reader = self.recovery = None
         self.closed = False
         self.echo = 0
@@ -157,6 +158,8 @@ class OneBotAdapter:
         # staleness is reported only after a heartbeat was actually observed.
         if value.last_heartbeat_us and time.time_ns() // 1000 - value.last_heartbeat_us > 120000000:
             value = value.model_copy(update={'receive': 'STALE'})
+        if value.connection == 'CONNECTED' and self._reported_online is False:
+            return value.model_copy(update={'error': 'PLATFORM_SESSION_OFFLINE'})
         return value
 
     def capabilities(self):
@@ -176,6 +179,7 @@ class OneBotAdapter:
         if self.session is not None:
             return
         self.closed = False
+        self._reported_online = None
         self._health = self._health.model_copy(update={'connection': 'CONNECTING'})
         self.session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=self.timeout), trust_env=False)
         try:
@@ -197,10 +201,12 @@ class OneBotAdapter:
         if str(row.get('user_id')) != self.account.account_id:
             self._health = self._health.model_copy(update={'login': 'REQUIRED', 'error': 'ACCOUNT_MISMATCH'})
             raise CoreError('ONEBOT_ACCOUNT_BINDING_CHANGED')
-        self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'login': 'AUTHENTICATED',
+        login = 'REQUIRED' if self._reported_online is False else 'AUTHENTICATED'
+        self._health = self._health.model_copy(update={'connection': 'CONNECTED', 'login': login,
                                                       'compatibility': 'ONEBOT11_MINIMUM', 'error': None})
 
     async def _open_ws(self):
+        self._reported_online = None
         self.ws = await self.session.ws_connect(self.endpoint, headers=self._headers(), heartbeat=20,
                                                max_msg_size=262144, autoping=True)
         self.reader = asyncio.create_task(self._read(self.ws))
@@ -214,6 +220,7 @@ class OneBotAdapter:
         """The server must authenticate token + X-Self-ID BEFORE invoking this."""
         if self.mode != 'reverse-websocket' or self.closed or self.ws is not None and not self.ws.closed:
             raise CoreError('ONEBOT_REVERSE_SESSION_CONFLICT')
+        self._reported_online = None
         self.ws = ws
         self._health = self._health.model_copy(update={'connection': 'CONNECTING', 'login': 'UNKNOWN'})
         self.reader = asyncio.create_task(self._read(ws))
@@ -227,6 +234,8 @@ class OneBotAdapter:
         import aiohttp
         try:
             async for msg in ws:
+                if self.ws is not ws:
+                    break
                 if msg.type == aiohttp.WSMsgType.TEXT:
                     self.metrics['frames'] += 1
                     try:
@@ -286,9 +295,18 @@ class OneBotAdapter:
             raise CoreError('ONEBOT_ACCOUNT_BINDING_CHANGED')
         if row.get('post_type') == 'meta_event':
             if row.get('meta_event_type') == 'heartbeat':
-                self._health = self._health.model_copy(update={'last_heartbeat_us': time.time_ns() // 1000})
+                update = {'last_heartbeat_us': time.time_ns() // 1000}
+                status = row.get('status')
+                online = status.get('online') if type(status) is dict else None
+                if type(online) is bool:
+                    if self._health.connection == 'CONNECTED':
+                        update['login'] = 'AUTHENTICATED' if online else 'REQUIRED'
+                    self._reported_online = online
+                self._health = self._health.model_copy(update=update)
                 return 'HEARTBEAT'
             return 'META_EVENT'
+        if self._reported_online is False:
+            return 'SESSION_OFFLINE'
         event = normalize(self.account, row)
         if event is None:
             return 'UNSUPPORTED'
@@ -317,7 +335,8 @@ class OneBotAdapter:
             raise CoreError('ONEBOT_OPERATION_DENIED')
         if action in WRITES and self.allow_send is not True:
             raise CoreError('ONEBOT_HOST_SEND_DISABLED')
-        if action != 'get_login_info' and self._health.login != 'AUTHENTICATED':
+        if ((action != 'get_login_info' and self._health.login != 'AUTHENTICATED')
+                or (self._reported_online is False and not _identity_probe)):
             raise CoreError('ONEBOT_ACCOUNT_NOT_VERIFIED')
         if self.closed or self.session is None or len(self.pending) >= 16:
             raise CoreError('ONEBOT_SESSION_UNAVAILABLE')
