@@ -21,8 +21,14 @@ def _focus_candidates(question, subtitles, start, end):
     for minutes,seconds in re.findall(r'(?<!\d)(\d{1,3}):(\d{2}(?:\.\d+)?)(?!\d)',question):
         value=int(minutes)*60+float(seconds)
         if start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
-    for value in re.findall(r'(?<![\d.])(\d+(?:\.\d+)?)\s*(?:seconds?\b|secs?\b|秒)',question,re.I):
-        value=float(value)
+    compound=list(re.finditer(r'(?<![\d.])(\d{1,3})\s*分(?:钟)?\s*(\d{1,2}(?:\.\d+)?)\s*秒',question))
+    for match in compound:
+        minutes,seconds=match.groups()
+        value=int(minutes)*60+float(seconds)
+        if float(seconds)<60 and start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
+    for match in re.finditer(r'(?<![\d.:])(\d+(?:\.\d+)?)\s*(?:seconds?\b|secs?\b|秒)',question,re.I):
+        if any(part.start()<=match.start()<part.end() for part in compound):continue
+        value=float(match.group(1))
         if start<=value<end:points.append((value,'QUESTION_TIMESTAMP'))
     terms=_question_terms(question)
     if subtitles and terms:

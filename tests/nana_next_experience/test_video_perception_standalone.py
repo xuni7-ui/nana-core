@@ -137,6 +137,19 @@ def test_chinese_seconds_question_guides_sampling(tmp_path):
     assert _focus_candidates('5secondsuffix',None,0,12)==[]
 
 
+def test_minutes_seconds_question_uses_the_full_timestamp(tmp_path):
+    from tools.nana_next_experience.experiments.video_perception import _focus_candidates
+    video=tmp_path/'minute-second.mp4'
+    subprocess.run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=32x32:r=1:d=100',
+                    '-c:v','mpeg4','-threads','1','-y',str(video)],check=True,timeout=20)
+    for question in ('1分23秒发生了什么？','1分钟23秒时的画面','1:23秒发生了什么？'):
+        assert _focus_candidates(question,None,0,100)==[(83.0,'QUESTION_TIMESTAMP')]
+    assert _focus_candidates('1分75秒发生了什么？',None,0,100)==[]
+    focused=perceive_video(video,question='1分23秒时的画面',frame_budget=1,
+                           sampling='uniform',max_runtime_seconds=30)
+    assert [f['time_seconds'] for f in focused['frames']]==[83.0]
+
+
 def test_real_local_ocr_and_offline_asr(tmp_path):
     pytest.importorskip('pocketsphinx')
     if not shutil.which('tesseract'):pytest.skip('optional Tesseract unavailable')
