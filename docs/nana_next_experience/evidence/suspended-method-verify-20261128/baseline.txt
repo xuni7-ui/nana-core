@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_suspended_method_preserves_verify_for_already_dispatched_step ______
+tests/open_life/test_learning_renewal.py:250: in test_suspended_method_preserves_verify_for_already_dispatched_step
+    assert r.store.one('actions', action['action_id'])['state'] == 'SUCCEEDED'
+E   AssertionError: assert 'UNKNOWN' == 'SUCCEEDED'
+E     
+E     - SUCCEEDED
+E     + UNKNOWN
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_suspended_method_preserves_verify_for_already_dispatched_step
+1 failed, 9 deselected in 0.67s

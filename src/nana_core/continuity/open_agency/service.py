@@ -205,24 +205,28 @@ class OpenAgencyService(AgencyService):
         source=self.store.one('subject_events',cycle.event_id)
         if self.records.read(source['record_id'])['payload']['input'].get('goal_step')!=reference.model_dump(mode='json'):raise CoreError('GOAL_STEP_CYCLE_MISMATCH')
         if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or cycle.realization_target!=view.target:return self._park(work,view,'SUBJECT_DEFERRED')
-        for rid in plan['strategy_ids']:
-            head=self.store.one('continuity_records',rid)
-            if not head or head['lifecycle']!='ACTIVE' or not self.records.current_support(rid):return self._park(work,view,'STRATEGY_SUPPORT_RETIRED')
-            if head['record_kind']=='LESSON':
-                lesson=self.store.db.execute('SELECT state FROM lessons WHERE record_id=?',(rid,)).fetchone()
-                if not lesson or lesson[0]!='ACTIVE':return self._park(work,view,'STRATEGY_SUSPENDED')
-            if head['record_kind']=='CODE_SKILL':
-                controller=getattr(self.realization.kernel.capability,'code_skills',None)
-                try:
-                    if not controller:raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
-                    controller.require_current(rid)
-                except CoreError:return self._park(work,view,'CODE_REALM_REVIEW_REQUIRED')
+        action=self.store.db.execute('SELECT action_id,state FROM actions WHERE effect_slot=?',('subject:'+cycle.intention_id,)).fetchone()
+        # Lesson suspension blocks new work. Resolve an already attempted effect
+        # by its original action and receipt before considering another step.
+        settling=action and action['state'] in {'DISPATCHING','UNKNOWN','PENDING_VERIFY','SUCCEEDED','NOT_APPLIED','FAILED_EFFECT'}
+        if not settling:
+            for rid in plan['strategy_ids']:
+                strategy=self.store.one('continuity_records',rid)
+                if not strategy or strategy['lifecycle']!='ACTIVE' or not self.records.current_support(rid):return self._park(work,view,'STRATEGY_SUPPORT_RETIRED')
+                if strategy['record_kind']=='LESSON':
+                    lesson=self.store.db.execute('SELECT state FROM lessons WHERE record_id=?',(rid,)).fetchone()
+                    if not lesson or lesson[0]!='ACTIVE':return self._park(work,view,'STRATEGY_SUSPENDED')
+                if strategy['record_kind']=='CODE_SKILL':
+                    controller=getattr(self.realization.kernel.capability,'code_skills',None)
+                    try:
+                        if not controller:raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
+                        controller.require_current(rid)
+                    except CoreError:return self._park(work,view,'CODE_REALM_REVIEW_REQUIRED')
         op=plan['steps'][reference.cursor];args=dict(op['args']);input_mids=()
         current_outputs=self._current_outputs(work)
         # Check only a new dispatch. An existing ambiguous effect must still go
         # through original independent Verify, even when its old state is stale.
-        pending_action=self.store.db.execute('SELECT action_id FROM actions WHERE effect_slot=?',('subject:'+cycle.intention_id,)).fetchone()
-        if op.get('input_guard') and not pending_action:
+        if op.get('input_guard') and not action:
             from .contracts import InputStateGuard
             from .state import observation_state
             guard=InputStateGuard.model_validate_json(canonical(op['input_guard']))
@@ -244,9 +248,8 @@ class OpenAgencyService(AgencyService):
                 # a new observed availability/window is needed before retry.
                 return self._park(work,view,'DELIVERY_'+admission['result'])
             args['admission_id']=admission['record_id']
-        action=self.store.db.execute('SELECT action_id FROM actions WHERE effect_slot=?',('subject:'+cycle.intention_id,)).fetchone()
         try:
-            if action:aid=action[0]
+            if action:aid=action['action_id']
             else:
                 outcome,aid=self.realization.propose(cycle.intention_id,expected_revision=1,args=args,input_memory_ids=input_mids)
                 if not aid:return self._park(work,view,'MANAGER_'+outcome.result)

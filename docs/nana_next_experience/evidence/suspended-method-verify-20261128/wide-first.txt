@@ -1,0 +1,11 @@
+........................................................................ [ 60%]
+............................F..................                          [100%]
+=================================== FAILURES ===================================
+______ test_real_subject_outcome_learning_transfer_and_bounded_extension _______
+tests/controlled_hands/test_application.py:24: in test_real_subject_outcome_learning_transfer_and_bounded_extension
+    assert all(x['state']=='SUSPENDED' for x in r.store.all('lessons'))
+E   assert False
+E    +  where False = all(<generator object test_real_subject_outcome_learning_transfer_and_bounded_extension.<locals>.<genexpr> at 0x7fb1505da810>)
+=========================== short test summary info ============================
+FAILED tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+1 failed, 118 passed in 87.28s (0:01:27)

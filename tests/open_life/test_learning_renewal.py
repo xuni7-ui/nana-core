@@ -8,6 +8,7 @@ import json
 import pytest
 
 from nana_core.actions import OperatorAuthority
+from nana_core.contracts import Verification
 from nana_core.continuity import ContinuityStore, IdentityService
 from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.open_agency.learning import LearningCase, LearningSpec
@@ -211,6 +212,45 @@ def test_new_learning_does_not_change_the_method_of_an_adopted_plan_step(tmp_pat
         assert compute.judgment.selected_method == 'NUMERIC_SUM'
         assert new_source not in compute.judgment.source_ids
         assert r.store.all('goals')[0]['state'] == 'COMPLETED'
+
+
+def test_suspended_method_preserves_verify_for_already_dispatched_step(tmp_path, monkeypatch):
+    with runtime(tmp_path/'subject.db', VirtualClock()) as r:
+        numeric = number_learning()
+        r.work.configure_open_learning((numeric,))
+        start_learning(r, numeric, 'method-awaiting-counterexample')
+        total = objective(method='NAIVE_SUM', expected=3.75)
+        port = configure(r, tmp_path/'world.fixture.json', (total,))
+        port.seed_observation(total.operators[0].resource, [2.5, 1.25])
+        send(r, 'adopt-before-counterexample', (cue(r, total),), task_class='numbers')
+        r.drain(8)
+
+        original_verify = port.verify
+        uncertain = True
+
+        def verify(invocation):
+            if uncertain and invocation.resource == total.operators[1].resource:
+                return Verification(verdict='INCONCLUSIVE', evidence={})
+            return original_verify(invocation)
+
+        monkeypatch.setattr(port, 'verify', verify)
+        r.clock.source.advance(SECOND)
+        r.drain(8)
+        action = next(row for row in r.store.all('actions') if row['capability'] == 'world.compute')
+        assert action['state'] == 'UNKNOWN'
+        effects = len(json.loads(port.path.read_text())['effects'])
+
+        lesson = r.store.all('lessons')[0]
+        counterexample = LearningCase(case_id='counterexample', context='audit', data=[1, 2], expected=10)
+        assert not r.work.open_learning.monitor(lesson['lesson_id'], (counterexample,), authority=r.authority)['all_passed']
+        assert r.store.one('lessons', lesson['lesson_id'])['state'] == 'SUSPENDED'
+        uncertain = False
+
+        advance(r, 5)
+        assert r.store.one('actions', action['action_id'])['state'] == 'SUCCEEDED'
+        assert len(json.loads(port.path.read_text())['effects']) == effects
+        assert r.store.all('goals')[0]['state'] == 'BLOCKED'
+        assert not any(row['capability'] == 'world.publish' for row in r.store.all('actions'))
 
 
 def reconsider(r, key, gap, *, load='LOW'):

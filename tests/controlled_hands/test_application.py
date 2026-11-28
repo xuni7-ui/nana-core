@@ -21,7 +21,15 @@ def test_real_subject_outcome_learning_transfer_and_bounded_extension(tmp_path):
             assert any(e['outcome']=='FAILURE' for e in r.store.all('experiences'))
             assert all(x['state']=='DONE' for x in r.store.db.execute("SELECT state FROM jobs WHERE work_kind='LEARNING'"))
             assert len(r.store.db.execute("SELECT * FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchall())==2
-            assert all(x['state']=='SUSPENDED' for x in r.store.all('lessons'))
+            lessons=r.store.all('lessons')
+            hands_domains={'owned-document','owned-form'}
+            hands_lessons=[row for row in lessons if row['task_class'] in hands_domains]
+            assert {row['task_class'] for row in hands_lessons}==hands_domains
+            assert all(row['state']=='SUSPENDED' for row in hands_lessons)
+            # Background C can propose new learning strategies from these
+            # outcomes. They have not gone through independent review here.
+            assert all(row['task_class']=='learning.strategy' and row['state']=='CANDIDATE'
+                       for row in lessons if row['task_class'] not in hands_domains)
             assert (Path(host.target.workspace)/'document-baseline.txt').read_text()=='A verified note'
             assert (Path(host.target.workspace)/'document-transfer.txt').read_text()=='Meeting agenda'
             for key in ['form-baseline','form-transfer','form-batch-gap','form-batch-transfer']:

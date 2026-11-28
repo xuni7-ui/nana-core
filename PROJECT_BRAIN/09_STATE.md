@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 359,
-  "as_of_us": 1795863227889402,
+  "revision": 360,
+  "as_of_us": 1795863636388653,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_AFFECTIVE_OUTCOME_CAUSALITY",
   "progress": [
+    "原G反例暂停已用方法后，原计入UNKNOWN的动作按原回执独立核验并且不重发；新发布仍暂停。119项相关通过。",
     "原C按已采纳计划继续实际计算方法。等待计算时独立学成新排序，不再改写对小数求和这一步的判断；计划核验完成，145相关通过，1真实端点跳过。",
     "原C和Planner复用原G同一方法选择；两条独立学习结果跨重启，后来排序及撤回后求和均实际核验完成，35项相关通过。",
     "12e3aeb1联合候选完成独立下载客户端、成包摘要、Core/BFF/原G-D-C、虚拟72小时、停机双槽；侧车94、带锁媒体154、安装行为13及S10范围19通过。",
     "原D反思限额前排除已有普通日程。32条已安排时第33条独立核验结果仍进入静默窗口，停机虚拟推进及重启后原C只处理一次，70相关通过。",
     "ccfb6d18同源Core独立离线安装，S10新经历重新评审、重启、模拟中断、旧实验撤回及暂停退役6个场景从安装模块通过，实际模型0。",
     "S10旧反思理由撤回后，同主体以新经历续提原策略，原独立实验与Lesson复用，新候选重新评审。模拟中断可恢复，暂停退役和实验撤回保持，86相关通过。",
-    "984d3cdc同源Core 313文件，独立槽离线安装和预检通过，实际安装S10反思、反例回避重启撤回及提示启停5项通过，实际模型0。",
-    "S10原G遇匹配迁移反例后继续挑选练习候选。同主体重启后两种策略分别从1次普通提名降到0，仍独立通过留出及迁移，撤回有效，77相关通过。"
+    "984d3cdc同源Core 313文件，独立槽离线安装和预检通过，实际安装S10反思、反例回避重启撤回及提示启停5项通过，实际模型0。"
   ],
   "open_gates": [
     "生成中CLI/Web/TLS4视口与9a2历史双槽安装已受控。c79297c 同源Android .dev 已编译验签；手机、真实投递、自然度、实际跨日、签发仍待。连续消息/私人意向/C自主交流继续。",
@@ -33,17 +33,19 @@
     "S10已接原C反思与原G负迁移对后续提名的反馈。当前范围为作用域/练习材料/方法精确匹配，尚需更多实际学习分布、深改及长期资格。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/suspended-method-verify-20261128/README.md",
     "docs/nana_next_experience/evidence/adopted-plan-method-20261128/README.md",
     "docs/nana_next_experience/evidence/shared-learned-method-20261128/README.md",
     "docs/nana_next_experience/evidence/integrated-12e3aeb1-20261128/README.md",
     "docs/nana_next_experience/evidence/experience-scan-cap-20261128/README.md",
     "docs/nana_next_experience/evidence/meta-reflection-renewal-20261128/INSTALL.md",
     "docs/nana_next_experience/evidence/meta-reflection-renewal-20261128/README.md",
-    "docs/nana_next_experience/evidence/meta-strategy-next-practice-20261128/README.md",
-    "docs/nana_next_experience/evidence/independent-judgment-prompt-20261128/README.md"
+    "docs/nana_next_experience/evidence/meta-strategy-next-practice-20261128/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+A revision360 证据指纹锚：`4d0793091e70802f8b8d57b5d7310e670d6fa2d74ea07d371faef15be1c0bb5c`。
 
 A revision359 证据指纹锚：`13badda52af76e1a3e6b3c42252356ad47008b7250415fafdd65f30755c9c8d0`。
 
