@@ -1,0 +1,5 @@
+name: astrbot_plugin_nana_video
+desc: Codex B 原版独立视频感知内核，AstrBot 自然对话适配
+version: v0.3.0
+author: Nana
+repo: https://github.com/xuni7-ui/nana-core

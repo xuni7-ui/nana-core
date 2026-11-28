@@ -1,0 +1,92 @@
+{
+  "enabled": {
+    "description": "启用视频理解",
+    "type": "bool",
+    "default": true,
+    "hint": "只在宿主本来要生成回复时处理，不主动唤醒。"
+  },
+  "vision_provider_id": {
+    "description": "视觉模型提供商 ID",
+    "type": "string",
+    "default": "",
+    "hint": "填写 AstrBot 中支持图片的 provider ID；不填仅在当前模型声明支持 image 时使用。"
+  },
+  "enable_bilibili": {
+    "description": "B站公开BV视频",
+    "type": "bool",
+    "default": true,
+    "hint": "使用yt-dlp，无账号登录，不支持短链或分P。"
+  },
+  "max_video_mb": {
+    "description": "视频大小上限 MiB",
+    "type": "int",
+    "default": 80,
+    "hint": "1–200。QQ宿主转换下载后执行检查。"
+  },
+  "max_video_seconds": {
+    "description": "时长上限秒",
+    "type": "int",
+    "default": 600,
+    "hint": "5–3600；长片使用B原有分布式窗口采样。"
+  },
+  "max_frames": {
+    "description": "输出帧预算",
+    "type": "int",
+    "default": 8,
+    "hint": "1–16；问题引导在同一帧预算内调整。"
+  },
+  "frame_width": {
+    "description": "图像长边上限",
+    "type": "int",
+    "default": 640,
+    "hint": "160–1024，保持比例且总像素不超过262144。"
+  },
+  "local_timeout": {
+    "description": "本地处理时间预算秒",
+    "type": "int",
+    "default": 90,
+    "hint": "10–180，B引擎尽力预算，不含下载和模型。"
+  },
+  "ocr": {
+    "description": "启用本地OCR",
+    "type": "bool",
+    "default": false,
+    "hint": "可选，需要 Tesseract 和对应语言包；可能增加本地CPU耗时。"
+  },
+  "ocr_language": {
+    "description": "OCR语言",
+    "type": "string",
+    "default": "chi_sim+eng",
+    "hint": "以已安装语言包为准。"
+  },
+  "ocr_probe_budget": {
+    "description": "额外OCR探测预算",
+    "type": "int",
+    "default": 4,
+    "hint": "0–12；不是发送给视觉模型的图片数。"
+  },
+  "transcribe_audio": {
+    "description": "启用AstrBot语音转写",
+    "type": "bool",
+    "default": false,
+    "hint": "可产生额外STT费用。未开启时仍可利用B原有声学测量。"
+  },
+  "audio_seconds": {
+    "description": "STT音频秒数上限",
+    "type": "int",
+    "default": 90,
+    "hint": "5–180；仅起始音轨。"
+  },
+  "cache_seconds": {
+    "description": "来源缓存秒数",
+    "type": "int",
+    "default": 600,
+    "hint": "0–1800；0不保留源视频，非0允许回看；每30秒清理。"
+  },
+  "cache_items": {
+    "description": "最多保留视频",
+    "type": "int",
+    "default": 4,
+    "hint": "1–8；按会话与发送者隔离。默认最多约320MiB源文件，不含处理中临时文件。"
+  }
+}
